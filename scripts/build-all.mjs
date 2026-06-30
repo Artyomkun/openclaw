@@ -12,7 +12,7 @@ import { resolvePnpmRunner } from "./pnpm-runner.mjs";
 
 const nodeBin = process.execPath;
 const WINDOWS_BUILD_MAX_OLD_SPACE_MB = 8192;
-const BUILD_CACHE_VERSION = 3;
+const BUILD_CACHE_VERSION = 4;
 const PLUGIN_SDK_DTS_CACHE_INPUTS = [
   "package.json",
   "pnpm-lock.yaml",
@@ -57,7 +57,7 @@ const PLUGIN_SDK_ENTRY_DTS_CACHE_INPUTS = [
   ...PLUGIN_SDK_DTS_CACHE_INPUTS,
 ];
 const PLUGIN_SDK_ENTRY_DTS_CACHE_OUTPUTS = [
-  { path: "dist/plugin-sdk", extensions: [".d.ts"], recursive: false },
+  { path: "dist/plugin-sdk", extensions: [".d.ts"], recursive: ["dist/plugin-sdk/src"]},
   "dist/plugin-sdk/webhook-path.js",
   "dist/plugin-sdk/.boundary-entry-shims.stamp",
   ...pluginSdkEntrypoints.map((entry) => `packages/plugin-sdk/dist/src/plugin-sdk/${entry}.d.ts`),
@@ -71,9 +71,31 @@ const PNPM_STEP_NODE_FALLBACKS = new Map([
   ["plugins:assets:copy", ["scripts/bundled-plugin-assets.mjs", "--phase", "copy"]],
   ["ui:build", ["scripts/ui.js", "build"]],
 ]);
+
+function quoteWin(cmd) {
+  if (!cmd) return cmd;
+  if (/^".*"$/.test(cmd)) return cmd;
+  if (!/[\s]/.test(cmd)) return cmd;
+  return `"${cmd.replace(/"/g, '\\"')}"`;
+}
+
+function normalizePortablePath(filePath) {
+  return filePath.replaceAll("\\", "/").replace(/^\\\\\?\\/i, "");
+}
+
 export const BUILD_ALL_STEPS = [
   { label: "plugins:assets:build", kind: "pnpm", pnpmArgs: ["plugins:assets:build"] },
-  { label: "tsdown", kind: "node", args: ["scripts/tsdown-build.mjs"] },
+  {
+    label: "tsc-build",
+    kind: "node",
+    args: [
+      "--max-old-space-size=12288",
+      "node_modules/typescript/bin/tsc",
+      "--build",
+      "tsconfig.build.json",
+      "--force",
+    ],
+  },
   {
     label: "check-cli-bootstrap-imports",
     kind: "node",
@@ -139,10 +161,6 @@ export const BUILD_ALL_STEPS = [
     label: "ui:build",
     kind: "pnpm",
     pnpmArgs: ["ui:build"],
-    // No build-all cache: ui/vite.config.ts derives the Control UI build ID
-    // from package.json, git HEAD, and OPENCLAW_CONTROL_UI_BUILD_ID env, so a
-    // file-input signature cannot exactly invalidate generated assets and a
-    // warm hit could restore stale service-worker/app cache metadata.
     cache: undefined,
   },
   {
@@ -166,7 +184,7 @@ export const BUILD_ALL_PROFILES = {
   full: BUILD_ALL_STEPS.map((step) => step.label),
   ciArtifacts: [
     "plugins:assets:build",
-    "tsdown",
+    "tsc-build",
     "check-cli-bootstrap-imports",
     "runtime-postbuild",
     "build-stamp",
@@ -183,7 +201,7 @@ export const BUILD_ALL_PROFILES = {
     "write-cli-compat",
   ],
   gatewayWatch: [
-    "tsdown",
+    "tsc-build",
     "check-cli-bootstrap-imports",
     "runtime-postbuild",
     "build-stamp",
@@ -191,14 +209,14 @@ export const BUILD_ALL_PROFILES = {
   ],
   qaRuntime: [
     "plugins:assets:build",
-    "tsdown",
+    "tsc-build",
     "check-cli-bootstrap-imports",
     "runtime-postbuild",
     "build-stamp",
     "runtime-postbuild-stamp",
   ],
   cliStartup: [
-    "tsdown",
+    "tsc-build",
     "check-cli-bootstrap-imports",
     "runtime-postbuild",
     "build-stamp",
@@ -210,18 +228,18 @@ export const BUILD_ALL_PROFILES = {
 
 export const BUILD_ALL_PROFILE_STEP_ENV = {
   full: {
-    tsdown: {
+    "tsc-build": {
       OPENCLAW_PRESERVE_CLI_STARTUP_METADATA: "1",
     },
   },
   ciArtifacts: {
-    tsdown: {
+    "tsc-build": {
       OPENCLAW_RUN_NODE_SKIP_DTS_BUILD: "1",
       OPENCLAW_PRESERVE_CLI_STARTUP_METADATA: "1",
     },
   },
   gatewayWatch: {
-    tsdown: {
+    "tsc-build": {
       OPENCLAW_RUN_NODE_SKIP_DTS_BUILD: "1",
     },
     "runtime-postbuild": {
@@ -229,12 +247,12 @@ export const BUILD_ALL_PROFILE_STEP_ENV = {
     },
   },
   qaRuntime: {
-    tsdown: {
+    "tsc-build": {
       OPENCLAW_RUN_NODE_SKIP_DTS_BUILD: "1",
     },
   },
   cliStartup: {
-    tsdown: {
+    "tsc-build": {
       OPENCLAW_RUN_NODE_SKIP_DTS_BUILD: "1",
       OPENCLAW_PRESERVE_CLI_STARTUP_METADATA: "1",
     },
@@ -320,26 +338,60 @@ function resolveStepEnv(step, env, platform) {
   };
 }
 
+// Windows 10 long path support
+// --------------------------------------------
+// Windows 11: enabled by default
+// Windows 10: requires LongPathsEnabled=1 or application manifest
+// 
+// @see https://learn.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation
+// 
+// TODO(v1.1): Auto-detect Windows 10 and warn user:
+//   if (isWindows10() && !isLongPathsEnabled()) {
+//     console.warn('⚠️ Enable long paths or use Windows 11');
+//   }
+// 
+// @tested-on: Windows 11 (25H2, Insider Preview)
+// @untested: Windows 10 — please report issues
+function resolvePnpmRunnerWrapper(params) {
+  const runner = resolvePnpmRunner(params);
+  if (process.platform === "win32") {
+    const quotedCommand = /[\s]/.test(runner.command) && !/^".*"$/.test(runner.command)
+      ? `"${runner.command}"`
+      : runner.command;
+    return {
+      ...runner,
+      command: "cmd.exe",
+      args: ["/c", quotedCommand, ...runner.args],
+      shell: false,
+      windowsVerbatimArguments: true,
+    };
+  }
+  return runner;
+}
+
 export function resolveBuildAllStep(step, params = {}) {
   const platform = params.platform ?? process.platform;
   const env = resolveStepEnv(step, params.env ?? process.env, platform);
+  const nodeExec = params.nodeExecPath ?? nodeBin;
+
   if (step.kind === "pnpm") {
     const nodeFallbackArgs =
       env.OPENCLAW_BUILD_ALL_NO_PNPM === "1" ? PNPM_STEP_NODE_FALLBACKS.get(step.label) : undefined;
     if (nodeFallbackArgs) {
       return {
-        command: params.nodeExecPath ?? nodeBin,
+        command: platform === "win32" ? quoteWin(nodeExec) : nodeExec,
         args: nodeFallbackArgs,
         options: {
           stdio: "inherit",
           env,
+          shell: platform === "win32",
         },
       };
     }
-    const runner = resolvePnpmRunner({
+    const runner = resolvePnpmRunnerWrapper({
       env,
       pnpmArgs: step.pnpmArgs,
-      nodeExecPath: params.nodeExecPath ?? nodeBin,
+      nodeExecPath: nodeExec,
       npmExecPath: params.npmExecPath ?? env.npm_execpath,
       comSpec: params.comSpec,
       platform,
@@ -355,12 +407,14 @@ export function resolveBuildAllStep(step, params = {}) {
       },
     };
   }
+
   return {
-    command: params.nodeExecPath ?? nodeBin,
+    command: platform === "win32" ? quoteWin(nodeExec) : nodeExec,
     args: step.args,
     options: {
       stdio: "inherit",
       env,
+      shell: platform === "win32",
     },
   };
 }
@@ -396,7 +450,7 @@ function listFilesRecursively(rootPath, fsImpl, cacheEntry = { path: rootPath })
   const entries = fsImpl.readdirSync(rootPath, { withFileTypes: true });
   const recursive = cacheEntry.recursive !== false;
   for (const dirent of entries) {
-    if (dirent.name === ".DS_Store") {
+    if (dirent.name === ".DS_Store" || dirent.name === "node_modules") {
       continue;
     }
     const entryPath = path.join(rootPath, dirent.name);
@@ -418,10 +472,6 @@ function listCacheFiles(rootDir, entries, fsImpl) {
 
 function portableRelativePath(rootDir, filePath) {
   return path.relative(rootDir, filePath).split(path.sep).join("/");
-}
-
-function normalizePortablePath(filePath) {
-  return filePath.replaceAll("\\", "/");
 }
 
 function resolveCachePaths(rootDir, step) {
@@ -544,8 +594,9 @@ export function writeBuildAllStepCacheStamp(step, cacheState, params = {}) {
     );
   }
   fsImpl.mkdirSync(path.dirname(cacheState.stampPath), { recursive: true });
+  const tmpStampPath = `${cacheState.stampPath}.tmp.${process.pid}.${Date.now()}`;
   fsImpl.writeFileSync(
-    cacheState.stampPath,
+    tmpStampPath,
     `${JSON.stringify({
       version: BUILD_CACHE_VERSION,
       label: step.label,
@@ -553,6 +604,7 @@ export function writeBuildAllStepCacheStamp(step, cacheState, params = {}) {
       outputs: cacheState.relativeOutputFiles,
     })}\n`,
   );
+  fsImpl.renameSync(tmpStampPath, cacheState.stampPath);
 }
 
 export function resolveBuildAllStepCacheStampState(step, cacheState, params = {}) {

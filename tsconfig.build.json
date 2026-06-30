@@ -1,0 +1,58 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": false,
+        "isolatedModules": true,
+        "verbatimModuleSyntax": true,
+        "rewriteRelativeImportExtensions": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "outDir": "dist",
+        "paths": {
+            "@openclaw/*": ["./packages/*/src"],
+            "@openclaw/normalization-core/*": ["./packages/normalization-core/src/*"],
+            "@openclaw/llm-core/*": ["./packages/llm-core/src/*"],
+            "@openclaw/model-catalog-core/*": ["./packages/model-catalog-core/src/*"],
+            "@openclaw/media-core/*": ["./packages/media-core/src/*"],
+            "@openclaw/acp-core/*": ["./packages/acp-core/src/*"],
+            "@openclaw/net-policy/*": ["./packages/net-policy/src/*"],
+            "@openclaw/plugin-sdk/*": ["./packages/plugin-sdk/src/*"],
+            "openclaw/*": ["./packages/plugin-sdk/src/*"],
+            "openclaw": ["./packages/plugin-sdk/src/index"]
+        },
+        "types": ["node"]
+    },
+    "include": [
+        "packages/**/src/**/*",
+        "extensions/**/src/**/*",
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "**/dist/**",
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/*.test-helpers.ts",
+        "**/test/**",
+        "**/vitest.*.config.ts",
+        "**/scripts/**",
+        "**/test/helpers/**",
+        "src/**/*.test-harness.ts",
+        "src/**/*.test-utils.ts",
+        "src/plugins/contracts/**"
+    ]
+}

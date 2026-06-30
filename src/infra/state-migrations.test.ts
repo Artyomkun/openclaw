@@ -13,6 +13,9 @@ import {
   closeOpenClawStateDatabaseForTest,
   openOpenClawStateDatabase,
 } from "../state/openclaw-state-db.js";
+import {
+  writePersistedInstalledPluginIndexSync 
+} from "../plugins/installed-plugin-index-store.js";
 import { createTrackedTempDirs } from "../test-utils/tracked-temp-dirs.js";
 import {
   executeSqliteQuerySync,
@@ -2412,5 +2415,119 @@ describe("state migrations", () => {
     expect(result.changes).toContain(`Merged sessions store → ${targetStorePath}`);
     expect(result.warnings).toStrictEqual([]);
     await expectMissingPath(path.join(stateDir, "sessions", "sessions.json"));
+  });
+
+  describe("legacy plugin install index migration", () => {
+    it("should resolve version conflicts in favor of SQLite and archive installs.json", async () => {
+      const root = await createTempDir();
+      const stateDir = path.join(root, ".openclaw");
+      const env = createEnv(stateDir);
+      const cfg = createConfig();
+      const legacyPath = path.join(stateDir, "plugins", "installs.json");
+      await fs.mkdir(path.dirname(legacyPath), { recursive: true });
+      await fs.writeFile(
+        legacyPath,
+        JSON.stringify({
+          installRecords: {
+            "test-plugin": {
+              version: "1.0.0",
+              installPath: "/path/to/plugin",
+              source: "npm",
+              spec: "test-plugin@1.0.0",
+            },
+          },
+        }),
+        "utf8",
+      );
+      const storeOptions = { stateDir };
+      const currentIndex = {
+        indexKey: "default",
+        version: 1 as const,
+        hostContractVersion: "1.0.0",
+        compatRegistryVersion: "1.0.0",
+        migrationVersion: 1,
+        policyHash: "test",
+        generatedAtMs: Date.now(),
+        installRecords: {
+          "test-plugin": {
+            version: "2.0.0",
+            installPath: "/path/to/plugin",
+            source: "npm",
+            spec: "test-plugin@2.0.0",
+          },
+        },
+        plugins: {},
+        diagnostics: {},
+      } as const;
+      writePersistedInstalledPluginIndexSync(currentIndex as any, storeOptions);
+      const detected = await detectLegacyStateMigrations({ cfg, env, homedir: () => root });
+      const result = await runLegacyStateMigrations({ detected, config: cfg });
+      console.log('📋 Warnings:', result.warnings);
+      console.log('📋 Changes:', result.changes);
+      expect(result.warnings.some(w => w.includes('Resolved'))).toBe(true);
+      expect(result.warnings.some(w => w.includes('Left plugin install index'))).toBe(false);
+      await expectMissingPath(legacyPath);
+      const { db } = openOpenClawStateDatabase({ env });
+      const rows = db.prepare(`
+        SELECT install_records_json FROM installed_plugin_index WHERE index_key = 'default'
+      `).all() as Array<{ install_records_json: string | null }>;
+      const jsonStr = rows[0]?.install_records_json;
+      if (!jsonStr) {
+        throw new Error('No install_records_json found');
+      }
+      const records = JSON.parse(jsonStr);
+      expect(records.installRecords["test-plugin"].version).toBe("2.0.0");
+    });
+
+    it("should block migration for real conflicts (different installPath)", async () => {
+      const root = await createTempDir();
+      const stateDir = path.join(root, ".openclaw");
+      const env = createEnv(stateDir);
+      const cfg = createConfig();
+      const legacyPath = path.join(stateDir, "plugins", "installs.json");
+      await fs.mkdir(path.dirname(legacyPath), { recursive: true });
+      await fs.writeFile(
+        legacyPath,
+        JSON.stringify({
+          installRecords: {
+            "test-plugin": {
+              version: "1.0.0",
+              installPath: "/old/path",
+              source: "npm",
+              spec: "test-plugin@1.0.0",
+            },
+          },
+        }),
+        "utf8",
+      );
+      const storeOptions = { stateDir };
+      const currentIndex = {
+        indexKey: "default",
+        version: 1 as const,
+        hostContractVersion: "1.0.0",
+        compatRegistryVersion: "1.0.0",
+        migrationVersion: 1,
+        policyHash: "test",
+        generatedAtMs: Date.now(),
+        installRecords: {
+          "test-plugin": {
+            version: "2.0.0",
+            installPath: "/new/path",
+            source: "npm",
+            spec: "test-plugin@2.0.0",
+          },
+        },
+        plugins: {},
+        diagnostics: {},
+        warning: null,
+        refreshReason: null,
+        updatedAtMs: Date.now(),
+      };
+      writePersistedInstalledPluginIndexSync(currentIndex as any, storeOptions);
+      const detected = await detectLegacyStateMigrations({ cfg, env, homedir: () => root });
+      const result = await runLegacyStateMigrations({ detected, config: cfg });
+      expect(result.warnings.some(w => w.includes('Left plugin install index'))).toBe(true);
+      await expect(fs.readFile(legacyPath, "utf8")).resolves.toContain('"installPath":"/old/path"');
+    });
   });
 });

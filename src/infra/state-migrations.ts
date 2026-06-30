@@ -587,6 +587,13 @@ function legacyInstallRecordCoveredByCurrent(
   if (legacyNpmInstallRecordSupersededByCurrent({ currentRecord, legacyRecord })) {
     return true;
   }
+  if (currentRecord.source === "npm") {
+    const currentIdentity = readAuthoritativeCurrentNpmIdentity(currentRecord);
+    const legacyIdentity = readAuthoritativeCurrentNpmIdentity(legacyRecord);
+    if (currentIdentity && legacyIdentity && currentIdentity.name === legacyIdentity.name) {
+      return true;
+    }
+  }
   for (const key of Object.keys(legacyRecord).toSorted()) {
     const currentValue = readInstallRecordField(currentRecord, key);
     if (currentValue === readInstallRecordField(legacyRecord, key)) {
@@ -2758,8 +2765,32 @@ async function migrateLegacyInstalledPluginIndex(params: {
 
   const storeOptions = { stateDir: params.stateDir };
   const current = readPersistedInstalledPluginIndexSync(storeOptions);
-  if (current && !legacyInstalledPluginIndexMatches(current, legacy)) {
+  
+  if (current) {
     const merged = mergeLegacyInstalledPluginIndexRecords(current, legacy);
+    if (merged.conflicts.length === 0 && merged.addedCount === 0) {
+      archiveLegacyInstalledPluginIndex({ sourcePath, changes, warnings });
+      return { changes, warnings };
+    }
+
+    const resolvableConflicts: string[] = [];
+    const realConflicts: string[] = [];
+
+    for (const pluginId of merged.conflicts) {
+      const currentRecord = current.installRecords[pluginId];
+      const legacyRecord = legacy.installRecords[pluginId];
+      const sameInstallPath = currentRecord?.installPath === legacyRecord?.installPath;
+      const sameSource = currentRecord?.source === legacyRecord?.source;
+      const versionDiff = currentRecord?.version !== legacyRecord?.version;
+      const specDiff = currentRecord?.spec !== legacyRecord?.spec;
+      
+      if (sameInstallPath && sameSource && (versionDiff || specDiff)) {
+        resolvableConflicts.push(pluginId);
+      } else {
+        realConflicts.push(pluginId);
+      }
+    }
+
     if (merged.addedCount > 0) {
       try {
         writePersistedInstalledPluginIndexSync(merged.merged, storeOptions);
@@ -2773,13 +2804,21 @@ async function migrateLegacyInstalledPluginIndex(params: {
         };
       }
     }
-    if (merged.conflicts.length > 0) {
+
+    if (realConflicts.length > 0) {
       return {
         changes,
         warnings: [
-          `Left plugin install index in place because shared SQLite state has conflicting plugin install metadata for: ${merged.conflicts.join(", ")}`,
+          ...warnings,
+          `Left plugin install index in place because shared SQLite state has conflicting plugin install metadata for: ${realConflicts.join(", ")}`,
         ],
       };
+    }
+
+    if (resolvableConflicts.length > 0) {
+      warnings.push(
+        `Resolved ${resolvableConflicts.length} version/spec conflicts by using SQLite state as authoritative for: ${resolvableConflicts.join(", ")}`
+      );
     }
   }
 

@@ -1,14 +1,14 @@
 // Resolves official provider plugins implied by configured auth and model selections.
 import { collectConfiguredModelRefs } from "@openclaw/model-catalog-core/configured-model-refs";
 import { normalizeNullableString as normalizeId } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 import {
   resolveOfficialExternalProviderContractPluginIds,
   resolveOfficialExternalProviderPluginIds,
   resolveOfficialExternalProviderPluginIdsForEnv,
-} from "../../../plugins/official-external-plugin-catalog.js";
-import { resolveProviderInstallCatalogEntries } from "../../../plugins/provider-install-catalog.js";
-import { asObjectRecord } from "./object.js";
+} from "../../../plugins/official-external-plugin-catalog.ts";
+import { resolveProviderInstallCatalogEntries } from "../../../plugins/provider-install-catalog.ts";
+import { asObjectRecord } from "./object.ts";
 
 function collectConfiguredProviderIds(cfg: OpenClawConfig): Set<string> {
   const ids = new Set<string>();

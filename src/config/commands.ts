@@ -1,11 +1,11 @@
 // Normalizes command-related config for slash and shell command handling.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { getLoadedChannelPlugin, normalizeChannelId } from "../channels/plugins/index.js";
-import { resolveReadOnlyChannelCommandDefaults } from "../channels/plugins/read-only-command-defaults.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { NativeCommandsSetting } from "./types.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
-export { isCommandFlagEnabled, isRestartEnabled } from "./commands.flags.js";
+import { getLoadedChannelPlugin, normalizeChannelId } from "../channels/plugins/index.ts";
+import { resolveReadOnlyChannelCommandDefaults } from "../channels/plugins/read-only-command-defaults.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { NativeCommandsSetting } from "./types.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
+export { isCommandFlagEnabled, isRestartEnabled } from "./commands.flags.ts";
 
 function resolveAutoDefault(
   providerId: ChannelId | undefined,

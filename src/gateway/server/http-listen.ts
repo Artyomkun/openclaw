@@ -1,7 +1,7 @@
 // Gateway HTTP server listen helper with retry and lock-aware errors.
 import type { Server as HttpServer } from "node:http";
-import { GatewayLockError } from "../../infra/gateway-lock.js";
-import { sleep } from "../../utils.js";
+import { GatewayLockError } from "../../infra/gateway-lock.ts";
+import { sleep } from "../../utils.ts";
 
 const EADDRINUSE_MAX_RETRIES = 20;
 const EADDRINUSE_RETRY_INTERVAL_MS = 500;

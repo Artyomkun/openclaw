@@ -1,10 +1,10 @@
 /**
  * Public SDK subpath for API-key provider auth setup and secret input handling.
  */
-export type { OpenClawConfig } from "../config/config.js";
-export type { SecretInput } from "../config/types.secrets.js";
+export type { OpenClawConfig } from "../config/config.ts";
+export type { SecretInput } from "../config/types.secrets.ts";
 
-export { upsertAuthProfile, upsertAuthProfileWithLock } from "../agents/auth-profiles/profiles.js";
+export { upsertAuthProfile, upsertAuthProfileWithLock } from "../agents/auth-profiles/profiles.ts";
 export {
   formatApiKeyPreview,
   normalizeApiKeyInput,
@@ -13,15 +13,15 @@ export {
   normalizeSecretInputModeInput,
   promptSecretRefForSetup,
   resolveSecretInputModeForEnvSelection,
-} from "../plugins/provider-auth-input.js";
+} from "../plugins/provider-auth-input.ts";
 export {
   applyAuthProfileConfig,
   buildApiKeyCredential,
   upsertApiKeyProfile,
   type ApiKeyStorageOptions,
-} from "../plugins/provider-auth-helpers.js";
-export { createProviderApiKeyAuthMethod } from "../plugins/provider-api-key-auth.js";
+} from "../plugins/provider-auth-helpers.ts";
+export { createProviderApiKeyAuthMethod } from "../plugins/provider-api-key-auth.ts";
 export {
   normalizeOptionalSecretInput,
   normalizeSecretInput,
-} from "../utils/normalize-secret-input.js";
+} from "../utils/normalize-secret-input.ts";

@@ -2,9 +2,9 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { resolveHomeRelativePath, resolveRequiredHomeDir } from "../infra/home-dir.js";
-import { parseTcpPort } from "../infra/tcp-port.js";
-import type { OpenClawConfig } from "./types.js";
+import { resolveHomeRelativePath, resolveRequiredHomeDir } from "../infra/home-dir.ts";
+import { parseTcpPort } from "../infra/tcp-port.ts";
+import type { OpenClawConfig } from "./types.ts";
 
 /**
  * Nix mode detection: When OPENCLAW_NIX_MODE=1, the gateway is running under Nix.
@@ -19,11 +19,8 @@ export function resolveIsNixMode(env: NodeJS.ProcessEnv = process.env): boolean 
 
 export let isNixMode = resolveIsNixMode();
 
-// Support the remaining legacy pre-rebrand state dir.
-const LEGACY_STATE_DIRNAMES = [".clawdbot"] as const;
 const NEW_STATE_DIRNAME = ".openclaw";
 const CONFIG_FILENAME = "openclaw.json";
-const LEGACY_CONFIG_FILENAMES = ["clawdbot.json"] as const;
 
 function resolveDefaultHomeDir(): string {
   return resolveRequiredHomeDir(process.env, os.homedir);
@@ -34,16 +31,8 @@ function envHomedir(env: NodeJS.ProcessEnv): () => string {
   return () => resolveRequiredHomeDir(env, os.homedir);
 }
 
-function legacyStateDirs(homedir: () => string = resolveDefaultHomeDir): string[] {
-  return LEGACY_STATE_DIRNAMES.map((dir) => path.join(homedir(), dir));
-}
-
 function newStateDir(homedir: () => string = resolveDefaultHomeDir): string {
   return path.join(homedir(), NEW_STATE_DIRNAME);
-}
-
-export function resolveLegacyStateDirs(homedir: () => string = resolveDefaultHomeDir): string[] {
-  return legacyStateDirs(homedir);
 }
 
 export function resolveNewStateDir(homedir: () => string = resolveDefaultHomeDir): string {
@@ -68,20 +57,9 @@ export function resolveStateDir(
   if (env.OPENCLAW_TEST_FAST === "1") {
     return newDir;
   }
-  const legacyDirs = legacyStateDirs(effectiveHomedir);
   const hasNew = fs.existsSync(newDir);
   if (hasNew) {
     return newDir;
-  }
-  const existingLegacy = legacyDirs.find((dir) => {
-    try {
-      return fs.existsSync(dir);
-    } catch {
-      return false;
-    }
-  });
-  if (existingLegacy) {
-    return existingLegacy;
   }
   return newDir;
 }
@@ -203,7 +181,6 @@ export function resolveConfigPath(
   const stateOverride = env.OPENCLAW_STATE_DIR?.trim();
   const candidates = [
     path.join(stateDir, CONFIG_FILENAME),
-    ...LEGACY_CONFIG_FILENAMES.map((name) => path.join(stateDir, name)),
   ];
   const existing = candidates.find((candidate) => {
     try {
@@ -263,13 +240,11 @@ export function resolveDefaultConfigCandidates(
   if (openclawStateDir) {
     const resolved = resolveUserPath(openclawStateDir, env, effectiveHomedir);
     candidates.push(path.join(resolved, CONFIG_FILENAME));
-    candidates.push(...LEGACY_CONFIG_FILENAMES.map((name) => path.join(resolved, name)));
   }
 
-  const defaultDirs = [newStateDir(effectiveHomedir), ...legacyStateDirs(effectiveHomedir)];
+  const defaultDirs = [newStateDir(effectiveHomedir)];
   for (const dir of defaultDirs) {
     candidates.push(path.join(dir, CONFIG_FILENAME));
-    candidates.push(...LEGACY_CONFIG_FILENAMES.map((name) => path.join(dir, name)));
   }
   return candidates;
 }

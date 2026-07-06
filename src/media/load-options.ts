@@ -9,7 +9,7 @@ export type OutboundMediaAccess = {
   workspaceDir?: string;
 };
 
-/** Legacy and current knobs accepted by outbound media loaders before normalization. */
+/** Older and current knobs accepted by outbound media loaders before normalization. */
 export type OutboundMediaLoadParams = {
   maxBytes?: number;
   mediaAccess?: OutboundMediaAccess;
@@ -49,7 +49,7 @@ export function resolveOutboundMediaLocalRoots(
   return mediaLocalRoots && mediaLocalRoots.length > 0 ? mediaLocalRoots : undefined;
 }
 
-/** Collapses legacy read/root parameters into the current host media access shape. */
+/** Collapses older read/root parameters into the current host media access shape. */
 export function resolveOutboundMediaAccess(
   params: {
     mediaAccess?: OutboundMediaAccess;

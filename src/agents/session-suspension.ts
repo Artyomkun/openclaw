@@ -5,18 +5,18 @@
  */
 import { AsyncLocalStorage } from "node:async_hooks";
 import path from "node:path";
-import { resolveAgentMaxConcurrent, resolveSubagentMaxConcurrent } from "../config/agent-limits.js";
-import { resolveCronMaxConcurrentRuns } from "../config/cron-limits.js";
-import { applySessionStoreEntryPatch } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { setCommandLaneConcurrency } from "../process/command-queue.js";
+import { resolveAgentMaxConcurrent, resolveSubagentMaxConcurrent } from "../config/agent-limits.ts";
+import { resolveCronMaxConcurrentRuns } from "../config/cron-limits.ts";
+import { applySessionStoreEntryPatch } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { setCommandLaneConcurrency } from "../process/command-queue.ts";
 import {
   resolveExpiresAtMsFromDurationMs,
   resolveTimerTimeoutMs,
-} from "../shared/number-coercion.js";
-import { resolveStoredSessionKeyForSessionId } from "./command/session.js";
-import type { FailoverReason } from "./embedded-agent-helpers/types.js";
+} from "../shared/number-coercion.ts";
+import { resolveStoredSessionKeyForSessionId } from "./command/session.ts";
+import type { FailoverReason } from "./embedded-agent-helpers/types.ts";
 
 const log = createSubsystemLogger("session-suspension");
 

@@ -5,21 +5,21 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { parseFrontmatterBlock } from "../../packages/markdown-core/src/frontmatter.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { readRootJsonObjectSync } from "../infra/json-files.js";
-import { isPathInsideWithRealpath } from "../security/scan-paths.js";
+import { parseFrontmatterBlock } from "../../packages/markdown-core/src/frontmatter.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { readRootJsonObjectSync } from "../infra/json-files.ts";
+import { isPathInsideWithRealpath } from "../security/scan-paths.ts";
 import {
   CLAUDE_BUNDLE_MANIFEST_RELATIVE_PATH,
   mergeBundlePathLists,
   normalizeBundlePathList,
-} from "./bundle-manifest.js";
+} from "./bundle-manifest.ts";
 import {
   hasExplicitPluginConfig,
   normalizePluginsConfig,
   resolveEffectivePluginActivationState,
-} from "./config-state.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry-contributions.js";
+} from "./config-state.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry-contributions.ts";
 
 export type ClaudeBundleCommandSpec = {
   pluginId: string;

@@ -3,17 +3,17 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ChannelId } from "../channels/plugins/channel-id.types.js";
-import { resolveAccountEntry } from "../routing/account-lookup.js";
-import { normalizeAccountId } from "../routing/session-key.js";
-import { normalizeMessageChannel } from "../utils/message-channel-core.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { ChannelId } from "../channels/plugins/channel-id.types.ts";
+import { resolveAccountEntry } from "../routing/account-lookup.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
+import { normalizeMessageChannel } from "../utils/message-channel-core.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 import {
   parseToolsBySenderTypedKey,
   type GroupToolPolicyBySenderConfig,
   type GroupToolPolicyConfig,
   type ToolsBySenderKeyType,
-} from "./types.tools.js";
+} from "./types.tools.ts";
 
 type GroupPolicyChannel = ChannelId;
 
@@ -72,12 +72,6 @@ type CompiledSenderPolicy = {
   wildcard?: GroupToolPolicyConfig;
 };
 
-const warnedLegacyToolsBySenderKeys = new Set<string>();
-const compiledToolsBySenderCache = new WeakMap<
-  GroupToolPolicyBySenderConfig,
-  CompiledSenderPolicy
->();
-
 type ParsedSenderPolicyKey =
   | { kind: "wildcard" }
   | { kind: "typed"; type: SenderKeyType; key: string };
@@ -129,28 +123,7 @@ function normalizeChannelSenderKey(value: string): string {
   return `${channel}:${senderId}`;
 }
 
-function normalizeLegacySenderKey(value: string): string {
-  return normalizeSenderKey(value, {
-    stripLeadingAt: true,
-  });
-}
-
-function warnLegacyToolsBySenderKey(rawKey: string) {
-  const trimmed = rawKey.trim();
-  if (!trimmed || warnedLegacyToolsBySenderKeys.has(trimmed)) {
-    return;
-  }
-  warnedLegacyToolsBySenderKeys.add(trimmed);
-  process.emitWarning(
-    `toolsBySender key "${trimmed}" is deprecated. Use explicit prefixes (channel:, id:, e164:, username:, name:). Legacy unprefixed keys are matched as id only.`,
-    {
-      type: "DeprecationWarning",
-      code: "OPENCLAW_TOOLS_BY_SENDER_UNTYPED_KEY",
-    },
-  );
-}
-
-function parseSenderPolicyKey(rawKey: string): ParsedSenderPolicyKey | undefined {
+function parseSenderPolicyKey(rawKey: string): string {
   const trimmed = rawKey.trim();
   if (!trimmed) {
     return undefined;
@@ -170,18 +143,6 @@ function parseSenderPolicyKey(rawKey: string): ParsedSenderPolicyKey | undefined
       key,
     };
   }
-
-  // Backward-compatible fallback: untyped keys now map to immutable sender IDs only.
-  warnLegacyToolsBySenderKey(trimmed);
-  const key = normalizeLegacySenderKey(trimmed);
-  if (!key) {
-    return undefined;
-  }
-  return {
-    kind: "typed",
-    type: "id",
-    key,
-  };
 }
 
 function createSenderPolicyBuckets(): SenderPolicyBuckets {
@@ -255,14 +216,7 @@ function normalizeSenderIdCandidates(value: string | null | undefined): string[]
     return [];
   }
   const typed = normalizeTypedSenderKey(trimmed, "id");
-  const legacy = normalizeLegacySenderKey(trimmed);
-  if (!typed) {
-    return legacy ? [legacy] : [];
-  }
-  if (!legacy || legacy === typed) {
-    return [typed];
-  }
-  return [typed, legacy];
+  return [typed];
 }
 
 function matchToolsBySenderPolicy(

@@ -5,10 +5,10 @@ export {
   formatBtwTextForExternalDelivery,
   isRenderablePayload,
   shouldSuppressReasoningPayload,
-} from "./reply-payloads-base.js";
+} from "./reply-payloads-base.ts";
 export {
   filterMessagingToolDuplicates,
   filterMessagingToolMediaDuplicates,
   resolveMessagingToolPayloadDedupe,
   shouldDedupeMessagingToolRepliesForRoute,
-} from "./reply-payloads-dedupe.js";
+} from "./reply-payloads-dedupe.ts";

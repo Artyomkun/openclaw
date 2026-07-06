@@ -6,23 +6,23 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { sanitizeAgentId } from "../routing/session-key.js";
-import { isRecord } from "../utils.js";
+import { sanitizeAgentId } from "../routing/session-key.ts";
+import { isRecord } from "../utils.ts";
 import {
   TimeoutSecondsFieldSchema,
   TrimmedNonEmptyStringFieldSchema,
   parseDeliveryInput,
   parseOptionalField,
-} from "./delivery-field-schemas.js";
-import { parseAbsoluteTimeMs } from "./parse.js";
-import { coerceFiniteScheduleNumber } from "./schedule-number.js";
-import { inferCronJobName } from "./service/normalize.js";
+} from "./delivery-field-schemas.ts";
+import { parseAbsoluteTimeMs } from "./parse.ts";
+import { coerceFiniteScheduleNumber } from "./schedule-number.ts";
+import { inferCronJobName } from "./service/normalize.ts";
 import {
   assertSafeCronSessionTargetId,
   resolveCronCurrentSessionTarget,
-} from "./session-target.js";
-import { normalizeCronStaggerMs, resolveDefaultCronStaggerMs } from "./stagger.js";
-import type { CronJobCreate, CronJobPatch } from "./types.js";
+} from "./session-target.ts";
+import { normalizeCronStaggerMs, resolveDefaultCronStaggerMs } from "./stagger.ts";
+import type { CronJobCreate, CronJobPatch } from "./types.ts";
 
 type UnknownRecord = Record<string, unknown>;
 

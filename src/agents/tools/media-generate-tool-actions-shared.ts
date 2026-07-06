@@ -7,11 +7,11 @@ import {
   listMediaGenerationProviderModels,
   synthesizeMediaGenerationCatalogEntries,
   type MediaGenerationCatalogKind,
-} from "../../../packages/media-generation-core/src/catalog.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getProviderEnvVars } from "../../secrets/provider-env-vars.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
-import { isCapabilityProviderConfigured } from "./media-tool-shared.js";
+} from "../../../packages/media-generation-core/src/catalog.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getProviderEnvVars } from "../../secrets/provider-env-vars.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
+import { isCapabilityProviderConfigured } from "./media-tool-shared.ts";
 
 type MediaGenerateActionResult = {
   content: Array<{ type: "text"; text: string }>;

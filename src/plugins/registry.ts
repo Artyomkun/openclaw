@@ -9,88 +9,88 @@ import {
   normalizeStringEntries,
   normalizeUniqueStringEntries,
 } from "@openclaw/normalization-core/string-normalization";
-import { clearCodeModeNamespacesForPlugin } from "../agents/code-mode-namespaces.js";
+import { clearCodeModeNamespacesForPlugin } from "../agents/code-mode-namespaces.ts";
 import {
   getRegisteredAgentHarness,
   registerAgentHarness as registerGlobalAgentHarness,
-} from "../agents/harness/registry.js";
-import type { AgentHarness } from "../agents/harness/types.js";
-import type { AnyAgentTool } from "../agents/tools/common.js";
-import { createChannelIngressQueue } from "../channels/message/ingress-queue.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
+} from "../agents/harness/registry.ts";
+import type { AgentHarness } from "../agents/harness/types.ts";
+import type { AnyAgentTool } from "../agents/tools/common.ts";
+import { createChannelIngressQueue } from "../channels/message/ingress-queue.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
 import {
   normalizeCommandDescriptorName,
   sanitizeCommandDescriptorDescription,
-} from "../cli/program/command-descriptor-utils.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../cli/program/command-descriptor-utils.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   clearContextEnginesForOwner,
   registerContextEngineForOwner,
-} from "../context-engine/registry.js";
-import { createPluginGatewayMethodDescriptor } from "../gateway/methods/registry.js";
-import { isOperatorScope, type OperatorScope } from "../gateway/operator-scopes.js";
-import type { GatewayRequestHandler, RespondFn } from "../gateway/server-methods/types.js";
-import { registerInternalHook, unregisterInternalHook } from "../hooks/internal-hooks.js";
-import type { HookEntry } from "../hooks/types.js";
-import { formatErrorMessage } from "../infra/errors.js";
+} from "../context-engine/registry.ts";
+import { createPluginGatewayMethodDescriptor } from "../gateway/methods/registry.ts";
+import { isOperatorScope, type OperatorScope } from "../gateway/operator-scopes.ts";
+import type { GatewayRequestHandler, RespondFn } from "../gateway/server-methods/types.ts";
+import { registerInternalHook, unregisterInternalHook } from "../hooks/internal-hooks.ts";
+import type { HookEntry } from "../hooks/types.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   NODE_EXEC_APPROVALS_COMMANDS,
   NODE_SYSTEM_NOTIFY_COMMAND,
   NODE_SYSTEM_RUN_COMMANDS,
-} from "../infra/node-commands.js";
+} from "../infra/node-commands.ts";
 import {
   createPluginStateKeyedStore,
   createPluginStateSyncKeyedStore,
   type OpenKeyedStoreOptions,
   type PluginStateKeyedStore,
   type PluginStateSyncKeyedStore,
-} from "../plugin-state/plugin-state-store.js";
-import { normalizePluginGatewayMethodScope } from "../shared/gateway-method-policy.js";
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
+} from "../plugin-state/plugin-state-store.ts";
+import { normalizePluginGatewayMethodScope } from "../shared/gateway-method-policy.ts";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
 import {
   getDetachedTaskLifecycleRuntimeRegistration,
   registerDetachedTaskLifecycleRuntime,
-} from "../tasks/detached-task-runtime-state.js";
-import { resolveUserPath } from "../utils.js";
-import { emitPluginAgentEvent } from "./agent-event-emission.js";
-import type { AgentToolResultMiddleware } from "./agent-tool-result-middleware-types.js";
+} from "../tasks/detached-task-runtime-state.ts";
+import { resolveUserPath } from "../utils.ts";
+import { emitPluginAgentEvent } from "./agent-event-emission.ts";
+import type { AgentToolResultMiddleware } from "./agent-tool-result-middleware-types.ts";
 import {
   normalizeAgentToolResultMiddlewareRuntimeIds,
   normalizeAgentToolResultMiddlewareRuntimes,
-} from "./agent-tool-result-middleware.js";
-import { buildPluginApi } from "./api-builder.js";
-import { normalizeRegisteredChannelPlugin } from "./channel-validation.js";
-import { CODEX_APP_SERVER_EXTENSION_RUNTIME_ID } from "./codex-app-server-extension-factory.js";
-import type { CodexAppServerExtensionFactory } from "./codex-app-server-extension-types.js";
+} from "./agent-tool-result-middleware.ts";
+import { buildPluginApi } from "./api-builder.ts";
+import { normalizeRegisteredChannelPlugin } from "./channel-validation.ts";
+import { CODEX_APP_SERVER_EXTENSION_RUNTIME_ID } from "./codex-app-server-extension-factory.ts";
+import type { CodexAppServerExtensionFactory } from "./codex-app-server-extension-types.ts";
 import {
   isReservedCommandName,
   registerPluginCommand,
   validatePluginCommandDefinition,
-} from "./command-registration.js";
-import { clearPluginCommandsForPlugin, pluginCommands } from "./command-registry-state.js";
+} from "./command-registration.ts";
+import { clearPluginCommandsForPlugin, pluginCommands } from "./command-registry-state.ts";
 import {
   getRegisteredCompactionProvider,
   registerCompactionProvider,
-} from "./compaction-provider.js";
-import { getPluginCompatRecord } from "./compat/registry.js";
+} from "./compaction-provider.ts";
+import { getPluginCompatRecord } from "./compat/registry.ts";
 import {
   getRegisteredEmbeddingProvider,
   registerEmbeddingProvider,
   type EmbeddingProviderAdapter,
-} from "./embedding-providers.js";
-import { sendPluginSessionAttachment } from "./host-hook-attachments.js";
+} from "./embedding-providers.ts";
+import { sendPluginSessionAttachment } from "./host-hook-attachments.ts";
 import {
   clearPluginRunContext,
   getPluginRunContext,
   getPluginSessionSchedulerJobGeneration,
   registerPluginSessionSchedulerJob,
   setPluginRunContext,
-} from "./host-hook-runtime.js";
+} from "./host-hook-runtime.ts";
 import {
   schedulePluginSessionTurn,
   unschedulePluginSessionTurnsByTag,
-} from "./host-hook-scheduled-turns.js";
-import { enqueuePluginNextTurnInjection } from "./host-hook-state.js";
+} from "./host-hook-scheduled-turns.ts";
+import { enqueuePluginNextTurnInjection } from "./host-hook-state.ts";
 import {
   isPluginJsonValue,
   normalizePluginHostHookId,
@@ -102,18 +102,18 @@ import {
   type PluginSessionExtensionRegistration,
   type PluginToolMetadataRegistration,
   type PluginTrustedToolPolicyRegistration,
-} from "./host-hooks.js";
-import { normalizePluginHttpPath } from "./http-path.js";
-import { findOverlappingPluginHttpRoute } from "./http-route-overlap.js";
+} from "./host-hooks.ts";
+import { normalizePluginHttpPath } from "./http-path.ts";
+import { findOverlappingPluginHttpRoute } from "./http-route-overlap.ts";
 import {
   clearPluginInteractiveHandlersForPlugin,
   registerPluginInteractiveHandler,
-} from "./interactive-registry.js";
-import type { PluginDiagnostic } from "./manifest-types.js";
+} from "./interactive-registry.ts";
+import type { PluginDiagnostic } from "./manifest-types.ts";
 import {
   getRegisteredMemoryEmbeddingProvider,
   registerMemoryEmbeddingProvider,
-} from "./memory-embedding-providers.js";
+} from "./memory-embedding-providers.ts";
 import {
   registerMemoryCapability,
   registerMemoryCorpusSupplement,
@@ -121,11 +121,11 @@ import {
   registerMemoryPromptSupplement,
   registerMemoryPromptSectionForPlugin,
   registerMemoryRuntimeForPlugin,
-} from "./memory-state.js";
-import { createModelCatalogRegistrationHandlers } from "./model-catalog-registration.js";
-import { normalizeRegisteredProvider } from "./provider-validation.js";
-import { createEmptyPluginRegistry } from "./registry-empty.js";
-import { isPluginRegistryActivated, isPluginRegistryRetired } from "./registry-lifecycle.js";
+} from "./memory-state.ts";
+import { createModelCatalogRegistrationHandlers } from "./model-catalog-registration.ts";
+import { normalizeRegisteredProvider } from "./provider-validation.ts";
+import { createEmptyPluginRegistry } from "./registry-empty.ts";
+import { isPluginRegistryActivated, isPluginRegistryRetired } from "./registry-lifecycle.ts";
 import type {
   PluginHttpRouteRegistration as RegistryTypesPluginHttpRouteRegistration,
   PluginRecord,
@@ -133,36 +133,35 @@ import type {
   PluginSessionActionRegistryRegistration,
   PluginTextTransformsRegistration,
   PluginTrustedToolPolicyRegistryRegistration,
-} from "./registry-types.js";
+} from "./registry-types.ts";
 export type {
   PluginReloadRegistration,
   PluginRuntimeLifecycleRegistryRegistration,
   PluginSecurityAuditCollectorRegistration,
   PluginServiceRegistration,
   PluginSessionExtensionRegistryRegistration,
-} from "./registry-types.js";
-import { getActivePluginRegistry } from "./runtime.js";
+} from "./registry-types.ts";
+import { getActivePluginRegistry } from "./runtime.ts";
 import {
   withPluginRuntimePluginIdScope,
   withPluginRuntimePluginScope,
-} from "./runtime/gateway-request-scope.js";
-import type { PluginRuntime } from "./runtime/types.js";
-import { validateJsonSchemaValue, type JsonSchemaValue } from "./schema-validator.js";
-import { normalizeSessionEntrySlotKey } from "./session-entry-slot-keys.js";
-import { defaultSlotIdForKey, hasKind } from "./slots.js";
+} from "./runtime/gateway-request-scope.ts";
+import type { PluginRuntime } from "./runtime/types.ts";
+import { validateJsonSchemaValue, type JsonSchemaValue } from "./schema-validator.ts";
+import { normalizeSessionEntrySlotKey } from "./session-entry-slot-keys.ts";
+import { defaultSlotIdForKey, hasKind } from "./slots.ts";
 import {
   findUndeclaredPluginToolNames,
   normalizePluginToolContractNames,
   normalizePluginToolNames,
-} from "./tool-contracts.js";
+} from "./tool-contracts.ts";
 import {
   DEPRECATED_PLUGIN_HOOKS,
   isConversationHookName,
   isDeprecatedPluginHookName,
   isPluginHookName,
   isPromptInjectionHookName,
-  stripPromptMutationFieldsFromLegacyHookResult,
-} from "./types.js";
+} from "./types.ts";
 import type {
   CliBackendPlugin,
   ImageGenerationProviderPlugin,
@@ -200,34 +199,21 @@ import type {
   VideoGenerationProviderPlugin,
   WebFetchProviderPlugin,
   WebSearchProviderPlugin,
-} from "./types.js";
+} from "./types.ts";
 
 export type PluginHttpRouteRegistration = RegistryTypesPluginHttpRouteRegistration & {
   gatewayRuntimeScopeSurface?: OpenClawPluginGatewayRuntimeScopeSurface;
 };
 
 const GATEWAY_METHOD_DISPATCH_CONTRACT = "authenticated-request";
-const LEGACY_DEACTIVATE_HOOK_ALIAS_COMPAT = getPluginCompatRecord("legacy-deactivate-hook-alias");
-const LEGACY_SUBAGENT_SPAWNING_HOOK_COMPAT = getPluginCompatRecord("legacy-subagent-spawning-hook");
-
-function formatLegacyDeactivateHookAliasDiagnostic(): string {
-  const removeAfter =
-    LEGACY_DEACTIVATE_HOOK_ALIAS_COMPAT.removeAfter ?? "a future breaking release";
-  return (
-    `typed hook "deactivate" is deprecated (${LEGACY_DEACTIVATE_HOOK_ALIAS_COMPAT.code}); ` +
-    `use "gateway_stop". This compatibility alias will be removed after ${removeAfter}.`
-  );
-}
 
 function formatDeprecatedTypedHookDiagnostic(hookName: PluginHookName): string | undefined {
   if (!isDeprecatedPluginHookName(hookName) || hookName === "deactivate") {
     return undefined;
   }
   const deprecation = DEPRECATED_PLUGIN_HOOKS[hookName];
-  const compat =
-    hookName === "subagent_spawning" ? LEGACY_SUBAGENT_SPAWNING_HOOK_COMPAT : undefined;
-  const removeAfter = compat?.removeAfter ?? deprecation.removeAfter ?? "a future breaking release";
-  const code = compat?.code ?? "deprecated-plugin-hook";
+  const removeAfter = deprecation.removeAfter ?? "a future breaking release";
+  const code = "deprecated-plugin-hook";
   return (
     `typed hook "${hookName}" is deprecated (${code}); ` +
     `${deprecation.reason} Use ${deprecation.replacement}. ` +
@@ -277,7 +263,7 @@ export type {
   PluginMusicGenerationProviderRegistration,
   PluginWebFetchProviderRegistration,
   PluginWebSearchProviderRegistration,
-} from "./registry-types.js";
+} from "./registry-types.ts";
 
 type PluginTypedHookPolicy = {
   allowPromptInjection?: boolean;
@@ -305,21 +291,7 @@ function resolveTypedHookTimeoutMs(params: {
   );
 }
 
-const constrainLegacyPromptInjectionHook = (
-  handler: PluginHookHandlerMap["before_agent_start"],
-): PluginHookHandlerMap["before_agent_start"] => {
-  return (event, ctx) => {
-    const result = handler(event, ctx);
-    if (result && typeof result === "object" && "then" in result) {
-      return Promise.resolve(result).then((resolved) =>
-        stripPromptMutationFieldsFromLegacyHookResult(resolved),
-      );
-    }
-    return stripPromptMutationFieldsFromLegacyHookResult(result);
-  };
-};
-
-export { createEmptyPluginRegistry } from "./registry-empty.js";
+export { createEmptyPluginRegistry } from "./registry-empty.ts";
 
 export function resolvePluginPath(input: string, rootDir: string | undefined): string {
   const trimmed = input.trim();
@@ -2198,9 +2170,8 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
     record: PluginRecord,
     descriptor: PluginControlUiDescriptor,
   ) => {
-    const legacyDescriptor = descriptor as PluginControlUiDescriptor & { name?: unknown };
     const id = normalizeHostHookString(descriptor.id);
-    const label = normalizeHostHookString(descriptor.label ?? legacyDescriptor.name);
+    const label = normalizeHostHookString(descriptor.label);
     const description = normalizeOptionalHostHookString(descriptor.description);
     const placement = normalizeOptionalHostHookString(descriptor.placement);
     const requiredScopes = normalizeHostHookStringList(descriptor.requiredScopes);
@@ -2529,8 +2500,7 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
       pushDiagnostic({
         level: "warn",
         pluginId: record.id,
-        source: record.source,
-        message: formatLegacyDeactivateHookAliasDiagnostic(),
+        source: record.source
       });
     } else {
       const deprecatedHookDiagnostic = formatDeprecatedTypedHookDiagnostic(hookName);
@@ -2560,9 +2530,6 @@ export function createPluginRegistry(registryParams: PluginRegistryParams) {
         source: record.source,
         message: `typed hook "${effectiveHookName}" prompt fields constrained by plugins.entries.${record.id}.hooks.allowPromptInjection=false`,
       });
-      effectiveHandler = constrainLegacyPromptInjectionHook(
-        handler as PluginHookHandlerMap["before_agent_start"],
-      ) as PluginHookHandlerMap[K];
     }
     if (isConversationHookName(effectiveHookName)) {
       const explicitConversationAccess = policy?.allowConversationAccess;

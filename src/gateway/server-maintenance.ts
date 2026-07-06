@@ -1,27 +1,27 @@
 // Gateway maintenance timers.
 // Starts periodic health, dedupe, abort, and media cleanup loops.
 import { isFutureDateTimestampMs } from "@openclaw/normalization-core/number-coercion";
-import type { HealthSummary } from "../commands/health.js";
-import { sweepStaleRunContexts } from "../infra/agent-events.js";
-import { cleanOldMedia } from "../media/store.js";
+import type { HealthSummary } from "../commands/health.ts";
+import { sweepStaleRunContexts } from "../infra/agent-events.ts";
+import { cleanOldMedia } from "../media/store.ts";
 import {
   abortTrackedChatRunById,
   type ChatAbortControllerEntry,
   type RestartRecoveryCandidate,
-} from "./chat-abort.js";
-import { pruneStaleControlPlaneBuckets } from "./control-plane-rate-limit.js";
-import { chatAbortMarkerTimestampMs } from "./server-chat-state.js";
-import type { ChatRunState } from "./server-chat-state.js";
-import type { ChatRunEntry } from "./server-chat.js";
+} from "./chat-abort.ts";
+import { pruneStaleControlPlaneBuckets } from "./control-plane-rate-limit.ts";
+import { chatAbortMarkerTimestampMs } from "./server-chat-state.ts";
+import type { ChatRunState } from "./server-chat-state.ts";
+import type { ChatRunEntry } from "./server-chat.ts";
 import {
   DEDUPE_MAX,
   DEDUPE_TTL_MS,
   HEALTH_REFRESH_INTERVAL_MS,
   TICK_INTERVAL_MS,
-} from "./server-constants.js";
-import type { DedupeEntry } from "./server-shared.js";
-import { formatError } from "./server-utils.js";
-import { setBroadcastHealthUpdate } from "./server/health-state.js";
+} from "./server-constants.ts";
+import type { DedupeEntry } from "./server-shared.ts";
+import { formatError } from "./server-utils.ts";
+import { setBroadcastHealthUpdate } from "./server/health-state.ts";
 
 export function startGatewayMaintenanceTimers(params: {
   broadcast: (

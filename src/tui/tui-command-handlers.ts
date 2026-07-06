@@ -1,44 +1,44 @@
 // Implements TUI slash command handlers and backend action dispatch.
 import { randomUUID } from "node:crypto";
 import type { Component, SelectItem, TUI } from "@earendil-works/pi-tui";
-import type { SessionsPatchResult } from "../../packages/gateway-protocol/src/index.js";
-import { modelKey } from "../agents/model-ref-shared.js";
-import { normalizeGroupActivation } from "../auto-reply/group-activation.js";
+import type { SessionsPatchResult } from "../../packages/gateway-protocol/src/index.ts";
+import { modelKey } from "../agents/model-ref-shared.ts";
+import { normalizeGroupActivation } from "../auto-reply/group-activation.ts";
 import {
   formatGoalContinuationPrompt,
   formatGoalResumeContinuationPrompt,
   parseGoalCommand,
-} from "../auto-reply/reply/commands-goal.js";
+} from "../auto-reply/reply/commands-goal.ts";
 import {
   formatThinkingLevels,
   isSessionDefaultDirectiveValue,
   normalizeUsageDisplay,
   resolveResponseUsageMode,
-} from "../auto-reply/thinking.js";
-import { isChatStopCommandText } from "../gateway/chat-abort.js";
+} from "../auto-reply/thinking.ts";
+import { isChatStopCommandText } from "../gateway/chat-abort.ts";
 import { formatRelativeTimestamp } from "../infra/format-time/format-relative.ts";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { helpText, parseCommand } from "./commands.js";
-import type { ChatLog } from "./components/chat-log.js";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { helpText, parseCommand } from "./commands.ts";
+import type { ChatLog } from "./components/chat-log.ts";
 import {
   createFilterableSelectList,
   createSearchableSelectList,
   createSettingsList,
-} from "./components/selectors.js";
-import type { TuiBackend, TuiSessionMutationResult } from "./tui-backend.js";
-import { sanitizeRenderableText } from "./tui-formatters.js";
+} from "./components/selectors.ts";
+import type { TuiBackend, TuiSessionMutationResult } from "./tui-backend.ts";
+import { sanitizeRenderableText } from "./tui-formatters.ts";
 import {
   TUI_RECENT_SESSIONS_ACTIVE_MINUTES,
   TUI_SESSION_PICKER_LIMIT,
-} from "./tui-session-list-policy.js";
-import { formatStatusSummary } from "./tui-status-summary.js";
+} from "./tui-session-list-policy.ts";
+import { formatStatusSummary } from "./tui-status-summary.ts";
 import type {
   AgentSummary,
   GatewayStatusSummary,
   TuiResult,
   TuiOptions,
   TuiStateAccess,
-} from "./tui-types.js";
+} from "./tui-types.ts";
 
 function formatTuiFastMode(mode: unknown): "auto" | "on" | "off" {
   return mode === "auto" ? "auto" : mode === true ? "on" : "off";

@@ -4,16 +4,16 @@
  * This module exposes model-selection helpers that need default fallback model
  * handling before checking aliases, allowlists, catalogs, and plugin manifests.
  */
-import { resolveAgentModelFallbackValues } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ModelCatalogEntry } from "./model-catalog.types.js";
-import type { ModelManifestNormalizationContext, ModelRef } from "./model-selection-normalize.js";
+import { resolveAgentModelFallbackValues } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ModelCatalogEntry } from "./model-catalog.types.ts";
+import type { ModelManifestNormalizationContext, ModelRef } from "./model-selection-normalize.ts";
 import {
   buildModelAliasIndex,
   getModelRefStatusWithFallbackModels,
   resolveAllowedModelRefFromAliasIndex,
   type ModelRefStatus,
-} from "./model-selection-shared.js";
+} from "./model-selection-shared.ts";
 
 export {
   buildConfiguredAllowlistKeys,
@@ -22,8 +22,8 @@ export {
   resolveConfiguredModelRef,
   resolveHooksGmailModel,
   resolveModelRefFromString,
-} from "./model-selection-shared.js";
-export type { ModelRefStatus } from "./model-selection-shared.js";
+} from "./model-selection-shared.ts";
+export type { ModelRefStatus } from "./model-selection-shared.ts";
 
 function resolveDefaultFallbackModels(cfg: OpenClawConfig): string[] {
   return resolveAgentModelFallbackValues(cfg.agents?.defaults?.model);

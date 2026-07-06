@@ -108,7 +108,7 @@ function resolveRunnableChromiumExecutablePath(): string | undefined {
 function ensureChromiumAvailable(repoRoot: string) {
   const result = spawnSync(
     process.execPath,
-    ["scripts/ensure-playwright-chromium.mjs", "--skip-ffmpeg"],
+    ["scripts/ensure-playwright-chromium.ts", "--skip-ffmpeg"],
     {
       cwd: repoRoot,
       env: process.env,

@@ -1,17 +1,17 @@
 // Approval renderer helpers convert approval request data into channel-safe display text.
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
 import {
   buildApprovalPresentation,
   type ExecApprovalReplyDecision,
-} from "../infra/exec-approval-reply.js";
+} from "../infra/exec-approval-reply.ts";
 import {
   buildPluginApprovalRequestMessage,
   buildPluginApprovalResolvedMessage,
   resolvePluginApprovalRequestAllowedDecisions,
   type PluginApprovalRequest,
   type PluginApprovalResolved,
-} from "../infra/plugin-approvals.js";
-import type { ReplyPayload } from "./reply-payload.js";
+} from "../infra/plugin-approvals.ts";
+import type { ReplyPayload } from "./reply-payload.ts";
 
 const DEFAULT_ALLOWED_DECISIONS = ["allow-once", "allow-always", "deny"] as const;
 

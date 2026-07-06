@@ -1,5 +1,5 @@
 // Shared arithmetic helpers for cost/usage token totals.
-import type { CostUsageTotals } from "./session-cost-usage.types.js";
+import type { CostUsageTotals } from "./session-cost-usage.types.ts";
 
 export function createEmptyCostUsageTotals(): CostUsageTotals {
   return {

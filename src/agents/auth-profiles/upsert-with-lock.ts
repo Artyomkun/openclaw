@@ -3,9 +3,9 @@
  * Normalizes literal secrets before persistence and routes all writes through
  * the shared SQLite lock to avoid racing concurrent auth updates.
  */
-import { normalizeAuthProfileCredential } from "./credential-normalize.js";
-import { updateAuthProfileStoreWithLock } from "./store.js";
-import type { AuthProfileCredential, AuthProfileStore } from "./types.js";
+import { normalizeAuthProfileCredential } from "./credential-normalize.ts";
+import { updateAuthProfileStoreWithLock } from "./store.ts";
+import type { AuthProfileCredential, AuthProfileStore } from "./types.ts";
 
 /** Upserts an auth profile under the store lock, returning null on write failure. */
 export async function upsertAuthProfileWithLock(params: {

@@ -1,24 +1,24 @@
 /** Resolves command-scoped secrets, including web provider override credentials. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { resolveManifestContractOwnerPluginId } from "../plugins/plugin-registry.js";
-import { resolveBundledExplicitWebSearchProvidersFromPublicArtifacts } from "../plugins/web-provider-public-artifacts.explicit.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { resolveManifestContractOwnerPluginId } from "../plugins/plugin-registry.ts";
+import { resolveBundledExplicitWebSearchProvidersFromPublicArtifacts } from "../plugins/web-provider-public-artifacts.explicit.ts";
 import {
   analyzeCommandSecretAssignmentsFromSnapshot,
   collectCommandSecretAssignmentsFromSnapshot,
   type CommandSecretAssignment,
-} from "./command-config.js";
-import { getPath, setPathExistingStrict } from "./path-utils.js";
-import { resolveSecretRefValue } from "./resolve.js";
-import { createResolverContext } from "./runtime-shared.js";
-import { getActiveSecretsRuntimeEnv, getActiveSecretsRuntimeSnapshot } from "./runtime-state.js";
-import { resolveRuntimeWebTools } from "./runtime-web-tools.js";
-import { assertExpectedResolvedSecretValue } from "./secret-value.js";
-import { discoverConfigSecretTargetsByIds } from "./target-registry.js";
+} from "./command-config.ts";
+import { getPath, setPathExistingStrict } from "./path-utils.ts";
+import { resolveSecretRefValue } from "./resolve.ts";
+import { createResolverContext } from "./runtime-shared.ts";
+import { getActiveSecretsRuntimeEnv, getActiveSecretsRuntimeSnapshot } from "./runtime-state.ts";
+import { resolveRuntimeWebTools } from "./runtime-web-tools.ts";
+import { assertExpectedResolvedSecretValue } from "./secret-value.ts";
+import { discoverConfigSecretTargetsByIds } from "./target-registry.ts";
 
-export type { CommandSecretAssignment } from "./command-config.js";
+export type { CommandSecretAssignment } from "./command-config.ts";
 
 /** Provider selections applied only while resolving command-scoped web secrets. */
 export type CommandSecretProviderOverrides = {
@@ -266,7 +266,7 @@ function mirrorResolvedProviderCredentialToDirectPath(params: {
   if (directValue === undefined) {
     return;
   }
-  // Legacy direct provider targets still exist for command assignment discovery; mirror the
+  // Older direct provider targets still exist for command assignment discovery; mirror the
   // plugin-owned resolved value only when the source config declares that direct path.
   const resolvedValue = getPath(params.resolvedConfig, [
     "plugins",

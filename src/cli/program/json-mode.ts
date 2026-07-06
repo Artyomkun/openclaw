@@ -1,6 +1,6 @@
 // JSON-mode metadata for Commander commands; distinguishes JSON output from parse-only flags.
 import type { Command } from "commander";
-import { hasFlag } from "../argv.js";
+import { hasFlag } from "../argv.ts";
 
 const jsonModeSymbol = Symbol("openclaw.cli.jsonMode");
 

@@ -1,23 +1,23 @@
 // Shared helpers for message CLI actions: common flags, plugin preload, numeric validation, and stop hooks.
 import type { Command } from "commander";
-import { getChannelPlugin } from "../../../channels/plugins/index.js";
+import { getChannelPlugin } from "../../../channels/plugins/index.ts";
 import {
   CHANNEL_MESSAGE_ACTION_NAMES,
   type ChannelMessageActionName,
-} from "../../../channels/plugins/types.public.js";
-import { resolveMessageSecretScope } from "../../../cli/message-secret-scope.js";
-import { messageCommand } from "../../../commands/message.js";
-import { danger, setVerbose } from "../../../globals.js";
-import { CHANNEL_TARGET_DESCRIPTION } from "../../../infra/outbound/channel-target.js";
+} from "../../../channels/plugins/types.public.ts";
+import { resolveMessageSecretScope } from "../../../cli/message-secret-scope.ts";
+import { messageCommand } from "../../../commands/message.ts";
+import { danger, setVerbose } from "../../../globals.ts";
+import { CHANNEL_TARGET_DESCRIPTION } from "../../../infra/outbound/channel-target.ts";
 import {
   parseStrictNonNegativeInteger,
   parseStrictPositiveInteger,
-} from "../../../infra/parse-finite-number.js";
-import { runGlobalGatewayStopSafely } from "../../../plugins/hook-runner-global.js";
-import { defaultRuntime } from "../../../runtime.js";
-import { runCommandWithRuntime } from "../../cli-utils.js";
-import { createDefaultDeps } from "../../deps.js";
-import { ensurePluginRegistryLoaded, type PluginRegistryScope } from "../../plugin-registry.js";
+} from "../../../infra/parse-finite-number.ts";
+import { runGlobalGatewayStopSafely } from "../../../plugins/hook-runner-global.ts";
+import { defaultRuntime } from "../../../runtime.ts";
+import { runCommandWithRuntime } from "../../cli-utils.ts";
+import { createDefaultDeps } from "../../deps.ts";
+import { ensurePluginRegistryLoaded, type PluginRegistryScope } from "../../plugin-registry.ts";
 
 /** Shared helpers used by every message subcommand registration. */
 export type MessageCliHelpers = {

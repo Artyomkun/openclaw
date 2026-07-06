@@ -1,21 +1,21 @@
 // Setup completion helpers render completion instructions after onboarding.
 import os from "node:os";
 import path from "node:path";
-import { resolveCliName } from "../cli/cli-name.js";
+import { resolveCliName } from "../cli/cli-name.ts";
 import {
   formatCompletionReloadCommand,
   installCompletion,
   resolveCompletionProfilePath,
-} from "../cli/completion-runtime.js";
-import type { ShellCompletionStatus } from "../commands/doctor-completion.js";
+} from "../cli/completion-runtime.ts";
+import type { ShellCompletionStatus } from "../commands/doctor-completion.ts";
 import {
   checkShellCompletionStatus,
   ensureCompletionCacheExists,
-} from "../commands/doctor-completion.js";
-import { pathExists } from "../utils.js";
-import { t } from "./i18n/index.js";
-import type { WizardPrompter } from "./prompts.js";
-import type { WizardFlow } from "./setup.types.js";
+} from "../commands/doctor-completion.ts";
+import { pathExists } from "../utils.ts";
+import { t } from "./i18n/index.ts";
+import type { WizardPrompter } from "./prompts.ts";
+import type { WizardFlow } from "./setup.types.ts";
 
 type CompletionDeps = {
   resolveCliName: () => string;

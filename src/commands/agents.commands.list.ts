@@ -1,21 +1,21 @@
 // Implements `openclaw agents list` text and JSON summaries.
-import { formatCliCommand } from "../cli/command-format.js";
-import { listRouteBindings } from "../config/bindings.js";
-import type { AgentRouteBinding } from "../config/types.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { shortenHomePath } from "../utils.js";
-import { describeBinding } from "./agents.bindings.js";
-import { requireValidConfig } from "./agents.command-shared.js";
-import type { AgentSummary } from "./agents.config.js";
-import { buildAgentSummaries } from "./agents.config.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { listRouteBindings } from "../config/bindings.ts";
+import type { AgentRouteBinding } from "../config/types.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { shortenHomePath } from "../utils.ts";
+import { describeBinding } from "./agents.bindings.ts";
+import { requireValidConfig } from "./agents.command-shared.ts";
+import type { AgentSummary } from "./agents.config.ts";
+import { buildAgentSummaries } from "./agents.config.ts";
 import {
   buildProviderStatusIndex,
   buildProviderSummaryMetadataIndex,
   listProvidersForAgent,
   summarizeBindings,
-} from "./agents.providers.js";
+} from "./agents.providers.ts";
 
 type AgentsListOptions = {
   json?: boolean;

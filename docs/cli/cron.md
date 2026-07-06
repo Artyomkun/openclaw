@@ -53,7 +53,7 @@ openclaw cron create "*/15 * * * *" \
   --to "-1001234567890"
 ```
 
-`--command <shell>` stores `argv: ["sh", "-lc", <shell>]`. Use `--command-argv '["node","scripts/report.mjs"]'` for exact argv execution. Command jobs capture stdout/stderr, record normal cron history, and route output through the same `announce`, `webhook`, or `none` delivery modes as isolated jobs. A command that prints only `NO_REPLY` is suppressed.
+`--command <shell>` stores `argv: ["sh", "-lc", <shell>]`. Use `--command-argv '["node","scripts/report.ts"]'` for exact argv execution. Command jobs capture stdout/stderr, record normal cron history, and route output through the same `announce`, `webhook`, or `none` delivery modes as isolated jobs. A command that prints only `NO_REPLY` is suppressed.
 
 ## Sessions
 
@@ -284,7 +284,7 @@ Create a command job with exact argv, cwd, env, stdin, and output limits:
 ```bash
 openclaw cron create "*/30 * * * *" \
   --name "Position export" \
-  --command-argv '["node","scripts/export-position.mjs"]' \
+  --command-argv '["node","scripts/export-position.ts"]' \
   --command-cwd "/srv/app" \
   --command-env "NODE_ENV=production" \
   --command-input '{"mode":"summary"}' \

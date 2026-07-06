@@ -7,7 +7,7 @@ import {
   validateExecApprovalsNodeGetParams,
   validateExecApprovalsNodeSetParams,
   validateExecApprovalsSetParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   ensureExecApprovals,
   mergeExecApprovalsSocketDefaults,
@@ -16,15 +16,15 @@ import {
   saveExecApprovals,
   type ExecApprovalsFile,
   type ExecApprovalsSnapshot,
-} from "../../infra/exec-approvals.js";
-import { resolveBaseHashParam } from "./base-hash.js";
+} from "../../infra/exec-approvals.ts";
+import { resolveBaseHashParam } from "./base-hash.ts";
 import {
   respondUnavailableOnNodeInvokeError,
   respondUnavailableOnThrow,
   safeParseJson,
-} from "./nodes.helpers.js";
-import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.js";
-import { assertValidParams, type Validator } from "./validation.js";
+} from "./nodes.helpers.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.ts";
+import { assertValidParams, type Validator } from "./validation.ts";
 
 function requireApprovalsBaseHash(
   params: unknown,

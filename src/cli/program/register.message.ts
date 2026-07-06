@@ -1,26 +1,26 @@
 // Message command registration: core send/read/manage actions plus channel-specific admin helpers.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { formatHelpExamples } from "../help-format.js";
-import type { ProgramContext } from "./context.js";
-import { createMessageCliHelpers } from "./message/helpers.js";
-import { registerMessageBroadcastCommand } from "./message/register.broadcast.js";
-import { registerMessageDiscordAdminCommands } from "./message/register.discord-admin.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { formatHelpExamples } from "../help-format.ts";
+import type { ProgramContext } from "./context.ts";
+import { createMessageCliHelpers } from "./message/helpers.ts";
+import { registerMessageBroadcastCommand } from "./message/register.broadcast.ts";
+import { registerMessageDiscordAdminCommands } from "./message/register.discord-admin.ts";
 import {
   registerMessageEmojiCommands,
   registerMessageStickerCommands,
-} from "./message/register.emoji-sticker.js";
+} from "./message/register.emoji-sticker.ts";
 import {
   registerMessagePermissionsCommand,
   registerMessageSearchCommand,
-} from "./message/register.permissions-search.js";
-import { registerMessagePinCommands } from "./message/register.pins.js";
-import { registerMessagePollCommand } from "./message/register.poll.js";
-import { registerMessageReactionsCommands } from "./message/register.reactions.js";
-import { registerMessageReadEditDeleteCommands } from "./message/register.read-edit-delete.js";
-import { registerMessageSendCommand } from "./message/register.send.js";
-import { registerMessageThreadCommands } from "./message/register.thread.js";
+} from "./message/register.permissions-search.ts";
+import { registerMessagePinCommands } from "./message/register.pins.ts";
+import { registerMessagePollCommand } from "./message/register.poll.ts";
+import { registerMessageReactionsCommands } from "./message/register.reactions.ts";
+import { registerMessageReadEditDeleteCommands } from "./message/register.read-edit-delete.ts";
+import { registerMessageSendCommand } from "./message/register.send.ts";
+import { registerMessageThreadCommands } from "./message/register.thread.ts";
 
 /** Register the `message` command group with shared channel option helpers. */
 export function registerMessageCommands(program: Command, ctx: ProgramContext) {

@@ -8,20 +8,20 @@ import {
   normalizeProviderId,
 } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
-import { normalizeAuthProfileCredential } from "./credential-normalize.js";
-import { dedupeProfileIds, listProfilesForProvider } from "./profile-list.js";
+import { resolveProviderIdForAuth } from "../provider-auth-aliases.ts";
+import { normalizeAuthProfileCredential } from "./credential-normalize.ts";
+import { dedupeProfileIds, listProfilesForProvider } from "./profile-list.ts";
 import {
   ensureAuthProfileStoreForLocalUpdate,
   saveAuthProfileStore,
   updateAuthProfileStoreWithLock,
-} from "./store.js";
-import type { AuthProfileCredential, AuthProfileStore, ProfileUsageStats } from "./types.js";
+} from "./store.ts";
+import type { AuthProfileCredential, AuthProfileStore, ProfileUsageStats } from "./types.ts";
 export {
   dedupeProfileIds,
   listProfilesForProvider,
   resolveSubscriptionAuthModeForProfiles,
-} from "./profile-list.js";
+} from "./profile-list.ts";
 
 // Auth profile order/lastGood keys may be stored as aliases. Resolve through
 // auth provider normalization before updating per-provider state.

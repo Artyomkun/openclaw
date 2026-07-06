@@ -12,28 +12,28 @@ import {
   isReasoningReplyPayload,
   resolveSendableOutboundReplyParts,
 } from "openclaw/plugin-sdk/reply-payload";
-import { normalizeOptionalAgentRuntimeId } from "../agents/agent-runtime-id.js";
+import { normalizeOptionalAgentRuntimeId } from "../agents/agent-runtime-id.ts";
 import {
   listAgentIds,
   resolveAgentConfig,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
-import { appendCronStyleCurrentTimeLine } from "../agents/current-time.js";
-import { resolveEmbeddedSessionLane } from "../agents/embedded-agent-runner/lanes.js";
-import { listActiveEmbeddedRunSessionKeys } from "../agents/embedded-agent-runner/run-state.js";
-import { formatReasoningMessage } from "../agents/embedded-agent-utils.js";
-import { resolveAgentHarnessPolicy } from "../agents/harness/policy.js";
-import { resolveModelRefFromString, type ModelRef } from "../agents/model-selection.js";
-import { resolvePersistedSessionRuntimeId } from "../agents/session-runtime-compat.js";
-import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.js";
-import { DEFAULT_HEARTBEAT_FILENAME } from "../agents/workspace.js";
-import { resolveHeartbeatReplyPayload } from "../auto-reply/heartbeat-reply-payload.js";
+} from "../agents/agent-scope.ts";
+import { appendCronStyleCurrentTimeLine } from "../agents/current-time.ts";
+import { resolveEmbeddedSessionLane } from "../agents/embedded-agent-runner/lanes.ts";
+import { listActiveEmbeddedRunSessionKeys } from "../agents/embedded-agent-runner/run-state.ts";
+import { formatReasoningMessage } from "../agents/embedded-agent-utils.ts";
+import { resolveAgentHarnessPolicy } from "../agents/harness/policy.ts";
+import { resolveModelRefFromString, type ModelRef } from "../agents/model-selection.ts";
+import { resolvePersistedSessionRuntimeId } from "../agents/session-runtime-compat.ts";
+import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.ts";
+import { DEFAULT_HEARTBEAT_FILENAME } from "../agents/workspace.ts";
+import { resolveHeartbeatReplyPayload } from "../auto-reply/heartbeat-reply-payload.ts";
 import {
   getHeartbeatToolNotificationText,
   resolveHeartbeatToolResponseFromReplyResult,
   type HeartbeatToolResponse,
-} from "../auto-reply/heartbeat-tool-response.js";
+} from "../auto-reply/heartbeat-tool-response.ts";
 import {
   DEFAULT_HEARTBEAT_ACK_MAX_CHARS,
   isHeartbeatContentEffectivelyEmpty,
@@ -43,93 +43,93 @@ import {
   resolveHeartbeatPromptForResponseTool,
   stripHeartbeatToken,
   type HeartbeatTask,
-} from "../auto-reply/heartbeat.js";
-import { replaceGenericExternalRunFailureText } from "../auto-reply/reply/agent-runner-failure-copy.js";
-import { resolveDefaultModel } from "../auto-reply/reply/directive-handling.defaults.js";
+} from "../auto-reply/heartbeat.ts";
+import { replaceGenericExternalRunFailureText } from "../auto-reply/reply/agent-runner-failure-copy.ts";
+import { resolveDefaultModel } from "../auto-reply/reply/directive-handling.defaults.ts";
 import {
   REPLY_OPERATION_RUN_STATE,
   type ReplyOperationRunState,
-} from "../auto-reply/reply/reply-operation-run-state.js";
+} from "../auto-reply/reply/reply-operation-run-state.ts";
 import {
   listActiveReplyRunSessionKeys,
   replyRunRegistry,
-} from "../auto-reply/reply/reply-run-registry.js";
-import { resolveResponsePrefixTemplate } from "../auto-reply/reply/response-prefix-template.js";
-import { HEARTBEAT_TOKEN } from "../auto-reply/tokens.js";
-import type { ReplyPayload } from "../auto-reply/types.js";
-import { normalizeChatType, type ChatType } from "../channels/chat-type.js";
-import { sendDurableMessageBatch } from "../channels/message/runtime.js";
-import { getChannelPlugin } from "../channels/plugins/index.js";
+} from "../auto-reply/reply/reply-run-registry.ts";
+import { resolveResponsePrefixTemplate } from "../auto-reply/reply/response-prefix-template.ts";
+import { HEARTBEAT_TOKEN } from "../auto-reply/tokens.ts";
+import type { ReplyPayload } from "../auto-reply/types.ts";
+import { normalizeChatType, type ChatType } from "../channels/chat-type.ts";
+import { sendDurableMessageBatch } from "../channels/message/runtime.ts";
+import { getChannelPlugin } from "../channels/plugins/index.ts";
 import type {
   ChannelHeartbeatDeps,
   ChannelId,
   ChannelPlugin,
-} from "../channels/plugins/types.public.js";
-import { createReplyPrefixContext } from "../channels/reply-prefix.js";
+} from "../channels/plugins/types.public.ts";
+import { createReplyPrefixContext } from "../channels/reply-prefix.ts";
 import {
   listDueCommitmentsForSession,
   listDueCommitmentSessionKeys,
   markCommitmentsAttempted,
   markCommitmentsStatus,
-} from "../commitments/store.js";
-import type { CommitmentRecord } from "../commitments/types.js";
-import { getRuntimeConfig } from "../config/config.js";
+} from "../commitments/store.ts";
+import type { CommitmentRecord } from "../commitments/types.ts";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   canonicalizeMainSessionAlias,
   resolveAgentMainSessionKey,
-} from "../config/sessions/main-session.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
+} from "../config/sessions/main-session.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
 import {
   applySessionEntryLifecycleMutation,
   type SessionEntryLifecycleRemoval,
-} from "../config/sessions/session-accessor.js";
-import { loadSessionStore } from "../config/sessions/store-load.js";
-import { updateSessionStore } from "../config/sessions/store.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { hasActiveCronJobs } from "../cron/active-jobs.js";
-import { resolveCronSession } from "../cron/isolated-agent/session.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { getActivePluginChannelRegistry } from "../plugins/runtime.js";
+} from "../config/sessions/session-accessor.ts";
+import { loadSessionStore } from "../config/sessions/store-load.ts";
+import { updateSessionStore } from "../config/sessions/store.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { AgentDefaultsConfig } from "../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { hasActiveCronJobs } from "../cron/active-jobs.ts";
+import { resolveCronSession } from "../cron/isolated-agent/session.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { getActivePluginChannelRegistry } from "../plugins/runtime.ts";
 import {
   getCommandLaneSnapshots,
   getQueueSize,
   type CommandLaneSnapshot,
-} from "../process/command-queue.js";
-import { CommandLane } from "../process/lanes.js";
+} from "../process/command-queue.ts";
+import { CommandLane } from "../process/lanes.ts";
 import {
   isSubagentSessionKey,
   normalizeAgentId,
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
   toAgentStoreSessionKey,
-} from "../routing/session-key.js";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
-import { escapeRegExp } from "../utils.js";
-import { MAX_SAFE_TIMEOUT_DELAY_MS, resolveSafeTimeoutDelayMs } from "../utils/timer-delay.js";
-import { loadOrCreateDeviceIdentity } from "./device-identity.js";
-import { formatErrorMessage, hasErrnoCode } from "./errors.js";
-import { resolveMainScopedEventSessionKey } from "./event-session-routing.js";
-import { isWithinActiveHours, resolveActiveHoursTimezone } from "./heartbeat-active-hours.js";
-import { recordRunStart, shouldDeferWake, type DeferDecision } from "./heartbeat-cooldown.js";
+} from "../routing/session-key.ts";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+import { escapeRegExp } from "../utils.ts";
+import { MAX_SAFE_TIMEOUT_DELAY_MS, resolveSafeTimeoutDelayMs } from "../utils/timer-delay.ts";
+import { loadOrCreateDeviceIdentity } from "./device-identity.ts";
+import { formatErrorMessage, hasErrnoCode } from "./errors.ts";
+import { resolveMainScopedEventSessionKey } from "./event-session-routing.ts";
+import { isWithinActiveHours, resolveActiveHoursTimezone } from "./heartbeat-active-hours.ts";
+import { recordRunStart, shouldDeferWake, type DeferDecision } from "./heartbeat-cooldown.ts";
 import {
   buildCronEventPrompt,
   buildExecEventPrompt,
   isCronSystemEvent,
   isExecCompletionEvent,
   isRelayableExecCompletionEvent,
-} from "./heartbeat-events-filter.js";
-import { emitHeartbeatEvent, resolveIndicatorType } from "./heartbeat-events.js";
+} from "./heartbeat-events-filter.ts";
+import { emitHeartbeatEvent, resolveIndicatorType } from "./heartbeat-events.ts";
 import {
   computeNextHeartbeatPhaseDueMs,
   resolveHeartbeatPhaseMs,
   resolveNextHeartbeatDueMs,
   seekNextActivePhaseDueMs,
-} from "./heartbeat-schedule.js";
-import { isHeartbeatEnabledForAgent, resolveHeartbeatIntervalMs } from "./heartbeat-summary.js";
-import { createHeartbeatTypingCallbacks } from "./heartbeat-typing.js";
-import { resolveHeartbeatVisibility } from "./heartbeat-visibility.js";
+} from "./heartbeat-schedule.ts";
+import { isHeartbeatEnabledForAgent, resolveHeartbeatIntervalMs } from "./heartbeat-summary.ts";
+import { createHeartbeatTypingCallbacks } from "./heartbeat-typing.ts";
+import { resolveHeartbeatVisibility } from "./heartbeat-visibility.ts";
 import {
   areHeartbeatsEnabled,
   HEARTBEAT_SKIP_CRON_IN_PROGRESS,
@@ -144,19 +144,19 @@ import {
   requestHeartbeat,
   setHeartbeatsEnabled,
   setHeartbeatWakeHandler,
-} from "./heartbeat-wake.js";
-import type { OutboundSendDeps } from "./outbound/deliver.js";
-import { buildOutboundSessionContext } from "./outbound/session-context.js";
+} from "./heartbeat-wake.ts";
+import type { OutboundSendDeps } from "./outbound/deliver.ts";
+import { buildOutboundSessionContext } from "./outbound/session-context.ts";
 import {
   resolveHeartbeatDeliveryTargetWithSessionRoute,
   resolveHeartbeatSenderContext,
-} from "./outbound/targets.js";
+} from "./outbound/targets.ts";
 import {
   consumeSelectedSystemEventEntries,
   peekSystemEventEntries,
   resolveSystemEventDeliveryContext,
   type SystemEvent,
-} from "./system-events.js";
+} from "./system-events.ts";
 
 export type HeartbeatDeps = OutboundSendDeps &
   ChannelHeartbeatDeps & {
@@ -290,7 +290,7 @@ export {
   resolveHeartbeatIntervalMs,
   resolveHeartbeatSummaryForAgent,
   type HeartbeatSummary,
-} from "./heartbeat-summary.js";
+} from "./heartbeat-summary.ts";
 
 type HeartbeatConfig = AgentDefaultsConfig["heartbeat"];
 type HeartbeatAgent = {
@@ -769,7 +769,7 @@ function resolveHeartbeatReasoningPayloads(
   for (const payload of payloads) {
     const text = typeof payload.text === "string" ? payload.text : "";
     // Shared classifier keeps this lane in lockstep with the heartbeat reply
-    // selector so a legacy-formatted reasoning payload is never both skipped
+    // selector so a olders-formatted reasoning payload is never both skipped
     // here and surfaced as the visible reply (or vice versa). See #92242.
     if (!isReasoningReplyPayload(payload)) {
       continue;

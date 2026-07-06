@@ -1,25 +1,25 @@
 /** Resolves isolated cron delivery requests into concrete outbound targets. */
 import { normalizeOptionalThreadValue } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveExplicitDeliveryTargetCompat } from "../../channels/plugins/target-parsing-loaded.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import { resolveAgentMainSessionKey } from "../../config/sessions/main-session.js";
-import { resolveStorePath } from "../../config/sessions/paths.js";
-import { loadSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { stripTargetProviderPrefix } from "../../infra/outbound/channel-target-prefix.js";
-import type { OutboundSessionRoute } from "../../infra/outbound/outbound-session.js";
-import { isReservedTargetLiteralError } from "../../infra/outbound/target-errors.js";
-import type { ResolvedMessagingTarget } from "../../infra/outbound/target-resolver.js";
-import { tryResolveLoadedOutboundTarget } from "../../infra/outbound/targets-loaded.js";
-import { resolveSessionDeliveryTarget } from "../../infra/outbound/targets-session.js";
-import type { OutboundChannel } from "../../infra/outbound/targets.js";
-import { normalizeAccountId } from "../../routing/session-key.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveCronStoredDeliveryContext } from "../delivery-context.js";
-import { resolveCronAgentSessionKey } from "./session-key.js";
+import { resolveExplicitDeliveryTargetCompat } from "../../channels/plugins/target-parsing-loaded.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import { resolveAgentMainSessionKey } from "../../config/sessions/main-session.ts";
+import { resolveStorePath } from "../../config/sessions/paths.ts";
+import { loadSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { stripTargetProviderPrefix } from "../../infra/outbound/channel-target-prefix.ts";
+import type { OutboundSessionRoute } from "../../infra/outbound/outbound-session.ts";
+import { isReservedTargetLiteralError } from "../../infra/outbound/target-errors.ts";
+import type { ResolvedMessagingTarget } from "../../infra/outbound/target-resolver.ts";
+import { tryResolveLoadedOutboundTarget } from "../../infra/outbound/targets-loaded.ts";
+import { resolveSessionDeliveryTarget } from "../../infra/outbound/targets-session.ts";
+import type { OutboundChannel } from "../../infra/outbound/targets.ts";
+import { normalizeAccountId } from "../../routing/session-key.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveCronStoredDeliveryContext } from "../delivery-context.ts";
+import { resolveCronAgentSessionKey } from "./session-key.ts";
 
 /** Result of resolving a cron job delivery request into a sendable outbound channel target. */
 export type DeliveryTargetResolution =

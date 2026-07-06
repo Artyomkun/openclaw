@@ -3,8 +3,8 @@
  *
  * Combines account-scoped channel media limits with agent default limits.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeAccountId } from "../../routing/session-key.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeAccountId } from "../../routing/session-key.ts";
 
 const MB = 1024 * 1024;
 

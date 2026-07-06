@@ -70,7 +70,7 @@ type VolatileFilterPlan = {
  * because it is a live-mutation target.
  *
  * Rules:
- *   - `{stateDir}/sessions/**`/`*.{jsonl,log}` (legacy)
+ *   - `{stateDir}/sessions/**`/`*.{jsonl,log}`
  *   - `{stateDir}/agents/<agentId>/sessions/**`/`*.{jsonl,log}`
  *   - `{stateDir}/cron/runs/**`/`*.{jsonl,log}`
  *   - `{stateDir}/logs/**`/`*.{jsonl,log}`

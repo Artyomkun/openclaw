@@ -1,7 +1,7 @@
 // Image input normalization converts HEIC/HEIF payloads through the shared
 // input-file media path before provider execution.
-import { extractImageContentFromSource, normalizeMimeType } from "../media/input-files.js";
-import { DEFAULT_MAX_BYTES } from "./defaults.constants.js";
+import { extractImageContentFromSource, normalizeMimeType } from "../media/input-files.ts";
+import { DEFAULT_MAX_BYTES } from "./defaults.constants.ts";
 
 const HEIC_MIME_RE = /^image\/hei[cf]$/i;
 const HEIC_EXT_RE = /\.(heic|heif)$/i;

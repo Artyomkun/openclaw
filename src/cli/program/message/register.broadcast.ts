@@ -1,7 +1,7 @@
 // Message broadcast command registration for multi-target outbound sends.
 import type { Command } from "commander";
-import { CHANNEL_TARGETS_DESCRIPTION } from "../../../infra/outbound/channel-target.js";
-import type { MessageCliHelpers } from "./helpers.js";
+import { CHANNEL_TARGETS_DESCRIPTION } from "../../../infra/outbound/channel-target.ts";
+import type { MessageCliHelpers } from "./helpers.ts";
 
 /** Register `message broadcast` for sending one payload to multiple channel targets. */
 export function registerMessageBroadcastCommand(message: Command, helpers: MessageCliHelpers) {

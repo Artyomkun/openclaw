@@ -1,22 +1,22 @@
 /** Discovers agent runtime credentials from auth profiles, env, and synthetic providers. */
-import { resolveProviderSyntheticAuthWithPlugin } from "../plugins/provider-runtime.js";
-import { resolveRuntimeSyntheticAuthProviderRefs } from "../plugins/synthetic-auth.runtime.js";
+import { resolveProviderSyntheticAuthWithPlugin } from "../plugins/provider-runtime.ts";
+import { resolveRuntimeSyntheticAuthProviderRefs } from "../plugins/synthetic-auth.runtime.ts";
 import {
   resolveAgentCredentialMapFromStore,
   type AgentCredentialMap,
-} from "./agent-auth-credentials.js";
+} from "./agent-auth-credentials.ts";
 import {
   addEnvBackedAgentCredentials,
   type AgentDiscoveryAuthLookupOptions,
-} from "./agent-auth-discovery-core.js";
-import type { ExternalCliAuthDiscovery } from "./auth-profiles/external-cli-discovery.js";
+} from "./agent-auth-discovery-core.ts";
+import type { ExternalCliAuthDiscovery } from "./auth-profiles/external-cli-discovery.ts";
 import {
   ensureAuthProfileStore,
   ensureAuthProfileStoreWithoutExternalProfiles,
   loadAuthProfileStoreWithoutExternalProfiles,
   loadAuthProfileStoreForRuntime,
   loadAuthProfileStoreForSecretsRuntime,
-} from "./auth-profiles/store.js";
+} from "./auth-profiles/store.ts";
 
 /** Options for discovering credentials without prompting for secret material. */
 export type DiscoverAuthStorageOptions = {
@@ -87,4 +87,4 @@ export function resolveAgentCredentialsForDiscovery(
   return credentials;
 }
 
-export { addEnvBackedAgentCredentials } from "./agent-auth-discovery-core.js";
+export { addEnvBackedAgentCredentials } from "./agent-auth-discovery-core.ts";

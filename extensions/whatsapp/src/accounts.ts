@@ -17,7 +17,7 @@ import {
   resolveDefaultWhatsAppAccountId,
 } from "./account-ids.js";
 import type { WhatsAppAccountConfig } from "./account-types.js";
-import { hasWebCredsRegularFileSync, hasWebCredsSync } from "./creds-files.js";
+import hasWebCredsSync from "./creds-files.js";
 
 export { listWhatsAppAccountIds, resolveDefaultWhatsAppAccountId } from "./account-ids.js";
 
@@ -29,7 +29,6 @@ export type ResolvedWhatsAppAccount = {
   messagePrefix?: string;
   defaultTo?: string;
   authDir: string;
-  isLegacyAuthDir: boolean;
   selfChatMode?: boolean;
   allowFrom?: string[];
   groupAllowFrom?: string[];
@@ -84,35 +83,19 @@ function resolveDefaultAuthDir(accountId: string): string {
   return path.join(resolveOAuthDir(), "whatsapp", normalizeAccountId(accountId));
 }
 
-function resolveLegacyAuthDir(): string {
-  // Legacy Baileys creds lived in the same directory as OAuth tokens.
-  return resolveOAuthDir();
-}
-
-function legacyAuthExists(authDir: string): boolean {
-  return hasWebCredsRegularFileSync(authDir);
-}
-
 export function resolveWhatsAppAuthDir(params: { cfg: OpenClawConfig; accountId: string }): {
   authDir: string;
-  isLegacy: boolean;
 } {
   const accountId = params.accountId.trim() || DEFAULT_ACCOUNT_ID;
   const account = resolveMergedWhatsAppAccountConfig({ cfg: params.cfg, accountId });
   const configured = account?.authDir?.trim();
   if (configured) {
-    return { authDir: resolveUserPath(configured), isLegacy: false };
+    return { authDir: resolveUserPath(configured)};
   }
 
   const defaultDir = resolveDefaultAuthDir(accountId);
-  if (accountId === DEFAULT_ACCOUNT_ID) {
-    const legacyDir = resolveLegacyAuthDir();
-    if (legacyAuthExists(legacyDir) && !legacyAuthExists(defaultDir)) {
-      return { authDir: legacyDir, isLegacy: true };
-    }
-  }
 
-  return { authDir: defaultDir, isLegacy: false };
+  return { authDir: defaultDir};
 }
 
 export function resolveWhatsAppAccount(params: {
@@ -125,7 +108,7 @@ export function resolveWhatsAppAccount(params: {
   });
   const accountId = merged.accountId;
   const enabled = merged.enabled !== false;
-  const { authDir, isLegacy } = resolveWhatsAppAuthDir({
+  const authDir = resolveWhatsAppAuthDir({
     cfg: params.cfg,
     accountId,
   });
@@ -137,7 +120,6 @@ export function resolveWhatsAppAccount(params: {
     messagePrefix: merged.messagePrefix ?? params.cfg.messages?.messagePrefix,
     defaultTo: merged.defaultTo,
     authDir,
-    isLegacyAuthDir: isLegacy,
     selfChatMode: merged.selfChatMode,
     dmPolicy: merged.dmPolicy,
     allowFrom: merged.allowFrom,

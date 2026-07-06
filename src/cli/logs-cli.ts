@@ -5,27 +5,27 @@ import type { Command } from "commander";
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { readConnectPairingRequiredMessage } from "../../packages/gateway-protocol/src/connect-error-details.js";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { clearActiveProgressLine } from "../../packages/terminal-core/src/progress-line.js";
-import { createSafeStreamWriter } from "../../packages/terminal-core/src/stream-writer.js";
-import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { readConnectPairingRequiredMessage } from "../../packages/gateway-protocol/src/connect-error-details.ts";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { clearActiveProgressLine } from "../../packages/terminal-core/src/progress-line.ts";
+import { createSafeStreamWriter } from "../../packages/terminal-core/src/stream-writer.ts";
+import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   buildGatewayConnectionDetails,
   isGatewayTransportError,
   type GatewayConnectionDetails,
-} from "../gateway/call.js";
-import { isLoopbackHost } from "../gateway/net.js";
-import { computeBackoff } from "../infra/backoff.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { readConfiguredLogTail } from "../logging/log-tail.js";
-import { parseLogLine } from "../logging/parse-log-line.js";
-import { redactSensitiveLines, resolveRedactOptions } from "../logging/redact.js";
-import { formatTimestamp } from "../logging/timestamps.js";
-import { formatCliCommand } from "./command-format.js";
-import { addGatewayClientOptions, callGatewayFromCli } from "./gateway-rpc.js";
+} from "../gateway/call.ts";
+import { isLoopbackHost } from "../gateway/net.ts";
+import { computeBackoff } from "../infra/backoff.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { readConfiguredLogTail } from "../logging/log-tail.ts";
+import { parseLogLine } from "../logging/parse-log-line.ts";
+import { redactSensitiveLines, resolveRedactOptions } from "../logging/redact.ts";
+import { formatTimestamp } from "../logging/timestamps.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { addGatewayClientOptions, callGatewayFromCli } from "./gateway-rpc.ts";
 
 type LogsTailPayload = {
   file?: string;

@@ -4,16 +4,16 @@
  * Model providers can reject unsupported schema shapes, so runtime projection
  * reports quarantined tools with trusted diagnostics before the model call.
  */
-import { emitTrustedDiagnosticEvent } from "../infra/diagnostic-events.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { getPluginToolMeta } from "../plugins/tools.js";
-import type { RuntimeToolSchemaDiagnostic } from "./tool-schema-projection.js";
+import { emitTrustedDiagnosticEvent } from "../infra/diagnostic-events.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { getPluginToolMeta } from "../plugins/tools.ts";
+import type { RuntimeToolSchemaDiagnostic } from "./tool-schema-projection.ts";
 import {
   clearRecoveredPersistedRuntimeToolSchemaQuarantines,
   recordPersistedRuntimeToolSchemaQuarantine,
   type RuntimeToolSchemaQuarantineIdentity,
-} from "./tool-schema-quarantine-health.js";
-import type { AnyAgentTool } from "./tools/common.js";
+} from "./tool-schema-quarantine-health.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 const log = createSubsystemLogger("agents/tools");
 

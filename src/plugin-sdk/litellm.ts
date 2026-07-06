@@ -1,6 +1,6 @@
 // Manual facade. Keep loader boundary explicit.
-import type { ModelDefinitionConfig, OpenClawConfig } from "../config/types.js";
-import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
+import type { ModelDefinitionConfig, OpenClawConfig } from "../config/types.ts";
+import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.ts";
 
 type FacadeModule = {
   applyLitellmConfig: (cfg: OpenClawConfig) => OpenClawConfig;

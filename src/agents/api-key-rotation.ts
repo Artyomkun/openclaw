@@ -4,16 +4,16 @@
  * same-key transient retries separate from key rotation.
  */
 import { normalizeUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { sleepWithAbort } from "../infra/backoff.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import { sleepWithAbort } from "../infra/backoff.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   resolveTransientProviderAttempts,
   resolveTransientProviderDelayMs,
   resolveTransientProviderRetryOptions,
   shouldRetrySameKeyProviderOperation,
   type TransientProviderRetryConfig,
-} from "../provider-runtime/operation-retry.js";
-import { collectProviderApiKeys, isApiKeyRateLimitError } from "./live-auth-keys.js";
+} from "../provider-runtime/operation-retry.ts";
+import { collectProviderApiKeys, isApiKeyRateLimitError } from "./live-auth-keys.ts";
 
 type ApiKeyRetryParams = {
   apiKey: string;

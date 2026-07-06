@@ -5,8 +5,8 @@ export {
   buildCommandsMessage,
   buildCommandsMessagePaginated,
   buildHelpMessage,
-} from "../auto-reply/command-status-builders.js";
+} from "../auto-reply/command-status-builders.ts";
 export type {
   CommandsMessageOptions,
   CommandsMessageResult,
-} from "../auto-reply/command-status-builders.js";
+} from "../auto-reply/command-status-builders.ts";

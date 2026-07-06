@@ -10,4 +10,4 @@ export type {
   OAuthProviderInterface,
   OAuthSelectOption,
   OAuthSelectPrompt,
-} from "../../../plugin-sdk/provider-oauth-runtime.js";
+} from "../../../plugin-sdk/provider-oauth-runtime.ts";

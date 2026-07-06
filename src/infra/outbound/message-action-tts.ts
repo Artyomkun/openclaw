@@ -1,11 +1,11 @@
 // Message-action TTS helpers lazily apply session/config driven speech output
 // to send payloads without loading TTS providers for ordinary sends.
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import { resolveStorePath } from "../../config/sessions.js";
-import { loadSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { TtsAutoMode } from "../../config/types.tts.js";
-import { shouldAttemptTtsPayload } from "../../tts/tts-config.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import { resolveStorePath } from "../../config/sessions.ts";
+import { loadSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { TtsAutoMode } from "../../config/types.tts.ts";
+import { shouldAttemptTtsPayload } from "../../tts/tts-config.ts";
 
 let ttsRuntimePromise: Promise<typeof import("../../tts/tts.runtime.js")> | null = null;
 

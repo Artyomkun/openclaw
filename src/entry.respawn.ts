@@ -1,19 +1,19 @@
 // Respawns the CLI with adjusted process flags when startup requires it.
 import { spawn, type ChildProcess } from "node:child_process";
 import path from "node:path";
-import { resolveNodeStartupTlsEnvironment } from "./bootstrap/node-startup-env.js";
+import { resolveNodeStartupTlsEnvironment } from "./bootstrap/node-startup-env.ts";
 import {
   isTerminalInteractiveRespawnArgv,
   shouldSkipRespawnForArgv,
   shouldSkipStartupEnvironmentRespawnForArgv,
-} from "./cli/respawn-policy.js";
-import { normalizeWindowsArgv } from "./cli/windows-argv.js";
-import { isTruthyEnvValue } from "./infra/env.js";
-import { attachChildProcessBridge } from "./process/child-process-bridge.js";
+} from "./cli/respawn-policy.ts";
+import { normalizeWindowsArgv } from "./cli/windows-argv.ts";
+import { isTruthyEnvValue } from "./infra/env.ts";
+import { attachChildProcessBridge } from "./process/child-process-bridge.ts";
 import {
   runRespawnChildWithSignalBridge,
   type RespawnChildRuntime,
-} from "./process/respawn-child-runner.js";
+} from "./process/respawn-child-runner.ts";
 
 const EXPERIMENTAL_WARNING_FLAG = "--disable-warning=ExperimentalWarning";
 const OPENCLAW_NODE_OPTIONS_READY = "OPENCLAW_NODE_OPTIONS_READY";

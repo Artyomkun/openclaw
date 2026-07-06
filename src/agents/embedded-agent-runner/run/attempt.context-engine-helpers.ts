@@ -1,18 +1,18 @@
 /**
  * Bridges attempt bootstrap/history data to context-engine prompt-cache helpers.
  */
-import type { ContextEngine } from "../../../context-engine/types.js";
-import type { AssistantMessage } from "../../../llm/types.js";
-import type { BootstrapMode } from "../../bootstrap-mode.js";
-import type { AgentMessage } from "../../runtime/index.js";
-import { normalizeUsage, type NormalizedUsage } from "../../usage.js";
-import type { PromptCacheChange } from "../prompt-cache-observability.js";
-import type { EmbeddedRunAttemptResult } from "./types.js";
+import type { ContextEngine } from "../../../context-engine/types.ts";
+import type { AssistantMessage } from "../../../llm/types.ts";
+import type { BootstrapMode } from "../../bootstrap-mode.ts";
+import type { AgentMessage } from "../../runtime/index.ts";
+import { normalizeUsage, type NormalizedUsage } from "../../usage.ts";
+import type { PromptCacheChange } from "../prompt-cache-observability.ts";
+import type { EmbeddedRunAttemptResult } from "./types.ts";
 export {
   assembleHarnessContextEngine as assembleAttemptContextEngine,
   bootstrapHarnessContextEngine as runAttemptContextEngineBootstrap,
   finalizeHarnessContextEngineTurn as finalizeAttemptContextEngineTurn,
-} from "../../harness/context-engine-lifecycle.js";
+} from "../../harness/context-engine-lifecycle.ts";
 
 export type AttemptContextEngine = ContextEngine;
 

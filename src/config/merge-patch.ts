@@ -1,6 +1,6 @@
 // Applies JSON merge-patch updates to config-like objects.
-import { isPlainObject } from "../infra/plain-object.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
+import { isPlainObject } from "../infra/plain-object.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
 
 type PlainObject = Record<string, unknown>;
 

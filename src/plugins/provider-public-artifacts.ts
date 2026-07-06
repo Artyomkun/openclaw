@@ -1,19 +1,19 @@
 // Extracts provider public artifacts from plugin metadata.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import type { ModelProviderConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveBundledPluginsDir } from "./bundled-dir.js";
-import { loadPluginManifestRegistry, type PluginManifestRegistry } from "./manifest-registry.js";
+import type { ModelProviderConfig } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveBundledPluginsDir } from "./bundled-dir.ts";
+import { loadPluginManifestRegistry, type PluginManifestRegistry } from "./manifest-registry.ts";
 import type {
   ProviderApplyConfigDefaultsContext,
   ProviderNormalizeConfigContext,
   ProviderResolveConfigApiKeyContext,
-} from "./provider-config-context.types.js";
+} from "./provider-config-context.types.ts";
 import type {
   ProviderDefaultThinkingPolicyContext,
   ProviderThinkingProfile,
-} from "./provider-thinking.types.js";
-import { loadBundledPluginPublicArtifactModuleSync } from "./public-surface-loader.js";
+} from "./provider-thinking.types.ts";
+import { loadBundledPluginPublicArtifactModuleSync } from "./public-surface-loader.ts";
 
 const PROVIDER_POLICY_ARTIFACT_CANDIDATES = ["provider-policy-api.js"] as const;
 const providerPolicySurfaceByPluginId = new Map<string, BundledProviderPolicySurface | null>();

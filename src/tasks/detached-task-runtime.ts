@@ -1,19 +1,19 @@
 // Provides the runtime adapter for detached task execution.
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import type {
   DetachedTaskRecoveryAttemptParams,
   DetachedTaskRecoveryAttemptResult,
   DetachedTaskFinalizeParams,
   DetachedTaskLifecycleRuntime,
   DetachedTaskLifecycleRuntimeRegistration,
-} from "./detached-task-runtime-contract.js";
+} from "./detached-task-runtime-contract.ts";
 import {
   clearDetachedTaskLifecycleRuntimeRegistration,
   getDetachedTaskLifecycleRuntimeRegistration as getDetachedTaskLifecycleRuntimeRegistrationState,
   getRegisteredDetachedTaskLifecycleRuntime,
   registerDetachedTaskLifecycleRuntime,
-} from "./detached-task-runtime-state.js";
-import { cancelTaskById as cancelDetachedTaskRunByIdInCore } from "./runtime-internal.js";
+} from "./detached-task-runtime-state.ts";
+import { cancelTaskById as cancelDetachedTaskRunByIdInCore } from "./runtime-internal.ts";
 import {
   completeTaskRunByRunId as completeTaskRunByRunIdFromExecutor,
   createQueuedTaskRun as createQueuedTaskRunFromExecutor,
@@ -23,8 +23,8 @@ import {
   recordTaskRunProgressByRunId as recordTaskRunProgressByRunIdFromExecutor,
   setDetachedTaskDeliveryStatusByRunId as setDetachedTaskDeliveryStatusByRunIdFromExecutor,
   startTaskRunByRunId as startTaskRunByRunIdFromExecutor,
-} from "./task-executor.js";
-import type { TaskRecord } from "./task-registry.types.js";
+} from "./task-executor.ts";
+import type { TaskRecord } from "./task-registry.types.ts";
 
 const log = createSubsystemLogger("tasks/detached-runtime");
 const DETACHED_TASK_RECOVERY_WARN_MS = 5_000;

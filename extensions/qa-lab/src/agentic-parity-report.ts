@@ -24,7 +24,7 @@ export type QaParityReportScenario = {
  * that PR merges, older summaries only have `scenarios` + `counts`; the
  * parity report treats a missing `run` block as "unknown provenance" and
  * skips the label-match verification for backwards compatibility
- * with legacy summaries that predate the run metadata block.
+ * with older summaries that predate the run metadata block.
  */
 type QaParityRunBlock = {
   primaryProvider?: string;
@@ -351,8 +351,8 @@ function parseStructuredLabelRef(label: string): StructuredQaParityLabel | null 
  * Throws `QaParityLabelMismatchError` when the summary reports a different
  * provider/model than the caller claimed — this catches the "swapped
  * candidate and baseline summary paths" footgun the earlier adversarial
- * review flagged. Returns silently when the fields are absent (legacy
- * summaries) or when the fields match.
+ * review flagged. Returns silently when the fields are absent  or when the 
+ * fields match.
  */
 function verifySummaryLabelMatch(params: {
   summary: QaParitySuiteSummary;
@@ -424,7 +424,6 @@ export function buildQaAgenticParityComparison(params: {
   // Throws `QaParityLabelMismatchError` on mismatch so the release gate
   // fails loudly instead of silently producing a reversed verdict when an
   // operator swaps the --candidate-summary and --baseline-summary paths.
-  // Legacy summaries without a `run` block are accepted as-is.
   verifySummaryLabelMatch({
     summary: params.candidateSummary,
     label: params.candidateLabel,

@@ -1,8 +1,8 @@
 // Gateway MCP loopback JSON-RPC handlers.
 // Implements initialize, tools/list, tools/call, and notification handling.
 import crypto from "node:crypto";
-import { runBeforeToolCallHook, type HookContext } from "../agents/agent-tools.before-tool-call.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import { runBeforeToolCallHook, type HookContext } from "../agents/agent-tools.before-tool-call.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   MCP_LOOPBACK_SERVER_NAME,
   MCP_LOOPBACK_SERVER_VERSION,
@@ -10,12 +10,12 @@ import {
   jsonRpcError,
   jsonRpcResult,
   type JsonRpcRequest,
-} from "./mcp-http.protocol.js";
+} from "./mcp-http.protocol.ts";
 import {
   readMcpLoopbackToolName,
   type McpLoopbackTool,
   type McpToolSchemaEntry,
-} from "./mcp-http.schema.js";
+} from "./mcp-http.schema.ts";
 
 type McpTextContent = {
   type: "text";

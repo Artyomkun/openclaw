@@ -1,7 +1,7 @@
 // Gateway shared-auth generation enforcement.
 // Disconnects clients when config writes invalidate shared credentials.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveGatewayReloadSettings } from "./config-reload-settings.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveGatewayReloadSettings } from "./config-reload-settings.ts";
 
 /** Gateway client subset relevant to shared auth generation enforcement. */
 export type SharedGatewayAuthClient = {

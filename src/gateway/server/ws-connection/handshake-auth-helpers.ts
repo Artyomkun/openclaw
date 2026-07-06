@@ -3,20 +3,20 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import {
   GATEWAY_CLIENT_IDS,
   GATEWAY_CLIENT_MODES,
-} from "../../../../packages/gateway-protocol/src/client-info.js";
-import type { ConnectParams } from "../../../../packages/gateway-protocol/src/index.js";
-import { verifyDeviceSignature } from "../../../infra/device-identity.js";
-import type { AuthRateLimiter } from "../../auth-rate-limit.js";
-import type { GatewayAuthResult } from "../../auth.js";
-import { buildDeviceAuthPayload, buildDeviceAuthPayloadV3 } from "../../device-auth.js";
+} from "../../../../packages/gateway-protocol/src/client-info.ts";
+import type { ConnectParams } from "../../../../packages/gateway-protocol/src/index.ts";
+import { verifyDeviceSignature } from "../../../infra/device-identity.ts";
+import type { AuthRateLimiter } from "../../auth-rate-limit.ts";
+import type { GatewayAuthResult } from "../../auth.ts";
+import { buildDeviceAuthPayload, buildDeviceAuthPayloadV3 } from "../../device-auth.ts";
 import {
   isLoopbackAddress,
   isLoopbackHost,
   isPrivateOrLoopbackAddress,
   isPrivateOrLoopbackHost,
   resolveHostName,
-} from "../../net.js";
-import type { AuthProvidedKind } from "./auth-messages.js";
+} from "../../net.ts";
+import type { AuthProvidedKind } from "./auth-messages.ts";
 
 export const BROWSER_ORIGIN_LOOPBACK_RATE_LIMIT_IP = "198.18.0.1";
 export const BROWSER_ORIGIN_RATE_LIMIT_KEY_PREFIX = "browser-origin:";

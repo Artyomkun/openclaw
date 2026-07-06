@@ -10,20 +10,20 @@ import type {
   ChatCompletionMessageParam,
   ChatCompletionSystemMessageParam,
   ChatCompletionToolMessageParam,
-} from "openai/resources/chat/completions.js";
+} from "openai/resources/chat/completions.ts";
 import {
   projectOpenAITools,
   reconcileOpenAICompletionsToolChoice,
   type OpenAICompletionsToolChoice,
   type OpenAIToolProjection,
-} from "../../agents/openai-tool-projection.js";
+} from "../../agents/openai-tool-projection.ts";
 import {
   splitSystemPromptCacheBoundary,
   stripSystemPromptCacheBoundary,
-} from "../../agents/system-prompt-cache-boundary.js";
-import { createReasoningTagTextPartitioner } from "../../shared/text/reasoning-tag-text-partitioner.js";
-import { getEnvApiKey } from "../env-api-keys.js";
-import { calculateCost, clampThinkingLevel } from "../model-utils.js";
+} from "../../agents/system-prompt-cache-boundary.ts";
+import { createReasoningTagTextPartitioner } from "../../shared/text/reasoning-tag-text-partitioner.ts";
+import { getEnvApiKey } from "../env-api-keys.ts";
+import { calculateCost, clampThinkingLevel } from "../model-utils.ts";
 import type {
   AssistantMessage,
   CacheRetention,
@@ -40,18 +40,18 @@ import type {
   Tool,
   ToolCall,
   ToolResultMessage,
-} from "../types.js";
-import { AssistantMessageEventStream } from "../utils/event-stream.js";
-import { headersToRecord } from "../utils/headers.js";
-import { parseStreamingJson } from "../utils/json-parse.js";
-import { sanitizeSurrogates } from "../utils/sanitize-unicode.js";
-import { resolveCacheRetention } from "./cache-retention.js";
-import { isCloudflareProvider, resolveCloudflareBaseUrl } from "./cloudflare.js";
-import { buildCopilotDynamicHeaders, hasCopilotVisionInput } from "./github-copilot-headers.js";
-import { clampOpenAIPromptCacheKey } from "./openai-prompt-cache.js";
-import { mapOpenAIStopReason } from "./openai-stop-reason.js";
-import { buildBaseOptions } from "./simple-options.js";
-import { transformMessages } from "./transform-messages.js";
+} from "../types.ts";
+import { AssistantMessageEventStream } from "../utils/event-stream.ts";
+import { headersToRecord } from "../utils/headers.ts";
+import { parseStreamingJson } from "../utils/json-parse.ts";
+import { sanitizeSurrogates } from "../utils/sanitize-unicode.ts";
+import { resolveCacheRetention } from "./cache-retention.ts";
+import { isCloudflareProvider, resolveCloudflareBaseUrl } from "./cloudflare.ts";
+import { buildCopilotDynamicHeaders, hasCopilotVisionInput } from "./github-copilot-headers.ts";
+import { clampOpenAIPromptCacheKey } from "./openai-prompt-cache.ts";
+import { mapOpenAIStopReason } from "./openai-stop-reason.ts";
+import { buildBaseOptions } from "./simple-options.ts";
+import { transformMessages } from "./transform-messages.ts";
 
 /**
  * Check if conversation messages contain tool calls or tool results.

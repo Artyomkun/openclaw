@@ -1,8 +1,8 @@
 // Crestodian audit helpers append JSONL records for approved local-state changes.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import { appendRegularFile } from "../infra/fs-safe.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { appendRegularFile } from "../infra/fs-safe.ts";
 
 /**
  * Append-only audit log helpers for Crestodian writes.

@@ -1,5 +1,4 @@
-// Public plugin-state store contracts. Stores are keyed by plugin id and
-// namespace, persist JSON-compatible values, and enforce per-namespace limits.
+// Public plugin-state store contracts — Oracle + HTTP/3 ready
 export type PluginStateEntry<T> = {
   key: string;
   value: T;
@@ -48,7 +47,7 @@ export type OpenKeyedStoreOptions = {
 };
 
 export type PluginStateStoreErrorCode =
-  | "PLUGIN_STATE_SQLITE_UNAVAILABLE"
+  | "PLUGIN_STATE_ORACLE_UNAVAILABLE"
   | "PLUGIN_STATE_OPEN_FAILED"
   | "PLUGIN_STATE_WRITE_FAILED"
   | "PLUGIN_STATE_READ_FAILED"
@@ -57,7 +56,7 @@ export type PluginStateStoreErrorCode =
   | "PLUGIN_STATE_INVALID_INPUT";
 
 export type PluginStateStoreOperation =
-  | "load-sqlite"
+  | "load-oracle"
   | "open"
   | "ensure-schema"
   | "register"
@@ -77,7 +76,7 @@ export type PluginStateStoreErrorOptions = {
   cause?: unknown;
 };
 
-/** Typed error thrown for plugin-state validation and sqlite failures. */
+/** Typed error thrown for plugin-state validation and Oracle failures. */
 export class PluginStateStoreError extends Error {
   readonly code: PluginStateStoreErrorCode;
   readonly operation: PluginStateStoreOperation;

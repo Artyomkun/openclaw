@@ -65,9 +65,9 @@ export function formatMatrixQaCliCommand(args: string[]) {
 }
 
 export function resolveMatrixQaOpenClawCliEntryPath(cwd: string): string {
-  const mjsEntryPath = path.join(cwd, "dist", "index.mjs");
-  if (existsSync(mjsEntryPath)) {
-    return mjsEntryPath;
+  const tsEntryPath = path.join(cwd, "dist", "index.ts");
+  if (existsSync(tsEntryPath)) {
+    return tsEntryPath;
   }
   return path.join(cwd, "dist", "index.js");
 }

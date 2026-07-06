@@ -12,7 +12,7 @@
  * runtime channel metadata so catalog-only channels stay covered even when they
  * do not have a generated config metadata entry.
  */
-import { listBundledChannelCatalogEntries } from "../channels/bundled-channel-catalog-read.js";
+import { listBundledChannelCatalogEntries } from "../channels/bundled-channel-catalog-read.ts";
 
 const BUNDLED_CHAT_CHANNEL_ENTRIES = listBundledChannelCatalogEntries();
 
@@ -53,4 +53,4 @@ export const BUNDLED_CHAT_CHANNEL_ENVELOPE_PREFIXES = Object.freeze(
     return prefixes;
   })(),
 );
-export type { ChatChannelId } from "../channels/ids.js";
+export type { ChatChannelId } from "../channels/ids.ts";

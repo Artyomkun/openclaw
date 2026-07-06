@@ -194,27 +194,9 @@ function resolveZalouserInboundSessionKey(params: {
       identityLinks: params.config.session?.identityLinks,
     }),
   );
-  const legacySessionKey = normalizeLowercaseStringOrEmpty(
-    params.core.channel.routing.buildAgentSessionKey({
-      agentId: params.route.agentId,
-      channel: "zalouser",
-      accountId: params.route.accountId,
-      peer: { kind: "group", id: params.senderId },
-    }),
-  );
-  const hasDirectSession =
-    params.core.channel.session.readSessionUpdatedAt({
-      storePath: params.storePath,
-      sessionKey: directSessionKey,
-    }) !== undefined;
-  const hasLegacySession =
-    params.core.channel.session.readSessionUpdatedAt({
-      storePath: params.storePath,
-      sessionKey: legacySessionKey,
-    }) !== undefined;
 
   // Keep existing DM history on upgrade, but use canonical direct keys for new sessions.
-  return hasLegacySession && !hasDirectSession ? legacySessionKey : directSessionKey;
+  return directSessionKey;
 }
 
 function logVerbose(core: ZalouserCoreRuntime, runtime: RuntimeEnv, message: string): void {

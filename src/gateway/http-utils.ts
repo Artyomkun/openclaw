@@ -6,11 +6,11 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { listAgentIds, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { modelKey, parseModelRef, resolveDefaultModelForAgent } from "../agents/model-selection.js";
-import { createModelVisibilityPolicy } from "../agents/model-visibility-policy.js";
-import { getRuntimeConfig } from "../config/io.js";
-import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.js";
+import { listAgentIds, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { modelKey, parseModelRef, resolveDefaultModelForAgent } from "../agents/model-selection.ts";
+import { createModelVisibilityPolicy } from "../agents/model-visibility-policy.ts";
+import { getRuntimeConfig } from "../config/io.ts";
+import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.ts";
 import {
   buildAgentMainSessionKey,
   isAcpSessionKey,
@@ -18,10 +18,10 @@ import {
   isSubagentSessionKey,
   isValidAgentId,
   normalizeAgentId,
-} from "../routing/session-key.js";
-import { normalizeMessageChannel } from "../utils/message-channel.js";
-import { getHeader } from "./http-auth-utils.js";
-import { loadGatewayModelCatalog } from "./server-model-catalog.js";
+} from "../routing/session-key.ts";
+import { normalizeMessageChannel } from "../utils/message-channel.ts";
+import { getHeader } from "./http-auth-utils.ts";
+import { loadGatewayModelCatalog } from "./server-model-catalog.ts";
 
 export {
   authorizeOpenAiCompatibleHttpModelOverride,
@@ -39,7 +39,7 @@ export {
   resolveTrustedHttpOperatorScopes,
   type AuthorizedGatewayHttpRequest,
   type GatewayHttpRequestAuthCheckResult,
-} from "./http-auth-utils.js";
+} from "./http-auth-utils.ts";
 
 export const OPENCLAW_MODEL_ID = "openclaw";
 /** Default OpenAI-compatible model alias that targets the default OpenClaw agent. */

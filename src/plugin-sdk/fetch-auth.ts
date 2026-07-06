@@ -2,7 +2,7 @@
 import {
   normalizeHeadersInitForFetch,
   normalizeRequestInitHeadersForFetch,
-} from "../infra/fetch-headers.js";
+} from "../infra/fetch-headers.ts";
 
 /** Token source used by scoped bearer-auth fetch retries. */
 export type ScopeTokenProvider = {

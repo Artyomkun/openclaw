@@ -5,15 +5,15 @@ import path from "node:path";
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { resolveStateDir } from "../config/paths.js";
-import { loadDeviceAuthToken } from "../infra/device-auth-store.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { SystemPresence } from "../infra/system-presence.js";
-import { MAX_SAFE_TIMEOUT_DELAY_MS, resolveSafeTimeoutDelayMs } from "../utils/timer-delay.js";
-import { startGatewayClientWhenEventLoopReady } from "./client-start-readiness.js";
-import { GatewayClient, GatewayClientRequestError } from "./client.js";
-import { READ_SCOPE } from "./method-scopes.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import { loadDeviceAuthToken } from "../infra/device-auth-store.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { SystemPresence } from "../infra/system-presence.ts";
+import { MAX_SAFE_TIMEOUT_DELAY_MS, resolveSafeTimeoutDelayMs } from "../utils/timer-delay.ts";
+import { startGatewayClientWhenEventLoopReady } from "./client-start-readiness.ts";
+import { GatewayClient, GatewayClientRequestError } from "./client.ts";
+import { READ_SCOPE } from "./method-scopes.ts";
 
 export type GatewayProbeAuth = {
   token?: string;

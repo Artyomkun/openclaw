@@ -3,7 +3,7 @@
  *
  * Defaults fill required runtime fields from user-facing Docker sandbox settings.
  */
-import type { SandboxDockerSettings } from "../../config/types.sandbox.js";
+import type { SandboxDockerSettings } from "../../config/types.sandbox.ts";
 
 type RequiredDockerConfigKeys =
   | "image"

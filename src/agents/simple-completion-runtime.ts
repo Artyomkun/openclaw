@@ -3,35 +3,35 @@
  *
  * Resolves agent model selection, auth, runtime policy, and missing-auth errors before simple completions run.
  */
-import type { ThinkLevel } from "../auto-reply/thinking.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { completeSimple } from "../llm/stream.js";
+import type { ThinkLevel } from "../auto-reply/thinking.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { completeSimple } from "../llm/stream.ts";
 import type {
   AssistantMessage,
   Model,
   ThinkingLevel as SimpleCompletionThinkingLevel,
-} from "../llm/types.js";
-import { prepareProviderRuntimeAuth } from "../plugins/provider-runtime.runtime.js";
-import { resolveAgentDir, resolveAgentEffectiveModelPrimary } from "./agent-scope.js";
-import { DEFAULT_PROVIDER } from "./defaults.js";
-import { resolveModel, resolveModelAsync } from "./embedded-agent-runner/model.js";
-import { resolveAgentHarnessPolicy } from "./harness/policy.js";
+} from "../llm/types.ts";
+import { prepareProviderRuntimeAuth } from "../plugins/provider-runtime.runtime.ts";
+import { resolveAgentDir, resolveAgentEffectiveModelPrimary } from "./agent-scope.ts";
+import { DEFAULT_PROVIDER } from "./defaults.ts";
+import { resolveModel, resolveModelAsync } from "./embedded-agent-runner/model.ts";
+import { resolveAgentHarnessPolicy } from "./harness/policy.ts";
 import {
   applyLocalNoAuthHeaderOverride,
   formatMissingAuthError,
   getApiKeyForModel,
   type ResolvedProviderAuth,
-} from "./model-auth.js";
-import { splitTrailingAuthProfile } from "./model-ref-profile.js";
+} from "./model-auth.ts";
+import { splitTrailingAuthProfile } from "./model-ref-profile.ts";
 import {
   buildModelAliasIndex,
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
-} from "./model-selection.js";
-import { OPENAI_PROVIDER_ID, isOpenAIProvider } from "./openai-routing.js";
-import { applyPreparedRuntimeAuthToModel } from "./provider-request-config.js";
-import { prepareModelForSimpleCompletion } from "./simple-completion-transport.js";
+} from "./model-selection.ts";
+import { OPENAI_PROVIDER_ID, isOpenAIProvider } from "./openai-routing.ts";
+import { applyPreparedRuntimeAuthToModel } from "./provider-request-config.ts";
+import { prepareModelForSimpleCompletion } from "./simple-completion-transport.ts";
 
 type SimpleCompletionAuthStorage = {
   setRuntimeApiKey: (provider: string, apiKey: string) => void;

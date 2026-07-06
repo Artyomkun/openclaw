@@ -1,5 +1,5 @@
 /** Policy wrapper for doctor repairs to services managed by external supervisors. */
-import type { DoctorPrompter } from "./doctor-prompter.js";
+import type { DoctorPrompter } from "./doctor-prompter.ts";
 
 type ServiceRepairPolicy = "auto" | "external";
 

@@ -30,21 +30,21 @@ export {
   type PluginApprovalPendingView,
   type PluginApprovalResolvedView,
   type ResolvedApprovalView,
-} from "../infra/approval-handler-runtime.js";
-export { resolveApprovalOverGateway } from "./approval-gateway-runtime.js";
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
+} from "../infra/approval-handler-runtime.ts";
+export { resolveApprovalOverGateway } from "./approval-gateway-runtime.ts";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
 import type {
   ExpiredApprovalView,
   ResolvedApprovalView,
-} from "../infra/approval-view-model.types.js";
-import type { ExecApprovalRequest, ExecApprovalResolved } from "../infra/exec-approvals.js";
+} from "../infra/approval-view-model.types.ts";
+import type { ExecApprovalRequest, ExecApprovalResolved } from "../infra/exec-approvals.ts";
 import {
   buildPluginApprovalExpiredMessage,
   buildPluginApprovalResolvedMessage,
   type PluginApprovalRequest,
   type PluginApprovalResolved,
-} from "../infra/plugin-approvals.js";
-import { buildApprovalResolvedReplyPayload } from "./approval-renderers.js";
+} from "../infra/plugin-approvals.ts";
+import { buildApprovalResolvedReplyPayload } from "./approval-renderers.ts";
 
 type ApprovalRequest = ExecApprovalRequest | PluginApprovalRequest;
 type ApprovalResolved = ExecApprovalResolved | PluginApprovalResolved;

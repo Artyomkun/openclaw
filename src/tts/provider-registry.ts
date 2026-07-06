@@ -1,16 +1,16 @@
 // TTS provider registry resolves configured speech providers at runtime.
-import type { OpenClawConfig } from "../config/types.js";
-import { getActiveRuntimePluginRegistry } from "../plugins/active-runtime-registry.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { getActiveRuntimePluginRegistry } from "../plugins/active-runtime-registry.ts";
 import {
   resolvePluginCapabilityProvider,
   resolvePluginCapabilityProviders,
-} from "../plugins/capability-provider-runtime.js";
-import type { SpeechProviderPlugin } from "../plugins/types.js";
-export { normalizeSpeechProviderId } from "./provider-registry-core.js";
+} from "../plugins/capability-provider-runtime.ts";
+import type { SpeechProviderPlugin } from "../plugins/types.ts";
+export { normalizeSpeechProviderId } from "./provider-registry-core.ts";
 import {
   createSpeechProviderRegistry,
   type SpeechProviderRegistryResolver,
-} from "./provider-registry-core.js";
+} from "./provider-registry-core.ts";
 
 /** Resolve speech providers from configured plugin capabilities. */
 function resolveSpeechProviderPluginEntries(cfg?: OpenClawConfig): SpeechProviderPlugin[] {

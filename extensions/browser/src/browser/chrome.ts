@@ -697,12 +697,6 @@ export type RunningChrome = {
   proc: ChildProcess;
   headless?: boolean;
   headlessSource?: ManagedBrowserHeadlessSource;
-  /**
-   * @deprecated CDP managed-proxy bypasses are scoped at exact request URLs.
-   * Kept so older in-memory callers can pass stale RunningChrome objects
-   * through stopOpenClawChrome without type churn.
-   */
-  releaseCdpProxyBypass?: () => void;
 };
 
 function resolveBrowserExecutable(

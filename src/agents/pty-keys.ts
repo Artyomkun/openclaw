@@ -4,7 +4,7 @@
  * cursor mode.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { escapeRegExp } from "../utils.js";
+import { escapeRegExp } from "../utils.ts";
 
 const ESC = "\x1b";
 const CR = "\r";

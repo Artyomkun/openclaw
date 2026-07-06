@@ -11,8 +11,8 @@ import type {
   ChannelIngressIdentitySubjectInput,
   ChannelIngressSubject,
   StableChannelIngressIdentityParams,
-} from "./runtime-types.js";
-import type { InternalMatchMaterial } from "./types.js";
+} from "./runtime-types.ts";
+import type { InternalMatchMaterial } from "./types.ts";
 
 type ResolvedIdentityField = Required<Pick<ChannelIngressIdentityField, "key" | "kind">> &
   Omit<ChannelIngressIdentityField, "key" | "kind">;

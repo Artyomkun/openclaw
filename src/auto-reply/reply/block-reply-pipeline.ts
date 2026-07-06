@@ -4,11 +4,11 @@ import {
   hasOutboundReplyContent,
   resolveSendableOutboundReplyParts,
 } from "openclaw/plugin-sdk/reply-payload";
-import { logVerbose } from "../../globals.js";
-import { getReplyPayloadMetadata, isReplyPayloadStatusNotice } from "../reply-payload.js";
-import type { ReplyPayload } from "../types.js";
-import { createBlockReplyCoalescer } from "./block-reply-coalescer.js";
-import type { BlockStreamingCoalescing } from "./block-streaming.js";
+import { logVerbose } from "../../globals.ts";
+import { getReplyPayloadMetadata, isReplyPayloadStatusNotice } from "../reply-payload.ts";
+import type { ReplyPayload } from "../types.ts";
+import { createBlockReplyCoalescer } from "./block-reply-coalescer.ts";
+import type { BlockStreamingCoalescing } from "./block-streaming.ts";
 
 /** Streaming block reply pipeline that tracks sent content and media. */
 export type BlockReplyPipeline = {

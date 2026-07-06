@@ -1,7 +1,7 @@
 // OpenAI-compatible error helpers.
 // Converts OpenClaw failover/sampling errors to OpenAI-style HTTP responses.
-import type { FailoverReason } from "../agents/embedded-agent-helpers/types.js";
-import { describeFailoverError, resolveFailoverStatus } from "../agents/failover-error.js";
+import type { FailoverReason } from "../agents/embedded-agent-helpers/types.ts";
+import { describeFailoverError, resolveFailoverStatus } from "../agents/failover-error.ts";
 
 export type OpenAiCompatError = {
   status: number;

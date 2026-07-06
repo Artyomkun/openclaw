@@ -1,14 +1,14 @@
 // Doctor scanner for empty allowlist policies across configured channels and accounts.
-import type { ChannelDoctorEmptyAllowlistAccountContext } from "../../../channels/plugins/types.adapters.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import type { ChannelDoctorEmptyAllowlistAccountContext } from "../../../channels/plugins/types.adapters.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 import {
   getDoctorChannelCapabilities,
   resolveDoctorChannelAccountIds,
-} from "../channel-capabilities.js";
-import type { DoctorAccountRecord, DoctorAllowFromList } from "../types.js";
-import { hasAllowFromEntries } from "./allowlist.js";
-import { collectEmptyAllowlistPolicyWarningsForAccount } from "./empty-allowlist-policy.js";
-import { asObjectRecord } from "./object.js";
+} from "../channel-capabilities.ts";
+import type { DoctorAccountRecord, DoctorAllowFromList } from "../types.ts";
+import { hasAllowFromEntries } from "./allowlist.ts";
+import { collectEmptyAllowlistPolicyWarningsForAccount } from "./empty-allowlist-policy.ts";
+import { asObjectRecord } from "./object.ts";
 
 type ScanEmptyAllowlistPolicyWarningsParams = {
   doctorFixCommand: string;

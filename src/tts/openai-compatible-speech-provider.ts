@@ -7,13 +7,13 @@ import {
   resolveProviderHttpRequestConfig,
 } from "openclaw/plugin-sdk/provider-http";
 import { normalizeResolvedSecretInputString } from "openclaw/plugin-sdk/secret-input";
-import { asFiniteNumber, asObject, trimToUndefined } from "../agents/provider-http-errors.js";
-import type { SpeechProviderPlugin } from "../plugins/types.js";
+import { asFiniteNumber, asObject, trimToUndefined } from "../agents/provider-http-errors.ts";
+import type { SpeechProviderPlugin } from "../plugins/types.ts";
 import type {
   SpeechDirectiveTokenParseContext,
   SpeechProviderConfig,
   SpeechProviderOverrides,
-} from "./provider-types.js";
+} from "./provider-types.ts";
 
 type OpenAiCompatibleSpeechProviderBaseConfig = {
   apiKey?: string;

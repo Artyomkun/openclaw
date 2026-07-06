@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "target": "esnext",
+        "strict": true,
+        "verbatimModuleSyntax": false,
+        "forceConsistentCasingInFileNames": true,
+        "allowImportingTsExtensions": true,
+        "noEmit": true
+    }
+}

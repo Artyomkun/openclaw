@@ -2,11 +2,11 @@
 // that need node:http Agent instances.
 import type { Agent as HttpAgent } from "node:http";
 import { createRequire } from "node:module";
-import { matchesNoProxy, resolveEnvHttpProxyAgentOptions } from "./proxy-env.js";
-import { resolveActiveManagedProxyTlsOptions } from "./proxy/managed-proxy-undici.js";
+import { matchesNoProxy, resolveEnvHttpProxyAgentOptions } from "./proxy-env.ts";
+import { resolveActiveManagedProxyTlsOptions } from "./proxy/managed-proxy-undici.ts";
 
 export const UNSUPPORTED_PROXY_PROTOCOL_MESSAGE =
-  "Unsupported proxy protocol. SOCKS and PAC proxy URLs are not supported; use an HTTP or HTTPS proxy URL.";
+  "Unsupported proxy protocol. Only HTTP or HTTPS forward proxies are allowed.";
 
 type NodeProxyProtocol = "http" | "https";
 type ProxylineCreateAmbientNodeProxyAgent =
@@ -30,38 +30,45 @@ export type CreateNodeProxyAgentOptions =
       protocol?: NodeProxyProtocol;
     };
 
-function inferTargetProtocol(targetUrl: string | URL): NodeProxyProtocol | undefined {
-  const parsed = parseTargetUrl(targetUrl);
-  if (parsed === undefined) {
-    return undefined;
+/** 
+ * Strict validation that handles BOTH string and URL objects safely.
+ * Prevents Type Confusion bypasses where a pre-parsed URL object skips scheme checks.
+ */
+function enforceHttpProxyUrl(input: string | URL, fallbackProtocol: NodeProxyProtocol): URL {
+  let urlString = typeof input === 'string' ? input : input.href;
+  if (!urlString.includes('://')) {
+    urlString = `${fallbackProtocol}://${urlString}`;
   }
-  if (parsed.protocol === "http:" || parsed.protocol === "ws:") {
-    return "http";
+  if (!URL.canParse(urlString)) {
+    throw new Error(`Invalid proxy URL format.`);
   }
-  if (parsed.protocol === "https:" || parsed.protocol === "wss:") {
-    return "https";
+
+  const parsed = new URL(urlString);
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error(UNSUPPORTED_PROXY_PROTOCOL_MESSAGE);
   }
-  return undefined;
+
+  return parsed;
 }
 
-function parseTargetUrl(targetUrl: string | URL): URL | undefined {
-  let parsed: URL;
-  try {
-    parsed = targetUrl instanceof URL ? targetUrl : new URL(targetUrl);
-  } catch {
+function inferTargetProtocol(targetUrl: string | URL): NodeProxyProtocol | undefined {
+  if (!URL.canParse(typeof targetUrl === 'string' ? targetUrl : targetUrl.href)) {
     return undefined;
   }
-  return parsed;
+  const parsed = new URL(targetUrl);
+  if (parsed.protocol === "http:" || parsed.protocol === "ws:") return "http";
+  if (parsed.protocol === "https:" || parsed.protocol === "wss:") return "https";
+  return undefined;
 }
 
 function formatNoProxyTargetUrl(targetUrl: string | URL): string | undefined {
   // WebSocket proxy bypass uses HTTP(S) semantics so NO_PROXY default ports and
   // hostname matching stay aligned with normal requests.
-  const target = parseTargetUrl(targetUrl);
-  if (target === undefined) {
+  if (!URL.canParse(typeof targetUrl === 'string' ? targetUrl : targetUrl.href)) {
     return undefined;
   }
-  const parsed = new URL(target.href);
+  
+  const parsed = new URL(targetUrl);
   // Bypass matching uses web request semantics. Map WebSocket schemes to the
   // equivalent request schemes so default ports and host rules line up.
   if (parsed.protocol === "ws:") {
@@ -70,23 +77,6 @@ function formatNoProxyTargetUrl(targetUrl: string | URL): string | undefined {
     parsed.protocol = "https:";
   }
   return parsed.href;
-}
-
-function proxyUrlWithDefaultScheme(proxyUrl: string, protocol: NodeProxyProtocol): URL {
-  const withScheme = proxyUrl.includes("://") ? proxyUrl : `${protocol}://${proxyUrl}`;
-  let parsed: URL;
-  try {
-    parsed = new URL(withScheme);
-  } catch (error) {
-    throw new Error(
-      `Invalid proxy URL ${JSON.stringify(proxyUrl)}: ${error instanceof Error ? error.message : String(error)}`,
-      { cause: error },
-    );
-  }
-  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-    throw new Error(`${UNSUPPORTED_PROXY_PROTOCOL_MESSAGE} Got ${parsed.protocol}`);
-  }
-  return parsed;
 }
 
 function fixedProxyEnv(proxyUrl: URL): ProxylineEnvSnapshot {
@@ -116,19 +106,20 @@ export function resolveEnvNodeProxyUrlForTarget(
   env: NodeJS.ProcessEnv = process.env,
 ): URL | undefined {
   const protocol = inferTargetProtocol(targetUrl);
-  if (protocol === undefined) {
-    return undefined;
-  }
+  if (protocol === undefined) return undefined;
+  
   const formattedTarget = formatNoProxyTargetUrl(targetUrl);
-  if (formattedTarget === undefined) {
-    return undefined;
-  }
-  if (matchesNoProxy(formattedTarget, env)) {
-    return undefined;
-  }
+  if (formattedTarget === undefined) return undefined;
+  
+  if (matchesNoProxy(formattedTarget, env)) return undefined;
+  
   const proxyOptions = resolveEnvHttpProxyAgentOptions(env);
-  const proxyUrl = protocol === "https" ? proxyOptions?.httpsProxy : proxyOptions?.httpProxy;
-  return proxyUrl ? proxyUrlWithDefaultScheme(proxyUrl, protocol) : undefined;
+  const rawProxyUrl = protocol === "https" ? proxyOptions?.httpsProxy : proxyOptions?.httpProxy;
+  
+  if (!rawProxyUrl) return undefined;
+
+  // Pass through strict enforcement to catch SOCKS/PAC injected via env vars
+  return enforceHttpProxyUrl(rawProxyUrl, protocol);
 }
 
 function createFixedNodeProxyAgent(
@@ -138,18 +129,21 @@ function createFixedNodeProxyAgent(
     proxyTls?: ProxylineTlsOptions;
   } = {},
 ): HttpAgent {
-  const parsedProxyUrl =
-    proxyUrl instanceof URL
-      ? proxyUrl
-      : proxyUrlWithDefaultScheme(proxyUrl, options.protocol ?? "https");
+  const resolvedProtocol = options.protocol ?? "https";
+  const parsedProxyUrl = enforceHttpProxyUrl(proxyUrl, resolvedProtocol);
+  
   const agent = loadCreateAmbientNodeProxyAgent()({
     env: fixedProxyEnv(parsedProxyUrl),
-    protocol: options.protocol ?? "https",
+    protocol: resolvedProtocol,
     ...(options.proxyTls !== undefined ? { proxyTls: options.proxyTls } : {}),
   });
+  
   if (agent === undefined) {
-    throw new Error(`${UNSUPPORTED_PROXY_PROTOCOL_MESSAGE} Got ${parsedProxyUrl.protocol}`);
+    // This should theoretically be unreachable now due to enforceHttpProxyUrl, 
+    // but kept as a defensive fallback.
+    throw new Error(UNSUPPORTED_PROXY_PROTOCOL_MESSAGE);
   }
+  
   return agent as HttpAgent;
 }
 
@@ -189,8 +183,8 @@ export function createFixedNodeProxyAgentPair(proxyUrl: string | URL): {
   httpAgent: HttpAgent;
   httpsAgent: HttpAgent;
 } {
-  const parsedProxyUrl =
-    proxyUrl instanceof URL ? proxyUrl : proxyUrlWithDefaultScheme(proxyUrl, "https");
+  // Pass through strict enforcement. If proxyUrl is a SOCKS URL object, it will safely throw here.
+  const parsedProxyUrl = enforceHttpProxyUrl(proxyUrl, "https");
   const proxyTls = resolveActiveManagedProxyTlsOptions({ proxyUrl: parsedProxyUrl.href });
   return {
     httpAgent: createFixedNodeProxyAgent(parsedProxyUrl, { protocol: "http", proxyTls }),

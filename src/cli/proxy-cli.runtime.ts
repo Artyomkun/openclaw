@@ -2,25 +2,25 @@
 import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import process from "node:process";
-import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { getRuntimeConfig } from "../config/config.js";
+import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   runProxyValidation,
   type ProxyValidationResult,
-} from "../infra/net/proxy/proxy-validation.js";
-import { ensureDebugProxyCa } from "../proxy-capture/ca.js";
-import { buildDebugProxyCoverageReport } from "../proxy-capture/coverage.js";
-import { resolveDebugProxySettings, applyDebugProxyEnv } from "../proxy-capture/env.js";
-import { startDebugProxyServer } from "../proxy-capture/proxy-server.js";
+} from "../infra/net/proxy/proxy-validation.ts";
+import { ensureDebugProxyCa } from "../proxy-capture/ca.ts";
+import { buildDebugProxyCoverageReport } from "../proxy-capture/coverage.ts";
+import { resolveDebugProxySettings, applyDebugProxyEnv } from "../proxy-capture/env.ts";
+import { startDebugProxyServer } from "../proxy-capture/proxy-server.ts";
 import {
   finalizeDebugProxyCapture,
   initializeDebugProxyCapture,
-} from "../proxy-capture/runtime.js";
+} from "../proxy-capture/runtime.ts";
 import {
   closeDebugProxyCaptureStore,
   getDebugProxyCaptureStore,
-} from "../proxy-capture/store.sqlite.js";
-import type { CaptureQueryPreset } from "../proxy-capture/types.js";
+} from "../proxy-capture/store.sqlite.ts";
+import type { CaptureQueryPreset } from "../proxy-capture/types.ts";
 
 export async function runDebugProxyStartCommand(opts: { host?: string; port?: number }) {
   const settings = resolveDebugProxySettings();

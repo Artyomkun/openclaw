@@ -1,7 +1,7 @@
 /** Formats compact tool metadata labels for auto-reply progress/status messages. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveToolDisplay } from "../agents/tool-display.js";
-import { shortenHomeInString } from "../utils.js";
+import { resolveToolDisplay } from "../agents/tool-display.ts";
+import { shortenHomeInString } from "../utils.ts";
 
 type ToolAggregateOptions = {
   markdown?: boolean;

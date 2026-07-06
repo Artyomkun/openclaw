@@ -7,19 +7,19 @@ import {
   commandTurnKindToSource,
   createCommandTurnContext,
   type CommandTurnContext,
-} from "../../auto-reply/command-turn-context.js";
+} from "../../auto-reply/command-turn-context.ts";
 import {
   finalizeInboundContext as finalizeCoreInboundContext,
   type FinalizeInboundContextOptions,
-} from "../../auto-reply/reply/inbound-context.js";
+} from "../../auto-reply/reply/inbound-context.ts";
 import {
   normalizeInboundTextNewlines,
   sanitizeInboundSystemTags,
-} from "../../auto-reply/reply/inbound-text.js";
-import type { FinalizedMsgContext } from "../../auto-reply/templating.js";
-import type { ContextVisibilityMode } from "../../config/types.base.js";
-import type { PluginHookChannelContext } from "../../plugins/hook-channel-context.types.js";
-import { shouldIncludeSupplementalContext } from "../../security/context-visibility.js";
+} from "../../auto-reply/reply/inbound-text.ts";
+import type { FinalizedMsgContext } from "../../auto-reply/templating.ts";
+import type { ContextVisibilityMode } from "../../config/types.base.ts";
+import type { PluginHookChannelContext } from "../../plugins/hook-channel-context.types.ts";
+import { shouldIncludeSupplementalContext } from "../../security/context-visibility.ts";
 import type {
   AccessFacts,
   CommandFacts,
@@ -30,9 +30,9 @@ import type {
   RouteFacts,
   SenderFacts,
   SupplementalContextFacts,
-} from "../turn/types.js";
-import type { InboundEventKind } from "./kind.js";
-import { buildChannelInboundMediaPayload } from "./media.js";
+} from "../turn/types.ts";
+import type { InboundEventKind } from "./kind.ts";
+import { buildChannelInboundMediaPayload } from "./media.ts";
 
 type MaybePromise<T> = T | Promise<T>;
 type ChannelInboundSupplementalMediaResolver = () => MaybePromise<
@@ -44,15 +44,6 @@ type ChannelInboundSupplementalQuoteFacts = NonNullable<SupplementalContextFacts
 };
 type ChannelInboundSupplementalFacts = Omit<SupplementalContextFacts, "quote"> & {
   quote?: ChannelInboundSupplementalQuoteFacts;
-};
-/**
- * @deprecated Prefer passing `resolveSupplementalMedia: true` directly to
- * `buildChannelInboundEventContext` without naming this compatibility type.
- */
-export type ChannelInboundSupplementalResolutionOptions = {
-  resolveSupplementalMedia: true;
-  suppressSelfQuoteBody?: boolean;
-  suppressSelfQuoteMedia?: boolean;
 };
 type BuildAccessFacts = Omit<AccessFacts, "commands"> & {
   commands?: Partial<NonNullable<AccessFacts["commands"]>>;
@@ -83,12 +74,6 @@ export type BuildChannelInboundEventContextParams = {
   finalizeOptions?: FinalizeInboundContextOptions;
   extra?: Record<string, unknown>;
 };
-/**
- * @deprecated Prefer `BuildChannelInboundEventContextParams` with
- * `resolveSupplementalMedia: true` at call sites that need lazy quote media.
- */
-export type BuildChannelInboundEventContextAsyncParams = BuildChannelInboundEventContextParams &
-  ChannelInboundSupplementalResolutionOptions;
 
 type UntrustedStructuredContextEntries = NonNullable<
   FinalizedMsgContext["UntrustedStructuredContext"]
@@ -111,39 +96,6 @@ type FinalizeInboundContextFn = (
   ctx: Record<string, unknown>,
   opts?: FinalizeInboundContextOptions,
 ) => unknown;
-
-/**
- * @deprecated Used by deprecated `finalizeChannelInboundContext`; new channel
- * code should pass facts to `buildChannelInboundEventContext`.
- */
-export type FinalizeChannelInboundContextParams<T extends Record<string, unknown>> = {
-  context: T;
-  supplemental?: SupplementalContextFacts | ChannelInboundSupplementalFacts;
-  contextVisibility?: ContextVisibilityMode;
-  media?: readonly InboundMediaFacts[];
-  finalize?: FinalizeInboundContextFn;
-  finalizeOptions?: FinalizeInboundContextOptions;
-};
-/**
- * @deprecated Prefer `FinalizeChannelInboundContextParams<T>` with
- * `resolveSupplementalMedia: true` when lazy quote media must be resolved.
- */
-export type FinalizeChannelInboundContextAsyncParams<T extends Record<string, unknown>> =
-  FinalizeChannelInboundContextParams<T> & { resolveSupplementalMedia: true } & Pick<
-      ChannelInboundSupplementalResolutionOptions,
-      "suppressSelfQuoteBody" | "suppressSelfQuoteMedia"
-    >;
-
-/**
- * @deprecated Result type for deprecated `finalizeChannelInboundContext`.
- */
-export type FinalizeChannelInboundContextResult<T extends Record<string, unknown>> = {
-  context: T & FinalizedMsgContext;
-  supplemental?: SupplementalContextFacts;
-  quoteHidden: boolean;
-  forwardedHidden: boolean;
-  threadHidden: boolean;
-};
 
 function keepSupplementalContext(params: {
   mode?: ContextVisibilityMode;
@@ -288,32 +240,6 @@ function resolveChannelInboundSupplementalForFinalizer(params: {
   return isPromiseLike(resolved) ? resolved.then(finalizeQuote) : finalizeQuote(resolved);
 }
 
-/**
- * @deprecated Prefer `buildChannelInboundEventContext({ resolveSupplementalMedia: true })`
- * for channel inbound payloads.
- */
-export async function resolveChannelInboundSupplementalContext(params: {
-  supplemental?: ChannelInboundSupplementalFacts;
-  contextVisibility?: ContextVisibilityMode;
-  media?: readonly InboundMediaFacts[];
-  suppressSelfQuoteBody?: boolean;
-  suppressSelfQuoteMedia?: boolean;
-}): Promise<{
-  supplemental?: SupplementalContextFacts;
-  media: InboundMediaFacts[];
-  quoteHidden: boolean;
-}> {
-  const resolved = await resolveChannelInboundSupplementalForFinalizer({
-    ...params,
-    resolveSupplementalMedia: true,
-  });
-  return {
-    supplemental: resolved.supplemental,
-    media: [...(resolved.media ?? [])],
-    quoteHidden: Boolean(resolved.rawSupplemental?.quote && !resolved.supplemental?.quote),
-  };
-}
-
 function finalizePreparedChannelInboundContext<T extends Record<string, unknown>>(params: {
   originalContext: T;
   rawSupplemental?: SupplementalContextFacts | ChannelInboundSupplementalFacts;
@@ -349,43 +275,6 @@ function finalizePreparedChannelInboundContext<T extends Record<string, unknown>
     forwardedHidden: Boolean(params.rawSupplemental?.forwarded && !params.supplemental?.forwarded),
     threadHidden: Boolean(params.rawSupplemental?.thread && !params.supplemental?.thread),
   };
-}
-
-/**
- * @deprecated Public compatibility for callers that already prepared legacy
- * prompt fields. New channel code should use `buildChannelInboundEventContext`.
- */
-export function finalizeChannelInboundContext<T extends Record<string, unknown>>(
-  params: FinalizeChannelInboundContextAsyncParams<T>,
-): Promise<FinalizeChannelInboundContextResult<T>>;
-export function finalizeChannelInboundContext<T extends Record<string, unknown>>(
-  params: FinalizeChannelInboundContextParams<T>,
-): FinalizeChannelInboundContextResult<T>;
-export function finalizeChannelInboundContext<T extends Record<string, unknown>>(
-  params: FinalizeChannelInboundContextParams<T> &
-    Partial<ChannelInboundSupplementalResolutionOptions>,
-): MaybePromise<FinalizeChannelInboundContextResult<T>> {
-  const contextSupplemental = (params.context as { SupplementalContext?: SupplementalContextFacts })
-    .SupplementalContext;
-  const prepared = resolveChannelInboundSupplementalForFinalizer({
-    supplemental: params.supplemental ?? contextSupplemental,
-    contextVisibility: params.contextVisibility,
-    media: params.media,
-    resolveSupplementalMedia: params.resolveSupplementalMedia,
-    suppressSelfQuoteBody: params.suppressSelfQuoteBody,
-    suppressSelfQuoteMedia: params.suppressSelfQuoteMedia,
-  });
-  const finish = (result: Awaited<typeof prepared>) =>
-    finalizePreparedChannelInboundContext({
-      originalContext: params.context,
-      finalize: params.finalize,
-      finalizeOptions: params.finalizeOptions,
-      ...result,
-    });
-  if (params.resolveSupplementalMedia) {
-    return Promise.resolve(prepared).then(finish);
-  }
-  return isPromiseLike(prepared) ? prepared.then(finish) : finish(prepared);
 }
 
 function resolveAccessFactsCommandAuthorized(

@@ -3,9 +3,9 @@
  *
  * Resolves persisted runtime overrides without leaking provider-specific CLI runtime bindings across model routes.
  */
-import type { SessionEntry } from "../config/sessions.js";
-import { isDefaultAgentRuntimeId } from "./agent-runtime-id.js";
-import { normalizeOptionalAgentRuntimeId } from "./agent-runtime-id.js";
+import type { SessionEntry } from "../config/sessions.ts";
+import { isDefaultAgentRuntimeId } from "./agent-runtime-id.ts";
+import { normalizeOptionalAgentRuntimeId } from "./agent-runtime-id.ts";
 
 /** Persisted runtime fields used to recover session runtime compatibility. */
 type SessionRuntimeCompatEntry = Pick<

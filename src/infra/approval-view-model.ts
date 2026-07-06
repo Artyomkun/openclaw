@@ -8,17 +8,17 @@ import type {
   PendingApprovalView,
   PluginApprovalViewBase,
   ResolvedApprovalView,
-} from "./approval-view-model.types.js";
-import { resolveExecApprovalCommandDisplay } from "./exec-approval-command-display.js";
-import { buildExecApprovalActionDescriptors } from "./exec-approval-reply.js";
+} from "./approval-view-model.types.ts";
+import { resolveExecApprovalCommandDisplay } from "./exec-approval-command-display.ts";
+import { buildExecApprovalActionDescriptors } from "./exec-approval-reply.ts";
 import {
   resolveExecApprovalRequestAllowedDecisions,
   type ExecApprovalRequest,
-} from "./exec-approvals.js";
+} from "./exec-approvals.ts";
 import {
   resolvePluginApprovalRequestAllowedDecisions,
   type PluginApprovalRequest,
-} from "./plugin-approvals.js";
+} from "./plugin-approvals.ts";
 
 type ApprovalPhase = "pending" | "resolved" | "expired";
 

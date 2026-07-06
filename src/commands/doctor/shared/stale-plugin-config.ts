@@ -1,14 +1,14 @@
 // Doctor scanner and repair for plugin/channel config that references missing plugins.
-import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../../agents/agent-scope.js";
-import { CHANNEL_IDS } from "../../../channels/ids.js";
-import { shouldSuppressMissingCodexPluginDiagnostics } from "../../../config/codex-plugin-diagnostics.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { normalizePluginId } from "../../../plugins/config-state.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "../../../plugins/installed-plugin-index-records.js";
-import { loadManifestMetadataSnapshot } from "../../../plugins/manifest-contract-eligibility.js";
-import { defaultSlotIdForKey, type PluginSlotKey } from "../../../plugins/slots.js";
-import { asObjectRecord } from "./object.js";
+import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../../agents/agent-scope.ts";
+import { CHANNEL_IDS } from "../../../channels/ids.ts";
+import { shouldSuppressMissingCodexPluginDiagnostics } from "../../../config/codex-plugin-diagnostics.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { normalizePluginId } from "../../../plugins/config-state.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "../../../plugins/installed-plugin-index-records.ts";
+import { loadManifestMetadataSnapshot } from "../../../plugins/manifest-contract-eligibility.ts";
+import { defaultSlotIdForKey, type PluginSlotKey } from "../../../plugins/slots.ts";
+import { asObjectRecord } from "./object.ts";
 
 const CHANNEL_CONFIG_META_KEYS = new Set(["defaults", "modelByChannel"]);
 

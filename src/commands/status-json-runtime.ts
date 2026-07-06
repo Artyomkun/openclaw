@@ -1,8 +1,8 @@
 // Resolves runtime-only inputs for status JSON after the fast scan completes.
 // Keeps gateway health, usage, security audit, and service summaries behind explicit option gates.
 
-import type { OpenClawConfig } from "../config/types.js";
-import type { UpdateCheckResult } from "../infra/update-check.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { UpdateCheckResult } from "../infra/update-check.ts";
 import { buildStatusJsonPayload } from "./status-json-payload.ts";
 import { buildStatusOverviewSurfaceFromScan } from "./status-overview-surface.ts";
 import { resolveStatusRuntimeSnapshot } from "./status-runtime-shared.ts";

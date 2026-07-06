@@ -3,9 +3,9 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { SubagentRunRecord } from "../../agents/subagent-registry.js";
-import { sanitizeTaskStatusText } from "../../tasks/task-status.js";
-import { truncateUtf16Safe } from "../../utils.js";
+import type { SubagentRunRecord } from "../../agents/subagent-registry.ts";
+import { sanitizeTaskStatusText } from "../../tasks/task-status.ts";
+import { truncateUtf16Safe } from "../../utils.ts";
 
 export function resolveSubagentLabel(entry: SubagentRunRecord, fallback = "subagent") {
   const raw = normalizeOptionalString(entry.label) || normalizeOptionalString(entry.task) || "";

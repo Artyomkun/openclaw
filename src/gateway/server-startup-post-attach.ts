@@ -2,28 +2,28 @@
 // Schedules warmups, sentinels, update checks, memory backend, and plugin services.
 import { monitorEventLoopDelay, performance } from "node:perf_hooks";
 import { setTimeout as sleep } from "node:timers/promises";
-import type { CliDeps } from "../cli/deps.types.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { GatewayTailscaleMode } from "../config/types.gateway.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { hasConfiguredInternalHooks } from "../hooks/configured.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { hasRestartSentinel } from "../infra/restart-sentinel.js";
-import type { scheduleGatewayUpdateCheck } from "../infra/update-startup.js";
-import type { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import type { PluginHookGatewayCronService } from "../plugins/hook-types.js";
-import type { loadOpenClawPlugins } from "../plugins/loader.js";
-import { getPluginModuleLoaderStats } from "../plugins/plugin-module-loader-cache.js";
-import type { PluginRegistry } from "../plugins/registry.js";
-import type { PluginServicesHandle } from "../plugins/services.js";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { GatewayTailscaleMode } from "../config/types.gateway.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { hasConfiguredInternalHooks } from "../hooks/configured.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { hasRestartSentinel } from "../infra/restart-sentinel.ts";
+import type { scheduleGatewayUpdateCheck } from "../infra/update-startup.ts";
+import type { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import type { PluginHookGatewayCronService } from "../plugins/hook-types.ts";
+import type { loadOpenClawPlugins } from "../plugins/loader.ts";
+import { getPluginModuleLoaderStats } from "../plugins/plugin-module-loader-cache.ts";
+import type { PluginRegistry } from "../plugins/registry.ts";
+import type { PluginServicesHandle } from "../plugins/services.ts";
 import {
   GATEWAY_EVENT_UPDATE_AVAILABLE,
   type GatewayUpdateAvailableEventPayload,
-} from "./events.js";
-import { STARTUP_UNAVAILABLE_GATEWAY_METHODS } from "./methods/core-descriptors.js";
-import type { refreshLatestUpdateRestartSentinel } from "./server-restart-sentinel.js";
-import type { logGatewayStartup } from "./server-startup-log.js";
-import type { startGatewayTailscaleExposure } from "./server-tailscale.js";
+} from "./events.ts";
+import { STARTUP_UNAVAILABLE_GATEWAY_METHODS } from "./methods/core-descriptors.ts";
+import type { refreshLatestUpdateRestartSentinel } from "./server-restart-sentinel.ts";
+import type { logGatewayStartup } from "./server-startup-log.ts";
+import type { startGatewayTailscaleExposure } from "./server-tailscale.ts";
 
 const ACP_BACKEND_READY_TIMEOUT_MS = 5_000;
 const ACP_BACKEND_READY_POLL_MS = 50;

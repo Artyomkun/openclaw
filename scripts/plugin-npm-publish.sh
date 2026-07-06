@@ -53,7 +53,7 @@ import {
   resolveNpmDistTagMirrorAuth,
   resolveNpmPublishPlan,
   shouldRequireNpmDistTagMirrorAuth,
-} from "./scripts/lib/npm-publish-plan.mjs";
+} from "./scripts/lib/npm-publish-plan.ts";
 
 const plan = resolveNpmPublishPlan(
   process.env.PACKAGE_VERSION ?? "",
@@ -103,12 +103,12 @@ build_package_runtime() {
     return
   fi
   log "Package-local runtime build: ${package_dir}"
-  node scripts/lib/plugin-npm-runtime-build.mjs "${package_dir}" >&2
+  node scripts/lib/plugin-npm-runtime-build.ts "${package_dir}" >&2
 }
 
 check_package_shrinkwrap() {
   log "Package-local shrinkwrap check: ${package_dir}"
-  node scripts/generate-npm-shrinkwrap.mjs --package-dir "${package_dir}" --check >&2
+  node scripts/generate-npm-shrinkwrap.ts --package-dir "${package_dir}" --check >&2
 }
 
 mirror_auth_token=""
@@ -163,7 +163,7 @@ check_package_shrinkwrap
 
 if [[ "${mode}" == "--pack-dry-run" ]]; then
   OPENCLAW_PLUGIN_NPM_BUNDLE_DEPENDENCIES=1 \
-    node scripts/lib/plugin-npm-package-manifest.mjs --run "${package_dir}" -- \
+    node scripts/lib/plugin-npm-package-manifest.ts --run "${package_dir}" -- \
     npm pack --dry-run --json --ignore-scripts
   exit 0
 fi
@@ -173,14 +173,14 @@ fi
   trap 'rm -f "${cleanup_files[@]}"' EXIT
   run_with_manifest_overlay() {
     OPENCLAW_PLUGIN_NPM_BUNDLE_DEPENDENCIES=1 \
-      node scripts/lib/plugin-npm-package-manifest.mjs --run "${package_dir}" -- "$@"
+      node scripts/lib/plugin-npm-package-manifest.ts --run "${package_dir}" -- "$@"
   }
   publish_userconfig=""
   if [[ -n "${publish_auth_token}" ]]; then
     publish_userconfig="$(mktemp)"
     cleanup_files+=("${publish_userconfig}")
     chmod 0600 "${publish_userconfig}"
-    printf '%s\n' "//registry.npmjs.org/:_authToken=${publish_auth_token}" > "${publish_userconfig}"
+    printf '%s\n' "//registry.npts.org/:_authToken=${publish_auth_token}" > "${publish_userconfig}"
     NPM_CONFIG_USERCONFIG="${publish_userconfig}" run_with_manifest_overlay "${publish_cmd[@]}"
   else
     run_with_manifest_overlay "${publish_cmd[@]}"
@@ -190,7 +190,7 @@ fi
     mirror_userconfig="$(mktemp)"
     cleanup_files+=("${mirror_userconfig}")
     chmod 0600 "${mirror_userconfig}"
-    printf '%s\n' "//registry.npmjs.org/:_authToken=${mirror_auth_token}" > "${mirror_userconfig}"
+    printf '%s\n' "//registry.npts.org/:_authToken=${mirror_auth_token}" > "${mirror_userconfig}"
 
     IFS=',' read -r -a mirror_dist_tags <<< "${mirror_dist_tags_csv}"
     for dist_tag in "${mirror_dist_tags[@]}"; do

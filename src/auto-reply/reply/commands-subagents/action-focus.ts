@@ -4,12 +4,12 @@ import {
   resolveAcpThreadSessionDetailLines,
 } from "@openclaw/acp-core/runtime/session-identifiers";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { readAcpSessionEntry } from "../../../acp/runtime/session-meta.js";
-import { normalizeChatType } from "../../../channels/chat-type.js";
+import { readAcpSessionEntry } from "../../../acp/runtime/session-meta.ts";
+import { normalizeChatType } from "../../../channels/chat-type.ts";
 import {
   resolveThreadBindingIntroText,
   resolveThreadBindingThreadName,
-} from "../../../channels/thread-bindings-messages.js";
+} from "../../../channels/thread-bindings-messages.ts";
 import {
   formatThreadBindingDisabledError,
   formatThreadBindingSpawnDisabledError,
@@ -17,17 +17,17 @@ import {
   resolveThreadBindingMaxAgeMsForChannel,
   resolveThreadBindingPlacementForCurrentContext,
   resolveThreadBindingSpawnPolicy,
-} from "../../../channels/thread-bindings-policy.js";
-import { normalizeConversationRef } from "../../../infra/outbound/session-binding-normalization.js";
-import { getSessionBindingService } from "../../../infra/outbound/session-binding-service.js";
-import type { CommandHandlerResult } from "../commands-types.js";
-import { resolveConversationBindingContextFromAcpCommand } from "../conversation-binding-input.js";
+} from "../../../channels/thread-bindings-policy.ts";
+import { normalizeConversationRef } from "../../../infra/outbound/session-binding-normalization.ts";
+import { getSessionBindingService } from "../../../infra/outbound/session-binding-service.ts";
+import type { CommandHandlerResult } from "../commands-types.ts";
+import { resolveConversationBindingContextFromAcpCommand } from "../conversation-binding-input.ts";
 import {
   type SubagentsCommandContext,
   resolveCommandSubagentController,
   resolveFocusTargetSession,
   stopWithText,
-} from "./shared.js";
+} from "./shared.ts";
 
 type FocusBindingContext = {
   channel: string;

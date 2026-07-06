@@ -1,9 +1,9 @@
 /** Validates and normalizes provider plugin definitions before registry registration. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeUniqueTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import type { PluginDiagnostic } from "./manifest-types.js";
-import type { ProviderAuthMethod, ProviderPlugin } from "./types.js";
-import { pushPluginValidationDiagnostic } from "./validation-diagnostics.js";
+import type { PluginDiagnostic } from "./manifest-types.ts";
+import type { ProviderAuthMethod, ProviderPlugin } from "./types.ts";
+import { pushPluginValidationDiagnostic } from "./validation-diagnostics.ts";
 
 const warnedDeprecatedDiscoveryProviders = new Set<string>();
 
@@ -40,13 +40,11 @@ function normalizeProviderOAuthProfileIdRepairs(
   }
   const normalized = values
     .map((value) => {
-      const legacyProfileId = normalizeOptionalString(value?.legacyProfileId);
       const promptLabel = normalizeOptionalString(value?.promptLabel);
-      if (!legacyProfileId && !promptLabel) {
+      if (!promptLabel) {
         return null;
       }
       return {
-        ...(legacyProfileId ? { legacyProfileId } : {}),
         ...(promptLabel ? { promptLabel } : {}),
       };
     })

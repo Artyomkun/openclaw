@@ -1,8 +1,8 @@
 // Gateway agent prompt builder.
 // Converts conversation entries into the latest-message-plus-history prompt.
-import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.js";
-import { buildHistoryContextFromEntries, type HistoryEntry } from "../auto-reply/reply/history.js";
-import { extractTextFromChatContent } from "../shared/chat-content.js";
+import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.ts";
+import { buildHistoryContextFromEntries, type HistoryEntry } from "../auto-reply/reply/history.ts";
+import { extractTextFromChatContent } from "../shared/chat-content.ts";
 
 export type ConversationEntry = {
   role: "user" | "assistant" | "tool";

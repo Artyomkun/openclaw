@@ -1,9 +1,9 @@
 /** Builds the static and plugin-derived registry of secret migration targets. */
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
-import { listBundledPluginMetadata } from "../plugins/bundled-plugin-metadata.js";
-import { resolvePluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { loadChannelSecretContractApiForRecord } from "./channel-contract-api.js";
-import type { SecretTargetRegistryEntry } from "./target-registry-types.js";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
+import { listBundledPluginMetadata } from "../plugins/bundled-plugin-metadata.ts";
+import { resolvePluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { loadChannelSecretContractApiForRecord } from "./channel-contract-api.ts";
+import type { SecretTargetRegistryEntry } from "./target-registry-types.ts";
 
 const SECRET_INPUT_SHAPE = "secret_input"; // pragma: allowlist secret
 const SIBLING_REF_SHAPE = "sibling_ref"; // pragma: allowlist secret

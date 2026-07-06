@@ -9,23 +9,22 @@ import {
   resolveSessionIdentityFromMeta,
 } from "@openclaw/acp-core/runtime/session-identity";
 import type { AcpRuntime, AcpRuntimeHandle } from "@openclaw/acp-core/runtime/types";
-import { resolveRuntimeConfigCacheKey } from "../../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { toAcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.js";
-import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.js";
+import { resolveRuntimeConfigCacheKey } from "../../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { toAcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.ts";
+import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.ts";
 import type {
   AcpSessionManagerDeps,
   SessionAcpMeta,
   WriteManagerSessionMeta,
-} from "./manager.types.js";
-import { hasLegacyAcpIdentityProjection, resolveAcpAgentFromSessionKey } from "./manager.utils.js";
+} from "./manager.types.ts";
 import {
   normalizeRuntimeOptions,
   normalizeText,
   resolveRuntimeOptionsFromMeta,
   runtimeOptionsEqual,
-} from "./runtime-options.js";
+} from "./runtime-options.ts";
 
 /** Returns a reusable cached handle or initializes a fresh runtime session for the metadata. */
 export async function ensureManagerRuntimeHandle(params: {
@@ -196,8 +195,7 @@ export async function ensureManagerRuntimeHandle(params: {
     !identityEquals(previousIdentity, nextIdentity) ||
     previousMeta.agent !== nextMeta.agent ||
     previousMeta.cwd !== nextMeta.cwd ||
-    !runtimeOptionsEqual(previousMeta.runtimeOptions, nextMeta.runtimeOptions) ||
-    hasLegacyAcpIdentityProjection(previousMeta);
+    !runtimeOptionsEqual(previousMeta.runtimeOptions, nextMeta.runtimeOptions)
   if (shouldPersistMeta) {
     await params.writeSessionMeta({
       cfg: params.cfg,

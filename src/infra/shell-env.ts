@@ -4,10 +4,10 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import { isTruthyEnvValue } from "./env.js";
-import { formatErrorMessage } from "./errors.js";
-import { sanitizeHostExecEnv } from "./host-env-security.js";
-import { parseStrictNonNegativeInteger } from "./parse-finite-number.js";
+import { isTruthyEnvValue } from "./env.ts";
+import { formatErrorMessage } from "./errors.ts";
+import { sanitizeHostExecEnv } from "./host-env-security.ts";
+import { parseStrictNonNegativeInteger } from "./parse-finite-number.ts";
 
 const DEFAULT_TIMEOUT_MS = 15_000;
 const DEFAULT_MAX_BUFFER_BYTES = 2 * 1024 * 1024;

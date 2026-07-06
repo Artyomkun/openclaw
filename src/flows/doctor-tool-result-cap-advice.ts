@@ -2,7 +2,7 @@
 import {
   calculateMaxToolResultCharsWithCap,
   resolveAutoLiveToolResultMaxChars,
-} from "../agents/embedded-agent-runner/tool-result-truncation.js";
+} from "../agents/embedded-agent-runner/tool-result-truncation.ts";
 
 // Doctor advice for explicit live tool-result caps that fight model-window defaults.
 export type ToolResultCapDoctorAdviceParams = {

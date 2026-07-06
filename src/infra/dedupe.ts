@@ -1,7 +1,7 @@
 // Provides small process-local dedupe caches.
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import { pruneMapToMaxSize } from "./map-size.js";
-import { resolveNonNegativeIntegerOption } from "./numeric-options.js";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import { pruneMapToMaxSize } from "./map-size.ts";
+import { resolveNonNegativeIntegerOption } from "./numeric-options.ts";
 
 /** Small in-memory TTL/LRU-style cache for replay and duplicate suppression. */
 export type DedupeCache = {
@@ -19,9 +19,6 @@ export type DedupeCacheOptions = {
   ttlMs: number;
   maxSize: number;
 };
-
-/** @deprecated Use resolveNonNegativeIntegerOption for new internal numeric option normalization. */
-export { resolveNonNegativeIntegerOption as resolveDedupeNonNegativeInteger };
 
 /** Creates a bounded in-memory dedupe cache with optional TTL expiry. */
 export function createDedupeCache(options: DedupeCacheOptions): DedupeCache {

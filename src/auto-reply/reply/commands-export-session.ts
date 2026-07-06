@@ -8,17 +8,17 @@ import {
   type FileEntry as SessionFileEntry,
   type SessionEntry as AgentSessionEntry,
   type SessionHeader,
-} from "../../agents/sessions/session-manager.js";
-import { scanSessionTranscriptTree } from "../../config/sessions/transcript-tree.js";
-import { pathExists } from "../../infra/fs-safe.js";
-import type { ReplyPayload } from "../types.js";
+} from "../../agents/sessions/session-manager.ts";
+import { scanSessionTranscriptTree } from "../../config/sessions/transcript-tree.ts";
+import { pathExists } from "../../infra/fs-safe.ts";
+import type { ReplyPayload } from "../types.ts";
 import {
   isReplyPayload,
   parseExportCommandOutputPath,
   resolveExportCommandSessionTarget,
-} from "./commands-export-common.js";
-import { resolveCommandsSystemPromptBundle } from "./commands-system-prompt.js";
-import type { HandleCommandsParams } from "./commands-types.js";
+} from "./commands-export-common.ts";
+import { resolveCommandsSystemPromptBundle } from "./commands-system-prompt.ts";
+import type { HandleCommandsParams } from "./commands-types.ts";
 
 // Export HTML templates are bundled with this module
 const EXPORT_HTML_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "export-html");

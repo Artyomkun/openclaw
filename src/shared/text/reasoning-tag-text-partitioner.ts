@@ -3,8 +3,8 @@ import {
   buildCodeSpanIndex,
   createInlineCodeState,
   type InlineCodeState,
-} from "../../../packages/markdown-core/src/code-spans.js";
-import type { FenceScanState } from "../../../packages/markdown-core/src/fences.js";
+} from "../../../packages/markdown-core/src/code-spans.ts";
+import type { FenceScanState } from "../../../packages/markdown-core/src/fences.ts";
 
 export type ReasoningTagTextDelta =
   | { kind: "text"; text: string }

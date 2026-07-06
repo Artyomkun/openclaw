@@ -6,18 +6,18 @@
  */
 import { createHash } from "node:crypto";
 import { normalizeOptionalString as normalizeTrimmedString } from "@openclaw/normalization-core/string-coerce";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
 import type {
   PluginHookAgentEndEvent,
   PluginHookBeforeAgentFinalizeEvent,
   PluginHookBeforeAgentFinalizeResult,
   PluginHookLlmInputEvent,
   PluginHookLlmOutputEvent,
-} from "../../plugins/hook-types.js";
-import type { VoidHookRunOptions } from "../../plugins/hooks.js";
-import { resolveGlobalSingleton } from "../../shared/global-singleton.js";
-import { buildAgentHookContext, type AgentHarnessHookContext } from "./hook-context.js";
+} from "../../plugins/hook-types.ts";
+import type { VoidHookRunOptions } from "../../plugins/hooks.ts";
+import { resolveGlobalSingleton } from "../../shared/global-singleton.ts";
+import { buildAgentHookContext, type AgentHarnessHookContext } from "./hook-context.ts";
 
 const log = createSubsystemLogger("agents/harness");
 const FINALIZE_RETRY_BUDGET_KEY = Symbol.for("openclaw.pluginFinalizeRetryBudget");

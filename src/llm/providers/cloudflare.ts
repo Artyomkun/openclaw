@@ -1,5 +1,5 @@
 // Cloudflare provider metadata describes Cloudflare-hosted model capabilities.
-import type { Model } from "../types.js";
+import type { Model } from "../types.ts";
 
 export function isCloudflareProvider(provider: string): boolean {
   return provider === "cloudflare-workers-ai" || provider === "cloudflare-ai-gateway";

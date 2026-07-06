@@ -5,18 +5,18 @@ import {
   normalizeOptionalString,
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
-import { resolveMainSessionKeyFromConfig } from "../../config/sessions.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
+import { resolveMainSessionKeyFromConfig } from "../../config/sessions.ts";
 import {
   loadOrCreateDeviceIdentity,
   publicKeyRawBase64UrlFromPem,
-} from "../../infra/device-identity.js";
-import { getLastHeartbeatEvent } from "../../infra/heartbeat-events.js";
-import { setHeartbeatsEnabled } from "../../infra/heartbeat-runner.js";
-import { enqueueSystemEvent, isSystemEventContextChanged } from "../../infra/system-events.js";
-import { listSystemPresence, updateSystemPresence } from "../../infra/system-presence.js";
-import { broadcastPresenceSnapshot } from "../server/presence-events.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../infra/device-identity.ts";
+import { getLastHeartbeatEvent } from "../../infra/heartbeat-events.ts";
+import { setHeartbeatsEnabled } from "../../infra/heartbeat-runner.ts";
+import { enqueueSystemEvent, isSystemEventContextChanged } from "../../infra/system-events.ts";
+import { listSystemPresence, updateSystemPresence } from "../../infra/system-presence.ts";
+import { broadcastPresenceSnapshot } from "../server/presence-events.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /** Gateway handlers for identity, heartbeat toggles, and system presence events. */
 export const systemHandlers: GatewayRequestHandlers = {

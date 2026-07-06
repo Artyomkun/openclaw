@@ -2,8 +2,8 @@
 import { stdin as input, stdout as output } from "node:process";
 import readline from "node:readline/promises";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { isVerbose, isYes } from "../globals.js";
-import { toErrorObject } from "../infra/errors.js";
+import { isVerbose, isYes } from "../globals.ts";
+import { toErrorObject } from "../infra/errors.ts";
 
 /** Signals that an interactive prompt lost stdin before a complete answer arrived. */
 export class PromptInputClosedError extends Error {

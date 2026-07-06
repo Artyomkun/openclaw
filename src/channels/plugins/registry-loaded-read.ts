@@ -4,10 +4,10 @@
  * Reads active runtime channel state without materializing the full registry view.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ActiveChannelPluginRuntimeShape } from "../../plugins/channel-registry-state.types.js";
-import { getActivePluginChannelRegistryFromState } from "../../plugins/runtime-channel-state.js";
-import type { ChannelPlugin } from "./types.plugin.js";
-import type { ChannelId } from "./types.public.js";
+import type { ActiveChannelPluginRuntimeShape } from "../../plugins/channel-registry-state.types.ts";
+import { getActivePluginChannelRegistryFromState } from "../../plugins/runtime-channel-state.ts";
+import type { ChannelPlugin } from "./types.plugin.ts";
+import type { ChannelId } from "./types.public.ts";
 
 function coerceLoadedChannelPlugin(
   plugin: ActiveChannelPluginRuntimeShape | null | undefined,

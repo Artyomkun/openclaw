@@ -1,4 +1,4 @@
-import type { PairingChannel } from "../../pairing/pairing-store.types.js";
+import type { PairingChannel } from "../../pairing/pairing-store.types.ts";
 
 /**
  * Read pairing-store allowlist entries when a direct-message policy permits
@@ -21,7 +21,7 @@ export async function readChannelIngressStoreAllowFromForDmPolicy(params: {
   const readStore =
     params.readStore ??
     (async (provider: PairingChannel, accountId: string) => {
-      // Pairing store loads channel adapters for legacy normalization; keep that
+      // Pairing store loads channel adapters for older normalization; keep that
       // registry edge lazy so pure ingress policy imports stay acyclic.
       const { readChannelAllowFromStore } = await import("../../pairing/pairing-store.js");
       return await readChannelAllowFromStore(provider, process.env, accountId);

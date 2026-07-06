@@ -1,13 +1,13 @@
 /**
  * Public SDK subpath for memory host embedding provider registration and lookup.
  */
-export { DEFAULT_LOCAL_MODEL } from "../../packages/memory-host-sdk/src/host/embedding-defaults.js";
+export { DEFAULT_LOCAL_MODEL } from "../../packages/memory-host-sdk/src/host/embedding-defaults.ts";
 export {
   listMemoryEmbeddingProviders,
   listRegisteredMemoryEmbeddingProviderAdapters,
-} from "../plugins/memory-embedding-provider-runtime.js";
+} from "../plugins/memory-embedding-provider-runtime.ts";
 export type {
   MemoryEmbeddingProviderAdapter,
   MemoryEmbeddingProviderCreateOptions,
   MemoryEmbeddingProviderCreateResult,
-} from "../plugins/memory-embedding-providers.js";
+} from "../plugins/memory-embedding-providers.ts";

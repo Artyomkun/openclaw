@@ -1,9 +1,9 @@
 // Normalizes raw agent output into sendable reply text and metadata.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeUserFacingText } from "../../agents/embedded-agent-helpers/sanitize-user-facing-text.js";
-import { hasReplyPayloadContent } from "../../interactive/payload.js";
-import { stripHeartbeatToken } from "../heartbeat.js";
-import { copyReplyPayloadMetadata } from "../reply-payload.js";
+import { sanitizeUserFacingText } from "../../agents/embedded-agent-helpers/sanitize-user-facing-text.ts";
+import { hasReplyPayloadContent } from "../../interactive/payload.ts";
+import { stripHeartbeatToken } from "../heartbeat.ts";
+import { copyReplyPayloadMetadata } from "../reply-payload.ts";
 import {
   HEARTBEAT_TOKEN,
   isInternalFormattingArtifact,
@@ -13,12 +13,12 @@ import {
   startsWithSilentToken,
   stripLeadingSilentToken,
   stripSilentToken,
-} from "../tokens.js";
-import type { ReplyPayload } from "../types.js";
+} from "../tokens.ts";
+import type { ReplyPayload } from "../types.ts";
 import {
   resolveResponsePrefixTemplate,
   type ResponsePrefixContext,
-} from "./response-prefix-template.js";
+} from "./response-prefix-template.ts";
 
 export type NormalizeReplySkipReason = "empty" | "silent" | "heartbeat";
 

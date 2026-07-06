@@ -1,12 +1,12 @@
 // Shared bootstrap for status scans.
 // Starts update, Tailscale, agent, and gateway probes with cold-start shortcuts for first-run users.
 
-import type { OpenClawConfig } from "../config/types.js";
-import type { UpdateCheckResult } from "../infra/update-check.js";
-import { runExec } from "../process/exec.js";
-import { createEmptyTaskAuditSummary } from "../tasks/task-registry.audit.shared.js";
-import { createEmptyTaskRegistrySummary } from "../tasks/task-registry.summary.js";
-import { buildTailscaleHttpsUrl, resolveGatewayProbeSnapshot } from "./status.scan.shared.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { UpdateCheckResult } from "../infra/update-check.ts";
+import { runExec } from "../process/exec.ts";
+import { createEmptyTaskAuditSummary } from "../tasks/task-registry.audit.shared.ts";
+import { createEmptyTaskRegistrySummary } from "../tasks/task-registry.summary.ts";
+import { buildTailscaleHttpsUrl, resolveGatewayProbeSnapshot } from "./status.scan.shared.ts";
 
 function buildColdStartUpdateResult(): UpdateCheckResult {
   return {

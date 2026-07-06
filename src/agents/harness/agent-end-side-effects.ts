@@ -4,11 +4,11 @@
  * Harnesses use this to trigger core research capture and plugin agent_end hooks
  * either fire-and-forget or awaited during tests/shutdown.
  */
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import {
   awaitAgentHarnessAgentEndHook,
   runAgentHarnessAgentEndHook,
-} from "./lifecycle-hook-helpers.js";
+} from "./lifecycle-hook-helpers.ts";
 
 const log = createSubsystemLogger("agents/harness");
 

@@ -1,8 +1,8 @@
 // Session memory transcript helpers persist compact session transcript excerpts.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { sanitizeModelSpecialTokens } from "../../../security/external-content.js";
-import { hasInterSessionUserProvenance } from "../../../sessions/input-provenance.js";
+import { sanitizeModelSpecialTokens } from "../../../security/external-content.ts";
+import { hasInterSessionUserProvenance } from "../../../sessions/input-provenance.ts";
 
 const SESSION_MEMORY_TOOL_DIRECTIVE_PREFIX = String.raw`(?:(?:\|DSML\|)|(?:\uFF5CDSML\uFF5C))?`;
 const SESSION_MEMORY_TOOL_DIRECTIVE_KIND = String.raw`(?:tool_calls?|function_calls?|tool_use_error)`;

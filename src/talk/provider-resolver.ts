@@ -4,11 +4,11 @@
  * This adapter applies the generic capability-provider resolver to Talk
  * providers, including default model injection and per-call config overrides.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveConfiguredCapabilityProvider } from "../plugin-sdk/provider-selection-runtime.js";
-import type { RealtimeVoiceProviderPlugin } from "../plugins/types.js";
-import { getRealtimeVoiceProvider, listRealtimeVoiceProviders } from "./provider-registry.js";
-import type { RealtimeVoiceProviderConfig } from "./provider-types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveConfiguredCapabilityProvider } from "../plugin-sdk/provider-selection-runtime.ts";
+import type { RealtimeVoiceProviderPlugin } from "../plugins/types.ts";
+import { getRealtimeVoiceProvider, listRealtimeVoiceProviders } from "./provider-registry.ts";
+import type { RealtimeVoiceProviderConfig } from "./provider-types.ts";
 
 /** Resolved realtime voice provider plus provider-normalized config. */
 export type ResolvedRealtimeVoiceProvider = {

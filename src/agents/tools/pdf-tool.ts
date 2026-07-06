@@ -8,20 +8,20 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { Type } from "typebox";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { complete } from "../../llm/stream.js";
-import type { Context } from "../../llm/types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { complete } from "../../llm/stream.ts";
+import type { Context } from "../../llm/types.ts";
 import {
   classifyMediaReferenceSource,
   normalizeMediaReferenceSource,
-} from "../../media/media-reference.js";
-import { extractPdfContent, type PdfExtractedContent } from "../../media/pdf-extract.js";
-import { loadWebMediaRaw } from "../../media/web-media.js";
-import { resolveUserPath } from "../../utils.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
-import { optionalFiniteNumberSchema } from "../schema/typebox.js";
-import { readFiniteNumberParam, ToolInputError } from "./common.js";
-import { coerceImageModelConfig, type ImageModelConfig } from "./image-tool.helpers.js";
+} from "../../media/media-reference.ts";
+import { extractPdfContent, type PdfExtractedContent } from "../../media/pdf-extract.ts";
+import { loadWebMediaRaw } from "../../media/web-media.ts";
+import { resolveUserPath } from "../../utils.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
+import { optionalFiniteNumberSchema } from "../schema/typebox.ts";
+import { readFiniteNumberParam, ToolInputError } from "./common.ts";
+import { coerceImageModelConfig, type ImageModelConfig } from "./image-tool.helpers.ts";
 import {
   applyImageModelConfigDefaults,
   buildTextToolResult,
@@ -31,9 +31,9 @@ import {
   resolveModelRuntimeApiKey,
   resolvePromptAndModelOverride,
   resolveRemoteMediaSsrfPolicy,
-} from "./media-tool-shared.js";
-import { hasToolModelConfig } from "./model-config.helpers.js";
-import { anthropicAnalyzePdf, geminiAnalyzePdf } from "./pdf-native-providers.js";
+} from "./media-tool-shared.ts";
+import { hasToolModelConfig } from "./model-config.helpers.ts";
+import { anthropicAnalyzePdf, geminiAnalyzePdf } from "./pdf-native-providers.ts";
 import {
   coercePdfAssistantText,
   coercePdfModelConfig,
@@ -41,8 +41,8 @@ import {
   providerSupportsNativePdf,
   resolvePdfInputs,
   resolvePdfToolMaxTokens,
-} from "./pdf-tool.helpers.js";
-import { resolvePdfModelConfigForTool } from "./pdf-tool.model-config.js";
+} from "./pdf-tool.helpers.ts";
+import { resolvePdfModelConfigForTool } from "./pdf-tool.model-config.ts";
 import {
   createSandboxBridgeReadFile,
   discoverAuthStorage,
@@ -54,7 +54,7 @@ import {
   type SandboxedBridgeMediaPathConfig,
   type SandboxFsBridge,
   type ToolFsPolicy,
-} from "./tool-runtime.helpers.js";
+} from "./tool-runtime.helpers.ts";
 
 const DEFAULT_PROMPT = "Analyze this PDF document.";
 const DEFAULT_MAX_PDFS = 10;

@@ -3,17 +3,17 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatChannelId, type ChatChannelId } from "./ids.js";
-import type { ChannelId } from "./plugins/channel-id.types.js";
-import type { ChannelMeta } from "./plugins/types.core.js";
+import { normalizeChatChannelId, type ChatChannelId } from "./ids.ts";
+import type { ChannelId } from "./plugins/channel-id.types.ts";
+import type { ChannelMeta } from "./plugins/types.core.ts";
 import {
   findRegisteredChannelPluginEntry,
   findRegisteredChannelPluginEntryById,
   listRegisteredChannelPluginEntries,
-} from "./registry-lookup.js";
-export { getChatChannelMeta } from "./chat-meta.js";
-export { CHAT_CHANNEL_ORDER } from "./ids.js";
-export type { ChatChannelId } from "./ids.js";
+} from "./registry-lookup.ts";
+export { getChatChannelMeta } from "./chat-meta.ts";
+export { CHAT_CHANNEL_ORDER } from "./ids.ts";
+export type { ChatChannelId } from "./ids.ts";
 export { normalizeChatChannelId };
 
 /**

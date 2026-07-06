@@ -1,6 +1,6 @@
 // Persists queued session deliveries for retry and recovery.
 import { createHash } from "node:crypto";
-import type { ChatType } from "../channels/chat-type.js";
+import type { ChatType } from "../channels/chat-type.ts";
 import {
   deleteDeliveryQueueEntry,
   loadDeliveryQueueEntries,
@@ -9,8 +9,8 @@ import {
   updateDeliveryQueueEntry,
   upsertDeliveryQueueEntry,
   type DeliveryQueueRowMetadata,
-} from "./delivery-queue-sqlite.js";
-import { generateSecureUuid } from "./secure-random.js";
+} from "./delivery-queue-sqlite.ts";
+import { generateSecureUuid } from "./secure-random.ts";
 
 // Session delivery queue persists session-scoped messages until channel
 // delivery acknowledges them or recovery exhausts retry policy.

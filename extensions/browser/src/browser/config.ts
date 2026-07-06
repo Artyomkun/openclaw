@@ -53,10 +53,6 @@ export {
 export { parseBrowserHttpUrl as parseHttpUrl };
 
 type BrowserSsrFPolicyCompat = NonNullable<BrowserConfig["ssrfPolicy"]> & {
-  /**
-   * Legacy raw-config alias. Keep it out of the public BrowserConfig type while
-   * still accepting old user files until doctor rewrites them.
-   */
   allowPrivateNetwork?: boolean;
 };
 
@@ -315,16 +311,16 @@ function resolveBrowserSsrFPolicy(cfg: BrowserConfig | undefined): SsrFPolicy | 
 function ensureDefaultProfile(
   profiles: Record<string, BrowserProfileConfig> | undefined,
   defaultColor: string,
-  legacyCdpPort?: number,
+  CdpPort?: number,
   derivedDefaultCdpPort?: number,
-  legacyCdpUrl?: string,
+  CdpUrl?: string,
 ): Record<string, BrowserProfileConfig> {
   const result = { ...profiles };
   if (!result[DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME]) {
     result[DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME] = {
-      cdpPort: legacyCdpPort ?? derivedDefaultCdpPort ?? DEFAULT_BROWSER_CDP_PORT_RANGE_START,
+      cdpPort: CdpPort ?? derivedDefaultCdpPort ?? DEFAULT_BROWSER_CDP_PORT_RANGE_START,
       color: defaultColor,
-      ...(legacyCdpUrl ? { cdpUrl: legacyCdpUrl } : {}),
+      ...(CdpUrl ? { cdpUrl: CdpUrl } : {}),
     };
   }
   return result;
@@ -343,31 +339,6 @@ function ensureDefaultUserBrowserProfile(
     color: "#00AA00",
   };
   return result;
-}
-
-function applyLegacyCdpUrlToExistingSessionDefaultProfile(
-  profiles: Record<string, BrowserProfileConfig>,
-  defaultProfile: string,
-  legacyCdpUrl: string | undefined,
-): Record<string, BrowserProfileConfig> {
-  if (!legacyCdpUrl) {
-    return profiles;
-  }
-  const profile = profiles[defaultProfile];
-  if (
-    !profile ||
-    profile.driver !== "existing-session" ||
-    normalizeOptionalString(profile.cdpUrl)
-  ) {
-    return profiles;
-  }
-  return {
-    ...profiles,
-    [defaultProfile]: {
-      ...profile,
-      cdpUrl: legacyCdpUrl,
-    },
-  };
 }
 
 /** Resolve raw browser config into runtime browser defaults. */
@@ -438,19 +409,6 @@ export function resolveBrowserConfig(
   const attachOnly = cfg?.attachOnly === true;
   const executablePath = normalizeExecutablePath(cfg?.executablePath);
   const defaultProfileFromConfig = normalizeOptionalString(cfg?.defaultProfile);
-
-  const legacyCdpPort = rawCdpUrl ? cdpInfo.port : undefined;
-  const isWsUrl = cdpInfo.parsed.protocol === "ws:" || cdpInfo.parsed.protocol === "wss:";
-  const legacyCdpUrl = rawCdpUrl && isWsUrl ? cdpInfo.normalized : undefined;
-  let profiles = ensureDefaultUserBrowserProfile(
-    ensureDefaultProfile(
-      cfg?.profiles,
-      defaultColor,
-      legacyCdpPort,
-      cdpPortRangeStart,
-      legacyCdpUrl,
-    ),
-  );
   const cdpProtocol = cdpInfo.parsed.protocol === "https:" ? "https" : "http";
 
   const defaultProfile =
@@ -460,11 +418,6 @@ export function resolveBrowserConfig(
       : profiles[DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME]
         ? DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME
         : "user");
-  profiles = applyLegacyCdpUrlToExistingSessionDefaultProfile(
-    profiles,
-    defaultProfile,
-    rawCdpUrl ? cdpInfo.normalized : undefined,
-  );
 
   const extraArgs = Array.isArray(cfg?.extraArgs)
     ? cfg.extraArgs.filter(

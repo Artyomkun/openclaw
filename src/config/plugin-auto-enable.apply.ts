@@ -1,17 +1,17 @@
 // Applies plugin auto-enable decisions to normalized config objects.
-import type { PluginDiscoveryResult } from "../plugins/discovery.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import { detectPluginAutoEnableCandidates } from "./plugin-auto-enable.detect.js";
+import type { PluginDiscoveryResult } from "../plugins/discovery.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import { detectPluginAutoEnableCandidates } from "./plugin-auto-enable.detect.ts";
 import {
   materializePluginAutoEnableCandidatesInternal,
   resolvePluginAutoEnableManifestRegistry,
-} from "./plugin-auto-enable.shared.js";
+} from "./plugin-auto-enable.shared.ts";
 import type {
   PluginAutoEnableCandidate,
   PluginAutoEnableResult,
-} from "./plugin-auto-enable.types.js";
-import { hashRuntimeConfigValue } from "./runtime-snapshot.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+} from "./plugin-auto-enable.types.ts";
+import { hashRuntimeConfigValue } from "./runtime-snapshot.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 type PluginAutoEnableCacheEntry = {
   configFingerprint: string;

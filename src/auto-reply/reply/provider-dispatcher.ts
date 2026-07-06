@@ -2,16 +2,16 @@
 import {
   dispatchInboundMessageWithBufferedDispatcher,
   dispatchInboundMessageWithDispatcher,
-} from "../dispatch.js";
+} from "../dispatch.ts";
 import type {
   DispatchReplyWithBufferedBlockDispatcher,
   DispatchReplyWithDispatcher,
-} from "./provider-dispatcher.types.js";
+} from "./provider-dispatcher.types.ts";
 
 export type {
   DispatchReplyWithBufferedBlockDispatcher,
   DispatchReplyWithDispatcher,
-} from "./provider-dispatcher.types.js";
+} from "./provider-dispatcher.types.ts";
 
 /** Dispatch a reply using the buffered block dispatcher path. */
 export const dispatchReplyWithBufferedBlockDispatcher: DispatchReplyWithBufferedBlockDispatcher =

@@ -1,24 +1,24 @@
 // Gateway chat runtime projects agent events into chat/session subscriber
 // streams, lifecycle persistence, heartbeat visibility, and live UI updates.
 import { performance } from "node:perf_hooks";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { resolveToolSearchCodeDisplayTarget } from "../agents/tool-display-common.js";
-import { DEFAULT_HEARTBEAT_ACK_MAX_CHARS, stripHeartbeatToken } from "../auto-reply/heartbeat.js";
-import { normalizeVerboseLevel } from "../auto-reply/thinking.js";
-import { getRuntimeConfig } from "../config/io.js";
-import { type AgentEventPayload, getAgentRunContext } from "../infra/agent-events.js";
-import { detectErrorKind, type ErrorKind } from "../infra/errors.js";
-import { resolveHeartbeatVisibility } from "../infra/heartbeat-visibility.js";
-import { isAcpSessionKey, isSubagentSessionKey } from "../sessions/session-key-utils.js";
-import { resolveAssistantEventPhase } from "../shared/chat-message-content.js";
-import { setSafeTimeout } from "../utils/timer-delay.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { resolveToolSearchCodeDisplayTarget } from "../agents/tool-display-common.ts";
+import { DEFAULT_HEARTBEAT_ACK_MAX_CHARS, stripHeartbeatToken } from "../auto-reply/heartbeat.ts";
+import { normalizeVerboseLevel } from "../auto-reply/thinking.ts";
+import { getRuntimeConfig } from "../config/io.ts";
+import { type AgentEventPayload, getAgentRunContext } from "../infra/agent-events.ts";
+import { detectErrorKind, type ErrorKind } from "../infra/errors.ts";
+import { resolveHeartbeatVisibility } from "../infra/heartbeat-visibility.ts";
+import { isAcpSessionKey, isSubagentSessionKey } from "../sessions/session-key-utils.ts";
+import { resolveAssistantEventPhase } from "../shared/chat-message-content.ts";
+import { setSafeTimeout } from "../utils/timer-delay.ts";
 import {
   normalizeLiveAssistantEventText,
   projectLiveAssistantBufferedText,
   resolveMergedAssistantText,
   shouldSuppressAssistantEventForLiveChat,
-} from "./live-chat-projector.js";
-import { isChatAbortMarkerCurrent } from "./server-chat-state.js";
+} from "./live-chat-projector.ts";
+import { isChatAbortMarkerCurrent } from "./server-chat-state.ts";
 import type {
   BufferedAgentEvent,
   ChatRunEntry,
@@ -26,16 +26,16 @@ import type {
   SessionEventSubscriberRegistry,
   SessionMessageSubscriberRegistry,
   ToolEventRecipientRegistry,
-} from "./server-chat-state.js";
-import { loadGatewaySessionRow } from "./server-chat.load-gateway-session-row.runtime.js";
-import { persistGatewaySessionLifecycleEvent } from "./server-chat.persist-session-lifecycle.runtime.js";
+} from "./server-chat-state.ts";
+import { loadGatewaySessionRow } from "./server-chat.load-gateway-session-row.runtime.ts";
+import { persistGatewaySessionLifecycleEvent } from "./server-chat.persist-session-lifecycle.runtime.ts";
 import {
   deriveGatewaySessionLifecycleProjectionPatch,
   isRestartRecoveryLifecycleEvent,
   isStaleLifecycleEventForSession,
-} from "./session-lifecycle-state.js";
-import { loadSessionEntry } from "./session-utils.js";
-import { formatForLog } from "./ws-log.js";
+} from "./session-lifecycle-state.ts";
+import { loadSessionEntry } from "./session-utils.ts";
+import { formatForLog } from "./ws-log.ts";
 
 export {
   createChatAbortMarker,
@@ -44,7 +44,7 @@ export {
   createSessionEventSubscriberRegistry,
   createSessionMessageSubscriberRegistry,
   createToolEventRecipientRegistry,
-} from "./server-chat-state.js";
+} from "./server-chat-state.ts";
 export type {
   ChatAbortMarker,
   ChatRunEntry,
@@ -54,7 +54,7 @@ export type {
   SessionEventSubscriberRegistry,
   SessionMessageSubscriberRegistry,
   ToolEventRecipientRegistry,
-} from "./server-chat-state.js";
+} from "./server-chat-state.ts";
 
 function projectToolSearchCodeEventForChannelPayload<T extends { data?: unknown }>(payload: T): T {
   const data = payload.data;

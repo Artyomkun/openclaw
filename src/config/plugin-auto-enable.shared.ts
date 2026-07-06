@@ -2,39 +2,39 @@
 import { collectConfiguredModelRefs } from "@openclaw/model-catalog-core/configured-model-refs";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { collectConfiguredAgentHarnessRuntimes } from "../agents/harness-runtimes.js";
+import { collectConfiguredAgentHarnessRuntimes } from "../agents/harness-runtimes.ts";
 import {
   listPotentialConfiguredChannelPresenceSignals,
   type ChannelPresenceSignalSource,
-} from "../channels/config-presence.js";
+} from "../channels/config-presence.ts";
 import {
   hasBundledChannelConfiguredState,
   listBundledChannelIdsWithConfiguredState,
-} from "../channels/plugins/configured-state.js";
-import { getChatChannelMeta, normalizeChatChannelId } from "../channels/registry.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
-import type { PluginDiscoveryResult } from "../plugins/discovery.js";
-import { collectConfiguredSpeechProviderIds } from "../plugins/gateway-startup-speech-providers.js";
-import { resolveInstalledPluginIndexPolicyHash } from "../plugins/installed-plugin-index-policy.js";
-import type { PluginManifestRecord, PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { resolveOwningPluginIdsForModelRef } from "../plugins/providers.js";
-import { resolvePluginSetupAutoEnableReasons } from "../plugins/setup-registry.js";
-import { isRecord } from "../utils.js";
-import { isChannelConfigured } from "./channel-configured.js";
-import { shouldSkipPreferredPluginAutoEnable } from "./plugin-auto-enable.prefer-over.js";
+} from "../channels/plugins/configured-state.ts";
+import { getChatChannelMeta, normalizeChatChannelId } from "../channels/registry.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
+import type { PluginDiscoveryResult } from "../plugins/discovery.ts";
+import { collectConfiguredSpeechProviderIds } from "../plugins/gateway-startup-speech-providers.ts";
+import { resolveInstalledPluginIndexPolicyHash } from "../plugins/installed-plugin-index-policy.ts";
+import type { PluginManifestRecord, PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { resolveOwningPluginIdsForModelRef } from "../plugins/providers.ts";
+import { resolvePluginSetupAutoEnableReasons } from "../plugins/setup-registry.ts";
+import { isRecord } from "../utils.ts";
+import { isChannelConfigured } from "./channel-configured.ts";
+import { shouldSkipPreferredPluginAutoEnable } from "./plugin-auto-enable.prefer-over.ts";
 import type {
   PluginAutoEnableCandidate,
   PluginAutoEnableResult,
-} from "./plugin-auto-enable.types.js";
-import { ensurePluginAllowlisted } from "./plugins-allowlist.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+} from "./plugin-auto-enable.types.ts";
+import { ensurePluginAllowlisted } from "./plugins-allowlist.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 export type {
   PluginAutoEnableCandidate,
   PluginAutoEnableResult,
-} from "./plugin-auto-enable.types.js";
+} from "./plugin-auto-enable.types.ts";
 
 const EMPTY_PLUGIN_MANIFEST_REGISTRY: PluginManifestRegistry = {
   plugins: [],

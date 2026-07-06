@@ -138,7 +138,6 @@ export const BrowserToolSchema = Type.Object({
   dialogId: Type.Optional(Type.String()),
   accept: Type.Optional(Type.Boolean()),
   promptText: Type.Optional(Type.String()),
-  // Legacy flattened act params (preferred: request={...})
   kind: Type.Optional(stringEnum(BROWSER_ACT_KINDS)),
   doubleClick: Type.Optional(Type.Boolean()),
   button: Type.Optional(Type.String()),

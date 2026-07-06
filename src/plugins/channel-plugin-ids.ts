@@ -11,7 +11,7 @@ export {
   type ConfiguredChannelBlockedReason,
   type ConfiguredChannelPresencePolicyEntry,
   type ConfiguredChannelPresenceSource,
-} from "./channel-presence-policy.js";
+} from "./channel-presence-policy.ts";
 
 export {
   collectConfiguredMemoryEmbeddingProviderIds,
@@ -31,4 +31,4 @@ export {
   resolveGatewayStartupPluginPlanFromRegistry,
   resolveGatewayStartupPluginIdsFromRegistry,
   type GatewayStartupPluginPlan,
-} from "./gateway-startup-plugin-ids.js";
+} from "./gateway-startup-plugin-ids.ts";

@@ -1,5 +1,5 @@
 /** Cache state helper for plugin loader registries, in-flight loads, and warning suppression. */
-import { PluginLruCache } from "./plugin-cache-primitives.js";
+import { PluginLruCache } from "./plugin-cache-primitives.ts";
 
 /** Error thrown when one plugin registry cache key attempts nested loading. */
 export class PluginLoadReentryError extends Error {

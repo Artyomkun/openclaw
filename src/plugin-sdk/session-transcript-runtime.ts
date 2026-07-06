@@ -6,9 +6,9 @@ import {
   type TranscriptMessageAppendOptions,
   type TranscriptMessageAppendResult,
   type TranscriptUpdatePayload,
-} from "../config/sessions/session-accessor.js";
-import { runSessionTranscriptAppendTransaction } from "../config/sessions/transcript-append.js";
-import { streamSessionTranscriptLines } from "../config/sessions/transcript-stream.js";
+} from "../config/sessions/session-accessor.ts";
+import { runSessionTranscriptAppendTransaction } from "../config/sessions/transcript-append.ts";
+import { streamSessionTranscriptLines } from "../config/sessions/transcript-stream.ts";
 import {
   appendAssistantMessageToSessionTranscript,
   readLatestAssistantTextFromSessionTranscript,
@@ -16,9 +16,9 @@ import {
   type SessionTranscriptAppendResult,
   type SessionTranscriptDeliveryMirror,
   type SessionTranscriptUpdateMode,
-} from "../config/sessions/transcript.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId } from "../routing/session-key.js";
+} from "../config/sessions/transcript.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
 import {
   formatSessionTranscriptMemoryHitKey,
   parseSessionTranscriptMemoryHitKey,
@@ -29,7 +29,7 @@ import {
   type SessionTranscriptMemoryHitKey,
   type SessionTranscriptMemoryHitKeyParams,
   type SessionTranscriptReadParams,
-} from "./session-transcript-memory-hit.js";
+} from "./session-transcript-memory-hit.ts";
 
 export {
   formatSessionTranscriptMemoryHitKey,
@@ -47,27 +47,10 @@ export type {
 
 export type SessionTranscriptEvent = unknown;
 
-export type SessionTranscriptTargetParams = SessionTranscriptReadParams & {
-  /**
-   * @deprecated Prefer `{ agentId, sessionKey, sessionId }`. Pass this only
-   * when adapting code that already receives an active transcript artifact and
-   * needs each helper to operate on that same artifact.
-   */
-  sessionFile?: string;
-};
+export type SessionTranscriptTargetParams = SessionTranscriptReadParams;
 
 export type SessionTranscriptTarget = SessionTranscriptIdentity & {
   targetKind: "active-session-file" | "runtime-session";
-};
-
-/**
- * @deprecated Use SessionTranscriptTarget with `{ agentId, sessionKey,
- * sessionId }`. Active transcript file targets are transitional only and will
- * be removed with the SQLite session/transcript storage flip.
- */
-export type SessionTranscriptLegacyFileTarget = SessionTranscriptTarget & {
-  /** Deprecated transitional file path for active transcript artifact callers. */
-  sessionFile: string;
 };
 
 export type SessionTranscriptAppendMessageParams<TMessage> = SessionTranscriptTargetParams &
@@ -123,24 +106,6 @@ export async function resolveSessionTranscriptTarget(
     ...target,
     targetKind: params.sessionFile?.trim() ? "active-session-file" : "runtime-session",
   });
-}
-
-/**
- * @deprecated Use resolveSessionTranscriptTarget with `{ agentId, sessionKey,
- * sessionId }`. This persists an active transcript file target only for legacy
- * plugin command calls that still require `sessionFile`.
- */
-export async function resolveSessionTranscriptLegacyFileTarget(
-  params: SessionTranscriptTargetParams,
-): Promise<SessionTranscriptLegacyFileTarget> {
-  const target = await resolveSessionTranscriptRuntimeTarget(params);
-  return {
-    ...projectPublicTarget({
-      ...target,
-      targetKind: params.sessionFile?.trim() ? "active-session-file" : "runtime-session",
-    }),
-    sessionFile: target.sessionFile,
-  };
 }
 
 /**

@@ -356,11 +356,6 @@
       "help": "Runtime controls for connecting to Codex app-server.",
       "advanced": true
     },
-    "appServer.mode": {
-      "label": "Execution Mode",
-      "help": "Legacy Codex app-server preset. Prefer tools.exec.mode=auto for normalized Guardian-reviewed approvals.",
-      "advanced": true
-    },
     "appServer.transport": {
       "label": "Transport",
       "help": "Use stdio to spawn Codex locally, or websocket to connect to an already-running app-server.",
@@ -436,11 +431,6 @@
     "appServer.approvalsReviewer": {
       "label": "Approvals Reviewer",
       "help": "Use user approvals or Codex auto_review for native app-server approvals. guardian_subagent remains accepted for compatibility.",
-      "advanced": true
-    },
-    "appServer.serviceTier": {
-      "label": "Service Tier",
-      "help": "Optional Codex app-server service tier. Use priority, flex, or null. Legacy fast is accepted as priority.",
       "advanced": true
     },
     "appServer.networkProxy": {

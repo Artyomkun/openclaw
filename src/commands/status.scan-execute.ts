@@ -1,8 +1,8 @@
 // Converts a shared status overview scan into the full status scan result.
 // Memory and summary collection run in parallel after the common gateway/config scan has completed.
 
-import type { PluginCompatibilityNotice } from "../plugins/status.js";
-import type { RuntimeEnv } from "../runtime.js";
+import type { PluginCompatibilityNotice } from "../plugins/status.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import type { StatusScanOverviewResult } from "./status.scan-overview.ts";
 import { resolveStatusSummaryFromOverview } from "./status.scan-overview.ts";
 import { buildStatusScanResult, type StatusScanResult } from "./status.scan-result.ts";
@@ -10,7 +10,7 @@ import {
   resolveMemoryPluginStatus,
   type MemoryPluginStatus,
   type MemoryStatusSnapshot,
-} from "./status.scan.shared.js";
+} from "./status.scan.shared.ts";
 
 /** Builds a full status scan result from an overview scan plus channel/plugin compatibility data. */
 export async function executeStatusScanFromOverview(params: {

@@ -2,7 +2,7 @@
  * Tracks prompt-cache snapshot changes for observability diagnostics.
  */
 import crypto from "node:crypto";
-import type { NormalizedUsage } from "../usage.js";
+import type { NormalizedUsage } from "../usage.ts";
 
 type PromptCacheChangeCode =
   | "cacheRetention"

@@ -1,8 +1,7 @@
 // Small progress-draft line helpers shared by streaming renderers.
-import type { ChannelProgressDraftLine } from "./streaming.js";
 
-/** Progress draft state can mix legacy plain text lines with keyed structured lines. */
-type ProgressDraftLine = string | ChannelProgressDraftLine;
+/** Progress draft state can mix plain text lines with keyed structured lines. */
+type ProgressDraftLine = string;
 
 /**
  * Removes a keyed structured progress line while preserving plain text draft lines.

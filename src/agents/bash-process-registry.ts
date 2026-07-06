@@ -4,11 +4,11 @@
  * session retention, and process cleanup for reconnect/poll flows.
  */
 import type { ChildProcessWithoutNullStreams } from "node:child_process";
-import type { EventSessionRoutingPolicy } from "../infra/event-session-routing.js";
-import type { TerminationReason } from "../process/supervisor/types.js";
-import type { DeliveryContext } from "../utils/delivery-context.js";
-import { readEnvInt } from "./bash-tools.shared.js";
-import { createSessionSlug as createSessionSlugId } from "./session-slug.js";
+import type { EventSessionRoutingPolicy } from "../infra/event-session-routing.ts";
+import type { TerminationReason } from "../process/supervisor/types.ts";
+import type { DeliveryContext } from "../utils/delivery-context.ts";
+import { readEnvInt } from "./bash-tools.shared.ts";
+import { createSessionSlug as createSessionSlugId } from "./session-slug.ts";
 
 const DEFAULT_JOB_TTL_MS = 30 * 60 * 1000; // 30 minutes
 const MIN_JOB_TTL_MS = 60 * 1000; // 1 minute

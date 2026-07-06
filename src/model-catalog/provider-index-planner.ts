@@ -5,7 +5,7 @@ import type {
   ModelCatalogProvider,
   NormalizedModelCatalogRow,
 } from "@openclaw/model-catalog-core/model-catalog-types";
-import type { OpenClawProviderIndex } from "./provider-index/index.js";
+import type { OpenClawProviderIndex } from "./provider-index/index.ts";
 
 // Provider-index planner converts ClawHub-style preview catalog entries into
 // normalized model rows for discovery before a plugin is installed.

@@ -4,20 +4,20 @@ import {
   resolveGroupToolPolicy,
   resolveInheritedToolPolicyForSession,
   resolveSubagentToolPolicyForSession,
-} from "../../agents/agent-tools.policy.js";
-import type { AnyAgentTool } from "../../agents/agent-tools.types.js";
-import { createOpenClawTools } from "../../agents/openclaw-tools.runtime.js";
-import { resolveSandboxRuntimeStatus } from "../../agents/sandbox/runtime-status.js";
-import { resolveSenderToolPolicy } from "../../agents/sender-tool-policy.js";
+} from "../../agents/agent-tools.policy.ts";
+import type { AnyAgentTool } from "../../agents/agent-tools.types.ts";
+import { createOpenClawTools } from "../../agents/openclaw-tools.runtime.ts";
+import { resolveSandboxRuntimeStatus } from "../../agents/sandbox/runtime-status.ts";
+import { resolveSenderToolPolicy } from "../../agents/sender-tool-policy.ts";
 import {
   isSubagentEnvelopeSession,
   resolveSubagentCapabilityStore,
-} from "../../agents/subagent-capabilities.js";
-import { buildDeclaredToolAllowlistContext } from "../../agents/tool-policy-declared-context.js";
+} from "../../agents/subagent-capabilities.ts";
+import { buildDeclaredToolAllowlistContext } from "../../agents/tool-policy-declared-context.ts";
 import {
   applyToolPolicyPipeline,
   buildDefaultToolPolicyPipelineSteps,
-} from "../../agents/tool-policy-pipeline.js";
+} from "../../agents/tool-policy-pipeline.ts";
 import {
   collectExplicitDenylist,
   collectExplicitAllowlist,
@@ -25,17 +25,17 @@ import {
   mergeAlsoAllowPolicy,
   replaceWithEffectiveToolAllowlist,
   resolveToolProfilePolicy,
-} from "../../agents/tool-policy.js";
+} from "../../agents/tool-policy.ts";
 import {
   replaceWithEffectiveCronCreatorToolAllowlist,
   type CronCreatorToolAllowlistEntry,
-} from "../../agents/tools/cron-tool.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { getPluginToolMeta } from "../../plugins/tools.js";
-import { resolveGatewayMessageChannel } from "../../utils/message-channel.js";
-import type { SkillCommandSpec } from "../types.js";
+} from "../../agents/tools/cron-tool.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { getPluginToolMeta } from "../../plugins/tools.ts";
+import { resolveGatewayMessageChannel } from "../../utils/message-channel.ts";
+import type { SkillCommandSpec } from "../types.ts";
 
 type SkillDispatchMessageContext = {
   surface?: string;

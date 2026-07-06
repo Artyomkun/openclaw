@@ -6,13 +6,13 @@ import {
   ensureAuthProfileStore,
   resolveAuthStatePathForDisplay,
   setAuthProfileOrder,
-} from "../../agents/auth-profiles.js";
-import { normalizeProviderId } from "../../agents/model-selection.js";
-import { formatCliCommand } from "../../cli/command-format.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { shortenHomePath } from "../../utils.js";
-import { loadModelsConfig } from "./load-config.js";
-import { resolveModelsTargetAgent } from "./shared.js";
+} from "../../agents/auth-profiles.ts";
+import { normalizeProviderId } from "../../agents/model-selection.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { shortenHomePath } from "../../utils.ts";
+import { loadModelsConfig } from "./load-config.ts";
+import { resolveModelsTargetAgent } from "./shared.ts";
 
 function describeOrder(store: AuthProfileStore, provider: string): string[] {
   const providerKey = normalizeProviderId(provider);

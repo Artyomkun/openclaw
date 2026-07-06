@@ -1,6 +1,6 @@
 // Normalizes origin route fields from inbound messages and provider context.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { OriginatingChannelType } from "../templating.js";
+import type { OriginatingChannelType } from "../templating.ts";
 
 /** Resolves the original message provider before reply redirection. */
 export function resolveOriginMessageProvider(params: {

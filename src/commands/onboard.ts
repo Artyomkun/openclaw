@@ -4,56 +4,30 @@
  * It validates global setup flags, performs optional reset handling, and then
  * routes to interactive or non-interactive onboarding.
  */
-import { formatCliCommand } from "../cli/command-format.js";
-import { readConfigFileSnapshot } from "../config/config.js";
-import { assertSupportedRuntime } from "../infra/runtime-guard.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { resolveUserPath } from "../utils.js";
-import {
-  formatDeprecatedNonInteractiveAuthChoiceError,
-  isDeprecatedAuthChoice,
-  normalizeLegacyOnboardAuthChoice,
-  resolveDeprecatedAuthChoiceReplacement,
-} from "./auth-choice-legacy.js";
-import { DEFAULT_WORKSPACE, handleReset } from "./onboard-helpers.js";
-import { runInteractiveSetup } from "./onboard-interactive.js";
-import { runNonInteractiveSetup } from "./onboard-non-interactive.js";
-import type { OnboardOptions, ResetScope } from "./onboard-types.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { readConfigFileSnapshot } from "../config/config.ts";
+import { assertSupportedRuntime } from "../infra/runtime-guard.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { resolveUserPath } from "../utils.ts";
+import { DEFAULT_WORKSPACE, handleReset } from "./onboard-helpers.ts";
+import { runInteractiveSetup } from "./onboard-interactive.ts";
+import { runNonInteractiveSetup } from "./onboard-non-interactive.ts";
+import type { OnboardOptions, ResetScope } from "./onboard-types.ts";
 
 const VALID_RESET_SCOPES = new Set<ResetScope>(["config", "config+creds+sessions", "full"]);
 
-/** Runs the onboard command after normalizing legacy flags and setup mode. */
+/** Runs the onboard command after normalizing older flags and setup mode. */
 export async function setupWizardCommand(
   opts: OnboardOptions,
   runtime: RuntimeEnv = defaultRuntime,
 ) {
   assertSupportedRuntime(runtime);
-  const originalAuthChoice = opts.authChoice;
-  const normalizedAuthChoice = normalizeLegacyOnboardAuthChoice(originalAuthChoice, {
-    env: process.env,
-  });
-  if (opts.nonInteractive && isDeprecatedAuthChoice(originalAuthChoice, { env: process.env })) {
-    // Non-interactive output must be deterministic; reject deprecated aliases
-    // instead of printing prompts or compatibility guidance mid-flow.
-    runtime.error(
-      formatDeprecatedNonInteractiveAuthChoiceError(originalAuthChoice, {
-        env: process.env,
-      })!,
-    );
-    runtime.exit(1);
-    return;
-  }
-  if (isDeprecatedAuthChoice(originalAuthChoice, { env: process.env })) {
-    runtime.log(
-      resolveDeprecatedAuthChoiceReplacement(originalAuthChoice, { env: process.env })!.message,
-    );
-  }
   const flow = opts.flow === "manual" ? ("advanced" as const) : opts.flow;
   const normalizedOpts =
-    normalizedAuthChoice === opts.authChoice && flow === opts.flow
+    flow === opts.flow
       ? opts
-      : { ...opts, authChoice: normalizedAuthChoice, flow };
+      : { ...opts, flow };
   if (
     normalizedOpts.secretInputMode &&
     normalizedOpts.secretInputMode !== "plaintext" && // pragma: allowlist secret

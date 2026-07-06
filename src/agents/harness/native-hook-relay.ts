@@ -24,26 +24,26 @@ import {
   asDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { toErrorObject } from "../../infra/errors.js";
-import { resolveOpenClawPackageRootSync } from "../../infra/openclaw-root.js";
-import { privateFileStoreSync } from "../../infra/private-file-store.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { hasGlobalHooks } from "../../plugins/hook-runner-global.js";
-import { PluginApprovalResolutions } from "../../plugins/types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { toErrorObject } from "../../infra/errors.ts";
+import { resolveOpenClawPackageRootSync } from "../../infra/openclaw-root.ts";
+import { privateFileStoreSync } from "../../infra/private-file-store.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { hasGlobalHooks } from "../../plugins/hook-runner-global.ts";
+import { PluginApprovalResolutions } from "../../plugins/types.ts";
 import {
   cancelDeferredPluginToolApproval,
   hasBeforeToolCallPolicy,
   requestDeferredPluginToolApproval,
   runBeforeToolCallHook,
   type DeferredPluginToolApproval,
-} from "../agent-tools.before-tool-call.js";
-import { stableStringify } from "../stable-stringify.js";
-import { resolveToolLoopDetectionConfig } from "../tool-loop-detection-config.js";
-import { normalizeToolName } from "../tool-policy.js";
-import { callGatewayTool } from "../tools/gateway.js";
-import { runAgentHarnessAfterToolCallHook } from "./hook-helpers.js";
-import { runAgentHarnessBeforeAgentFinalizeHook } from "./lifecycle-hook-helpers.js";
+} from "../agent-tools.before-tool-call.ts";
+import { stableStringify } from "../stable-stringify.ts";
+import { resolveToolLoopDetectionConfig } from "../tool-loop-detection-config.ts";
+import { normalizeToolName } from "../tool-policy.ts";
+import { callGatewayTool } from "../tools/gateway.ts";
+import { runAgentHarnessAfterToolCallHook } from "./hook-helpers.ts";
+import { runAgentHarnessBeforeAgentFinalizeHook } from "./lifecycle-hook-helpers.ts";
 
 export type JsonValue =
   | null
@@ -2149,9 +2149,9 @@ function resolveOpenClawCliExecutable(): string {
   });
   if (packageRoot) {
     for (const candidate of [
-      path.join(packageRoot, "openclaw.mjs"),
+      path.join(packageRoot, "openclaw.ts"),
       path.join(packageRoot, "dist", "entry.js"),
-      path.join(packageRoot, "scripts", "run-node.mjs"),
+      path.join(packageRoot, "scripts", "run-node.ts"),
     ]) {
       if (existsSync(candidate)) {
         return candidate;

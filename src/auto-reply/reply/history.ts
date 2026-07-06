@@ -1,6 +1,6 @@
 /** Pending chat-history windows and prompt context builders for auto-reply turns. */
-import type { HistoryEntry, HistoryMediaEntry } from "./history.types.js";
-import { CURRENT_MESSAGE_MARKER } from "./mentions.js";
+import type { HistoryEntry, HistoryMediaEntry } from "./history.types.ts";
+import { CURRENT_MESSAGE_MARKER } from "./mentions.ts";
 
 export const HISTORY_CONTEXT_MARKER = "[Chat messages since your last reply - for context]";
 export const DEFAULT_GROUP_HISTORY_LIMIT = 50;
@@ -29,7 +29,7 @@ export function evictOldHistoryKeys<T>(
   }
 }
 
-export type { HistoryEntry, HistoryMediaEntry } from "./history.types.js";
+export type { HistoryEntry, HistoryMediaEntry } from "./history.types.ts";
 
 /** Wraps previous chat history and the current message in the prompt context marker format. */
 export function buildHistoryContext(params: {
@@ -72,43 +72,6 @@ export function appendHistoryEntry<T extends HistoryEntry>(params: {
   // Evict oldest keys if map exceeds max size to prevent unbounded memory growth
   evictOldHistoryKeys(historyMap);
   return history;
-}
-
-/**
- * @deprecated Plugin message-turn code should use `createChannelHistoryWindow(...).record(...)`.
- * This helper remains for core internals and older plugin compatibility.
- */
-export function recordPendingHistoryEntry<T extends HistoryEntry>(params: {
-  historyMap: Map<string, T[]>;
-  historyKey: string;
-  entry: T;
-  limit: number;
-}): T[] {
-  return appendHistoryEntry(params);
-}
-
-/**
- * @deprecated Plugin message-turn code should use `createChannelHistoryWindow(...).record(...)`.
- * This helper remains for core internals and older plugin compatibility.
- */
-export function recordPendingHistoryEntryIfEnabled<T extends HistoryEntry>(params: {
-  historyMap: Map<string, T[]>;
-  historyKey: string;
-  entry?: T | null;
-  limit: number;
-}): T[] {
-  if (!params.entry) {
-    return [];
-  }
-  if (params.limit <= 0) {
-    return [];
-  }
-  return recordPendingHistoryEntry({
-    historyMap: params.historyMap,
-    historyKey: params.historyKey,
-    entry: params.entry,
-    limit: params.limit,
-  });
 }
 
 type MaybePromise<T> = T | Promise<T>;
@@ -165,118 +128,6 @@ export function normalizeHistoryMediaEntries(params: {
   return out;
 }
 
-/**
- * @deprecated Plugin message-turn code should use
- * `createChannelHistoryWindow(...).recordWithMedia(...)`. This helper remains
- * for core internals and older plugin compatibility.
- */
-export async function recordPendingHistoryEntryWithMedia<T extends HistoryEntry>(params: {
-  historyMap: Map<string, T[]>;
-  historyKey: string;
-  entry?: T | null;
-  limit: number;
-  media?:
-    | readonly HistoryMediaEntry[]
-    | null
-    | (() => MaybePromise<readonly HistoryMediaEntry[] | null | undefined>);
-  mediaLimit?: number;
-  messageId?: string;
-  shouldRecord?: () => boolean;
-}): Promise<T[]> {
-  if (!params.entry || params.limit <= 0) {
-    return [];
-  }
-  if (params.shouldRecord && !params.shouldRecord()) {
-    return [];
-  }
-  if (typeof params.media === "function") {
-    const recordedEntry = params.entry;
-    const history = recordPendingHistoryEntry({
-      historyMap: params.historyMap,
-      historyKey: params.historyKey,
-      entry: recordedEntry,
-      limit: params.limit,
-    });
-    const resolvedMedia = await params.media();
-    // The turn can be cancelled while media resolves; keep text but avoid late media attachment.
-    if (params.shouldRecord && !params.shouldRecord()) {
-      return history;
-    }
-    const media = normalizeHistoryMediaEntries({
-      media: resolvedMedia,
-      limit: params.mediaLimit,
-      messageId: params.messageId ?? params.entry.messageId,
-    });
-    if (media.length === 0) {
-      return history;
-    }
-    const currentHistory = params.historyMap.get(params.historyKey);
-    const entryIndex = currentHistory?.indexOf(recordedEntry) ?? -1;
-    if (currentHistory && entryIndex >= 0) {
-      currentHistory[entryIndex] = { ...recordedEntry, media } as T;
-    }
-    return history;
-  }
-  const resolvedMedia = params.media ?? undefined;
-  if (params.shouldRecord && !params.shouldRecord()) {
-    return [];
-  }
-  const media = normalizeHistoryMediaEntries({
-    media: resolvedMedia,
-    limit: params.mediaLimit,
-    messageId: params.messageId ?? params.entry.messageId,
-  });
-  const entry = media.length > 0 ? ({ ...params.entry, media } as T) : params.entry;
-  return recordPendingHistoryEntry({
-    historyMap: params.historyMap,
-    historyKey: params.historyKey,
-    entry,
-    limit: params.limit,
-  });
-}
-
-/**
- * @deprecated Plugin message-turn code should use
- * `createChannelHistoryWindow(...).buildPendingContext(...)`. This helper remains
- * for core internals and older plugin compatibility.
- */
-export function buildPendingHistoryContextFromMap(params: {
-  historyMap: Map<string, HistoryEntry[]>;
-  historyKey: string;
-  limit: number;
-  currentMessage: string;
-  formatEntry: (entry: HistoryEntry) => string;
-  lineBreak?: string;
-}): string {
-  if (params.limit <= 0) {
-    return params.currentMessage;
-  }
-  const entries = params.historyMap.get(params.historyKey) ?? [];
-  return buildHistoryContextFromEntries({
-    entries,
-    currentMessage: params.currentMessage,
-    formatEntry: params.formatEntry,
-    lineBreak: params.lineBreak,
-    excludeLast: false,
-  });
-}
-
-/**
- * @deprecated Plugin message-turn code should use
- * `createChannelHistoryWindow(...).buildInboundHistory(...)`. This helper remains
- * for core internals and older plugin compatibility.
- */
-export function buildInboundHistoryFromMap<T extends HistoryEntry>(params: {
-  historyMap: Map<string, T[]>;
-  historyKey: string;
-  limit: number;
-}): HistoryEntry[] | undefined {
-  return buildInboundHistoryFromEntries({
-    entries: params.historyMap.get(params.historyKey) ?? [],
-    limit: params.limit,
-  });
-}
-
 /** Builds structured inbound history entries from an existing window. */
 export function buildInboundHistoryFromEntries(params: {
   entries: readonly HistoryEntry[];
@@ -302,67 +153,6 @@ export function buildInboundHistoryFromEntries(params: {
     }
     return historyEntry;
   });
-}
-
-/**
- * @deprecated Prefer `buildHistoryContextFromEntries(...)` for existing entry
- * arrays, or `createChannelHistoryWindow(...)` when working from a history map.
- * This helper remains for older plugin compatibility.
- */
-export function buildHistoryContextFromMap(params: {
-  historyMap: Map<string, HistoryEntry[]>;
-  historyKey: string;
-  limit: number;
-  entry?: HistoryEntry;
-  currentMessage: string;
-  formatEntry: (entry: HistoryEntry) => string;
-  lineBreak?: string;
-  excludeLast?: boolean;
-}): string {
-  if (params.limit <= 0) {
-    return params.currentMessage;
-  }
-  const entries = params.entry
-    ? appendHistoryEntry({
-        historyMap: params.historyMap,
-        historyKey: params.historyKey,
-        entry: params.entry,
-        limit: params.limit,
-      })
-    : (params.historyMap.get(params.historyKey) ?? []);
-  return buildHistoryContextFromEntries({
-    entries,
-    currentMessage: params.currentMessage,
-    formatEntry: params.formatEntry,
-    lineBreak: params.lineBreak,
-    excludeLast: params.excludeLast,
-  });
-}
-
-/**
- * @deprecated Plugin message-turn code should use `createChannelHistoryWindow(...).clear(...)`.
- * This helper remains for core internals and older plugin compatibility.
- */
-export function clearHistoryEntries(params: {
-  historyMap: Map<string, HistoryEntry[]>;
-  historyKey: string;
-}): void {
-  params.historyMap.set(params.historyKey, []);
-}
-
-/**
- * @deprecated Plugin message-turn code should use `createChannelHistoryWindow(...).clear(...)`.
- * This helper remains for core internals and older plugin compatibility.
- */
-export function clearHistoryEntriesIfEnabled(params: {
-  historyMap: Map<string, HistoryEntry[]>;
-  historyKey: string;
-  limit: number;
-}): void {
-  if (params.limit <= 0) {
-    return;
-  }
-  clearHistoryEntries({ historyMap: params.historyMap, historyKey: params.historyKey });
 }
 
 /** Builds prompt text from already-recorded history entries. */

@@ -1,15 +1,15 @@
 /**
  * Shared run helpers for retry limits, model reporting, and final text.
  */
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { generateSecureToken } from "../../../infra/secure-random.js";
-import type { AssistantMessage } from "../../../llm/types.js";
-import { extractAssistantTextForPhase } from "../../../shared/chat-message-content.js";
-import { resolveAgentConfig } from "../../agent-scope-config.js";
-import { extractAssistantVisibleText } from "../../embedded-agent-utils.js";
-import { derivePromptTokens, normalizeUsage } from "../../usage.js";
-import type { EmbeddedAgentMeta } from "../types.js";
-import { toLastCallUsage, toNormalizedUsage, type UsageAccumulator } from "../usage-accumulator.js";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { generateSecureToken } from "../../../infra/secure-random.ts";
+import type { AssistantMessage } from "../../../llm/types.ts";
+import { extractAssistantTextForPhase } from "../../../shared/chat-message-content.ts";
+import { resolveAgentConfig } from "../../agent-scope-config.ts";
+import { extractAssistantVisibleText } from "../../embedded-agent-utils.ts";
+import { derivePromptTokens, normalizeUsage } from "../../usage.ts";
+import type { EmbeddedAgentMeta } from "../types.ts";
+import { toLastCallUsage, toNormalizedUsage, type UsageAccumulator } from "../usage-accumulator.ts";
 
 type UsageSnapshot = {
   input?: number;

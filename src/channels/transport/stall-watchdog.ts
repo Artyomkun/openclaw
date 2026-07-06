@@ -1,6 +1,6 @@
 // Armable idle watchdog for long-running channel transports.
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import type { RuntimeEnv } from "../../runtime.js";
+import type { RuntimeEnv } from "../../runtime.ts";
 
 export type StallWatchdogTimeoutMeta = {
   idleMs: number;

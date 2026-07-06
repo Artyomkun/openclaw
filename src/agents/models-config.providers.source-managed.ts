@@ -1,15 +1,15 @@
 /**
  * Enforces source-managed provider secret ownership rules.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { isRecord } from "../utils.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { isRecord } from "../utils.ts";
 import {
   resolveNonEnvSecretRefApiKeyMarker,
   resolveNonEnvSecretRefHeaderValueMarker,
   resolveEnvSecretRefHeaderValueMarker,
-} from "./model-auth-markers.js";
-import type { ProviderConfig, SecretDefaults } from "./models-config.providers.secrets.js";
+} from "./model-auth-markers.ts";
+import type { ProviderConfig, SecretDefaults } from "./models-config.providers.secrets.ts";
 
 /**
  * Reapplies source-managed secret markers to normalized provider config.

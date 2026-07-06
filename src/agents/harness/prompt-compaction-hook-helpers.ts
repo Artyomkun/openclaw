@@ -4,16 +4,16 @@
  * Harness runtimes use this to run plugin hooks around prompt construction and
  * compaction while keeping hook failures non-fatal.
  */
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
 import type {
   PluginHookBeforeAgentStartResult,
   PluginHookBeforePromptBuildResult,
-} from "../../plugins/types.js";
-import { joinPresentTextSegments } from "../../shared/text/join-segments.js";
-import { wrapPluginSystemContextSection } from "../hook-system-context-boundary.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { buildAgentHookContext, type AgentHarnessHookContext } from "./hook-context.js";
+} from "../../plugins/types.ts";
+import { joinPresentTextSegments } from "../../shared/text/join-segments.ts";
+import { wrapPluginSystemContextSection } from "../hook-system-context-boundary.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { buildAgentHookContext, type AgentHarnessHookContext } from "./hook-context.ts";
 
 const log = createSubsystemLogger("agents/harness");
 
@@ -88,7 +88,7 @@ export async function resolveAgentHarnessBeforePromptBuildResult(params: {
       })
     : undefined;
   // The runner resolves before_agent_start during model selection. Reuse that
-  // result so legacy one-shot hooks do not run twice for the same turn.
+  // result so older one-shot hooks do not run twice for the same turn.
   const beforeAgentStartResult = hasPrecomputedBeforeAgentStartResult
     ? params.beforeAgentStartResult
     : hookRunner?.hasHooks("before_agent_start")

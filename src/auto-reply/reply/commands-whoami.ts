@@ -1,6 +1,6 @@
 /** Handles /whoami identity reporting for authorized command senders. */
-import { logVerbose } from "../../globals.js";
-import type { CommandHandler } from "./commands-types.js";
+import { logVerbose } from "../../globals.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 /** Command handler for the /whoami identity diagnostic. */
 export const handleWhoamiCommand: CommandHandler = async (params, allowTextCommands) => {

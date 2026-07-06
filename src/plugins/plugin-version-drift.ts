@@ -1,13 +1,13 @@
 // Detects plugin version drift between config, manifests, and installs.
-import type { OpenClawConfig } from "../config/types.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
-import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { parseClawHubPluginSpec } from "../infra/clawhub-spec.ts";
+import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.ts";
 import {
   resolveTrustedSourceLinkedOfficialClawHubInstall,
   resolveTrustedSourceLinkedOfficialNpmSpec,
-} from "./official-external-install-records.js";
+} from "./official-external-install-records.ts";
 
 export type PluginVersionDriftEntry = {
   pluginId: string;

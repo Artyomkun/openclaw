@@ -1,6 +1,6 @@
 // Gateway chat run state registries.
 // Tracks active runs, delta buffers, tool recipients, and session subscribers.
-import type { AgentEventPayload } from "../infra/agent-events.js";
+import type { AgentEventPayload } from "../infra/agent-events.ts";
 
 export type ChatRunTiming = {
   ackedAtMs: number;
@@ -45,7 +45,7 @@ export function createChatAbortMarker(now = Date.now()): ChatAbortMarker {
   return { abortedAtMs: now, sequence: nextChatRunOrderingSequence() };
 }
 
-/** Return the wall-clock timestamp used by maintenance TTL pruning for both legacy and structured markers. */
+/** Return the wall-clock timestamp used by maintenance TTL pruning for both older and structured markers. */
 export function chatAbortMarkerTimestampMs(marker: ChatAbortMarker): number {
   return typeof marker === "number" ? marker : marker.abortedAtMs;
 }
@@ -53,7 +53,7 @@ export function chatAbortMarkerTimestampMs(marker: ChatAbortMarker): number {
 /**
  * Return whether an abort marker should suppress events for the given chat run registration.
  * Structured markers compare the monotonic sequence first so same-millisecond aborts stay ordered;
- * legacy numeric markers fall back to timestamp comparison, and a missing entry preserves old suppress-on-presence behavior.
+ * older numeric markers fall back to timestamp comparison, and a missing entry preserves old suppress-on-presence behavior.
  */
 export function isChatAbortMarkerCurrent(
   marker: ChatAbortMarker | undefined,

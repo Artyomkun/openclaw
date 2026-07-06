@@ -21,7 +21,6 @@ import {
 
 const log = createSubsystemLogger("anthropic-stream");
 
-const ANTHROPIC_CONTEXT_1M_BETA_LEGACY = "context-1m-2025-08-07";
 const ANTHROPIC_GA_1M_MODEL_PREFIXES = [
   "claude-opus-4-8",
   "claude-opus-4.8",
@@ -61,15 +60,14 @@ function parseHeaderList(value: unknown): string[] {
 }
 
 function mergeAnthropicBetaHeader(
-  headers: Record<string, string> | undefined,
-  betas: string[],
+  headers: Record<string, string>,
 ): Record<string, string> {
   const merged = { ...headers };
   const existingKey = Object.keys(merged).find(
     (key) => normalizeLowercaseStringOrEmpty(key) === "anthropic-beta",
   );
   const existing = existingKey ? parseHeaderList(merged[existingKey]) : [];
-  const values = Array.from(new Set([...existing, ...betas]));
+  const values = Array.from(new Set([...existing]));
   const key = existingKey ?? "anthropic-beta";
   merged[key] = values.join(",");
   return merged;
@@ -126,10 +124,6 @@ export function resolveAnthropicBetas(
     }
   }
 
-  // Newer Claude 4.x 1M context is GA. Keep context1m as a context-sizing
-  // opt-in, but do not send the retired beta even if it remains in older config.
-  betas.delete(ANTHROPIC_CONTEXT_1M_BETA_LEGACY);
-
   return betas.size > 0 ? [...betas] : undefined;
 }
 
@@ -141,15 +135,13 @@ export function createAnthropicBetaHeadersWrapper(
   const underlying = baseStreamFn ?? streamSimple;
   return (model, context, options) => {
     const isOauth = isAnthropicOAuthApiKey(options?.apiKey);
-    const effectiveBetas = betas.filter((beta) => beta !== ANTHROPIC_CONTEXT_1M_BETA_LEGACY);
 
     const openClawBetas = isOauth
       ? (OPENCLAW_OAUTH_ANTHROPIC_BETAS as readonly string[])
       : (OPENCLAW_DEFAULT_ANTHROPIC_BETAS as readonly string[]);
-    const allBetas = [...new Set([...openClawBetas, ...effectiveBetas])];
     return underlying(model, context, {
       ...options,
-      headers: mergeAnthropicBetaHeader(options?.headers, allBetas),
+      headers: mergeAnthropicBetaHeader(options?.headers),
     });
   };
 }

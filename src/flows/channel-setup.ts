@@ -1,8 +1,8 @@
 // Channel setup flow configures channels, auth, and workspace bindings.
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { getBundledChannelSetupPlugin } from "../channels/plugins/bundled.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import { listActiveChannelSetupPlugins } from "../channels/plugins/setup-registry.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { getBundledChannelSetupPlugin } from "../channels/plugins/bundled.ts";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
+import { listActiveChannelSetupPlugins } from "../channels/plugins/setup-registry.ts";
 import type {
   ChannelOnboardingPostWriteHook,
   ChannelSetupConfiguredResult,
@@ -11,37 +11,37 @@ import type {
   ChannelSetupStatus,
   ChannelSetupWizardAdapter,
   SetupChannelsOptions,
-} from "../channels/plugins/setup-wizard-types.js";
-import { formatCliCommand } from "../cli/command-format.js";
+} from "../channels/plugins/setup-wizard-types.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
 import {
   resolveChannelSetupEntries,
   shouldShowChannelInSetup,
-} from "../commands/channel-setup/discovery.js";
+} from "../commands/channel-setup/discovery.ts";
 import {
   ensureChannelSetupPluginInstalled,
   loadChannelSetupPluginRegistrySnapshotForChannel,
-} from "../commands/channel-setup/plugin-install.js";
-import { resolveChannelSetupWizardAdapterForPlugin } from "../commands/channel-setup/registry.js";
+} from "../commands/channel-setup/plugin-install.ts";
+import { resolveChannelSetupWizardAdapterForPlugin } from "../commands/channel-setup/registry.ts";
 import {
   getTrustedChannelPluginCatalogEntry,
   listTrustedChannelPluginCatalogEntries,
-} from "../commands/channel-setup/trusted-catalog.js";
-import type { ChannelChoice } from "../commands/onboard-types.js";
-import { isChannelConfigured } from "../config/channel-configured.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveBundledPluginSources } from "../plugins/bundled-sources.js";
-import { enableExplicitlySelectedPluginInConfig } from "../plugins/enable.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+} from "../commands/channel-setup/trusted-catalog.ts";
+import type { ChannelChoice } from "../commands/onboard-types.ts";
+import { isChannelConfigured } from "../config/channel-configured.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveBundledPluginSources } from "../plugins/bundled-sources.ts";
+import { enableExplicitlySelectedPluginInConfig } from "../plugins/enable.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 import {
   maybeConfigureDmPolicies,
   promptConfiguredAction,
   promptRemovalAccountId,
   formatAccountLabel,
-} from "./channel-setup.prompts.js";
+} from "./channel-setup.prompts.ts";
 import {
   collectChannelStatus,
   findBundledSourceForCatalogChannel,
@@ -50,7 +50,7 @@ import {
   resolveChannelSelectionNoteLines,
   resolveChannelSetupSelectionContributions,
   resolveQuickstartDefault,
-} from "./channel-setup.status.js";
+} from "./channel-setup.status.ts";
 
 export function createChannelOnboardingPostWriteHookCollector() {
   const hooks = new Map<string, ChannelOnboardingPostWriteHook>();

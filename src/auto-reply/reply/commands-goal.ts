@@ -10,14 +10,14 @@ import {
   getSessionEntry,
   getSessionGoal,
   updateSessionGoalStatus,
-} from "../../config/sessions.js";
-import { rejectUnauthorizedCommand } from "./command-gates.js";
-import { markCommandSessionMetadataChanged } from "./command-session-metadata.js";
+} from "../../config/sessions.ts";
+import { rejectUnauthorizedCommand } from "./command-gates.ts";
+import { markCommandSessionMetadataChanged } from "./command-session-metadata.ts";
 import type {
   CommandHandler,
   CommandHandlerResult,
   HandleCommandsParams,
-} from "./commands-types.js";
+} from "./commands-types.ts";
 
 const GOAL_COMMAND_PREFIX = "/goal";
 const GOAL_CONTINUATION_PROMPT_PREFIX =

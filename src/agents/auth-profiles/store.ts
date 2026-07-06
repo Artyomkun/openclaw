@@ -4,49 +4,49 @@
  * profiles, and external CLI overlays while keeping save paths local.
  */
 import { isDeepStrictEqual } from "node:util";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
-import type { OpenClawAgentDatabase } from "../../state/openclaw-agent-db.js";
-import { isRecord } from "../../utils.js";
-import { cloneAuthProfileStore } from "./clone.js";
-import { AUTH_STORE_VERSION, log } from "./constants.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
+import type { OpenClawAgentDatabase } from "../../state/openclaw-agent-db.ts";
+import { isRecord } from "../../utils.ts";
+import { cloneAuthProfileStore } from "./clone.ts";
+import { AUTH_STORE_VERSION, log } from "./constants.ts";
 import {
   listRuntimeExternalAuthProfiles,
   overlayExternalAuthProfiles,
   syncPersistedExternalCliAuthProfiles,
-} from "./external-auth.js";
-import type { ExternalCliAuthDiscovery } from "./external-cli-discovery.js";
+} from "./external-auth.ts";
+import type { ExternalCliAuthDiscovery } from "./external-cli-discovery.ts";
 import {
   isSafeToAdoptMainStoreOAuthIdentity,
   shouldPersistRuntimeExternalOAuthProfile,
   type RuntimeExternalOAuthProfile,
-} from "./oauth-shared.js";
-import { resolveAuthStorePath } from "./paths.js";
+} from "./oauth-shared.ts";
+import { resolveAuthStorePath } from "./paths.ts";
 import {
   buildPersistedAuthProfileSecretsStore,
   loadPersistedAuthProfileStore,
   mergeAuthProfileStores,
   mergeOAuthFileIntoStore,
-} from "./persisted.js";
+} from "./persisted.ts";
 import {
   clearRuntimeAuthProfileStoreSnapshots as clearRuntimeAuthProfileStoreSnapshotsImpl,
   getRuntimeAuthProfileStoreSnapshot as getRuntimeAuthProfileStoreSnapshotImpl,
   hasRuntimeAuthProfileStoreSnapshot,
   replaceRuntimeAuthProfileStoreSnapshots as replaceRuntimeAuthProfileStoreSnapshotsImpl,
   setRuntimeAuthProfileStoreSnapshot,
-} from "./runtime-snapshots.js";
+} from "./runtime-snapshots.ts";
 import {
   readPersistedAuthProfileStoreRaw,
   writePersistedAuthProfileStateRaw,
   runAuthProfileWriteTransaction,
   writePersistedAuthProfileStoreRaw,
-} from "./sqlite.js";
+} from "./sqlite.ts";
 import {
   buildPersistedAuthProfileState,
   loadPersistedAuthProfileState,
   savePersistedAuthProfileState,
-} from "./state.js";
-import type { AuthProfileStore } from "./types.js";
+} from "./state.ts";
+import type { AuthProfileStore } from "./types.ts";
 
 type LoadAuthProfileStoreOptions = {
   allowKeychainPrompt?: boolean;
@@ -83,45 +83,6 @@ function hasChangedInlineOAuthTokenMaterial(params: {
     }
     return !isDeepStrictEqual(params.credential[field], params.existingCredential[field]);
   });
-}
-
-function preserveLegacyOAuthRefsOnSave(params: {
-  payload: ReturnType<typeof buildPersistedAuthProfileSecretsStore>;
-  existingRaw: unknown;
-}): ReturnType<typeof buildPersistedAuthProfileSecretsStore> {
-  if (!isRecord(params.existingRaw) || !isRecord(params.existingRaw.profiles)) {
-    return params.payload;
-  }
-  let nextProfiles: typeof params.payload.profiles | undefined;
-  for (const [profileId, credential] of Object.entries(
-    params.payload.profiles as Record<string, unknown>,
-  )) {
-    if (!isRecord(credential) || credential.oauthRef !== undefined || credential.type !== "oauth") {
-      continue;
-    }
-    const existingCredential = params.existingRaw.profiles[profileId];
-    if (
-      !isRecord(existingCredential) ||
-      existingCredential.oauthRef === undefined ||
-      existingCredential.type !== "oauth"
-    ) {
-      continue;
-    }
-    if (
-      hasInlineOAuthTokenMaterial(credential) &&
-      hasChangedInlineOAuthTokenMaterial({ credential, existingCredential })
-    ) {
-      continue;
-    }
-    // Preserve legacy oauthRef ownership when current save data did not replace
-    // inline OAuth material; otherwise older credential references would be lost.
-    nextProfiles ??= { ...params.payload.profiles };
-    nextProfiles[profileId] = {
-      ...credential,
-      oauthRef: existingCredential.oauthRef,
-    } as unknown as (typeof nextProfiles)[string];
-  }
-  return nextProfiles ? { ...params.payload, profiles: nextProfiles } : params.payload;
 }
 
 type ResolvedExternalCliOverlayOptions = {
@@ -1010,7 +971,7 @@ export function ensureAuthProfileStoreForLocalUpdate(agentDir?: string): AuthPro
   });
 }
 
-export { hasAnyAuthProfileStoreSource, hasLocalAuthProfileStoreSource } from "./source-check.js";
+export { hasAnyAuthProfileStoreSource, hasLocalAuthProfileStoreSource } from "./source-check.ts";
 
 /** Return the current runtime auth-profile snapshot for an agent dir. */
 export function getRuntimeAuthProfileStoreSnapshot(
@@ -1040,12 +1001,8 @@ export function saveAuthProfileStore(
 ): void {
   const localStore = buildLocalAuthProfileStoreForSave({ store, agentDir, options });
   const existingRaw = readPersistedAuthProfileStoreRaw(agentDir, database);
-  const payload = preserveLegacyOAuthRefsOnSave({
-    payload: buildPersistedAuthProfileSecretsStore(localStore),
-    existingRaw,
-  });
-  if (!isDeepStrictEqual(existingRaw, payload)) {
-    writePersistedAuthProfileStoreRaw(payload, agentDir, database);
+  if (!isDeepStrictEqual(existingRaw)) {
+    writePersistedAuthProfileStoreRaw(agentDir, database);
   }
   if (database) {
     writePersistedAuthProfileStateRaw(

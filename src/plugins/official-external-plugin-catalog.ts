@@ -5,16 +5,8 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import officialExternalChannelCatalog from "../../scripts/lib/official-external-channel-catalog.json" with { type: "json" };
 import officialExternalPluginCatalog from "../../scripts/lib/official-external-plugin-catalog.json" with { type: "json" };
 import officialExternalProviderCatalog from "../../scripts/lib/official-external-provider-catalog.json" with { type: "json" };
-import { MANIFEST_KEY } from "../compat/legacy-names.js";
-import { normalizeClawHubSha256Integrity } from "../infra/clawhub.js";
-import { isRecord } from "../utils.js";
-import type {
-  PluginManifestChannelConfig,
-  PluginManifestContracts,
-  PluginPackageInstall,
-} from "./manifest.js";
-
-type ManifestKey = typeof MANIFEST_KEY;
+import { normalizeClawHubSha256Integrity } from "../infra/clawhub.ts";
+import { isRecord } from "../utils.ts";
 
 class HostedCatalogSnapshotWriteError extends Error {
   readonly originalError: unknown;
@@ -228,7 +220,7 @@ export const DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_PROFILE_CONFIG: OfficialEx
       },
       [DEFAULT_OFFICIAL_EXTERNAL_PLUGIN_CATALOG_NPM_SOURCE_REF]: {
         type: "npm",
-        registry: "https://registry.npmjs.org/",
+        registry: "https://registry.npts.org/",
       },
     },
   };

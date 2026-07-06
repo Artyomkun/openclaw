@@ -1,7 +1,7 @@
 // `openclaw plugins list`: builds registry reports and defers terminal-only formatting modules.
-import { getRuntimeConfig } from "../config/config.js";
-import { defaultRuntime, writeRuntimeJson, type RuntimeEnv } from "../runtime.js";
-import { quietPluginJsonLogger } from "./plugins-json-logger.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import { defaultRuntime, writeRuntimeJson, type RuntimeEnv } from "../runtime.ts";
+import { quietPluginJsonLogger } from "./plugins-json-logger.ts";
 
 /** Options accepted by the plugin list command. */
 export type PluginsListOptions = {

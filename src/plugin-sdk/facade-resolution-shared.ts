@@ -3,13 +3,13 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { areBundledPluginsDisabled } from "../plugins/bundled-dir.js";
+import { areBundledPluginsDisabled } from "../plugins/bundled-dir.ts";
 import {
   PUBLIC_SURFACE_SOURCE_EXTENSIONS,
   normalizeBundledPluginArtifactSubpath,
   resolveBundledPluginPublicSurfacePath,
   resolveBundledPluginSourcePublicSurfacePath,
-} from "../plugins/public-surface-runtime.js";
+} from "../plugins/public-surface-runtime.ts";
 
 /** Resolved facade module path plus the package/plugin root that bounds imports. */
 export type FacadeModuleLocationLike = {

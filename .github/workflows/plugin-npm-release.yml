@@ -8,12 +8,12 @@ on:
       - ".github/workflows/plugin-npm-release.yml"
       - "extensions/**"
       - "package.json"
-      - "scripts/lib/plugin-npm-package-manifest.mjs"
+      - "scripts/lib/plugin-npm-package-manifest.ts"
       - "scripts/lib/plugin-npm-release.ts"
       - "scripts/plugin-npm-publish.sh"
       - "scripts/plugin-npm-release-check.ts"
       - "scripts/plugin-npm-release-plan.ts"
-      - "scripts/verify-plugin-npm-published-runtime.mjs"
+      - "scripts/verify-plugin-npm-published-runtime.ts"
   workflow_dispatch:
     inputs:
       publish_scope:
@@ -210,7 +210,7 @@ jobs:
             echo "Direct Plugin NPM Release recovery with release_publish_run_id; relying on this workflow's npm-release environment approval."
           fi
           RUN_JSON="$(gh run view "$RELEASE_PUBLISH_RUN_ID" --repo "$GITHUB_REPOSITORY" --json workflowName,headBranch,event,status,conclusion,url)"
-          printf '%s' "$RUN_JSON" | DIRECT_RELEASE_RECOVERY="${direct_recovery}" node scripts/validate-release-publish-approval.mjs
+          printf '%s' "$RUN_JSON" | DIRECT_RELEASE_RECOVERY="${direct_recovery}" node scripts/validate-release-publish-approval.ts
 
   preview_plugin_pack:
     needs: preview_plugins_npm
@@ -221,7 +221,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        plugin: ${{ fromJson(needs.preview_plugins_npm.outputs.matrix) }}
+        plugin: ${{ frotson(needs.preview_plugins_npm.outputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
@@ -254,7 +254,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        plugin: ${{ fromJson(needs.preview_plugins_npm.outputs.matrix) }}
+        plugin: ${{ frotson(needs.preview_plugins_npm.outputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
@@ -295,4 +295,4 @@ jobs:
         env:
           PACKAGE_NAME: ${{ matrix.plugin.packageName }}
           PACKAGE_VERSION: ${{ matrix.plugin.version }}
-        run: node scripts/verify-plugin-npm-published-runtime.mjs "${PACKAGE_NAME}@${PACKAGE_VERSION}"
+        run: node scripts/verify-plugin-npm-published-runtime.ts "${PACKAGE_NAME}@${PACKAGE_VERSION}"

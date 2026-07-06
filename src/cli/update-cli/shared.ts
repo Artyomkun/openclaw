@@ -4,15 +4,15 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { resolveRequiredHomeDir } from "../../infra/home-dir.js";
-import { resolveOpenClawPackageRoot } from "../../infra/openclaw-root.js";
-import { readPackageName, readPackageVersion } from "../../infra/package-json.js";
-import { normalizePackageTagInput } from "../../infra/package-tag.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
-import { trimLogTail } from "../../infra/restart-sentinel.js";
-import { parseSemver } from "../../infra/runtime-guard.js";
-import { fetchNpmTagVersion } from "../../infra/update-check.js";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { resolveRequiredHomeDir } from "../../infra/home-dir.ts";
+import { resolveOpenClawPackageRoot } from "../../infra/openclaw-root.ts";
+import { readPackageName, readPackageVersion } from "../../infra/package-json.ts";
+import { normalizePackageTagInput } from "../../infra/package-tag.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
+import { trimLogTail } from "../../infra/restart-sentinel.ts";
+import { parseSemver } from "../../infra/runtime-guard.ts";
+import { fetchNpmTagVersion } from "../../infra/update-check.ts";
 import {
   canResolveRegistryVersionForPackageTarget,
   createGlobalInstallEnv,
@@ -20,12 +20,12 @@ import {
   detectGlobalInstallManagerForRoot,
   type CommandRunner,
   type GlobalInstallManager,
-} from "../../infra/update-global.js";
-import type { UpdateStepProgress, UpdateStepResult } from "../../infra/update-runner.js";
-import { runCommandWithTimeout } from "../../process/exec.js";
-import { defaultRuntime } from "../../runtime.js";
-import { pathExists } from "../../utils.js";
-import { COMPLETION_SKIP_PLUGIN_COMMANDS_ENV } from "../completion-runtime.js";
+} from "../../infra/update-global.ts";
+import type { UpdateStepProgress, UpdateStepResult } from "../../infra/update-runner.ts";
+import { runCommandWithTimeout } from "../../process/exec.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { pathExists } from "../../utils.ts";
+import { COMPLETION_SKIP_PLUGIN_COMMANDS_ENV } from "../completion-runtime.ts";
 
 export type UpdateCommandOptions = {
   json?: boolean;
@@ -309,7 +309,7 @@ const COMPLETION_CACHE_MANUAL_REFRESH_HINT =
 
 /** Best-effort refresh of shell completion state after a successful update. */
 export async function tryWriteCompletionCache(root: string, jsonMode: boolean): Promise<void> {
-  const binPath = path.join(root, "openclaw.mjs");
+  const binPath = path.join(root, "openclaw.ts");
   if (!(await pathExists(binPath))) {
     return;
   }

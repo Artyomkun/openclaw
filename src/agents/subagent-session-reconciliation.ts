@@ -4,24 +4,24 @@
  * Infers child completion from persisted session entries when registry updates arrive late.
  */
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
-import { getRuntimeConfig } from "../config/config.js";
-import { loadSessionEntry } from "../config/sessions/session-accessor.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import { loadSessionEntry } from "../config/sessions/session-accessor.ts";
 import {
   loadSessionStore,
   resolveAgentIdFromSessionKey,
   resolveStorePath,
   type SessionEntry,
-} from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { SubagentRunOutcome } from "./subagent-announce-output.js";
+} from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { SubagentRunOutcome } from "./subagent-announce-output.ts";
 import {
   SUBAGENT_ENDED_REASON_COMPLETE,
   SUBAGENT_ENDED_REASON_ERROR,
   SUBAGENT_ENDED_REASON_KILLED,
   type SubagentLifecycleEndedReason,
-} from "./subagent-lifecycle-events.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
-import { isStaleUnendedSubagentRun } from "./subagent-run-liveness.js";
+} from "./subagent-lifecycle-events.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
+import { isStaleUnendedSubagentRun } from "./subagent-run-liveness.ts";
 
 export type SubagentSessionStoreCache = Map<string, Record<string, SessionEntry>>;
 export type SubagentRunOrphanReason =

@@ -4,7 +4,7 @@
  * Stores failure metadata used by transcripts, retry behavior, and mutation recovery logic.
  */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { FileTarget } from "./tool-mutation.js";
+import type { FileTarget } from "./tool-mutation.ts";
 
 export type ToolErrorSummary = {
   toolName: string;

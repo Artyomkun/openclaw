@@ -6,9 +6,9 @@ import {
   applyProviderNativeStreamingUsageCompatWithPlugin,
   normalizeProviderConfigWithPlugin,
   resolveProviderConfigApiKeyWithPlugin,
-} from "../plugins/provider-runtime.js";
-import { resolveProviderPluginLookupKey } from "./models-config.providers.policy.lookup.js";
-import type { ProviderConfig } from "./models-config.providers.secrets.js";
+} from "../plugins/provider-runtime.ts";
+import { resolveProviderPluginLookupKey } from "./models-config.providers.policy.lookup.ts";
+import type { ProviderConfig } from "./models-config.providers.secrets.ts";
 
 /** Apply provider native-streaming usage compatibility policy. */
 export function applyProviderNativeStreamingUsagePolicy(

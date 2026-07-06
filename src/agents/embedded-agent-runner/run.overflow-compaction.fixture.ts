@@ -1,9 +1,9 @@
-import { isCoreToolNameReplaySafe } from "../tool-replay-safety.js";
+import { isCoreToolNameReplaySafe } from "../tool-replay-safety.ts";
 /**
  * Test fixtures for embedded-run overflow compaction scenarios.
  */
-import { buildAttemptReplayMetadata } from "./run/incomplete-turn.js";
-import type { EmbeddedRunAttemptResult } from "./run/types.js";
+import { buildAttemptReplayMetadata } from "./run/incomplete-turn.ts";
+import type { EmbeddedRunAttemptResult } from "./run/types.ts";
 
 const DEFAULT_OVERFLOW_ERROR_MESSAGE =
   "request_too_large: Request size exceeds model context window";

@@ -1,21 +1,21 @@
 /** Handles diagnostics commands and private owner routing for sensitive diagnostics output. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { createExecTool } from "../../agents/bash-tools.js";
-import type { ExecToolDetails } from "../../agents/bash-tools.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import { logVerbose } from "../../globals.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import type { ExecApprovalRequest } from "../../infra/exec-approvals.js";
-import type { InteractiveReply, MessagePresentationAction } from "../../interactive/payload.js";
-import { executePluginCommand, matchPluginCommand } from "../../plugins/commands.js";
-import type { PluginCommandDiagnosticsSession, PluginCommandResult } from "../../plugins/types.js";
-import type { ReplyPayload } from "../types.js";
-import { rejectNonOwnerCommand } from "./command-gates.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { createExecTool } from "../../agents/bash-tools.ts";
+import type { ExecToolDetails } from "../../agents/bash-tools.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import { logVerbose } from "../../globals.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import type { ExecApprovalRequest } from "../../infra/exec-approvals.ts";
+import type { InteractiveReply, MessagePresentationAction } from "../../interactive/payload.ts";
+import { executePluginCommand, matchPluginCommand } from "../../plugins/commands.ts";
+import type { PluginCommandDiagnosticsSession, PluginCommandResult } from "../../plugins/types.ts";
+import type { ReplyPayload } from "../types.ts";
+import { rejectNonOwnerCommand } from "./command-gates.ts";
 import {
   buildCurrentOpenClawCliCommand,
   buildCurrentOpenClawCliExecEnv,
-} from "./commands-openclaw-cli.js";
+} from "./commands-openclaw-cli.ts";
 import {
   deliverPrivateCommandReply,
   readCommandDeliveryTarget,
@@ -23,8 +23,8 @@ import {
   resolvePrivateCommandApprovalRouteExpiresAtMs,
   resolvePrivateCommandRouteTargets,
   type PrivateCommandRouteTarget,
-} from "./commands-private-route.js";
-import type { CommandHandler, HandleCommandsParams } from "./commands-types.js";
+} from "./commands-private-route.ts";
+import type { CommandHandler, HandleCommandsParams } from "./commands-types.ts";
 
 const DIAGNOSTICS_COMMAND = "/diagnostics";
 const CODEX_DIAGNOSTICS_COMMAND = "/codex diagnostics";

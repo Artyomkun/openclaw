@@ -5,9 +5,9 @@ import { accessSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolvePreferredOpenClawTmpDir } from "../../infra/tmp-openclaw-dir.js";
-import type { SkillSnapshot } from "../../skills/types.js";
-import { cliBackendLog } from "./log.js";
+import { resolvePreferredOpenClawTmpDir } from "../../infra/tmp-openclaw-dir.ts";
+import type { SkillSnapshot } from "../../skills/types.ts";
+import { cliBackendLog } from "./log.ts";
 
 const CLAUDE_CLI_BACKEND_ID = "claude-cli";
 const OPENCLAW_CLAUDE_PLUGIN_NAME = "openclaw-skills";

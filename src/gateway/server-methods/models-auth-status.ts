@@ -1,8 +1,8 @@
 // Model auth status methods report provider credential health, profile expiry,
 // usage windows, cleanup actions, and auth-state refreshes.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
-import { resolveDefaultAgentDir } from "../../agents/agent-scope.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
+import { resolveDefaultAgentDir } from "../../agents/agent-scope.ts";
 import {
   type AuthHealthSummary,
   type AuthProfileHealthStatus,
@@ -10,7 +10,7 @@ import {
   type AuthProviderHealthStatus,
   buildAuthHealthSummary,
   formatRemainingShort,
-} from "../../agents/auth-health.js";
+} from "../../agents/auth-health.ts";
 import {
   clearRuntimeAuthProfileStoreSnapshots,
   ensureAuthProfileStore,
@@ -19,28 +19,28 @@ import {
   listProfilesForProvider,
   removeProviderAuthProfilesWithLock,
   resolvePersistedAuthProfileOwnerAgentDir,
-} from "../../agents/auth-profiles.js";
-import type { AuthCredentialReasonCode } from "../../agents/auth-profiles/credential-state.js";
+} from "../../agents/auth-profiles.ts";
+import type { AuthCredentialReasonCode } from "../../agents/auth-profiles/credential-state.ts";
 import {
   clearCurrentProviderAuthState,
   warmCurrentProviderAuthStateOffMainThread,
-} from "../../agents/model-provider-auth.js";
-import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import { isSecretRef } from "../../config/types.secrets.js";
-import { loadProviderUsageSummary } from "../../infra/provider-usage.load.js";
-import { PROVIDER_LABELS, resolveUsageProviderId } from "../../infra/provider-usage.shared.js";
+} from "../../agents/model-provider-auth.ts";
+import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import { isSecretRef } from "../../config/types.secrets.ts";
+import { loadProviderUsageSummary } from "../../infra/provider-usage.load.ts";
+import { PROVIDER_LABELS, resolveUsageProviderId } from "../../infra/provider-usage.shared.ts";
 import type {
   ProviderUsageSnapshot,
   UsageProviderId,
   UsageWindow,
-} from "../../infra/provider-usage.types.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { refreshActiveSecretsRuntimeSnapshot } from "../../secrets/runtime.js";
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
-import { abortChatRunsForProvider, type ChatAbortOps } from "../chat-abort.js";
-import { formatForLog } from "../ws-log.js";
-import type { GatewayRequestContext, GatewayRequestHandlers } from "./types.js";
+} from "../../infra/provider-usage.types.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { refreshActiveSecretsRuntimeSnapshot } from "../../secrets/runtime.ts";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
+import { abortChatRunsForProvider, type ChatAbortOps } from "../chat-abort.ts";
+import { formatForLog } from "../ws-log.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers } from "./types.ts";
 
 const log = createSubsystemLogger("models-auth-status");
 const apiKeyUsageStatusProviders = new Set<UsageProviderId>(["deepseek"]);

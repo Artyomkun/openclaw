@@ -1,7 +1,7 @@
 /**
  * Creates embedded-agent sessions with the runner resource loader installed.
  */
-import type { CreateAgentSessionOptions } from "../../sessions/index.js";
+import type { CreateAgentSessionOptions } from "../../sessions/index.ts";
 
 /**
  * Session construction bridge for embedded-attempt runs.

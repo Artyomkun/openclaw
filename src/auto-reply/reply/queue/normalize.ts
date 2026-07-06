@@ -1,6 +1,6 @@
 // Normalizes queue config values from user and persisted settings.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { QueueDropPolicy, QueueMode } from "./types.js";
+import type { QueueDropPolicy, QueueMode } from "./types.ts";
 
 /** Normalizes user-entered queue mode aliases from directives/config. */
 export function normalizeQueueMode(raw?: string): QueueMode | undefined {
@@ -23,7 +23,7 @@ export function normalizeQueueMode(raw?: string): QueueMode | undefined {
   return undefined;
 }
 
-/** Normalizes persisted legacy queue mode aliases into current queue modes. */
+/** Normalizes persisted older queue mode aliases into current queue modes. */
 export function normalizePersistedQueueMode(raw?: string): QueueMode | undefined {
   const normalized = normalizeQueueMode(raw);
   if (normalized) {

@@ -1,14 +1,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { readLocalFileSafely, root, walkDirectory } from "../../infra/fs-safe.js";
-import { normalizeSkillIndexName } from "../discovery/skill-index.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { readLocalFileSafely, root, walkDirectory } from "../../infra/fs-safe.ts";
+import { normalizeSkillIndexName } from "../discovery/skill-index.ts";
 import {
   buildWorkspaceSkillStatus,
   resolveSkillStatusEntry,
   type SkillStatusEntry,
-} from "../discovery/status.js";
+} from "../discovery/status.ts";
 import {
   assertInsideWorkspace,
   assertWorkspaceSkillWriteTarget,
@@ -17,16 +17,16 @@ import {
   readWorkspaceSkillFile,
   readWorkspaceSupportFile,
   writeWorkspaceSkill,
-} from "../lifecycle/workspace-skill-write.js";
-import { resolveAllowedSkillSymlinkTargetRealPaths } from "../loading/symlink-targets.js";
-import { bumpSkillsSnapshotVersion } from "../runtime/refresh-state.js";
-import { scanSkillContent, scanSource } from "../security/scanner.js";
-import { resolveSkillWorkshopConfig, type SkillWorkshopConfig } from "./config.js";
+} from "../lifecycle/workspace-skill-write.ts";
+import { resolveAllowedSkillSymlinkTargetRealPaths } from "../loading/symlink-targets.ts";
+import { bumpSkillsSnapshotVersion } from "../runtime/refresh-state.ts";
+import { scanSkillContent, scanSource } from "../security/scanner.ts";
+import { resolveSkillWorkshopConfig, type SkillWorkshopConfig } from "./config.ts";
 import {
   readProposalFrontmatter,
   renderProposalMarkdown,
   stripProposalFrontmatterForSkill,
-} from "./frontmatter.js";
+} from "./frontmatter.ts";
 import {
   createSkillProposalId,
   createSkillProposalRollback,
@@ -45,7 +45,7 @@ import {
   writeSkillProposalRollback,
   withSkillProposalTargetLock,
   type PreparedSkillProposalSupportFile,
-} from "./store.js";
+} from "./store.ts";
 import {
   SKILL_WORKSHOP_SCHEMA,
   type SkillProposalActionInput,
@@ -61,7 +61,7 @@ import {
   type SkillProposalSupportFile,
   type SkillProposalSupportFileInput,
   type SkillProposalUpdateInput,
-} from "./types.js";
+} from "./types.ts";
 
 type SkillWorkshopWorkspaceOptions = {
   config?: OpenClawConfig;

@@ -7,24 +7,19 @@ import type {
   ChannelAccountSnapshot,
   ChannelGroupContext,
   ChannelStatusIssue,
-} from "./channel-contract.js";
-import type { ChannelPlugin } from "./channel-core.js";
-import type { MessageReceipt } from "./channel-outbound.js";
-import type { OpenClawConfig } from "./config-types.js";
+} from "./channel-contract.ts";
+import type { ChannelPlugin } from "./channel-core.ts";
+import type { MessageReceipt } from "./channel-outbound.ts";
+import type { OpenClawConfig } from "./config-types.ts";
 import {
   createLazyFacadeObjectValue,
   loadBundledPluginPublicSurfaceModuleSync,
-} from "./facade-loader.js";
-import { getRuntimeConfig, getRuntimeConfigSnapshot } from "./runtime-config-snapshot.js";
+} from "./facade-loader.ts";
+import { getRuntimeConfig, getRuntimeConfigSnapshot } from "./runtime-config-snapshot.ts";
 
-/**
- * @deprecated Compatibility facade for the `openclaw/plugin-sdk/discord` subpath.
- * New channel plugins should use generic channel SDK subpaths.
- */
-export type { ChannelMessageActionAdapter, ChannelMessageActionName } from "./channel-contract.js";
-export type { ChannelPlugin } from "./channel-core.js";
-export type { OpenClawConfig } from "./config-types.js";
-export type { OpenClawPluginApi, PluginRuntime } from "./channel-plugin-common.js";
+export type { ChannelPlugin } from "./channel-core.ts";
+export type { OpenClawConfig } from "./config-types.ts";
+export type { OpenClawPluginApi, PluginRuntime } from "./channel-plugin-common.ts";
 
 export {
   DEFAULT_ACCOUNT_ID,
@@ -35,14 +30,14 @@ export {
   migrateBaseNameToDefaultAccount,
   normalizeAccountId,
   PAIRING_APPROVED_MESSAGE,
-} from "./channel-plugin-common.js";
+} from "./channel-plugin-common.ts";
 export {
   buildComputedAccountStatusSnapshot,
   buildTokenChannelStatusSummary,
   projectCredentialSnapshotFields,
   resolveConfiguredFromCredentialStatuses,
-} from "./channel-status.js";
-export { DiscordConfigSchema } from "./bundled-channel-config-schema.js";
+} from "./channel-status.ts";
+export { DiscordConfigSchema } from "./bundled-channel-config-schema.ts";
 
 /** Discord channel config shape for one account in OpenClaw config. */
 export type DiscordAccountConfig = NonNullable<NonNullable<OpenClawConfig["channels"]>["discord"]>;

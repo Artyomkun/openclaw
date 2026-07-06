@@ -3,33 +3,32 @@ import {
   hasOutboundReplyContent,
   resolveSendableOutboundReplyParts,
 } from "openclaw/plugin-sdk/reply-payload";
-import { sanitizeUserFacingText } from "../../agents/embedded-agent-helpers/sanitize-user-facing-text.js";
-import type { MessagingToolSend } from "../../agents/embedded-agent-messaging.types.js";
-import type { ReplyToMode } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { stripLegacyBracketToolCallBlocks } from "../../shared/text/assistant-visible-text.js";
-import { stripHeartbeatToken } from "../heartbeat.js";
+import { sanitizeUserFacingText } from "../../agents/embedded-agent-helpers/sanitize-user-facing-text.ts";
+import type { MessagingToolSend } from "../../agents/embedded-agent-messaging.types.ts";
+import type { ReplyToMode } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { stripHeartbeatToken } from "../heartbeat.ts";
 import {
   appendReplyMediaFailureWarning,
   copyReplyPayloadMetadata,
   getReplyPayloadMetadata,
   setReplyPayloadMetadata,
-} from "../reply-payload.js";
-import type { OriginatingChannelType } from "../templating.js";
-import { SILENT_REPLY_TOKEN } from "../tokens.js";
-import type { ReplyPayload, ReplyThreadingPolicy } from "../types.js";
-import { formatBunFetchSocketError, isBunFetchSocketError } from "./agent-runner-utils.js";
-import { createBlockReplyContentKey, type BlockReplyPipeline } from "./block-reply-pipeline.js";
+} from "../reply-payload.ts";
+import type { OriginatingChannelType } from "../templating.ts";
+import { SILENT_REPLY_TOKEN } from "../tokens.ts";
+import type { ReplyPayload, ReplyThreadingPolicy } from "../types.ts";
+import { formatBunFetchSocketError, isBunFetchSocketError } from "./agent-runner-utils.ts";
+import { createBlockReplyContentKey, type BlockReplyPipeline } from "./block-reply-pipeline.ts";
 import {
   resolveOriginAccountId,
   resolveOriginMessageProvider,
   resolveOriginMessageTo,
-} from "./origin-routing.js";
-import { normalizeReplyPayloadDirectives } from "./reply-delivery.js";
-import { applyReplyThreading, isRenderablePayload } from "./reply-payloads-base.js";
-import { createReplyDeliveryContext } from "./reply-threading.js";
+} from "./origin-routing.ts";
+import { normalizeReplyPayloadDirectives } from "./reply-delivery.ts";
+import { applyReplyThreading, isRenderablePayload } from "./reply-payloads-base.ts";
+import { createReplyDeliveryContext } from "./reply-threading.ts";
 
 const replyPayloadsDedupeRuntimeLoader = createLazyImportLoader(
   () => import("./reply-payloads-dedupe.runtime.js"),
@@ -129,13 +128,9 @@ function sanitizeHeartbeatPayload(payload: ReplyPayload): ReplyPayload {
   if (!text) {
     return payload;
   }
-  const withoutLegacyBlocks = stripLegacyBracketToolCallBlocks(text);
-  const cleaned = sanitizeFinalReplyText(payload, withoutLegacyBlocks);
+  const cleaned = sanitizeFinalReplyText(payload);
   if (cleaned === text) {
     return payload;
-  }
-  if (withoutLegacyBlocks !== text) {
-    logVerbose("Stripped legacy tool-call block from heartbeat reply");
   }
   return copyPayloadWithSanitizedText(payload, cleaned);
 }

@@ -1,5 +1,5 @@
 // Runtime store exports expose plugin runtime type contracts without loading runtime code.
-export type { PluginRuntime } from "../plugins/runtime/types.js";
+export type { PluginRuntime } from "../plugins/runtime/types.ts";
 
 const pluginRuntimeStoreRegistryKey = Symbol.for("openclaw.plugin-sdk.runtime-store-registry");
 
@@ -68,7 +68,7 @@ export function createPluginRuntimeStore<T>(options: PluginRuntimeStoreOptions):
   tryGetRuntime: () => T | null;
   getRuntime: () => T;
 };
-/** Implementation overload accepting either legacy error-message strings or structured options. */
+/** Implementation overload accepting either older error-message strings or structured options. */
 export function createPluginRuntimeStore<T>(options: string | PluginRuntimeStoreOptions): {
   setRuntime: (next: T) => void;
   clearRuntime: () => void;

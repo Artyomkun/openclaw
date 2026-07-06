@@ -13,7 +13,7 @@ import {
   SESSIONS_SPAWN_TOOL_DISPLAY_SUMMARY,
   SESSION_STATUS_TOOL_DISPLAY_SUMMARY,
   UPDATE_PLAN_TOOL_DISPLAY_SUMMARY,
-} from "./tool-description-presets.js";
+} from "./tool-description-presets.ts";
 
 /** Built-in tool profile ids exposed in config and UI. */
 export type ToolProfileId = "minimal" | "coding" | "messaging" | "full";

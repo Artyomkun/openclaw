@@ -6,13 +6,13 @@ import {
   DEFAULT_GATEWAY_PORT,
   type HooksGmailTailscaleMode,
   resolveGatewayPort,
-} from "../config/config.js";
-import { resolveExecutable } from "../infra/executable-path.js";
+} from "../config/config.ts";
+import { resolveExecutable } from "../infra/executable-path.ts";
 import {
   buildWindowsCmdExeCommandLine,
   isWindowsBatchCommand,
   resolveTrustedWindowsCmdExe,
-} from "../process/windows-command.js";
+} from "../process/windows-command.ts";
 
 export const DEFAULT_GMAIL_LABEL = "INBOX";
 export const DEFAULT_GMAIL_TOPIC = "gog-gmail-watch";

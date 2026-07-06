@@ -1,9 +1,9 @@
 // Thread command registration, including channel-specific create request normalization.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { getChannelPlugin } from "../../../channels/plugins/index.js";
-import type { ChannelMessageActionName } from "../../../channels/plugins/types.public.js";
-import type { MessageCliHelpers } from "./helpers.js";
+import { getChannelPlugin } from "../../../channels/plugins/index.ts";
+import type { ChannelMessageActionName } from "../../../channels/plugins/types.public.ts";
+import type { MessageCliHelpers } from "./helpers.ts";
 
 function resolveThreadCreateRequest(opts: Record<string, unknown>) {
   const channel = normalizeLowercaseStringOrEmpty(opts.channel);

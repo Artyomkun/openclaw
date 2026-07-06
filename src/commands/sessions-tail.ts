@@ -6,26 +6,26 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { readAcpSessionMeta } from "../acp/runtime/session-meta.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { resolveSessionFilePath } from "../config/sessions/paths.js";
-import { listSessionEntries } from "../config/sessions/session-accessor.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import { resolveStoredSessionKeyForAgentStore } from "../gateway/session-store-key.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
-import type { RuntimeEnv } from "../runtime.js";
+import { readAcpSessionMeta } from "../acp/runtime/session-meta.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { resolveSessionFilePath } from "../config/sessions/paths.ts";
+import { listSessionEntries } from "../config/sessions/session-accessor.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import { resolveStoredSessionKeyForAgentStore } from "../gateway/session-store-key.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import {
   resolveTrajectoryFilePath,
   resolveTrajectoryPointerFilePath,
-} from "../trajectory/paths.js";
+} from "../trajectory/paths.ts";
 import {
   isRegularNonSymlinkFile,
   resolveTrajectoryRuntimeFile,
-} from "../trajectory/runtime-file.js";
-import type { TrajectoryEvent } from "../trajectory/types.js";
-import { resolveSessionStoreTargetsOrExit } from "./session-store-targets.js";
-import { shortenText } from "./text-format.js";
+} from "../trajectory/runtime-file.ts";
+import type { TrajectoryEvent } from "../trajectory/types.ts";
+import { resolveSessionStoreTargetsOrExit } from "./session-store-targets.ts";
+import { shortenText } from "./text-format.ts";
 
 type SessionsTailOptions = {
   store?: string;

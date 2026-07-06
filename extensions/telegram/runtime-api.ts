@@ -61,7 +61,6 @@ export {
   resolveTelegramTransport,
   shouldRetryTelegramTransportFallback,
 } from "./src/fetch.js";
-export { makeProxyFetch } from "./src/proxy.js";
 export {
   createForumTopicTelegram,
   deleteMessageTelegram,

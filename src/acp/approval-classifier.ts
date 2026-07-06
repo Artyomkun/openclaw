@@ -6,9 +6,9 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isKnownCoreToolId } from "../agents/tool-catalog.js";
-import { isMutatingToolCall } from "../agents/tool-mutation.js";
-import { isPathInside } from "../infra/path-guards.js";
+import { isKnownCoreToolId } from "../agents/tool-catalog.ts";
+import { isMutatingToolCall } from "../agents/tool-mutation.ts";
+import { isPathInside } from "../infra/path-guards.ts";
 
 const SAFE_SEARCH_TOOL_IDS = new Set(["search", "web_search", "memory_search"]);
 const TRUSTED_SAFE_TOOL_ALIASES = new Set(["search"]);

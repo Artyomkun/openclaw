@@ -1,7 +1,7 @@
 // Setup security note helpers render security guidance during onboarding.
 import chalk from "chalk";
-import { formatCliCommand } from "../cli/command-format.js";
-import { t } from "./i18n/index.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { t } from "./i18n/index.ts";
 
 const heading = (text: string) => chalk.bold(text);
 

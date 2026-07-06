@@ -8,7 +8,7 @@ export const slackChannelConfigUiHints = {
   },
   "dm.policy": {
     label: "Slack DM Policy",
-    help: 'Direct message access control ("pairing" recommended). "open" requires channels.slack.allowFrom=["*"] (legacy: channels.slack.dm.allowFrom).',
+    help: 'Direct message access control ("pairing" recommended). "open" requires channels.slack.allowFrom=["*"].',
   },
   dmPolicy: {
     label: "Slack DM Policy",
@@ -144,7 +144,7 @@ export const slackChannelConfigUiHints = {
   },
   streaming: {
     label: "Slack Streaming Mode",
-    help: 'Unified Slack stream preview mode: "off" | "partial" | "block" | "progress". Legacy boolean/streamMode keys are auto-mapped.',
+    help: 'Unified Slack stream preview mode: "off" | "partial" | "block" | "progress".',
   },
   "streaming.mode": {
     label: "Slack Streaming Mode",

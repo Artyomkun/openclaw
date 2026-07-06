@@ -6,7 +6,7 @@ import {
   resolveMSTeamsSqliteStateEnv,
   toPluginJsonValue,
   withMSTeamsSqliteMutationLock,
-} from "./sqlite-state.js";
+} from "./oracle-state.ts";
 
 /** TTL for persisted pending uploads (matches in-memory store). */
 const PENDING_UPLOAD_TTL_MS = 5 * 60 * 1000;

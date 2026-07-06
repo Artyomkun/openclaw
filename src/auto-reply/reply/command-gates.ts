@@ -1,10 +1,10 @@
 // Applies command feature gates before command handlers execute.
-import { isCommandFlagEnabled, type CommandFlagKey } from "../../config/commands.flags.js";
-import { logVerbose } from "../../globals.js";
-import { redactIdentifier } from "../../logging/redact-identifier.js";
-import { isNativeCommandTurn, resolveCommandTurnContext } from "../command-turn-context.js";
-import type { ReplyPayload } from "../types.js";
-import type { CommandHandlerResult, HandleCommandsParams } from "./commands-types.js";
+import { isCommandFlagEnabled, type CommandFlagKey } from "../../config/commands.flags.ts";
+import { logVerbose } from "../../globals.ts";
+import { redactIdentifier } from "../../logging/redact-identifier.ts";
+import { isNativeCommandTurn, resolveCommandTurnContext } from "../command-turn-context.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { CommandHandlerResult, HandleCommandsParams } from "./commands-types.ts";
 
 function buildNativeCommandGateReply(text: string): CommandHandlerResult {
   return {

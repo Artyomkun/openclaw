@@ -1,15 +1,15 @@
 // Update status helpers for `openclaw status`.
 // Wraps registry/git update checks and formats compact update rows/hints.
 
-import { formatCliCommand } from "../cli/command-format.js";
-import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.js";
-import { normalizeUpdateChannel, resolveRegistryUpdateChannel } from "../infra/update-channels.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.ts";
+import { normalizeUpdateChannel, resolveRegistryUpdateChannel } from "../infra/update-channels.ts";
 import {
   checkUpdateStatus,
   compareSemverStrings,
   type UpdateCheckResult,
-} from "../infra/update-check.js";
-import { VERSION } from "../version.js";
+} from "../infra/update-check.ts";
+import { VERSION } from "../version.ts";
 
 /** Runs the update check using the configured update channel and current install root. */
 export async function getUpdateCheckResult(params: {

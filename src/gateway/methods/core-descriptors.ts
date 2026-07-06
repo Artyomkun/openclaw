@@ -1,12 +1,12 @@
 // Core gateway method descriptors keep handler names, auth scopes, startup availability, and write policy in one table.
-import type { OperatorScope } from "../operator-scopes.js";
+import type { OperatorScope } from "../operator-scopes.ts";
 import {
   DYNAMIC_GATEWAY_METHOD_SCOPE,
   NODE_GATEWAY_METHOD_SCOPE,
   type GatewayMethodDescriptorInput,
   type GatewayMethodHandler,
   type GatewayMethodScope,
-} from "./descriptor.js";
+} from "./descriptor.ts";
 
 type CoreGatewayMethodSpec = {
   name: string;

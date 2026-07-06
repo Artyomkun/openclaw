@@ -4,7 +4,7 @@
  * Exposes proposal create/update/review/apply actions while the workshop service owns persistence.
  */
 import { Type } from "typebox";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   applySkillProposal,
   inspectSkillProposal,
@@ -15,7 +15,7 @@ import {
   rejectSkillProposal,
   resolvePendingSkillProposal,
   reviseSkillProposal,
-} from "../../skills/workshop/service.js";
+} from "../../skills/workshop/service.ts";
 import type {
   SkillProposalManifestEntry,
   SkillProposalOrigin,
@@ -23,15 +23,15 @@ import type {
   SkillProposalRecord,
   SkillProposalStatus,
   SkillProposalSupportFileInput,
-} from "../../skills/workshop/types.js";
-import { stringEnum } from "../schema/typebox.js";
+} from "../../skills/workshop/types.ts";
+import { stringEnum } from "../schema/typebox.ts";
 import {
   asToolParamsRecord,
   readNumberParam,
   readStringParam,
   ToolInputError,
   type AnyAgentTool,
-} from "./common.js";
+} from "./common.ts";
 
 const SKILL_WORKSHOP_ACTIONS = [
   "create",

@@ -6,7 +6,7 @@ import {
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope.js";
+} from "../../agents/agent-scope.ts";
 import {
   type AuthProfileCredential,
   type AuthProfileEligibilityReasonCode,
@@ -16,26 +16,26 @@ import {
   resolveAuthProfileDisplayLabel,
   resolveAuthProfileEligibility,
   resolveAuthProfileOrder,
-} from "../../agents/auth-profiles.js";
-import { describeFailoverError } from "../../agents/failover-error.js";
-import { hasUsableCustomProviderApiKey, resolveEnvApiKey } from "../../agents/model-auth.js";
-import { loadModelCatalog } from "../../agents/model-catalog.js";
+} from "../../agents/auth-profiles.ts";
+import { describeFailoverError } from "../../agents/failover-error.ts";
+import { hasUsableCustomProviderApiKey, resolveEnvApiKey } from "../../agents/model-auth.ts";
+import { loadModelCatalog } from "../../agents/model-catalog.ts";
 import {
   findNormalizedProviderValue,
   normalizeProviderId,
   parseModelRef,
-} from "../../agents/model-selection.js";
-import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.js";
+} from "../../agents/model-selection.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.ts";
 import {
   resolveSessionTranscriptPath,
   resolveSessionTranscriptsDirForAgent,
-} from "../../config/sessions/paths.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { coerceSecretRef, normalizeSecretInputString } from "../../config/types.secrets.js";
-import { type SecretRefResolveCache, resolveSecretRefString } from "../../secrets/resolve.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { redactSecrets } from "../status-all/format.js";
-import { DEFAULT_PROVIDER, formatMs } from "./shared.js";
+} from "../../config/sessions/paths.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { coerceSecretRef, normalizeSecretInputString } from "../../config/types.secrets.ts";
+import { type SecretRefResolveCache, resolveSecretRefString } from "../../secrets/resolve.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { redactSecrets } from "../status-all/format.ts";
+import { DEFAULT_PROVIDER, formatMs } from "./shared.ts";
 
 const PROBE_PROMPT = "Reply with OK. Do not use tools.";
 
@@ -226,23 +226,6 @@ function mapEligibilityReasonToProbeReasonCode(
   return "ineligible_profile";
 }
 
-function formatMissingCredentialProbeError(reasonCode: AuthProbeReasonCode): string {
-  const legacyLine = "Auth profile credentials are missing or expired.";
-  if (reasonCode === "expired") {
-    return `${legacyLine}\n↳ Auth reason [expired]: token credentials are expired.`;
-  }
-  if (reasonCode === "invalid_expires") {
-    return `${legacyLine}\n↳ Auth reason [invalid_expires]: token expires must be a positive Unix ms timestamp.`;
-  }
-  if (reasonCode === "missing_credential") {
-    return `${legacyLine}\n↳ Auth reason [missing_credential]: no inline credential or SecretRef is configured.`;
-  }
-  if (reasonCode === "unresolved_ref") {
-    return `${legacyLine}\n↳ Auth reason [unresolved_ref]: configured SecretRef could not be resolved.`;
-  }
-  return `${legacyLine}\n↳ Auth reason [ineligible_profile]: profile is incompatible with provider config.`;
-}
-
 function resolveProbeSecretRef(profile: AuthProfileCredential, cfg: OpenClawConfig) {
   const defaults = cfg.secrets?.defaults;
   if (profile.type === "api_key") {
@@ -258,11 +241,6 @@ function resolveProbeSecretRef(profile: AuthProfileCredential, cfg: OpenClawConf
     return coerceSecretRef(profile.tokenRef, defaults);
   }
   return null;
-}
-
-function formatUnresolvedRefProbeError(refLabel: string): string {
-  const legacyLine = "Auth profile credentials are missing or expired.";
-  return `${legacyLine}\n↳ Auth reason [unresolved_ref]: could not resolve SecretRef "${refLabel}".`;
 }
 
 async function maybeResolveUnresolvedRefIssue(params: {

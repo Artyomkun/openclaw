@@ -56,8 +56,6 @@ export type ResolvedTtsPersona = TtsPersonaConfig & {
 export type TtsConfig = {
   /** Auto-TTS mode (preferred). */
   auto?: TtsAutoMode;
-  /** @deprecated Use auto. */
-  enabled?: boolean;
   /** Apply TTS to final replies only or to all replies (tool/block/final). */
   mode?: TtsMode;
   /** Primary TTS provider (fallbacks are automatic). */

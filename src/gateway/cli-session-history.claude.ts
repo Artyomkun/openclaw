@@ -10,9 +10,9 @@ import {
   isToolResultBlock,
   resolveToolUseId,
   type ToolContentBlock,
-} from "../chat/tool-content.js";
-import type { SessionEntry } from "../config/sessions.js";
-import { attachOpenClawTranscriptMeta } from "./session-transcript-readers.js";
+} from "../chat/tool-content.ts";
+import type { SessionEntry } from "../config/sessions.ts";
+import { attachOpenClawTranscriptMeta } from "./session-transcript-readers.ts";
 
 export const CLAUDE_CLI_PROVIDER = "claude-cli";
 const CLAUDE_PROJECTS_RELATIVE_DIR = path.join(".claude", "projects");
@@ -58,12 +58,7 @@ export function resolveClaudeCliBindingSessionId(
   if (bindingSessionId) {
     return bindingSessionId;
   }
-  const legacyMapSessionId = normalizeOptionalString(entry?.cliSessionIds?.[CLAUDE_CLI_PROVIDER]);
-  if (legacyMapSessionId) {
-    return legacyMapSessionId;
-  }
-  const legacyClaudeSessionId = normalizeOptionalString(entry?.claudeCliSessionId);
-  return legacyClaudeSessionId || undefined;
+  return undefined;
 }
 
 function resolveTimestampMs(value: unknown): number | undefined {

@@ -1,7 +1,7 @@
 // Tool send helpers normalize model tool-send requests before provider dispatch.
-import { readStringValue } from "../../packages/normalization-core/src/string-coerce.js";
+import { readStringValue } from "../../packages/normalization-core/src/string-coerce.ts";
 
-export type { ChannelToolSend } from "../channels/plugins/types.public.js";
+export type { ChannelToolSend } from "../channels/plugins/types.public.ts";
 
 /** Extract the canonical send target fields from tool arguments when the action matches. */
 export function extractToolSend(

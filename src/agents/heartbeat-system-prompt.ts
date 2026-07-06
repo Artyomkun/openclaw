@@ -5,12 +5,12 @@ import { normalizeOptionalString } from "@openclaw/normalization-core/string-coe
 import {
   DEFAULT_HEARTBEAT_EVERY,
   resolveHeartbeatPrompt as resolveHeartbeatPromptText,
-} from "../auto-reply/heartbeat.js";
-import { parseDurationMs } from "../cli/parse-duration.js";
-import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { listAgentEntries, resolveAgentConfig, resolveDefaultAgentId } from "./agent-scope.js";
+} from "../auto-reply/heartbeat.ts";
+import { parseDurationMs } from "../cli/parse-duration.ts";
+import type { AgentDefaultsConfig } from "../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { listAgentEntries, resolveAgentConfig, resolveDefaultAgentId } from "./agent-scope.ts";
 
 type HeartbeatConfig = AgentDefaultsConfig["heartbeat"];
 

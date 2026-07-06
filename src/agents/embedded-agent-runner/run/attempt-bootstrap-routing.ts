@@ -1,9 +1,9 @@
 /**
  * Resolves bootstrap context targets for one embedded-agent attempt.
  */
-import type { BootstrapMode } from "../../bootstrap-mode.js";
-import { resolveBootstrapMode } from "../../bootstrap-mode.js";
-import { DEFAULT_BOOTSTRAP_FILENAME, type WorkspaceBootstrapFile } from "../../workspace.js";
+import type { BootstrapMode } from "../../bootstrap-mode.ts";
+import { resolveBootstrapMode } from "../../bootstrap-mode.ts";
+import { DEFAULT_BOOTSTRAP_FILENAME, type WorkspaceBootstrapFile } from "../../workspace.ts";
 
 /** Inputs that decide whether this attempt should inject workspace bootstrap context. */
 type AttemptBootstrapRoutingInput = {

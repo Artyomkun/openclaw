@@ -3,45 +3,45 @@
  *
  * Waits for child runs, records terminal outcomes, creates task-runtime entries, and archives completed sessions.
  */
-import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway } from "../gateway/call.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import { createRunningTaskRun } from "../tasks/detached-task-runtime.js";
-import { normalizeDeliveryContext } from "../utils/delivery-context.shared.js";
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
-import { buildAgentRunTerminalOutcomeFromWaitResult } from "./agent-run-terminal-outcome.js";
-import { removeInternalSessionEffectsTranscript } from "./internal-session-effects.js";
-import { isRecoverableAgentWaitError, waitForAgentRun } from "./run-wait.js";
-import type { ensureRuntimePluginsLoaded as ensureRuntimePluginsLoadedFn } from "./runtime-plugins.js";
-import { type SubagentRunOutcome, withSubagentOutcomeTiming } from "./subagent-announce-output.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway } from "../gateway/call.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import { createRunningTaskRun } from "../tasks/detached-task-runtime.ts";
+import { normalizeDeliveryContext } from "../utils/delivery-context.shared.ts";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
+import { buildAgentRunTerminalOutcomeFromWaitResult } from "./agent-run-terminal-outcome.ts";
+import { removeInternalSessionEffectsTranscript } from "./internal-session-effects.ts";
+import { isRecoverableAgentWaitError, waitForAgentRun } from "./run-wait.ts";
+import type { ensureRuntimePluginsLoaded as ensureRuntimePluginsLoadedFn } from "./runtime-plugins.ts";
+import { type SubagentRunOutcome, withSubagentOutcomeTiming } from "./subagent-announce-output.ts";
 import {
   clearDeliveryState,
   ensureCompletionState,
   normalizeSubagentRunState,
-} from "./subagent-delivery-state.js";
+} from "./subagent-delivery-state.ts";
 import {
   SUBAGENT_ENDED_OUTCOME_KILLED,
   SUBAGENT_ENDED_REASON_COMPLETE,
   SUBAGENT_ENDED_REASON_ERROR,
   SUBAGENT_ENDED_REASON_KILLED,
   type SubagentLifecycleEndedReason,
-} from "./subagent-lifecycle-events.js";
+} from "./subagent-lifecycle-events.ts";
 import {
   emitSubagentEndedHookOnce,
   shouldUpdateRunOutcome,
-} from "./subagent-registry-completion.js";
+} from "./subagent-registry-completion.ts";
 import {
   getSubagentSessionRuntimeMs,
   getSubagentSessionStartedAt,
   persistSubagentSessionTiming,
   resolveArchiveAfterMs,
   safeRemoveAttachmentsDir,
-} from "./subagent-registry-helpers.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
-import { resolveSubagentRunDeadlineMs } from "./subagent-run-timeout.js";
-import type { SubagentSessionCompletion } from "./subagent-session-reconciliation.js";
+} from "./subagent-registry-helpers.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
+import { resolveSubagentRunDeadlineMs } from "./subagent-run-timeout.ts";
+import type { SubagentSessionCompletion } from "./subagent-session-reconciliation.ts";
 
 const log = createSubsystemLogger("agents/subagent-registry");
 const RECOVERABLE_WAIT_RETRY_DELAY_MS = process.env.OPENCLAW_TEST_FAST === "1" ? 25 : 5_000;

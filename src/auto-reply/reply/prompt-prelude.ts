@@ -1,13 +1,13 @@
 /** Builds prompt body and envelope metadata for reply runs. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { CurrentInboundPromptContext } from "../../agents/embedded-agent-runner/run/params.js";
-import type { InboundEventKind } from "../../channels/inbound-event/kind.js";
-import { annotateInterSessionPromptText } from "../../sessions/input-provenance.js";
-import type { SourceReplyDeliveryMode } from "../get-reply-options.types.js";
-import { HEARTBEAT_TRANSCRIPT_PROMPT } from "../heartbeat.js";
-import { buildInboundMediaNote } from "../media-note.js";
-import type { MsgContext, TemplateContext } from "../templating.js";
-import { appendUntrustedContext } from "./untrusted-context.js";
+import type { CurrentInboundPromptContext } from "../../agents/embedded-agent-runner/run/params.ts";
+import type { InboundEventKind } from "../../channels/inbound-event/kind.ts";
+import { annotateInterSessionPromptText } from "../../sessions/input-provenance.ts";
+import type { SourceReplyDeliveryMode } from "../get-reply-options.types.ts";
+import { HEARTBEAT_TRANSCRIPT_PROMPT } from "../heartbeat.ts";
+import { buildInboundMediaNote } from "../media-note.ts";
+import type { MsgContext, TemplateContext } from "../templating.ts";
+import { appendUntrustedContext } from "./untrusted-context.ts";
 
 const REPLY_MEDIA_HINT =
   "To send an image back, use the message tool with structured media fields such as media, mediaUrl, path, or filePath. Keep caption in the text body.";

@@ -6,8 +6,8 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizePendingFinalDeliveryText } from "../auto-reply/reply/pending-final-delivery.js";
-import { resolveStateDir } from "../config/paths.js";
+import { sanitizePendingFinalDeliveryText } from "../auto-reply/reply/pending-final-delivery.ts";
+import { resolveStateDir } from "../config/paths.ts";
 import {
   type RestartRecoveryRun,
   type SessionEntry,
@@ -15,37 +15,37 @@ import {
   resolveAllAgentSessionStoreTargetsSync,
   resolveSessionFilePath,
   resolveSessionTranscriptPathInDir,
-} from "../config/sessions.js";
-import { applyRestartRecoveryLifecycle } from "../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway } from "../gateway/call.js";
-import { readSessionMessagesAsync } from "../gateway/session-transcript-readers.js";
-import { resolveGatewaySessionStoreTarget } from "../gateway/session-utils.js";
+} from "../config/sessions.ts";
+import { applyRestartRecoveryLifecycle } from "../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway } from "../gateway/call.ts";
+import { readSessionMessagesAsync } from "../gateway/session-transcript-readers.ts";
+import { resolveGatewaySessionStoreTarget } from "../gateway/session-utils.ts";
 import {
   getAgentEventLifecycleGeneration,
   listAgentRunsForSession,
-} from "../infra/agent-events.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { CommandLane } from "../process/lanes.js";
+} from "../infra/agent-events.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { CommandLane } from "../process/lanes.ts";
 import {
   isAcpSessionKey,
   isCronSessionKey,
   isSubagentSessionKey,
   resolveAgentIdFromSessionKey,
-} from "../routing/session-key.js";
-import { resolveSendPolicy } from "../sessions/send-policy.js";
+} from "../routing/session-key.ts";
+import { resolveSendPolicy } from "../sessions/send-policy.ts";
 import {
   deliveryContextFromSession,
   normalizeDeliveryContext,
   type DeliveryContext,
-} from "../utils/delivery-context.shared.js";
-import { isDeliverableMessageChannel } from "../utils/message-channel.js";
+} from "../utils/delivery-context.shared.ts";
+import { isDeliverableMessageChannel } from "../utils/message-channel.ts";
 import {
   listActiveEmbeddedRunSessionIds,
   listActiveEmbeddedRunSessionKeys,
-} from "./embedded-agent-runner/run-state.js";
-import { resolveAgentSessionDirs } from "./session-dirs.js";
-import type { SessionLockInspection } from "./session-write-lock.js";
+} from "./embedded-agent-runner/run-state.ts";
+import { resolveAgentSessionDirs } from "./session-dirs.ts";
+import type { SessionLockInspection } from "./session-write-lock.ts";
 
 const log = createSubsystemLogger("main-session-restart-recovery");
 

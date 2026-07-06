@@ -2,9 +2,9 @@
  * Converts plugin manifest metadata into deterministic config UI metadata for docs, validation, and runtime schema.
  * When multiple plugin origins expose the same id/channel, the closest origin owns the surfaced schema.
  */
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
-import type { ChannelUiMetadata, PluginUiMetadata } from "./schema.js";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import type { PluginOrigin } from "../plugins/plugin-origin.types.ts";
+import type { ChannelUiMetadata, PluginUiMetadata } from "./schema.ts";
 
 export type ChannelSchemaMetadataWithOwnership = ChannelUiMetadata & {
   schemaPluginId?: string;

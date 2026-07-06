@@ -1,14 +1,14 @@
 // Generates short labels for sessions from conversation context.
-import { resolveModelAsync } from "../../agents/embedded-agent-runner/model.js";
-import { requireApiKey } from "../../agents/model-auth.js";
-import { resolveDefaultModelForAgent } from "../../agents/model-selection.js";
-import { applyPreparedRuntimeAuthToModel } from "../../agents/provider-request-config.js";
-import { prepareModelForSimpleCompletion } from "../../agents/simple-completion-transport.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { completeSimple } from "../../llm/stream.js";
-import type { TextContent } from "../../llm/types.js";
-import { getRuntimeAuthForModel } from "../../plugins/runtime/runtime-model-auth.runtime.js";
+import { resolveModelAsync } from "../../agents/embedded-agent-runner/model.ts";
+import { requireApiKey } from "../../agents/model-auth.ts";
+import { resolveDefaultModelForAgent } from "../../agents/model-selection.ts";
+import { applyPreparedRuntimeAuthToModel } from "../../agents/provider-request-config.ts";
+import { prepareModelForSimpleCompletion } from "../../agents/simple-completion-transport.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { completeSimple } from "../../llm/stream.ts";
+import type { TextContent } from "../../llm/types.ts";
+import { getRuntimeAuthForModel } from "../../plugins/runtime/runtime-model-auth.runtime.ts";
 
 const DEFAULT_MAX_LABEL_LENGTH = 128;
 const TIMEOUT_MS = 15_000;

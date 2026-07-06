@@ -7,32 +7,15 @@ type ComparableSemver = {
 };
 
 /**
- * Converts legacy OpenClaw `1.2.3.beta.N` tags into semver-compatible `1.2.3-beta.N`.
- */
-export function normalizeLegacyDotBetaVersion(version: string): string {
-  const trimmed = version.trim();
-  const dotBetaMatch = /^([vV]?[0-9]+\.[0-9]+\.[0-9]+)\.beta(?:\.([0-9A-Za-z.-]+))?$/.exec(trimmed);
-  if (!dotBetaMatch) {
-    return trimmed;
-  }
-  const base = dotBetaMatch[1];
-  const suffix = dotBetaMatch[2];
-  return suffix ? `${base}-beta.${suffix}` : `${base}-beta`;
-}
-
-/**
  * Parses an exact semver-like version into fields used by update and plugin version ordering.
  */
 export function parseComparableSemver(
   version: string | null | undefined,
-  options?: { normalizeLegacyDotBeta?: boolean },
 ): ComparableSemver | null {
   if (!version) {
     return null;
   }
-  const normalized = options?.normalizeLegacyDotBeta
-    ? normalizeLegacyDotBetaVersion(version)
-    : version.trim();
+  const normalized = version.trim();
   const match = /^v?([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/.exec(
     normalized,
   );

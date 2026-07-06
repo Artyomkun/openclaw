@@ -3,8 +3,8 @@ import {
   positiveSecondsToSafeMilliseconds,
   resolveExpiresAtMsFromDurationMs,
   resolveTimerTimeoutMs,
-} from "../../packages/normalization-core/src/number-coercion.js";
-import type { Model } from "../llm/types.js";
+} from "../../packages/normalization-core/src/number-coercion.ts";
+import type { Model } from "../llm/types.ts";
 
 const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" aria-hidden="true"><path fill="#fff" fill-rule="evenodd" d="M165.29 165.29 H517.36 V400 H400 V517.36 H282.65 V634.72 H165.29 Z M282.65 282.65 V400 H400 V282.65 Z"/><path fill="#fff" d="M517.36 400 H634.72 V634.72 H517.36 Z"/></svg>`;
 
@@ -21,9 +21,6 @@ export type OAuthCredentials = {
 
 /** Stable provider id used by OAuth credential and config routing. */
 export type OAuthProviderId = string;
-
-/** @deprecated Use OAuthProviderId instead. */
-export type OAuthProvider = OAuthProviderId;
 
 /** Manual input prompt shown during OAuth login flows. */
 export type OAuthPrompt = {
@@ -104,16 +101,6 @@ export interface OAuthProviderInterface {
 
   /** Optionally adjust models for this provider, such as updating baseUrl. */
   modifyModels?(models: Model[], credentials: OAuthCredentials): Model[];
-}
-
-/** @deprecated Use OAuthProviderInterface instead. */
-export interface OAuthProviderInfo {
-  /** Stable provider id used for credential and config routing. */
-  id: OAuthProviderId;
-  /** Human-readable provider name shown in login flows. */
-  name: string;
-  /** Whether this provider can currently start OAuth login. */
-  available: boolean;
 }
 
 function escapeHtml(value: string): string {

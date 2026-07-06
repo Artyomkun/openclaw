@@ -1,7 +1,7 @@
 // Zalouser plugin module implements doctor behavior.
 import type { ChannelDoctorAdapter } from "openclaw/plugin-sdk/channel-contract";
 import { createDangerousNameMatchingMutableAllowlistWarningCollector } from "openclaw/plugin-sdk/channel-policy";
-import { legacyConfigRules, normalizeCompatibilityConfig } from "./doctor-contract.js";
+import { normalizeCompatibilityConfig } from "./doctor-contract.js";
 import { isZalouserMutableGroupEntry } from "./security-audit.js";
 
 function asObjectRecord(value: unknown): Record<string, unknown> | null {
@@ -32,7 +32,6 @@ export const zalouserDoctor: ChannelDoctorAdapter = {
   groupModel: "hybrid",
   groupAllowFromFallbackToAllowFrom: false,
   warnOnEmptyGroupSenderAllowlist: false,
-  legacyConfigRules,
   normalizeCompatibilityConfig,
   collectMutableAllowlistWarnings: collectZalouserMutableAllowlistWarnings,
 };

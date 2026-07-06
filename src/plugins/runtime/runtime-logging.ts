@@ -1,8 +1,8 @@
 // Runtime logging helpers route plugin runtime logs through OpenClaw verbosity controls.
-import { shouldLogVerbose } from "../../globals.js";
-import { getChildLogger } from "../../logging.js";
-import { normalizeLogLevel } from "../../logging/levels.js";
-import type { PluginRuntime } from "./types.js";
+import { shouldLogVerbose } from "../../globals.ts";
+import { getChildLogger } from "../../logging.ts";
+import { normalizeLogLevel } from "../../logging/levels.ts";
+import type { PluginRuntime } from "./types.ts";
 
 function writeRuntimeLog(
   log: (...args: unknown[]) => void,

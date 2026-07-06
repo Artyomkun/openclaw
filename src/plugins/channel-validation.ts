@@ -3,13 +3,13 @@ import {
   normalizeOptionalString,
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { listChatChannels } from "../channels/chat-meta.js";
-import { normalizeChannelMeta } from "../channels/plugins/meta-normalization.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ChannelMeta } from "../channels/plugins/types.public.js";
-import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "../config/bundled-channel-config-metadata.generated.js";
-import type { PluginDiagnostic } from "./manifest-types.js";
-import { pushPluginValidationDiagnostic } from "./validation-diagnostics.js";
+import { listChatChannels } from "../channels/chat-meta.ts";
+import { normalizeChannelMeta } from "../channels/plugins/meta-normalization.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { ChannelMeta } from "../channels/plugins/types.public.ts";
+import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "../config/bundled-channel-config-metadata.generated.ts";
+import type { PluginDiagnostic } from "./manifest-types.ts";
+import { pushPluginValidationDiagnostic } from "./validation-diagnostics.ts";
 
 function resolveBundledChannelMeta(id: string): ChannelMeta | undefined {
   return (

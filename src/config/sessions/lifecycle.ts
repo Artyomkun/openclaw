@@ -1,14 +1,14 @@
 // Session lifecycle timestamps prefer store metadata and fall back to transcript headers.
 import fs from "node:fs";
 import fsp from "node:fs/promises";
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
-import { canonicalizeMainSessionAlias } from "./main-session.js";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
+import { canonicalizeMainSessionAlias } from "./main-session.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   type SessionFilePathOptions,
-} from "./paths.js";
-import { isTerminalSessionStatus, type SessionEntry, type SessionScope } from "./types.js";
+} from "./paths.ts";
+import { isTerminalSessionStatus, type SessionEntry, type SessionScope } from "./types.ts";
 
 type SessionLifecycleEntry = Pick<
   SessionEntry,

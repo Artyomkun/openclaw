@@ -1,21 +1,21 @@
 // Runtime bridge for web-search providers supplied by plugins.
-import { loadOpenClawPlugins } from "./loader.js";
-import type { PluginLoadOptions } from "./loader.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { PluginWebSearchProviderEntry } from "./types.js";
-import { resolveBundledWebSearchProvidersFromPublicArtifacts } from "./web-provider-public-artifacts.js";
+import { loadOpenClawPlugins } from "./loader.ts";
+import type { PluginLoadOptions } from "./loader.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import type { PluginWebSearchProviderEntry } from "./types.ts";
+import { resolveBundledWebSearchProvidersFromPublicArtifacts } from "./web-provider-public-artifacts.ts";
 import {
   mapRegistryProviders,
   resolveManifestDeclaredWebProviderCandidatePluginIds,
-} from "./web-provider-resolution-shared.js";
+} from "./web-provider-resolution-shared.ts";
 import {
   resolvePluginWebProviders,
   resolveRuntimeWebProviders,
-} from "./web-provider-runtime-shared.js";
+} from "./web-provider-runtime-shared.ts";
 import {
   resolveBundledWebSearchResolutionConfig,
   sortWebSearchProviders,
-} from "./web-search-providers.shared.js";
+} from "./web-search-providers.shared.ts";
 
 function resolveWebSearchCandidatePluginIds(params: {
   config?: PluginLoadOptions["config"];

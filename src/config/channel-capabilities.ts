@@ -1,11 +1,11 @@
 // Normalizes channel capability metadata from config and plugin manifests.
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { normalizeAnyChannelId } from "../channels/registry.js";
-import { resolveAccountEntry } from "../routing/account-lookup.js";
-import { normalizeAccountId } from "../routing/session-key.js";
-import type { OpenClawConfig } from "./config.js";
-import type { SlackCapabilitiesConfig } from "./types.slack.js";
-import type { TelegramCapabilitiesConfig } from "./types.telegram.js";
+import { normalizeAnyChannelId } from "../channels/registry.ts";
+import { resolveAccountEntry } from "../routing/account-lookup.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
+import type { OpenClawConfig } from "./config.ts";
+import type { SlackCapabilitiesConfig } from "./types.slack.ts";
+import type { TelegramCapabilitiesConfig } from "./types.telegram.ts";
 
 type CapabilitiesConfig = TelegramCapabilitiesConfig | SlackCapabilitiesConfig;
 

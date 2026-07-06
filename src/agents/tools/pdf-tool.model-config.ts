@@ -3,23 +3,23 @@
  *
  * Selects explicit PDF, image-model, native PDF, vision, or text-extraction fallback models.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   providerSupportsNativePdfDocument,
   resolveAutoMediaKeyProviders,
   resolveDefaultMediaModel,
   resolveDocumentMediaModel,
-} from "../../media-understanding/defaults.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
-import { findNormalizedProviderValue } from "../model-selection.js";
+} from "../../media-understanding/defaults.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
+import { findNormalizedProviderValue } from "../model-selection.ts";
 import {
   coerceImageModelConfig,
   type ImageModelConfig,
   resolveConfiguredImageModelRefs,
   resolveProviderVisionModelFromConfig,
-} from "./image-tool.helpers.js";
-import { hasProviderAuthForTool, resolveDefaultModelRef } from "./model-config.helpers.js";
-import { coercePdfModelConfig } from "./pdf-tool.helpers.js";
+} from "./image-tool.helpers.ts";
+import { hasProviderAuthForTool, resolveDefaultModelRef } from "./model-config.helpers.ts";
+import { coercePdfModelConfig } from "./pdf-tool.helpers.ts";
 
 function formatProviderModelRef(providerId: string, modelId: string): string {
   const slash = modelId.indexOf("/");

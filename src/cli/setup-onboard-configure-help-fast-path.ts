@@ -1,9 +1,9 @@
 // Fast help renderer for setup/onboard/configure without loading full CLI startup.
 import { Command } from "commander";
-import { VERSION } from "../version.js";
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import type { ProgramContext } from "./program/context.js";
-import { configureProgramHelp } from "./program/help.js";
+import { VERSION } from "../version.ts";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
+import type { ProgramContext } from "./program/context.ts";
+import { configureProgramHelp } from "./program/help.ts";
 
 type SetupOnboardConfigureHelpCommand = "setup" | "onboard" | "configure";
 

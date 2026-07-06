@@ -3,7 +3,7 @@
  *
  * Allows built-in chat channel ids and external plugin-provided channel ids.
  */
-import type { ChatChannelId } from "../ids.js";
+import type { ChatChannelId } from "../ids.ts";
 
 /**
  * Channel id accepted by plugin helpers, covering built-in chat ids and external plugin ids.

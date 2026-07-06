@@ -4,30 +4,21 @@ export type {
   InboundMentionDecision,
   InboundMentionFacts,
   InboundMentionPolicy,
-  MentionGateParams,
-  MentionGateResult,
-  MentionGateWithBypassParams,
-  MentionGateWithBypassResult,
-  ResolveInboundMentionDecisionFlatParams,
   ResolveInboundMentionDecisionNestedParams,
   ResolveInboundMentionDecisionParams,
-} from "../channels/mention-gating.js";
+} from "../channels/mention-gating.ts";
 export {
   implicitMentionKindWhen,
   resolveInboundMentionDecision,
-  // @deprecated Prefer `resolveInboundMentionDecision({ facts, policy })`.
-  resolveMentionGating,
-  // @deprecated Prefer `resolveInboundMentionDecision({ facts, policy })`.
-  resolveMentionGatingWithBypass,
-} from "../channels/mention-gating.js";
+} from "../channels/mention-gating.ts";
 export {
   CURRENT_MESSAGE_MARKER,
   buildMentionRegexes,
   normalizeMentionText,
   type BuildMentionRegexesOptions,
-} from "../auto-reply/reply/mentions.js";
+} from "../auto-reply/reply/mentions.ts";
 export {
   resolveMentionPatternPolicy,
   type ResolveMentionPatternPolicyParams,
   type ResolvedMentionPatternPolicy,
-} from "../channels/mention-pattern-policy.js";
+} from "../channels/mention-pattern-policy.ts";

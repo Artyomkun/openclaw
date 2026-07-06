@@ -8,13 +8,13 @@ export {
   markDeliveryPlatformOutcomeUnknown,
   markDeliveryPlatformSendAttemptStarted,
   moveToFailed,
-} from "./delivery-queue-storage.js";
+} from "./delivery-queue-storage.ts";
 export type {
   QueuedDelivery,
   QueuedDeliveryPayload,
   QueuedReplyPayloadSendingHook,
   QueuedRenderedMessageBatchPlan,
-} from "./delivery-queue-storage.js";
+} from "./delivery-queue-storage.ts";
 export {
   computeBackoffMs,
   drainPendingDeliveries,
@@ -23,11 +23,11 @@ export {
   MAX_RETRIES,
   recoverPendingDeliveries,
   withActiveDeliveryClaim,
-} from "./delivery-queue-recovery.js";
+} from "./delivery-queue-recovery.ts";
 export type {
   ActiveDeliveryClaimResult,
   DeliverFn,
   PendingDeliveryDrainDecision,
   RecoveryLogger,
   RecoverySummary,
-} from "./delivery-queue-recovery.js";
+} from "./delivery-queue-recovery.ts";

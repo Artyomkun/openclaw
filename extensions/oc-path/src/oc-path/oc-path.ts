@@ -432,9 +432,6 @@ export function isPattern(path: OcPath): boolean {
   return false;
 }
 
-/** @deprecated v1 — use {@link isPattern}. Behaviorally identical. */
-export const hasWildcard = isPattern;
-
 /** Union segment `{a,b,c}` matches each comma-separated alternative. */
 export function isUnionSeg(seg: string): boolean {
   return seg.length >= 2 && seg.startsWith("{") && seg.endsWith("}");

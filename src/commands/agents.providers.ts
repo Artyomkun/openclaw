@@ -1,13 +1,13 @@
 // Provider/account summary helpers for `openclaw agents list`.
-import { isChannelVisibleInConfiguredLists } from "../channels/plugins/exposure.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import { normalizeChannelId } from "../channels/plugins/index.js";
-import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { AgentBinding } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
+import { isChannelVisibleInConfiguredLists } from "../channels/plugins/exposure.ts";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
+import { normalizeChannelId } from "../channels/plugins/index.ts";
+import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { AgentBinding } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.ts";
 
 type ProviderAccountStatus = {
   provider: ChannelId;

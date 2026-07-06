@@ -1,11 +1,11 @@
 /** Config mutation helpers used by chat commands that edit OpenClaw config. */
-import { setConfigValueAtPath, unsetConfigValueAtPath } from "../../config/config-paths.js";
+import { setConfigValueAtPath, unsetConfigValueAtPath } from "../../config/config-paths.ts";
 import {
   transformConfigFileWithRetry,
   validateConfigObjectWithPlugins,
-} from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { setPluginEnabledInConfig } from "../../plugins/toggle-config.js";
+} from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { setPluginEnabledInConfig } from "../../plugins/toggle-config.ts";
 
 export class AutoReplyConfigMutationError extends Error {}
 

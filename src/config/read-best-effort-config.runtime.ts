@@ -3,4 +3,4 @@ export {
   readBestEffortConfig,
   readBestEffortConfigSnapshot,
   readSourceConfigBestEffort,
-} from "./io.js";
+} from "./io.ts";

@@ -6,16 +6,16 @@ import {
   resolveCompactionSessionFile,
   setSessionRuntimeModel,
   type SessionEntry,
-} from "../../config/sessions.js";
-import { patchSessionEntry } from "../../config/sessions/session-accessor.js";
-import { resolveMaintenanceConfigFromInput } from "../../config/sessions/store-maintenance.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveNonNegativeNumber } from "../../shared/number-coercion.js";
-import { clearCliSession, setCliSessionBinding, setCliSessionId } from "../cli-session.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../defaults.js";
-import { isCliProvider } from "../model-selection.js";
-import { deriveSessionTotalTokens, hasNonzeroUsage } from "../usage.js";
+} from "../../config/sessions.ts";
+import { patchSessionEntry } from "../../config/sessions/session-accessor.ts";
+import { resolveMaintenanceConfigFromInput } from "../../config/sessions/store-maintenance.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveNonNegativeNumber } from "../../shared/number-coercion.ts";
+import { clearCliSession, setCliSessionBinding, setCliSessionId } from "../cli-session.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../defaults.ts";
+import { isCliProvider } from "../model-selection.ts";
+import { deriveSessionTotalTokens, hasNonzeroUsage } from "../usage.ts";
 
 type RunResult = Awaited<ReturnType<(typeof import("../embedded-agent.js"))["runEmbeddedAgent"]>>;
 

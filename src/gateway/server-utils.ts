@@ -1,7 +1,7 @@
 // Gateway generic server utilities.
 // Normalizes voice-wake triggers and formats unknown errors for logs/responses.
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { defaultVoiceWakeTriggers } from "../infra/voicewake.js";
+import { defaultVoiceWakeTriggers } from "../infra/voicewake.ts";
 
 /** Normalizes voice-wake trigger config with bounded count/length and defaults. */
 export function normalizeVoiceWakeTriggers(input: unknown): string[] {

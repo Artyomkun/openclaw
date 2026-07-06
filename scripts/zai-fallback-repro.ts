@@ -6,7 +6,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { resolvePnpmRunner } from "./pnpm-runner.mjs";
+import { resolvePnpmRunner } from "./pnpm-runner.ts";
 
 type RunResult = {
   code: number | null;

@@ -4,18 +4,18 @@
  * providers, with trusted workspace plugin handling and process-stable caching.
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
 import {
   isWorkspacePluginAllowedByConfig,
   normalizePluginConfigId,
-} from "../plugins/plugin-config-trust.js";
-import { resolvePluginControlPlaneFingerprint } from "../plugins/plugin-control-plane-context.js";
-import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.js";
-import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
+} from "../plugins/plugin-config-trust.ts";
+import { resolvePluginControlPlaneFingerprint } from "../plugins/plugin-control-plane-context.ts";
+import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.ts";
+import type { PluginOrigin } from "../plugins/plugin-origin.types.ts";
 
 /** Inputs that control plugin metadata and trust scope for auth alias lookup. */
 export type ProviderAuthAliasLookupParams = {

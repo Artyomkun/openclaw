@@ -2,11 +2,11 @@
 import {
   getApiKeyForModel as resolveModelApiKey,
   resolveApiKeyForProvider as resolveProviderApiKey,
-} from "../../agents/model-auth.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { Model } from "../../llm/types.js";
-import { prepareProviderRuntimeAuth } from "../provider-runtime.runtime.js";
-import type { ResolvedProviderRuntimeAuth } from "./model-auth-types.js";
+} from "../../agents/model-auth.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { Model } from "../../llm/types.ts";
+import { prepareProviderRuntimeAuth } from "../provider-runtime.runtime.ts";
+import type { ResolvedProviderRuntimeAuth } from "./model-auth-types.ts";
 
 export async function getApiKeyForModel(
   params: Parameters<typeof resolveModelApiKey>[0],

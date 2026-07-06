@@ -3,11 +3,11 @@
  *
  * Lists and removes registered runtime and browser containers using backend manager status.
  */
-import { getRuntimeConfig } from "../../config/config.js";
-import { stopBrowserBridgeServer } from "../../plugin-sdk/browser-bridge.js";
-import { getSandboxBackendManager } from "./backend.js";
-import { BROWSER_BRIDGES } from "./browser-bridges.js";
-import { dockerSandboxBackendManager } from "./docker-backend.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import { stopBrowserBridgeServer } from "../../plugin-sdk/browser-bridge.ts";
+import { getSandboxBackendManager } from "./backend.ts";
+import { BROWSER_BRIDGES } from "./browser-bridges.ts";
+import { dockerSandboxBackendManager } from "./docker-backend.ts";
 import {
   readBrowserRegistry,
   readRegistry,
@@ -15,8 +15,8 @@ import {
   removeRegistryEntry,
   type SandboxBrowserRegistryEntry,
   type SandboxRegistryEntry,
-} from "./registry.js";
-import { resolveSandboxAgentId } from "./shared.js";
+} from "./registry.ts";
+import { resolveSandboxAgentId } from "./shared.ts";
 
 export type SandboxContainerInfo = SandboxRegistryEntry & {
   running: boolean;

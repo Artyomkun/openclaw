@@ -1,5 +1,5 @@
 // Resolves npm integrity metadata and detects package drift.
-import type { NpmIntegrityDrift, NpmSpecResolution } from "./install-source-utils.js";
+import type { NpmIntegrityDrift, NpmSpecResolution } from "./install-source-utils.ts";
 
 /** Payload passed to npm integrity drift handlers during archive installs. */
 export type NpmIntegrityDriftPayload = {

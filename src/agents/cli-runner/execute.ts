@@ -8,48 +8,48 @@ import {
   clearMcpLoopbackToolCallCapture,
   type McpLoopbackToolCallStart,
   waitForMcpLoopbackToolCallCaptureIdle,
-} from "../../gateway/mcp-http.loopback-runtime.js";
-import { shouldLogVerbose } from "../../globals.js";
+} from "../../gateway/mcp-http.loopback-runtime.ts";
+import { shouldLogVerbose } from "../../globals.ts";
 import {
   assertAgentRunLifecycleGenerationCurrent,
   emitAgentEvent,
-} from "../../infra/agent-events.js";
-import { isTruthyEnvValue } from "../../infra/env.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+} from "../../infra/agent-events.ts";
+import { isTruthyEnvValue } from "../../infra/env.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   resolveEventSessionKeyForPolicy,
   resolveEventSessionRoutingPolicy,
   scopedHeartbeatWakeOptionsForPolicy,
-} from "../../infra/event-session-routing.js";
-import { requestHeartbeat as requestHeartbeatImpl } from "../../infra/heartbeat-wake.js";
-import { sanitizeHostExecEnv } from "../../infra/host-env-security.js";
-import { shouldUseInternalSourceReplySink } from "../../infra/outbound/internal-source-reply.js";
-import { enqueueSystemEvent as enqueueSystemEventImpl } from "../../infra/system-events.js";
-import { getProcessSupervisor as getProcessSupervisorImpl } from "../../process/supervisor/index.js";
-import { applySkillEnvOverridesFromSnapshot } from "../../skills/runtime/env-overrides.js";
-import { appendBootstrapPromptWarning } from "../bootstrap-budget.js";
+} from "../../infra/event-session-routing.ts";
+import { requestHeartbeat as requestHeartbeatImpl } from "../../infra/heartbeat-wake.ts";
+import { sanitizeHostExecEnv } from "../../infra/host-env-security.ts";
+import { shouldUseInternalSourceReplySink } from "../../infra/outbound/internal-source-reply.ts";
+import { enqueueSystemEvent as enqueueSystemEventImpl } from "../../infra/system-events.ts";
+import { getProcessSupervisor as getProcessSupervisorImpl } from "../../process/supervisor/index.ts";
+import { applySkillEnvOverridesFromSnapshot } from "../../skills/runtime/env-overrides.ts";
+import { appendBootstrapPromptWarning } from "../bootstrap-budget.ts";
 import {
   createCliJsonlStreamingParser,
   extractCliErrorMessage,
   parseCliOutput,
   type CliOutput,
   type CliStreamingDelta,
-} from "../cli-output.js";
-import { classifyFailoverReason } from "../embedded-agent-helpers.js";
+} from "../cli-output.ts";
+import { classifyFailoverReason } from "../embedded-agent-helpers.ts";
 import {
   isDeliveredMessageToolOnlySourceReplyResult,
   isDeliveredMessagingToolResult,
-} from "../embedded-agent-message-tool-source-reply.js";
+} from "../embedded-agent-message-tool-source-reply.ts";
 import {
   isMessagingTool,
   isMessagingToolDeliveryAction,
   isMessagingToolSendAction,
   isMessagingToolTargetEvidenceAction,
-} from "../embedded-agent-messaging.js";
+} from "../embedded-agent-messaging.ts";
 import type {
   MessagingToolSend,
   MessagingToolSourceReplyPayload,
-} from "../embedded-agent-messaging.types.js";
+} from "../embedded-agent-messaging.types.ts";
 import {
   collectMessagingMediaUrlsFromRecord,
   collectMessagingMediaUrlsFromToolResult,
@@ -58,17 +58,17 @@ import {
   extractMessagingToolSourceReplyPayload,
   sanitizeToolArgs,
   sanitizeToolResult,
-} from "../embedded-agent-subscribe.tools.js";
-import { FailoverError, resolveFailoverStatus } from "../failover-error.js";
-import { applyPluginTextReplacements } from "../plugin-text-transforms.js";
-import { prepareCliBundleMcpCaptureAttempt } from "./bundle-mcp.js";
+} from "../embedded-agent-subscribe.tools.ts";
+import { FailoverError, resolveFailoverStatus } from "../failover-error.ts";
+import { applyPluginTextReplacements } from "../plugin-text-transforms.ts";
+import { prepareCliBundleMcpCaptureAttempt } from "./bundle-mcp.ts";
 import {
   rotateClaudeLiveMcpCaptureKeyForContext,
   runClaudeLiveSessionTurn,
   shouldUseClaudeLiveSession,
-} from "./claude-live-session.js";
-import { prepareClaudeCliSkillsPlugin } from "./claude-skills-plugin.js";
-import { attachCliMessagingDeliveryEvidence } from "./delivery-evidence.js";
+} from "./claude-live-session.ts";
+import { prepareClaudeCliSkillsPlugin } from "./claude-skills-plugin.ts";
+import { attachCliMessagingDeliveryEvidence } from "./delivery-evidence.ts";
 import {
   buildCliSupervisorScopeKey,
   buildClaudeOwnerKey,
@@ -82,14 +82,13 @@ import {
   resolveSessionIdToSend,
   resolveSystemPromptUsage,
   writeCliSystemPromptFile,
-} from "./helpers.js";
+} from "./helpers.ts";
 import {
   cliBackendLog,
   CLI_BACKEND_LOG_OUTPUT_ENV,
   formatCliBackendOutputDigest,
-  LEGACY_CLAUDE_CLI_LOG_OUTPUT_ENV,
-} from "./log.js";
-import type { PreparedCliRunContext } from "./types.js";
+} from "./log.ts";
+import type { PreparedCliRunContext } from "./types.ts";
 
 const executeDeps = {
   getProcessSupervisor: getProcessSupervisorImpl,
@@ -667,9 +666,7 @@ export async function executePreparedCliRun(
             hasHistoryPrompt: Boolean(context.openClawHistoryPrompt),
           }),
         );
-        const logOutputText =
-          isTruthyEnvValue(process.env[CLI_BACKEND_LOG_OUTPUT_ENV]) ||
-          isTruthyEnvValue(process.env[LEGACY_CLAUDE_CLI_LOG_OUTPUT_ENV]);
+        const logOutputText = isTruthyEnvValue(process.env[CLI_BACKEND_LOG_OUTPUT_ENV]);
         const outputMode = useResume ? (backend.resumeOutput ?? backend.output) : backend.output;
         const hasJsonlOutput = outputMode === "jsonl";
         const initialGatewayCaptureKey = shouldUseClaudeLiveSession(context)

@@ -1,8 +1,8 @@
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../../agents/defaults.js";
-import { parseModelRef } from "../../../agents/model-selection-normalize.js";
-import { resolveAgentModelPrimaryValue } from "../../../config/model-input.js";
-import type { AgentModelConfig } from "../../../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../../agents/defaults.ts";
+import { parseModelRef } from "../../../agents/model-selection-normalize.ts";
+import { resolveAgentModelPrimaryValue } from "../../../config/model-input.ts";
+import type { AgentModelConfig } from "../../../config/types.agents-shared.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 
 export function resolveDoctorPrimaryModelRef(
   cfg: OpenClawConfig,

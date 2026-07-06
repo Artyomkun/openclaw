@@ -2,8 +2,8 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { detectPackageManager as detectPackageManagerImpl } from "./detect-package-manager.js";
-import { applyPathPrepend } from "./path-prepend.js";
+import { detectPackageManager as detectPackageManagerImpl } from "./detect-package-manager.ts";
+import { applyPathPrepend } from "./path-prepend.ts";
 
 // Update package-manager resolution chooses the package manager for update
 // builds and can bootstrap pnpm when a managed checkout requires it.
@@ -232,15 +232,12 @@ export function managerScriptArgs(manager: BuildManager, script: string, args: s
 }
 
 /** Build argv for installing dependencies with a package manager. */
-export function managerInstallArgs(manager: BuildManager, opts?: { compatFallback?: boolean }) {
+export function managerInstallArgs(manager: BuildManager) {
   if (manager === "pnpm") {
     return ["pnpm", "install"];
   }
   if (manager === "bun") {
     return ["bun", "install"];
-  }
-  if (opts?.compatFallback) {
-    return ["npm", "install", "--no-package-lock", "--legacy-peer-deps"];
   }
   return ["npm", "install"];
 }

@@ -8,13 +8,13 @@ function bundledPluginFile(pluginId: string, relativePath: string, suffix = ""):
 }
 
 const rootEntries = [
-  "openclaw.mjs!",
+  "openclaw.ts",
   "src/index.ts!",
   "src/entry.ts!",
   "src/cli/daemon-cli.ts!",
   "src/agents/code-mode.worker.ts!",
   "src/agents/model-provider-auth.worker.ts!",
-  "src/infra/kysely-node-sqlite.ts!",
+  "src/infra/kysely-node-oracle.ts!",
   "src/infra/warning-filter.ts!",
   "src/infra/command-explainer/index.ts!",
   bundledPluginFile("telegram", "src/audit.ts", "!"),
@@ -88,7 +88,7 @@ const config = {
     "**/test-support/**",
     "**/live-*.ts",
     "**/test-*.ts",
-    "**/vitest*.{ts,mjs}",
+    "**/vitest*.{ts,ts}",
     "**/*test-helpers.ts",
     "**/*test-fixtures.ts",
     "**/*test-harness.ts",
@@ -141,15 +141,15 @@ const config = {
         "cross-spawn",
         "file-type",
         "playwright-core",
-        "sqlite-vec",
+        "oracle-vec",
         "tree-sitter-bash",
         ...rootBundledPluginRuntimeDependencies,
       ],
       project: [
         "src/**/*.ts!",
-        "scripts/**/*.{js,mjs,cjs,ts,mts,cts}!",
-        "*.config.{js,mjs,cjs,ts,mts,cts}!",
-        "*.mjs!",
+        "scripts/**/*.{js,ts,ts,ts,mts,cts}!",
+        "*.config.{js,ts,ts,ts,mts,cts}!",
+        "*.ts",
       ],
     },
     ui: {
@@ -211,7 +211,7 @@ const config = {
     },
     [`${BUNDLED_PLUGIN_ROOT_DIR}/llama-cpp`]: {
       entry: bundledPluginEntries,
-      project: ["index.ts!", "src/**/*.{js,mjs,ts}!"],
+      project: ["index.ts!", "src/**/*.{js,ts,ts}!"],
       ignoreDependencies: [
         // The provider resolves node-llama-cpp from its own package at runtime
         // so local embeddings use the plugin-owned native dependency.
@@ -223,7 +223,7 @@ const config = {
       // Bundled plugins often load their public surface via string specifiers in
       // `index.ts` contracts, so Knip needs these convention-based entry files.
       entry: bundledPluginEntries,
-      project: ["index.ts!", "src/**/*.{js,mjs,ts}!"],
+      project: ["index.ts!", "src/**/*.{js,ts,ts}!"],
       ignoreDependencies: bundledPluginIgnoredRuntimeDependencies,
     },
   },

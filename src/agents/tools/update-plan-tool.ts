@@ -4,12 +4,12 @@
  * Validates structured model work plans and stores them in tool details for UI/transcript consumers.
  */
 import { Type } from "typebox";
-import { stringEnum } from "../schema/typebox.js";
+import { stringEnum } from "../schema/typebox.ts";
 import {
   describeUpdatePlanTool,
   UPDATE_PLAN_TOOL_DISPLAY_SUMMARY,
-} from "../tool-description-presets.js";
-import { type AnyAgentTool, ToolInputError, readStringParam } from "./common.js";
+} from "../tool-description-presets.ts";
+import { type AnyAgentTool, ToolInputError, readStringParam } from "./common.ts";
 
 const PLAN_STEP_STATUSES = ["pending", "in_progress", "completed"] as const;
 

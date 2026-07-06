@@ -1,17 +1,17 @@
 // Enqueues follow-up reply runs and schedules queue drains.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatType } from "../../../channels/chat-type.js";
-import { resolveGlobalDedupeCache } from "../../../infra/dedupe.js";
-import { channelRouteDedupeKey } from "../../../plugin-sdk/channel-route.js";
-import { applyQueueDropPolicy, shouldSkipQueueItem } from "../../../utils/queue-helpers.js";
+import { normalizeChatType } from "../../../channels/chat-type.ts";
+import { resolveGlobalDedupeCache } from "../../../infra/dedupe.ts";
+import { channelRouteDedupeKey } from "../../../plugin-sdk/channel-route.ts";
+import { applyQueueDropPolicy, shouldSkipQueueItem } from "../../../utils/queue-helpers.ts";
 import {
   createOverflowSummaryRetrySource,
   kickFollowupDrainIfIdle,
   rememberFollowupDrainCallback,
   resolveFollowupDeliveryContextKey,
   resolveFollowupReplyAnchor,
-} from "./drain.js";
-import { getExistingFollowupQueue, getFollowupQueue } from "./state.js";
+} from "./drain.ts";
+import { getExistingFollowupQueue, getFollowupQueue } from "./state.ts";
 import {
   completeFollowupRunLifecycle,
   isFollowupRunAborted,
@@ -19,7 +19,7 @@ import {
   type FollowupRun,
   type QueueDedupeMode,
   type QueueSettings,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Keep queued message-id dedupe shared across bundled chunks so redeliveries

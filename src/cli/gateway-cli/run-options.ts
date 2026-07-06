@@ -1,6 +1,6 @@
 // Source-aware gateway run option resolution shared by pre-action and runtime startup.
 import type { Command } from "commander";
-import { inheritOptionFromParent } from "../command-options.js";
+import { inheritOptionFromParent } from "../command-options.ts";
 
 export type GatewayRunOpts = {
   port?: unknown;
@@ -15,8 +15,6 @@ export type GatewayRunOpts = {
   force?: boolean;
   verbose?: boolean;
   cliBackendLogs?: boolean;
-  /** @deprecated Use cliBackendLogs. */
-  claudeCliLogs?: boolean;
   wsLog?: unknown;
   compact?: boolean;
   rawStream?: boolean;

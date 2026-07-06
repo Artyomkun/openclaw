@@ -1,8 +1,8 @@
 // Runtime bridge for web content extractors supplied by plugins.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveEnabledBundledManifestContractPlugins } from "./bundled-manifest-contract-plugins.js";
-import { loadBundledWebContentExtractorEntriesFromDir } from "./web-content-extractor-public-artifacts.js";
-import type { PluginWebContentExtractorEntry } from "./web-content-extractor-types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveEnabledBundledManifestContractPlugins } from "./bundled-manifest-contract-plugins.ts";
+import { loadBundledWebContentExtractorEntriesFromDir } from "./web-content-extractor-public-artifacts.ts";
+import type { PluginWebContentExtractorEntry } from "./web-content-extractor-types.ts";
 
 function compareExtractors(
   left: PluginWebContentExtractorEntry,

@@ -4,8 +4,8 @@ import {
   resolveTimestampMsToIsoString,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { parseAbsoluteTimeMs } from "./parse.js";
-import type { CronSchedule } from "./types.js";
+import { parseAbsoluteTimeMs } from "./parse.ts";
+import type { CronSchedule } from "./types.ts";
 
 const ONE_MINUTE_MS = 60 * 1000;
 const TEN_YEARS_MS = 10 * 365.25 * 24 * 60 * 60 * 1000;

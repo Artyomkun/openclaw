@@ -1,7 +1,7 @@
 /**
  * Defines the narrow set of tool instances that blind attempt retries may repeat.
  */
-import { normalizeToolName } from "./tool-policy-shared.js";
+import { normalizeToolName } from "./tool-policy-shared.ts";
 
 const UNCONDITIONALLY_REPLAY_SAFE_TOOL_NAMES = new Set([
   "read",

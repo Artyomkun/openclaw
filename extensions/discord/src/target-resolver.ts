@@ -66,7 +66,8 @@ export async function resolveDiscordTarget(
       return buildMessagingTarget("user", userId, trimmed);
     }
   } catch {
-    // Preserve legacy fallback behavior for channel names and direct ids.
+    // Preserve older fallback behavior: if resolving fails, fall back to direct parse.
+    return parseDiscordSendTarget(trimmed, parseOptions);
   }
 
   return parseDiscordSendTarget(trimmed, parseOptions);

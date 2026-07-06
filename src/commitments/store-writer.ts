@@ -4,11 +4,11 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { type FileLockOptions, withFileLock } from "../plugin-sdk/file-lock.js";
+import { type FileLockOptions, withFileLock } from "../plugin-sdk/file-lock.ts";
 import {
   runQueuedStoreWrite,
   type StoreWriterQueue,
-} from "../shared/store-writer-queue.js";
+} from "../shared/store-writer-queue.ts";
 
 const WRITER_QUEUES = new Map<string, StoreWriterQueue>();
 

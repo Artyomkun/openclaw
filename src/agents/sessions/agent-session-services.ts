@@ -4,24 +4,24 @@
  * Creates cwd-bound auth, settings, model registry, resource loader, and session instances for the CLI runtime.
  */
 import { join } from "node:path";
-import type { Model } from "../../llm/types.js";
-import { getAgentDir } from "../config.js";
-import type { ThinkingLevel } from "../runtime/index.js";
-import { AuthStorage } from "./auth-storage.js";
-import type { SessionStartEvent, ToolDefinition } from "./extensions/index.js";
-import { ModelRegistry } from "./model-registry.js";
+import type { Model } from "../../llm/types.ts";
+import { getAgentDir } from "../config.ts";
+import type { ThinkingLevel } from "../runtime/index.ts";
+import { AuthStorage } from "./auth-storage.ts";
+import type { SessionStartEvent, ToolDefinition } from "./extensions/index.ts";
+import { ModelRegistry } from "./model-registry.ts";
 import {
   DefaultResourceLoader,
   type DefaultResourceLoaderOptions,
   type ResourceLoader,
-} from "./resource-loader.js";
+} from "./resource-loader.ts";
 import {
   type CreateAgentSessionOptions,
   type CreateAgentSessionResult,
   createAgentSession,
-} from "./sdk.js";
-import type { SessionManager } from "./session-manager.js";
-import { SettingsManager } from "./settings-manager.js";
+} from "./sdk.ts";
+import type { SessionManager } from "./session-manager.ts";
+import { SettingsManager } from "./settings-manager.ts";
 
 /**
  * Non-fatal issues collected while creating services or sessions.

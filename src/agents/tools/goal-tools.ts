@@ -9,18 +9,18 @@ import {
   getSessionGoal,
   MODEL_UPDATABLE_SESSION_GOAL_STATUSES,
   updateSessionGoalStatus,
-} from "../../config/sessions/goals.js";
-import { resolveStorePath } from "../../config/sessions/paths.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeAgentId, parseAgentSessionKey } from "../../routing/session-key.js";
-import { stringEnum } from "../schema/typebox.js";
+} from "../../config/sessions/goals.ts";
+import { resolveStorePath } from "../../config/sessions/paths.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeAgentId, parseAgentSessionKey } from "../../routing/session-key.ts";
+import { stringEnum } from "../schema/typebox.ts";
 import {
   type AnyAgentTool,
   ToolInputError,
   jsonResult,
   readNumberParam,
   readStringParam,
-} from "./common.js";
+} from "./common.ts";
 
 type GoalToolOptions = {
   agentSessionKey?: string;
@@ -59,7 +59,7 @@ function resolveGoalSessionScope(options: GoalToolOptions): GoalSessionScope {
   }
   const parsedSessionAgentId = parseAgentSessionKey(sessionKey)?.agentId;
   const parsedAgentSessionAgentId = parseAgentSessionKey(options.agentSessionKey)?.agentId;
-  // Prefer the run session's agent id; fall back to the agent session for legacy tool contexts.
+  // Prefer the run session's agent id; fall back to the agent session for tool contexts.
   const agentId = normalizeAgentId(
     parsedSessionAgentId ?? parsedAgentSessionAgentId ?? options.sessionAgentId,
   );

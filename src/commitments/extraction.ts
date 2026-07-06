@@ -4,12 +4,12 @@ import {
   timestampMsToIsoString,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString as asString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentConfig } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/config.js";
-import { resolveHeartbeatIntervalMs } from "../infra/heartbeat-summary.js";
-import { isRecord } from "../utils.js";
-import { resolveCommitmentsConfig } from "./config.js";
-import { listPendingCommitmentsForScope, upsertInferredCommitments } from "./store.js";
+import { resolveAgentConfig } from "../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../config/config.ts";
+import { resolveHeartbeatIntervalMs } from "../infra/heartbeat-summary.ts";
+import { isRecord } from "../utils.ts";
+import { resolveCommitmentsConfig } from "./config.ts";
+import { listPendingCommitmentsForScope, upsertInferredCommitments } from "./store.ts";
 import type {
   CommitmentCandidate,
   CommitmentExtractionBatchResult,
@@ -17,7 +17,7 @@ import type {
   CommitmentKind,
   CommitmentSensitivity,
   CommitmentSource,
-} from "./types.js";
+} from "./types.ts";
 
 const KIND_VALUES = new Set<CommitmentKind>([
   "event_check_in",

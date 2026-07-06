@@ -7,7 +7,7 @@ export {
   resolvePreferredOpenClawTmpDir,
   sanitizeTempFileName,
   withTempDownloadPath,
-} from "../infra/temp-download.js";
+} from "../infra/temp-download.ts";
 export {
   tempWorkspace,
   tempWorkspaceSync,
@@ -16,4 +16,4 @@ export {
   type TempWorkspaceSync,
   withTempWorkspace,
   withTempWorkspaceSync,
-} from "../infra/private-temp-workspace.js";
+} from "../infra/private-temp-workspace.ts";

@@ -1,5 +1,5 @@
 /** Shared terminal output formatting helpers for daemon install/control commands. */
-import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.js";
+import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.ts";
 
 /** Normalizes Windows separators for command output paths. */
 export const toPosixPath = (value: string) => value.replace(/\\/g, "/");

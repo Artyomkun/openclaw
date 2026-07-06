@@ -1,8 +1,8 @@
 // Fire-and-forget hook helpers schedule hook work without blocking hot paths.
-import { logVerbose } from "../globals.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
+import { logVerbose } from "../globals.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
 
 const DEFAULT_MAX_CONCURRENT_FIRE_AND_FORGET_HOOKS = 16;
 const DEFAULT_MAX_QUEUED_FIRE_AND_FORGET_HOOKS = 256;

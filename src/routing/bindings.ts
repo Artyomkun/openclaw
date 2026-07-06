@@ -1,13 +1,13 @@
 // Routing binding helpers resolve configured channel and agent route bindings.
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { listRouteBindings } from "../config/bindings.js";
-import type { AgentRouteBinding } from "../config/types.agents.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { listRouteBindings } from "../config/bindings.ts";
+import type { AgentRouteBinding } from "../config/types.agents.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   normalizeRouteBindingChannelId,
   resolveNormalizedRouteBindingMatch,
-} from "./binding-scope.js";
-import { normalizeAgentId } from "./session-key.js";
+} from "./binding-scope.ts";
+import { normalizeAgentId } from "./session-key.ts";
 
 // Public binding helpers used by routing UI/diagnostics. They expose concrete
 // account ids derived from configured agent route bindings.

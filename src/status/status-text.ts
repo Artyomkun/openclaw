@@ -8,53 +8,53 @@ import {
   resolveDefaultAgentId,
   resolveSessionAgentId,
   resolveAgentModelFallbacksOverride,
-} from "../agents/agent-scope.js";
-import { ensureAuthProfileStore } from "../agents/auth-profiles/store.js";
-import { resolveContextTokensForModel } from "../agents/context.js";
-import { resolveFastModeState } from "../agents/fast-mode.js";
-import { resolveModelAuthLabel } from "../agents/model-auth-label.js";
+} from "../agents/agent-scope.ts";
+import { ensureAuthProfileStore } from "../agents/auth-profiles/store.ts";
+import { resolveContextTokensForModel } from "../agents/context.ts";
+import { resolveFastModeState } from "../agents/fast-mode.ts";
+import { resolveModelAuthLabel } from "../agents/model-auth-label.ts";
 import {
   areRuntimeModelRefsEquivalent,
   shouldPreferActiveRuntimeAliasAuthLabel,
-} from "../agents/model-runtime-aliases.js";
-import { resolveDefaultModelForAgent } from "../agents/model-selection.js";
-import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../agents/openai-routing.js";
-import { resolveProviderIdForAuth } from "../agents/provider-auth-aliases.js";
+} from "../agents/model-runtime-aliases.ts";
+import { resolveDefaultModelForAgent } from "../agents/model-selection.ts";
+import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../agents/openai-routing.ts";
+import { resolveProviderIdForAuth } from "../agents/provider-auth-aliases.ts";
 import {
   resolveInternalSessionKey,
   resolveMainSessionAlias,
-} from "../agents/tools/sessions-helpers.js";
-import { normalizeGroupActivation } from "../auto-reply/group-activation.js";
-import { resolveSelectedAndActiveModel } from "../auto-reply/model-runtime.js";
-import type { ThinkLevel } from "../auto-reply/thinking.js";
-import { toAgentModelListLike } from "../config/model-input.js";
-import type { SessionEntry } from "../config/sessions.js";
-import { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../agents/tools/sessions-helpers.ts";
+import { normalizeGroupActivation } from "../auto-reply/group-activation.ts";
+import { resolveSelectedAndActiveModel } from "../auto-reply/model-runtime.ts";
+import type { ThinkLevel } from "../auto-reply/thinking.ts";
+import { toAgentModelListLike } from "../config/model-input.ts";
+import type { SessionEntry } from "../config/sessions.ts";
+import { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import { formatDurationCompact } from "../infra/format-time/format-duration.ts";
 import {
   formatUsageWindowSummary,
   loadProviderUsageSummary,
   resolveUsageProviderId,
-} from "../infra/provider-usage.js";
-import { normalizeAccountId } from "../routing/account-id.js";
-import { resolveNormalizedAccountEntry } from "../routing/account-lookup.js";
+} from "../infra/provider-usage.ts";
+import { normalizeAccountId } from "../routing/account-id.ts";
+import { resolveNormalizedAccountEntry } from "../routing/account-lookup.ts";
 import {
   listTasksForAgentIdForStatus,
   listTasksForSessionKeyForStatus,
-} from "../tasks/task-status-access.js";
+} from "../tasks/task-status-access.ts";
 import {
   buildTaskStatusSnapshot,
   formatTaskStatusDetail,
   formatTaskStatusTitle,
-} from "../tasks/task-status.js";
-import { resolveActiveFallbackState } from "./fallback-notice-state.js";
+} from "../tasks/task-status.ts";
+import { resolveActiveFallbackState } from "./fallback-notice-state.ts";
 import {
   buildCodexSyntheticUsageAuth,
   shouldUseCodexSyntheticUsageForRuntime,
-} from "./codex-synthetic-usage.js";
-import { formatCompactPluginHealthLine } from "./status-plugin-health.js";
-import type { BuildStatusTextParams } from "./status-text.types.js";
+} from "./codex-synthetic-usage.ts";
+import { formatCompactPluginHealthLine } from "./status-plugin-health.ts";
+import type { BuildStatusTextParams } from "./status-text.types.ts";
 
 // Status text assembly gathers runtime/model/session/task facts, then delegates
 // final formatting to status-message.runtime through lazy imports.

@@ -20,16 +20,6 @@ interface QQBotChannelConfig extends QQBotAccountConfig {
   defaultAccount?: string;
 }
 
-function assertNotLegacySecretRefMarker(value: unknown, path: string): void {
-  const normalized = normalizeSecretInputString(value);
-  if (!normalized || !/^secretref(?:-env)?:/i.test(normalized)) {
-    return;
-  }
-  throw new Error(
-    `${path}: legacy SecretRef marker strings are not valid QQ Bot clientSecret values; use a structured SecretRef object instead.`,
-  );
-}
-
 function resolveEnvSecretRefValue(params: {
   cfg: OpenClawConfig;
   value: unknown;
@@ -66,7 +56,6 @@ function resolveQQBotClientSecretInput(params: {
   value: unknown;
   path: string;
 }): string | undefined {
-  assertNotLegacySecretRefMarker(params.value, params.path);
 
   const envSecret = resolveEnvSecretRefValue({
     cfg: params.cfg,
@@ -102,11 +91,6 @@ export function resolveQQBotAccount(
   const base = resolveAccountBase(raw, accountId);
 
   const qqbot = cfg.channels?.qqbot as QQBotChannelConfig | undefined;
-  /**
-   * Legacy top-level account uses `channels.qqbot` as the base, but per-account
-   * fields (allowFrom, streaming, …) often live under `accounts.default`.
-   * Merge that slice so runtime sees `config.streaming` etc.
-   */
   const accountConfig: QQBotAccountConfig =
     base.accountId === DEFAULT_ACCOUNT_ID
       ? {

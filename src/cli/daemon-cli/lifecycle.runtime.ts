@@ -4,4 +4,4 @@ export {
   runDaemonStart,
   runDaemonStop,
   runDaemonUninstall,
-} from "./lifecycle.js";
+} from "./lifecycle.ts";

@@ -4,7 +4,7 @@ export type {
   ProviderUsageSnapshot,
   UsageProviderId,
   UsageWindow,
-} from "../infra/provider-usage.types.js";
+} from "../infra/provider-usage.types.ts";
 
 export {
   fetchClaudeUsage,
@@ -13,10 +13,10 @@ export {
   fetchGeminiUsage,
   fetchMinimaxUsage,
   fetchZaiUsage,
-} from "../infra/provider-usage.fetch.js";
-export { clampPercent, PROVIDER_LABELS } from "../infra/provider-usage.shared.js";
+} from "../infra/provider-usage.fetch.ts";
+export { clampPercent, PROVIDER_LABELS } from "../infra/provider-usage.shared.ts";
 export {
   buildUsageErrorSnapshot,
   buildUsageHttpErrorSnapshot,
   fetchJson,
-} from "../infra/provider-usage.fetch.shared.js";
+} from "../infra/provider-usage.fetch.shared.ts";

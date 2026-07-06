@@ -1,10 +1,10 @@
 // Workspace audit helpers inspect local skill folders for security and trust issues.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { listAgentWorkspaceDirs } from "../../agents/workspace-dirs.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import type { SecurityAuditFinding } from "../../security/audit.types.js";
-import { isPathInside } from "../../security/scan-paths.js";
+import { listAgentWorkspaceDirs } from "../../agents/workspace-dirs.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import type { SecurityAuditFinding } from "../../security/audit.types.ts";
+import { isPathInside } from "../../security/scan-paths.ts";
 
 type WorkspaceSkillScanLimits = {
   maxFiles?: number;

@@ -5,17 +5,17 @@ import {
   ErrorCodes,
   errorShape,
   formatValidationErrors,
-} from "../../../packages/gateway-protocol/src/index.js";
-import type { ValidationError } from "../../../packages/gateway-protocol/src/index.js";
-import { hasApprovalTurnSourceRoute } from "../../infra/approval-turn-source.js";
-import type { ExecApprovalDecision } from "../../infra/exec-approvals.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import type { ValidationError } from "../../../packages/gateway-protocol/src/index.ts";
+import { hasApprovalTurnSourceRoute } from "../../infra/approval-turn-source.ts";
+import type { ExecApprovalDecision } from "../../infra/exec-approvals.ts";
 import type {
   ExecApprovalIdLookupResult,
   ExecApprovalManager,
   ExecApprovalRecord,
-} from "../exec-approval-manager.js";
-import { ADMIN_SCOPE, APPROVALS_SCOPE } from "../method-scopes.js";
-import type { GatewayClient, GatewayRequestContext, RespondFn } from "./types.js";
+} from "../exec-approval-manager.ts";
+import { ADMIN_SCOPE, APPROVALS_SCOPE } from "../method-scopes.ts";
+import type { GatewayClient, GatewayRequestContext, RespondFn } from "./types.ts";
 
 const APPROVAL_NOT_FOUND_DETAILS = {
   reason: ErrorCodes.APPROVAL_NOT_FOUND,

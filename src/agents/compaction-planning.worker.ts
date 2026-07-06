@@ -11,8 +11,8 @@ import {
   type HistoryPrunePlan,
   type OversizedFallbackPlan,
   type StageSplitPlan,
-} from "./compaction-planning.js";
-import type { AgentMessage } from "./runtime/index.js";
+} from "./compaction-planning.ts";
+import type { AgentMessage } from "./runtime/index.ts";
 
 /** Serializable request accepted by the compaction planning worker. */
 export type CompactionPlanningWorkerInput =

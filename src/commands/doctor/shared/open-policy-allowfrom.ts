@@ -1,9 +1,9 @@
 // Doctor repair for open DM policies that still need explicit allowFrom wildcards.
-import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.js";
-import { ensureOpenDmPolicyAllowFromWildcard } from "../../../channels/plugins/dm-access.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { resolveAllowFromMode, type AllowFromMode } from "./allow-from-mode.js";
-import { asObjectRecord } from "./object.js";
+import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.ts";
+import { ensureOpenDmPolicyAllowFromWildcard } from "../../../channels/plugins/dm-access.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { resolveAllowFromMode, type AllowFromMode } from "./allow-from-mode.ts";
+import { asObjectRecord } from "./object.ts";
 
 /** Format doctor warnings for open DM policies missing allowFrom wildcards. */
 export function collectOpenPolicyAllowFromWarnings(params: {

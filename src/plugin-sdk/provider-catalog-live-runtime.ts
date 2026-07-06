@@ -1,17 +1,17 @@
 import { readResponseWithLimit } from "@openclaw/media-core/read-response-with-limit";
-import { isNonSecretApiKeyMarker } from "../agents/model-auth-markers.js";
-import { retainSafeHeadersForCrossOriginRedirect } from "../infra/net/redirect-headers.js";
+import { isNonSecretApiKeyMarker } from "../agents/model-auth-markers.ts";
+import { retainSafeHeadersForCrossOriginRedirect } from "../infra/net/redirect-headers.ts";
 import {
   clearLiveCatalogCacheForTests,
   getCachedLiveCatalogValue,
-} from "./provider-catalog-shared.js";
-import type { ModelDefinitionConfig, ModelProviderConfig } from "./provider-model-shared.js";
+} from "./provider-catalog-shared.ts";
+import type { ModelDefinitionConfig, ModelProviderConfig } from "./provider-model-shared.ts";
 import {
   fetchWithSsrFGuard,
   type LookupFn,
   ssrfPolicyFromHttpBaseUrlAllowedHostname,
   type SsrFPolicy,
-} from "./ssrf-runtime.js";
+} from "./ssrf-runtime.ts";
 
 export type LiveModelCatalogFetchGuard = typeof fetchWithSsrFGuard;
 

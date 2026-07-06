@@ -1,14 +1,14 @@
 // Normalized status overview surface shared by text and JSON status outputs.
 // It collects gateway/update/service fields into one shape before row or payload builders run.
 
-import type { OpenClawConfig } from "../config/types.js";
-import type { UpdateCheckResult } from "../infra/update-check.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { UpdateCheckResult } from "../infra/update-check.ts";
 import {
   buildGatewayStatusJsonPayload,
   buildStatusOverviewSurfaceRows,
   type StatusOverviewRow,
-} from "./status-all/format.js";
-import type { NodeOnlyGatewayInfo } from "./status.node-mode.js";
+} from "./status-all/format.ts";
+import type { NodeOnlyGatewayInfo } from "./status.node-mode.ts";
 import type { StatusScanOverviewResult } from "./status.scan-overview.ts";
 import type { StatusScanResult } from "./status.scan-result.ts";
 

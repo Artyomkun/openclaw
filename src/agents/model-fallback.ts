@@ -2,35 +2,35 @@
  * Runs model and image fallback chains across provider/model candidates.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { emitFailoverEvent } from "../infra/diagnostic-events.js";
-import { formatErrorMessage, toErrorObject } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
-import { resolvePluginControlPlaneFingerprint } from "../plugins/plugin-control-plane-context.js";
-import { isPluginProvidersLoadInFlight } from "../plugins/providers.runtime.js";
+} from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { emitFailoverEvent } from "../infra/diagnostic-events.ts";
+import { formatErrorMessage, toErrorObject } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
+import { resolvePluginControlPlaneFingerprint } from "../plugins/plugin-control-plane-context.ts";
+import { isPluginProvidersLoadInFlight } from "../plugins/providers.runtime.ts";
 import {
   getActivePluginRegistryWorkspaceDirFromState,
   getPluginRegistryState,
-} from "../plugins/runtime-state.js";
-import { isCommandLaneTaskTimeoutError } from "../process/command-queue.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { isDefaultAgentRuntimeId } from "./agent-runtime-id.js";
-import { normalizeOptionalAgentRuntimeId } from "./agent-runtime-id.js";
-import { externalCliDiscoveryForProviders } from "./auth-profiles/external-cli-discovery.js";
-import { resolveSubscriptionAuthModeForProfiles } from "./auth-profiles/profile-list.js";
-import { hasAnyAuthProfileStoreSource } from "./auth-profiles/source-check.js";
-import type { AuthProfileStore } from "./auth-profiles/types.js";
-import { isActiveUnusableWindow } from "./auth-profiles/usage-state.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "./defaults.js";
-import { isLikelyContextOverflowError } from "./embedded-agent-helpers/errors.js";
-import type { FailoverReason } from "./embedded-agent-helpers/types.js";
+} from "../plugins/runtime-state.ts";
+import { isCommandLaneTaskTimeoutError } from "../process/command-queue.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { isDefaultAgentRuntimeId } from "./agent-runtime-id.ts";
+import { normalizeOptionalAgentRuntimeId } from "./agent-runtime-id.ts";
+import { externalCliDiscoveryForProviders } from "./auth-profiles/external-cli-discovery.ts";
+import { resolveSubscriptionAuthModeForProfiles } from "./auth-profiles/profile-list.ts";
+import { hasAnyAuthProfileStoreSource } from "./auth-profiles/source-check.ts";
+import type { AuthProfileStore } from "./auth-profiles/types.ts";
+import { isActiveUnusableWindow } from "./auth-profiles/usage-state.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "./defaults.ts";
+import { isLikelyContextOverflowError } from "./embedded-agent-helpers/errors.ts";
+import type { FailoverReason } from "./embedded-agent-helpers/types.ts";
 import {
   FailoverError,
   buildFailoverRemediationHint,
@@ -39,49 +39,49 @@ import {
   describeFailoverError,
   isFailoverError,
   isNonProviderRuntimeCoordinationError,
-} from "./failover-error.js";
+} from "./failover-error.ts";
 import {
   shouldAllowCooldownProbeForReason,
   shouldPreserveTransientCooldownProbeSlot,
   shouldUseTransientCooldownProbeSlot,
-} from "./failover-policy.js";
+} from "./failover-policy.ts";
 import {
   getFallbackCandidateSkipReason,
   isFallbackCandidateSkipped,
   markFallbackCandidateSkipped,
-} from "./fallback-skip-cache.js";
-import { MissingAgentHarnessError, isMissingAgentHarnessError } from "./harness/errors.js";
-import { resolveAgentHarnessPolicy } from "./harness/policy.js";
-import { getRegisteredAgentHarness } from "./harness/registry.js";
-import { LiveSessionModelSwitchError } from "./live-model-switch-error.js";
+} from "./fallback-skip-cache.ts";
+import { MissingAgentHarnessError, isMissingAgentHarnessError } from "./harness/errors.ts";
+import { resolveAgentHarnessPolicy } from "./harness/policy.ts";
+import { getRegisteredAgentHarness } from "./harness/registry.ts";
+import { LiveSessionModelSwitchError } from "./live-model-switch-error.ts";
 import {
   isModelFallbackDecisionLogEnabled,
   logModelFallbackDecision,
   type ModelFallbackDecisionParams,
   type ModelFallbackStepFields,
-} from "./model-fallback-observation.js";
-import type { FallbackAttempt, ModelCandidate } from "./model-fallback.types.js";
-import { isCliRuntimeAlias } from "./model-runtime-aliases.js";
-import { isCliProvider } from "./model-selection-cli.js";
+} from "./model-fallback-observation.ts";
+import type { FallbackAttempt, ModelCandidate } from "./model-fallback.types.ts";
+import { isCliRuntimeAlias } from "./model-runtime-aliases.ts";
+import { isCliProvider } from "./model-selection-cli.ts";
 import {
   type ModelManifestNormalizationContext,
   modelKey,
   normalizeModelRef,
   normalizeProviderId,
-} from "./model-selection-normalize.js";
+} from "./model-selection-normalize.ts";
 import {
   buildConfiguredAllowlistKeys,
   buildModelAliasIndex,
   resolveConfiguredModelRef,
   resolveModelRefFromString,
-} from "./model-selection-resolve.js";
-import { isAgentRunRestartAbortReason } from "./run-termination.js";
+} from "./model-selection-resolve.ts";
+import { isAgentRunRestartAbortReason } from "./run-termination.ts";
 import {
   resolveSessionSuspensionReason,
   runWithDeferredSessionSuspension,
   suspendSession,
   type SessionSuspensionParams,
-} from "./session-suspension.js";
+} from "./session-suspension.ts";
 
 const log = createSubsystemLogger("model-fallback");
 

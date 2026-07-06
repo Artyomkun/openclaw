@@ -11,61 +11,34 @@
  */
 
 import crypto from "node:crypto";
-import { getRuntimeConfig } from "../config/config.js";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   loadSessionStore,
   resolveAgentIdFromSessionKey,
   resolveStorePath,
   updateSessionStore,
   type SessionEntry,
-} from "../config/sessions.js";
-import { callGateway } from "../gateway/call.js";
-import { readSessionMessagesAsync } from "../gateway/session-transcript-readers.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveInternalSessionEffectsTranscriptPath } from "./internal-session-effects.js";
+} from "../config/sessions.ts";
+import { callGateway } from "../gateway/call.ts";
+import { readSessionMessagesAsync } from "../gateway/session-transcript-readers.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveInternalSessionEffectsTranscriptPath } from "./internal-session-effects.ts";
 import {
   evaluateSubagentRecoveryGate,
   markSubagentRecoveryAttempt,
   markSubagentRecoveryWedged,
-} from "./subagent-recovery-state.js";
+} from "./subagent-recovery-state.ts";
 import {
   finalizeInterruptedSubagentRun,
   replaceSubagentRunAfterSteer,
-} from "./subagent-registry-steer-runtime.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "./subagent-registry-steer-runtime.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 const log = createSubsystemLogger("subagent-interrupted-resume");
 
 /** Delay before attempting recovery to let the gateway finish bootstrapping. */
 const DEFAULT_RECOVERY_DELAY_MS = 5_000;
-
-function isLegacyRestartInterruptedTimeout(
-  runRecord: SubagentRunRecord,
-  entry: SessionEntry | undefined,
-): boolean {
-  return (
-    entry?.abortedLastRun === true &&
-    runRecord.outcome?.status === "timeout" &&
-    typeof runRecord.endedAt === "number" &&
-    runRecord.endedAt > 0
-  );
-}
-
-function reclassifyLegacyRestartInterruptedRun(runRecord: SubagentRunRecord): void {
-  const interruptedAt = runRecord.endedAt;
-  runRecord.execution = {
-    ...runRecord.execution,
-    status: "interrupted",
-    interruptedAt,
-    interruptionReason: "gateway-restart",
-    endedAt: undefined,
-    outcome: undefined,
-  };
-  runRecord.endedAt = undefined;
-  runRecord.endedReason = undefined;
-  runRecord.outcome = undefined;
-}
 
 /**
  * Build the resume message for an orphaned subagent.
@@ -233,10 +206,6 @@ export async function recoverOrphanedSubagentSessions(params: {
         if (!entry) {
           result.skipped++;
           continue;
-        }
-
-        if (isLegacyRestartInterruptedTimeout(runRecord, entry)) {
-          reclassifyLegacyRestartInterruptedRun(runRecord);
         }
 
         // Terminal child outcomes are immutable. Restart resume only applies to

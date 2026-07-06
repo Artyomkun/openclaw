@@ -4,6 +4,6 @@
 export {
   createReplyReferencePlanner,
   isSingleUseReplyToMode,
-} from "../auto-reply/reply/reply-reference.js";
-export { resolveBatchedReplyThreadingPolicy } from "../auto-reply/reply/reply-threading.js";
-export type { ReplyThreadingPolicy } from "../auto-reply/get-reply-options.types.js";
+} from "../auto-reply/reply/reply-reference.ts";
+export { resolveBatchedReplyThreadingPolicy } from "../auto-reply/reply/reply-threading.ts";
+export type { ReplyThreadingPolicy } from "../auto-reply/get-reply-options.types.ts";

@@ -4,35 +4,35 @@
  * Combines live registry runs and persisted session metadata for sessions_list/subagents views.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveSubagentLabel, sortSubagentRuns } from "../auto-reply/reply/subagents-utils.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import { loadSessionStore } from "../config/sessions/store-load.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { parseAgentSessionKey, type ParsedAgentSessionKey } from "../routing/session-key.js";
+import { resolveSubagentLabel, sortSubagentRuns } from "../auto-reply/reply/subagents-utils.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import { loadSessionStore } from "../config/sessions/store-load.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { parseAgentSessionKey, type ParsedAgentSessionKey } from "../routing/session-key.ts";
 import {
   formatDurationCompact,
   formatTokenUsageDisplay,
   resolveTotalTokens,
   truncateLine,
-} from "../shared/subagents-format.js";
-import { resolveModelDisplayName, resolveModelDisplayRef } from "./model-selection-display.js";
-import { subagentRuns } from "./subagent-registry-memory.js";
+} from "../shared/subagents-format.ts";
+import { resolveModelDisplayName, resolveModelDisplayRef } from "./model-selection-display.ts";
+import { subagentRuns } from "./subagent-registry-memory.ts";
 import {
   countActiveDescendantRunsFromRuns,
   countPendingDescendantRunsFromRuns,
-} from "./subagent-registry-queries.js";
+} from "./subagent-registry-queries.ts";
 import {
   getSubagentSessionRuntimeMs,
   getSubagentSessionStartedAt,
-} from "./subagent-registry-read.js";
-import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "./subagent-registry-read.ts";
+import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 import {
   hasSubagentRunEnded,
   isLiveUnendedSubagentRun,
   shouldKeepSubagentRunChildLink,
-} from "./subagent-run-liveness.js";
+} from "./subagent-run-liveness.ts";
 
 type SubagentListItem = {
   index: number;

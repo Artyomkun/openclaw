@@ -1,9 +1,9 @@
 // Gateway mutable runtime handles.
 // Provides stop-safe defaults for timers, sidecars, subscriptions, and services.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { HeartbeatRunner } from "../infra/heartbeat-runner.js";
-import type { ChannelHealthMonitor } from "./channel-health-monitor.js";
-import type { GatewayPostReadySidecarHandle } from "./server-startup-post-attach.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { HeartbeatRunner } from "../infra/heartbeat-runner.ts";
+import type { ChannelHealthMonitor } from "./channel-health-monitor.ts";
+import type { GatewayPostReadySidecarHandle } from "./server-startup-post-attach.ts";
 
 // Mutable server handles track timers, sidecars, subscriptions, and service
 // cleanup hooks that shutdown/reload code must stop exactly once.

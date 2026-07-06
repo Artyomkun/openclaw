@@ -1,18 +1,18 @@
 // Hook status helpers summarize configured, installed, and plugin-provided hooks.
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { evaluateEntryRequirementsForCurrentPlatform } from "../shared/entry-status.js";
-import type { RequirementConfigCheck, Requirements } from "../shared/requirements.js";
-import { CONFIG_DIR } from "../utils.js";
-import { hasBinary, isConfigPathTruthy } from "./config.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { evaluateEntryRequirementsForCurrentPlatform } from "../shared/entry-status.ts";
+import type { RequirementConfigCheck, Requirements } from "../shared/requirements.ts";
+import { CONFIG_DIR } from "../utils.ts";
+import { hasBinary, isConfigPathTruthy } from "./config.ts";
 import {
   resolveHookConfig,
   resolveHookEnableState,
   resolveHookEntries,
   type HookEnableStateReason,
-} from "./policy.js";
-import type { HookEligibilityContext, HookEntry, HookInstallSpec } from "./types.js";
-import { loadWorkspaceHookEntries } from "./workspace.js";
+} from "./policy.ts";
+import type { HookEligibilityContext, HookEntry, HookInstallSpec } from "./types.ts";
+import { loadWorkspaceHookEntries } from "./workspace.ts";
 
 export type HookStatusConfigCheck = RequirementConfigCheck;
 

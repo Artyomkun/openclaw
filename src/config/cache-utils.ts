@@ -1,6 +1,6 @@
 // Provides config cache helpers with filesystem freshness checks.
 import fs from "node:fs";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
 
 /** Resolves a cache TTL from an env override, falling back unless the override is exact. */
 export function resolveCacheTtlMs(params: {

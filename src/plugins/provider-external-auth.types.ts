@@ -1,7 +1,7 @@
 // Defines external auth contracts for provider plugins.
-import type { AuthProfileStore, OAuthCredential } from "../agents/auth-profiles/types.js";
-import type { ModelProviderAuthMode, ModelProviderConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { AuthProfileStore, OAuthCredential } from "../agents/auth-profiles/types.ts";
+import type { ModelProviderAuthMode, ModelProviderConfig } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 /** Context for resolving synthetic provider credentials from config. */
 export type ProviderResolveSyntheticAuthContext = {

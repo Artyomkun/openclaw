@@ -3,20 +3,20 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveUserTimezone } from "../../agents/date-time.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { buildChannelSummary } from "../../infra/channel-summary.js";
+import { resolveUserTimezone } from "../../agents/date-time.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { buildChannelSummary } from "../../infra/channel-summary.ts";
 import {
   formatUtcTimestamp,
   formatZonedTimestamp,
   resolveTimezone,
 } from "../../infra/format-time/format-datetime.ts";
-import { isExecCompletionEvent } from "../../infra/heartbeat-events-filter.js";
+import { isExecCompletionEvent } from "../../infra/heartbeat-events-filter.ts";
 import {
   consumeSelectedSystemEventEntries,
   peekSystemEventEntries,
   type SystemEvent,
-} from "../../infra/system-events.js";
+} from "../../infra/system-events.ts";
 
 function isCronContextSystemEvent(event: SystemEvent): boolean {
   return event.contextKey?.startsWith("cron:") ?? false;

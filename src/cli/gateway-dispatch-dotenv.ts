@@ -1,8 +1,8 @@
 // Minimal dotenv loader for gateway-dispatched CLI commands.
 import fs from "node:fs";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import { loadGlobalRuntimeDotEnvFiles } from "../infra/dotenv-global.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { loadGlobalRuntimeDotEnvFiles } from "../infra/dotenv-global.ts";
 
 /** Load only the env files needed before dispatching a command through the gateway. */
 export async function loadGatewayDispatchCliDotEnv(opts?: { quiet?: boolean }) {

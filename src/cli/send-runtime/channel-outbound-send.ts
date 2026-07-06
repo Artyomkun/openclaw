@@ -1,11 +1,11 @@
 // Runtime send adapter used by CLI send commands for channel plugins.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { loadChannelOutboundAdapter } from "../../channels/plugins/outbound/load.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { OutboundDeliveryFormattingOptions } from "../../infra/outbound/formatting.js";
-import type { OutboundMediaAccess } from "../../media/load-options.js";
+import { loadChannelOutboundAdapter } from "../../channels/plugins/outbound/load.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { OutboundDeliveryFormattingOptions } from "../../infra/outbound/formatting.ts";
+import type { OutboundMediaAccess } from "../../media/load-options.ts";
 
 type RuntimeSendOpts = {
   cfg?: OpenClawConfig;

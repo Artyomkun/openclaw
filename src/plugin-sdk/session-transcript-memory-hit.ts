@@ -1,7 +1,7 @@
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
-import { uniqueStrings } from "../../packages/normalization-core/src/string-normalization.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import { normalizeAgentId, resolveAgentIdFromSessionKey } from "../routing/session-key.js";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
+import { uniqueStrings } from "../../packages/normalization-core/src/string-normalization.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import { normalizeAgentId, resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
 
 const SESSION_TRANSCRIPT_MEMORY_HIT_PREFIX = "transcript";
 

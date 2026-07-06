@@ -1,8 +1,8 @@
 // Gateway discovery rendering helpers for Bonjour and wide-area DNS beacon output.
-import { colorize, theme } from "../../../packages/terminal-core/src/theme.js";
-import type { GatewayBonjourBeacon } from "../../infra/bonjour-discovery.js";
-import { buildGatewayDiscoveryTarget } from "../../infra/gateway-discovery-targets.js";
-import { parseTimeoutMsWithFallback } from "../parse-timeout.js";
+import { colorize, theme } from "../../../packages/terminal-core/src/theme.ts";
+import type { GatewayBonjourBeacon } from "../../infra/bonjour-discovery.ts";
+import { buildGatewayDiscoveryTarget } from "../../infra/gateway-discovery-targets.ts";
+import { parseTimeoutMsWithFallback } from "../parse-timeout.ts";
 
 export type GatewayDiscoverOpts = {
   timeout?: string;

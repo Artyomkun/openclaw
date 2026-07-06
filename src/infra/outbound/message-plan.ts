@@ -4,9 +4,9 @@ import {
   chunkByParagraph,
   chunkMarkdownTextWithMode,
   type ChunkMode,
-} from "../../auto-reply/chunk.js";
-import type { OutboundDeliveryFormattingOptions } from "./formatting.js";
-import type { ReplyToOverride } from "./reply-policy.js";
+} from "../../auto-reply/chunk.ts";
+import type { OutboundDeliveryFormattingOptions } from "./formatting.ts";
+import type { ReplyToOverride } from "./reply-policy.ts";
 
 /**
  * Per-send overrides carried from outbound planning into channel delivery.

@@ -4,8 +4,8 @@ import {
   getHeader,
   resolveTrustedHttpOperatorScopes,
   type AuthorizedGatewayHttpRequest,
-} from "../http-auth-utils.js";
-import { CLI_DEFAULT_OPERATOR_SCOPES, WRITE_SCOPE } from "../method-scopes.js";
+} from "../http-auth-utils.ts";
+import { CLI_DEFAULT_OPERATOR_SCOPES, WRITE_SCOPE } from "../method-scopes.ts";
 
 /**
  * Runtime operator-scope resolver for plugin HTTP route requests.
@@ -28,7 +28,7 @@ export function resolvePluginRouteRuntimeOperatorScopes(
     return [WRITE_SCOPE];
   }
   if (getHeader(req, "x-openclaw-scopes") === undefined) {
-    // Trusted-proxy callers without an explicit scope header keep the legacy
+    // Trusted-proxy callers without an explicit scope header keep the older
     // write-default surface instead of inheriting every CLI operator scope.
     return [WRITE_SCOPE];
   }

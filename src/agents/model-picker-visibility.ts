@@ -2,8 +2,8 @@
  * Filters provider/model refs for model picker visibility.
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { listCliRuntimeProviderIds } from "./cli-backends.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { listCliRuntimeProviderIds } from "./cli-backends.ts";
 
 // Retired provider ids and CLI runtime aliases are implementation surfaces, not
 // model picker choices. Hide them while keeping real provider/model refs visible.

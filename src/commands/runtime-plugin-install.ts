@@ -6,13 +6,13 @@
  */
 import { existsSync } from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { enablePluginInConfig } from "../plugins/enable.js";
-import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-records.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { resolveUserPath } from "../utils.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { enablePluginInConfig } from "../plugins/enable.ts";
+import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-records.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { resolveUserPath } from "../utils.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 
 /** Static install metadata for a runtime plugin required by model selection. */
 export type RuntimePluginInstallDescriptor = {

@@ -8,12 +8,12 @@ import {
   getLoadedChannelPlugin,
   listChannelPlugins,
   resolveChannelApprovalAdapter,
-} from "../../channels/plugins/index.js";
-import type { ExecApprovalRequest } from "../../infra/exec-approvals.js";
-import type { OriginatingChannelType } from "../templating.js";
-import type { ReplyPayload } from "../types.js";
-import type { HandleCommandsParams } from "./commands-types.js";
-import { routeReply } from "./route-reply.js";
+} from "../../channels/plugins/index.ts";
+import type { ExecApprovalRequest } from "../../infra/exec-approvals.ts";
+import type { OriginatingChannelType } from "../templating.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { HandleCommandsParams } from "./commands-types.ts";
+import { routeReply } from "./route-reply.ts";
 
 /** Resolved private delivery target for command replies and approvals. */
 export type PrivateCommandRouteTarget = {

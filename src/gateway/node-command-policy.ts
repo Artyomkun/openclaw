@@ -2,15 +2,15 @@
 // Computes per-platform allowlists from built-in, plugin, runtime, and config inputs.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   NODE_BROWSER_PROXY_COMMAND,
   NODE_SYSTEM_NOTIFY_COMMAND,
   NODE_SYSTEM_RUN_COMMANDS,
-} from "../infra/node-commands.js";
-import { getActiveRuntimePluginRegistry } from "../plugins/active-runtime-registry.js";
-import { normalizeDeviceMetadataForPolicy } from "./device-metadata-normalization.js";
-import type { NodeSession } from "./node-registry.js";
+} from "../infra/node-commands.ts";
+import { getActiveRuntimePluginRegistry } from "../plugins/active-runtime-registry.ts";
+import { normalizeDeviceMetadataForPolicy } from "./device-metadata-normalization.ts";
+import type { NodeSession } from "./node-registry.ts";
 
 const CAMERA_COMMANDS = ["camera.list"];
 const CAMERA_DANGEROUS_COMMANDS = ["camera.snap", "camera.clip"];

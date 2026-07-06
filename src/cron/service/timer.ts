@@ -1,40 +1,40 @@
 /** Cron timer loop, execution, catch-up, and run-result state transitions. */
-import { resolveFailoverReasonFromError } from "../../agents/failover-error.js";
-import { loadSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { CronConfig, CronRetryOn } from "../../config/types.cron.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import type { HeartbeatRunResult } from "../../infra/heartbeat-wake.js";
+import { resolveFailoverReasonFromError } from "../../agents/failover-error.ts";
+import { loadSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { CronConfig, CronRetryOn } from "../../config/types.cron.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import type { HeartbeatRunResult } from "../../infra/heartbeat-wake.ts";
 import {
   HEARTBEAT_SKIP_CRON_IN_PROGRESS,
   isRetryableHeartbeatBusySkipReason,
-} from "../../infra/heartbeat-wake.js";
+} from "../../infra/heartbeat-wake.ts";
 import {
   DEFAULT_AGENT_ID,
   normalizeAgentId,
   resolveAgentIdFromSessionKey,
-} from "../../routing/session-key.js";
+} from "../../routing/session-key.ts";
 import {
   registerActiveCronTaskRun,
   startActiveCronTaskRunSettlementGrace,
   trackActiveCronTaskRunSettlement,
-} from "../../tasks/cron-task-cancel.js";
-import { deliveryContextFromSession } from "../../utils/delivery-context.shared.js";
-import type { DeliveryContext } from "../../utils/delivery-context.types.js";
+} from "../../tasks/cron-task-cancel.ts";
+import { deliveryContextFromSession } from "../../utils/delivery-context.shared.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.types.ts";
 import {
   clearCronJobActive,
   isCronActiveJobMarkerCurrent,
   markCronJobActive,
   type CronActiveJobMarker,
-} from "../active-jobs.js";
-import { resolveCronDeliveryPlan, resolveFailureDestination } from "../delivery-plan.js";
-import { resolveCronExecutionRetryHint } from "../retry-hint.js";
+} from "../active-jobs.ts";
+import { resolveCronDeliveryPlan, resolveFailureDestination } from "../delivery-plan.ts";
+import { resolveCronExecutionRetryHint } from "../retry-hint.ts";
 import {
   createCronRunDiagnosticsFromError,
   normalizeCronRunDiagnostics,
   summarizeCronRunDiagnostics,
-} from "../run-diagnostics.js";
-import { computeNextRunAtMs } from "../schedule.js";
-import { sweepCronRunSessions } from "../session-reaper.js";
+} from "../run-diagnostics.ts";
+import { computeNextRunAtMs } from "../schedule.ts";
+import { sweepCronRunSessions } from "../session-reaper.ts";
 import type {
   CronAgentExecutionPhaseUpdate,
   CronAgentExecutionStarted,
@@ -45,23 +45,23 @@ import type {
   CronRunOutcome,
   CronRunStatus,
   CronRunTelemetry,
-} from "../types.js";
+} from "../types.ts";
 import {
   cleanupTimedOutCronAgentRun,
   createCronAgentWatchdog,
   CRON_AGENT_SETUP_WATCHDOG_MS,
-} from "./agent-watchdog.js";
+} from "./agent-watchdog.ts";
 import {
   abortErrorMessage,
   isSetupTimeoutErrorText,
   normalizeCronRunErrorText,
   timeoutErrorMessage,
-} from "./execution-errors.js";
+} from "./execution-errors.ts";
 import {
   failureNotificationDeliveryFromJobState,
   maybeEmitFailureAlert,
   resolveFailureAlert,
-} from "./failure-alerts.js";
+} from "./failure-alerts.ts";
 import {
   DEFAULT_ERROR_BACKOFF_SCHEDULE_MS,
   computeJobPreviousRunAtMs,
@@ -75,21 +75,21 @@ import {
   resolveJobErrorBackoffUntilMs,
   resolveJobLastRunStatus,
   resolveJobPayloadTextForMain,
-} from "./jobs.js";
-import { locked } from "./locked.js";
-import type { CronEvent, CronServiceState, CronSystemEventEnqueueResult } from "./state.js";
-import { ensureLoaded, persist } from "./store.js";
+} from "./jobs.ts";
+import { locked } from "./locked.ts";
+import type { CronEvent, CronServiceState, CronSystemEventEnqueueResult } from "./state.ts";
+import { ensureLoaded, persist } from "./store.ts";
 import {
   resolveMainSessionCronRunSessionKey,
   tryCreateCronTaskRun,
   tryFinishCronTaskRun,
-} from "./task-runs.js";
-import { resolveCronJobTimeoutMs } from "./timeout-policy.js";
+} from "./task-runs.ts";
+import { resolveCronJobTimeoutMs } from "./timeout-policy.ts";
 
-export { DEFAULT_JOB_TIMEOUT_MS } from "./timeout-policy.js";
-export { normalizeCronRunErrorText } from "./execution-errors.js";
-export { failureNotificationDeliveryFromJobState } from "./failure-alerts.js";
-export { wake } from "./wake.js";
+export { DEFAULT_JOB_TIMEOUT_MS } from "./timeout-policy.ts";
+export { normalizeCronRunErrorText } from "./execution-errors.ts";
+export { failureNotificationDeliveryFromJobState } from "./failure-alerts.ts";
+export { wake } from "./wake.ts";
 
 const MAX_TIMER_DELAY_MS = 60_000;
 const HEARTBEAT_SKIP_DISABLED = "disabled";

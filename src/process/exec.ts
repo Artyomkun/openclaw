@@ -5,23 +5,23 @@ import path from "node:path";
 import process from "node:process";
 import { promisify } from "node:util";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { danger, shouldLogVerbose } from "../globals.js";
-import { markOpenClawExecEnv } from "../infra/openclaw-exec-env.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
+import { danger, shouldLogVerbose } from "../globals.ts";
+import { markOpenClawExecEnv } from "../infra/openclaw-exec-env.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
 import {
   decodeWindowsOutputBuffer,
   resolveWindowsConsoleEncoding,
-} from "../infra/windows-encoding.js";
-import { getWindowsSystem32ExePath } from "../infra/windows-install-roots.js";
-import { logDebug, logError } from "../logger.js";
-import { killProcessTree as terminateProcessTree } from "./kill-tree.js";
-import { resolveCommandStdio } from "./spawn-utils.js";
+} from "../infra/windows-encoding.ts";
+import { getWindowsSystem32ExePath } from "../infra/windows-install-roots.ts";
+import { logDebug, logError } from "../logger.ts";
+import { killProcessTree as terminateProcessTree } from "./kill-tree.ts";
+import { resolveCommandStdio } from "./spawn-utils.ts";
 import {
   buildWindowsCmdExeCommandLine,
   isWindowsBatchCommand,
   resolveTrustedWindowsCmdExe,
   resolveWindowsCommandShim,
-} from "./windows-command.js";
+} from "./windows-command.ts";
 
 const execFileAsync = promisify(execFile);
 

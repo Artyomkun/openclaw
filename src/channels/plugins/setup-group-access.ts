@@ -4,7 +4,7 @@
  * Prompts and normalizes allowlist/open/disabled group access policy choices.
  */
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { WizardPrompter } from "../../wizard/prompts.js";
+import type { WizardPrompter } from "../../wizard/prompts.ts";
 
 /**
  * Group access policy selected during channel setup.

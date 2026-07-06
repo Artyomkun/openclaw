@@ -1,27 +1,27 @@
 /** Prepares queued follow-up payloads for source-channel delivery. */
-import type { MessagingToolSend } from "../../agents/embedded-agent-messaging.types.js";
-import type { ReplyToMode } from "../../config/types.base.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { stripHeartbeatToken } from "../heartbeat.js";
+import type { MessagingToolSend } from "../../agents/embedded-agent-messaging.types.ts";
+import type { ReplyToMode } from "../../config/types.base.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { stripHeartbeatToken } from "../heartbeat.ts";
 import {
   copyReplyPayloadMetadata,
   getReplyPayloadMetadata,
   setReplyPayloadMetadata,
-} from "../reply-payload.js";
-import type { OriginatingChannelType } from "../templating.js";
-import type { ReplyPayload } from "../types.js";
+} from "../reply-payload.ts";
+import type { OriginatingChannelType } from "../templating.ts";
+import type { ReplyPayload } from "../types.ts";
 import {
   resolveOriginAccountId,
   resolveOriginMessageProvider,
   resolveOriginMessageTo,
-} from "./origin-routing.js";
+} from "./origin-routing.ts";
 import {
   applyReplyThreading,
   filterMessagingToolDuplicates,
   filterMessagingToolMediaDuplicates,
   resolveMessagingToolPayloadDedupe,
-} from "./reply-payloads.js";
-import { createReplyDeliveryContext, resolveReplyToMode } from "./reply-threading.js";
+} from "./reply-payloads.ts";
+import { createReplyDeliveryContext, resolveReplyToMode } from "./reply-threading.ts";
 
 function hasReplyPayloadMedia(payload: ReplyPayload): boolean {
   if (typeof payload.mediaUrl === "string" && payload.mediaUrl.trim().length > 0) {

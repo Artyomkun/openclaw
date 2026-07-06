@@ -1,10 +1,10 @@
 // Extracts web content public artifacts from plugin manifests.
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { loadBundledPluginPublicArtifactModuleFromCandidatesSync } from "./public-surface-loader.js";
+import { loadBundledPluginPublicArtifactModuleFromCandidatesSync } from "./public-surface-loader.ts";
 import type {
   PluginWebContentExtractorEntry,
   WebContentExtractorPlugin,
-} from "./web-content-extractor-types.js";
+} from "./web-content-extractor-types.ts";
 
 const WEB_CONTENT_EXTRACTOR_ARTIFACT_CANDIDATES = [
   "web-content-extractor.js",

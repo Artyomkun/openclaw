@@ -873,8 +873,3 @@ export function buildOpenAIProvider(): ProviderPlugin {
     },
   };
 }
-
-/** @deprecated Use buildOpenAIProvider; OpenAI Codex is now an OpenAI auth/transport mode. */
-export function buildOpenAICodexProviderPlugin(): ProviderPlugin {
-  return buildOpenAIProvider();
-}

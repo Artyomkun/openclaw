@@ -1,15 +1,15 @@
 /** Normalizes agent run wait/liveness/timeout metadata into sticky terminal outcomes. */
-import { formatBlockedLivenessError, isBlockedLivenessState } from "../shared/agent-liveness.js";
+import { formatBlockedLivenessError, isBlockedLivenessState } from "../shared/agent-liveness.ts";
 import {
   AGENT_RUN_ABORTED_ERROR,
   AGENT_RUN_RESTART_ABORT_STOP_REASON,
   isAbortedAgentStopReason,
-} from "./run-termination.js";
+} from "./run-termination.ts";
 import {
   normalizeAgentRunTimeoutPhase,
   normalizeProviderStarted,
   type AgentRunTimeoutPhase,
-} from "./run-timeout-attribution.js";
+} from "./run-timeout-attribution.ts";
 
 /** Wait status reported by agent run terminal wait paths. */
 type AgentRunWaitStatus = "ok" | "error" | "timeout";

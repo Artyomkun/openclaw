@@ -4,12 +4,12 @@ import os from "node:os";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveArchiveKind } from "./archive.js";
-import { pathExists } from "./fs-safe.js";
-import { applyNpmFreshnessBypassEnv, type NpmProjectInstallEnvOptions } from "./npm-install-env.js";
-import { withTempWorkspace } from "./private-temp-workspace.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveArchiveKind } from "./archive.ts";
+import { pathExists } from "./fs-safe.ts";
+import { applyNpmFreshnessBypassEnv, type NpmProjectInstallEnvOptions } from "./npm-install-env.ts";
+import { withTempWorkspace } from "./private-temp-workspace.ts";
 
 /** Metadata npm reports when resolving a registry spec or packed archive. */
 export type NpmSpecResolution = {

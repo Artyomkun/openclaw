@@ -2,36 +2,35 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { normalizeEnvVarKey } from "../infra/host-env-security.js";
-import { parseStrictInteger, parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { probePortUsage } from "../infra/ports-probe.js";
-import { formatPortDiagnostics, inspectPortUsage } from "../infra/ports.js";
-import { cleanStaleGatewayProcessesSync } from "../infra/restart-stale-pids.js";
-import { parseTcpPort } from "../infra/tcp-port.js";
-import { getWindowsCmdExePath } from "../infra/windows-install-roots.js";
-import { sleep } from "../utils.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { normalizeEnvVarKey } from "../infra/host-env-security.ts";
+import { parseStrictInteger, parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { probePortUsage } from "../infra/ports-probe.ts";
+import { formatPortDiagnostics, inspectPortUsage } from "../infra/ports.ts";
+import { cleanStaleGatewayProcessesSync } from "../infra/restart-stale-pids.ts";
+import { parseTcpPort } from "../infra/tcp-port.ts";
+import { getWindowsCmdExePath } from "../infra/windows-install-roots.ts";
+import { sleep } from "../utils.ts";
 import {
   GATEWAY_LAUNCH_AGENT_LABEL,
   GATEWAY_SERVICE_KIND,
   GATEWAY_SERVICE_MARKER,
   resolveGatewayServiceDescription,
-  resolveGatewayLaunchAgentLabel,
-  resolveLegacyGatewayLaunchAgentLabels,
-} from "./constants.js";
-import { execFileUtf8 } from "./exec-file.js";
-import { isCurrentProcessLaunchdServiceLabel } from "./launchd-current-service.js";
+  resolveGatewayLaunchAgentLabel
+} from "./constants.ts";
+import { execFileUtf8 } from "./exec-file.ts";
+import { isCurrentProcessLaunchdServiceLabel } from "./launchd-current-service.ts";
 import {
   buildLaunchAgentPlist as buildLaunchAgentPlistImpl,
   LAUNCH_AGENT_EXIT_TIMEOUT_SECONDS,
   readLaunchAgentProgramArgumentsFromFile,
-} from "./launchd-plist.js";
-import { scheduleDetachedLaunchdRestartHandoff } from "./launchd-restart-handoff.js";
-import { formatLine, toPosixPath, writeFormattedLines } from "./output.js";
-import { resolveGatewayStateDir, resolveHomeDir } from "./paths.js";
-import { resolveGatewaySupervisorLogPaths } from "./restart-logs.js";
-import { parseKeyValueOutput } from "./runtime-parse.js";
-import type { GatewayServiceRuntime } from "./service-runtime.js";
+} from "./launchd-plist.ts";
+import { scheduleDetachedLaunchdRestartHandoff } from "./launchd-restart-handoff.ts";
+import { formatLine, toPosixPath, writeFormattedLines } from "./output.ts";
+import { resolveGatewayStateDir, resolveHomeDir } from "./paths.ts";
+import { resolveGatewaySupervisorLogPaths } from "./restart-logs.ts";
+import { parseKeyValueOutput } from "./runtime-parse.ts";
+import type { GatewayServiceRuntime } from "./service-runtime.ts";
 import type {
   GatewayServiceCommandConfig,
   GatewayServiceControlArgs,
@@ -40,7 +39,7 @@ import type {
   GatewayServiceInstallArgs,
   GatewayServiceManageArgs,
   GatewayServiceRestartResult,
-} from "./service-types.js";
+} from "./service-types.ts";
 
 const LAUNCH_AGENT_DIR_MODE = 0o755;
 const LAUNCH_AGENT_PLIST_MODE = 0o600;
@@ -934,19 +933,7 @@ async function writeLaunchAgentPlist({
 }: GatewayServiceInstallArgs): Promise<{ plistPath: string; stdoutPath: string }> {
   const { logDir, stdoutPath } = resolveGatewaySupervisorLogPaths(env, { platform: "darwin" });
   await ensureSecureDirectory(logDir);
-
-  const domain = resolveGuiDomain();
   const label = resolveLaunchAgentLabel({ env });
-  for (const legacyLabel of resolveLegacyGatewayLaunchAgentLabels(env.OPENCLAW_PROFILE)) {
-    const legacyPlistPath = resolveLaunchAgentPlistPathForLabel(env, legacyLabel);
-    await execLaunchctl(["bootout", domain, legacyPlistPath]);
-    await execLaunchctl(["unload", legacyPlistPath]);
-    try {
-      await fs.unlink(legacyPlistPath);
-    } catch {
-      // ignore
-    }
-  }
 
   const plistPath = resolveLaunchAgentPlistPathForLabel(env, label);
   const home = toPosixPath(resolveHomeDir(env));

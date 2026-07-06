@@ -3,13 +3,13 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeAnyChannelId } from "../../channels/registry.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveCommandAuthorization } from "../command-auth.js";
-import { normalizeCommandBody } from "../commands-registry-normalize.js";
-import type { MsgContext } from "../templating.js";
-import type { CommandContext } from "./commands-types.js";
-import { stripMentions } from "./mentions.js";
+import { normalizeAnyChannelId } from "../../channels/registry.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveCommandAuthorization } from "../command-auth.ts";
+import { normalizeCommandBody } from "../commands-registry-normalize.ts";
+import type { MsgContext } from "../templating.ts";
+import type { CommandContext } from "./commands-types.ts";
+import { stripMentions } from "./mentions.ts";
 
 /** Builds command routing/auth metadata consumed by command handlers. */
 export function buildCommandContext(params: {

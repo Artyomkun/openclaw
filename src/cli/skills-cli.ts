@@ -4,22 +4,22 @@ import type { Command } from "commander";
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   resolveAgentIdByWorkspacePath,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { CLAWHUB_TRUST_ERROR_CODE } from "../infra/clawhub-install-trust.js";
+} from "../agents/agent-scope.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { CLAWHUB_TRUST_ERROR_CODE } from "../infra/clawhub-install-trust.ts";
 import {
   fetchClawHubSkillCard,
   fetchClawHubSkillVerification,
   type ClawHubSkillVerificationResponse,
-} from "../infra/clawhub.js";
-import { defaultRuntime } from "../runtime.js";
+} from "../infra/clawhub.ts";
+import { defaultRuntime } from "../runtime.ts";
 import {
   installSkillFromClawHub,
   readVerifiedClawHubSkillSourceUrl,
@@ -27,11 +27,11 @@ import {
   resolveClawHubSkillVerificationTarget,
   searchSkillsFromClawHub,
   updateSkillsFromClawHub,
-} from "../skills/lifecycle/clawhub.js";
+} from "../skills/lifecycle/clawhub.ts";
 import {
   installSkillFromSource,
   isSkillSourceInstallSpec,
-} from "../skills/lifecycle/source-install.js";
+} from "../skills/lifecycle/source-install.ts";
 import {
   applySkillProposal,
   inspectSkillProposal,
@@ -43,24 +43,24 @@ import {
   readSkillProposalDraftFile,
   rejectSkillProposal,
   reviseSkillProposal,
-} from "../skills/workshop/service.js";
+} from "../skills/workshop/service.ts";
 import type {
   SkillProposalManifest,
   SkillProposalReadResult,
   SkillProposalSupportFileInput,
-} from "../skills/workshop/types.js";
-import { CONFIG_DIR } from "../utils.js";
-import { resolveClawHubRiskAcknowledgementCliOptions } from "./clawhub-risk-acknowledgement.js";
-import { resolveOptionFromCommand } from "./cli-utils.js";
-import { parseStrictPositiveIntOption } from "./program/helpers.js";
-import { formatSkillInfo, formatSkillsCheck, formatSkillsList } from "./skills-cli.format.js";
+} from "../skills/workshop/types.ts";
+import { CONFIG_DIR } from "../utils.ts";
+import { resolveClawHubRiskAcknowledgementCliOptions } from "./clawhub-risk-acknowledgement.ts";
+import { resolveOptionFromCommand } from "./cli-utils.ts";
+import { parseStrictPositiveIntOption } from "./program/helpers.ts";
+import { formatSkillInfo, formatSkillsCheck, formatSkillsList } from "./skills-cli.format.ts";
 
 export type {
   SkillInfoOptions,
   SkillsCheckOptions,
   SkillsListOptions,
-} from "./skills-cli.format.js";
-export { formatSkillInfo, formatSkillsCheck, formatSkillsList } from "./skills-cli.format.js";
+} from "./skills-cli.format.ts";
+export { formatSkillInfo, formatSkillsCheck, formatSkillsList } from "./skills-cli.format.ts";
 
 type SkillStatusReport = Awaited<
   ReturnType<(typeof import("../skills/discovery/status.js"))["buildWorkspaceSkillStatus"]>

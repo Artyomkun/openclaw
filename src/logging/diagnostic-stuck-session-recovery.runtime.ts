@@ -1,5 +1,5 @@
 // Stuck session recovery runtime helpers inspect embedded sessions for recovery.
-import { resolveEmbeddedSessionLane } from "../agents/embedded-agent-runner/lanes.js";
+import { resolveEmbeddedSessionLane } from "../agents/embedded-agent-runner/lanes.ts";
 import {
   abortAndDrainEmbeddedAgentRun,
   isEmbeddedAgentRunActive,
@@ -8,25 +8,25 @@ import {
   resolveActiveEmbeddedRunSessionIdBySessionFile,
   resolveActiveEmbeddedRunHandleSessionId,
   resolveActiveEmbeddedRunHandleSessionIdBySessionFile,
-} from "../agents/embedded-agent-runner/runs.js";
+} from "../agents/embedded-agent-runner/runs.ts";
 import {
   getCommandLaneActiveTaskIds,
   getCommandLaneSnapshot,
   resetCommandLane,
-} from "../process/command-queue.js";
-import { getDiagnosticSessionActivitySnapshot } from "./diagnostic-run-activity.js";
-import { diagnosticLogger as diag } from "./diagnostic-runtime.js";
+} from "../process/command-queue.ts";
+import { getDiagnosticSessionActivitySnapshot } from "./diagnostic-run-activity.ts";
+import { diagnosticLogger as diag } from "./diagnostic-runtime.ts";
 import {
   formatStoppedCronSessionDiagnosticFields,
   resolveCronSessionDiagnosticContext,
-} from "./diagnostic-session-context.js";
+} from "./diagnostic-session-context.ts";
 import {
   formatRecoveryOutcome,
   resolveStuckSessionRecoveryRef,
   type StuckSessionRecoveryOutcome,
   type StuckSessionRecoveryRequest,
-} from "./diagnostic-session-recovery.js";
-import { isDiagnosticSessionStateCurrent } from "./diagnostic-session-state.js";
+} from "./diagnostic-session-recovery.ts";
+import { isDiagnosticSessionStateCurrent } from "./diagnostic-session-state.ts";
 
 // Runtime repair path for diagnostic sessions that appear stuck in processing/waiting states.
 const STUCK_SESSION_ABORT_SETTLE_MS = 15_000;

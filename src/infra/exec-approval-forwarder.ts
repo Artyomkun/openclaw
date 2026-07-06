@@ -1,41 +1,41 @@
 // Forwards exec approval requests between runtime sessions and approval handlers.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { ReplyPayload } from "../auto-reply/types.js";
+import type { ReplyPayload } from "../auto-reply/types.ts";
 import {
   getLoadedChannelPlugin,
   resolveChannelApprovalAdapter,
-} from "../channels/plugins/index.js";
-import { getRuntimeConfig } from "../config/config.js";
+} from "../channels/plugins/index.ts";
+import { getRuntimeConfig } from "../config/config.ts";
 import type {
   ExecApprovalForwardingConfig,
   ExecApprovalForwardTarget,
-} from "../config/types.approvals.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../config/types.approvals.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   buildApprovalPendingReplyPayload,
   buildApprovalResolvedReplyPayload,
   buildPluginApprovalPendingReplyPayload,
   buildPluginApprovalResolvedReplyPayload,
-} from "../plugin-sdk/approval-renderers.js";
-import { channelRouteDedupeKey } from "../plugin-sdk/channel-route.js";
+} from "../plugin-sdk/approval-renderers.ts";
+import { channelRouteDedupeKey } from "../plugin-sdk/channel-route.ts";
 import {
   isDeliverableMessageChannel,
   normalizeMessageChannel,
   type DeliverableMessageChannel,
-} from "../utils/message-channel.js";
-import { matchesApprovalRequestFilters } from "./approval-request-filters.js";
+} from "../utils/message-channel.ts";
+import { matchesApprovalRequestFilters } from "./approval-request-filters.ts";
 import {
   resolveExecApprovalCommandDisplay,
   sanitizeExecApprovalWarningText,
-} from "./exec-approval-command-display.js";
-import { formatExecApprovalExpiresIn } from "./exec-approval-reply.js";
+} from "./exec-approval-command-display.ts";
+import { formatExecApprovalExpiresIn } from "./exec-approval-reply.ts";
 import {
   resolveExecApprovalRequestAllowedDecisions,
   type ExecApprovalRequest,
   type ExecApprovalResolved,
-} from "./exec-approvals.js";
+} from "./exec-approvals.ts";
 import {
   approvalDecisionLabel,
   buildPluginApprovalExpiredMessage,
@@ -43,7 +43,7 @@ import {
   resolvePluginApprovalRequestAllowedDecisions,
   type PluginApprovalRequest,
   type PluginApprovalResolved,
-} from "./plugin-approvals.js";
+} from "./plugin-approvals.ts";
 
 // Approval forwarding mirrors foreground exec/plugin approvals into configured
 // chat targets, then sends resolution/expiry notices to the same targets.

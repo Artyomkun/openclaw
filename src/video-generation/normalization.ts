@@ -4,18 +4,18 @@ import {
   resolveClosestAspectRatio,
   resolveClosestResolution,
   resolveClosestSize,
-} from "../media-generation/runtime-shared.js";
-import { resolveVideoGenerationModeCapabilities } from "./capabilities.js";
+} from "../media-generation/runtime-shared.ts";
+import { resolveVideoGenerationModeCapabilities } from "./capabilities.ts";
 import {
   normalizeVideoGenerationDuration,
   resolveVideoGenerationSupportedDurations,
-} from "./duration-support.js";
+} from "./duration-support.ts";
 import type {
   VideoGenerationIgnoredOverride,
   VideoGenerationNormalization,
   VideoGenerationProvider,
   VideoGenerationResolution,
-} from "./types.js";
+} from "./types.ts";
 
 const VIDEO_RESOLUTION_ORDER: readonly VideoGenerationResolution[] = [
   "360P",

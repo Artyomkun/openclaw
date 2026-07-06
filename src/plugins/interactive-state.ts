@@ -1,7 +1,7 @@
 // Stores interactive plugin state and dedupe caches.
-import { createDedupeCache, resolveGlobalDedupeCache } from "../infra/dedupe.js";
-import type { DedupeCache } from "../infra/dedupe.js";
-import type { PluginInteractiveHandlerRegistration } from "./types.js";
+import { createDedupeCache, resolveGlobalDedupeCache } from "../infra/dedupe.ts";
+import type { DedupeCache } from "../infra/dedupe.ts";
+import type { PluginInteractiveHandlerRegistration } from "./types.ts";
 
 /** Registered interactive handler with owning plugin metadata. */
 export type RegisteredInteractiveHandler = PluginInteractiveHandlerRegistration & {

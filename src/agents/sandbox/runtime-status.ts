@@ -4,20 +4,20 @@
  * Resolves whether a session is sandboxed and explains policy blocks before tool execution.
  */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { formatCliCommand } from "../../cli/command-format.js";
+import { formatCliCommand } from "../../cli/command-format.ts";
 import {
   canonicalizeMainSessionAlias,
   resolveAgentMainSessionKey,
-} from "../../config/sessions/main-session.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveSessionAgentId } from "../agent-scope.js";
-import { auditSandboxToolPolicyBlock } from "../tool-policy-audit.js";
-import { resolveSandboxConfigForAgent } from "./config.js";
+} from "../../config/sessions/main-session.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveSessionAgentId } from "../agent-scope.ts";
+import { auditSandboxToolPolicyBlock } from "../tool-policy-audit.ts";
+import { resolveSandboxConfigForAgent } from "./config.ts";
 import {
   classifyToolAgainstSandboxToolPolicy,
   resolveSandboxToolPolicyForAgent,
-} from "./tool-policy.js";
-import type { SandboxConfig, SandboxToolPolicyResolved } from "./types.js";
+} from "./tool-policy.ts";
+import type { SandboxConfig, SandboxToolPolicyResolved } from "./types.ts";
 
 function shouldSandboxSession(cfg: SandboxConfig, sessionKey: string, mainSessionKey: string) {
   if (cfg.mode === "off") {

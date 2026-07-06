@@ -316,16 +316,15 @@ function buildOpenClawCodingToolsOptions(
   // behavior now see the same policy PI provides. Spawn workspace falls
   // through to the caller-provided value when supplied; otherwise we
   // derive it locally from the (possibly sandbox-effective) workspaceDir
-  // — sufficient for legacy/test fixtures that didn't pre-compute it.
-  const sandbox = input.sandbox ?? undefined;
+  // — sufficient for test fixtures that didn't pre-compute it.
+  const sandbox = input.sandbox;
   const spawnWorkspaceDir =
     input.spawnWorkspaceDir ??
     (workspaceDir
-      ? resolveAttemptSpawnWorkspaceDir({
+      | resolveAttemptSpawnWorkspaceDir({
           sandbox,
           resolvedWorkspace: workspaceDir,
-        })
-      : undefined);
+        }));
 
   const model = a.model;
   const modelHasVision = Array.isArray(model?.input) && model.input.includes("image");

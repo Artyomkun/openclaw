@@ -7,11 +7,11 @@ import {
   isStickyAgentRunTerminalOutcome,
   mergeAgentRunTerminalOutcome,
   type AgentRunTerminalOutcome,
-} from "../../agents/agent-run-terminal-outcome.js";
-import { normalizeBlockedLivenessWaitStatus } from "../../shared/agent-liveness.js";
-import { isNonTerminalAgentRunStatus } from "../../shared/agent-run-status.js";
-import { setSafeTimeout } from "../../utils/timer-delay.js";
-import type { DedupeEntry } from "../server-shared.js";
+} from "../../agents/agent-run-terminal-outcome.ts";
+import { normalizeBlockedLivenessWaitStatus } from "../../shared/agent-liveness.ts";
+import { isNonTerminalAgentRunStatus } from "../../shared/agent-run-status.ts";
+import { setSafeTimeout } from "../../utils/timer-delay.ts";
+import type { DedupeEntry } from "../server-shared.ts";
 
 export type AgentWaitTerminalSnapshot = {
   status: "ok" | "error" | "timeout";

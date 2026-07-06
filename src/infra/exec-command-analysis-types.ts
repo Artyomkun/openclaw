@@ -1,4 +1,4 @@
-import type { CommandResolution } from "./exec-command-resolution.js";
+import type { CommandResolution } from "./exec-command-resolution.ts";
 
 export type ExecCommandSegment = {
   raw: string;

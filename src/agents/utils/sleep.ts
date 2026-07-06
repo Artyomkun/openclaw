@@ -1,7 +1,7 @@
 /**
  * Sleep helper that respects abort signal.
  */
-import { resolveTimerTimeoutMs } from "../../shared/number-coercion.js";
+import { resolveTimerTimeoutMs } from "../../shared/number-coercion.ts";
 
 export function sleep(ms: number, signal?: AbortSignal): Promise<void> {
   return new Promise((resolve, reject) => {

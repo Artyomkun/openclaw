@@ -1,13 +1,13 @@
 // Handles session reset requests produced during agent runner execution.
-import type { SessionEntry } from "../../config/sessions.js";
+import type { SessionEntry } from "../../config/sessions.ts";
 import {
   resolveAgentIdFromSessionKey,
   resolveSessionTranscriptPath,
-} from "../../config/sessions.js";
-import { persistSessionResetLifecycle } from "../../config/sessions/session-accessor.js";
-import { generateSecureUuid } from "../../infra/secure-random.js";
-import { defaultRuntime } from "../../runtime.js";
-import { refreshQueuedFollowupSession, type FollowupRun } from "./queue.js";
+} from "../../config/sessions.ts";
+import { persistSessionResetLifecycle } from "../../config/sessions/session-accessor.ts";
+import { generateSecureUuid } from "../../infra/secure-random.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { refreshQueuedFollowupSession, type FollowupRun } from "./queue.ts";
 
 type ResetSessionOptions = {
   failureLabel: string;

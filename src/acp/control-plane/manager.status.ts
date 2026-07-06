@@ -6,16 +6,16 @@ import type {
   AcpRuntimeHandle,
   AcpRuntimeStatus,
 } from "@openclaw/acp-core/runtime/types";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { withAcpRuntimeErrorBoundary } from "../runtime/errors.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { withAcpRuntimeErrorBoundary } from "../runtime/errors.ts";
 import type {
   AcpSessionStatus,
   EnsureManagerRuntimeHandle,
   ReconcileManagerRuntimeSessionIdentifiers,
   ResolveManagerSession,
-} from "./manager.types.js";
-import { requireReadySessionMeta } from "./manager.utils.js";
-import { resolveRuntimeOptionsFromMeta } from "./runtime-options.js";
+} from "./manager.types.ts";
+import { requireReadySessionMeta } from "./manager.utils.ts";
+import { resolveRuntimeOptionsFromMeta } from "./runtime-options.ts";
 
 /** Reads a fresh ACP session status and reconciles runtime identifiers from the status response. */
 export async function runManagerGetSessionStatus(params: {

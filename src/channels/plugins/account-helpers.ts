@@ -5,17 +5,17 @@
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   resolveAccountEntry,
   resolveNormalizedAccountEntry,
-} from "../../routing/account-lookup.js";
+} from "../../routing/account-lookup.ts";
 import {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   normalizeOptionalAccountId,
-} from "../../routing/session-key.js";
-import type { ChannelAccountSnapshot } from "./types.core.js";
+} from "../../routing/session-key.ts";
+import type { ChannelAccountSnapshot } from "./types.core.ts";
 
 /**
  * Creates reusable account id listing and default-account resolution helpers for a channel.
@@ -33,7 +33,7 @@ export function createAccountListHelpers(
   },
 ) {
   function hasImplicitDefaultAccount(cfg: OpenClawConfig): boolean {
-    // Legacy single-account configs and env-only setup imply the default account even when
+    // Older single-account configs and env-only setup imply the default account even when
     // channels.<id>.accounts is absent.
     if (options?.hasImplicitDefaultAccount?.(cfg)) {
       return true;

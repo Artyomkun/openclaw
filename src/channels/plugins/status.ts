@@ -4,11 +4,11 @@
  * Combines plugin status hooks, account inspection, and safe account field projection.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { inspectChannelAccount } from "../account-inspection.js";
-import { projectSafeChannelAccountSnapshotFields } from "../account-snapshot-fields.js";
-import type { ChannelPlugin } from "./types.plugin.js";
-import type { ChannelAccountSnapshot } from "./types.public.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { inspectChannelAccount } from "../account-inspection.ts";
+import { projectSafeChannelAccountSnapshotFields } from "../account-snapshot-fields.ts";
+import type { ChannelPlugin } from "./types.plugin.ts";
+import type { ChannelAccountSnapshot } from "./types.public.ts";
 
 export async function buildChannelAccountSnapshotFromAccount<ResolvedAccount>(params: {
   plugin: ChannelPlugin<ResolvedAccount>;

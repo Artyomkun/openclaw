@@ -1,7 +1,7 @@
 // Filters approval requests by agent and session patterns.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { parseAgentSessionKey } from "../routing/session-key.js";
-import { compileSafeRegex, testRegexWithBoundedInput } from "../security/safe-regex.js";
+import { parseAgentSessionKey } from "../routing/session-key.ts";
+import { compileSafeRegex, testRegexWithBoundedInput } from "../security/safe-regex.ts";
 
 /** Minimal approval request identity used by agent/session filter checks. */
 export type ApprovalRequestFilterInput = {

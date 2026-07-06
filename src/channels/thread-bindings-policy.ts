@@ -1,18 +1,18 @@
 // Thread-binding policy resolution for channel/account session spawning.
 import { MAX_DATE_TIMESTAMP_MS } from "@openclaw/normalization-core/number-coercion";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAccountId } from "../routing/session-key.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
 import {
   resolveThreadBindingLifecycle as resolveSharedThreadBindingLifecycle,
   type ThreadBindingLifecycleRecord,
-} from "../shared/thread-binding-lifecycle.js";
-import { getLoadedChannelPlugin } from "./plugins/index.js";
-import { resolveBundledChannelThreadBindingDefaultPlacement } from "./plugins/thread-binding-api.js";
+} from "../shared/thread-binding-lifecycle.ts";
+import { getLoadedChannelPlugin } from "./plugins/index.ts";
+import { resolveBundledChannelThreadBindingDefaultPlacement } from "./plugins/thread-binding-api.ts";
 
 export {
   resolveThreadBindingLifecycle,
-} from "../shared/thread-binding-lifecycle.js";
+} from "../shared/thread-binding-lifecycle.ts";
 
 const DEFAULT_THREAD_BINDING_IDLE_HOURS = 24;
 const DEFAULT_THREAD_BINDING_MAX_AGE_HOURS = 0;

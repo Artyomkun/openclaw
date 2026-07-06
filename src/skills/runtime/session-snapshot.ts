@@ -1,15 +1,15 @@
 // Session snapshot helpers capture and restore runtime skill state for sessions.
 import crypto from "node:crypto";
-import { stableStringify } from "../../agents/stable-stringify.js";
-import { redactConfigObject } from "../../config/redact-snapshot.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { matchesSkillFilter } from "../discovery/filter.js";
-import { buildWorkspaceSkillSnapshot } from "../loading/workspace.js";
-import { WORKSPACE_SKILLS_PROMPT_FORMAT_VERSION } from "../types.js";
-import type { SkillEligibilityContext, SkillSnapshot } from "../types.js";
-import { getSkillsSnapshotVersion, shouldRefreshSnapshotForVersion } from "./refresh-state.js";
-import { ensureSkillsWatcher } from "./refresh.js";
-import { hydrateResolvedSkills } from "./snapshot-hydration.js";
+import { stableStringify } from "../../agents/stable-stringify.ts";
+import { redactConfigObject } from "../../config/redact-snapshot.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { matchesSkillFilter } from "../discovery/filter.ts";
+import { buildWorkspaceSkillSnapshot } from "../loading/workspace.ts";
+import { WORKSPACE_SKILLS_PROMPT_FORMAT_VERSION } from "../types.ts";
+import type { SkillEligibilityContext, SkillSnapshot } from "../types.ts";
+import { getSkillsSnapshotVersion, shouldRefreshSnapshotForVersion } from "./refresh-state.ts";
+import { ensureSkillsWatcher } from "./refresh.ts";
+import { hydrateResolvedSkills } from "./snapshot-hydration.ts";
 
 const resolvedSkillsCache = new Map<string, SkillSnapshot["resolvedSkills"]>();
 const RESOLVED_SKILLS_CACHE_MAX = 10;

@@ -1,5 +1,5 @@
 // Skill contract types describe loaded skill metadata, sources, and prompt surfaces.
-import type { SourceInfo } from "../../agents/sessions/source-info.js";
+import type { SourceInfo } from "../../agents/sessions/source-info.ts";
 
 export interface Skill {
   name: string;
@@ -10,11 +10,11 @@ export interface Skill {
   promptVersion?: string;
   sourceInfo: SourceInfo;
   disableModelInvocation: boolean;
-  // Preserve legacy source reads while keeping the canonical upstream shape.
+  // Preserve older source reads while keeping the canonical upstream shape.
   source: string;
 }
 
-export { createSyntheticSourceInfo } from "../../agents/sessions/source-info.js";
+export { createSyntheticSourceInfo } from "../../agents/sessions/source-info.ts";
 
 function escapeXml(str: string): string {
   return str

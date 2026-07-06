@@ -9,4 +9,4 @@ export {
   MIN_CONNECT_CHALLENGE_TIMEOUT_MS,
   resolveConnectChallengeTimeoutMs,
   resolvePreauthHandshakeTimeoutMs,
-} from "../../packages/gateway-client/src/timeouts.js";
+} from "../../packages/gateway-client/src/timeouts.ts";

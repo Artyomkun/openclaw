@@ -5,9 +5,9 @@ import type {
   AcpRuntimeTurnInput,
   AcpRuntimeTurnResult,
 } from "@openclaw/acp-core/runtime/types";
-import { AcpRuntimeError } from "../runtime/errors.js";
-import { normalizeAcpErrorCode } from "./manager.utils.js";
-import { normalizeText } from "./runtime-options.js";
+import { AcpRuntimeError } from "../runtime/errors.ts";
+import { normalizeAcpErrorCode } from "./manager.utils.ts";
+import { normalizeText } from "./runtime-options.ts";
 
 /** Mutable gate used to suppress late events after timeout/cancel races. */
 type AcpTurnEventGate = {

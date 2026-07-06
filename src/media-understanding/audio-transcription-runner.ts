@@ -1,15 +1,15 @@
 // Audio transcription runner executes the configured media-understanding audio
 // pipeline and extracts the first transcript output.
-import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { ActiveMediaModel } from "../../packages/media-understanding-common/src/active-model.js";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { ActiveMediaModel } from "../../packages/media-understanding-common/src/active-model.ts";
 import {
   buildProviderRegistry,
   createMediaAttachmentCache,
   normalizeMediaAttachments,
   runCapability,
-} from "./runner.js";
-import type { MediaAttachment, MediaUnderstandingProvider } from "./types.js";
+} from "./runner.ts";
+import type { MediaAttachment, MediaUnderstandingProvider } from "./types.ts";
 
 /** Runs the configured audio-understanding pipeline and returns the first transcript output. */
 export async function runAudioTranscription(params: {

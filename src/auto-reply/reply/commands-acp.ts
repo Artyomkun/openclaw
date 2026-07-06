@@ -1,19 +1,19 @@
 // Implements ACP session commands and runtime status formatting.
-import { logVerbose } from "../../globals.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { requireGatewayClientScope } from "./command-gates.js";
+import { logVerbose } from "../../globals.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { requireGatewayClientScope } from "./command-gates.ts";
 import {
   COMMAND,
   type AcpAction,
   resolveAcpAction,
   resolveAcpHelpText,
   stopWithText,
-} from "./commands-acp/shared.js";
+} from "./commands-acp/shared.ts";
 import type {
   CommandHandler,
   CommandHandlerResult,
   HandleCommandsParams,
-} from "./commands-types.js";
+} from "./commands-types.ts";
 
 type AcpActionHandler = (
   params: HandleCommandsParams,

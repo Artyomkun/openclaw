@@ -1,6 +1,6 @@
 // Defines proxy-related Zod schema fragments for config parsing.
 import { z } from "zod";
-import { sensitive } from "./zod-schema.sensitive.js";
+import { sensitive } from "./zod-schema.sensitive.ts";
 
 function isHttpOrHttpsProxyUrl(value: string): boolean {
   try {

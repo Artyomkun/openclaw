@@ -1,18 +1,16 @@
 /** Model selection state for reply runs, including catalog and override handling. */
 import {
-  hasLegacyAutoFallbackWithoutOrigin,
   resolveAgentConfig,
-} from "../../agents/agent-scope.js";
-import { isStoredCredentialCompatibleWithAuthProvider } from "../../agents/auth-profiles/order.js";
-import { clearSessionAuthProfileOverride } from "../../agents/auth-profiles/session-override.js";
-import { resolveContextTokensForModel } from "../../agents/context.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
-import type { ModelCatalogEntry } from "../../agents/model-catalog.js";
-import { parseConfiguredModelVisibilityEntries } from "../../agents/model-selection-shared.js";
+} from "../../agents/agent-scope.ts";
+import { isStoredCredentialCompatibleWithAuthProvider } from "../../agents/auth-profiles/order.ts";
+import { clearSessionAuthProfileOverride } from "../../agents/auth-profiles/session-override.ts";
+import { resolveContextTokensForModel } from "../../agents/context.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
+import type { ModelCatalogEntry } from "../../agents/model-catalog.ts";
+import { parseConfiguredModelVisibilityEntries } from "../../agents/model-selection-shared.ts";
 import {
   buildConfiguredModelCatalog,
-  legacyModelKey,
   modelKey,
   normalizeModelRef,
   normalizeProviderId,
@@ -20,30 +18,30 @@ import {
   resolvePersistedOverrideModelRef,
   resolveReasoningDefault,
   resolveThinkingDefault,
-} from "../../agents/model-selection.js";
+} from "../../agents/model-selection.ts";
 import {
   RUNTIME_MODEL_VISIBILITY_NORMALIZATION,
   createModelVisibilityPolicy,
   type ModelVisibilityPolicy,
-} from "../../agents/model-visibility-policy.js";
+} from "../../agents/model-visibility-policy.ts";
 import {
   OPENAI_CODEX_PROVIDER_ID,
   OPENAI_PROVIDER_ID,
   listOpenAIAuthProfileProvidersForAgentRuntime,
-} from "../../agents/openai-routing.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { ThinkLevel } from "./directives.js";
+} from "../../agents/openai-routing.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { ThinkLevel } from "./directives.ts";
 export {
   resolveModelDirectiveSelection,
   type ModelDirectiveSelection,
-} from "./model-selection-directive.js";
+} from "./model-selection-directive.ts";
 import {
   isStaleHeartbeatAutoFallbackOverride,
   resolveStoredModelOverride,
-} from "./stored-model-override.js";
+} from "./stored-model-override.ts";
 
 type ModelCatalog = ModelCatalogEntry[];
 
@@ -221,38 +219,12 @@ export async function createModelSelectionState(params: {
     primaryProvider: params.primaryProvider,
     primaryModel: params.primaryModel,
   });
-  const primaryHarnessPolicy = resolveAgentHarnessPolicy({
-    provider: primaryProvider,
-    modelId: primaryModel,
-    config: cfg,
-    agentId: params.agentId,
-    sessionKey,
-  });
-  const staleLegacyOpenAICodexAutoOverride =
-    directStoredModelOverride?.source === "session" &&
-    sessionEntry?.modelOverrideSource === "auto" &&
-    normalizeProviderId(directStoredModelOverride.provider ?? "") === OPENAI_CODEX_PROVIDER_ID &&
-    normalizeProviderId(primaryProvider) === OPENAI_PROVIDER_ID &&
-    primaryHarnessPolicy.runtime === "codex" &&
-    normalizeRuntimeModelRef(OPENAI_PROVIDER_ID, directStoredModelOverride.model).model ===
-      normalizeRuntimeModelRef(OPENAI_PROVIDER_ID, primaryModel).model;
   const normalizedCurrentSelection = normalizeRuntimeModelRef(provider, model);
   const normalizedDirectOverride = directStoredModelOverride
     ? normalizeRuntimeModelRef(directStoredModelOverride.provider, directStoredModelOverride.model)
     : null;
-  // Only treat the legacy auto pin as stale when the current selection differs from the stored
-  // override. The current==stored case is the turn that deliberately re-applies the pin (e.g. an
-  // explicit run override); clearing there would fight that intent, so the guard must stay.
-  const staleLegacyAutoFallbackWithoutOrigin =
-    directStoredModelOverride?.source === "session" &&
-    hasLegacyAutoFallbackWithoutOrigin(sessionEntry) &&
-    normalizedDirectOverride !== null &&
-    modelKey(normalizedCurrentSelection.provider, normalizedCurrentSelection.model) !==
-      modelKey(normalizedDirectOverride.provider, normalizedDirectOverride.model);
   const staleDirectStoredOverride =
-    staleHeartbeatAutoFallbackOverride ||
-    staleLegacyOpenAICodexAutoOverride ||
-    staleLegacyAutoFallbackWithoutOrigin;
+    staleHeartbeatAutoFallbackOverride;
 
   if (needsModelCatalog) {
     modelCatalog = await (await loadModelCatalogRuntime()).loadModelCatalog({ config: cfg });
@@ -516,10 +488,8 @@ export async function createModelSelectionState(params: {
     }
     const configuredModels = cfg.agents?.defaults?.models;
     const canonicalKey = modelKey(provider, model);
-    const legacyKey = legacyModelKey(provider, model);
     const configuredModelThinkingDefault =
-      configuredModels?.[canonicalKey]?.params?.thinking ??
-      (legacyKey ? configuredModels?.[legacyKey]?.params?.thinking : undefined);
+      configuredModels?.[canonicalKey]?.params?.thinking;
     if (
       configuredModelThinkingDefault === false ||
       configuredModelThinkingDefault === "disabled" ||

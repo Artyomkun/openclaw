@@ -91,7 +91,7 @@ build_package_runtime() {
     return
   fi
   echo "Package-local runtime build: ${package_dir}"
-  node "${repo_root}/scripts/lib/plugin-npm-runtime-build.mjs" "${package_dir}" >&2
+  node "${repo_root}/scripts/lib/plugin-npm-runtime-build.ts" "${package_dir}" >&2
 }
 
 echo "Resolved package dir: ${package_dir}"
@@ -113,7 +113,7 @@ build_package_runtime
 
 pack_json="${pack_dir}/pack.json"
 CLAWHUB_WORKDIR="${clawhub_workdir}" \
-  node "${repo_root}/scripts/lib/plugin-npm-package-manifest.mjs" --run "${package_dir}" -- \
+  node "${repo_root}/scripts/lib/plugin-npm-package-manifest.ts" --run "${package_dir}" -- \
   "${pack_cmd[@]}" > "${pack_json}"
 pack_output="$(cat "${pack_json}")"
 printf '%s\n' "${pack_output}"

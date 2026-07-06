@@ -1,32 +1,9 @@
 // Googlechat plugin module implements doctor contract behavior.
-import type {
-  ChannelDoctorConfigMutation,
-  ChannelDoctorLegacyConfigRule,
-} from "openclaw/plugin-sdk/channel-contract";
+import type ChannelDoctorConfigMutation from "openclaw/plugin-sdk/channel-contract";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { asObjectRecord } from "openclaw/plugin-sdk/runtime-doctor";
 
 type GoogleChatChannelsConfig = NonNullable<OpenClawConfig["channels"]>;
-
-function hasLegacyGoogleChatStreamMode(value: unknown): boolean {
-  return asObjectRecord(value)?.streamMode !== undefined;
-}
-
-function hasLegacyGoogleChatGroupAllowAlias(value: unknown): boolean {
-  const groups = asObjectRecord(asObjectRecord(value)?.groups);
-  if (!groups) {
-    return false;
-  }
-  return Object.values(groups).some((group) => Object.hasOwn(asObjectRecord(group) ?? {}, "allow"));
-}
-
-function hasLegacyAccountAliases(value: unknown, match: (entry: unknown) => boolean): boolean {
-  const accounts = asObjectRecord(value);
-  if (!accounts) {
-    return false;
-  }
-  return Object.values(accounts).some((account) => match(account));
-}
 
 function normalizeGoogleChatGroups(params: {
   groups: Record<string, unknown>;
@@ -69,7 +46,7 @@ function normalizeGoogleChatEntry(params: {
   if (updated.streamMode !== undefined) {
     updated = { ...updated };
     delete updated.streamMode;
-    params.changes.push(`Removed ${params.pathPrefix}.streamMode (legacy key no longer used).`);
+    params.changes.push(`Removed ${params.pathPrefix}.streamMode.`);
     changed = true;
   }
 
@@ -88,32 +65,6 @@ function normalizeGoogleChatEntry(params: {
 
   return { entry: updated, changed };
 }
-
-export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
-  {
-    path: ["channels", "googlechat"],
-    message: "channels.googlechat.streamMode is legacy and no longer used; it is removed on load.",
-    match: hasLegacyGoogleChatStreamMode,
-  },
-  {
-    path: ["channels", "googlechat", "accounts"],
-    message:
-      "channels.googlechat.accounts.<id>.streamMode is legacy and no longer used; it is removed on load.",
-    match: (value) => hasLegacyAccountAliases(value, hasLegacyGoogleChatStreamMode),
-  },
-  {
-    path: ["channels", "googlechat"],
-    message:
-      'channels.googlechat.groups.<id>.allow is legacy; use channels.googlechat.groups.<id>.enabled instead. Run "openclaw doctor --fix".',
-    match: hasLegacyGoogleChatGroupAllowAlias,
-  },
-  {
-    path: ["channels", "googlechat", "accounts"],
-    message:
-      'channels.googlechat.accounts.<id>.groups.<id>.allow is legacy; use channels.googlechat.accounts.<id>.groups.<id>.enabled instead. Run "openclaw doctor --fix".',
-    match: (value) => hasLegacyAccountAliases(value, hasLegacyGoogleChatGroupAllowAlias),
-  },
-];
 
 export function normalizeCompatibilityConfig({
   cfg,

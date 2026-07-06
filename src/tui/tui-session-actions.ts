@@ -2,19 +2,19 @@
 import type { TUI } from "@earendil-works/pi-tui";
 import { asDateTimestampMs } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString, type FastMode } from "@openclaw/normalization-core/string-coerce";
-import type { SessionsPatchResult } from "../../packages/gateway-protocol/src/index.js";
-import { resolveSessionInfoModelSelection } from "../agents/model-selection-display.js";
+import type { SessionsPatchResult } from "../../packages/gateway-protocol/src/index.ts";
+import { resolveSessionInfoModelSelection } from "../agents/model-selection-display.ts";
 import {
   agentSessionKeysMatchByRequestKey,
   normalizeAgentId,
   normalizeMainKey,
   parseAgentSessionKey,
-} from "../routing/session-key.js";
-import type { ChatLog } from "./components/chat-log.js";
-import type { TuiAgentsList, TuiBackend, TuiSessionMutationResult } from "./tui-backend.js";
-import { asString, extractTextFromMessage, isCommandMessage } from "./tui-formatters.js";
-import { TUI_SESSION_LOOKUP_LIMIT } from "./tui-session-list-policy.js";
-import type { SessionInfo, TuiOptions, TuiStateAccess } from "./tui-types.js";
+} from "../routing/session-key.ts";
+import type { ChatLog } from "./components/chat-log.ts";
+import type { TuiAgentsList, TuiBackend, TuiSessionMutationResult } from "./tui-backend.ts";
+import { asString, extractTextFromMessage, isCommandMessage } from "./tui-formatters.ts";
+import { TUI_SESSION_LOOKUP_LIMIT } from "./tui-session-list-policy.ts";
+import type { SessionInfo, TuiOptions, TuiStateAccess } from "./tui-types.ts";
 
 type SessionActionBtwPresenter = {
   clear: () => void;

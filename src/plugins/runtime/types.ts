@@ -1,5 +1,5 @@
 // Plugin runtime types describe activated plugin capabilities exposed to core execution.
-import type { PluginRuntimeCore, RuntimeLogger } from "./types-core.js";
+import type { PluginRuntimeCore, RuntimeLogger } from "./types-core.ts";
 
 export type { RuntimeLogger };
 
@@ -42,12 +42,6 @@ export type SubagentGetSessionMessagesResult = {
   messages: unknown[];
 };
 
-/** @deprecated Use SubagentGetSessionMessagesParams. */
-export type SubagentGetSessionParams = SubagentGetSessionMessagesParams;
-
-/** @deprecated Use SubagentGetSessionMessagesResult. */
-export type SubagentGetSessionResult = SubagentGetSessionMessagesResult;
-
 export type SubagentDeleteSessionParams = {
   sessionKey: string;
   deleteTranscript?: boolean;
@@ -84,8 +78,6 @@ export type PluginRuntime = PluginRuntimeCore & {
     getSessionMessages: (
       params: SubagentGetSessionMessagesParams,
     ) => Promise<SubagentGetSessionMessagesResult>;
-    /** @deprecated Use getSessionMessages. */
-    getSession: (params: SubagentGetSessionParams) => Promise<SubagentGetSessionResult>;
     deleteSession: (params: SubagentDeleteSessionParams) => Promise<void>;
   };
   nodes: {

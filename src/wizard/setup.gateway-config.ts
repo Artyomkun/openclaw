@@ -1,37 +1,37 @@
 // Setup gateway config helpers build gateway config from onboarding answers.
 import { validateIPv4AddressInput } from "@openclaw/net-policy/ipv4";
-import { formatPortRangeHint } from "../cli/error-format.js";
+import { formatPortRangeHint } from "../cli/error-format.ts";
 import {
   normalizeGatewayTokenInput,
   randomToken,
   validateGatewayPasswordInput,
-} from "../commands/onboard-helpers.js";
-import type { GatewayAuthChoice, SecretInputMode } from "../commands/onboard-types.js";
-import type { GatewayBindMode, GatewayTailscaleMode, OpenClawConfig } from "../config/config.js";
-import { ensureControlUiAllowedOriginsForNonLoopbackBind } from "../config/gateway-control-ui-origins.js";
+} from "../commands/onboard-helpers.ts";
+import type { GatewayAuthChoice, SecretInputMode } from "../commands/onboard-types.ts";
+import type { GatewayBindMode, GatewayTailscaleMode, OpenClawConfig } from "../config/config.ts";
+import { ensureControlUiAllowedOriginsForNonLoopbackBind } from "../config/gateway-control-ui-origins.ts";
 import {
   normalizeSecretInputString,
   resolveSecretInputRef,
   type SecretInput,
-} from "../config/types.secrets.js";
+} from "../config/types.secrets.ts";
 import {
   maybeAddTailnetOriginToControlUiAllowedOrigins,
   TAILSCALE_EXPOSURE_OPTIONS,
-} from "../gateway/gateway-config-prompts.shared.js";
-import { DEFAULT_DANGEROUS_NODE_COMMANDS } from "../gateway/node-command-policy.js";
-import { findTailscaleBinary } from "../infra/tailscale.js";
-import { resolveSecretInputModeForEnvSelection } from "../plugins/provider-auth-mode.js";
-import { promptSecretRefForSetup } from "../plugins/provider-auth-ref.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { maskApiKey } from "../utils/mask-api-key.js";
-import { t } from "./i18n/index.js";
-import type { WizardPrompter } from "./prompts.js";
-import { resolveSetupSecretInputString } from "./setup.secret-input.js";
+} from "../gateway/gateway-config-prompts.shared.ts";
+import { DEFAULT_DANGEROUS_NODE_COMMANDS } from "../gateway/node-command-policy.ts";
+import { findTailscaleBinary } from "../infra/tailscale.ts";
+import { resolveSecretInputModeForEnvSelection } from "../plugins/provider-auth-mode.ts";
+import { promptSecretRefForSetup } from "../plugins/provider-auth-ref.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { maskApiKey } from "../utils/mask-api-key.ts";
+import { t } from "./i18n/index.ts";
+import type { WizardPrompter } from "./prompts.ts";
+import { resolveSetupSecretInputString } from "./setup.secret-input.ts";
 import type {
   GatewayWizardSettings,
   QuickstartGatewayDefaults,
   WizardFlow,
-} from "./setup.types.js";
+} from "./setup.types.ts";
 
 type ConfigureGatewayOptions = {
   flow: WizardFlow;

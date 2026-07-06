@@ -2,4 +2,4 @@
 export {
   collectInstalledSkillsCodeSafetyFindings,
   collectPluginsCodeSafetyFindings,
-} from "./audit-extra.async.js";
+} from "./audit-extra.async.ts";

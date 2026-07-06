@@ -3,16 +3,16 @@
  * Keeps automatic profile choice stable within a session while still rotating
  * across new sessions, compactions, provider changes, and cooldowns.
  */
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 import {
   isConfiguredAwsSdkAuthProfileForProvider,
   isStoredCredentialCompatibleWithAuthProvider,
   resolveAuthProfileOrder,
-} from "../auth-profiles/order.js";
-import { ensureAuthProfileStore, hasAnyAuthProfileStoreSource } from "../auth-profiles/store.js";
-import { isProfileInCooldown } from "../auth-profiles/usage.js";
+} from "../auth-profiles/order.ts";
+import { ensureAuthProfileStore, hasAnyAuthProfileStoreSource } from "../auth-profiles/store.ts";
+import { isProfileInCooldown } from "../auth-profiles/usage.ts";
 
 const sessionAccessorLoader = createLazyImportLoader(
   () => import("../../config/sessions/session-accessor.js"),

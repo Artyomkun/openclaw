@@ -2,15 +2,15 @@
  * Merges bundled plugin MCP servers with user-configured MCP servers for agent
  * runtimes.
  */
-import { normalizeConfiguredMcpServers } from "../config/mcp-config-normalize.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { normalizeConfiguredMcpServers } from "../config/mcp-config-normalize.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   loadEnabledBundleMcpConfig,
   type BundleMcpConfig,
   type BundleMcpDiagnostic,
   type BundleMcpServerConfig,
-} from "../plugins/bundle-mcp.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
+} from "../plugins/bundle-mcp.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
 
 type MergedBundleMcpConfig = {
   config: BundleMcpConfig;

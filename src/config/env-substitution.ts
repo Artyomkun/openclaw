@@ -22,7 +22,7 @@
 
 // Pattern for valid uppercase env var names: starts with letter or underscore,
 // followed by letters, numbers, or underscores (all uppercase)
-import { isPlainObject } from "../utils.js";
+import { isPlainObject } from "../utils.ts";
 
 const ENV_VAR_NAME_PATTERN = /^[A-Z_][A-Z0-9_]*$/;
 

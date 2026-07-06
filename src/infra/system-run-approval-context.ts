@@ -4,12 +4,12 @@ import type {
   ExecAsk,
   ExecSecurity,
   SystemRunApprovalPlan,
-} from "./exec-approvals.js";
-import { normalizeSystemRunApprovalPlan } from "./system-run-approval-binding.js";
-import { formatExecCommand, resolveSystemRunCommandRequest } from "./system-run-command.js";
-import { normalizeNonEmptyString, normalizeStringArray } from "./system-run-normalize.js";
+} from "./exec-approvals.ts";
+import { normalizeSystemRunApprovalPlan } from "./system-run-approval-binding.ts";
+import { formatExecCommand, resolveSystemRunCommandRequest } from "./system-run-command.ts";
+import { normalizeNonEmptyString, normalizeStringArray } from "./system-run-normalize.ts";
 
-// System-run approval context normalizes prepared node-run payloads and legacy
+// System-run approval context normalizes prepared node-run payloads and older
 // command fields before they enter exec approval policy.
 export type PreparedRunExecPolicy = {
   security: ExecSecurity;
@@ -131,24 +131,7 @@ export function parsePreparedSystemRunPayload(payload: unknown): PreparedRunPayl
   if (!raw.plan || typeof raw.plan !== "object" || Array.isArray(raw.plan)) {
     return null;
   }
-  const legacyPlan = raw.plan as Record<string, unknown>;
-  const argv = normalizeStringArray(legacyPlan.argv);
-  const commandText =
-    normalizeNonEmptyString(legacyPlan.rawCommand) ??
-    normalizeNonEmptyString(raw.commandText) ??
-    normalizeNonEmptyString(raw.cmdText);
-  if (argv.length === 0 || !commandText) {
-    return null;
-  }
   return {
-    plan: {
-      argv,
-      cwd: normalizeNonEmptyString(legacyPlan.cwd),
-      commandText,
-      commandPreview: normalizeNonEmptyString(legacyPlan.commandPreview),
-      agentId: normalizeNonEmptyString(legacyPlan.agentId),
-      sessionKey: normalizeNonEmptyString(legacyPlan.sessionKey),
-    },
     ...(execPolicy ? { execPolicy } : {}),
     ...(allowAlwaysCoverage ? { allowAlwaysCoverage } : {}),
   };

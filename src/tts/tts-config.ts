@@ -6,12 +6,12 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.js";
-import type { TtsAutoMode, TtsConfig, TtsMode } from "../config/types.tts.js";
-import { normalizeAccountId, normalizeAgentId } from "../routing/session-key.js";
-import { resolveConfigDir, resolveUserPath } from "../utils.js";
-import { normalizeTtsAutoMode } from "./tts-auto-mode.js";
-export { normalizeTtsAutoMode } from "./tts-auto-mode.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { TtsAutoMode, TtsConfig, TtsMode } from "../config/types.tts.ts";
+import { normalizeAccountId, normalizeAgentId } from "../routing/session-key.ts";
+import { resolveConfigDir, resolveUserPath } from "../utils.ts";
+import { normalizeTtsAutoMode } from "./tts-auto-mode.ts";
+export { normalizeTtsAutoMode } from "./tts-auto-mode.ts";
 
 const BLOCKED_MERGE_KEYS = new Set(["__proto__", "prototype", "constructor"]);
 

@@ -3,9 +3,9 @@
  * Rejects SecretRef-backed OAuth material because OAuth credentials are mutable
  * runtime state and must stay directly persisted by refresh flows.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { coerceSecretRef, resolveSecretInputRef } from "../../config/types.secrets.js";
-import type { AuthProfileCredential, AuthProfileStore } from "./types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { coerceSecretRef, resolveSecretInputRef } from "../../config/types.secrets.ts";
+import type { AuthProfileCredential, AuthProfileStore } from "./types.ts";
 
 type SecretDefaults = NonNullable<OpenClawConfig["secrets"]>["defaults"];
 

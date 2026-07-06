@@ -5,40 +5,40 @@ import path from "node:path";
 import { asNullableObjectRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { listAgentEntries, resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { listAgentEntries, resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   clearWedgedSubagentRecoveryAbort,
   formatSubagentRecoveryWedgedReason,
   isSubagentRecoveryWedgedEntry,
-} from "../agents/subagent-recovery-state.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { resolveOAuthDir, resolveStateDir } from "../config/paths.js";
+} from "../agents/subagent-recovery-state.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { resolveOAuthDir, resolveStateDir } from "../config/paths.ts";
 import {
   formatSessionArchiveTimestamp,
   isPrimarySessionTranscriptFileName,
-} from "../config/sessions/artifacts.js";
-import { resolveMainSessionKey } from "../config/sessions/main-session.js";
+} from "../config/sessions/artifacts.ts";
+import { resolveMainSessionKey } from "../config/sessions/main-session.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   resolveSessionTranscriptsDirForAgent,
   resolveStorePath,
-} from "../config/sessions/paths.js";
-import { loadSessionStore } from "../config/sessions/store-load.js";
-import { updateSessionStore } from "../config/sessions/store.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
-import { resolveRequiredHomeDir } from "../infra/home-dir.js";
-import { resolveMemoryBackendConfig } from "../memory-host-sdk/engine-storage.js";
-import { resolveOpenClawAgentDir } from "../plugin-sdk/agent-dir-compat.js";
-import { listConfiguredChannelIdsForReadOnlyScope } from "../plugins/channel-plugin-ids.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { parseAgentSessionKey } from "../sessions/session-key-utils.js";
-import { shortenHomePath } from "../utils.js";
-import { repairHeartbeatPoisonedMainSession } from "./doctor-heartbeat-main-session-repair.js";
-import { describeHeartbeatSessionTargetIssues } from "./doctor-heartbeat-session-target.js";
-import { runPluginSessionStateDoctorRepairs } from "./doctor-session-state-providers.js";
+} from "../config/sessions/paths.ts";
+import { loadSessionStore } from "../config/sessions/store-load.ts";
+import { updateSessionStore } from "../config/sessions/store.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.ts";
+import { resolveRequiredHomeDir } from "../infra/home-dir.ts";
+import { resolveMemoryBackendConfig } from "../memory-host-sdk/engine-storage.ts";
+import { resolveOpenClawAgentDir } from "../plugin-sdk/agent-dir-compat.ts";
+import { listConfiguredChannelIdsForReadOnlyScope } from "../plugins/channel-plugin-ids.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { parseAgentSessionKey } from "../sessions/session-key-utils.ts";
+import { shortenHomePath } from "../utils.ts";
+import { repairHeartbeatPoisonedMainSession } from "./doctor-heartbeat-main-session-repair.ts";
+import { describeHeartbeatSessionTargetIssues } from "./doctor-heartbeat-session-target.ts";
+import { runPluginSessionStateDoctorRepairs } from "./doctor-session-state-providers.ts";
 
 const STATE_INTEGRITY_CHECK_ID = "core/doctor/state-integrity";
 
@@ -830,7 +830,7 @@ export function detectStateIntegrityHealthIssues(
         issues.push({ kind: "state-dir-too-open", path: stateDir, mode: stat.mode });
       }
     } catch {
-      // Legacy noteStateIntegrity reports stat failures. Structured findings
+      // NoteStateIntegrity reports stat failures. Structured findings
       // are limited to actionable state that can be inspected safely.
     }
   }
@@ -1416,7 +1416,7 @@ export async function noteStateIntegrity(
           ),
         );
       } catch {
-        // ignore invalid legacy paths
+        // ignore invalid older paths
       }
     }
     const sessionDirEntries = fs.readdirSync(sessionsDir, { withFileTypes: true });

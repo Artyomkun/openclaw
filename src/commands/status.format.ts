@@ -2,12 +2,12 @@
 // These helpers are shared by report rows and command output surfaces.
 
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { getSystemdCgroupHygieneSummary } from "../daemon/service-runtime.js";
+import { getSystemdCgroupHygieneSummary } from "../daemon/service-runtime.ts";
 import { formatDurationPrecise } from "../infra/format-time/format-duration.ts";
 import { formatRuntimeStatusWithDetails } from "../infra/runtime-status.ts";
-import { formatTokenCount } from "../utils/token-format.js";
-import type { SessionStatus } from "./status.types.js";
-export { shortenText } from "./text-format.js";
+import { formatTokenCount } from "../utils/token-format.ts";
+import type { SessionStatus } from "./status.types.ts";
+export { shortenText } from "./text-format.ts";
 
 export const formatKTokens = formatTokenCount;
 
@@ -88,10 +88,6 @@ function resolvePromptCacheStats(
   const promptTokensFromParts =
     inputTokens != null ? inputTokens + cacheRead + cacheWrite : undefined;
   const used = sess.totalTokens;
-  // Legacy entries can carry an undersized totalTokens value. Keep the cache
-  // denominator aligned with the prompt-side token fields when available, and
-  // never let the fallback denominator drop below the known cached prompt
-  // tokens.
   const total =
     promptTokensFromParts ??
     (typeof used === "number" && Number.isFinite(used) && used > 0

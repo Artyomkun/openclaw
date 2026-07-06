@@ -1,10 +1,10 @@
 // Provider setup flow configures provider credentials, models, and defaults.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "../plugins/config-state.js";
-import * as providerAuthChoices from "../plugins/provider-auth-choices.js";
-import * as providerInstallCatalog from "../plugins/provider-install-catalog.js";
-import type { FlowContribution, FlowOption } from "./types.js";
-import { sortFlowContributionsByLabel } from "./types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "../plugins/config-state.ts";
+import * as providerAuthChoices from "../plugins/provider-auth-choices.ts";
+import * as providerInstallCatalog from "../plugins/provider-install-catalog.ts";
+import type { FlowContribution, FlowOption } from "./types.ts";
+import { sortFlowContributionsByLabel } from "./types.ts";
 
 // Provider setup contributions from manifests and install catalogs.
 type ProviderFlowScope = "text-inference" | "image-generation" | "music-generation";

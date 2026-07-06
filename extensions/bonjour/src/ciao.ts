@@ -12,10 +12,6 @@ const CIAO_NETMASK_ASSERTION_MESSAGE_RE =
   /IP ADDRESS VERSION MUST MATCH\.\s+NETMASK CANNOT HAVE A VERSION DIFFERENT FROM THE ADDRESS!?/u;
 const CIAO_SELF_PROBE_MESSAGE_RE =
   /CAN'T PROBE FOR A SERVICE WHICH IS ANNOUNCED ALREADY\.\s+RECEIVED (?:PROBING|ANNOUNCING|ANNOUNCED) FOR SERVICE\b/u;
-// Restricted sandboxes (NemoClaw, Docker-in-Docker, k3s with locked-down policy)
-// can refuse os.networkInterfaces(), which ciao calls during NetworkManager init.
-// Node surfaces this as a SystemError mentioning the libuv syscall by name.
-const CIAO_INTERFACE_ENUMERATION_FAILURE_RE = /\bUV_INTERFACE_ADDRESSES\b/u;
 
 /** Known ciao process-level errors that OpenClaw handles specially. */
 export type CiaoProcessErrorClassification =

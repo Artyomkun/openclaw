@@ -1,17 +1,17 @@
 // Bound account read helpers extract account bindings from channel records.
-import { normalizeChatType, type ChatType } from "../channels/chat-type.js";
-import { listRouteBindings } from "../config/bindings.js";
-import type { AgentRouteBinding } from "../config/types.agents.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { normalizeChatType, type ChatType } from "../channels/chat-type.ts";
+import { listRouteBindings } from "../config/bindings.ts";
+import type { AgentRouteBinding } from "../config/types.agents.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   normalizeRouteBindingChannelId,
   normalizeRouteBindingId,
   normalizeRouteBindingRoles,
   resolveNormalizedRouteBindingMatch,
   routeBindingScopeMatches,
-} from "./binding-scope.js";
-import { peerKindMatches } from "./peer-kind-match.js";
-import { normalizeAgentId } from "./session-key.js";
+} from "./binding-scope.ts";
+import { peerKindMatches } from "./peer-kind-match.ts";
+import { normalizeAgentId } from "./session-key.ts";
 
 function resolveNormalizedBoundAccountMatch(binding: AgentRouteBinding): {
   agentId: string;

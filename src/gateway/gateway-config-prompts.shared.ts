@@ -2,8 +2,8 @@
 // Provides Tailscale copy and Control UI origin updates for CLI setup flows.
 import { isIpv6Address, parseCanonicalIpAddress } from "@openclaw/net-policy/ip";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getTailnetHostname } from "../infra/tailscale.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getTailnetHostname } from "../infra/tailscale.ts";
 
 export const TAILSCALE_EXPOSURE_OPTIONS = [
   { value: "off", label: "Off", hint: "No Tailscale exposure" },

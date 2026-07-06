@@ -3,14 +3,14 @@ import { spinner } from "@clack/prompts";
 import {
   createOscProgressController,
   supportsOscProgress,
-} from "../../packages/terminal-core/src/osc-progress.js";
+} from "../../packages/terminal-core/src/osc-progress.ts";
 import {
   clearActiveProgressLine,
   registerActiveProgressLine,
   unregisterActiveProgressLine,
-} from "../../packages/terminal-core/src/progress-line.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
+} from "../../packages/terminal-core/src/progress-line.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
 
 const DEFAULT_DELAY_MS = 0;
 // Only one active progress renderer may own the terminal line at a time.

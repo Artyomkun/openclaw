@@ -1,17 +1,17 @@
 // Session store loading normalizes persisted records, migrations, maintenance, and caches.
 import fs from "node:fs";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { ChannelRouteRef } from "../../plugin-sdk/channel-route.js";
-import { isPluginJsonValue, type PluginJsonValue } from "../../plugins/host-hook-json.js";
-import { normalizeSessionEntrySlotKey } from "../../plugins/session-entry-slot-keys.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { ChannelRouteRef } from "../../plugin-sdk/channel-route.ts";
+import { isPluginJsonValue, type PluginJsonValue } from "../../plugins/host-hook-json.ts";
+import { normalizeSessionEntrySlotKey } from "../../plugins/session-entry-slot-keys.ts";
 import {
   normalizeDeliveryChannelRoute,
   normalizeDeliveryContext,
   normalizeSessionDeliveryFields,
-} from "../../utils/delivery-context.shared.js";
-import { getFileStatSnapshot } from "../cache-utils.js";
-import { hydrateSessionStoreSkillPromptRefs } from "./skill-prompt-blobs.js";
+} from "../../utils/delivery-context.shared.ts";
+import { getFileStatSnapshot } from "../cache-utils.ts";
+import { hydrateSessionStoreSkillPromptRefs } from "./skill-prompt-blobs.ts";
 import {
   cloneSessionStoreRecord,
   cloneSessionStoreSnapshotEntry,
@@ -26,11 +26,11 @@ import {
   type SessionStoreSnapshot,
   type SessionStoreSnapshotEntries,
   type SessionStoreSnapshotEntry,
-} from "./store-cache.js";
-import { normalizePersistedSessionEntryShape } from "./store-entry-shape.js";
-import { resolveSessionStoreEntry } from "./store-entry.js";
-import { collectSessionMaintenancePreserveKeys } from "./store-maintenance-preserve.js";
-import { resolveMaintenanceConfig } from "./store-maintenance-runtime.js";
+} from "./store-cache.ts";
+import { normalizePersistedSessionEntryShape } from "./store-entry-shape.ts";
+import { resolveSessionStoreEntry } from "./store-entry.ts";
+import { collectSessionMaintenancePreserveKeys } from "./store-maintenance-preserve.ts";
+import { resolveMaintenanceConfig } from "./store-maintenance-runtime.ts";
 import {
   capEntryCount,
   pruneStaleEntries,
@@ -38,9 +38,9 @@ import {
   shouldRunModelRunPrune,
   shouldRunSessionEntryMaintenance,
   type ResolvedSessionMaintenanceConfig,
-} from "./store-maintenance.js";
-import { applySessionStoreMigrations } from "./store-migrations.js";
-import { normalizeSessionRuntimeModelFields, type SessionEntry } from "./types.js";
+} from "./store-maintenance.ts";
+import { applySessionStoreMigrations } from "./store-migrations.ts";
+import { normalizeSessionRuntimeModelFields, type SessionEntry } from "./types.ts";
 
 export type LoadSessionStoreOptions = {
   skipCache?: boolean;

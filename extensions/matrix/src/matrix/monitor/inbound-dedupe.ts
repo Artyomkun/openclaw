@@ -1,8 +1,6 @@
 // Matrix plugin module implements inbound dedupe behavior.
 import { createHash } from "node:crypto";
-import fs from "node:fs/promises";
 import path from "node:path";
-import { readJsonFileWithFallback } from "openclaw/plugin-sdk/json-store";
 import { getMatrixRuntime } from "../../runtime.js";
 import { resolveMatrixStateFilePath } from "../client/storage.js";
 import type { MatrixAuth } from "../client/types.js";
@@ -12,7 +10,6 @@ import { resolveMatrixSqliteStateEnv } from "../sqlite-state.js";
 const INBOUND_DEDUPE_FILENAME = "inbound-dedupe.json";
 const INBOUND_DEDUPE_NAMESPACE = "inbound-dedupe";
 const INBOUND_DEDUPE_MIGRATIONS_NAMESPACE = "inbound-dedupe-migrations";
-const STORE_VERSION = 1;
 const DEFAULT_MAX_ENTRIES = 20_000;
 const DEFAULT_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -20,16 +17,6 @@ type StoredMatrixInboundDedupeEntry = {
   roomId: string;
   eventId: string;
   ts: number;
-};
-
-type LegacyMatrixInboundDedupeEntry = {
-  key: string;
-  ts: number;
-};
-
-type LegacyMatrixInboundDedupeState = {
-  version: number;
-  entries: LegacyMatrixInboundDedupeEntry[];
 };
 
 type MatrixInboundDedupeMigrationMarker = {
@@ -132,44 +119,6 @@ function createInboundDedupeMigrationStore(params: { env?: NodeJS.ProcessEnv; st
   });
 }
 
-function buildLegacyImportKey(params: { auth: MatrixAuth; storagePath: string }): string {
-  const accountId = normalizeEventPart(params.auth.accountId) || "default";
-  const digest = createHash("sha256")
-    .update(accountId)
-    .update("\0")
-    .update(params.storagePath)
-    .digest("hex");
-  return `${accountId}:${digest}`;
-}
-
-async function loadLegacyEntries(storagePath: string): Promise<StoredMatrixInboundDedupeEntry[]> {
-  const { value } = await readJsonFileWithFallback<LegacyMatrixInboundDedupeState | null>(
-    storagePath,
-    null,
-  );
-  if (value?.version !== STORE_VERSION || !Array.isArray(value.entries)) {
-    return [];
-  }
-  const entries: StoredMatrixInboundDedupeEntry[] = [];
-  for (const entry of value.entries) {
-    if (!entry || typeof entry.key !== "string") {
-      continue;
-    }
-    const separatorIndex = entry.key.indexOf("|");
-    if (separatorIndex <= 0) {
-      continue;
-    }
-    const roomId = entry.key.slice(0, separatorIndex).trim();
-    const eventId = entry.key.slice(separatorIndex + 1).trim();
-    const ts = normalizeTimestamp(entry.ts);
-    if (!roomId || !eventId || ts === null) {
-      continue;
-    }
-    entries.push({ roomId, eventId, ts });
-  }
-  return entries;
-}
-
 export async function createMatrixInboundEventDeduper(params: {
   auth: MatrixAuth;
   env?: NodeJS.ProcessEnv;
@@ -213,42 +162,6 @@ export async function createMatrixInboundEventDeduper(params: {
         seen.set(entry.key, ts);
       }
     }
-    const legacyImportKey = buildLegacyImportKey({ auth: params.auth, storagePath });
-    const legacyAlreadyImported = await migrationStore.lookup(legacyImportKey);
-    if (!legacyAlreadyImported) {
-      const legacyEntries = await loadLegacyEntries(storagePath);
-      let migratedLegacyEntries = 0;
-      for (const entry of legacyEntries) {
-        const key = buildEventKey({
-          auth: params.auth,
-          roomId: entry.roomId,
-          eventId: entry.eventId,
-        });
-        if (!key) {
-          continue;
-        }
-        if (seen.has(key)) {
-          migratedLegacyEntries += 1;
-          continue;
-        }
-        seen.set(key, entry.ts);
-        await store
-          .register(key, entry, ttlMs > 0 ? { ttlMs } : undefined)
-          .then(() => {
-            migratedLegacyEntries += 1;
-          })
-          .catch(() => {});
-      }
-      if (legacyEntries.length > 0 && migratedLegacyEntries === legacyEntries.length) {
-        await migrationStore.register(legacyImportKey, { importedAt: nowMs() });
-        await fs.rm(storagePath, { force: true }).catch(() => {});
-      }
-    }
-    pruneSeenEvents({ seen, ttlMs, maxEntries, nowMs: nowMs() });
-  } catch (err) {
-    LogService.warn("MatrixInboundDedupe", "Failed loading Matrix inbound dedupe store:", err);
-  }
-
   return {
     claimEvent: ({ roomId, eventId }) => {
       const key = buildEventKey({ auth: params.auth, roomId, eventId });

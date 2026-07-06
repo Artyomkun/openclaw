@@ -1,25 +1,25 @@
 /** Converts cron jobs between public store shape and normalized SQLite rows. */
 import type { DatabaseSync } from "node:sqlite";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { executeSqliteQuerySync } from "../../infra/kysely-sync.js";
-import { normalizeCronJobIdentityFields } from "../normalize-job-identity.js";
-import { normalizeCronJobInput } from "../normalize.js";
-import { getInvalidPersistedCronJobReason } from "../persisted-shape.js";
-import { tryCronScheduleIdentity } from "../schedule-identity.js";
-import type { CronJob, CronJobState, CronSchedule, CronStoreFile } from "../types.js";
-import { bindDeliveryColumns, deliveryFromRow } from "./delivery-codec.js";
-import { bindFailureAlertColumns, failureAlertFromRow } from "./failure-alert-codec.js";
-import { bindPayloadColumns, payloadFromRow } from "./payload-codec.js";
+import { executeSqliteQuerySync } from "../../infra/kysely-sync.ts";
+import { normalizeCronJobIdentityFields } from "../normalize-job-identity.ts";
+import { normalizeCronJobInput } from "../normalize.ts";
+import { getInvalidPersistedCronJobReason } from "../persisted-shape.ts";
+import { tryCronScheduleIdentity } from "../schedule-identity.ts";
+import type { CronJob, CronJobState, CronSchedule, CronStoreFile } from "../types.ts";
+import { bindDeliveryColumns, deliveryFromRow } from "./delivery-codec.ts";
+import { bindFailureAlertColumns, failureAlertFromRow } from "./failure-alert-codec.ts";
+import { bindPayloadColumns, payloadFromRow } from "./payload-codec.ts";
 import {
   booleanToInteger,
   integerToBoolean,
   normalizeNumber,
   parseJsonObject,
-} from "./scalar-codec.js";
-import type { CronJobInsert, CronJobRow } from "./schema.js";
-import { getCronStoreKysely } from "./schema.js";
-import { bindStateColumns, stateFromRow } from "./state-codec.js";
-import type { LoadedCronStore } from "./types.js";
+} from "./scalar-codec.ts";
+import type { CronJobInsert, CronJobRow } from "./schema.ts";
+import { getCronStoreKysely } from "./schema.ts";
+import { bindStateColumns, stateFromRow } from "./state-codec.ts";
+import type { LoadedCronStore } from "./types.ts";
 
 function bindScheduleColumns(
   schedule: CronSchedule,
@@ -157,8 +157,6 @@ function normalizeCronJobForSqlite(job: CronStoreFile["jobs"][number]): CronJob 
     return null;
   }
   if (!hadDeleteAfterRun) {
-    // Legacy rows omitted deleteAfterRun entirely; avoid writing the default
-    // back into job_json so config round-trips stay byte-light.
     delete normalized.deleteAfterRun;
   }
   const createdAtMs =

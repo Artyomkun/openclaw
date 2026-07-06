@@ -3,12 +3,12 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.js";
-import { listChatCommands, listChatCommandsForConfig } from "./commands-registry-list.js";
-import { normalizeCommandBody } from "./commands-registry-normalize.js";
-import type { CommandNormalizeOptions } from "./commands-registry.types.js";
-import { isAbortTrigger } from "./reply/abort-primitives.js";
-import { stripInboundMetadata } from "./reply/strip-inbound-meta.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { listChatCommands, listChatCommandsForConfig } from "./commands-registry-list.ts";
+import { normalizeCommandBody } from "./commands-registry-normalize.ts";
+import type { CommandNormalizeOptions } from "./commands-registry.types.ts";
+import { isAbortTrigger } from "./reply/abort-primitives.ts";
+import { stripInboundMetadata } from "./reply/strip-inbound-meta.ts";
 
 /** Returns true when text starts with a configured control command alias. */
 export function hasControlCommand(

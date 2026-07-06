@@ -1,6 +1,6 @@
 /** Session-manager scoped runtime state for context-pruning extension settings. */
-import { createSessionManagerRuntimeRegistry } from "../session-manager-runtime-registry.js";
-import type { EffectiveContextPruningSettings } from "./settings.js";
+import { createSessionManagerRuntimeRegistry } from "../session-manager-runtime-registry.ts";
+import type { EffectiveContextPruningSettings } from "./settings.ts";
 
 /** Runtime inputs consumed by the context-pruning extension. */
 type ContextPruningRuntimeValue = {

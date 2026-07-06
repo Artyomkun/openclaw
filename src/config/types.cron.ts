@@ -1,5 +1,5 @@
 // Defines cron scheduling configuration types.
-import type { SecretInput } from "./types.secrets.js";
+import type { SecretInput } from "./types.secrets.ts";
 
 /** Error types that can trigger retries for one-shot jobs. */
 export type CronRetryOn = "rate_limit" | "overloaded" | "network" | "timeout" | "server_error";
@@ -35,13 +35,6 @@ export type CronConfig = {
   maxConcurrentRuns?: number;
   /** Override default retry policy for one-shot jobs on transient errors. */
   retry?: CronRetryConfig;
-  /**
-   * @deprecated Legacy fallback webhook URL used by doctor to migrate stored
-   * jobs with notify=true. Runtime delivery uses per-job delivery.mode="webhook"
-   * with delivery.to, or delivery.completionDestination when preserving announce
-   * delivery.
-   */
-  webhook?: string;
   /** Bearer token for cron webhook POST delivery. */
   webhookToken?: SecretInput;
   /**

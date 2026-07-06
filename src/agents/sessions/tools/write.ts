@@ -12,21 +12,21 @@ import {
 import { dirname } from "node:path";
 import { Container, Text } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
-import { keyHint } from "../../modes/interactive/components/keybinding-hints.js";
-import { getLanguageFromPath, highlightCode } from "../../modes/interactive/theme/theme.js";
-import type { AgentTool } from "../../runtime/index.js";
-import { textResult } from "../../tools/common.js";
-import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.js";
-import { withFileMutationQueue } from "./file-mutation-queue.js";
-import { resolveToCwd } from "./path-utils.js";
+import { keyHint } from "../../modes/interactive/components/keybinding-hints.ts";
+import { getLanguageFromPath, highlightCode } from "../../modes/interactive/theme/theme.ts";
+import type { AgentTool } from "../../runtime/index.ts";
+import { textResult } from "../../tools/common.ts";
+import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.ts";
+import { withFileMutationQueue } from "./file-mutation-queue.ts";
+import { resolveToCwd } from "./path-utils.ts";
 import {
   invalidArgText,
   normalizeDisplayText,
   replaceTabs,
   shortenPath,
   str,
-} from "./render-utils.js";
-import { wrapToolDefinition } from "./tool-definition-wrapper.js";
+} from "./render-utils.ts";
+import { wrapToolDefinition } from "./tool-definition-wrapper.ts";
 
 const writeSchema = Type.Object({
   path: Type.String({
@@ -34,7 +34,7 @@ const writeSchema = Type.Object({
   }),
   content: Type.String({ description: "Content to write to the file" }),
 });
-export type { WriteToolInput } from "./tool-contracts.js";
+export type { WriteToolInput } from "./tool-contracts.ts";
 
 /**
  * Pluggable operations for the write tool.

@@ -1,16 +1,16 @@
 // Health gateway methods return cached or refreshed status summaries while
 // detecting stale channel runtime state against live gateway snapshots.
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
-import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.js";
-import type { ChannelHealthSummary, HealthSummary } from "../../commands/health.types.js";
-import { getStatusSummary } from "../../commands/status.js";
-import { listContextEngineQuarantines } from "../../context-engine/registry.js";
-import { getGatewayModelPricingHealth } from "../model-pricing-cache-state.js";
-import type { ChannelRuntimeSnapshot } from "../server-channel-runtime.types.js";
-import { HEALTH_REFRESH_INTERVAL_MS } from "../server-constants.js";
-import { formatError } from "../server-utils.js";
-import { formatForLog } from "../ws-log.js";
-import type { GatewayRequestHandlers } from "./types.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
+import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.ts";
+import type { ChannelHealthSummary, HealthSummary } from "../../commands/health.types.ts";
+import { getStatusSummary } from "../../commands/status.ts";
+import { listContextEngineQuarantines } from "../../context-engine/registry.ts";
+import { getGatewayModelPricingHealth } from "../model-pricing-cache-state.ts";
+import type { ChannelRuntimeSnapshot } from "../server-channel-runtime.types.ts";
+import { HEALTH_REFRESH_INTERVAL_MS } from "../server-constants.ts";
+import { formatError } from "../server-utils.ts";
+import { formatForLog } from "../ws-log.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 const ADMIN_SCOPE = "operator.admin";
 

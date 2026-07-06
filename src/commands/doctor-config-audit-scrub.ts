@@ -1,13 +1,13 @@
 /** Doctor repair for redacting historical config audit log argv records. */
 import fs from "node:fs/promises";
 import os from "node:os";
-import { note } from "../../packages/terminal-core/src/note.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
 import {
   resolveConfigAuditLogPath,
   scrubConfigAuditLog,
   type ConfigAuditScrubResult,
-} from "../config/io.audit.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
+} from "../config/io.audit.ts";
+import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.ts";
 
 const NOTE_TITLE = "Config audit";
 const CONFIG_AUDIT_SCRUB_CHECK_ID = "core/doctor/config-audit-scrub";

@@ -3,6 +3,6 @@ export {
   isAudioAttachment,
   normalizeAttachments,
   resolveAttachmentKind,
-} from "./attachments.normalize.js";
-export { selectAttachments } from "./attachments.select.js";
-export { MediaAttachmentCache, type MediaAttachmentCacheOptions } from "./attachments.cache.js";
+} from "./attachments.normalize.ts";
+export { selectAttachments } from "./attachments.select.ts";
+export { MediaAttachmentCache, type MediaAttachmentCacheOptions } from "./attachments.cache.ts";

@@ -4,7 +4,7 @@ import {
   resolvePairLoopGuardSettings,
   type PairLoopGuardConfig,
   type PairLoopGuardResult,
-} from "../../plugin-sdk/pair-loop-guard-runtime.js";
+} from "../../plugin-sdk/pair-loop-guard-runtime.ts";
 
 /** Facts used to detect repeated bot-to-bot channel reply loops. */
 export type ChannelBotLoopProtectionFacts = {

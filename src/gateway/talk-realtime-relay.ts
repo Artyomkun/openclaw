@@ -2,53 +2,53 @@
 // Bridges browser Talk audio sessions with realtime voice provider plugins.
 import { randomUUID } from "node:crypto";
 import { resolveExpiresAtMsFromDurationMs } from "@openclaw/normalization-core/number-coercion";
-import type { OpenClawConfig } from "../config/types.js";
-import type { RealtimeVoiceProviderPlugin } from "../plugins/types.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { RealtimeVoiceProviderPlugin } from "../plugins/types.ts";
 import {
   REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME,
   buildRealtimeVoiceAgentConsultWorkingResponse,
-} from "../talk/agent-consult-tool.js";
+} from "../talk/agent-consult-tool.ts";
 import {
   buildRealtimeVoiceAgentControlSpeechMessage,
   controlRealtimeVoiceAgentRun,
   shouldAutoControlRealtimeVoiceAgentText,
   type RealtimeVoiceAgentControlResult,
-} from "../talk/agent-run-control.js";
-import { readSpeakableRealtimeVoiceToolResult } from "../talk/consult-question.js";
+} from "../talk/agent-run-control.ts";
+import { readSpeakableRealtimeVoiceToolResult } from "../talk/consult-question.ts";
 import {
   createRealtimeVoiceForcedConsultCoordinator,
   type RealtimeVoiceForcedConsultCoordinator,
-} from "../talk/forced-consult-coordinator.js";
-import { recordTalkObservabilityEvent } from "../talk/observability.js";
+} from "../talk/forced-consult-coordinator.ts";
+import { recordTalkObservabilityEvent } from "../talk/observability.ts";
 import {
   REALTIME_VOICE_AUDIO_FORMAT_PCM16_24KHZ,
   type RealtimeVoiceBrowserAudioContract,
   type RealtimeVoiceProviderConfig,
   type RealtimeVoiceTool,
   type RealtimeVoiceToolResultOptions,
-} from "../talk/provider-types.js";
+} from "../talk/provider-types.ts";
 import {
   isLikelyRealtimeVoiceAssistantEchoTranscript,
   recordRealtimeVoiceTranscript,
   type RealtimeVoiceTranscriptEntry,
-} from "../talk/session-log-runtime.js";
+} from "../talk/session-log-runtime.ts";
 import {
   createRealtimeVoiceBridgeSession,
   type RealtimeVoiceBridgeSession,
-} from "../talk/session-runtime.js";
+} from "../talk/session-runtime.ts";
 import {
   type TalkEvent,
   type TalkEventInput,
   type TalkSessionController,
   createTalkSessionController,
-} from "../talk/talk-session-controller.js";
-import { abortChatRunById } from "./chat-abort.js";
-import type { GatewayRequestContext } from "./server-methods/shared-types.js";
+} from "../talk/talk-session-controller.ts";
+import { abortChatRunById } from "./chat-abort.ts";
+import type { GatewayRequestContext } from "./server-methods/shared-types.ts";
 import {
   closeExpiredTalkRelaySessions,
   requireActiveTalkRelaySession,
-} from "./talk-relay-session-lifecycle.js";
-import { forgetUnifiedTalkSession } from "./talk-session-registry.js";
+} from "./talk-relay-session-lifecycle.ts";
+import { forgetUnifiedTalkSession } from "./talk-session-registry.ts";
 
 const RELAY_SESSION_TTL_MS = 30 * 60 * 1000;
 const MAX_AUDIO_BASE64_BYTES = 512 * 1024;

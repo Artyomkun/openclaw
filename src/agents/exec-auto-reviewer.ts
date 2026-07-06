@@ -7,21 +7,21 @@
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { z } from "zod";
-import type { AgentModelConfig } from "../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import type { AgentModelConfig } from "../config/types.agents-shared.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   defaultExecAutoReviewer,
   type ExecAutoReviewDecision,
   type ExecAutoReviewInput,
   type ExecAutoReviewer,
-} from "../infra/exec-auto-review.js";
-import { DEFAULT_EXEC_REVIEWER_SYSTEM_PROMPT } from "./exec-auto-reviewer.prompt.js";
+} from "../infra/exec-auto-review.ts";
+import { DEFAULT_EXEC_REVIEWER_SYSTEM_PROMPT } from "./exec-auto-reviewer.prompt.ts";
 import {
   completeWithPreparedSimpleCompletionModel,
   prepareSimpleCompletionModelForAgent,
-} from "./simple-completion-runtime.js";
-import { coerceToolModelConfig } from "./tools/model-config.helpers.js";
+} from "./simple-completion-runtime.ts";
+import { coerceToolModelConfig } from "./tools/model-config.helpers.ts";
 
 const DEFAULT_EXEC_REVIEWER_TIMEOUT_MS = 30_000;
 const EXEC_REVIEWER_MAX_TOKENS = 360;

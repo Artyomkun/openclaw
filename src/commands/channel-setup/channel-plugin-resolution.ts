@@ -1,25 +1,25 @@
 // Resolves or installs channel plugins needed by setup/onboarding flows.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
 import {
   listRawChannelPluginCatalogEntries,
   type ChannelPluginCatalogEntry,
-} from "../../channels/plugins/catalog.js";
-import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { createClackPrompter } from "../../wizard/clack-prompter.js";
-import type { WizardPrompter } from "../../wizard/prompts.js";
+} from "../../channels/plugins/catalog.ts";
+import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { createClackPrompter } from "../../wizard/clack-prompter.ts";
+import type { WizardPrompter } from "../../wizard/prompts.ts";
 import {
   ensureChannelSetupPluginInstalled,
   loadChannelSetupPluginRegistrySnapshotForChannel,
-} from "./plugin-install.js";
+} from "./plugin-install.ts";
 import {
   getTrustedChannelPluginCatalogEntry,
   listTrustedChannelPluginCatalogEntries,
-} from "./trusted-catalog.js";
+} from "./trusted-catalog.ts";
 
 type ChannelPluginSnapshot = {
   channels: Array<{ plugin: ChannelPlugin }>;

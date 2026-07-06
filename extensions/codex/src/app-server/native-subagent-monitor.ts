@@ -92,7 +92,7 @@ const DEFAULT_COMPLETION_DELIVERY_RETRY_DELAYS_MS = [
 const DEFAULT_TASK_ROW_RECONCILE_INTERVAL_MS = 10_000;
 const RECENT_TERMINAL_TASK_RECONCILE_GRACE_MS = 60_000;
 // Codex's recorder uses this filename contract; non-canonical names keep the
-// legacy substring fallback for older or test-created transcript files.
+// substring fallback for older or test-created transcript files.
 const CODEX_ROLLOUT_FILENAME_RE = /^rollout-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-(.+)\.jsonl$/u;
 
 const defaultRuntime: NativeSubagentMonitorRuntime = {

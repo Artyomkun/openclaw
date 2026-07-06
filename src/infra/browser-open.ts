@@ -1,9 +1,9 @@
 // Resolves platform-specific commands for best-effort browser opening.
 import path from "node:path";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { detectBinary } from "./detect-binary.js";
-import { getWindowsInstallRoots } from "./windows-install-roots.js";
-import { isWSL } from "./wsl.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { detectBinary } from "./detect-binary.ts";
+import { getWindowsInstallRoots } from "./windows-install-roots.ts";
+import { isWSL } from "./wsl.ts";
 
 // Browser opening is best-effort and platform-specific; callers get a resolved
 // command first so UI can explain why open-in-browser is unavailable.

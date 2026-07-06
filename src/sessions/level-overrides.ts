@@ -4,8 +4,8 @@ import {
   normalizeVerboseLevel,
   type TraceLevel,
   type VerboseLevel,
-} from "../auto-reply/thinking.js";
-import type { SessionEntry } from "../config/sessions.js";
+} from "../auto-reply/thinking.ts";
+import type { SessionEntry } from "../config/sessions.ts";
 
 const INVALID_VERBOSE_LEVEL_ERROR = 'invalid verboseLevel (use "on"|"off"|"full")';
 

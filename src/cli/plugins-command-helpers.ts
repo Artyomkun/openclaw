@@ -1,13 +1,13 @@
 // Shared plugin CLI helpers for install logging, file specs, hooks, and slot selection.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginKind } from "../plugins/plugin-kind.types.js";
-import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { applyExclusiveSlotSelection } from "../plugins/slots.js";
-import { buildPluginDiagnosticsReport } from "../plugins/status.js";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
-export { quietPluginJsonLogger } from "./plugins-json-logger.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginKind } from "../plugins/plugin-kind.types.ts";
+import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { applyExclusiveSlotSelection } from "../plugins/slots.ts";
+import { buildPluginDiagnosticsReport } from "../plugins/status.ts";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+export { quietPluginJsonLogger } from "./plugins-json-logger.ts";
 
 type HookInternalEntryLike = Record<string, unknown> & { enabled?: boolean };
 

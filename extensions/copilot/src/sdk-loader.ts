@@ -82,7 +82,7 @@ function createMissingSdkError(
   fallbackPath: string,
 ): Error {
   const lines = [
-    "[copilot] @github/copilot-sdk is not installed.",
+    "[copilot] @github/copilot-sdk not found in the expected location.",
     "",
     "The external @openclaw/copilot plugin depends on @github/copilot-sdk",
     "(~260 MB after pulling its platform-specific @github/copilot CLI binary).",
@@ -94,7 +94,7 @@ function createMissingSdkError(
     "",
     `  npm install ${COPILOT_SDK_SPEC}`,
     "",
-    `The legacy fallback location is still probed at\n  ${fallbackPath}`,
+    `The fallback location is still probed at\n  ${fallbackPath}`,
     "",
     "Primary resolution error:",
     `  ${summarizeError(primaryErr)}`,

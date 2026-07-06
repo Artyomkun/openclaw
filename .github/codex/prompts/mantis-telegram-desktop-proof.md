@@ -130,7 +130,7 @@ than Telegram-visible behavior`. Use this manifest shape and do not create
 9. Build `${MANTIS_OUTPUT_DIR}/mantis-evidence.json` with:
 
    ```bash
-   node scripts/mantis/build-telegram-desktop-proof-evidence.mjs \
+   node scripts/mantis/build-telegram-desktop-proof-evidence.ts \
      --output-dir "$MANTIS_OUTPUT_DIR" \
      --baseline-repo-root <baseline-worktree> \
      --baseline-output-dir <baseline-session-output-dir> \

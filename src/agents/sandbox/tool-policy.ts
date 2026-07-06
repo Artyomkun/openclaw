@@ -5,16 +5,16 @@
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveAgentConfig } from "../agent-scope.js";
-import { compileGlobPatterns, matchesAnyGlobPattern } from "../glob-pattern.js";
-import { expandToolGroups, normalizeToolName } from "../tool-policy.js";
-import { DEFAULT_TOOL_ALLOW, DEFAULT_TOOL_DENY } from "./constants.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveAgentConfig } from "../agent-scope.ts";
+import { compileGlobPatterns, matchesAnyGlobPattern } from "../glob-pattern.ts";
+import { expandToolGroups, normalizeToolName } from "../tool-policy.ts";
+import { DEFAULT_TOOL_ALLOW, DEFAULT_TOOL_DENY } from "./constants.ts";
 import type {
   SandboxToolPolicy,
   SandboxToolPolicyResolved,
   SandboxToolPolicySource,
-} from "./types.js";
+} from "./types.ts";
 
 type SandboxToolPolicyConfig = {
   allow?: string[];

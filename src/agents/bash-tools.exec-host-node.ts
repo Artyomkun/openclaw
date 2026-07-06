@@ -4,21 +4,21 @@
  * and `node.invoke system.run` execution for host=node calls.
  */
 import { randomUUID } from "node:crypto";
-import { APPROVALS_SCOPE, WRITE_SCOPE } from "../gateway/operator-scopes.js";
-import type { InterpreterInlineEvalHit } from "../infra/command-analysis/inline-eval.js";
+import { APPROVALS_SCOPE, WRITE_SCOPE } from "../gateway/operator-scopes.ts";
+import type { InterpreterInlineEvalHit } from "../infra/command-analysis/inline-eval.ts";
 import {
   type ExecSecurity,
   maxAsk,
   requiresExecApproval,
   resolveExecApprovalAllowedDecisions,
   resolveExecApprovalUnavailableDecisions,
-} from "../infra/exec-approvals.js";
-import { defaultExecAutoReviewer, type ExecAutoReviewInput } from "../infra/exec-auto-review.js";
+} from "../infra/exec-approvals.ts";
+import { defaultExecAutoReviewer, type ExecAutoReviewInput } from "../infra/exec-auto-review.ts";
 import {
   buildExecApprovalRequesterContext,
   buildExecApprovalTurnSourceContext,
   registerExecApprovalRequestForHostOrThrow,
-} from "./bash-tools.exec-approval-request.js";
+} from "./bash-tools.exec-approval-request.ts";
 import {
   analyzeNodeApprovalRequirement,
   buildNodeSystemRunInvoke,
@@ -27,17 +27,17 @@ import {
   prepareNodeSystemRun,
   resolveNodeExecutionTarget,
   shouldSkipNodeApprovalPrepare,
-} from "./bash-tools.exec-host-node-phases.js";
-import type { ExecuteNodeHostCommandParams } from "./bash-tools.exec-host-node.types.js";
-import * as execHostShared from "./bash-tools.exec-host-shared.js";
+} from "./bash-tools.exec-host-node-phases.ts";
+import type { ExecuteNodeHostCommandParams } from "./bash-tools.exec-host-node.types.ts";
+import * as execHostShared from "./bash-tools.exec-host-shared.ts";
 import {
   DEFAULT_NOTIFY_TAIL_CHARS,
   createApprovalSlug,
   normalizeNotifyOutput,
-} from "./bash-tools.exec-runtime.js";
-import type { ExecToolDetails } from "./bash-tools.exec-types.js";
-import type { AgentToolResult } from "./runtime/index.js";
-import { callGatewayTool } from "./tools/gateway.js";
+} from "./bash-tools.exec-runtime.ts";
+import type { ExecToolDetails } from "./bash-tools.exec-types.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
+import { callGatewayTool } from "./tools/gateway.ts";
 
 const APPROVED_NODE_INVOKE_SCOPES = [WRITE_SCOPE, APPROVALS_SCOPE];
 

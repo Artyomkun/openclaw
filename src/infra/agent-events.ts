@@ -1,9 +1,9 @@
 // Stores and broadcasts agent lifecycle and streaming events.
 import { AsyncLocalStorage } from "node:async_hooks";
 import { randomUUID } from "node:crypto";
-import type { VerboseLevel } from "../auto-reply/thinking.js";
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import { notifyListeners, registerListener } from "../shared/listeners.js";
+import type { VerboseLevel } from "../auto-reply/thinking.ts";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import { notifyListeners, registerListener } from "../shared/listeners.ts";
 
 /** Stream name for agent events delivered to gateway listeners and plugin host hooks. */
 export type AgentEventStream =

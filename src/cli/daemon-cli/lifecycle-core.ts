@@ -1,37 +1,37 @@
 // Gateway service lifecycle command core: install, uninstall, start, stop, restart.
 import type { Writable } from "node:stream";
-import { readBestEffortConfig, readConfigFileSnapshot } from "../../config/config.js";
-import { resolveFutureConfigActionBlock } from "../../config/future-version-guard.js";
-import { formatConfigIssueLines } from "../../config/issue-format.js";
-import { resolveIsNixMode } from "../../config/paths.js";
-import { isPluginPackagingRuntimeOutputInvalidConfigSnapshot } from "../../config/recovery-policy.js";
-import { checkTokenDrift } from "../../daemon/service-audit.js";
-import type { GatewayServiceRestartResult } from "../../daemon/service-types.js";
-import type { GatewayServiceStartRepairIssue, GatewayServiceState } from "../../daemon/service.js";
-import { describeGatewayServiceRestart, startGatewayService } from "../../daemon/service.js";
-import type { GatewayService } from "../../daemon/service.js";
-import { renderSystemdUnavailableHints } from "../../daemon/systemd-hints.js";
-import { isSystemdUserServiceAvailable } from "../../daemon/systemd.js";
-import { isGatewaySecretRefUnavailableError } from "../../gateway/credentials.js";
+import { readBestEffortConfig, readConfigFileSnapshot } from "../../config/config.ts";
+import { resolveFutureConfigActionBlock } from "../../config/future-version-guard.ts";
+import { formatConfigIssueLines } from "../../config/issue-format.ts";
+import { resolveIsNixMode } from "../../config/paths.ts";
+import { isPluginPackagingRuntimeOutputInvalidConfigSnapshot } from "../../config/recovery-policy.ts";
+import { checkTokenDrift } from "../../daemon/service-audit.ts";
+import type { GatewayServiceRestartResult } from "../../daemon/service-types.ts";
+import type { GatewayServiceStartRepairIssue, GatewayServiceState } from "../../daemon/service.ts";
+import { describeGatewayServiceRestart, startGatewayService } from "../../daemon/service.ts";
+import type { GatewayService } from "../../daemon/service.ts";
+import { renderSystemdUnavailableHints } from "../../daemon/systemd-hints.ts";
+import { isSystemdUserServiceAvailable } from "../../daemon/systemd.ts";
+import { isGatewaySecretRefUnavailableError } from "../../gateway/credentials.ts";
 import {
   clearGatewayRestartIntentSync,
   type GatewayRestartIntent,
   writeGatewayRestartIntentSync,
-} from "../../infra/restart.js";
-import { isWSL } from "../../infra/wsl.js";
-import { defaultRuntime } from "../../runtime.js";
-import { formatCliCommand } from "../command-format.js";
+} from "../../infra/restart.ts";
+import { isWSL } from "../../infra/wsl.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { formatCliCommand } from "../command-format.ts";
 import {
   formatInvalidConfigRecoveryHint,
   formatPluginPackagingRuntimeOutputRecoveryHint,
-} from "../config-recovery-hints.js";
-import { resolveGatewayTokenForDriftCheck } from "./gateway-token-drift.js";
+} from "../config-recovery-hints.ts";
+import { resolveGatewayTokenForDriftCheck } from "./gateway-token-drift.ts";
 import {
   buildDaemonServiceSnapshot,
   createDaemonActionContext,
   type DaemonActionResponse,
-} from "./response.js";
-import { filterContainerGenericHints } from "./shared.js";
+} from "./response.ts";
+import { filterContainerGenericHints } from "./shared.ts";
 
 type DaemonLifecycleOptions = {
   json?: boolean;

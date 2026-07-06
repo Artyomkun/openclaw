@@ -8,10 +8,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { completeSimple, type AssistantMessage, type Model } from "openclaw/plugin-sdk/llm";
 import * as ts from "typescript";
 import { formatErrorMessage } from "../src/infra/errors.ts";
-import { resolveWindowsTaskkillPath } from "./lib/windows-taskkill.mjs";
+import { resolveWindowsTaskkillPath } from "./lib/windows-taskkill.ts";
 
 const { formatGeneratedModule } = (await import(
-  new URL("./lib/format-generated-module.mjs", import.meta.url).href
+  new URL("./lib/format-generated-module.ts", import.meta.url).href
 )) as {
   formatGeneratedModule: (
     source: string,

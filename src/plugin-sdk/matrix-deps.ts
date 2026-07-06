@@ -1,6 +1,6 @@
 // Manual facade. Keep loader boundary explicit.
-import type { RuntimeEnv } from "../runtime.js";
-import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
+import type { RuntimeEnv } from "../runtime.ts";
+import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.ts";
 
 type FacadeModule = {
   ensureMatrixSdkInstalled: (params: {

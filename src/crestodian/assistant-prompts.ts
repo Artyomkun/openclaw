@@ -1,5 +1,5 @@
 // Crestodian assistant prompts constrain fuzzy requests to one validated command.
-import type { CrestodianOverview } from "./overview.js";
+import type { CrestodianOverview } from "./overview.ts";
 
 /**
  * Prompt construction and response parsing for Crestodian assistant planning.

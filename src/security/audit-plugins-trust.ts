@@ -2,21 +2,21 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import { inspectReadOnlyChannelAccount } from "../channels/read-only-account-inspect.js";
-import { resolveNativeSkillsEnabled } from "../config/commands.js";
-import type { OpenClawConfig } from "../config/config.js";
-import type { AgentToolsConfig } from "../config/types.tools.js";
-import { readInstalledPackageVersion } from "../infra/package-update-utils.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-record-reader.js";
+import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import { inspectReadOnlyChannelAccount } from "../channels/read-only-account-inspect.ts";
+import { resolveNativeSkillsEnabled } from "../config/commands.ts";
+import type { OpenClawConfig } from "../config/config.ts";
+import type { AgentToolsConfig } from "../config/types.tools.ts";
+import { readInstalledPackageVersion } from "../infra/package-update-utils.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-record-reader.ts";
 import {
   createPluginRegistryIdNormalizer,
   loadPluginRegistrySnapshot,
-} from "../plugins/plugin-registry.js";
-import type { SecurityAuditFinding } from "./audit.types.js";
-import { shouldIgnoreInstalledPluginDirName } from "./installed-plugin-dirs.js";
+} from "../plugins/plugin-registry.ts";
+import type { SecurityAuditFinding } from "./audit.types.ts";
+import { shouldIgnoreInstalledPluginDirName } from "./installed-plugin-dirs.ts";
 
 type SandboxToolPolicy = import("../agents/sandbox/types.js").SandboxToolPolicy;
 

@@ -1,6 +1,6 @@
 // Root program context: version plus lazily computed channel option strings for help text.
-import { VERSION } from "../../version.js";
-import { resolveCliChannelOptions } from "../channel-options.js";
+import { VERSION } from "../../version.ts";
+import { resolveCliChannelOptions } from "../channel-options.ts";
 
 /** Root CLI program context consumed by command registration and help rendering. */
 export type ProgramContext = {

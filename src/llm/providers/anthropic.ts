@@ -7,22 +7,22 @@ import type {
   MessageParam,
   RawMessageStreamEvent,
   TextBlockParam,
-} from "@anthropic-ai/sdk/resources/messages.js";
+} from "@anthropic-ai/sdk/resources/messages.ts";
 import {
   projectAnthropicTools,
   reconcileAnthropicToolChoice,
   resolveOriginalAnthropicToolName,
   type AnthropicProjectedToolChoice,
   type AnthropicToolProjection,
-} from "../../agents/anthropic-tool-projection.js";
+} from "../../agents/anthropic-tool-projection.ts";
 import {
   splitSystemPromptCacheBoundary,
   stripSystemPromptCacheBoundary,
-} from "../../agents/system-prompt-cache-boundary.js";
+} from "../../agents/system-prompt-cache-boundary.ts";
 import {
   omitFoundryBearerCredentialHeaders,
   usesFoundryBearerAuth,
-} from "../../shared/anthropic-auth-headers.js";
+} from "../../shared/anthropic-auth-headers.ts";
 import {
   resolveClaudeNativeThinkingLevelMap,
   requiresClaudeAdaptiveThinking,
@@ -30,12 +30,12 @@ import {
   supportsClaudeNativeMaxEffort,
   supportsClaudeNativeXhighEffort,
   usesClaudeFable5MessagesContract,
-} from "../../shared/anthropic-model-contract.js";
-import { applyAnthropicRefusal } from "../../shared/anthropic-refusal.js";
-import { createDeferredEventBuffer } from "../../shared/deferred-event-buffer.js";
-import { notifyLlmRequestActivity } from "../../shared/llm-request-activity.js";
-import { getEnvApiKey } from "../env-api-keys.js";
-import { calculateCost, clampThinkingLevel } from "../model-utils.js";
+} from "../../shared/anthropic-model-contract.ts";
+import { applyAnthropicRefusal } from "../../shared/anthropic-refusal.ts";
+import { createDeferredEventBuffer } from "../../shared/deferred-event-buffer.ts";
+import { notifyLlmRequestActivity } from "../../shared/llm-request-activity.ts";
+import { getEnvApiKey } from "../env-api-keys.ts";
+import { calculateCost, clampThinkingLevel } from "../model-utils.ts";
 import type {
   AnthropicMessagesCompat,
   Api,
@@ -56,20 +56,20 @@ import type {
   Tool,
   ToolCall,
   ToolResultMessage,
-} from "../types.js";
-import { AssistantMessageEventStream } from "../utils/event-stream.js";
-import { headersToRecord } from "../utils/headers.js";
-import { parseJsonWithRepair, parseStreamingJson } from "../utils/json-parse.js";
-import { sanitizeSurrogates } from "../utils/sanitize-unicode.js";
+} from "../types.ts";
+import { AssistantMessageEventStream } from "../utils/event-stream.ts";
+import { headersToRecord } from "../utils/headers.ts";
+import { parseJsonWithRepair, parseStreamingJson } from "../utils/json-parse.ts";
+import { sanitizeSurrogates } from "../utils/sanitize-unicode.ts";
 import {
   ANTHROPIC_OMITTED_REASONING_TEXT,
   findActiveAnthropicToolTurnAssistantIndex,
-} from "./anthropic-thinking-replay.js";
-import { resolveCacheRetention } from "./cache-retention.js";
-import { resolveCloudflareBaseUrl } from "./cloudflare.js";
-import { buildCopilotDynamicHeaders, hasCopilotVisionInput } from "./github-copilot-headers.js";
-import { adjustMaxTokensForThinking, buildBaseOptions } from "./simple-options.js";
-import { transformMessages } from "./transform-messages.js";
+} from "./anthropic-thinking-replay.ts";
+import { resolveCacheRetention } from "./cache-retention.ts";
+import { resolveCloudflareBaseUrl } from "./cloudflare.ts";
+import { buildCopilotDynamicHeaders, hasCopilotVisionInput } from "./github-copilot-headers.ts";
+import { adjustMaxTokensForThinking, buildBaseOptions } from "./simple-options.ts";
+import { transformMessages } from "./transform-messages.ts";
 
 const ANTHROPIC_CACHE_CONTROL_LIMIT = 4;
 

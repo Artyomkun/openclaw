@@ -1,7 +1,7 @@
 // Filters heartbeat event text before it is added to prompts.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { HEARTBEAT_RESPONSE_TOOL_INSTRUCTIONS } from "../auto-reply/heartbeat.js";
-import { HEARTBEAT_TOKEN } from "../auto-reply/tokens.js";
+import { HEARTBEAT_RESPONSE_TOOL_INSTRUCTIONS } from "../auto-reply/heartbeat.ts";
+import { HEARTBEAT_TOKEN } from "../auto-reply/tokens.ts";
 
 const MAX_EXEC_EVENT_PROMPT_CHARS = 8_000;
 const STRUCTURED_EXEC_COMPLETION_EVENT_RE =

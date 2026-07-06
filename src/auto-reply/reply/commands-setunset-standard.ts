@@ -1,5 +1,5 @@
 // Implements standard set/unset command handling for persisted config values.
-import { parseSlashCommandWithSetUnset } from "./commands-setunset.js";
+import { parseSlashCommandWithSetUnset } from "./commands-setunset.ts";
 
 export function parseStandardSetUnsetSlashCommand<T>(params: {
   raw: string;

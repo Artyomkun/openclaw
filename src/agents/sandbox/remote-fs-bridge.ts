@@ -4,26 +4,26 @@
  * Resolves sandbox paths against uploaded remote mounts and performs guarded operations through backend shell commands.
  */
 import path from "node:path";
-import { parseStrictNonNegativeInteger } from "../../infra/parse-finite-number.js";
-import { isPathInside } from "../../infra/path-guards.js";
+import { parseStrictNonNegativeInteger } from "../../infra/parse-finite-number.ts";
+import { isPathInside } from "../../infra/path-guards.ts";
 import type {
   SandboxBackendCommandParams,
   SandboxBackendCommandResult,
   SandboxFsBridgeContext,
-} from "./backend-handle.types.js";
-import { SANDBOX_PINNED_MUTATION_PYTHON } from "./fs-bridge-mutation-helper.js";
-import { createWritableRenameTargetResolver } from "./fs-bridge-rename-targets.js";
-import { parseSandboxStatMtimeMs, parseSandboxStatSize } from "./fs-bridge-stat-parse.js";
-import type { SandboxFsBridge, SandboxFsStat, SandboxResolvedPath } from "./fs-bridge.types.js";
+} from "./backend-handle.types.ts";
+import { SANDBOX_PINNED_MUTATION_PYTHON } from "./fs-bridge-mutation-helper.ts";
+import { createWritableRenameTargetResolver } from "./fs-bridge-rename-targets.ts";
+import { parseSandboxStatMtimeMs, parseSandboxStatSize } from "./fs-bridge-stat-parse.ts";
+import type { SandboxFsBridge, SandboxFsStat, SandboxResolvedPath } from "./fs-bridge.types.ts";
 import {
   isPathInsideContainerRoot,
   normalizeContainerPath as normalizeSandboxContainerPath,
   relativePathEscapesContainerRoot,
-} from "./path-utils.js";
+} from "./path-utils.ts";
 import {
   isExistingWorkspaceSkillMountSource,
   resolveMaterializedSandboxSkillsWorkspaceDir,
-} from "./workspace-mounts.js";
+} from "./workspace-mounts.ts";
 
 type RemoteMountSource = "workspace" | "agent" | "protectedSkill";
 

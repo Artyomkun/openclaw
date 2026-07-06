@@ -5,8 +5,8 @@ import {
   listTaskRecords,
   listTasksForAgentId,
   listTasksForSessionKey,
-} from "./task-registry.js";
-import type { TaskRecord } from "./task-registry.types.js";
+} from "./task-registry.ts";
+import type { TaskRecord } from "./task-registry.types.ts";
 
 /** Returns only the session lookup fields needed by task status commands. */
 export function getTaskSessionLookupByIdForStatus(

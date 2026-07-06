@@ -3,12 +3,12 @@ export {
   formatUsageReportLines,
   formatUsageSummaryLine,
   formatUsageWindowSummary,
-} from "./provider-usage.format.js";
-export { loadProviderUsageSummary } from "./provider-usage.load.js";
-export { resolveUsageProviderId } from "./provider-usage.shared.js";
+} from "./provider-usage.format.ts";
+export { loadProviderUsageSummary } from "./provider-usage.load.ts";
+export { resolveUsageProviderId } from "./provider-usage.shared.ts";
 export type {
   ProviderUsageSnapshot,
   UsageProviderId,
   UsageSummary,
   UsageWindow,
-} from "./provider-usage.types.js";
+} from "./provider-usage.types.ts";

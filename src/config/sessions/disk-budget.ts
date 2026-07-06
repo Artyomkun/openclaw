@@ -8,19 +8,19 @@ import {
 import {
   resolveTrajectoryFilePath,
   resolveTrajectoryPointerFilePath,
-} from "../../trajectory/paths.js";
-import { runTasksWithConcurrency } from "../../utils/run-with-concurrency.js";
+} from "../../trajectory/paths.ts";
+import { runTasksWithConcurrency } from "../../utils/run-with-concurrency.ts";
 import {
   isCompactionCheckpointTranscriptFileName,
   isPrimarySessionTranscriptFileName,
   isSessionArchiveArtifactName,
   isSessionStoreTempArtifactName,
   isTrajectorySessionArtifactName,
-} from "./artifacts.js";
-import { resolveSessionFilePath } from "./paths.js";
-import { projectSessionStoreForPersistence } from "./skill-prompt-blobs.js";
-import { shouldPreserveMaintenanceEntry } from "./store-maintenance.js";
-import type { SessionEntry } from "./types.js";
+} from "./artifacts.ts";
+import { resolveSessionFilePath } from "./paths.ts";
+import { projectSessionStoreForPersistence } from "./skill-prompt-blobs.ts";
+import { shouldPreserveMaintenanceEntry } from "./store-maintenance.ts";
+import type { SessionEntry } from "./types.ts";
 
 export type SessionDiskBudgetConfig = {
   maxDiskBytes: number | null;

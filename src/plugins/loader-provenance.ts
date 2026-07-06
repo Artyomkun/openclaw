@@ -1,15 +1,15 @@
 // Tracks plugin loader provenance for diagnostics and policy checks.
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { quoteCliArg } from "../cli/quote-cli-arg.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { resolveUserPath } from "../utils.js";
-import { isBundledPluginInsideDevSourceRoot } from "./dev-source-root.js";
-import type { PluginCandidate } from "./discovery.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-records.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import { isPathInside, safeRealpathSync, safeStatSync } from "./path-safety.js";
-import type { PluginRecord, PluginRegistry } from "./registry.js";
-import type { PluginLogger } from "./types.js";
+import { quoteCliArg } from "../cli/quote-cli-arg.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { resolveUserPath } from "../utils.ts";
+import { isBundledPluginInsideDevSourceRoot } from "./dev-source-root.ts";
+import type { PluginCandidate } from "./discovery.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-records.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import { isPathInside, safeRealpathSync, safeStatSync } from "./path-safety.ts";
+import type { PluginRecord, PluginRegistry } from "./registry.ts";
+import type { PluginLogger } from "./types.ts";
 
 type PathMatcher = {
   exact: Set<string>;

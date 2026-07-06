@@ -1,17 +1,17 @@
 // Implements subagent log retrieval and pagination.
 import { parseStrictNonNegativeInteger } from "@openclaw/normalization-core/number-coercion";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { stripToolMessages } from "../../../agents/tools/chat-history-text.js";
-import { callGateway } from "../../../gateway/call.js";
-import type { CommandHandlerResult } from "../commands-types.js";
-import { formatRunLabel } from "../subagents-utils.js";
+import { stripToolMessages } from "../../../agents/tools/chat-history-text.ts";
+import { callGateway } from "../../../gateway/call.ts";
+import type { CommandHandlerResult } from "../commands-types.ts";
+import { formatRunLabel } from "../subagents-utils.ts";
 import {
   type ChatMessage,
   type SubagentsCommandContext,
   formatLogLines,
   resolveSubagentEntryForToken,
   stopWithText,
-} from "./shared.js";
+} from "./shared.ts";
 
 export async function handleSubagentsLogAction(
   ctx: SubagentsCommandContext,

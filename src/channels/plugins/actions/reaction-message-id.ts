@@ -3,7 +3,7 @@
  *
  * Reads explicit reaction targets or falls back to the current tool message context.
  */
-import { readStringOrNumberParam } from "../../../agents/tools/common.js";
+import { readStringOrNumberParam } from "../../../agents/tools/common.ts";
 
 type ReactionToolContext = {
   currentMessageId?: string | number;

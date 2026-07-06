@@ -1,7 +1,7 @@
 /** Applies mutually exclusive plugin slot selection for memory and context-engine plugins. */
-import type { OpenClawConfig } from "../config/types.js";
-import type { PluginSlotsConfig } from "../config/types.plugins.js";
-import type { PluginKind } from "./plugin-kind.types.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { PluginSlotsConfig } from "../config/types.plugins.ts";
+import type { PluginKind } from "./plugin-kind.types.ts";
 
 export type PluginSlotKey = keyof PluginSlotsConfig;
 
@@ -16,8 +16,7 @@ const SLOT_BY_KIND: Record<PluginKind, PluginSlotKey> = {
 };
 
 const DEFAULT_SLOT_BY_KEY: Record<PluginSlotKey, string> = {
-  memory: "memory-core",
-  contextEngine: "legacy",
+  memory: "memory-core"
 };
 
 /** Normalize a kind field to an array for uniform iteration. */

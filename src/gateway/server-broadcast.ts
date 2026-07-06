@@ -1,21 +1,21 @@
 // Gateway WebSocket broadcaster.
 // Applies event scope guards and slow-consumer handling before sending frames.
-import { logRejectedLargePayload } from "../logging/diagnostic-payload.js";
+import { logRejectedLargePayload } from "../logging/diagnostic-payload.ts";
 import {
   ADMIN_SCOPE,
   APPROVALS_SCOPE,
   PAIRING_SCOPE,
   READ_SCOPE,
   WRITE_SCOPE,
-} from "./method-scopes.js";
+} from "./method-scopes.ts";
 import type {
   GatewayBroadcastFn,
   GatewayBroadcastOpts,
   GatewayBroadcastToConnIdsFn,
-} from "./server-broadcast-types.js";
-import { MAX_BUFFERED_BYTES } from "./server-constants.js";
-import type { GatewayWsClient } from "./server/ws-types.js";
-import { logWs, shouldLogWs, summarizeAgentEventForWsLog } from "./ws-log.js";
+} from "./server-broadcast-types.ts";
+import { MAX_BUFFERED_BYTES } from "./server-constants.ts";
+import type { GatewayWsClient } from "./server/ws-types.ts";
+import { logWs, shouldLogWs, summarizeAgentEventForWsLog } from "./ws-log.ts";
 
 // Pairing scope is for device-pairing handshakes only; chat transcript events
 // require operator-level session access. Pairing-scoped and node-role clients

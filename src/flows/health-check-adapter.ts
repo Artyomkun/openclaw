@@ -4,10 +4,10 @@ import type {
   HealthCheckRunResult,
   RegisteredHealthCheck,
   SplitHealthCheckInput,
-} from "./health-check-runner-types.js";
-import type { HealthRepairContext } from "./health-checks.js";
+} from "./health-check-runner-types.ts";
+import type { HealthRepairContext } from "./health-checks.ts";
 
-// Adapts legacy split detect/repair checks and newer runnable checks to one runner contract.
+// Adapts older split detect/repair checks and newer runnable checks to one runner contract.
 /** Wraps a detect/repair health check in the runnable health-check contract. */
 export function defineSplitHealthCheck(check: SplitHealthCheckInput): RegisteredHealthCheck {
   return {

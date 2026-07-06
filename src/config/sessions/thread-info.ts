@@ -1,6 +1,6 @@
 // Thread-info helpers delegate generic and loaded plugin-owned thread key parsing.
-import { resolveSessionThreadInfo } from "../../channels/plugins/session-conversation.js";
-import { resolveLoadedSessionThreadInfo } from "../../channels/plugins/session-thread-info-loaded.js";
+import { resolveSessionThreadInfo } from "../../channels/plugins/session-conversation.ts";
+import { resolveLoadedSessionThreadInfo } from "../../channels/plugins/session-thread-info-loaded.ts";
 
 /**
  * Extract deliveryContext and threadId from a sessionKey.

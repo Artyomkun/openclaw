@@ -2,12 +2,12 @@
  * Ensures runtime plugin registries are loaded for agent execution. Startup
  * plugin IDs from metadata scope the load when available.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
-import { getActivePluginRuntimeSubagentMode } from "../plugins/runtime.js";
-import { ensureStandaloneRuntimePluginRegistryLoaded } from "../plugins/runtime/standalone-runtime-registry-loader.js";
-import { resolveUserPath } from "../utils.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
+import { getActivePluginRuntimeSubagentMode } from "../plugins/runtime.ts";
+import { ensureStandaloneRuntimePluginRegistryLoaded } from "../plugins/runtime/standalone-runtime-registry-loader.ts";
+import { resolveUserPath } from "../utils.ts";
 
 type StartupScopedPluginSnapshot = NonNullable<
   ReturnType<typeof getCurrentPluginMetadataSnapshot>

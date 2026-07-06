@@ -3,10 +3,10 @@
  * Maps failover reasons into provider-specific recovery guidance while keeping
  * raw error detail as a short diagnostic suffix.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import type { FailoverReason } from "../embedded-agent-helpers/types.js";
-import { buildProviderAuthRecoveryHint } from "../provider-auth-recovery-hint.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import type { FailoverReason } from "../embedded-agent-helpers/types.ts";
+import { buildProviderAuthRecoveryHint } from "../provider-auth-recovery-hint.ts";
 
 type AuthProfileFailureCopyParams = {
   reason: FailoverReason;

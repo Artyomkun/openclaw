@@ -1,6 +1,6 @@
 // Shares provider registry normalization helpers across plugin paths.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
 
 /** Normalizes provider ids used by capability-provider registries. */
 export function normalizeCapabilityProviderId(providerId: string | undefined): string | undefined {

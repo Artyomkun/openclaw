@@ -4,9 +4,9 @@
  * and removes background exec sessions.
  */
 import { formatDurationCompact } from "../infra/format-time/format-duration.ts";
-import { getDiagnosticSessionState } from "../logging/diagnostic-session-state.js";
-import { killProcessTree } from "../process/kill-tree.js";
-import { getProcessSupervisor } from "../process/supervisor/index.js";
+import { getDiagnosticSessionState } from "../logging/diagnostic-session-state.ts";
+import { killProcessTree } from "../process/kill-tree.ts";
+import { getProcessSupervisor } from "../process/supervisor/index.ts";
 import {
   type ProcessSession,
   deleteSession,
@@ -17,10 +17,10 @@ import {
   listRunningSessions,
   markExited,
   setJobTtlMs,
-} from "./bash-process-registry.js";
-import { describeProcessTool } from "./bash-tools.descriptions.js";
-import { handleProcessSendKeys, type WritableStdin } from "./bash-tools.process-send-keys.js";
-import { processSchema } from "./bash-tools.schemas.js";
+} from "./bash-process-registry.ts";
+import { describeProcessTool } from "./bash-tools.descriptions.ts";
+import { handleProcessSendKeys, type WritableStdin } from "./bash-tools.process-send-keys.ts";
+import { processSchema } from "./bash-tools.schemas.ts";
 import {
   clampWithDefault,
   deriveSessionName,
@@ -28,12 +28,12 @@ import {
   readEnvInt,
   sliceLogLines,
   truncateMiddle,
-} from "./bash-tools.shared.js";
-import { recordCommandPoll, resetCommandPollCount } from "./command-poll-backoff.js";
-import { encodePaste } from "./pty-keys.js";
-import type { AgentToolResult } from "./runtime/index.js";
-import { PROCESS_TOOL_DISPLAY_SUMMARY } from "./tool-description-presets.js";
-import type { AgentToolWithMeta } from "./tools/common.js";
+} from "./bash-tools.shared.ts";
+import { recordCommandPoll, resetCommandPollCount } from "./command-poll-backoff.ts";
+import { encodePaste } from "./pty-keys.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
+import { PROCESS_TOOL_DISPLAY_SUMMARY } from "./tool-description-presets.ts";
+import type { AgentToolWithMeta } from "./tools/common.ts";
 
 /** Defaults injected by tests, agent scopes, and scoped process registries. */
 export type ProcessToolDefaults = {

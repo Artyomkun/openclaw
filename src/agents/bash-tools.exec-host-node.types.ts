@@ -3,9 +3,9 @@
  * Centralizes the full host/runtime boundary so node exec callers and handlers
  * cannot drift on approval, routing, env, or timeout fields.
  */
-import type { ExecAsk, ExecSecurity } from "../infra/exec-approvals.js";
-import type { ExecAutoReviewer } from "../infra/exec-auto-review.js";
-import type { ExecElevatedDefaults } from "./bash-tools.exec-types.js";
+import type { ExecAsk, ExecSecurity } from "../infra/exec-approvals.ts";
+import type { ExecAutoReviewer } from "../infra/exec-auto-review.ts";
+import type { ExecElevatedDefaults } from "./bash-tools.exec-types.ts";
 
 /** Full parameter bundle for Node-hosted exec command execution. */
 export type ExecuteNodeHostCommandParams = {

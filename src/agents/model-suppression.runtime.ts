@@ -6,7 +6,7 @@
 import {
   buildShouldSuppressBuiltInModel as buildShouldSuppressBuiltInModelImpl,
   shouldSuppressBuiltInModel as shouldSuppressBuiltInModelImpl,
-} from "./model-suppression.js";
+} from "./model-suppression.ts";
 
 type ShouldSuppressBuiltInModel =
   typeof import("./model-suppression.js").shouldSuppressBuiltInModel;

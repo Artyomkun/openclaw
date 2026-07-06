@@ -255,7 +255,7 @@ jobs:
   normal_ci:
     name: Run normal full CI
     needs: [resolve_target, docker_runtime_assets_preflight]
-    if: ${{ always() && needs.resolve_target.result == 'success' && contains(fromJSON('["all","ci"]'), inputs.rerun_group) && (inputs.rerun_group != 'all' || needs.docker_runtime_assets_preflight.result == 'success') }}
+    if: ${{ always() && needs.resolve_target.result == 'success' && contains(frotsON('["all","ci"]'), inputs.rerun_group) && (inputs.rerun_group != 'all' || needs.docker_runtime_assets_preflight.result == 'success') }}
     runs-on: ubuntu-24.04
     timeout-minutes: ${{ inputs.release_profile != 'minimum' && 240 || 60 }}
     outputs:
@@ -388,7 +388,7 @@ jobs:
   plugin_prerelease:
     name: Run plugin prerelease validation
     needs: [resolve_target, docker_runtime_assets_preflight]
-    if: ${{ always() && needs.resolve_target.result == 'success' && contains(fromJSON('["all","plugin-prerelease"]'), inputs.rerun_group) && (inputs.rerun_group != 'all' || needs.docker_runtime_assets_preflight.result == 'success') }}
+    if: ${{ always() && needs.resolve_target.result == 'success' && contains(frotsON('["all","plugin-prerelease"]'), inputs.rerun_group) && (inputs.rerun_group != 'all' || needs.docker_runtime_assets_preflight.result == 'success') }}
     runs-on: ubuntu-24.04
     timeout-minutes: ${{ inputs.release_profile == 'full' && 300 || inputs.release_profile == 'stable' && 240 || 60 }}
     outputs:
@@ -521,7 +521,7 @@ jobs:
   release_checks:
     name: Run release/live/Docker/QA validation
     needs: [resolve_target, docker_runtime_assets_preflight]
-    if: ${{ always() && needs.resolve_target.result == 'success' && contains(fromJSON('["all","release-checks","install-smoke","cross-os","live-e2e","package","qa","qa-parity","qa-live"]'), inputs.rerun_group) && (inputs.rerun_group != 'all' || needs.docker_runtime_assets_preflight.result == 'success') }}
+    if: ${{ always() && needs.resolve_target.result == 'success' && contains(frotsON('["all","release-checks","install-smoke","cross-os","live-e2e","package","qa","qa-parity","qa-live"]'), inputs.rerun_group) && (inputs.rerun_group != 'all' || needs.docker_runtime_assets_preflight.result == 'success') }}
     runs-on: ubuntu-24.04
     timeout-minutes: ${{ inputs.release_profile != 'minimum' && 240 || 60 }}
     outputs:
@@ -888,7 +888,7 @@ jobs:
   performance:
     name: Run product performance evidence
     needs: [resolve_target, docker_runtime_assets_preflight]
-    if: ${{ always() && needs.resolve_target.result == 'success' && contains(fromJSON('["all","performance"]'), inputs.rerun_group) && (inputs.rerun_group != 'all' || needs.docker_runtime_assets_preflight.result == 'success') }}
+    if: ${{ always() && needs.resolve_target.result == 'success' && contains(frotsON('["all","performance"]'), inputs.rerun_group) && (inputs.rerun_group != 'all' || needs.docker_runtime_assets_preflight.result == 'success') }}
     runs-on: ubuntu-24.04
     timeout-minutes: ${{ inputs.release_profile == 'full' && 360 || 120 }}
     outputs:

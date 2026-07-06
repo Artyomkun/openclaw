@@ -1,9 +1,9 @@
 /** Cron scheduling, delivery, diagnostics, and store data contracts. */
-import type { FailoverReason } from "../agents/embedded-agent-helpers/types.js";
-import type { EmbeddedAgentExecutionPhase } from "../agents/embedded-agent-runner/execution-phase.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { HookExternalContentSource } from "../security/external-content.js";
-import type { CronJobBase } from "./types-shared.js";
+import type { FailoverReason } from "../agents/embedded-agent-helpers/types.ts";
+import type { EmbeddedAgentExecutionPhase } from "../agents/embedded-agent-runner/execution-phase.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { HookExternalContentSource } from "../security/external-content.ts";
+import type { CronJobBase } from "./types-shared.ts";
 
 /** Supported schedule forms persisted in cron job specs. */
 export type CronSchedule =
@@ -198,8 +198,6 @@ export type CronAgentExecutionStarted = {
   tool?: string;
   toolCallId?: string;
   itemId?: string;
-  /** @deprecated Use phase-specific execution milestones for watchdog progress. */
-  firstModelCallStarted?: boolean;
 };
 
 /** Watchdog update that requires the new execution phase. */
@@ -289,8 +287,6 @@ export type CronJobState = {
   lastRunAtMs?: number;
   /** Preferred execution outcome field. */
   lastRunStatus?: CronRunStatus;
-  /** @deprecated Use lastRunStatus. */
-  lastStatus?: "ok" | "error" | "skipped";
   lastError?: string;
   lastDiagnostics?: CronRunDiagnostics;
   lastDiagnosticSummary?: string;

@@ -3,25 +3,25 @@
  * schema policy quarantines incompatible tools and emits notices instead of
  * silently hiding them.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
-import { normalizeAgentRuntimeTools } from "./runtime-plan/tools.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
+import { normalizeAgentRuntimeTools } from "./runtime-plan/tools.ts";
 import {
   filterProviderNormalizableTools,
   filterRuntimeCompatibleTools,
   type RuntimeToolSchemaDiagnostic,
-} from "./tool-schema-projection.js";
+} from "./tool-schema-projection.ts";
 import {
   disambiguateEffectiveToolLabels,
   resolveEffectiveToolLabel,
   resolveEffectiveToolRawDescription,
   summarizeEffectiveToolDescription,
-} from "./tools-effective-inventory-shared.js";
+} from "./tools-effective-inventory-shared.ts";
 import type {
   EffectiveToolInventoryEntry,
   EffectiveToolInventoryNotice,
-} from "./tools-effective-inventory.types.js";
-import type { AnyAgentTool } from "./tools/common.js";
+} from "./tools-effective-inventory.types.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 const BUNDLE_MCP_PLUGIN_ID = "bundle-mcp";
 

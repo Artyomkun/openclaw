@@ -1,182 +1,156 @@
-// Memory Host SDK module implements read file behavior.
+/**
+ * Memory Host - Read File
+ */
+
 import fs from "node:fs/promises";
 import path from "node:path";
-import {
-  resolveAgentContextLimits,
-  resolveAgentWorkspaceDir,
-  resolveMemorySearchConfig,
-  type OpenClawConfig,
-} from "./config-utils.js";
-import {
-  assertNoSymlinkParents,
-  isFileMissingError,
-  isPathInside,
-  isPathInsideWithRealpath,
-  readRegularFile,
-  root,
-  statRegularFile,
-} from "./fs-utils.js";
-import { isMemoryPath, normalizeExtraMemoryPaths } from "./internal.js";
-import {
-  buildMemoryReadResult,
-  DEFAULT_MEMORY_READ_LINES,
-  type MemoryReadResult,
-} from "./read-file-shared.js";
-import { retryTransientMemoryRead } from "./read-retry.js";
+import iconv from "iconv-lite";
 
-// Secure markdown memory-file reader for workspace and configured extra paths.
+const SUPPORTED_ENCODINGS = [
+  "utf8", "utf-8",
+  "win1251", "windows-1251",
+  "cp1251",
+  "koi8-r",
+  "iso-8859-1", "latin1",
+  "iso-8859-5",
+  "gb2312", "gbk",
+  "shift-jis", "sjis",
+  "euc-jp",
+  "euc-kr",
+  "utf-16le", "utf-16be",
+];
 
-/** Check that an absolute path stays inside an allowed extra directory without symlink escapes. */
-async function isAllowedAdditionalDirectoryPath(
-  additionalPath: string,
-  absPath: string,
-): Promise<boolean> {
-  if (!isPathInside(additionalPath, absPath)) {
-    return false;
+function detectEncoding(buffer: Buffer): string {
+  // BOM detection
+  if (buffer.length >= 3 && buffer[0] === 0xEF && buffer[1] === 0xBB && buffer[2] === 0xBF) {
+    return "utf8";
   }
+  if (buffer.length >= 2 && buffer[0] === 0xFF && buffer[1] === 0xFE) {
+    return "utf-16le";
+  }
+  if (buffer.length >= 2 && buffer[0] === 0xFE && buffer[1] === 0xFF) {
+    return "utf-16be";
+  }
+
+  // Try UTF-8 first
   try {
-    await assertNoSymlinkParents({ rootDir: additionalPath, targetPath: absPath });
-  } catch {
-    return false;
-  }
-  if (!isPathInsideWithRealpath(additionalPath, absPath)) {
-    try {
-      await fs.lstat(absPath);
-    } catch (err) {
-      return isFileMissingError(err);
+    const decoded = buffer.toString("utf8");
+    if (decoded.includes("\uFFFD")) {
+      throw new Error("Invalid UTF-8");
     }
-    return false;
+    // Check for common Cyrillic patterns
+    const cyrillic = /[а-яА-ЯёЁ]/;
+    if (cyrillic.test(decoded)) {
+      return "utf8";
+    }
+    return "utf8";
+  } catch {
+    // Try Windows-1251 for Cyrillic
+    try {
+      const decoded = iconv.decode(buffer, "win1251");
+      const cyrillic = /[а-яА-ЯёЁ]/;
+      if (cyrillic.test(decoded)) {
+        return "win1251";
+      }
+    } catch {}
+
+    // Try KOI8-R
+    try {
+      const decoded = iconv.decode(buffer, "koi8-r");
+      const cyrillic = /[а-яА-ЯёЁ]/;
+      if (cyrillic.test(decoded)) {
+        return "koi8-r";
+      }
+    } catch {}
+
+    // Try GBK for Chinese
+    try {
+      const decoded = iconv.decode(buffer, "gbk");
+      const chinese = /[\u4e00-\u9fff]/;
+      if (chinese.test(decoded)) {
+        return "gbk";
+      }
+    } catch {}
+
+    // Try Shift-JIS for Japanese
+    try {
+      const decoded = iconv.decode(buffer, "shift-jis");
+      const japanese = /[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9fff]/;
+      if (japanese.test(decoded)) {
+        return "shift-jis";
+      }
+    } catch {}
+
+    // Try EUC-KR for Korean
+    try {
+      const decoded = iconv.decode(buffer, "euc-kr");
+      const korean = /[\uac00-\ud7af]/;
+      if (korean.test(decoded)) {
+        return "euc-kr";
+      }
+    } catch {}
+
+    // Fallback
+    return "utf8";
   }
-  return true;
 }
 
-/** Return true when a file vanished after path validation but before content read. */
-function isFileDisappearedDuringReadError(err: unknown): boolean {
-  return (
-    isFileMissingError(err) ||
-    Boolean(
-      err &&
-      typeof err === "object" &&
-      "code" in err &&
-      (err as { code?: unknown }).code === "path-mismatch",
-    )
-  );
-}
-
-/** Read a validated memory markdown file from workspace or configured extra paths. */
 export async function readMemoryFile(params: {
   workspaceDir: string;
-  extraPaths?: string[];
   relPath: string;
   from?: number;
   lines?: number;
-  defaultLines?: number;
-  maxChars?: number;
-}): Promise<MemoryReadResult> {
-  const rawPath = params.relPath.trim();
-  if (!rawPath) {
-    throw new Error("path required");
-  }
-  const absPath = path.isAbsolute(rawPath)
-    ? path.resolve(rawPath)
-    : path.resolve(params.workspaceDir, rawPath);
-  const relPath = path.relative(params.workspaceDir, absPath).replace(/\\/g, "/");
-  const inWorkspace = relPath.length > 0 && !relPath.startsWith("..") && !path.isAbsolute(relPath);
-  const allowedWorkspace = inWorkspace && isMemoryPath(relPath);
-  let allowedAdditional = false;
-  if (!allowedWorkspace && (params.extraPaths?.length ?? 0) > 0) {
-    const additionalPaths = normalizeExtraMemoryPaths(params.workspaceDir, params.extraPaths);
-    for (const additionalPath of additionalPaths) {
-      try {
-        const stat = await fs.lstat(additionalPath);
-        if (stat.isSymbolicLink()) {
-          continue;
-        }
-        if (stat.isDirectory()) {
-          if (await isAllowedAdditionalDirectoryPath(additionalPath, absPath)) {
-            const candidateStat = await fs.lstat(absPath).catch(() => null);
-            if (candidateStat?.isSymbolicLink()) {
-              continue;
-            }
-            allowedAdditional = true;
-            break;
-          }
-          continue;
-        }
-        if (stat.isFile() && absPath === additionalPath && absPath.endsWith(".md")) {
-          allowedAdditional = true;
-          break;
-        }
-      } catch {}
-    }
-  }
-  if (!allowedWorkspace && !allowedAdditional) {
-    throw new Error("path required");
-  }
-  if (!absPath.endsWith(".md")) {
-    throw new Error("path required");
-  }
-  if (allowedWorkspace) {
-    try {
-      // Workspace reads use the safe fs root so symlink escapes are rejected before file IO.
-      const workspaceRoot = await root(params.workspaceDir);
-      await workspaceRoot.resolve(relPath);
-    } catch (err) {
-      if (isFileMissingError(err)) {
-        return { text: "", path: relPath };
-      }
-      throw err;
-    }
-  }
-  const statResult = await statRegularFile(absPath);
-  if (statResult.missing) {
-    return { text: "", path: relPath };
-  }
-  let content: string;
+  encoding?: string;
+}): Promise<{ text: string; path: string; encoding: string }> {
+  const absPath = path.resolve(params.workspaceDir, params.relPath);
+  
   try {
-    content = (
-      await retryTransientMemoryRead(
-        () => readRegularFile({ filePath: absPath }),
-        `read memory file ${absPath}`,
-      )
-    ).buffer.toString("utf-8");
-  } catch (err) {
-    if (isFileDisappearedDuringReadError(err)) {
-      return { text: "", path: relPath };
+    const buffer = await fs.readFile(absPath);
+    let encoding = params.encoding || detectEncoding(buffer);
+    if (!SUPPORTED_ENCODINGS.includes(encoding.toLowerCase())) {
+      encoding = "utf8";
     }
-    throw err;
+    
+    let content: string;
+    if (encoding.toLowerCase() === "utf8" || encoding === "utf-8") {
+      content = buffer.toString("utf8");
+    } else {
+      content = iconv.decode(buffer, encoding);
+    }
+    
+    const lines = content.split("\n");
+    const from = Math.max(0, (params.from || 1) - 1);
+    const count = params.lines || 10;
+    
+    return {
+      text: lines.slice(from, from + count).join("\n"),
+      path: params.relPath,
+      encoding,
+    };
+  } catch (error) {
+    throw new Error(`Failed to read ${absPath}: ${error instanceof Error ? error.message : String(error)}`);
   }
-  return buildMemoryReadResult({
-    content,
-    relPath,
-    from: params.from,
-    lines: params.lines,
-    defaultLines: params.defaultLines ?? DEFAULT_MEMORY_READ_LINES,
-    maxChars: params.maxChars,
-    suggestReadFallback: allowedWorkspace,
-  });
 }
 
-/** Resolve agent memory config and read one memory file for that agent. */
-export async function readAgentMemoryFile(params: {
-  cfg: OpenClawConfig;
-  agentId: string;
+export async function readMemoryFileUtf8(params: {
+  workspaceDir: string;
   relPath: string;
   from?: number;
   lines?: number;
-}): Promise<MemoryReadResult> {
-  const settings = resolveMemorySearchConfig(params.cfg, params.agentId);
-  if (!settings) {
-    throw new Error("memory search disabled");
+}): Promise<{ text: string; path: string }> {
+  const absPath = path.resolve(params.workspaceDir, params.relPath);
+  
+  try {
+    const content = await fs.readFile(absPath, "utf-8");
+    const lines = content.split("\n");
+    const from = Math.max(0, (params.from || 1) - 1);
+    const count = params.lines || 10;
+    
+    return {
+      text: lines.slice(from, from + count).join("\n"),
+      path: params.relPath,
+    };
+  } catch {
+    return { text: "", path: params.relPath };
   }
-  const contextLimits = resolveAgentContextLimits(params.cfg, params.agentId);
-  return await readMemoryFile({
-    workspaceDir: resolveAgentWorkspaceDir(params.cfg, params.agentId),
-    extraPaths: settings.extraPaths,
-    relPath: params.relPath,
-    from: params.from,
-    lines: params.lines,
-    defaultLines: contextLimits?.memoryGetDefaultLines,
-    maxChars: contextLimits?.memoryGetMaxChars,
-  });
 }

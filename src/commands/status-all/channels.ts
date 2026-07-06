@@ -4,34 +4,34 @@
 import fs from "node:fs";
 import { asRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
-import { resolveInspectedChannelAccount } from "../../channels/account-inspection.js";
-import { hasConfiguredUnavailableCredentialStatus } from "../../channels/account-snapshot-fields.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
+import { resolveInspectedChannelAccount } from "../../channels/account-inspection.ts";
+import { hasConfiguredUnavailableCredentialStatus } from "../../channels/account-snapshot-fields.ts";
 import {
   buildChannelAccountSnapshot,
   formatChannelAllowFrom,
-} from "../../channels/account-summary.js";
-import { resolveChannelDefaultAccountId } from "../../channels/plugins/helpers.js";
-import { resolveReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read-only.js";
-import { formatChannelStatusState } from "../../channels/plugins/status-state.js";
+} from "../../channels/account-summary.ts";
+import { resolveChannelDefaultAccountId } from "../../channels/plugins/helpers.ts";
+import { resolveReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read-only.ts";
+import { formatChannelStatusState } from "../../channels/plugins/status-state.ts";
 import type {
   ChannelAccountSnapshot,
   ChannelId,
   ChannelPlugin,
-} from "../../channels/plugins/types.public.js";
+} from "../../channels/plugins/types.public.ts";
 import {
   getRuntimeChannelAccounts,
   hasRuntimeCredentialAvailable,
   markConfiguredUnavailableCredentialStatusesAvailable,
-} from "../../channels/status/read-model.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { listExplicitConfiguredChannelIdsForConfig } from "../../plugins/channel-plugin-ids.js";
-import { resolveMissingOfficialExternalChannelPluginRepairHint } from "../../plugins/official-external-plugin-repair-hints.js";
+} from "../../channels/status/read-model.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { listExplicitConfiguredChannelIdsForConfig } from "../../plugins/channel-plugin-ids.ts";
+import { resolveMissingOfficialExternalChannelPluginRepairHint } from "../../plugins/official-external-plugin-repair-hints.ts";
 import {
   summarizeTokenConfig,
   type ChannelAccountTokenSummaryRow,
-} from "./channels-token-summary.js";
-import { formatTimeAgo } from "./format.js";
+} from "./channels-token-summary.ts";
+import { formatTimeAgo } from "./format.ts";
 
 export type ChannelRow = {
   id: ChannelId;

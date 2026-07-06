@@ -8,13 +8,13 @@ import type fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { MAX_TIMER_TIMEOUT_MS } from "@openclaw/normalization-core/number-coercion";
-import { createFileLockManager } from "../infra/file-lock-manager.js";
-import { readGatewayProcessArgsSync as readProcessArgsSync } from "../infra/gateway-processes.js";
-import { getProcessStartTime, isPidAlive } from "../shared/pid-alive.js";
+import { createFileLockManager } from "../infra/file-lock-manager.ts";
+import { readGatewayProcessArgsSync as readProcessArgsSync } from "../infra/gateway-processes.ts";
+import { getProcessStartTime, isPidAlive } from "../shared/pid-alive.ts";
 import {
   SessionWriteLockStaleError,
   SessionWriteLockTimeoutError,
-} from "./session-write-lock-error.js";
+} from "./session-write-lock-error.ts";
 
 type LockFilePayload = {
   pid?: number;
@@ -465,8 +465,8 @@ function isOpenClawSessionOwnerArgv(args: string[]): boolean {
       (arg) =>
         arg === "openclaw" ||
         arg.endsWith("/openclaw") ||
-        arg === "openclaw.mjs" ||
-        arg.endsWith("/openclaw.mjs"),
+        arg === "openclaw.ts" ||
+        arg.endsWith("/openclaw.ts"),
     )
   ) {
     return true;
@@ -475,7 +475,7 @@ function isOpenClawSessionOwnerArgv(args: string[]): boolean {
   const entryCandidates = [
     "dist/index.js",
     "dist/entry.js",
-    "scripts/run-node.mjs",
+    "scripts/run-node.ts",
     "src/entry.ts",
     "src/index.ts",
   ];

@@ -4,28 +4,28 @@ import {
   normalizeUniqueStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { compileGlobPatterns, matchesAnyGlobPattern } from "../agents/glob-pattern.js";
-import { DEFAULT_PLUGIN_TOOLS_ALLOWLIST_ENTRY, normalizeToolName } from "../agents/tool-policy.js";
-import type { AnyAgentTool } from "../agents/tools/common.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
-import { applyTestPluginDefaults, normalizePluginsConfig } from "./config-state.js";
-import type { PluginLoadOptions } from "./loader.js";
+import { compileGlobPatterns, matchesAnyGlobPattern } from "../agents/glob-pattern.ts";
+import { DEFAULT_PLUGIN_TOOLS_ALLOWLIST_ENTRY, normalizeToolName } from "../agents/tool-policy.ts";
+import type { AnyAgentTool } from "../agents/tools/common.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.ts";
+import { applyTestPluginDefaults, normalizePluginsConfig } from "./config-state.ts";
+import type { PluginLoadOptions } from "./loader.ts";
 import {
   isManifestPluginAvailableForControlPlane,
   loadManifestContractSnapshot,
-} from "./manifest-contract-eligibility.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import { hasManifestToolAvailability } from "./manifest-tool-availability.js";
-import type { PluginMetadataManifestView } from "./plugin-metadata-snapshot.types.js";
-import type { PluginRegistry, PluginToolRegistration } from "./registry-types.js";
-import { withPluginRuntimePluginScope } from "./runtime/gateway-request-scope.js";
+} from "./manifest-contract-eligibility.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import { hasManifestToolAvailability } from "./manifest-tool-availability.ts";
+import type { PluginMetadataManifestView } from "./plugin-metadata-snapshot.types.ts";
+import type { PluginRegistry, PluginToolRegistration } from "./registry-types.ts";
+import { withPluginRuntimePluginScope } from "./runtime/gateway-request-scope.ts";
 import {
   buildPluginRuntimeLoadOptions,
   resolvePluginRuntimeLoadContext,
-} from "./runtime/load-context.js";
-import { ensureStandaloneRuntimePluginRegistryLoaded } from "./runtime/standalone-runtime-registry-loader.js";
-import { findUndeclaredPluginToolNames } from "./tool-contracts.js";
+} from "./runtime/load-context.ts";
+import { ensureStandaloneRuntimePluginRegistryLoaded } from "./runtime/standalone-runtime-registry-loader.ts";
+import { findUndeclaredPluginToolNames } from "./tool-contracts.ts";
 import {
   buildPluginToolDescriptorCacheKey,
   capturePluginToolDescriptor,
@@ -35,8 +35,8 @@ import {
   type CachedPluginToolDescriptor,
   type PluginToolDescriptorConfigCacheKeyMemo,
   writeCachedPluginToolDescriptors,
-} from "./tool-descriptor-cache.js";
-import type { OpenClawPluginToolContext } from "./types.js";
+} from "./tool-descriptor-cache.ts";
+import type { OpenClawPluginToolContext } from "./types.ts";
 
 let cachedDescriptorRuntimeRegistries = new WeakMap<CachedPluginToolDescriptor, PluginRegistry>();
 

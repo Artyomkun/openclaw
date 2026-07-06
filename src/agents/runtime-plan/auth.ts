@@ -3,15 +3,15 @@
  * and harness auth owners are resolved before session auth profiles can be
  * safely forwarded.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizePluginsConfig } from "../../plugins/config-state.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
-import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizePluginsConfig } from "../../plugins/config-state.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
+import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.ts";
 import {
   type ProviderAuthAliasLookupParams,
   resolveProviderIdForAuth,
-} from "../provider-auth-aliases.js";
-import type { AgentRuntimeAuthPlan } from "./types.js";
+} from "../provider-auth-aliases.ts";
+import type { AgentRuntimeAuthPlan } from "./types.ts";
 
 const CODEX_HARNESS_AUTH_PROVIDER = "openai";
 // Empty metadata disables plugin alias lookups without changing the downstream

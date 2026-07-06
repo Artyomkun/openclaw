@@ -11,32 +11,32 @@ import {
   resolveExpiresAtMsFromDurationMs,
   resolveExpiresAtMsFromEpochSeconds,
 } from "@openclaw/normalization-core/number-coercion";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { resolveProviderRequestHeaders } from "../provider-request-config.js";
-import { notifyAuthProfileFailureHook, setAuthProfileFailureHook } from "./failure-hook.js";
-import { logAuthProfileFailureStateChange } from "./state-observation.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { resolveProviderRequestHeaders } from "../provider-request-config.ts";
+import { notifyAuthProfileFailureHook, setAuthProfileFailureHook } from "./failure-hook.ts";
+import { logAuthProfileFailureStateChange } from "./state-observation.ts";
 
 const authProfileUsageLog = createSubsystemLogger("agent/embedded");
-import { saveAuthProfileStore, updateAuthProfileStoreWithLock } from "./store.js";
+import { saveAuthProfileStore, updateAuthProfileStoreWithLock } from "./store.ts";
 import type {
   AuthProfileBlockedSource,
   AuthProfileFailureReason,
   AuthProfileStore,
   ProfileUsageStats,
-} from "./types.js";
+} from "./types.ts";
 import {
   isActiveUnusableWindow,
   isAuthCooldownBypassedForProvider,
   isModelScopedCooldownReason,
   resolveProfileUnusableUntil,
-} from "./usage-state.js";
+} from "./usage-state.ts";
 export {
   clearExpiredCooldowns,
   getSoonestCooldownExpiry,
   isProfileInCooldown,
   resolveProfileUnusableUntil,
-} from "./usage-state.js";
+} from "./usage-state.ts";
 
 const authProfileUsageDeps = {
   saveAuthProfileStore,
@@ -44,21 +44,6 @@ const authProfileUsageDeps = {
 };
 
 export { setAuthProfileFailureHook };
-
-/** Test-only dependency injection for usage persistence hooks. */
-export const testing = {
-  setDepsForTest(
-    overrides: Partial<{
-      saveAuthProfileStore: typeof saveAuthProfileStore;
-      updateAuthProfileStoreWithLock: typeof updateAuthProfileStoreWithLock;
-    }> | null,
-  ) {
-    authProfileUsageDeps.saveAuthProfileStore =
-      overrides?.saveAuthProfileStore ?? saveAuthProfileStore;
-    authProfileUsageDeps.updateAuthProfileStoreWithLock =
-      overrides?.updateAuthProfileStoreWithLock ?? updateAuthProfileStoreWithLock;
-  },
-};
 
 const FAILURE_REASON_PRIORITY: AuthProfileFailureReason[] = [
   "auth_permanent",
@@ -1005,4 +990,3 @@ export async function clearAuthProfileCooldown(params: {
   updateUsageStatsEntry(store, profileId, (existing) => resetUsageStats(existing));
   authProfileUsageDeps.saveAuthProfileStore(store, agentDir);
 }
-export { testing as __testing };

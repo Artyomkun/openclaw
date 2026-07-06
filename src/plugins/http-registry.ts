@@ -1,10 +1,10 @@
 // Tracks plugin HTTP registry context for current async execution.
 import { AsyncLocalStorage } from "node:async_hooks";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { normalizePluginHttpPath } from "./http-path.js";
-import { findOverlappingPluginHttpRoute } from "./http-route-overlap.js";
-import type { PluginHttpRouteRegistration, PluginRegistry } from "./registry.js";
-import { requireActivePluginHttpRouteRegistry } from "./runtime.js";
+import { normalizePluginHttpPath } from "./http-path.ts";
+import { findOverlappingPluginHttpRoute } from "./http-route-overlap.ts";
+import type { PluginHttpRouteRegistration, PluginRegistry } from "./registry.ts";
+import { requireActivePluginHttpRouteRegistry } from "./runtime.ts";
 
 export type PluginHttpRouteHandler = (
   req: IncomingMessage,

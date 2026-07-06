@@ -1,6 +1,6 @@
 // Attachment normalization accepts permissive RPC attachment payloads and turns
 // them into the bounded chat attachment shape used by gateway chat methods.
-import type { ChatAttachment } from "../chat-attachments.js";
+import type { ChatAttachment } from "../chat-attachments.ts";
 
 /** RPC attachment payload shape accepted by chat-like gateway methods. */
 export type RpcAttachmentInput = {

@@ -3,62 +3,62 @@
  */
 import type { AcpRuntimeEvent } from "@openclaw/acp-core/runtime/types";
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
-import { formatAcpErrorChain } from "../../acp/runtime/errors.js";
-import { normalizeReplyPayload } from "../../auto-reply/reply/normalize-reply.js";
-import type { ThinkLevel, VerboseLevel } from "../../auto-reply/thinking.js";
-import { persistSessionTranscriptTurn } from "../../config/sessions/session-accessor.js";
-import { readTailAssistantTextFromSessionTranscript } from "../../config/sessions/transcript.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
+import { formatAcpErrorChain } from "../../acp/runtime/errors.ts";
+import { normalizeReplyPayload } from "../../auto-reply/reply/normalize-reply.ts";
+import type { ThinkLevel, VerboseLevel } from "../../auto-reply/thinking.ts";
+import { persistSessionTranscriptTurn } from "../../config/sessions/session-accessor.ts";
+import { readTailAssistantTextFromSessionTranscript } from "../../config/sessions/transcript.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   injectTimestamp,
   timestampOptsFromConfig,
-} from "../../gateway/server-methods/agent-timestamp.js";
-import { emitAgentEvent } from "../../infra/agent-events.js";
-import { readErrorName } from "../../infra/errors.js";
-import { redactSensitiveText } from "../../logging/redact.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
-import { isSubagentSessionKey } from "../../routing/session-key.js";
-import { annotateInterSessionPromptText } from "../../sessions/input-provenance.js";
+} from "../../gateway/server-methods/agent-timestamp.ts";
+import { emitAgentEvent } from "../../infra/agent-events.ts";
+import { readErrorName } from "../../infra/errors.ts";
+import { redactSensitiveText } from "../../logging/redact.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
+import { isSubagentSessionKey } from "../../routing/session-key.ts";
+import { annotateInterSessionPromptText } from "../../sessions/input-provenance.ts";
 import {
   preparePersistedUserTurnMessageForTranscriptWrite,
   type PersistedUserTurnMessage,
-} from "../../sessions/user-turn-transcript.js";
-import { buildWorkspaceSkillSnapshot } from "../../skills/loading/workspace.js";
-import { resolveUserPath } from "../../utils.js";
-import { resolveMessageChannel } from "../../utils/message-channel.js";
-import { resolveAuthProfileOrder } from "../auth-profiles/order.js";
-import { ensureAuthProfileStore } from "../auth-profiles/store.js";
-import { resolveBootstrapWarningSignaturesSeen } from "../bootstrap-budget.js";
-import { resolveCliBackendConfig } from "../cli-backends.js";
-import { runCliAgent } from "../cli-runner.js";
-import { getCliSessionBinding } from "../cli-session.js";
-import { runEmbeddedAgent, type EmbeddedAgentRunResult } from "../embedded-agent.js";
-import { FailoverError } from "../failover-error.js";
-import { runAgentHarnessBeforeMessageWriteHook } from "../harness/hook-helpers.js";
-import { resolveAvailableAgentHarnessPolicy } from "../harness/selection.js";
-import { resolveCliRuntimeExecutionProvider } from "../model-runtime-aliases.js";
-import { isCliProvider } from "../model-selection.js";
-import { resolveOpenAIRuntimeProvider } from "../openai-routing.js";
-import { resolveAgentRunAbortLifecycleFields } from "../run-termination.js";
-import { buildAgentRuntimeAuthPlan } from "../runtime-plan/auth.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { buildUsageWithNoCost } from "../stream-message-shared.js";
+} from "../../sessions/user-turn-transcript.ts";
+import { buildWorkspaceSkillSnapshot } from "../../skills/loading/workspace.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { resolveMessageChannel } from "../../utils/message-channel.ts";
+import { resolveAuthProfileOrder } from "../auth-profiles/order.ts";
+import { ensureAuthProfileStore } from "../auth-profiles/store.ts";
+import { resolveBootstrapWarningSignaturesSeen } from "../bootstrap-budget.ts";
+import { resolveCliBackendConfig } from "../cli-backends.ts";
+import { runCliAgent } from "../cli-runner.ts";
+import { getCliSessionBinding } from "../cli-session.ts";
+import { runEmbeddedAgent, type EmbeddedAgentRunResult } from "../embedded-agent.ts";
+import { FailoverError } from "../failover-error.ts";
+import { runAgentHarnessBeforeMessageWriteHook } from "../harness/hook-helpers.ts";
+import { resolveAvailableAgentHarnessPolicy } from "../harness/selection.ts";
+import { resolveCliRuntimeExecutionProvider } from "../model-runtime-aliases.ts";
+import { isCliProvider } from "../model-selection.ts";
+import { resolveOpenAIRuntimeProvider } from "../openai-routing.ts";
+import { resolveAgentRunAbortLifecycleFields } from "../run-termination.ts";
+import { buildAgentRuntimeAuthPlan } from "../runtime-plan/auth.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { buildUsageWithNoCost } from "../stream-message-shared.ts";
 import {
   buildClaudeCliFallbackContextPrelude,
   claudeCliSessionTranscriptHasContent,
   resolveFallbackRetryPrompt,
-} from "./attempt-execution.helpers.js";
-import { resolveAgentRunContext } from "./run-context.js";
-import { clearCliSessionInStore } from "./session-store.js";
-import type { AgentCommandOpts } from "./types.js";
+} from "./attempt-execution.helpers.ts";
+import { resolveAgentRunContext } from "./run-context.ts";
+import { clearCliSessionInStore } from "./session-store.ts";
+import type { AgentCommandOpts } from "./types.ts";
 
 export {
   createAcpVisibleTextAccumulator,
   sessionFileHasContent,
-} from "./attempt-execution.helpers.js";
+} from "./attempt-execution.helpers.ts";
 
 const log = createSubsystemLogger("agents/agent-command");
 
@@ -502,8 +502,6 @@ export function runAgentAttempt(params: {
     sessionKey?: string;
   }) => void;
   deferTerminalLifecycle?: boolean;
-  /** @deprecated Use deferTerminalLifecycle. */
-  deferTerminalLifecycleEnd?: boolean;
   authProfileProvider: string;
   sessionStore?: Record<string, SessionEntry>;
   storePath?: string;

@@ -2,9 +2,9 @@
 import { spawn } from "node:child_process";
 import net from "node:net";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { formatErrorMessage, isErrno } from "./errors.js";
-import { parseStrictPositiveInteger } from "./parse-finite-number.js";
-import { ensurePortAvailable, PortInUseError } from "./ports.js";
+import { formatErrorMessage, isErrno } from "./errors.ts";
+import { parseStrictPositiveInteger } from "./parse-finite-number.ts";
+import { ensurePortAvailable, PortInUseError } from "./ports.ts";
 
 export type SshParsedTarget = {
   user?: string;

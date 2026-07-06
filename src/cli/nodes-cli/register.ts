@@ -1,18 +1,18 @@
 // Root `nodes` command registration: wires node status, pairing, invoke, media, and plugin extensions.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { resolveCliArgvInvocation } from "../argv-invocation.js";
-import { formatHelpExamples } from "../help-format.js";
-import { withConsoleLogsRoutedToStderrForJson } from "../json-output-mode.js";
-import { registerNodesCameraCommands } from "./register.camera.js";
-import { registerNodesInvokeCommands } from "./register.invoke.js";
-import { registerNodesLocationCommands } from "./register.location.js";
-import { registerNodesNotifyCommand } from "./register.notify.js";
-import { registerNodesPairingCommands } from "./register.pairing.js";
-import { registerNodesPushCommand } from "./register.push.js";
-import { registerNodesScreenCommands } from "./register.screen.js";
-import { registerNodesStatusCommands } from "./register.status.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { resolveCliArgvInvocation } from "../argv-invocation.ts";
+import { formatHelpExamples } from "../help-format.ts";
+import { withConsoleLogsRoutedToStderrForJson } from "../json-output-mode.ts";
+import { registerNodesCameraCommands } from "./register.camera.ts";
+import { registerNodesInvokeCommands } from "./register.invoke.ts";
+import { registerNodesLocationCommands } from "./register.location.ts";
+import { registerNodesNotifyCommand } from "./register.notify.ts";
+import { registerNodesPairingCommands } from "./register.pairing.ts";
+import { registerNodesPushCommand } from "./register.push.ts";
+import { registerNodesScreenCommands } from "./register.screen.ts";
+import { registerNodesStatusCommands } from "./register.status.ts";
 
 /** Register the `nodes` command group and lazy plugin-provided node commands. */
 export async function registerNodesCli(program: Command, argv: readonly string[] = process.argv) {

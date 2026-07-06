@@ -1,5 +1,5 @@
 /** Runtime-side provider discovery and provider registration resolution helpers. */
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
 
 type ProviderRuntimeModule = typeof import("./provider-runtime.js");
 

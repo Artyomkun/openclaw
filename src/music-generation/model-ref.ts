@@ -1,5 +1,5 @@
 // Parses model references for music generation requests.
-import { parseGenerationModelRef } from "../../packages/media-generation-core/src/model-ref.js";
+import { parseGenerationModelRef } from "../../packages/media-generation-core/src/model-ref.ts";
 
 /**
  * Model reference parsing for music generation.

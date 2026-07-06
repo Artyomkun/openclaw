@@ -1,8 +1,8 @@
 // Shared types for applying auth-choice selections during onboarding and agent setup.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RuntimeEnv } from "../runtime.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import type { AuthChoice, OnboardOptions } from "./onboard-types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import type { AuthChoice, OnboardOptions } from "./onboard-types.ts";
 
 export type ApplyAuthChoiceParams = {
   authChoice: AuthChoice;

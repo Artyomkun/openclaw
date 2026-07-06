@@ -2,10 +2,10 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
-import * as controlUiFsRuntime from "./control-ui-assets.fs.runtime.js";
-import { resolveOpenClawPackageRoot, resolveOpenClawPackageRootSync } from "./openclaw-root.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+import * as controlUiFsRuntime from "./control-ui-assets.fs.runtime.ts";
+import { resolveOpenClawPackageRoot, resolveOpenClawPackageRootSync } from "./openclaw-root.ts";
 
 const CONTROL_UI_DIST_PATH_SEGMENTS = ["dist", "control-ui", "index.html"] as const;
 
@@ -217,7 +217,7 @@ export function resolveControlUiRootSync(opts: ControlUiRootResolveOptions = {})
     cwd,
   });
 
-  // Packaged app: prefer bundled resources, then support legacy alongside-executable layout.
+  // Packaged app: prefer bundled resources, then support older alongside-executable layout.
   addCandidate(candidates, execDir ? path.join(execDir, "../Resources/control-ui") : null);
   addCandidate(candidates, execDir ? path.join(execDir, "control-ui") : null);
   if (moduleDir) {
@@ -229,7 +229,7 @@ export function resolveControlUiRootSync(opts: ControlUiRootResolveOptions = {})
     addCandidate(candidates, path.join(moduleDir, "../../dist/control-ui"));
   }
   if (argv1Dir) {
-    // openclaw.mjs or dist/<bundle>.js
+    // openclaw.ts or dist/<bundle>.js
     addCandidate(candidates, path.join(argv1Dir, "dist", "control-ui"));
     addCandidate(candidates, path.join(argv1Dir, "control-ui"));
   }

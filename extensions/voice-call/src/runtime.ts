@@ -433,7 +433,7 @@ export async function createVoiceCallRuntime(params: {
   // keeps the port bound while the runtime promise rejects, causing
   // EADDRINUSE on the next attempt.  See: #32387
   try {
-    // Determine public URL - priority: config.publicUrl > tunnel > legacy tailscale
+    // Determine public URL - priority: config.publicUrl > tunnel
     let publicUrl: string | null = config.publicUrl ?? null;
 
     if (!publicUrl && config.tunnel?.provider && config.tunnel.provider !== "none") {

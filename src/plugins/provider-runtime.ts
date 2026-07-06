@@ -8,22 +8,22 @@ import {
   sortUniqueStrings,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import type { AuthProfileCredential, OAuthCredential } from "../agents/auth-profiles/types.js";
-import { resolveGpt5SystemPromptContribution } from "../agents/gpt5-prompt-overlay.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import type { AuthProfileCredential, OAuthCredential } from "../agents/auth-profiles/types.ts";
+import { resolveGpt5SystemPromptContribution } from "../agents/gpt5-prompt-overlay.ts";
 import {
   applyPluginTextReplacements,
   mergePluginTextTransforms,
-} from "../agents/plugin-text-transforms.js";
-import type { ProviderSystemPromptContribution } from "../agents/system-prompt-contribution.js";
-import type { ModelProviderConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { normalizeProviderModelIdWithManifest } from "./manifest-model-id-normalization.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import { resolvePluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
-import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.js";
-import { resolvePluginDiscoveryProvidersRuntime } from "./provider-discovery.runtime.js";
+} from "../agents/plugin-text-transforms.ts";
+import type { ProviderSystemPromptContribution } from "../agents/system-prompt-contribution.ts";
+import type { ModelProviderConfig } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { normalizeProviderModelIdWithManifest } from "./manifest-model-id-normalization.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import { resolvePluginMetadataSnapshot } from "./plugin-metadata-snapshot.ts";
+import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.ts";
+import { resolvePluginDiscoveryProvidersRuntime } from "./provider-discovery.runtime.ts";
 import {
   clearProviderRuntimePluginCacheForTest,
   prepareProviderExtraParams,
@@ -38,19 +38,19 @@ import {
   wrapProviderSimpleCompletionStreamFn,
   type ProviderRuntimePluginHandle,
   wrapProviderStreamFn,
-} from "./provider-hook-runtime.js";
-import { resolveBundledProviderPolicySurface } from "./provider-public-artifacts.js";
-import type { ProviderRuntimeModel } from "./provider-runtime-model.types.js";
-import type { ProviderThinkingProfile } from "./provider-thinking.types.js";
+} from "./provider-hook-runtime.ts";
+import { resolveBundledProviderPolicySurface } from "./provider-public-artifacts.ts";
+import type { ProviderRuntimeModel } from "./provider-runtime-model.types.ts";
+import type { ProviderThinkingProfile } from "./provider-thinking.types.ts";
 import {
   resolveCatalogHookProviderPluginIds,
   resolveExternalAuthProfileCompatFallbackPluginIds,
   resolveExternalAuthProfileProviderPluginIds,
   resolveOwningPluginIdsForProvider,
   resolveOwningPluginIdsForProviderRef,
-} from "./providers.js";
-import { getActivePluginRegistryWorkspaceDirFromState } from "./runtime-state.js";
-import { resolveRuntimeTextTransforms } from "./text-transforms.runtime.js";
+} from "./providers.ts";
+import { getActivePluginRegistryWorkspaceDirFromState } from "./runtime-state.ts";
+import { resolveRuntimeTextTransforms } from "./text-transforms.runtime.ts";
 import type {
   ProviderAuthDoctorHintContext,
   ProviderAugmentModelCatalogContext,
@@ -92,7 +92,7 @@ import type {
   ProviderTransportTurnState,
   ProviderValidateReplayTurnsContext,
   PluginTextTransforms,
-} from "./types.js";
+} from "./types.ts";
 
 const log = createSubsystemLogger("plugins/provider-runtime");
 const warnedExternalAuthFallbackPluginIds = new Set<string>();
@@ -704,7 +704,7 @@ function resolveProviderPluginsForScopedHook(params: {
     return [];
   }
   // Custom provider ids may only name their canonical API in config, and the
-  // legacy message classifier only has the runtime id here. Preserve its old
+  // older message classifier only has the runtime id here. Preserve its old
   // broad hook scan for descriptor-free messages, but do not let unrelated
   // hooks override structured HTTP/auth signals.
   return resolveProviderPluginsForHooks(params);

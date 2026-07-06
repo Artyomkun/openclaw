@@ -370,7 +370,7 @@ If SIP-disabled isn't acceptable for your threat model:
 
 ## ACP conversation bindings
 
-Legacy iMessage chats can also be bound to ACP sessions.
+Older iMessage chats can also be bound to ACP sessions.
 
 Fast operator flow:
 
@@ -563,7 +563,7 @@ When `imsg launch` is running and `openclaw channels status --probe` reports `pr
     - **sendWithEffect**: Send text with an iMessage effect (`text` or `message`, `effect` or `effectId`).
     - **edit**: Edit a sent message on supported macOS/private API versions (`messageId`, `text` or `newText`).
     - **unsend**: Retract a sent message on supported macOS/private API versions (`messageId`).
-    - **upload-file**: Send media/files (`buffer` as base64 or a hydrated `media`/`path`/`filePath`, `filename`, optional `asVoice`). Legacy alias: `sendAttachment`.
+    - **upload-file**: Send media/files (`buffer` as base64 or a hydrated `media`/`path`/`filePath`, `filename`, optional `asVoice`). Alias: `sendAttachment`.
     - **renameGroup**, **setGroupIcon**, **addParticipant**, **removeParticipant**, **leaveGroup**: Manage group chats when the current target is a group conversation.
 
   </Accordion>
@@ -617,12 +617,12 @@ When `imsg launch` is running and `openclaw channels status --probe` reports `pr
 
     Reaction handling requires the reacting user's handle to be an explicit approver. The approver list is read from `channels.imessage.allowFrom` (or `channels.imessage.accounts.<id>.allowFrom`); add the user's phone number in E.164 form or their Apple ID email. The wildcard entry `"*"` is honored but allows any sender to approve. The reaction shortcut intentionally bypasses `reactionNotifications`, `dmPolicy`, and `groupAllowFrom` because the explicit-approver allowlist is the only gate that matters for approval resolution.
 
-    **Behavior change with this release:** When `channels.imessage.allowFrom` is non-empty, the `/approve <id> <decision>` text command is now authorized against that approver list (not the broader DM allowlist). Senders permitted on the DM allowlist but not in `allowFrom` will receive an explicit denial. Add every operator who should be able to approve via `/approve` (and via reactions) to `allowFrom` to preserve the previous behavior. When `allowFrom` is empty the legacy "same-chat fallback" stays in effect and `/approve` continues to authorize anyone the DM allowlist permits.
+    **Behavior change with this release:** When `channels.imessage.allowFrom` is non-empty, the `/approve <id> <decision>` text command is now authorized against that approver list (not the broader DM allowlist). Senders permitted on the DM allowlist but not in `allowFrom` will receive an explicit denial. Add every operator who should be able to approve via `/approve` (and via reactions) to `allowFrom` to preserve the previous behavior. When `allowFrom` is empty the older "same-chat fallback" stays in effect and `/approve` continues to authorize anyone the DM allowlist permits.
 
     Operator notes:
     - The reaction binding is stored both in memory (with TTL matched to the approval expiry) and in the gateway's persistent keyed store, so a tapback that lands shortly after a gateway restart still resolves the approval.
     - Cross-device `is_from_me=true` tapbacks (the operator's own reaction on a paired Apple device) are intentionally ignored so the bot cannot self-approve.
-    - Legacy text-style tapbacks (`Liked "…"` plain text from very old Apple clients) cannot resolve approvals because they carry no message GUID; reaction resolution requires the structured tapback metadata that current macOS / iOS clients emit.
+    - Older text-style tapbacks (`Liked "…"` plain text from very old Apple clients) cannot resolve approvals because they carry no message GUID; reaction resolution requires the structured tapback metadata that current macOS / iOS clients emit.
 
   </Accordion>
 </AccordionGroup>
@@ -681,7 +681,7 @@ The two rows arrive at OpenClaw ~0.8-2.0 s apart on most setups. Without coalesc
     }
     ```
 
-    With the flag on and no explicit `messages.inbound.byChannel.imessage` or global `messages.inbound.debounceMs`, the debounce window widens to **7000 ms** (the legacy default is 0 ms — no debouncing). The wider window is required because Apple's URL-preview split-send cadence can stretch to several seconds while Messages.app emits the preview row.
+    With the flag on and no explicit `messages.inbound.byChannel.imessage` or global `messages.inbound.debounceMs`, the debounce window widens to **7000 ms** (the older default is 0 ms — no debouncing). The wider window is required because Apple's URL-preview split-send cadence can stretch to several seconds while Messages.app emits the preview row.
 
     To tune the window yourself:
 
@@ -704,14 +704,14 @@ The two rows arrive at OpenClaw ~0.8-2.0 s apart on most setups. Without coalesc
     - **Added latency for DM messages.** With the flag on, every DM (including standalone control commands and single-text follow-ups) waits up to the debounce window before dispatching, in case a URL-preview row is coming. Group-chat messages keep instant dispatch.
     - **Merged output is bounded.** Merged text caps at 4000 chars with an explicit `…[truncated]` marker; attachments cap at 20; source entries cap at 10 (first-plus-latest retained beyond that). Every source GUID is tracked in `coalescedMessageGuids` for downstream telemetry.
     - **DM-only.** Group chats fall through to per-message dispatch so the bot stays responsive when multiple people are typing.
-    - **Opt-in, per-channel.** Other channels (Telegram, WhatsApp, Slack, …) are unaffected. Legacy BlueBubbles configs that set `channels.bluebubbles.coalesceSameSenderDms` should migrate that value to `channels.imessage.coalesceSameSenderDms`.
+    - **Opt-in, per-channel.** Other channels (Telegram, WhatsApp, Slack, …) are unaffected. Older BlueBubbles configs that set `channels.bluebubbles.coalesceSameSenderDms` should migrate that value to `channels.imessage.coalesceSameSenderDms`.
 
   </Tab>
 </Tabs>
 
 ### Scenarios and what the agent sees
 
-The "Flag on" column shows behavior on an `imsg` build that emits `balloon_bundle_id`. On older `imsg` builds that emit no balloon metadata at all, the rows below marked "Two turns" / "N turns" instead fall back to a legacy merge (one turn): OpenClaw cannot structurally tell a split-send from separate sends, so it preserves the pre-metadata merge. Precise separation activates once the build emits balloon metadata.
+The "Flag on" column shows behavior on an `imsg` build that emits `balloon_bundle_id`. On older `imsg` builds that emit no balloon metadata at all, the rows below marked "Two turns" / "N turns" instead fall back to an older merge (one turn): OpenClaw cannot structurally tell a split-send from separate sends, so it preserves the pre-metadata merge. Precise separation activates once the build emits balloon metadata.
 
 | User composes                                                      | `chat.db` produces                  | Flag off (default)                      | Flag on + window (imsg emits balloon metadata)                                                      |
 | ------------------------------------------------------------------ | ----------------------------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------- |

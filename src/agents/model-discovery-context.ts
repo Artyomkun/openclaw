@@ -3,12 +3,12 @@
  * Keeps callers from reaching into runtime config or plugin metadata snapshot
  * plumbing directly.
  */
-import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
-import { resolvePluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "./agent-scope.js";
-import type { PluginModelCatalogMetadataSnapshot } from "./plugin-model-catalog.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
+import { resolvePluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "./agent-scope.ts";
+import type { PluginModelCatalogMetadataSnapshot } from "./plugin-model-catalog.ts";
 
 /** Resolve the workspace directory model discovery should use for agent scope. */
 export function resolveModelWorkspaceDir(

@@ -4,10 +4,10 @@ import { randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 import { performance } from "node:perf_hooks";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isDiagnosticFlagEnabled } from "./diagnostic-flags.js";
-import { isTruthyEnvValue } from "./env.js";
-import { appendRegularFileSync } from "./regular-file.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isDiagnosticFlagEnabled } from "./diagnostic-flags.ts";
+import { isTruthyEnvValue } from "./env.ts";
+import { appendRegularFileSync } from "./regular-file.ts";
 
 const OPENCLAW_DIAGNOSTICS_TIMELINE_SCHEMA_VERSION = "openclaw.diagnostics.v1";
 

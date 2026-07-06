@@ -1,21 +1,21 @@
 // Channel resolution exposes read-only outbound runtime facades and performs
 // optional bootstrap for deliverable channels that are not loaded yet.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { ChannelMessageAdapterShape } from "../../channels/message/types.js";
-import { getChannelPlugin, getLoadedChannelPlugin } from "../../channels/plugins/index.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getActivePluginChannelRegistry, getActivePluginRegistry } from "../../plugins/runtime.js";
+import type { ChannelMessageAdapterShape } from "../../channels/message/types.ts";
+import { getChannelPlugin, getLoadedChannelPlugin } from "../../channels/plugins/index.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getActivePluginChannelRegistry, getActivePluginRegistry } from "../../plugins/runtime.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
   normalizeMessageChannel,
   type DeliverableMessageChannel,
-} from "../../utils/message-channel.js";
+} from "../../utils/message-channel.ts";
 import {
   bootstrapOutboundChannelPlugin,
   resetOutboundChannelBootstrapStateForTests,
-} from "./channel-bootstrap.runtime.js";
+} from "./channel-bootstrap.runtime.ts";
 
 /** Resets outbound channel bootstrap/resolution state for isolated tests. */
 export function resetOutboundChannelResolutionStateForTest(): void {

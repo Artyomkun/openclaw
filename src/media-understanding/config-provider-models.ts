@@ -1,7 +1,7 @@
 // Config provider model helpers discover image-capable custom providers for
 // media-understanding auto-registration.
-import type { OpenClawConfig } from "../config/types.js";
-import { normalizeMediaProviderId } from "./provider-id.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { normalizeMediaProviderId } from "./provider-id.ts";
 
 type ConfigProvider = NonNullable<
   NonNullable<NonNullable<OpenClawConfig["models"]>["providers"]>[string]

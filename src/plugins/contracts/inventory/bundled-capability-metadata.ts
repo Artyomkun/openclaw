@@ -2,19 +2,19 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { tryReadJsonSync } from "../../../infra/json-files.js";
+import { tryReadJsonSync } from "../../../infra/json-files.ts";
 import {
   normalizeBundledPluginStringList,
   resolveBundledPluginScanDir,
-} from "../../bundled-plugin-scan.js";
+} from "../../bundled-plugin-scan.ts";
 import {
   getPackageManifestMetadata,
   PLUGIN_MANIFEST_FILENAME,
   type PackageManifest,
   type PluginManifest,
-} from "../../manifest.js";
-import { resolveLoaderPackageRoot } from "../../sdk-alias.js";
-import { uniqueStrings } from "../shared.js";
+} from "../../manifest.ts";
+import { resolveLoaderPackageRoot } from "../../sdk-alias.ts";
+import { uniqueStrings } from "../shared.ts";
 
 // Build/test inventory only.
 // Runtime code should prefer manifest/runtime registry queries instead of these snapshots.
@@ -57,7 +57,6 @@ export type BundledCapabilityManifest = Pick<
   | "autoEnableWhenConfiguredProviders"
   | "cliBackends"
   | "contracts"
-  | "legacyPluginIds"
   | "providers"
   | "setup"
 >;
@@ -206,14 +205,6 @@ export const BUNDLED_PLUGIN_CONTRACT_SNAPSHOTS: readonly BundledPluginContractSn
   BUNDLED_CAPABILITY_MANIFESTS.map(buildBundledPluginContractSnapshot)
     .filter(hasBundledPluginContractSnapshotCapabilities)
     .toSorted((left, right) => left.pluginId.localeCompare(right.pluginId));
-
-export const BUNDLED_LEGACY_PLUGIN_ID_ALIASES = Object.fromEntries(
-  BUNDLED_CAPABILITY_MANIFESTS.flatMap((manifest) =>
-    (manifest.legacyPluginIds ?? []).map(
-      (legacyPluginId) => [legacyPluginId, manifest.id] as const,
-    ),
-  ).toSorted(([left], [right]) => left.localeCompare(right)),
-) as Readonly<Record<string, string>>;
 
 export const BUNDLED_AUTO_ENABLE_PROVIDER_PLUGIN_IDS = Object.fromEntries(
   BUNDLED_CAPABILITY_MANIFESTS.flatMap((manifest) =>

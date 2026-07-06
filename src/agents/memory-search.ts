@@ -13,18 +13,18 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig, MemorySearchConfig } from "../config/config.js";
-import type { SecretInput } from "../config/types.secrets.js";
+import type { OpenClawConfig, MemorySearchConfig } from "../config/config.ts";
+import type { SecretInput } from "../config/types.secrets.ts";
 import {
   isMemoryMultimodalEnabled,
   normalizeMemoryMultimodalSettings,
   type MemoryMultimodalSettings,
-} from "../memory-host-sdk/multimodal.js";
-import { getEmbeddingProvider } from "../plugins/embedding-provider-runtime.js";
-import { getMemoryEmbeddingProvider } from "../plugins/memory-embedding-providers.js";
-import { resolveOpenClawAgentSqlitePath } from "../state/openclaw-agent-db.paths.js";
-import { clampInt, clampNumber } from "../utils.js";
-import { resolveAgentConfig } from "./agent-scope.js";
+} from "../memory-host-sdk/multimodal.ts";
+import { getEmbeddingProvider } from "../plugins/embedding-provider-runtime.ts";
+import { getMemoryEmbeddingProvider } from "../plugins/memory-embedding-providers.ts";
+import { resolveOpenClawAgentSqlitePath } from "../state/openclaw-agent-db.paths.ts";
+import { clampInt, clampNumber } from "../utils.ts";
+import { resolveAgentConfig } from "./agent-scope.ts";
 
 export type ResolvedMemorySearchConfig = {
   enabled: boolean;

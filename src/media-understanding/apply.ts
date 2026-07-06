@@ -5,41 +5,41 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ActiveMediaModel } from "../../packages/media-understanding-common/src/active-model.js";
+import type { ActiveMediaModel } from "../../packages/media-understanding-common/src/active-model.ts";
 import {
   extractMediaUserText,
   formatAudioTranscripts,
   formatMediaUnderstandingBody,
-} from "../../packages/media-understanding-common/src/format.js";
-import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.js";
-import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { logVerbose, shouldLogVerbose } from "../globals.js";
-import { renderFileContextBlock } from "../media/file-context.js";
-import { extractFileContentFromSource, normalizeMimeType } from "../media/input-files.js";
-import { wrapExternalContent } from "../security/external-content.js";
-import { resolveAttachmentKind } from "./attachments.js";
-import { runWithConcurrency } from "./concurrency.js";
-import { DEFAULT_ECHO_TRANSCRIPT_FORMAT, sendTranscriptEcho } from "./echo-transcript.js";
-import type { ExtractedFileImage } from "./extracted-file-images.js";
+} from "../../packages/media-understanding-common/src/format.ts";
+import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.ts";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
+import { renderFileContextBlock } from "../media/file-context.ts";
+import { extractFileContentFromSource, normalizeMimeType } from "../media/input-files.ts";
+import { wrapExternalContent } from "../security/external-content.ts";
+import { resolveAttachmentKind } from "./attachments.ts";
+import { runWithConcurrency } from "./concurrency.ts";
+import { DEFAULT_ECHO_TRANSCRIPT_FORMAT, sendTranscriptEcho } from "./echo-transcript.ts";
+import type { ExtractedFileImage } from "./extracted-file-images.ts";
 import {
   type FileExtractionLimits,
   resolveFileExtractionLimits,
-} from "./file-extraction-limits.js";
-import { resolveConcurrency } from "./resolve.js";
+} from "./file-extraction-limits.ts";
+import { resolveConcurrency } from "./resolve.ts";
 import {
   buildProviderRegistry,
   createMediaAttachmentCache,
   normalizeMediaAttachments,
   resolveMediaAttachmentLocalRoots,
   runCapability,
-} from "./runner.js";
+} from "./runner.ts";
 import type {
   MediaUnderstandingCapability,
   MediaUnderstandingDecision,
   MediaUnderstandingOutput,
   MediaUnderstandingProvider,
-} from "./types.js";
+} from "./types.ts";
 
 export type ApplyMediaUnderstandingResult = {
   outputs: MediaUnderstandingOutput[];
@@ -190,19 +190,6 @@ const CP1252_MAP: Array<string | undefined> = [
   "\u0178",
 ];
 
-function decodeLegacyText(buffer: Buffer): string {
-  let output = "";
-  for (const byte of buffer) {
-    if (byte >= 0x80 && byte <= 0x9f) {
-      const mapped = CP1252_MAP[byte - 0x80];
-      output += mapped ?? String.fromCharCode(byte);
-      continue;
-    }
-    output += String.fromCharCode(byte);
-  }
-  return output;
-}
-
 function getTextStats(text: string): { printableRatio: number; wordishRatio: number } {
   if (!text) {
     return { printableRatio: 0, wordishRatio: 0 };
@@ -237,26 +224,13 @@ function isMostlyPrintable(text: string): boolean {
   return getTextStats(text).printableRatio > 0.85;
 }
 
-function looksLikeLegacyTextBytes(buffer: Buffer): boolean {
-  if (buffer.length === 0) {
-    return false;
-  }
-  const text = decodeLegacyText(buffer);
-  const { printableRatio, wordishRatio } = getTextStats(text);
-  return printableRatio > 0.95 && wordishRatio > 0.3;
-}
-
 function looksLikeUtf8Text(buffer?: Buffer): boolean {
   if (!buffer || buffer.length === 0) {
     return false;
   }
   const sample = buffer.subarray(0, Math.min(buffer.length, 4096));
-  try {
-    const text = new TextDecoder("utf-8", { fatal: true }).decode(sample);
-    return isMostlyPrintable(text);
-  } catch {
-    return looksLikeLegacyTextBytes(sample);
-  }
+  const text = new TextDecoder("utf-8", { fatal: true }).decode(sample);
+  return isMostlyPrintable(text);
 }
 
 function hasSuspiciousBinarySignal(buffer?: Buffer): boolean {

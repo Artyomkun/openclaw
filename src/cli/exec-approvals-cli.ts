@@ -3,28 +3,28 @@ import fs from "node:fs/promises";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
 import JSON5 from "json5";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.js";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { readBestEffortConfig, type OpenClawConfig } from "../config/config.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.ts";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { readBestEffortConfig, type OpenClawConfig } from "../config/config.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   collectExecPolicyScopeSnapshots,
   type ExecPolicyScopeSnapshot,
-} from "../infra/exec-approvals-effective.js";
+} from "../infra/exec-approvals-effective.ts";
 import {
   readExecApprovalsSnapshot,
   saveExecApprovals,
   type ExecApprovalsAgent,
   type ExecApprovalsFile,
-} from "../infra/exec-approvals.js";
+} from "../infra/exec-approvals.ts";
 import { formatTimeAgo } from "../infra/format-time/format-relative.ts";
-import { defaultRuntime } from "../runtime.js";
-import { callGatewayFromCli } from "./gateway-rpc.js";
-import { nodesCallOpts, resolveNodeId } from "./nodes-cli/rpc.js";
-import type { NodesRpcOpts } from "./nodes-cli/types.js";
-import { applyParentDefaultHelpAction } from "./program/parent-default-help.js";
+import { defaultRuntime } from "../runtime.ts";
+import { callGatewayFromCli } from "./gateway-rpc.ts";
+import { nodesCallOpts, resolveNodeId } from "./nodes-cli/rpc.ts";
+import type { NodesRpcOpts } from "./nodes-cli/types.ts";
+import { applyParentDefaultHelpAction } from "./program/parent-default-help.ts";
 
 type ExecApprovalsSnapshot = {
   path: string;

@@ -1,16 +1,14 @@
 // Loads plugin public runtime surfaces through documented entrypoints.
 import fs from "node:fs";
 import path from "node:path";
-import { resolveUserPath } from "../utils.js";
-import { areBundledPluginsDisabled, resolveBundledPluginsDir } from "./bundled-dir.js";
+import { resolveUserPath } from "../utils.ts";
+import { areBundledPluginsDisabled, resolveBundledPluginsDir } from "./bundled-dir.ts";
 
 export const PUBLIC_SURFACE_SOURCE_EXTENSIONS = [
   ".ts",
-  ".mts",
+  ".ts",
   ".js",
-  ".mjs",
-  ".cts",
-  ".cjs",
+  ".ts",
 ] as const;
 
 /** Normalizes a bundled public artifact subpath and rejects traversal/absolute paths. */

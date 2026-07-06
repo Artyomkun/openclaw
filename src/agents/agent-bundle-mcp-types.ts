@@ -1,8 +1,8 @@
 /** Shared bundle MCP catalog, runtime, and manager types. */
-import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import type { CallToolResult } from "@modelcontextprotocol/sdk/types.ts";
 import type { TSchema } from "typebox";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { AnyAgentTool } from "./tools/common.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 /** Materialized MCP tools plus diagnostics and cleanup handle for one run. */
 export type BundleMcpToolRuntime = {

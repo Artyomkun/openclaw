@@ -1,14 +1,14 @@
 // Moonshot stream wrapper normalizes Moonshot streamed text and reasoning output.
-import type { StreamFn } from "../../../agents/runtime/index.js";
-import type { ThinkLevel } from "../../../auto-reply/thinking.js";
-import { streamSimple } from "../../stream.js";
-import { streamWithPayloadPatch } from "./stream-payload-utils.js";
+import type { StreamFn } from "../../../agents/runtime/index.ts";
+import type { ThinkLevel } from "../../../auto-reply/thinking.ts";
+import { streamSimple } from "../../stream.ts";
+import { streamWithPayloadPatch } from "./stream-payload-utils.ts";
 
 export {
   createMoonshotThinkingWrapper,
   resolveMoonshotThinkingKeep,
   resolveMoonshotThinkingType,
-} from "./moonshot-thinking.js";
+} from "./moonshot-thinking.ts";
 
 /** Detects SiliconFlow Pro models that require thinking=null instead of thinking="off". */
 export function shouldApplySiliconFlowThinkingOffCompat(params: {

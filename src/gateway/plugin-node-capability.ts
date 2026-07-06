@@ -6,7 +6,7 @@ import {
   isFutureDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { safeEqualSecret } from "../security/secret-equal.js";
+import { safeEqualSecret } from "../security/secret-equal.ts";
 
 /** Path marker used to scope plugin-hosted node URLs with one-time capabilities. */
 export const PLUGIN_NODE_CAPABILITY_PATH_PREFIX = "/__openclaw__/cap";

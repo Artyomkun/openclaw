@@ -6,48 +6,48 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveBootstrapWarningSignaturesSeen } from "../../agents/bootstrap-budget.js";
-import { estimateMessagesTokens } from "../../agents/compaction.js";
-import { classifyCompactionReason } from "../../agents/embedded-agent-runner/compact-reasons.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
-import { ensureSelectedAgentHarnessPlugin } from "../../agents/harness/runtime-plugin.js";
-import { runWithModelFallback } from "../../agents/model-fallback.js";
-import { isCliRuntimeAliasForProvider } from "../../agents/model-runtime-aliases.js";
-import { isCliProvider } from "../../agents/model-selection.js";
-import { resolveContextConfigProviderForRuntime } from "../../agents/openai-routing.js";
-import type { AgentMessage } from "../../agents/runtime/index.js";
-import { resolveSandboxConfigForAgent, resolveSandboxRuntimeStatus } from "../../agents/sandbox.js";
+import { resolveBootstrapWarningSignaturesSeen } from "../../agents/bootstrap-budget.ts";
+import { estimateMessagesTokens } from "../../agents/compaction.ts";
+import { classifyCompactionReason } from "../../agents/embedded-agent-runner/compact-reasons.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
+import { ensureSelectedAgentHarnessPlugin } from "../../agents/harness/runtime-plugin.ts";
+import { runWithModelFallback } from "../../agents/model-fallback.ts";
+import { isCliRuntimeAliasForProvider } from "../../agents/model-runtime-aliases.ts";
+import { isCliProvider } from "../../agents/model-selection.ts";
+import { resolveContextConfigProviderForRuntime } from "../../agents/openai-routing.ts";
+import type { AgentMessage } from "../../agents/runtime/index.ts";
+import { resolveSandboxConfigForAgent, resolveSandboxRuntimeStatus } from "../../agents/sandbox.ts";
 import {
   derivePromptTokens,
   hasNonzeroUsage,
   normalizeUsage,
   type UsageLike,
-} from "../../agents/usage.js";
+} from "../../agents/usage.ts";
 import {
   resolveAgentIdFromSessionKey,
   resolveFreshSessionTotalTokens,
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   type SessionEntry,
-} from "../../config/sessions.js";
-import { updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { readSessionMessagesAsync } from "../../gateway/session-utils.fs.js";
-import { logVerbose } from "../../globals.js";
-import { emitAgentEvent, registerAgentRunContext } from "../../infra/agent-events.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { isAbortError } from "../../infra/unhandled-rejections.js";
-import { resolveMemoryFlushPlan } from "../../plugins/memory-state.js";
-import { CommandLane } from "../../process/lanes.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { TemplateContext } from "../templating.js";
-import type { VerboseLevel } from "../thinking.js";
-import type { GetReplyOptions, ReplyPayload } from "../types.js";
+} from "../../config/sessions.ts";
+import { updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { readSessionMessagesAsync } from "../../gateway/session-utils.fs.ts";
+import { logVerbose } from "../../globals.ts";
+import { emitAgentEvent, registerAgentRunContext } from "../../infra/agent-events.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { isAbortError } from "../../infra/unhandled-rejections.ts";
+import { resolveMemoryFlushPlan } from "../../plugins/memory-state.ts";
+import { CommandLane } from "../../process/lanes.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { TemplateContext } from "../templating.ts";
+import type { VerboseLevel } from "../thinking.ts";
+import type { GetReplyOptions, ReplyPayload } from "../types.ts";
 import {
   buildEmbeddedRunExecutionParams,
   resolveModelFallbackOptions,
-} from "./agent-runner-utils.js";
-import type { CompactionNoticePhase } from "./compaction-notice.js";
+} from "./agent-runner-utils.ts";
+import type { CompactionNoticePhase } from "./compaction-notice.ts";
 import {
   hasAlreadyFlushedForCurrentCompaction,
   resolveMaxActiveTranscriptBytes,
@@ -55,12 +55,12 @@ import {
   resolveResponsesServerCompactionThreshold,
   shouldRunMemoryFlush,
   shouldRunPreflightCompaction,
-} from "./memory-flush.js";
-import { readPostCompactionContext } from "./post-compaction-context.js";
-import { refreshQueuedFollowupSession, type FollowupRun } from "./queue.js";
-import { isRenderablePayload } from "./reply-payloads-base.js";
-import type { ReplyOperation } from "./reply-run-registry.js";
-import { incrementCompactionCount } from "./session-updates.js";
+} from "./memory-flush.ts";
+import { readPostCompactionContext } from "./post-compaction-context.ts";
+import { refreshQueuedFollowupSession, type FollowupRun } from "./queue.ts";
+import { isRenderablePayload } from "./reply-payloads-base.ts";
+import type { ReplyOperation } from "./reply-run-registry.ts";
+import { incrementCompactionCount } from "./session-updates.ts";
 
 type EmbeddedAgentRuntime = typeof import("../../agents/embedded-agent.js");
 type UpdateSessionEntryParams = {

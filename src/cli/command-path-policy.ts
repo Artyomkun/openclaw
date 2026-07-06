@@ -1,13 +1,13 @@
 // Resolves CLI command path policy from the declarative command catalog.
-import { isGatewayConfigBypassCommandPath } from "../gateway/explicit-connection-policy.js";
-import { getCommandPathWithRootOptions } from "./argv.js";
+import { isGatewayConfigBypassCommandPath } from "../gateway/explicit-connection-policy.ts";
+import { getCommandPathWithRootOptions } from "./argv.ts";
 import {
   cliCommandCatalog,
   type CliCommandPathPolicy,
   type CliNetworkProxyPolicy,
-} from "./command-catalog.js";
-import { matchesCommandPath } from "./command-path-matches.js";
-import { resolveGatewayCatalogCommandPath } from "./gateway-run-argv.js";
+} from "./command-catalog.ts";
+import { matchesCommandPath } from "./command-path-matches.ts";
+import { resolveGatewayCatalogCommandPath } from "./gateway-run-argv.ts";
 
 const DEFAULT_CLI_COMMAND_PATH_POLICY: CliCommandPathPolicy = {
   bypassConfigGuard: false,

@@ -1,44 +1,44 @@
 // `openclaw plugins update` command implementation for tracked npm plugins and hook packs.
-import { theme } from "../../packages/terminal-core/src/theme.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   assertConfigWriteAllowedInCurrentMode,
   getRuntimeConfig,
   readConfigFileSnapshotForWrite,
   replaceConfigFile,
-} from "../config/config.js";
-import { createMergePatch } from "../config/io.write-prepare.js";
-import { applyMergePatch } from "../config/merge-patch.js";
-import { extractShippedPluginInstallConfigRecords } from "../config/plugin-install-config-migration.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { updateNpmInstalledHookPacks } from "../hooks/update.js";
-import { normalizeUpdateChannel } from "../infra/update-channels.js";
+} from "../config/config.ts";
+import { createMergePatch } from "../config/io.write-prepare.ts";
+import { applyMergePatch } from "../config/merge-patch.ts";
+import { extractShippedPluginInstallConfigRecords } from "../config/plugin-install-config-migration.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { updateNpmInstalledHookPacks } from "../hooks/update.ts";
+import { normalizeUpdateChannel } from "../infra/update-channels.ts";
 import {
   loadInstalledPluginIndexInstallRecords,
   withoutPluginInstallRecords,
   withPluginInstallRecords,
-} from "../plugins/installed-plugin-index-records.js";
+} from "../plugins/installed-plugin-index-records.ts";
 import {
   isPluginInstallRecordUpdateSource,
   pluginInstallRecordMayMigrateConfigId,
   updateNpmInstalledPlugins,
-} from "../plugins/update.js";
-import { defaultRuntime } from "../runtime.js";
-import { resolveClawHubRiskAcknowledgementCliOptions } from "./clawhub-risk-acknowledgement.js";
+} from "../plugins/update.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { resolveClawHubRiskAcknowledgementCliOptions } from "./clawhub-risk-acknowledgement.ts";
 import {
   containsConfigIncludeDirective,
   resolveCombinedPluginAndHookConfigMutationPreflight,
   resolveInstallConfigMutationPreflights,
   selectInstallMutationWriteOptions,
-} from "./plugins-install-persist.js";
-import { commitPluginInstallRecordsWithConfig } from "./plugins-install-record-commit.js";
-import { refreshPluginRegistryAfterConfigMutation } from "./plugins-registry-refresh.js";
-import { logPluginUpdateOutcomes } from "./plugins-update-outcomes.js";
+} from "./plugins-install-persist.ts";
+import { commitPluginInstallRecordsWithConfig } from "./plugins-install-record-commit.ts";
+import { refreshPluginRegistryAfterConfigMutation } from "./plugins-registry-refresh.ts";
+import { logPluginUpdateOutcomes } from "./plugins-update-outcomes.ts";
 import {
   resolveHookPackUpdateSelection,
   resolvePluginUpdateSelection,
-} from "./plugins-update-selection.js";
-import { promptYesNo } from "./prompt.js";
+} from "./plugins-update-selection.ts";
+import { promptYesNo } from "./prompt.ts";
 
 const DEPRECATED_DANGEROUS_FORCE_UNSAFE_UPDATE_WARNING =
   "--dangerously-force-unsafe-install is deprecated and no longer affects plugin updates because built-in install-time dangerous-code scanning has been removed. Configure security.installPolicy for operator-owned install decisions.";
@@ -137,7 +137,7 @@ export async function runPluginUpdateCommand(params: {
       }
     : extractShippedPluginInstallConfigRecords(cfg);
   const persistedPluginInstallRecords = await loadInstalledPluginIndexInstallRecords();
-  // Persisted index records win over shipped legacy config during migration.
+  // Persisted index records win over shipped config during migration.
   const pluginInstallRecords = {
     ...shippedPluginInstallRecords,
     ...persistedPluginInstallRecords,
@@ -202,7 +202,7 @@ export async function runPluginUpdateCommand(params: {
       writeOptions: mutationSnapshot.writeOptions,
     });
     // Write snapshots retain valid shipped install records in sourceConfig after
-    // include resolution; parsed also catches root-authored legacy records.
+    // include resolution; parsed also catches root-authored records.
     const pluginRecordCleanupMayMutate =
       Object.keys(extractShippedPluginInstallConfigRecords(mutationSnapshot.snapshot.sourceConfig))
         .length > 0 ||
@@ -229,7 +229,7 @@ export async function runPluginUpdateCommand(params: {
       );
     });
     // Manual update records stay in the index unless shipped-record cleanup or
-    // scoped-package compatibility migrates authored references from a legacy id.
+    // scoped-package compatibility migrates authored references from a id.
     const pluginConfigMayMutate = pluginRecordCleanupMayMutate || pluginIdMigrationMayMutate;
     const blockedReasons = new Set<string>();
     if (pluginConfigMayMutate && pluginMutation.mode === "blocked") {

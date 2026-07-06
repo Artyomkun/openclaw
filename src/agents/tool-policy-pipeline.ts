@@ -3,10 +3,10 @@
  * stay tied to the layer that introduced them, while plugin groups are
  * expanded only after unknown core/plugin entries are classified.
  */
-import { filterToolsByPolicy } from "./agent-tools.policy.js";
-import type { AnyAgentTool } from "./agent-tools.types.js";
-import { isKnownCoreToolId } from "./tool-catalog.js";
-import { auditToolPolicyFilter, type ToolPolicyAuditLogLevel } from "./tool-policy-audit.js";
+import { filterToolsByPolicy } from "./agent-tools.policy.ts";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
+import { isKnownCoreToolId } from "./tool-catalog.ts";
+import { auditToolPolicyFilter, type ToolPolicyAuditLogLevel } from "./tool-policy-audit.ts";
 import {
   analyzeAllowlistByToolType,
   buildPluginToolGroups,
@@ -14,7 +14,7 @@ import {
   normalizeToolName,
   type DeclaredToolAllowlistContext,
   type ToolPolicyLike,
-} from "./tool-policy.js";
+} from "./tool-policy.ts";
 
 const MAX_TOOL_POLICY_WARNING_CACHE = 256;
 const seenToolPolicyWarnings = new Set<string>();

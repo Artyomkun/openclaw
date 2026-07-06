@@ -1,14 +1,14 @@
 // Allow-from helpers parse and match plugin channel allowlist entries.
-import { normalizeOptionalLowercaseString } from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.js";
-import { isAllowedParsedChatSender as isAllowedParsedChatSenderShared } from "../channels/plugins/chat-target-prefixes.js";
+import { normalizeOptionalLowercaseString } from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.ts";
+import { isAllowedParsedChatSender as isAllowedParsedChatSenderShared } from "../channels/plugins/chat-target-prefixes.ts";
 
 export type {
   AllowlistMatch,
   AllowlistMatchSource,
   CompiledAllowlist,
-} from "../channels/allowlist-match.js";
-export type { AllowlistUserResolutionLike } from "../channels/allowlists/resolve-utils.js";
+} from "../channels/allowlist-match.ts";
+export type { AllowlistUserResolutionLike } from "../channels/allowlists/resolve-utils.ts";
 export {
   compileAllowlist,
   formatAllowlistMatchMeta,
@@ -16,13 +16,13 @@ export {
   resolveAllowlistMatchByCandidates,
   resolveAllowlistMatchSimple,
   resolveCompiledAllowlistMatch,
-} from "../channels/allowlist-match.js";
+} from "../channels/allowlist-match.ts";
 export {
   firstDefined,
   isSenderIdAllowed,
   mergeDmAllowFromSources,
   resolveGroupAllowFromSources,
-} from "../channels/allow-from.js";
+} from "../channels/allow-from.ts";
 export {
   addAllowlistUserEntriesFromConfigEntry,
   buildAllowlistResolutionSummary,
@@ -30,7 +30,7 @@ export {
   mergeAllowlist,
   patchAllowlistUsersInConfigEntries,
   summarizeMapping,
-} from "../channels/allowlists/resolve-utils.js";
+} from "../channels/allowlists/resolve-utils.ts";
 
 /** Lowercase and optionally strip prefixes from allowlist entries before sender comparisons. */
 export function formatAllowFromLowercase(params: {

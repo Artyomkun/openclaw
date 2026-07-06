@@ -3,8 +3,8 @@ import {
   detachPluginConversationBinding,
   getCurrentPluginConversationBinding,
   requestPluginConversationBinding,
-} from "./conversation-binding.js";
-import type { PluginConversationBindingRequestParams } from "./types.js";
+} from "./conversation-binding.ts";
+import type { PluginConversationBindingRequestParams } from "./types.ts";
 
 type RegisteredInteractiveMetadata = {
   pluginId: string;

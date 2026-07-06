@@ -1,11 +1,11 @@
 // Diagnostics gateway methods expose bounded stability snapshots while keeping
 // malformed queries out of logging internals.
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
 import {
   getDiagnosticStabilitySnapshot,
   normalizeDiagnosticStabilityQuery,
-} from "../../logging/diagnostic-stability.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../logging/diagnostic-stability.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /** Gateway handler for payload-free stability diagnostics. */
 export const diagnosticsHandlers: GatewayRequestHandlers = {

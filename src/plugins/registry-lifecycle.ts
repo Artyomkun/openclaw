@@ -1,5 +1,5 @@
 /** Tracks active and retired plugin registries so stale runtime calls can be rejected. */
-import type { PluginRegistry } from "./registry-types.js";
+import type { PluginRegistry } from "./registry-types.ts";
 
 const retiredRegistries = new WeakSet<PluginRegistry>();
 const activatedRegistries = new WeakSet<PluginRegistry>();

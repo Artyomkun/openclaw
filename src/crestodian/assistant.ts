@@ -3,14 +3,14 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { extractAssistantText } from "../agents/embedded-agent-utils.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { extractAssistantText } from "../agents/embedded-agent-utils.ts";
 import {
   completeWithPreparedSimpleCompletionModel,
   prepareSimpleCompletionModelForAgent,
-} from "../agents/simple-completion-runtime.js";
-import { readConfigFileSnapshot } from "../config/config.js";
-import { selectCrestodianLocalPlannerBackends } from "./assistant-backends.js";
+} from "../agents/simple-completion-runtime.ts";
+import { readConfigFileSnapshot } from "../config/config.ts";
+import { selectCrestodianLocalPlannerBackends } from "./assistant-backends.ts";
 import {
   CRESTODIAN_ASSISTANT_MAX_TOKENS,
   CRESTODIAN_ASSISTANT_SYSTEM_PROMPT,
@@ -18,14 +18,14 @@ import {
   buildCrestodianAssistantUserPrompt,
   parseCrestodianAssistantPlanText,
   type CrestodianAssistantPlan,
-} from "./assistant-prompts.js";
-import type { CrestodianOverview } from "./overview.js";
+} from "./assistant-prompts.ts";
+import type { CrestodianOverview } from "./overview.ts";
 
 export {
   buildCrestodianAssistantUserPrompt,
   parseCrestodianAssistantPlanText,
   type CrestodianAssistantPlan,
-} from "./assistant-prompts.js";
+} from "./assistant-prompts.ts";
 
 export type CrestodianAssistantPlanner = (params: {
   input: string;

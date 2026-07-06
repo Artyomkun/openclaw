@@ -6,4 +6,4 @@ export {
   fetchWithRuntimeDispatcherOrMockedGlobal,
   isMockedFetch,
   type DispatcherAwareRequestInit,
-} from "../infra/net/runtime-fetch.js";
+} from "../infra/net/runtime-fetch.ts";

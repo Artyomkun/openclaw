@@ -3,9 +3,9 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import {
   AUTH_INVALID_TOKEN_USER_TEXT,
   classifyProviderRuntimeFailureKind,
-} from "../../agents/embedded-agent-helpers/errors.js";
-import { isFailoverError } from "../../agents/failover-error.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+} from "../../agents/embedded-agent-helpers/errors.ts";
+import { isFailoverError } from "../../agents/failover-error.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 
 /** Provider request error classes that get a specialized user-facing reply. */
 export type ProviderRequestErrorCode =

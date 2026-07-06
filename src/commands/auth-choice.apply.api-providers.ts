@@ -1,10 +1,10 @@
 // Token-provider normalization hooks for provider-backed auth choices.
-import { resolveProviderMatch } from "../plugins/provider-auth-choice-helpers.js";
-import { resolvePluginProviders } from "../plugins/provider-auth-choice.runtime.js";
-import type { ProviderAuthKind } from "../plugins/types.js";
-import { normalizeTokenProviderInput } from "./auth-choice.apply-helpers.js";
-import type { ApplyAuthChoiceParams } from "./auth-choice.apply.types.js";
-import type { AuthChoice } from "./onboard-types.js";
+import { resolveProviderMatch } from "../plugins/provider-auth-choice-helpers.ts";
+import { resolvePluginProviders } from "../plugins/provider-auth-choice.runtime.ts";
+import type { ProviderAuthKind } from "../plugins/types.ts";
+import { normalizeTokenProviderInput } from "./auth-choice.apply-helpers.ts";
+import type { ApplyAuthChoiceParams } from "./auth-choice.apply.types.ts";
+import type { AuthChoice } from "./onboard-types.ts";
 
 function resolveProviderAuthChoiceByKind(params: {
   providerId: string;

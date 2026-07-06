@@ -1,19 +1,19 @@
 /** Implementation of `openclaw models list`. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { parseModelRef } from "../../agents/model-selection.js";
-import type { ModelRegistry } from "../../llm/model-registry.js";
-import type { Model } from "../../llm/types.js";
-import { loadManifestMetadataSnapshot } from "../../plugins/manifest-contract-eligibility.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { createModelListAuthIndex } from "./list.auth-index.js";
-import { resolveConfiguredEntries } from "./list.configured.js";
-import { formatErrorWithStack } from "./list.errors.js";
-import { printModelTable } from "./list.table.js";
-import type { ModelRow } from "./list.types.js";
-import { loadModelsConfigWithSource } from "./load-config.js";
-import { canonicalizeModelCatalogProviderAlias } from "./provider-aliases.js";
-import { DEFAULT_PROVIDER, ensureFlagCompatibility } from "./shared.js";
+import { parseModelRef } from "../../agents/model-selection.ts";
+import type { ModelRegistry } from "../../llm/model-registry.ts";
+import type { Model } from "../../llm/types.ts";
+import { loadManifestMetadataSnapshot } from "../../plugins/manifest-contract-eligibility.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { createModelListAuthIndex } from "./list.auth-index.ts";
+import { resolveConfiguredEntries } from "./list.configured.ts";
+import { formatErrorWithStack } from "./list.errors.ts";
+import { printModelTable } from "./list.table.ts";
+import type { ModelRow } from "./list.types.ts";
+import { loadModelsConfigWithSource } from "./load-config.ts";
+import { canonicalizeModelCatalogProviderAlias } from "./provider-aliases.ts";
+import { DEFAULT_PROVIDER, ensureFlagCompatibility } from "./shared.ts";
 
 const DISPLAY_MODEL_PARSE_OPTIONS = { allowPluginNormalization: false } as const;
 

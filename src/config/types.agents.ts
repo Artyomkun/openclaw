@@ -1,5 +1,5 @@
 // Defines agent routing, model, and runtime configuration types.
-import type { ChatType } from "../channels/chat-type.js";
+import type { ChatType } from "../channels/chat-type.ts";
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
 import type {
   AgentContextLimitsConfig,
@@ -7,13 +7,13 @@ import type {
   AgentModelEntryConfig,
   EmbeddedAgentExecutionContract,
   SubagentDelegationMode,
-} from "./types.agent-defaults.js";
-import type { AgentModelConfig, AgentSandboxConfig } from "./types.agents-shared.js";
-import type { DmScope, HumanDelayConfig, IdentityConfig } from "./types.base.js";
-import type { GroupChatConfig } from "./types.messages.js";
-import type { SkillsLimitsConfig } from "./types.skills.js";
-import type { AgentToolsConfig, MemorySearchConfig } from "./types.tools.js";
-import type { TtsConfig } from "./types.tts.js";
+} from "./types.agent-defaults.ts";
+import type { AgentModelConfig, AgentSandboxConfig } from "./types.agents-shared.ts";
+import type { DmScope, HumanDelayConfig, IdentityConfig } from "./types.base.ts";
+import type { GroupChatConfig } from "./types.messages.ts";
+import type { SkillsLimitsConfig } from "./types.skills.ts";
+import type { AgentToolsConfig, MemorySearchConfig } from "./types.tools.ts";
+import type { TtsConfig } from "./types.tts.ts";
 
 export type AgentRuntimeAcpConfig = {
   /** ACP harness adapter id (for example codex, claude). */
@@ -87,15 +87,8 @@ export type AgentConfig = {
   workspace?: string;
   agentDir?: string;
   model?: AgentModelConfig;
-  /**
-   * @deprecated Legacy raw config accepted only by doctor/migration repair.
-   * Normal schema parsing rejects this key; use per-model agentRuntime instead.
-   */
-  agentRuntime?: AgentModelEntryConfig["agentRuntime"];
   /** Per-model metadata overrides for this agent. */
   models?: Record<string, AgentModelEntryConfig>;
-  /** @deprecated Legacy per-agent compaction config is kept for raw doctor migration/repair. */
-  compaction?: AgentDefaultsConfig["compaction"];
   /** Optional per-agent default thinking level (overrides agents.defaults.thinkingDefault). */
   thinkingDefault?: "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "adaptive" | "max";
   /** Optional per-agent default verbosity level. */

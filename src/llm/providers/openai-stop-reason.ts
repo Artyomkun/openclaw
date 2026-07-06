@@ -1,4 +1,4 @@
-import type { StopReason } from "../types.js";
+import type { StopReason } from "../types.ts";
 
 export type OpenAIStopReasonResult = {
   stopReason: StopReason;

@@ -5,41 +5,41 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getRuntimeConfig } from "../config/io.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { onInternalSessionTranscriptUpdate } from "../sessions/transcript-events.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth.js";
-import { DEFAULT_CHAT_HISTORY_TEXT_MAX_CHARS } from "./chat-display-projection.js";
+import { getRuntimeConfig } from "../config/io.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { onInternalSessionTranscriptUpdate } from "../sessions/transcript-events.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth.ts";
+import { DEFAULT_CHAT_HISTORY_TEXT_MAX_CHARS } from "./chat-display-projection.ts";
 import {
   sendInvalidRequest,
   sendJson,
   sendMethodNotAllowed,
   setSseHeaders,
-} from "./http-common.js";
+} from "./http-common.ts";
 import {
   authorizeScopedGatewayHttpRequestOrReply,
   checkGatewayHttpRequestAuth,
   getHeader,
   resolveSharedSecretHttpOperatorScopes,
-} from "./http-utils.js";
-import { authorizeOperatorScopesForMethod } from "./method-scopes.js";
+} from "./http-utils.ts";
+import { authorizeOperatorScopesForMethod } from "./method-scopes.ts";
 import {
   buildSessionHistorySnapshot,
   resolveSessionHistoryTailReadOptions,
   SessionHistorySseState,
-} from "./session-history-state.js";
-import { resolveTranscriptPathForComparison } from "./session-transcript-path.js";
+} from "./session-history-state.ts";
+import { resolveTranscriptPathForComparison } from "./session-transcript-path.ts";
 import {
   readRecentSessionMessagesWithStatsAsync,
   readSessionMessagesWithSourceAsync,
-} from "./session-transcript-readers.js";
+} from "./session-transcript-readers.ts";
 import {
   resolveFreshestSessionEntryFromStoreKeys,
   resolveGatewaySessionStoreTargetWithStore,
   resolveSessionTranscriptCandidates,
-} from "./session-utils.js";
+} from "./session-utils.ts";
 
 const log = createSubsystemLogger("gateway/sessions-history-sse");
 

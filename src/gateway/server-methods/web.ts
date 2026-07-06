@@ -5,12 +5,12 @@ import {
   errorShape,
   validateWebLoginStartParams,
   validateWebLoginWaitParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { listChannelPlugins } from "../../channels/plugins/index.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import { formatForLog } from "../ws-log.js";
-import type { GatewayRequestHandlers, RespondFn } from "./types.js";
-import { assertValidParams } from "./validation.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { listChannelPlugins } from "../../channels/plugins/index.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import { formatForLog } from "../ws-log.ts";
+import type { GatewayRequestHandlers, RespondFn } from "./types.ts";
+import { assertValidParams } from "./validation.ts";
 
 const WEB_LOGIN_METHODS = new Set(["web.login.start", "web.login.wait"]);
 

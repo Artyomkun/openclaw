@@ -6,41 +6,41 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   acquireSessionWriteLock,
   resolveSessionWriteLockOptions,
-} from "../../agents/session-write-lock.js";
+} from "../../agents/session-write-lock.ts";
 import {
   resolveSessionStoreAgentId,
   resolveSessionStoreKey,
-} from "../../gateway/session-store-key.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { resolveRequiredHomeDir } from "../../infra/home-dir.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.js";
+} from "../../gateway/session-store-key.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { resolveRequiredHomeDir } from "../../infra/home-dir.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.ts";
 import type {
   SessionTranscriptUpdate,
   SessionTranscriptUpdateTarget,
-} from "../../sessions/transcript-events.js";
-import { getRuntimeConfig } from "../io.js";
-import type { OpenClawConfig } from "../types.openclaw.js";
-import { formatSessionArchiveTimestamp } from "./artifacts.js";
-import { extractGeneratedTranscriptSessionId } from "./generated-transcript-session-id.js";
-import { resolveAgentMainSessionKey } from "./main-session.js";
+} from "../../sessions/transcript-events.ts";
+import { getRuntimeConfig } from "../io.ts";
+import type { OpenClawConfig } from "../types.openclaw.ts";
+import { formatSessionArchiveTimestamp } from "./artifacts.ts";
+import { extractGeneratedTranscriptSessionId } from "./generated-transcript-session-id.ts";
+import { resolveAgentMainSessionKey } from "./main-session.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   resolveSessionTranscriptPath,
   resolveSessionTranscriptPathInDir,
   resolveStorePath,
-} from "./paths.js";
+} from "./paths.ts";
 import {
   cleanupPluginHostSessionStore as cleanupFilePluginHostSessionStore,
   clearPluginOwnedSessionState,
   type PluginHostSessionCleanupStoreParams,
-} from "./plugin-host-cleanup.js";
-import { resolveAndPersistSessionFile } from "./session-file.js";
+} from "./plugin-host-cleanup.ts";
+import { resolveAndPersistSessionFile } from "./session-file.ts";
 import type {
   ResolvedSessionMaintenanceConfig,
   SessionMaintenanceWarning,
-} from "./store-maintenance.js";
+} from "./store-maintenance.ts";
 import {
   getSessionEntry,
   cleanupSessionLifecycleArtifacts as cleanupFileSessionLifecycleArtifacts,
@@ -74,9 +74,9 @@ import {
   type SessionLifecycleArtifactCleanupParams,
   type SessionLifecycleArtifactCleanupResult,
   type SessionLifecycleStoreTarget,
-} from "./store.js";
-import { resolveAllAgentSessionStoreTargetsSync, type SessionStoreTarget } from "./targets.js";
-import { parseSessionThreadInfo } from "./thread-info.js";
+} from "./store.ts";
+import { resolveAllAgentSessionStoreTargetsSync, type SessionStoreTarget } from "./targets.ts";
+import { parseSessionThreadInfo } from "./thread-info.ts";
 import {
   type AppendSessionTranscriptMessageParams,
   type AppendSessionTranscriptMessageResult,
@@ -84,22 +84,22 @@ import {
   appendSessionTranscriptMessage,
   appendSessionTranscriptMessageWithOwnedWriteLock,
   withSessionTranscriptAppendQueue,
-} from "./transcript-append.js";
-import { resolveSessionTranscriptFile } from "./transcript-file-resolve.js";
-import { createSessionTranscriptHeader } from "./transcript-header.js";
-import { writeJsonlLines } from "./transcript-jsonl.js";
-import { replayRecentUserAssistantMessages } from "./transcript-replay.js";
-import { streamSessionTranscriptLines } from "./transcript-stream.js";
+} from "./transcript-append.ts";
+import { resolveSessionTranscriptFile } from "./transcript-file-resolve.ts";
+import { createSessionTranscriptHeader } from "./transcript-header.ts";
+import { writeJsonlLines } from "./transcript-jsonl.ts";
+import { replayRecentUserAssistantMessages } from "./transcript-replay.ts";
+import { streamSessionTranscriptLines } from "./transcript-stream.ts";
 import {
   scanSessionTranscriptTree,
   selectSessionTranscriptTreePathNodes,
-} from "./transcript-tree.js";
+} from "./transcript-tree.ts";
 import {
   type OwnedSessionTranscriptPublishedEntry,
   resolveOwnedSessionTranscriptWriteLockRunner,
   withOwnedSessionTranscriptWrites,
-} from "./transcript-write-context.js";
-import type { SessionCompactionCheckpoint, SessionEntry } from "./types.js";
+} from "./transcript-write-context.ts";
+import type { SessionCompactionCheckpoint, SessionEntry } from "./types.ts";
 
 /**
  * Session access API for callers that need entries or transcripts without
@@ -270,8 +270,6 @@ export type TranscriptMessageAppendOptions<TMessage> = {
   now?: number;
   /** Optional finalizer that runs after duplicate detection but before persistence. */
   prepareMessageAfterIdempotencyCheck?: (message: TMessage) => TMessage | undefined;
-  /** Allow append without parent-link migration for large legacy linear transcripts. */
-  useRawWhenLinear?: boolean;
 };
 
 export type TranscriptMessageAppendResult<TMessage> = {
@@ -552,8 +550,6 @@ export type BranchSessionFromCompactionCheckpointParams = {
   nextKey: string;
   /** Canonical key used as the branch parent. */
   sourceKey: string;
-  /** Actual persisted key to read when a legacy alias still owns the row. */
-  sourceStoreKey?: string;
   /** Explicit store target for file-backed stores and SQLite migration adapters. */
   storePath: string;
 };
@@ -567,8 +563,6 @@ export type RestoreSessionFromCompactionCheckpointParams = {
   forkTranscriptFromCheckpoint: SessionCompactionCheckpointTranscriptForker;
   /** Canonical key to replace with the restored checkpoint state. */
   sessionKey: string;
-  /** Actual persisted key to read when a legacy alias still owns the row. */
-  sessionStoreKey?: string;
   /** Explicit store target for file-backed stores and SQLite migration adapters. */
   storePath: string;
 };
@@ -1019,7 +1013,7 @@ export async function patchSessionEntryWithKey(
 }
 
 /**
- * Promotes the freshest alias row to the canonical key, prunes legacy aliases,
+ * Promotes the freshest alias row to the canonical key,
  * and optionally patches the canonical entry under one accessor operation.
  */
 export async function canonicalizeSessionEntryAliases(params: {
@@ -1142,9 +1136,6 @@ export async function createSessionEntryWithTranscript<TError = string>(
             sessionFile: ensured.sessionFile,
           };
     store[resolved.normalizedKey] = entry;
-    for (const legacyKey of resolved.legacyKeys) {
-      delete store[legacyKey];
-    }
     return { ok: true, entry, sessionFile: ensured.sessionFile };
   });
 }
@@ -1303,12 +1294,6 @@ export async function markSessionAbortTarget(params: {
           }),
         );
         store[sessionKey] = entry;
-        canPersistSingleEntry = resolved.legacyKeys.length === 0;
-        for (const legacyKey of resolved.legacyKeys) {
-          if (legacyKey !== sessionKey) {
-            delete store[legacyKey];
-          }
-        }
         return {
           entry: { ...entry },
           persisted: true,
@@ -2189,13 +2174,6 @@ function resolveManualCompactTranscriptCandidates(params: {
       );
     }
   }
-
-  const legacyDir = path.join(
-    resolveRequiredHomeDir(process.env, os.homedir),
-    ".openclaw",
-    "sessions",
-  );
-  pushCandidate(() => resolveSessionTranscriptPathInDir(params.sessionId, legacyDir));
   return candidates;
 }
 

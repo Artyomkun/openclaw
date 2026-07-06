@@ -1,9 +1,9 @@
 // Doctor health flow renders interactive health check output.
 import { intro as clackIntro, outro as clackOutro } from "@clack/prompts";
-import { stylePromptTitle } from "../../packages/terminal-core/src/prompt-style.js";
-import type { DoctorOptions } from "../commands/doctor-prompter.js";
-import type { RuntimeEnv } from "../runtime.js";
-import type { DoctorHealthFlowContext } from "./doctor-health-contributions.js";
+import { stylePromptTitle } from "../../packages/terminal-core/src/prompt-style.ts";
+import type { DoctorOptions } from "../commands/doctor-prompter.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { DoctorHealthFlowContext } from "./doctor-health-contributions.ts";
 
 // Interactive doctor entrypoint; lazy imports keep normal CLI startup light.
 const intro = (message: string) => clackIntro(stylePromptTitle(message) ?? message);
@@ -50,7 +50,7 @@ export async function doctorCommand(runtime?: RuntimeEnv, options: DoctorOptions
     return;
   }
 
-  // Keep side-effect-heavy legacy checks before structured contributions until fully migrated.
+  // Keep side-effect-heavy older checks before structured contributions until fully migrated.
   const { maybeRepairUiProtocolFreshness } = await import("../commands/doctor-ui.js");
   const { noteSourceInstallIssues } = await import("../commands/doctor-install.js");
   const { noteStalePluginRuntimeSymlinks } =

@@ -1,11 +1,11 @@
-import { readResponseBodySnippet } from "../infra/http-error-body.js";
+import { readResponseBodySnippet } from "../infra/http-error-body.ts";
 /**
  * Adapts MiniMax VLM image-understanding requests for agent image inputs.
  */
-import { ensureGlobalUndiciEnvProxyDispatcher } from "../infra/net/undici-global-dispatcher.js";
-import { resolvePositiveTimerTimeoutMs } from "../shared/number-coercion.js";
-import { isRecord } from "../utils.js";
-import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
+import { ensureGlobalUndiciEnvProxyDispatcher } from "../infra/net/undici-global-dispatcher.ts";
+import { resolvePositiveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import { isRecord } from "../utils.ts";
+import { normalizeSecretInput } from "../utils/normalize-secret-input.ts";
 
 type MinimaxBaseResp = {
   status_code?: number;

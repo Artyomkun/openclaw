@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { Worker } from "node:worker_threads";
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import { toErrorObject } from "../infra/errors.js";
+import { toErrorObject } from "../infra/errors.ts";
 import {
   buildHistoryPrunePlan,
   buildOversizedFallbackPlan,
@@ -17,13 +17,13 @@ import {
   type HistoryPrunePlan,
   type OversizedFallbackPlan,
   type StageSplitPlan,
-} from "./compaction-planning.js";
+} from "./compaction-planning.ts";
 import type {
   CompactionPlanningWorkerInput,
   CompactionPlanningWorkerResult,
   CompactionPlanningWorkerValue,
-} from "./compaction-planning.worker.js";
-import type { AgentMessage } from "./runtime/index.js";
+} from "./compaction-planning.worker.ts";
+import type { AgentMessage } from "./runtime/index.ts";
 
 const COMPACTION_PLANNING_WORKER_TIMEOUT_MS = 60_000;
 // Worker startup is more expensive than local planning for tiny histories.

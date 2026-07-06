@@ -5,51 +5,50 @@ import { asDateTimestampMs } from "@openclaw/normalization-core/number-coercion"
 import { type FastMode, normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import {
   clearAutoFallbackPrimaryProbeSelection,
-  hasLegacyAutoFallbackWithoutOrigin,
   hasSessionAutoModelFallbackProvenance,
   type AutoFallbackPrimaryProbe,
-} from "../../agents/agent-scope.js";
-import { resolveSessionAuthProfileOverride } from "../../agents/auth-profiles/session-override.js";
-import type { ExecToolDefaults } from "../../agents/bash-tools.js";
-import { resolveEmbeddedFullAccessState } from "../../agents/embedded-agent-runner/sandbox-info.js";
-import type { EmbeddedFullAccessBlockedReason } from "../../agents/embedded-agent-runner/types.js";
-import { resolveFastModeState } from "../../agents/fast-mode.js";
-import { runAgentHarnessBeforeMessageWriteHook } from "../../agents/harness/hook-helpers.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
-import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../../agents/openai-routing.js";
-import { resolveIngressWorkspaceOverrideForSpawnedRun } from "../../agents/spawned-context.js";
-import type { SilentReplyPromptMode } from "../../agents/system-prompt.types.js";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import { resolveGroupSessionKey } from "../../config/sessions/group.js";
+} from "../../agents/agent-scope.ts";
+import { resolveSessionAuthProfileOverride } from "../../agents/auth-profiles/session-override.ts";
+import type { ExecToolDefaults } from "../../agents/bash-tools.ts";
+import { resolveEmbeddedFullAccessState } from "../../agents/embedded-agent-runner/sandbox-info.ts";
+import type { EmbeddedFullAccessBlockedReason } from "../../agents/embedded-agent-runner/types.ts";
+import { resolveFastModeState } from "../../agents/fast-mode.ts";
+import { runAgentHarnessBeforeMessageWriteHook } from "../../agents/harness/hook-helpers.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
+import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../../agents/openai-routing.ts";
+import { resolveIngressWorkspaceOverrideForSpawnedRun } from "../../agents/spawned-context.ts";
+import type { SilentReplyPromptMode } from "../../agents/system-prompt.types.ts";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import { resolveGroupSessionKey } from "../../config/sessions/group.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
-} from "../../config/sessions/paths.js";
-import { resolveSessionStoreEntry } from "../../config/sessions/store.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import { resolveSilentReplySettings } from "../../config/silent-reply.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { measureDiagnosticsTimelineSpan } from "../../infra/diagnostics-timeline.js";
-import type { ExtractedFileImage } from "../../media-understanding/extracted-file-images.js";
-import { clearCommandLane, getQueueSize } from "../../process/command-queue.js";
+} from "../../config/sessions/paths.ts";
+import { resolveSessionStoreEntry } from "../../config/sessions/store.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import { resolveSilentReplySettings } from "../../config/silent-reply.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { measureDiagnosticsTimelineSpan } from "../../infra/diagnostics-timeline.ts";
+import type { ExtractedFileImage } from "../../media-understanding/extracted-file-images.ts";
+import { clearCommandLane, getQueueSize } from "../../process/command-queue.ts";
 import {
   isAcpSessionKey,
   isSubagentSessionKey,
   normalizeMainKey,
-} from "../../routing/session-key.js";
+} from "../../routing/session-key.ts";
 import {
   buildPersistedUserTurnMediaInputsFromFields,
   createUserTurnTranscriptRecorder,
   resolvePersistedUserTurnText,
-} from "../../sessions/user-turn-transcript.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.js";
-import { isReasoningTagProvider } from "../../utils/provider-utils.js";
-import { hasControlCommand } from "../command-detection.js";
-import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.js";
-import { resolveEnvelopeFormatOptions } from "../envelope.js";
-import type { MsgContext, OriginatingChannelType, TemplateContext } from "../templating.js";
+} from "../../sessions/user-turn-transcript.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.ts";
+import { isReasoningTagProvider } from "../../utils/provider-utils.ts";
+import { hasControlCommand } from "../command-detection.ts";
+import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.ts";
+import { resolveEnvelopeFormatOptions } from "../envelope.ts";
+import type { MsgContext, OriginatingChannelType, TemplateContext } from "../templating.ts";
 import {
   type ElevatedLevel,
   formatThinkingLevels,
@@ -60,37 +59,37 @@ import {
   type ThinkingCatalogEntry,
   type ThinkLevel,
   type VerboseLevel,
-} from "../thinking.js";
-import { SILENT_REPLY_TOKEN } from "../tokens.js";
-import type { ReplyPayload } from "../types.js";
-import { applySessionHints } from "./body.js";
-import type { buildCommandContext } from "./commands.js";
-import { resolveCurrentTurnImages } from "./current-turn-images.js";
-import type { InlineDirectives } from "./directive-handling.js";
-import { isSystemEventProvider, resolveEffectiveReplyRoute } from "./effective-reply-route.js";
-import { shouldUseReplyFastTestRuntime } from "./get-reply-fast-path.js";
-import { resolvePreparedReplyQueueState } from "./get-reply-run-queue.js";
+} from "../thinking.ts";
+import { SILENT_REPLY_TOKEN } from "../tokens.ts";
+import type { ReplyPayload } from "../types.ts";
+import { applySessionHints } from "./body.ts";
+import type { buildCommandContext } from "./commands.ts";
+import { resolveCurrentTurnImages } from "./current-turn-images.ts";
+import type { InlineDirectives } from "./directive-handling.ts";
+import { isSystemEventProvider, resolveEffectiveReplyRoute } from "./effective-reply-route.ts";
+import { shouldUseReplyFastTestRuntime } from "./get-reply-fast-path.ts";
+import { resolvePreparedReplyQueueState } from "./get-reply-run-queue.ts";
 import type {
   InternalGetReplyOptions as BaseInternalGetReplyOptions,
   ReplySessionBinding,
-} from "./get-reply.types.js";
+} from "./get-reply.types.ts";
 import {
   buildDirectChatContext,
   buildGroupChatContext,
   buildGroupIntro,
   resolveGroupSilentReplyBehavior,
-} from "./groups.js";
-import { hasInboundAudio, hasInboundMedia } from "./inbound-media.js";
+} from "./groups.ts";
+import { hasInboundAudio, hasInboundMedia } from "./inbound-media.ts";
 import {
   buildInboundMetaSystemPrompt,
   buildInboundUserContextPrefix,
   resolveInboundUserContextPromptJoiner,
-} from "./inbound-meta.js";
-import type { createModelSelectionState } from "./model-selection.js";
-import { resolveOriginMessageProvider } from "./origin-routing.js";
-import { buildReplyPromptEnvelope, buildReplyPromptEnvelopeBase } from "./prompt-prelude.js";
-import { resolveActiveRunQueueAction } from "./queue-policy.js";
-import { resolveQueueSettings } from "./queue/settings-runtime.js";
+} from "./inbound-meta.ts";
+import type { createModelSelectionState } from "./model-selection.ts";
+import { resolveOriginMessageProvider } from "./origin-routing.ts";
+import { buildReplyPromptEnvelope, buildReplyPromptEnvelopeBase } from "./prompt-prelude.ts";
+import { resolveActiveRunQueueAction } from "./queue-policy.ts";
+import { resolveQueueSettings } from "./queue/settings-runtime.ts";
 import {
   REPLY_RUN_IDLE_SETTLE_TIMEOUT_MS,
   abortReplyRunBySessionId,
@@ -100,19 +99,19 @@ import {
   resolveActiveReplyRunSessionId,
   waitForReplyRunEndBySessionId,
   type ReplyOperation,
-} from "./reply-run-registry.js";
-import { resolveReplyToMode } from "./reply-threading.js";
-import { resolveRoutedDeliveryThreadId } from "./routed-delivery-thread.js";
-import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.js";
-import type { ReplySessionEntryHandle } from "./session-entry-handle.js";
-import { resolveBareSessionResetPromptState } from "./session-reset-prompt.js";
-import { resolveBareResetBootstrapFileAccess } from "./session-reset-prompt.js";
-import { drainFormattedSystemEvents } from "./session-system-events.js";
-import { isInternalSourceReplyChannel } from "./source-reply-delivery-mode.js";
-import { buildSessionStartupContextPrelude, shouldApplyStartupContext } from "./startup-context.js";
-import { resolveTypingMode } from "./typing-mode.js";
-import { resolveRunTypingPolicy } from "./typing-policy.js";
-import type { TypingController } from "./typing.js";
+} from "./reply-run-registry.ts";
+import { resolveReplyToMode } from "./reply-threading.ts";
+import { resolveRoutedDeliveryThreadId } from "./routed-delivery-thread.ts";
+import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.ts";
+import type { ReplySessionEntryHandle } from "./session-entry-handle.ts";
+import { resolveBareSessionResetPromptState } from "./session-reset-prompt.ts";
+import { resolveBareResetBootstrapFileAccess } from "./session-reset-prompt.ts";
+import { drainFormattedSystemEvents } from "./session-system-events.ts";
+import { isInternalSourceReplyChannel } from "./source-reply-delivery-mode.ts";
+import { buildSessionStartupContextPrelude, shouldApplyStartupContext } from "./startup-context.ts";
+import { resolveTypingMode } from "./typing-mode.ts";
+import { resolveRunTypingPolicy } from "./typing-policy.ts";
+import type { TypingController } from "./typing.ts";
 
 type InternalGetReplyOptions = BaseInternalGetReplyOptions & {
   /**
@@ -1209,11 +1208,7 @@ export async function runPreparedReply(
     normalizeOptionalString(preparedSessionState.sessionEntry?.modelOverride) ||
     normalizeOptionalString(preparedSessionState.sessionEntry?.providerOverride),
   );
-  const runHasLegacyAutoFallbackWithoutOrigin =
-    runHasStoredSessionModelOverride &&
-    hasLegacyAutoFallbackWithoutOrigin(preparedSessionState.sessionEntry);
-  const runHasSessionModelOverride =
-    runHasStoredSessionModelOverride && !runHasLegacyAutoFallbackWithoutOrigin;
+  const runHasSessionModelOverride = runHasStoredSessionModelOverride;
   const runModelOverrideSource = runHasSessionModelOverride
     ? preparedSessionState.sessionEntry?.modelOverrideSource
     : undefined;

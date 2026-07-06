@@ -5,12 +5,6 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import type { DoctorSessionRouteStateOwner } from "openclaw/plugin-sdk/runtime-doctor";
 
-type LegacyConfigRule = {
-  path: string[];
-  message: string;
-  match: (value: unknown) => boolean;
-};
-
 function asRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === "object" && !Array.isArray(value)
     ? (value as Record<string, unknown>)
@@ -20,36 +14,6 @@ function asRecord(value: unknown): Record<string, unknown> | null {
 function hasRetiredDynamicToolsProfile(value: unknown): boolean {
   return Object.hasOwn(asRecord(value) ?? {}, "codexDynamicToolsProfile");
 }
-
-function hasLegacyPluginDestructivePolicy(value: unknown): boolean {
-  const codexPlugins = asRecord(value);
-  if (!codexPlugins) {
-    return false;
-  }
-  if (codexPlugins.allow_destructive_actions === "on-request") {
-    return true;
-  }
-  const plugins = asRecord(codexPlugins.plugins);
-  return Object.values(plugins ?? {}).some(
-    (plugin) => asRecord(plugin)?.allow_destructive_actions === "on-request",
-  );
-}
-
-/** Legacy Codex config keys that doctor should report or repair. */
-export const legacyConfigRules: LegacyConfigRule[] = [
-  {
-    path: ["plugins", "entries", "codex", "config"],
-    message:
-      'plugins.entries.codex.config.codexDynamicToolsProfile is retired; Codex app-server always keeps Codex-native workspace tools native. Run "openclaw doctor --fix".',
-    match: hasRetiredDynamicToolsProfile,
-  },
-  {
-    path: ["plugins", "entries", "codex", "config", "codexPlugins"],
-    message:
-      'plugins.entries.codex.config.codexPlugins.allow_destructive_actions="on-request" was renamed to "auto". Run "openclaw doctor --fix".',
-    match: hasLegacyPluginDestructivePolicy,
-  },
-];
 
 /**
  * Removes retired Codex plugin config keys while preserving unrelated config.
@@ -63,8 +27,7 @@ export function normalizeCompatibilityConfig({ cfg }: { cfg: OpenClawConfig }): 
   const rawCodexPlugins = asRecord(rawPluginConfig?.codexPlugins);
   const shouldRemoveDynamicToolsProfile =
     rawPluginConfig !== null && hasRetiredDynamicToolsProfile(rawPluginConfig);
-  const shouldRewriteDestructivePolicy = hasLegacyPluginDestructivePolicy(rawCodexPlugins);
-  if (!rawPluginConfig || (!shouldRemoveDynamicToolsProfile && !shouldRewriteDestructivePolicy)) {
+  if (!rawPluginConfig || (!shouldRemoveDynamicToolsProfile)) {
     return { config: cfg, changes: [] };
   }
 

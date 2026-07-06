@@ -1,21 +1,21 @@
 // Bundles language-server metadata exposed by plugins.
 import fs from "node:fs";
 import path from "node:path";
-import { applyMergePatch } from "../config/merge-patch.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { readRootJsonObjectSync } from "../infra/json-files.js";
-import { isRecord } from "../utils.js";
+import { applyMergePatch } from "../config/merge-patch.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { readRootJsonObjectSync } from "../infra/json-files.ts";
+import { isRecord } from "../utils.ts";
 import {
   inspectBundleServerRuntimeSupport,
   loadEnabledBundleConfig,
   readBundleJsonObject,
-} from "./bundle-config-shared.js";
+} from "./bundle-config-shared.ts";
 import {
   CLAUDE_BUNDLE_MANIFEST_RELATIVE_PATH,
   mergeBundlePathLists,
   normalizeBundlePathList,
-} from "./bundle-manifest.js";
-import type { PluginBundleFormat } from "./manifest-types.js";
+} from "./bundle-manifest.ts";
+import type { PluginBundleFormat } from "./manifest-types.ts";
 
 /** LSP server config block loaded from plugin bundle metadata. */
 export type BundleLspServerConfig = Record<string, unknown>;

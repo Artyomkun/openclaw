@@ -1,14 +1,14 @@
 /** Normalizes reply directives and delivers block replies through streaming or direct paths. */
 import { hasOutboundReplyContent } from "openclaw/plugin-sdk/reply-payload";
-import { logVerbose } from "../../globals.js";
-import { copyReplyPayloadMetadata, isReplyPayloadStatusNotice } from "../reply-payload.js";
-import { SILENT_REPLY_TOKEN } from "../tokens.js";
-import type { BlockReplyContext, ReplyPayload, ReplyThreadingPolicy } from "../types.js";
-import type { BlockReplyPipeline } from "./block-reply-pipeline.js";
-import { createBlockReplyContentKey } from "./block-reply-pipeline.js";
-import { mergeReactionDirectiveChannelData, parseReplyDirectives } from "./reply-directives.js";
-import { applyReplyTagsToPayload, isRenderablePayload } from "./reply-payloads.js";
-import type { TypingSignaler } from "./typing-mode.js";
+import { logVerbose } from "../../globals.ts";
+import { copyReplyPayloadMetadata, isReplyPayloadStatusNotice } from "../reply-payload.ts";
+import { SILENT_REPLY_TOKEN } from "../tokens.ts";
+import type { BlockReplyContext, ReplyPayload, ReplyThreadingPolicy } from "../types.ts";
+import type { BlockReplyPipeline } from "./block-reply-pipeline.ts";
+import { createBlockReplyContentKey } from "./block-reply-pipeline.ts";
+import { mergeReactionDirectiveChannelData, parseReplyDirectives } from "./reply-directives.ts";
+import { applyReplyTagsToPayload, isRenderablePayload } from "./reply-payloads.ts";
+import type { TypingSignaler } from "./typing-mode.ts";
 
 type ReplyDirectiveParseMode = "always" | "auto" | "never";
 

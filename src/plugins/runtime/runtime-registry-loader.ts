@@ -1,27 +1,27 @@
 // Runtime registry loader assembles activated plugin runtimes from config and registry metadata.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { withActivatedPluginIds } from "../activation-context.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { withActivatedPluginIds } from "../activation-context.ts";
 import {
   getLoadedRuntimePluginRegistry,
   registryContainsRuntimePluginIds,
-} from "../active-runtime-registry.js";
+} from "../active-runtime-registry.ts";
 import {
   resolveChannelPluginIds,
   resolveConfiguredChannelPluginIds,
   resolveDiscoverableScopedChannelPluginIds,
-} from "../channel-plugin-ids.js";
-import { resolveEffectivePluginIds } from "../effective-plugin-ids.js";
-import { loadOpenClawPlugins } from "../loader.js";
+} from "../channel-plugin-ids.ts";
+import { resolveEffectivePluginIds } from "../effective-plugin-ids.ts";
+import { loadOpenClawPlugins } from "../loader.ts";
 import {
   hasExplicitPluginIdScope,
   hasNonEmptyPluginIdScope,
   normalizePluginIdScope,
-} from "../plugin-scope.js";
-import { getActivePluginRegistry, getActivePluginRegistryWorkspaceDir } from "../runtime.js";
+} from "../plugin-scope.ts";
+import { getActivePluginRegistry, getActivePluginRegistryWorkspaceDir } from "../runtime.ts";
 import {
   buildPluginRuntimeLoadOptionsFromValues,
   resolvePluginRuntimeLoadContext,
-} from "./load-context.js";
+} from "./load-context.ts";
 
 let pluginRegistryLoaded: "none" | "configured-channels" | "channels" | "all" = "none";
 

@@ -5,13 +5,13 @@
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { CliBackendConfig } from "../config/types.js";
-import { extractBalancedJsonFragments } from "../shared/balanced-json.js";
-import { isRecord } from "../utils.js";
+import type { CliBackendConfig } from "../config/types.ts";
+import { extractBalancedJsonFragments } from "../shared/balanced-json.ts";
+import { isRecord } from "../utils.ts";
 import type {
   MessagingToolSend,
   MessagingToolSourceReplyPayload,
-} from "./embedded-agent-messaging.types.js";
+} from "./embedded-agent-messaging.types.ts";
 
 type CliUsage = {
   input?: number;
@@ -85,7 +85,7 @@ function isGeminiCliProvider(providerId: string): boolean {
   return normalizeLowercaseStringOrEmpty(providerId) === "google-gemini-cli";
 }
 
-function isGeminiStreamJsonDialect(params: {
+function isGeminiStreatsonDialect(params: {
   backend: CliBackendConfig;
   providerId: string;
 }): boolean {
@@ -102,11 +102,11 @@ export function supportsCliJsonlToolEvents(params: {
   return (
     params.backend.jsonlDialect === "claude-stream-json" ||
     isClaudeCliProvider(params.providerId) ||
-    isGeminiStreamJsonDialect(params)
+    isGeminiStreatsonDialect(params)
   );
 }
 
-function isClaudeStreamJsonResult(params: {
+function isClaudeStreatsonResult(params: {
   backend: CliBackendConfig;
   providerId: string;
   parsed: Record<string, unknown>;
@@ -676,7 +676,7 @@ function dispatchGeminiCliStreamingToolEvent(params: {
   onToolUseStart?: (delta: CliToolUseStartDelta) => void;
   onToolResult?: (delta: CliToolResultDelta) => void;
 }): void {
-  if (!isGeminiStreamJsonDialect(params)) {
+  if (!isGeminiStreatsonDialect(params)) {
     return;
   }
   if (params.parsed.type === "tool_use") {
@@ -713,23 +713,23 @@ function dispatchGeminiCliStreamingToolEvent(params: {
 const GEMINI_CLI_ERROR_EVENT_FALLBACK = "Gemini CLI emitted an error event.";
 const GEMINI_CLI_RESULT_ERROR_FALLBACK = "Gemini CLI result status was error.";
 
-function isFallbackGeminiCliStreamJsonError(errorText: string): boolean {
+function isFallbackGeminiCliStreatsonError(errorText: string): boolean {
   return (
     errorText === GEMINI_CLI_ERROR_EVENT_FALLBACK || errorText === GEMINI_CLI_RESULT_ERROR_FALLBACK
   );
 }
 
-function preferGeminiCliStreamJsonError(current: string | undefined, next: string): string {
+function preferGeminiCliStreatsonError(current: string | undefined, next: string): string {
   if (!current) {
     return next;
   }
-  if (isFallbackGeminiCliStreamJsonError(current) && !isFallbackGeminiCliStreamJsonError(next)) {
+  if (isFallbackGeminiCliStreatsonError(current) && !isFallbackGeminiCliStreatsonError(next)) {
     return next;
   }
   return current;
 }
 
-function readGeminiCliStreamJsonError(parsed: Record<string, unknown>): string | undefined {
+function readGeminiCliStreatsonError(parsed: Record<string, unknown>): string | undefined {
   if (parsed.type === "error" && parsed.severity === "error") {
     return collectExplicitCliErrorText(parsed) || GEMINI_CLI_ERROR_EVENT_FALLBACK;
   }
@@ -794,7 +794,7 @@ export function createCliJsonlStreamingParser(params: {
     }
     const nextUsage = readCliUsage(parsed);
     const shouldUseUsage =
-      !isClaudeStreamJsonResult({
+      !isClaudeStreatsonResult({
         backend: params.backend,
         providerId: params.providerId,
         parsed,
@@ -802,15 +802,15 @@ export function createCliJsonlStreamingParser(params: {
     if (shouldUseUsage) {
       usage = nextUsage ?? usage;
     }
-    const geminiErrorText = isGeminiStreamJsonDialect(params)
-      ? readGeminiCliStreamJsonError(parsed)
+    const geminiErrorText = isGeminiStreatsonDialect(params)
+      ? readGeminiCliStreatsonError(parsed)
       : undefined;
     if (geminiErrorText) {
       output = {
         text: "",
         sessionId,
         usage,
-        errorText: preferGeminiCliStreamJsonError(output?.errorText, geminiErrorText),
+        errorText: preferGeminiCliStreatsonError(output?.errorText, geminiErrorText),
       };
       return;
     }
@@ -881,7 +881,7 @@ export function createCliJsonlStreamingParser(params: {
     });
     if (!delta) {
       if (
-        isGeminiStreamJsonDialect(params) &&
+        isGeminiStreatsonDialect(params) &&
         parsed.type === "message" &&
         parsed.role === "assistant" &&
         typeof parsed.content === "string"
@@ -897,7 +897,7 @@ export function createCliJsonlStreamingParser(params: {
           });
         }
       } else if (
-        isGeminiStreamJsonDialect(params) &&
+        isGeminiStreatsonDialect(params) &&
         parsed.type === "result" &&
         parsed.status === "success"
       ) {
@@ -963,7 +963,7 @@ export function createCliJsonlStreamingParser(params: {
       if (output) {
         return output;
       }
-      if (isGeminiStreamJsonDialect(params) && (assistantText.trim() || sessionId || usage)) {
+      if (isGeminiStreatsonDialect(params) && (assistantText.trim() || sessionId || usage)) {
         return { text: assistantText.trim(), sessionId, usage };
       }
       const text = texts.join("\n").trim();
@@ -996,15 +996,15 @@ export function parseCliJsonl(
         sessionId = parsed.thread_id.trim();
       }
       const nextUsage = readCliUsage(parsed);
-      const shouldUseUsage = !isClaudeStreamJsonResult({ backend, providerId, parsed }) || !usage;
+      const shouldUseUsage = !isClaudeStreatsonResult({ backend, providerId, parsed }) || !usage;
       if (shouldUseUsage) {
         usage = nextUsage ?? usage;
       }
 
-      if (isGeminiStreamJsonDialect({ backend, providerId })) {
-        const nextGeminiErrorText = readGeminiCliStreamJsonError(parsed);
+      if (isGeminiStreatsonDialect({ backend, providerId })) {
+        const nextGeminiErrorText = readGeminiCliStreatsonError(parsed);
         if (nextGeminiErrorText) {
-          geminiErrorText = preferGeminiCliStreamJsonError(geminiErrorText, nextGeminiErrorText);
+          geminiErrorText = preferGeminiCliStreatsonError(geminiErrorText, nextGeminiErrorText);
           sawGeminiStructuredOutput = true;
           continue;
         }
@@ -1046,11 +1046,11 @@ export function parseCliJsonl(
       }
     }
   }
-  if (isGeminiStreamJsonDialect({ backend, providerId }) && geminiErrorText) {
+  if (isGeminiStreatsonDialect({ backend, providerId }) && geminiErrorText) {
     return { text: "", sessionId, usage, errorText: geminiErrorText };
   }
   if (
-    isGeminiStreamJsonDialect({ backend, providerId }) &&
+    isGeminiStreatsonDialect({ backend, providerId }) &&
     (sawGeminiStructuredOutput || sessionId || usage)
   ) {
     return { text: geminiText.trim(), sessionId, usage };

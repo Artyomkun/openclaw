@@ -6,38 +6,38 @@ import { cancel, isCancel } from "@clack/prompts";
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { visibleWidth } from "../../packages/terminal-core/src/ansi.js";
+import { visibleWidth } from "../../packages/terminal-core/src/ansi.ts";
 import {
   decorativeEmoji,
   supportsDecorativeEmoji,
-} from "../../packages/terminal-core/src/decorative-emoji.js";
-import { stylePromptTitle } from "../../packages/terminal-core/src/prompt-style.js";
+} from "../../packages/terminal-core/src/decorative-emoji.ts";
+import { stylePromptTitle } from "../../packages/terminal-core/src/prompt-style.ts";
 import {
   DEFAULT_AGENT_WORKSPACE_DIR,
   ensureAgentWorkspace,
   resolveWorkspaceAttestationPaths,
   shouldRemoveWorkspaceAttestation,
-} from "../agents/workspace.js";
-import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import { resolveConfigPath } from "../config/paths.js";
-import { resolveSessionTranscriptsDirForAgent } from "../config/sessions/paths.js";
-import type { OptionalBootstrapFileName } from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveControlUiLinks } from "../gateway/control-ui-links.js";
-import { normalizeControlUiBasePath } from "../gateway/control-ui-shared.js";
-import { probeGateway } from "../gateway/probe.js";
+} from "../agents/workspace.ts";
+import { resolveAgentModelPrimaryValue } from "../config/model-input.ts";
+import { resolveConfigPath } from "../config/paths.ts";
+import { resolveSessionTranscriptsDirForAgent } from "../config/sessions/paths.ts";
+import type { OptionalBootstrapFileName } from "../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveControlUiLinks } from "../gateway/control-ui-links.ts";
+import { normalizeControlUiBasePath } from "../gateway/control-ui-shared.ts";
+import { probeGateway } from "../gateway/probe.ts";
 import {
   detectBrowserOpenSupport,
   openUrl,
   resolveBrowserOpenCommand,
-} from "../infra/browser-open.js";
-import { detectBinary } from "../infra/detect-binary.js";
-import { movePathToTrash } from "../infra/fs-safe.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { resolveConfigDir, shortenHomeInString, shortenHomePath, sleep } from "../utils.js";
-import { VERSION } from "../version.js";
-import type { NodeManagerChoice, OnboardMode, ResetScope } from "./onboard-types.js";
-export { randomToken } from "./random-token.js";
+} from "../infra/browser-open.ts";
+import { detectBinary } from "../infra/detect-binary.ts";
+import { movePathToTrash } from "../infra/fs-safe.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { resolveConfigDir, shortenHomeInString, shortenHomePath, sleep } from "../utils.ts";
+import { VERSION } from "../version.ts";
+import type { NodeManagerChoice, OnboardMode, ResetScope } from "./onboard-types.ts";
+export { randomToken } from "./random-token.ts";
 
 export { detectBinary };
 export { detectBrowserOpenSupport, openUrl, resolveBrowserOpenCommand };

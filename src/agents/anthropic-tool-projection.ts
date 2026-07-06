@@ -1,5 +1,5 @@
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { projectRuntimeToolInputSchema } from "./tool-schema-json-projection.js";
+import { projectRuntimeToolInputSchema } from "./tool-schema-json-projection.ts";
 
 type AnthropicToolDescriptor = {
   readonly name: string;

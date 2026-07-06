@@ -6,23 +6,23 @@
 import {
   ensureConfiguredAcpBindingReady,
   ensureConfiguredAcpBindingSession,
-} from "../../acp/persistent-bindings.lifecycle.js";
-import { resolveConfiguredAcpBindingSpecBySessionKey } from "../../acp/persistent-bindings.resolve.js";
-import { resolveConfiguredAcpBindingSpecFromRecord } from "../../acp/persistent-bindings.types.js";
-import { readAcpSessionEntry } from "../../acp/runtime/session-meta.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { isAcpSessionKey, resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { performGatewaySessionReset } from "./acp-stateful-target-reset.runtime.js";
+} from "../../acp/persistent-bindings.lifecycle.ts";
+import { resolveConfiguredAcpBindingSpecBySessionKey } from "../../acp/persistent-bindings.resolve.ts";
+import { resolveConfiguredAcpBindingSpecFromRecord } from "../../acp/persistent-bindings.types.ts";
+import { readAcpSessionEntry } from "../../acp/runtime/session-meta.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { isAcpSessionKey, resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { performGatewaySessionReset } from "./acp-stateful-target-reset.runtime.ts";
 import type {
   ConfiguredBindingResolution,
   StatefulBindingTargetDescriptor,
-} from "./binding-types.js";
+} from "./binding-types.ts";
 import type {
   StatefulBindingTargetDriver,
   StatefulBindingTargetResetResult,
   StatefulBindingTargetReadyResult,
   StatefulBindingTargetSessionResult,
-} from "./stateful-target-drivers.js";
+} from "./stateful-target-drivers.ts";
 
 function toAcpStatefulBindingTargetDescriptor(params: {
   cfg: OpenClawConfig;

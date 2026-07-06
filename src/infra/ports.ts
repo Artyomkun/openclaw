@@ -1,12 +1,12 @@
 // Checks gateway port usage and reports listener diagnostics.
-import { danger, info, shouldLogVerbose, warn } from "../globals.js";
-import { logDebug } from "../logger.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { isErrno } from "./errors.js";
-import { formatPortDiagnostics } from "./ports-format.js";
-import { inspectPortUsage } from "./ports-inspect.js";
-import { tryListenOnPort } from "./ports-probe.js";
+import { danger, info, shouldLogVerbose, warn } from "../globals.ts";
+import { logDebug } from "../logger.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { isErrno } from "./errors.ts";
+import { formatPortDiagnostics } from "./ports-format.ts";
+import { inspectPortUsage } from "./ports-inspect.ts";
+import { tryListenOnPort } from "./ports-probe.ts";
 import type {
   PortConnection,
   PortConnections,
@@ -14,7 +14,7 @@ import type {
   PortListenerKind,
   PortUsage,
   PortUsageStatus,
-} from "./ports-types.js";
+} from "./ports-types.ts";
 
 class PortInUseError extends Error {
   port: number;
@@ -110,5 +110,5 @@ export {
   isDualStackLoopbackGatewayListeners,
   isExpectedGatewayListeners,
   isSingleExpectedGatewayListener,
-} from "./ports-format.js";
-export { inspectPortConnections, inspectPortUsage } from "./ports-inspect.js";
+} from "./ports-format.ts";
+export { inspectPortConnections, inspectPortUsage } from "./ports-inspect.ts";

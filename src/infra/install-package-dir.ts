@@ -2,12 +2,12 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { isRecord as isObjectRecord } from "@openclaw/normalization-core/record-coerce";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { pathExists } from "./fs-safe.js";
-import { assertCanonicalPathWithinBase } from "./install-safe-path.js";
-import { tryReadJson, writeJson } from "./json-files.js";
-import { movePathWithCopyFallback } from "./replace-file.js";
-import { createSafeNpmInstallArgs, createSafeNpmInstallEnv } from "./safe-package-install.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { pathExists } from "./fs-safe.ts";
+import { assertCanonicalPathWithinBase } from "./install-safe-path.ts";
+import { tryReadJson, writeJson } from "./json-files.ts";
+import { movePathWithCopyFallback } from "./replace-file.ts";
+import { createSafeNpmInstallArgs, createSafeNpmInstallEnv } from "./safe-package-install.ts";
 
 type InstallSourceHardlinks = "package-manager" | "reject";
 

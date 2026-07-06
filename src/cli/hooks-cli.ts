@@ -3,29 +3,29 @@ import type { Command } from "commander";
 import {
   decorativeEmoji,
   decorativePrefix,
-} from "../../packages/terminal-core/src/decorative-emoji.js";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { getRuntimeConfig, readConfigFileSnapshot, replaceConfigFile } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../../packages/terminal-core/src/decorative-emoji.ts";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { getRuntimeConfig, readConfigFileSnapshot, replaceConfigFile } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   buildWorkspaceHookStatus,
   type HookStatusEntry,
   type HookStatusReport,
-} from "../hooks/hooks-status.js";
-import { resolveHookEntries } from "../hooks/policy.js";
-import type { HookEntry } from "../hooks/types.js";
-import { loadWorkspaceHookEntries } from "../hooks/workspace.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { buildPluginDiagnosticsReport } from "../plugins/status.js";
-import { defaultRuntime } from "../runtime.js";
-import { shortenHomePath } from "../utils.js";
-import { formatCliCommand } from "./command-format.js";
-import { runNativeHookRelayCli, type NativeHookRelayCliOptions } from "./native-hook-relay-cli.js";
-import { runPluginInstallCommand } from "./plugins-install-command.js";
-import { runPluginUpdateCommand } from "./plugins-update-command.js";
+} from "../hooks/hooks-status.ts";
+import { resolveHookEntries } from "../hooks/policy.ts";
+import type { HookEntry } from "../hooks/types.ts";
+import { loadWorkspaceHookEntries } from "../hooks/workspace.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { buildPluginDiagnosticsReport } from "../plugins/status.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { shortenHomePath } from "../utils.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { runNativeHookRelayCli, type NativeHookRelayCliOptions } from "./native-hook-relay-cli.ts";
+import { runPluginInstallCommand } from "./plugins-install-command.ts";
+import { runPluginUpdateCommand } from "./plugins-update-command.ts";
 
 export type HooksListOptions = {
   json?: boolean;

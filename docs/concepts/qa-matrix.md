@@ -106,7 +106,7 @@ Pass `--scenario <id>` (repeatable) to run a hand-picked set; combine with `--pr
 | `OPENCLAW_QA_MATRIX_PROGRESS`           | on                                        | `0` silences `[matrix-qa] ...` progress lines on stderr. `1` forces them on.                                                                                                                   |
 | `OPENCLAW_QA_MATRIX_CAPTURE_CONTENT`    | redacted                                  | `1` keeps message body and `formatted_body` in `matrix-qa-observed-events.json`. Default redacts to keep CI artifacts safe.                                                                    |
 | `OPENCLAW_QA_MATRIX_DISABLE_FORCE_EXIT` | off                                       | `1` skips the deterministic `process.exit` after artifact write. The default forces exit because matrix-js-sdk's native crypto handles can keep the event loop alive past artifact completion. |
-| `OPENCLAW_RUN_NODE_OUTPUT_LOG`          | unset                                     | When set by an outer launcher (e.g. `scripts/run-node.mjs`), Matrix QA reuses that log path instead of starting its own tee.                                                                   |
+| `OPENCLAW_RUN_NODE_OUTPUT_LOG`          | unset                                     | When set by an outer launcher (e.g. `scripts/run-node.ts`), Matrix QA reuses that log path instead of starting its own tee.                                                                   |
 
 ## Output artifacts
 

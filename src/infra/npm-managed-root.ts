@@ -6,13 +6,13 @@ import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString as readOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { parse as parseYaml } from "yaml";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { hasErrnoCode } from "./errors.js";
-import type { NpmSpecResolution } from "./install-source-utils.js";
-import { readJson, readJsonIfExists, writeJson } from "./json-files.js";
-import type { ParsedRegistryNpmSpec } from "./npm-registry-spec.js";
-import { resolveOpenClawPackageRootSync } from "./openclaw-root.js";
-import { createSafeNpmInstallArgs, createSafeNpmInstallEnv } from "./safe-package-install.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { hasErrnoCode } from "./errors.ts";
+import type { NpmSpecResolution } from "./install-source-utils.ts";
+import { readJson, readJsonIfExists, writeJson } from "./json-files.ts";
+import type { ParsedRegistryNpmSpec } from "./npm-registry-spec.ts";
+import { resolveOpenClawPackageRootSync } from "./openclaw-root.ts";
+import { createSafeNpmInstallArgs, createSafeNpmInstallEnv } from "./safe-package-install.ts";
 
 // Managed npm roots are private package roots used for installed plugins. This
 // module owns package.json dependency/override edits and peer repair helpers.
@@ -708,7 +708,6 @@ function isHostPeerResolutionFailure(
 
 function createManagedNpmPeerPlanArgs(params?: {
   force?: boolean;
-  legacyPeerDeps?: boolean;
 }): string[] {
   return [
     "npm",
@@ -718,7 +717,6 @@ function createManagedNpmPeerPlanArgs(params?: {
     ...createSafeNpmInstallArgs({
       omitDev: true,
       omitPeer: true,
-      legacyPeerDeps: params?.legacyPeerDeps,
       loglevel: "error",
       ignoreWorkspaces: true,
       noAudit: true,
@@ -772,7 +770,6 @@ async function collectNpmResolvedManagedNpmRootPeerDependencyPins(params: {
       cwd: tempRoot,
       timeoutMs: Math.max(params.timeoutMs ?? 300_000, 300_000),
       env: createSafeNpmInstallEnv(process.env, {
-        legacyPeerDeps: false,
         npmConfigCwd: tempRoot,
         packageLock: true,
         quiet: true,
@@ -783,12 +780,10 @@ async function collectNpmResolvedManagedNpmRootPeerDependencyPins(params: {
       if (isHostPeerResolutionFailure(result)) {
         const hostPeerFallbackArgs = createManagedNpmPeerPlanArgs({
           force: true,
-          legacyPeerDeps: true,
         });
         const hostPeerFallbackOptions = {
           ...npmPlanOptions,
           env: createSafeNpmInstallEnv(process.env, {
-            legacyPeerDeps: true,
             npmConfigCwd: tempRoot,
             packageLock: true,
             quiet: true,
@@ -999,7 +994,6 @@ export async function repairManagedNpmRootOpenClawPeer(params: {
         "npm",
         "uninstall",
         "--loglevel=error",
-        "--legacy-peer-deps",
         "--ignore-scripts",
         "--no-audit",
         "--no-fund",
@@ -1009,7 +1003,6 @@ export async function repairManagedNpmRootOpenClawPeer(params: {
         "npm",
         "prune",
         "--loglevel=error",
-        "--legacy-peer-deps",
         "--ignore-scripts",
         "--no-audit",
         "--no-fund",
@@ -1019,7 +1012,6 @@ export async function repairManagedNpmRootOpenClawPeer(params: {
       cwd: params.npmRoot,
       timeoutMs: Math.max(params.timeoutMs ?? 300_000, 300_000),
       env: createSafeNpmInstallEnv(process.env, {
-        legacyPeerDeps: true,
         npmConfigCwd: params.npmRoot,
         packageLock: true,
         quiet: true,

@@ -3,10 +3,10 @@
  * unsafe failed turns, maps tool-call ids across model boundaries, and fills
  * strict provider tool-result gaps when supported.
  */
-import type { Api, Context, Model } from "../llm/types.js";
-import { resolveModelBoundThinkingReplayMode } from "../shared/anthropic-model-contract.js";
-import { isReasoningOnlyLengthAssistantTurn } from "./replay-turn-classification.js";
-import { repairToolUseResultPairing } from "./session-transcript-repair.js";
+import type { Api, Context, Model } from "../llm/types.ts";
+import { resolveModelBoundThinkingReplayMode } from "../shared/anthropic-model-contract.ts";
+import { isReasoningOnlyLengthAssistantTurn } from "./replay-turn-classification.ts";
+import { repairToolUseResultPairing } from "./session-transcript-repair.ts";
 
 const SYNTHETIC_TOOL_RESULT_APIS = new Set<string>([
   "anthropic-messages",

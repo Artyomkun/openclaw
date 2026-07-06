@@ -1,34 +1,34 @@
 // Creates channel-native approval runtimes and delivery flows.
-import type { ChannelApprovalNativeAdapter } from "../channels/plugins/approval-native.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
+import type { ChannelApprovalNativeAdapter } from "../channels/plugins/approval-native.types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.ts";
 import {
   resolveChannelNativeApprovalDeliveryPlan,
   type ChannelApprovalNativePlannedTarget,
   type ChannelApprovalNativeDeliveryPlan,
-} from "./approval-native-delivery.js";
-import { createApprovalNativeRouteReporter } from "./approval-native-route-coordinator.js";
+} from "./approval-native-delivery.ts";
+import { createApprovalNativeRouteReporter } from "./approval-native-route-coordinator.ts";
 import type {
   ChannelNativeApprovalDeliveryCallbacks,
   ChannelNativeApprovalTransportSpec,
   PreparedChannelNativeApprovalTarget,
-} from "./approval-native-runtime-types.js";
-import type { ChannelApprovalKind } from "./approval-types.js";
+} from "./approval-native-runtime-types.ts";
+import type { ChannelApprovalKind } from "./approval-types.ts";
 import {
   createExecApprovalChannelRuntime,
   type ExecApprovalChannelRuntime,
   type ExecApprovalChannelRuntimeAdapter,
-} from "./exec-approval-channel-runtime.js";
-import type { ExecApprovalChannelRuntimeEventKind } from "./exec-approval-channel-runtime.types.js";
-import type { ExecApprovalResolved } from "./exec-approvals.js";
-import type { ExecApprovalRequest } from "./exec-approvals.js";
-import type { PluginApprovalResolved } from "./plugin-approvals.js";
-import type { PluginApprovalRequest } from "./plugin-approvals.js";
+} from "./exec-approval-channel-runtime.ts";
+import type { ExecApprovalChannelRuntimeEventKind } from "./exec-approval-channel-runtime.types.ts";
+import type { ExecApprovalResolved } from "./exec-approvals.ts";
+import type { ExecApprovalRequest } from "./exec-approvals.ts";
+import type { PluginApprovalResolved } from "./plugin-approvals.ts";
+import type { PluginApprovalRequest } from "./plugin-approvals.ts";
 
 type ApprovalRequest = ExecApprovalRequest | PluginApprovalRequest;
 type ApprovalResolved = ExecApprovalResolved | PluginApprovalResolved;
 
-export type { PreparedChannelNativeApprovalTarget } from "./approval-native-runtime-types.js";
+export type { PreparedChannelNativeApprovalTarget } from "./approval-native-runtime-types.ts";
 
 type ChannelNativeApprovalPlanDeliveryResult<TPendingEntry> = {
   entries: TPendingEntry[];

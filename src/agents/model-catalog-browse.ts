@@ -5,9 +5,9 @@ import {
   clampTimerTimeoutMs,
   resolveTimerTimeoutMs,
 } from "@openclaw/normalization-core/number-coercion";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ModelCatalogEntry } from "./model-catalog.types.js";
-import { parseConfiguredModelVisibilityEntries } from "./model-selection-shared.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ModelCatalogEntry } from "./model-catalog.types.ts";
+import { parseConfiguredModelVisibilityEntries } from "./model-selection-shared.ts";
 
 /**
  * Loads the model catalog shape used by browse/list commands without letting optional

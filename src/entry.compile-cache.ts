@@ -5,12 +5,12 @@ import { enableCompileCache, getCompileCacheDir } from "node:module";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
-import { isTerminalInteractiveRespawnArgv } from "./cli/respawn-policy.js";
-import { attachChildProcessBridge } from "./process/child-process-bridge.js";
+import { isTerminalInteractiveRespawnArgv } from "./cli/respawn-policy.ts";
+import { attachChildProcessBridge } from "./process/child-process-bridge.ts";
 import {
   runRespawnChildWithSignalBridge,
   type RespawnChildRuntime,
-} from "./process/respawn-child-runner.js";
+} from "./process/respawn-child-runner.ts";
 
 // Node 24.0-24.14 can deadlock during ESM module loading when compile cache is
 // enabled on Windows npm-global installs. Keep the skip scoped to that platform.

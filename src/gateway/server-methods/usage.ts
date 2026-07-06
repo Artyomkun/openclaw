@@ -7,19 +7,19 @@ import {
   errorShape,
   formatValidationErrors,
   validateSessionsUsageParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { resolveDefaultAgentId } from "../../agents/agent-scope.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { resolveDefaultAgentId } from "../../agents/agent-scope.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
-} from "../../config/sessions/paths.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { loadProviderUsageSummary } from "../../infra/provider-usage.js";
+} from "../../config/sessions/paths.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { loadProviderUsageSummary } from "../../infra/provider-usage.ts";
 import {
   addCostUsageTotals,
   createEmptyCostUsageTotals,
-} from "../../infra/session-cost-usage-totals.js";
+} from "../../infra/session-cost-usage-totals.ts";
 import type {
   CostUsageSummary,
   CostUsageTotals,
@@ -27,7 +27,7 @@ import type {
   SessionDailyModelUsage,
   SessionMessageCounts,
   SessionModelUsage,
-} from "../../infra/session-cost-usage.js";
+} from "../../infra/session-cost-usage.ts";
 import {
   loadCostUsageSummaryFromCache,
   loadSessionLogs,
@@ -38,30 +38,30 @@ import {
   resolveExistingUsageSessionFile,
   type DiscoveredSession,
   type UsageCacheStatus,
-} from "../../infra/session-cost-usage.js";
-import { normalizeAgentId, parseAgentSessionKey } from "../../routing/session-key.js";
-import { resolvePreferredSessionKeyForSessionIdMatches } from "../../sessions/session-id-resolution.js";
+} from "../../infra/session-cost-usage.ts";
+import { normalizeAgentId, parseAgentSessionKey } from "../../routing/session-key.ts";
+import { resolvePreferredSessionKeyForSessionIdMatches } from "../../sessions/session-id-resolution.ts";
 import {
   buildUsageAggregateTail,
   mergeUsageDailyLatency,
   mergeUsageLatency,
-} from "../../shared/usage-aggregates.js";
+} from "../../shared/usage-aggregates.ts";
 import type {
   SessionUsageEntry,
   SessionsUsageAggregates,
   SessionsUsageResult,
-} from "../../shared/usage-types.js";
-import { runTasksWithConcurrency } from "../../utils/run-with-concurrency.js";
+} from "../../shared/usage-types.ts";
+import { runTasksWithConcurrency } from "../../utils/run-with-concurrency.ts";
 import {
   resolveSessionStoreAgentId,
   resolveStoredSessionKeyForAgentStore,
-} from "../session-store-key.js";
+} from "../session-store-key.ts";
 import {
   listAgentsForGateway,
   loadCombinedSessionStoreForGateway,
   loadSessionEntry,
-} from "../session-utils.js";
-import type { GatewayRequestHandlers, RespondFn } from "./types.js";
+} from "../session-utils.ts";
+import type { GatewayRequestHandlers, RespondFn } from "./types.ts";
 
 const COST_USAGE_CACHE_TTL_MS = 30_000;
 const COST_USAGE_CACHE_MAX = 256;

@@ -1,40 +1,40 @@
 // Setup wizard orchestrates onboarding prompts and generated OpenClaw config.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { formatCliCommand } from "../cli/command-format.js";
+import { formatCliCommand } from "../cli/command-format.ts";
 import {
   commitConfigWriteWithPendingPluginInstalls,
   hasPendingPluginInstallRecords,
   stripPendingPluginInstallRecords,
   unchangedPendingPluginInstallRecordIds,
-} from "../cli/plugins-install-record-commit.js";
+} from "../cli/plugins-install-record-commit.ts";
 import type {
   AuthChoice,
   GatewayAuthChoice,
   OnboardMode,
   OnboardOptions,
   ResetScope,
-} from "../commands/onboard-types.js";
-import { createConfigIO, replaceConfigFile, resolveGatewayPort } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeSecretInputString } from "../config/types.secrets.js";
-import { formatErrorMessage } from "../infra/errors.js";
+} from "../commands/onboard-types.ts";
+import { createConfigIO, replaceConfigFile, resolveGatewayPort } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeSecretInputString } from "../config/types.secrets.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   buildPluginCompatibilitySnapshotNotices,
   formatPluginCompatibilityNotice,
-} from "../plugins/status.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { resolveUserPath } from "../utils.js";
-import { t } from "./i18n/index.js";
-import { WizardCancelledError, type WizardPrompter } from "./prompts.js";
-import { detectSetupMigrationSources, runSetupMigrationImport } from "./setup.migration-import.js";
-import { resolveSetupSecretInputString } from "./setup.secret-input.js";
+} from "../plugins/status.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { resolveUserPath } from "../utils.ts";
+import { t } from "./i18n/index.ts";
+import { WizardCancelledError, type WizardPrompter } from "./prompts.ts";
+import { detectSetupMigrationSources, runSetupMigrationImport } from "./setup.migration-import.ts";
+import { resolveSetupSecretInputString } from "./setup.secret-input.ts";
 import {
   getSecurityConfirmMessage,
   getSecurityNoteMessage,
   getSecurityNoteTitle,
-} from "./setup.security-note.js";
-import type { QuickstartGatewayDefaults, WizardFlow } from "./setup.types.js";
+} from "./setup.security-note.ts";
+import type { QuickstartGatewayDefaults, WizardFlow } from "./setup.types.ts";
 
 type SetupFlowChoice = WizardFlow | "import";
 

@@ -2,15 +2,15 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { pathExists as fsSafePathExists } from "./infra/fs-safe.js";
+import { pathExists as fsSafePathExists } from "./infra/fs-safe.ts";
 import {
   resolveEffectiveHomeDir,
   resolveHomeRelativePath,
   resolveRequiredHomeDir,
-} from "./infra/home-dir.js";
-import { isPlainObject } from "./infra/plain-object.js";
-import { resolveTimerTimeoutMs } from "./shared/number-coercion.js";
-export { escapeRegExp } from "./shared/regexp.js";
+} from "./infra/home-dir.ts";
+import { isPlainObject } from "./infra/plain-object.ts";
+import { resolveTimerTimeoutMs } from "./shared/number-coercion.ts";
+export { escapeRegExp } from "./shared/regexp.ts";
 
 /** Creates a directory tree if it does not already exist. */
 export async function ensureDir(dir: string) {
@@ -33,11 +33,11 @@ export const clamp = clampNumber;
 /**
  * Safely parse JSON, returning null on error instead of throwing.
  */
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- JSON parsing helper lets callers ascribe the expected payload type.
 export function safeParseJson<T>(raw: string): T | null {
   try {
     return JSON.parse(raw) as T;
-  } catch {
+  } catch (err) {
+    console.warn("Failed to parse JSON:", err);
     return null;
   }
 }
@@ -72,7 +72,7 @@ export function sleep(ms: number) {
 // Surrogate-safe slicing helpers live in a node-free leaf module so browser/UI
 // bundles can import them without pulling in filesystem code. Re-exported here
 // to preserve the historical `utils.ts` import surface.
-export { sliceUtf16Safe, truncateUtf16Safe } from "./shared/utf16-slice.js";
+export { sliceUtf16Safe, truncateUtf16Safe } from "./shared/utf16-slice.ts";
 
 /** Resolves `~` and OpenClaw home-relative paths with injectable env/home sources. */
 export function resolveUserPath(

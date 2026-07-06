@@ -1,25 +1,25 @@
 // Doctor warnings for active tools whose schemas cannot be projected to the selected runtime.
-import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.js";
+import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.ts";
 import {
   listAgentIds,
   resolveAgentConfig,
   resolveAgentDir,
   resolveAgentWorkspaceDir,
-} from "../../../agents/agent-scope.js";
-import { createOpenClawCodingTools } from "../../../agents/agent-tools.js";
-import { resolveModel } from "../../../agents/embedded-agent-runner/model.js";
-import { normalizeAgentRuntimeTools } from "../../../agents/runtime-plan/tools.js";
+} from "../../../agents/agent-scope.ts";
+import { createOpenClawCodingTools } from "../../../agents/agent-tools.ts";
+import { resolveModel } from "../../../agents/embedded-agent-runner/model.ts";
+import { normalizeAgentRuntimeTools } from "../../../agents/runtime-plan/tools.ts";
 import {
   filterRuntimeCompatibleTools,
   type RuntimeToolSchemaDiagnostic,
-} from "../../../agents/tool-schema-projection.js";
-import type { AnyAgentTool } from "../../../agents/tools/common.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../../infra/errors.js";
-import { extractModelCompat } from "../../../plugins/provider-model-compat.js";
-import type { ProviderRuntimeModel } from "../../../plugins/provider-runtime-model.types.js";
-import { getPluginToolMeta } from "../../../plugins/tools.js";
-import { resolveDoctorPrimaryModelRef } from "./primary-model-ref.js";
+} from "../../../agents/tool-schema-projection.ts";
+import type { AnyAgentTool } from "../../../agents/tools/common.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../../infra/errors.ts";
+import { extractModelCompat } from "../../../plugins/provider-model-compat.ts";
+import type { ProviderRuntimeModel } from "../../../plugins/provider-runtime-model.types.ts";
+import { getPluginToolMeta } from "../../../plugins/tools.ts";
+import { resolveDoctorPrimaryModelRef } from "./primary-model-ref.ts";
 
 function resolveRuntimeModelContext(params: {
   cfg: OpenClawConfig;

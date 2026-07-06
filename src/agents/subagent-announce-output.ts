@@ -4,13 +4,13 @@
  * Reads child session output, detects waiting states, and formats completion findings for announcements.
  */
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
-import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import { buildAgentRunTerminalOutcomeFromWaitResult } from "./agent-run-terminal-outcome.js";
-import { wrapPromptDataBlock } from "./sanitize-for-prompt.js";
+import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import { buildAgentRunTerminalOutcomeFromWaitResult } from "./agent-run-terminal-outcome.ts";
+import { wrapPromptDataBlock } from "./sanitize-for-prompt.ts";
 import {
   captureSubagentCompletionReplyUsing,
   readLatestSubagentOutputWithRetryUsing,
-} from "./subagent-announce-capture.js";
+} from "./subagent-announce-capture.ts";
 import {
   callGateway,
   getRuntimeConfig,
@@ -18,10 +18,10 @@ import {
   readSessionMessagesAsync,
   resolveAgentIdFromSessionKey,
   resolveStorePath,
-} from "./subagent-announce.runtime.js";
-import { assistantCallsSessionsYield, isSessionsYieldToolResult } from "./subagent-yield-output.js";
-import { extractAssistantText, sanitizeTextContent } from "./tools/chat-history-text.js";
-import { isAnnounceSkip } from "./tools/sessions-send-tokens.js";
+} from "./subagent-announce.runtime.ts";
+import { assistantCallsSessionsYield, isSessionsYieldToolResult } from "./subagent-yield-output.ts";
+import { extractAssistantText, sanitizeTextContent } from "./tools/chat-history-text.ts";
+import { isAnnounceSkip } from "./tools/sessions-send-tokens.ts";
 
 const FAST_TEST_RETRY_INTERVAL_MS = 8;
 

@@ -1,14 +1,14 @@
 // Reads service manager state for status reports.
 // Converts gateway/node launchd/systemd state into a compact summary shape.
 
-import { OPENCLAW_WRAPPER_ENV_KEY } from "../daemon/program-args.js";
+import { OPENCLAW_WRAPPER_ENV_KEY } from "../daemon/program-args.ts";
 import {
   summarizeGatewayServiceLayout,
   type GatewayServiceLayoutSummary,
-} from "../daemon/service-layout.js";
-import type { GatewayServiceRuntime } from "../daemon/service-runtime.js";
-import type { GatewayServiceCommandConfig } from "../daemon/service-types.js";
-import { readGatewayServiceState, type GatewayService } from "../daemon/service.js";
+} from "../daemon/service-layout.ts";
+import type { GatewayServiceRuntime } from "../daemon/service-runtime.ts";
+import type { GatewayServiceCommandConfig } from "../daemon/service-types.ts";
+import { readGatewayServiceState, type GatewayService } from "../daemon/service.ts";
 
 type ServiceStatusSummary = {
   label: string;

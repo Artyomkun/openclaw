@@ -2,17 +2,17 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { pathExists } from "./fs-safe.js";
-import { readPackageVersion } from "./package-json.js";
-import { movePathWithCopyFallback } from "./replace-file.js";
-import { trimLogTail } from "./restart-sentinel.js";
+import { pathExists } from "./fs-safe.ts";
+import { readPackageVersion } from "./package-json.ts";
+import { movePathWithCopyFallback } from "./replace-file.ts";
+import { trimLogTail } from "./restart-sentinel.ts";
 import {
   PACKAGE_POST_INSTALL_DOCTOR_ADVISORY,
   UPDATE_POST_INSTALL_DOCTOR_ADVISORY_EXIT_CODE,
   type PackageUpdateStepAdvisory,
   type UpdatePostInstallDoctorResult,
-} from "./update-doctor-result.js";
-export type { PackageUpdateStepAdvisory } from "./update-doctor-result.js";
+} from "./update-doctor-result.ts";
+export type { PackageUpdateStepAdvisory } from "./update-doctor-result.ts";
 import {
   collectInstalledGlobalPackageErrors,
   globalInstallArgs,
@@ -25,7 +25,7 @@ import {
   type CommandRunner,
   type NpmGlobalPrefixLayout,
   type ResolvedGlobalInstallTarget,
-} from "./update-global.js";
+} from "./update-global.ts";
 
 const PACKAGE_MANAGER_SWAP_SOURCE_HARDLINKS = "allow" as const;
 

@@ -21,7 +21,7 @@ This directory owns docs authoring, Mintlify link rules, and docs i18n policy.
 - Long-lived private operator docs belong in `~/Projects/manager/docs/`.
 - Repo-local internal scratch/mirror docs may live under ignored `docs/internal/`.
 - Never add `docs/internal/**` pages to `docs/docs.json` navigation or link them from public docs.
-- `scripts/docs-sync-publish.mjs` excludes and prunes `docs/internal/**` from the public `openclaw/docs` publish repo if a page is force-added later.
+- `scripts/docs-sync-publish.ts` excludes and prunes `docs/internal/**` from the public `openclaw/docs` publish repo if a page is force-added later.
 - Internal docs may mention repo paths, private app names, 1Password item names, and runbooks, but never include secret values.
 
 ## Maturity Scorecard Editing

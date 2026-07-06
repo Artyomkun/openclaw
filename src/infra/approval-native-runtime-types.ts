@@ -1,6 +1,6 @@
 // Defines native approval runtime delivery transport contracts.
-import type { ChannelApprovalNativePlannedTarget } from "./approval-native-delivery.js";
-import type { ChannelApprovalKind } from "./approval-types.js";
+import type { ChannelApprovalNativePlannedTarget } from "./approval-native-delivery.ts";
+import type { ChannelApprovalKind } from "./approval-types.ts";
 
 /** Prepared delivery target plus the stable key used to avoid duplicate native messages. */
 export type PreparedChannelNativeApprovalTarget<TPreparedTarget> = {

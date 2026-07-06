@@ -2,7 +2,7 @@
 import {
   drainPendingDeliveries as coreDrainPendingDeliveries,
   type DeliverFn,
-} from "../infra/outbound/delivery-queue.js";
+} from "../infra/outbound/delivery-queue.ts";
 
 type OutboundDeliverRuntimeModule = typeof import("../infra/outbound/deliver-runtime.js");
 type DrainPendingDeliveriesOptions = Omit<

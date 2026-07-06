@@ -9,8 +9,8 @@ export {
   createSessionVisibilityRowChecker,
   resolveEffectiveSessionToolsVisibility,
   resolveSandboxedSessionToolContext,
-} from "./sessions-access.js";
-import { resolveSandboxedSessionToolContext } from "./sessions-access.js";
+} from "./sessions-access.ts";
+import { resolveSandboxedSessionToolContext } from "./sessions-access.ts";
 export {
   resolveCurrentSessionClientAlias,
   resolveDisplaySessionKey,
@@ -19,11 +19,11 @@ export {
   resolveSessionReference,
   resolveVisibleSessionReference,
   shouldResolveSessionIdInput,
-} from "./sessions-resolution.js";
+} from "./sessions-resolution.ts";
 import { normalizeOptionalString, type FastMode } from "@openclaw/normalization-core/string-coerce";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { FastModeSource } from "../../shared/fast-mode.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { FastModeSource } from "../../shared/fast-mode.ts";
 
 /** Coarse session category used by session list/status tools. */
 type SessionKind = "main" | "group" | "cron" | "hook" | "node" | "other";

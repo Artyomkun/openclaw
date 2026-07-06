@@ -1,8 +1,8 @@
 // Anthropic-family tool payload compatibility wraps provider tool payload shapes.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { StreamFn } from "../../../agents/runtime/index.js";
-import { projectRuntimeToolInputSchema } from "../../../agents/tool-schema-json-projection.js";
-import { streamSimple } from "../../stream.js";
+import type { StreamFn } from "../../../agents/runtime/index.ts";
+import { projectRuntimeToolInputSchema } from "../../../agents/tool-schema-json-projection.ts";
+import { streamSimple } from "../../stream.ts";
 type AnthropicToolSchemaMode = "openai-functions";
 type AnthropicToolChoiceMode = "openai-string-modes";
 
@@ -447,61 +447,4 @@ function normalizeOpenAiStringModeAnthropicToolChoice(
   }
 
   return toolChoice;
-}
-
-/** @deprecated Anthropic-family provider stream helper; do not use from third-party plugins. */
-export function createAnthropicToolPayloadCompatibilityWrapper(
-  baseStreamFn: StreamFn | undefined,
-  options?: AnthropicToolPayloadCompatibilityOptions,
-): StreamFn {
-  const underlying = baseStreamFn ?? streamSimple;
-  return (model, context, streamOptions) => {
-    const originalOnPayload = streamOptions?.onPayload;
-    return underlying(model, context, {
-      ...streamOptions,
-      onPayload: (payload) => {
-        if (
-          payload &&
-          typeof payload === "object" &&
-          requiresAnthropicToolPayloadCompatibilityForModel(model, options)
-        ) {
-          const payloadObj = payload as Record<string, unknown>;
-          let toolProjection: OpenAiFunctionToolsProjection | undefined;
-          if (
-            Array.isArray(payloadObj.tools) &&
-            usesOpenAiFunctionAnthropicToolSchemaForModel(model, options)
-          ) {
-            toolProjection = projectOpenAiFunctionAnthropicTools(payloadObj.tools);
-            if (toolProjection.tools.length > 0) {
-              payloadObj.tools = toolProjection.tools;
-            } else {
-              delete payloadObj.tools;
-            }
-          }
-          if (usesOpenAiStringModeAnthropicToolChoiceForModel(model, options)) {
-            const toolChoice = normalizeOpenAiStringModeAnthropicToolChoice(
-              payloadObj.tool_choice,
-              toolProjection,
-            );
-            if (toolChoice === undefined) {
-              delete payloadObj.tool_choice;
-            } else {
-              payloadObj.tool_choice = toolChoice;
-            }
-          }
-        }
-        return originalOnPayload?.(payload, model);
-      },
-    });
-  };
-}
-
-/** @deprecated Anthropic-family provider stream helper; do not use from third-party plugins. */
-export function createOpenAIAnthropicToolPayloadCompatibilityWrapper(
-  baseStreamFn: StreamFn | undefined,
-): StreamFn {
-  return createAnthropicToolPayloadCompatibilityWrapper(baseStreamFn, {
-    toolSchemaMode: "openai-functions",
-    toolChoiceMode: "openai-string-modes",
-  });
 }

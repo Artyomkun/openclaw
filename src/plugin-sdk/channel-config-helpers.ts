@@ -1,10 +1,10 @@
 // Channel config helpers normalize account and channel config values for plugin setup.
-import { normalizeOptionalLowercaseString } from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.js";
+import { normalizeOptionalLowercaseString } from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.ts";
 import {
   deleteAccountFromConfigSection as deleteAccountFromConfigSectionInSection,
   setAccountEnabledInConfigSection as setAccountEnabledInConfigSectionInSection,
-} from "../channels/plugins/config-helpers.js";
+} from "../channels/plugins/config-helpers.ts";
 import {
   authorizeConfigWriteShared,
   canBypassConfigWritePolicyShared,
@@ -13,25 +13,22 @@ import {
   type ConfigWriteAuthorizationResultLike,
   type ConfigWriteScopeLike,
   type ConfigWriteTargetLike,
-} from "../channels/plugins/config-write-policy-shared.js";
-import { buildAccountScopedDmSecurityPolicy } from "../channels/plugins/helpers.js";
-import type { ChannelConfigAdapter } from "../channels/plugins/types.adapters.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
+} from "../channels/plugins/config-write-policy-shared.ts";
+import { buildAccountScopedDmSecurityPolicy } from "../channels/plugins/helpers.ts";
+import type { ChannelConfigAdapter } from "../channels/plugins/types.adapters.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.ts";
 
 export {
   ensureOpenDmPolicyAllowFromWildcard,
   normalizeChannelDmPolicy,
-  normalizeLegacyDmAliases,
   resolveChannelDmAccess,
-  resolveChannelDmAllowFrom,
   resolveChannelDmPolicy,
-  setCanonicalDmAllowFrom,
   type ChannelDmAccess,
   type ChannelDmAllowFromMode,
   type ChannelDmPolicy,
   type DmAccessRecord,
-} from "../channels/plugins/dm-access.js";
+} from "../channels/plugins/dm-access.ts";
 
 const INTERNAL_MESSAGE_CHANNEL = "webchat";
 
@@ -170,9 +167,7 @@ export function adaptScopedAccountAccessor<Result, Config extends OpenClawConfig
 
 /** Build the shared allowlist/default target adapter surface for account-scoped channel configs. */
 export function createScopedAccountConfigAccessors<
-  ResolvedAccount,
-  // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Config preserves caller-specific config subtype for account resolvers.
-  Config extends OpenClawConfig = OpenClawConfig,
+  ResolvedAccount
 >(params: {
   /** Resolves the account used by read-only config accessors from `{ cfg, accountId }`. */
   resolveAccount: (params: { cfg: Config; accountId?: string | null }) => ResolvedAccount;
@@ -189,7 +184,7 @@ export function createScopedAccountConfigAccessors<
   const base = {
     resolveAllowFrom({ cfg, accountId }: { cfg: OpenClawConfig; accountId?: string | null }) {
       return mapAllowFromEntries(
-        params.resolveAllowFrom(params.resolveAccount({ cfg: cfg as Config, accountId })),
+        params.resolveAllowFrom(params.resolveAccount({ cfg: cfg, accountId })),
       );
     },
     formatAllowFrom({ allowFrom }: { allowFrom: Array<string | number> }) {
@@ -205,7 +200,7 @@ export function createScopedAccountConfigAccessors<
     ...base,
     resolveDefaultTo({ cfg, accountId }) {
       return resolveOptionalConfigString(
-        params.resolveDefaultTo?.(params.resolveAccount({ cfg: cfg as Config, accountId })),
+        params.resolveDefaultTo?.(params.resolveAccount({ cfg: cfg, accountId })),
       );
     },
   };

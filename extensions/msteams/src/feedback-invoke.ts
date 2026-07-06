@@ -12,19 +12,17 @@ import { getMSTeamsRuntime } from "./runtime.js";
 import type { MSTeamsTurnContext } from "./sdk-types.js";
 
 /**
- * Run the message-submit (feedback) invoke handler.
+ * Handles feedback invoke requests from Teams (likes/dislikes on bot messages).
  *
- * Teams delivers feedback (`actionName === "feedback"`) on AI-generated
- * messages as a `message/submitAction` invoke. The SDK wraps a void return
- * into the HTTP 200 InvokeResponse, so this function intentionally does
- * not ack itself — the legacy `ctx.sendActivity({ type: "invokeResponse",
- * … })` shape is gone (it became an outbound BF activity on the new SDK
- * instead of the HTTP response).
+ * When a user reacts to a bot message with like/dislike, Teams sends an
+ * invoke with actionName === "feedback". The SDK automatically responds
+ * with HTTP 200 InvokeResponse — we just need to process the feedback.
  *
- * Returns `true` if the invoke matched the feedback shape and was
- * consumed (whether or not it was authorized / written / reflected on),
- * `false` if the invoke didn't look like feedback at all and the caller
- * should fall through to other handlers.
+ * @param params.activity - Incoming invoke activity from Teams
+ * @param params.context - Turn context for responding
+ * @param params.log - Logger instance
+ * @returns true if the invoke was feedback and was handled,
+ *          false if it wasn't feedback (let other handlers process it)
  */
 export async function runMSTeamsFeedbackInvokeHandler(
   context: MSTeamsTurnContext,

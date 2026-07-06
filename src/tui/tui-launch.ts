@@ -1,10 +1,10 @@
 // Launches the TUI process with resolved environment and arguments.
 import { spawn } from "node:child_process";
 import path from "node:path";
-import { formatErrorMessage } from "../infra/errors.js";
-import { attachChildProcessBridge } from "../process/child-process-bridge.js";
-import { TUI_SETUP_AUTH_SOURCE_CONFIG, TUI_SETUP_AUTH_SOURCE_ENV } from "./setup-launch-env.js";
-import type { TuiOptions } from "./tui.js";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { attachChildProcessBridge } from "../process/child-process-bridge.ts";
+import { TUI_SETUP_AUTH_SOURCE_CONFIG, TUI_SETUP_AUTH_SOURCE_ENV } from "./setup-launch-env.ts";
+import type { TuiOptions } from "./tui.ts";
 
 // Relaunch helper used when setup wants to hand control to an inherited-stdio TUI process.
 type TuiLaunchOptions = {

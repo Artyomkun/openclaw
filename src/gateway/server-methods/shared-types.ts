@@ -4,31 +4,31 @@ import type {
   ConnectParams,
   ErrorShape,
   RequestFrame,
-} from "../../../packages/gateway-protocol/src/index.js";
-import type { ModelCatalogEntry } from "../../agents/model-catalog.types.js";
-import type { CliDeps } from "../../cli/deps.types.js";
-import type { HealthSummary } from "../../commands/health.types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { CronServiceContract } from "../../cron/service-contract.js";
-import type { PluginApprovalRequestPayload } from "../../infra/plugin-approvals.js";
-import type { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { WizardSession } from "../../wizard/session.js";
-import type { AgentRuntimeIdentity } from "../agent-runtime-identity-token.js";
-import type { ChatAbortControllerEntry } from "../chat-abort.js";
-import type { ExecApprovalManager, ExecApprovalRecord } from "../exec-approval-manager.js";
-import type { GatewayMethodRegistryView } from "../methods/descriptor.js";
-import type { NodeRegistry } from "../node-registry.js";
-import type { PluginNodeCapabilitySurface } from "../plugin-node-capability.js";
-import type { GatewayBroadcastFn, GatewayBroadcastToConnIdsFn } from "../server-broadcast-types.js";
-import type { ChannelRuntimeSnapshot } from "../server-channel-runtime.types.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import type { ModelCatalogEntry } from "../../agents/model-catalog.types.ts";
+import type { CliDeps } from "../../cli/deps.types.ts";
+import type { HealthSummary } from "../../commands/health.types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { CronServiceContract } from "../../cron/service-contract.ts";
+import type { PluginApprovalRequestPayload } from "../../infra/plugin-approvals.ts";
+import type { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { WizardSession } from "../../wizard/session.ts";
+import type { AgentRuntimeIdentity } from "../agent-runtime-identity-token.ts";
+import type { ChatAbortControllerEntry } from "../chat-abort.ts";
+import type { ExecApprovalManager, ExecApprovalRecord } from "../exec-approval-manager.ts";
+import type { GatewayMethodRegistryView } from "../methods/descriptor.ts";
+import type { NodeRegistry } from "../node-registry.ts";
+import type { PluginNodeCapabilitySurface } from "../plugin-node-capability.ts";
+import type { GatewayBroadcastFn, GatewayBroadcastToConnIdsFn } from "../server-broadcast-types.ts";
+import type { ChannelRuntimeSnapshot } from "../server-channel-runtime.types.ts";
 import type {
   BufferedAgentEvent,
   ChatAbortMarker,
   ChatRunEntry,
   ChatRunRegistration,
-} from "../server-chat-state.js";
-import type { DedupeEntry } from "../server-shared.js";
-import type { GatewayEventLoopHealth } from "../server/event-loop-health.js";
+} from "../server-chat-state.ts";
+import type { DedupeEntry } from "../server-shared.ts";
+import type { GatewayEventLoopHealth } from "../server/event-loop-health.ts";
 
 /**
  * Shared gateway request types used by every server-method module.

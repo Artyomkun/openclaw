@@ -9,25 +9,25 @@ import {
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.js";
-import type { ChannelMessageActionName } from "../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeTargetForProvider } from "../infra/outbound/target-normalization.js";
-import { normalizeInteractiveReply, normalizeMessagePresentation } from "../interactive/payload.js";
-import { redactSensitiveFieldValue, redactToolPayloadText } from "../logging/redact.js";
-import { truncateUtf16Safe } from "../utils.js";
-import { collectTextContentBlocks } from "./content-blocks.js";
-import { isMessagingToolTargetEvidenceAction } from "./embedded-agent-messaging.js";
+import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.ts";
+import type { ChannelMessageActionName } from "../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeTargetForProvider } from "../infra/outbound/target-normalization.ts";
+import { normalizeInteractiveReply, normalizeMessagePresentation } from "../interactive/payload.ts";
+import { redactSensitiveFieldValue, redactToolPayloadText } from "../logging/redact.ts";
+import { truncateUtf16Safe } from "../utils.ts";
+import { collectTextContentBlocks } from "./content-blocks.ts";
+import { isMessagingToolTargetEvidenceAction } from "./embedded-agent-messaging.ts";
 import type {
   MessagingToolSend,
   MessagingToolSourceReplyPayload,
-} from "./embedded-agent-messaging.types.js";
-import { normalizeToolName } from "./tool-policy.js";
+} from "./embedded-agent-messaging.types.ts";
+import { normalizeToolName } from "./tool-policy.ts";
 import {
   isToolResultError,
   readToolResultDetails,
   readToolResultStatus,
-} from "./tool-result-error.js";
+} from "./tool-result-error.ts";
 
 export { isToolResultError };
 
@@ -677,7 +677,7 @@ export function filterToolResultMediaUrls(
  *
  * Strategy (first match wins):
  * 1. Read structured `details.media` attachments from tool details.
- * 2. Fall back to `details.path` when image content exists (legacy imageResult).
+ * 2. Fall back to `details.path` when image content exists.
  *
  * Returns an empty array when no media is found (e.g. embedded `read` tool
  * returns base64 image data but no file path; those need a different delivery
@@ -786,8 +786,6 @@ export function extractToolResultMediaArtifact(
     return undefined;
   }
 
-  // Fall back to legacy details.path when image content exists but no
-  // structured media details.
   if (hasImageContentBlock(content)) {
     const details = record.details as Record<string, unknown> | undefined;
     const p = normalizeOptionalString(details?.path) ?? "";
@@ -836,9 +834,9 @@ export function extractToolErrorMessage(result: unknown): string | undefined {
   if (text) {
     try {
       const parsed = JSON.parse(text) as unknown;
-      const fromJson = extractErrorField(parsed);
-      if (fromJson) {
-        return fromJson;
+      const frotson = extractErrorField(parsed);
+      if (frotson) {
+        return frotson;
       }
     } catch {
       // Fall through to status/text fallback.

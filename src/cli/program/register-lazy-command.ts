@@ -1,8 +1,8 @@
 // Lazy Commander placeholder registration used to keep CLI startup imports small.
 import type { Command } from "commander";
-import { reparseProgramFromActionArgs } from "./action-reparse.js";
-import { removeCommandByName } from "./command-tree.js";
-import { resolveCommandOptionArgs } from "./helpers.js";
+import { reparseProgramFromActionArgs } from "./action-reparse.ts";
+import { removeCommandByName } from "./command-tree.ts";
+import { resolveCommandOptionArgs } from "./helpers.ts";
 
 type RegisterLazyCommandParams = {
   program: Command;

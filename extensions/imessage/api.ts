@@ -24,7 +24,6 @@ export {
   resolveIMessageGroupToolPolicy,
 } from "./src/group-policy.js";
 export { looksLikeIMessageTargetId, normalizeIMessageMessagingTarget } from "./src/normalize.js";
-export { IMESSAGE_LEGACY_OUTBOUND_SEND_DEP_KEYS } from "./src/outbound-send-deps.js";
 export {
   DEFAULT_IMESSAGE_PROBE_TIMEOUT_MS,
   type IMessageProbe,

@@ -1,7 +1,7 @@
 // Resolves effective exec approval policy from config and policy files.
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { DEFAULT_AGENT_ID } from "../routing/session-key.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { DEFAULT_AGENT_ID } from "../routing/session-key.ts";
 import {
   DEFAULT_EXEC_APPROVAL_ASK_FALLBACK,
   resolveExecApprovalAllowedDecisions,
@@ -17,7 +17,7 @@ import {
   type ExecMode,
   type ExecSecurity,
   type ExecTarget,
-} from "./exec-approvals.js";
+} from "./exec-approvals.ts";
 
 const DEFAULT_REQUESTED_SECURITY: ExecSecurity = "full";
 const DEFAULT_REQUESTED_ASK: ExecAsk = "off";
@@ -111,37 +111,30 @@ function formatModeSource(params: { sourcePath: string; configPath: string }): s
 
 type ExecPolicyField = "security" | "ask" | "askFallback";
 
-function resolveRequestedField<
-  // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Field-specific callers narrow the shared requested policy value.
-  TValue extends ExecSecurity | ExecAsk,
->(params: {
+function resolveRequestedField(params: {
   field: ExecPolicyRequestedField;
   scopeExecConfig?: ExecPolicyConfig;
   globalExecConfig?: ExecPolicyConfig;
-}): { value: TValue; sourcePath: string } {
+}): { value: ExecSecurity | ExecAsk; sourcePath: string } {
   const scopeValue = params.scopeExecConfig?.[params.field];
   if (scopeValue !== undefined) {
     return {
-      value: scopeValue as TValue,
+      value: scopeValue,
       sourcePath: "scope",
     };
   }
   const globalValue = params.globalExecConfig?.[params.field];
   if (globalValue !== undefined) {
     return {
-      value: globalValue as TValue,
+      value: globalValue,
       sourcePath: "tools.exec",
     };
   }
-  const defaultValue = REQUESTED_DEFAULT_LABEL[params.field] as TValue;
+  const defaultValue = REQUESTED_DEFAULT_LABEL[params.field];
   return {
     value: defaultValue,
     sourcePath: "__default__",
   };
-}
-
-function hasLegacyExecPolicyOverride(exec?: ExecPolicyConfig): boolean {
-  return exec?.security !== undefined || exec?.ask !== undefined;
 }
 
 function resolveRequestedPolicy(params: {
@@ -172,7 +165,7 @@ function resolveRequestedPolicy(params: {
       askSource: source,
     };
   }
-  if (!hasLegacyExecPolicyOverride(params.scopeExecConfig) && params.globalExecConfig?.mode) {
+  if (&& params.globalExecConfig?.mode) {
     const policy = resolveExecModePolicy({
       mode: params.globalExecConfig.mode,
       security: DEFAULT_REQUESTED_SECURITY,
@@ -188,7 +181,7 @@ function resolveRequestedPolicy(params: {
       askSource: source,
     };
   }
-  if (hasLegacyExecPolicyOverride(params.scopeExecConfig) && params.globalExecConfig?.mode) {
+  if (params.globalExecConfig?.mode) {
     const inherited = resolveExecModePolicy({
       mode: params.globalExecConfig.mode,
       security: DEFAULT_REQUESTED_SECURITY,

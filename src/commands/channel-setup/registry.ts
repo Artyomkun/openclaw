@@ -1,8 +1,8 @@
-import type { ChannelSetupWizardAdapter } from "../../channels/plugins/setup-wizard-types.js";
+import type { ChannelSetupWizardAdapter } from "../../channels/plugins/setup-wizard-types.ts";
 // Adapts declarative and imperative channel setup wizards to the command-facing interface.
-import { buildChannelSetupWizardAdapterFromSetupWizard } from "../../channels/plugins/setup-wizard.js";
-import type { ChannelSetupWizard } from "../../channels/plugins/setup-wizard.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
+import { buildChannelSetupWizardAdapterFromSetupWizard } from "../../channels/plugins/setup-wizard.ts";
+import type { ChannelSetupWizard } from "../../channels/plugins/setup-wizard.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
 
 const setupWizardAdapters = new WeakMap<object, ChannelSetupWizardAdapter>();
 

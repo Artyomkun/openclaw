@@ -3,10 +3,10 @@
  *
  * Defines execution, completion, delivery, pending-delivery, and attachment state stored for child runs.
  */
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
-import type { SubagentRunOutcome } from "./subagent-announce-output.js";
-import type { SubagentLifecycleEndedReason } from "./subagent-lifecycle-events.js";
-import type { SpawnSubagentMode } from "./subagent-spawn.types.js";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
+import type { SubagentRunOutcome } from "./subagent-announce-output.ts";
+import type { SubagentLifecycleEndedReason } from "./subagent-lifecycle-events.ts";
+import type { SpawnSubagentMode } from "./subagent-spawn.types.ts";
 
 export type PendingFinalDeliveryPayload = {
   requesterSessionKey: string;

@@ -3,10 +3,10 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { isCliProvider } from "../agents/model-selection.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { isCliProvider } from "../agents/model-selection.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 // Status runtime labels turn harness/provider/session state into a short
 // operator-facing name, sanitizing any persisted ACP/backend text.

@@ -2,8 +2,8 @@
 import {
   areDiagnosticsEnabledForProcess,
   emitInternalDiagnosticEvent as emitDiagnosticEvent,
-} from "../infra/diagnostic-events.js";
-import { createSubsystemLogger } from "./subsystem.js";
+} from "../infra/diagnostic-events.ts";
+import { createSubsystemLogger } from "./subsystem.ts";
 
 // Shared diagnostic logger and queue-activity event helpers.
 const diag = createSubsystemLogger("diagnostic");

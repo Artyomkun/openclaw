@@ -1,7 +1,7 @@
 // Control-plane rate limiting bounds write-side RPC attempts per device/IP and
 // caps bucket growth against unique-key memory pressure.
-import { normalizeControlPlaneIdentityPart } from "./control-plane-identity.js";
-import type { GatewayClient } from "./server-methods/types.js";
+import { normalizeControlPlaneIdentityPart } from "./control-plane-identity.ts";
+import type { GatewayClient } from "./server-methods/types.ts";
 
 const CONTROL_PLANE_RATE_LIMIT_MAX_REQUESTS = 3;
 const CONTROL_PLANE_RATE_LIMIT_WINDOW_MS = 60_000;

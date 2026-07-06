@@ -1,19 +1,19 @@
 // Crestodian CLI runner selects JSON, one-shot, or interactive setup-helper mode.
 import { stdin as defaultStdin, stdout as defaultStdout } from "node:process";
-import { withProgress } from "../cli/progress.js";
-import { defaultRuntime, writeRuntimeJson, type RuntimeEnv } from "../runtime.js";
-import type { CrestodianAssistantPlanner } from "./assistant.js";
-import { resolveCrestodianOperation } from "./dialogue.js";
+import { withProgress } from "../cli/progress.ts";
+import { defaultRuntime, writeRuntimeJson, type RuntimeEnv } from "../runtime.ts";
+import type { CrestodianAssistantPlanner } from "./assistant.ts";
+import { resolveCrestodianOperation } from "./dialogue.ts";
 import {
   executeCrestodianOperation,
   isPersistentCrestodianOperation,
   type CrestodianCommandDeps,
-} from "./operations.js";
+} from "./operations.ts";
 import {
   formatCrestodianOverview,
   loadCrestodianOverview,
   type CrestodianOverview,
-} from "./overview.js";
+} from "./overview.ts";
 
 /**
  * CLI entry point for Crestodian.

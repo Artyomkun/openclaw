@@ -3,8 +3,8 @@ import {
   isGatewayCliClient,
   isOperatorUiClient,
   isWebchatClient,
-} from "../../../utils/message-channel.js";
-import type { ResolvedGatewayAuth } from "../../auth.js";
+} from "../../../utils/message-channel.ts";
+import type { ResolvedGatewayAuth } from "../../auth.ts";
 
 /**
  * Human-readable WebSocket auth failure messages for CLI, UI, and webchat clients.

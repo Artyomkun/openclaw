@@ -1,16 +1,16 @@
 // Shares web provider runtime helpers across plugin-owned providers.
-import { withActivatedPluginIds } from "./activation-context.js";
-import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
-import { isPluginRegistryLoadInFlight, loadOpenClawPlugins } from "./loader.js";
-import type { PluginLoadOptions } from "./loader.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import { hasExplicitPluginIdScope, normalizePluginIdScope } from "./plugin-scope.js";
-import type { PluginRegistry } from "./registry.js";
-import { getActivePluginRegistryWorkspaceDir } from "./runtime.js";
+import { withActivatedPluginIds } from "./activation-context.ts";
+import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.ts";
+import { isPluginRegistryLoadInFlight, loadOpenClawPlugins } from "./loader.ts";
+import type { PluginLoadOptions } from "./loader.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import { hasExplicitPluginIdScope, normalizePluginIdScope } from "./plugin-scope.ts";
+import type { PluginRegistry } from "./registry.ts";
+import { getActivePluginRegistryWorkspaceDir } from "./runtime.ts";
 import {
   buildPluginRuntimeLoadOptionsFromValues,
   createPluginRuntimeLoaderLogger,
-} from "./runtime/load-context.js";
+} from "./runtime/load-context.ts";
 
 /** Shared options for resolving plugin-backed web providers. */
 export type ResolvePluginWebProvidersParams = {

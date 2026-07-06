@@ -3,8 +3,8 @@
  *
  * Derives display/runtime status from partial live, archived, or recovered registry records.
  */
-import { SUBAGENT_ENDED_REASON_KILLED } from "./subagent-lifecycle-events.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+import { SUBAGENT_ENDED_REASON_KILLED } from "./subagent-lifecycle-events.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 function resolveSubagentSessionStartedAtInternal(
   entry: Pick<SubagentRunRecord, "sessionStartedAt" | "startedAt" | "createdAt">,

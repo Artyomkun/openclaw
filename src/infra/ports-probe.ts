@@ -1,7 +1,7 @@
 // Probes local ports and reports listener availability.
 import net from "node:net";
-import { isErrno } from "./errors.js";
-import type { PortUsageStatus } from "./ports-types.js";
+import { isErrno } from "./errors.ts";
+import type { PortUsageStatus } from "./ports-types.ts";
 
 const PORT_PROBE_HOSTS = ["127.0.0.1", "0.0.0.0", "::1", "::"];
 

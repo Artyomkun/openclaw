@@ -6,7 +6,7 @@ source "$ROOT_DIR/scripts/lib/docker-build.sh"
 
 BASE_IMAGE="${BASE_IMAGE:-openclaw-sandbox:bookworm-slim}"
 TARGET_IMAGE="${TARGET_IMAGE:-openclaw-sandbox-common:bookworm-slim}"
-PACKAGES="${PACKAGES:-curl wget jq coreutils grep python3 git ca-certificates golang-go rustc cargo unzip pkg-config libasound2-dev build-essential file}"
+PACKAGES="${PACKAGES:-curl wget jq coreutils grep git ca-certificates golang-go unzip pkg-config libasound2-dev build-essential file}"
 INSTALL_NODE="${INSTALL_NODE:-1}"
 NODE_MAJOR="${NODE_MAJOR:-24}"
 INSTALL_PNPM="${INSTALL_PNPM:-1}"

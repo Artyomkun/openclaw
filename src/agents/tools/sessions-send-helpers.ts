@@ -6,16 +6,16 @@
 import {
   getChannelPlugin,
   normalizeChannelId as normalizeAnyChannelId,
-} from "../../channels/plugins/index.js";
-import { resolveSessionConversationRef } from "../../channels/plugins/session-conversation.js";
-import { normalizeChannelId as normalizeChatChannelId } from "../../channels/registry.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { ANNOUNCE_SKIP_TOKEN, REPLY_SKIP_TOKEN } from "./sessions-send-tokens.js";
+} from "../../channels/plugins/index.ts";
+import { resolveSessionConversationRef } from "../../channels/plugins/session-conversation.ts";
+import { normalizeChannelId as normalizeChatChannelId } from "../../channels/registry.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { ANNOUNCE_SKIP_TOKEN, REPLY_SKIP_TOKEN } from "./sessions-send-tokens.ts";
 export {
   isAnnounceSkip,
   isNonDeliverableSessionsReply,
   isReplySkip,
-} from "./sessions-send-tokens.js";
+} from "./sessions-send-tokens.ts";
 
 const DEFAULT_AGENTNG_PONG_TURNS = 5;
 const MAX_PING_PONG_TURNS = 20;

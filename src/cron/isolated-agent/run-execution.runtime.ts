@@ -2,18 +2,18 @@
 export {
   resolveEffectiveModelFallbacks,
   resolveSubagentModelFallbacksOverride,
-} from "../../agents/agent-scope.js";
-export { resolveBootstrapWarningSignaturesSeen } from "../../agents/bootstrap-budget.js";
-export { resolveCronAgentLane } from "../../agents/lanes.js";
-export { ensureSelectedAgentHarnessPlugin } from "../../agents/harness/runtime-plugin.js";
-export { LiveSessionModelSwitchError } from "../../agents/live-model-switch-error.js";
-export { runWithModelFallback } from "../../agents/model-fallback.js";
-export { isCliProvider } from "../../agents/model-selection-cli.js";
-export { normalizeVerboseLevel } from "../../auto-reply/thinking.shared.js";
-export { resolveSessionTranscriptPath } from "../../config/sessions/paths.js";
-export { registerAgentRunContext } from "../../infra/agent-events.js";
-export { logWarn } from "../../logger.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+} from "../../agents/agent-scope.ts";
+export { resolveBootstrapWarningSignaturesSeen } from "../../agents/bootstrap-budget.ts";
+export { resolveCronAgentLane } from "../../agents/lanes.ts";
+export { ensureSelectedAgentHarnessPlugin } from "../../agents/harness/runtime-plugin.ts";
+export { LiveSessionModelSwitchError } from "../../agents/live-model-switch-error.ts";
+export { runWithModelFallback } from "../../agents/model-fallback.ts";
+export { isCliProvider } from "../../agents/model-selection-cli.ts";
+export { normalizeVerboseLevel } from "../../auto-reply/thinking.shared.ts";
+export { resolveSessionTranscriptPath } from "../../config/sessions/paths.ts";
+export { registerAgentRunContext } from "../../infra/agent-events.ts";
+export { logWarn } from "../../logger.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 
 const cronExecutionCliRuntimeLoader = createLazyImportLoader(
   () => import("./run-execution-cli.runtime.js"),

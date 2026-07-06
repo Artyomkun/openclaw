@@ -1,7 +1,7 @@
 /**
  * Signals mid-turn prechecks that require preemptive compaction routing.
  */
-import type { PreemptiveCompactionRoute } from "./preemptive-compaction.types.js";
+import type { PreemptiveCompactionRoute } from "./preemptive-compaction.types.ts";
 
 /**
  * Captures the token-pressure snapshot that made the mid-turn tool-result guard

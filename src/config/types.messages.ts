@@ -1,6 +1,6 @@
 // Defines message queue and delivery configuration types.
-import type { QueueDropPolicy, QueueMode, QueueModeByProvider } from "./types.queue.js";
-import type { TtsConfig } from "./types.tts.js";
+import type { QueueDropPolicy, QueueMode, QueueModeByProvider } from "./types.queue.ts";
+import type { TtsConfig } from "./types.tts.ts";
 
 export type MentionPatternsMode = "allow" | "deny";
 
@@ -61,15 +61,6 @@ export type BroadcastConfig = {
   [peerId: string]: string[] | BroadcastStrategy | undefined;
 };
 
-export type AudioConfig = {
-  /** @deprecated Use tools.media.audio.models instead. */
-  transcription?: {
-    // Optional CLI to turn inbound audio into text; templated args, must output transcript to stdout.
-    command: string[];
-    timeoutSeconds?: number;
-  };
-};
-
 export type StatusReactionsEmojiConfig = {
   thinking?: string;
   tool?: string;
@@ -108,8 +99,6 @@ export type StatusReactionsConfig = {
 };
 
 export type MessagesConfig = {
-  /** @deprecated Use `whatsapp.messagePrefix` (WhatsApp-only inbound prefix). */
-  messagePrefix?: string;
   /**
    * Controls how source inbound events produce visible replies across direct,
    * group, and channel conversations. Group/channel events still default to

@@ -1,6 +1,6 @@
 // Shared session chat type helpers expose cross-module chat type classification.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { parseAgentSessionKey } from "./session-key-utils.js";
+import { parseAgentSessionKey } from "./session-key-utils.ts";
 
 export type SessionKeyChatType = "direct" | "group" | "channel" | "unknown";
 
@@ -27,14 +27,11 @@ export function hasAmbiguousCanonicalSessionPeerShape(scopedSessionKey: string):
   const hasAccountPeerShape = Boolean(
     parts[0] && parts[1] && isCanonicalPeerKind(parts[2]) && parts[3],
   );
-  const hasBuiltInLegacyPeerShape =
-    deriveBuiltInLegacySessionChatType(scopedSessionKey) !== undefined;
   return (
     [
       hasBareDirectPeerShape,
       hasChannelPeerShape,
       hasAccountPeerShape,
-      hasBuiltInLegacyPeerShape,
     ].filter(Boolean).length > 1
   );
 }
@@ -75,60 +72,26 @@ function deriveCanonicalSessionChatType(scopedSessionKey: string): SessionKeyCha
   return parseCanonicalSessionPeerShape(scopedSessionKey)?.chatType;
 }
 
-function deriveBuiltInLegacySessionChatType(
-  scopedSessionKey: string,
-): SessionKeyChatType | undefined {
-  if (/^group:[^:]+(?::.*)?$/u.test(scopedSessionKey)) {
-    return "group";
-  }
-  if (/^channel:[^:]+(?::.*)?$/u.test(scopedSessionKey)) {
-    return "channel";
-  }
-  if (/^(?:whatsapp:)?[^:]+@g\.us$/.test(scopedSessionKey)) {
-    return "group";
-  }
-  if (/^discord:(?:[^:]+:)?guild-[^:]+:channel-[^:]+$/.test(scopedSessionKey)) {
-    return "channel";
-  }
-  return undefined;
-}
-
 export function deriveSessionChatTypeFromScopedKey(
   scopedSessionKey: string,
-  deriveLegacySessionChatTypes: Array<
-    (scopedSessionKey: string) => SessionKeyChatType | undefined
-  > = [],
 ): SessionKeyChatType {
   const canonical = deriveCanonicalSessionChatType(scopedSessionKey);
   if (canonical) {
     return canonical;
   }
-  const builtInLegacy = deriveBuiltInLegacySessionChatType(scopedSessionKey);
-  if (builtInLegacy) {
-    return builtInLegacy;
-  }
-  for (const deriveLegacySessionChatType of deriveLegacySessionChatTypes) {
-    const derived = deriveLegacySessionChatType(scopedSessionKey);
-    if (derived) {
-      return derived;
-    }
-  }
   return "unknown";
 }
 
 /**
- * Best-effort chat-type extraction from session keys across canonical and legacy formats.
+ * Best-effort chat-type extraction from session keys across canonical.
  */
 export function deriveSessionChatTypeFromKey(
   sessionKey: string | undefined | null,
-  deriveLegacySessionChatTypes: Array<
-    (scopedSessionKey: string) => SessionKeyChatType | undefined
-  > = [],
 ): SessionKeyChatType {
   const raw = normalizeLowercaseStringOrEmpty(sessionKey);
   if (!raw) {
     return "unknown";
   }
   const scoped = parseAgentSessionKey(raw)?.rest ?? raw;
-  return deriveSessionChatTypeFromScopedKey(scoped, deriveLegacySessionChatTypes);
+  return deriveSessionChatTypeFromScopedKey(scoped);
 }

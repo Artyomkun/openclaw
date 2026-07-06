@@ -7,17 +7,17 @@ import { normalizeFastMode, type FastMode } from "@openclaw/normalization-core/s
 import type {
   SessionsListParams,
   SessionsResolveParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { CallGatewayOptions } from "../../gateway/call.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { CallGatewayOptions } from "../../gateway/call.ts";
 import type {
   ReadSessionMessagesAsyncOptions,
   SessionTranscriptReadScope,
-} from "../../gateway/session-transcript-readers.js";
-import type { SessionsListResult } from "../../gateway/session-utils.types.js";
-import type { SessionsResolveResult } from "../../gateway/sessions-resolve.js";
-import { parseAgentSessionKey } from "../../routing/session-key.js";
-import { readNumberParam, readPositiveIntegerParam } from "./common.js";
+} from "../../gateway/session-transcript-readers.ts";
+import type { SessionsListResult } from "../../gateway/session-utils.types.ts";
+import type { SessionsResolveResult } from "../../gateway/sessions-resolve.ts";
+import { parseAgentSessionKey } from "../../routing/session-key.ts";
+import { readNumberParam, readPositiveIntegerParam } from "./common.ts";
 
 type EmbeddedCallGateway = <T = Record<string, unknown>>(opts: CallGatewayOptions) => Promise<T>;
 

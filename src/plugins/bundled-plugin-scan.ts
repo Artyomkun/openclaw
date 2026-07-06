@@ -1,9 +1,9 @@
 /** Scans bundled plugin source/build roots and derives public/runtime artifacts from manifests. */
 import fs from "node:fs";
 import path from "node:path";
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeTrimmedStringList } from "../../packages/normalization-core/src/string-normalization.js";
-import { PUBLIC_SURFACE_SOURCE_EXTENSIONS } from "./public-surface-runtime.js";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeTrimmedStringList } from "../../packages/normalization-core/src/string-normalization.ts";
+import { PUBLIC_SURFACE_SOURCE_EXTENSIONS } from "./public-surface-runtime.ts";
 
 const RUNTIME_SIDECAR_ARTIFACTS = new Set([
   "helper-api.js",

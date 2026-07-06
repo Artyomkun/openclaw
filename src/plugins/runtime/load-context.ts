@@ -1,24 +1,24 @@
 // Plugin runtime load context helpers resolve agent and workspace facts for runtime activation.
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import { getRuntimeConfig } from "../../config/config.js";
-import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../../config/types.plugins.js";
-import { createSubsystemLogger } from "../../logging.js";
-import { resolvePluginActivationSourceConfig } from "../activation-source-config.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import { getRuntimeConfig } from "../../config/config.ts";
+import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../../config/types.plugins.ts";
+import { createSubsystemLogger } from "../../logging.ts";
+import { resolvePluginActivationSourceConfig } from "../activation-source-config.ts";
 import {
   clearCurrentPluginMetadataSnapshot,
   isReusableCurrentPluginMetadataSnapshot,
   setCurrentPluginMetadataSnapshot,
-} from "../current-plugin-metadata-snapshot.js";
-import { extractPluginInstallRecordsFromInstalledPluginIndex } from "../installed-plugin-index-install-records.js";
-import type { PluginLoadOptions } from "../loader.js";
-import type { PluginManifestRegistry } from "../manifest-registry.js";
+} from "../current-plugin-metadata-snapshot.ts";
+import { extractPluginInstallRecordsFromInstalledPluginIndex } from "../installed-plugin-index-install-records.ts";
+import type { PluginLoadOptions } from "../loader.ts";
+import type { PluginManifestRegistry } from "../manifest-registry.ts";
 import {
   isPluginMetadataSnapshotCompatible,
   resolvePluginMetadataSnapshot,
-} from "../plugin-metadata-snapshot.js";
-import type { PluginLogger } from "../types.js";
+} from "../plugin-metadata-snapshot.ts";
+import type { PluginLogger } from "../types.ts";
 
 const log = createSubsystemLogger("plugins");
 

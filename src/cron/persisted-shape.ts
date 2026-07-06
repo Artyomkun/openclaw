@@ -1,5 +1,5 @@
 /** Validates persisted cron job records before loading them from disk/state. */
-import { parseAbsoluteTimeMs } from "./parse.js";
+import { parseAbsoluteTimeMs } from "./parse.ts";
 
 /** Structural rejection code for persisted cron jobs that cannot be loaded safely. */
 export type InvalidPersistedCronJobReason =
@@ -22,7 +22,7 @@ export function getInvalidPersistedCronJobReason(
     return "missing-schedule";
   }
   if (typeof schedule === "string") {
-    // Legacy shorthand schedules are normalized later by the full cron parser;
+    // Shorthand schedules are normalized later by the full cron parser;
     // this guard only rejects shapes that cannot be persisted or quarantined.
     return null;
   }

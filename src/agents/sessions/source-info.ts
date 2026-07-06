@@ -3,7 +3,7 @@
  *
  * Tracks where prompts, skills, and extension-provided assets came from for diagnostics and UI.
  */
-import type { PathMetadata } from "./package-manager.js";
+import type { PathMetadata } from "./package-manager.ts";
 
 export type SourceScope = "user" | "project" | "temporary";
 export type SourceOrigin = "package" | "top-level";

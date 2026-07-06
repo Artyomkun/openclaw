@@ -1,24 +1,24 @@
 /** Materializes configured MCP catalog entries into agent tools and runtime helpers. */
 import crypto from "node:crypto";
-import type { CallToolResult, ContentBlock } from "@modelcontextprotocol/sdk/types.js";
+import type { CallToolResult, ContentBlock } from "@modelcontextprotocol/sdk/types.ts";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { logWarn } from "../logger.js";
-import { setPluginToolMeta, type PluginToolMcpMeta } from "../plugins/tools.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { logWarn } from "../logger.ts";
+import { setPluginToolMeta, type PluginToolMcpMeta } from "../plugins/tools.ts";
 import {
   buildSafeToolName,
   normalizeReservedToolNames,
   TOOL_NAME_SEPARATOR,
-} from "./agent-bundle-mcp-names.js";
+} from "./agent-bundle-mcp-names.ts";
 import type {
   BundleMcpToolRuntime,
   McpCatalogTool,
   McpToolCatalog,
   SessionMcpRuntime,
-} from "./agent-bundle-mcp-types.js";
-import { normalizeToolParameterSchema } from "./agent-tools-parameter-schema.js";
-import type { AgentToolResult } from "./runtime/index.js";
-import type { AnyAgentTool } from "./tools/common.js";
+} from "./agent-bundle-mcp-types.ts";
+import { normalizeToolParameterSchema } from "./agent-tools-parameter-schema.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 type ToolResultContentBlock = AgentToolResult<unknown>["content"][number];
 

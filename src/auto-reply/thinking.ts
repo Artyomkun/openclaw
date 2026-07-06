@@ -1,13 +1,13 @@
 // Thinking/reasoning level catalog helpers for auto-reply model controls.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { resolveClaudeThinkingProfile } from "../plugins/provider-claude-thinking.js";
+import { resolveClaudeThinkingProfile } from "../plugins/provider-claude-thinking.ts";
 import {
   BASE_THINKING_LEVELS,
   normalizeThinkLevel,
   resolveThinkingDefaultForModel as resolveThinkingDefaultForModelFallback,
   THINKING_LEVEL_RANKS,
-} from "./thinking.shared.js";
-import type { ThinkLevel, ThinkingCatalogEntry } from "./thinking.shared.js";
+} from "./thinking.shared.ts";
+import type { ThinkLevel, ThinkingCatalogEntry } from "./thinking.shared.ts";
 export {
   isSessionDefaultDirectiveValue,
   normalizeElevatedLevel,
@@ -20,7 +20,7 @@ export {
   resolveEffectiveResponseUsage,
   resolveMessagesResponseUsageDefault,
   resolveResponseUsageMode,
-} from "./thinking.shared.js";
+} from "./thinking.shared.ts";
 export type {
   ElevatedLevel,
   FastMode,
@@ -32,7 +32,7 @@ export type {
   ThinkLevel,
   ThinkingCatalogEntry,
   VerboseLevel,
-} from "./thinking.shared.js";
+} from "./thinking.shared.ts";
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
@@ -42,8 +42,8 @@ import {
   resolveProviderDefaultThinkingLevel,
   resolveProviderThinkingProfile,
   resolveProviderXHighThinking,
-} from "../plugins/provider-thinking.js";
-import type { ProviderThinkingProfile } from "../plugins/provider-thinking.types.js";
+} from "../plugins/provider-thinking.ts";
+import type { ProviderThinkingProfile } from "../plugins/provider-thinking.types.ts";
 
 /** UI-facing thinking level option. */
 export type ThinkingLevelOption = {

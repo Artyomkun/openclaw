@@ -8,15 +8,15 @@ import {
   formatSessionArchiveTimestamp,
   parseSessionArchiveTimestamp,
   type SessionArchiveReason,
-} from "../config/sessions/artifacts.js";
-import { extractGeneratedTranscriptSessionId } from "../config/sessions/generated-transcript-session-id.js";
+} from "../config/sessions/artifacts.ts";
+import { extractGeneratedTranscriptSessionId } from "../config/sessions/generated-transcript-session-id.ts";
 import {
   resolveSessionFilePath,
   resolveSessionTranscriptPath,
   resolveSessionTranscriptPathInDir,
-} from "../config/sessions/paths.js";
-import { resolveRequiredHomeDir } from "../infra/home-dir.js";
-import { emitSessionTranscriptUpdate } from "../sessions/transcript-events.js";
+} from "../config/sessions/paths.ts";
+import { resolveRequiredHomeDir } from "../infra/home-dir.ts";
+import { emitSessionTranscriptUpdate } from "../sessions/transcript-events.ts";
 
 type ArchiveFileReason = SessionArchiveReason;
 type ResetArchiveCandidate = { archivePath: string; name: string; timestamp: number };
@@ -167,11 +167,7 @@ export function resolveSessionTranscriptCandidates(
     }
   }
 
-  // Keep the legacy global sessions directory as a final candidate so tagged
-  // upgrades can still find transcripts created before per-agent paths.
-  const home = resolveRequiredHomeDir(process.env, os.homedir);
-  const legacyDir = path.join(home, ".openclaw", "sessions");
-  pushCandidate(() => resolveSessionTranscriptPathInDir(sessionId, legacyDir));
+  pushCandidate(() => resolveSessionTranscriptPathInDir(sessionId));
 
   return uniqueStrings(candidates);
 }

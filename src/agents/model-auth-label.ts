@@ -2,26 +2,26 @@
  * Formats user-facing auth labels for resolved provider/model credentials.
  */
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { SessionEntry } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { SessionEntry } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   externalCliDiscoveryForProviderAuth,
   ensureAuthProfileStore,
   loadAuthProfileStoreWithoutExternalProfiles,
   resolveAuthProfileDisplayLabel,
   resolveAuthProfileOrder,
-} from "./auth-profiles.js";
-import { isStoredCredentialCompatibleWithAuthProvider } from "./auth-profiles/order.js";
+} from "./auth-profiles.ts";
+import { isStoredCredentialCompatibleWithAuthProvider } from "./auth-profiles/order.ts";
 import {
   readClaudeCliCredentialsCached,
   readCodexCliCredentialsCached,
-} from "./cli-credentials.js";
+} from "./cli-credentials.ts";
 import {
   resolveEnvApiKey,
   resolveProviderEntryApiKeyProfileReference,
   resolveUsableCustomProviderApiKey,
-} from "./model-auth.js";
-import { normalizeProviderId } from "./model-selection.js";
+} from "./model-auth.ts";
+import { normalizeProviderId } from "./model-selection.ts";
 
 // Builds concise auth labels for UI/status surfaces without exposing credential
 // values. Resolution follows profile override, provider profiles, env, CLI, then

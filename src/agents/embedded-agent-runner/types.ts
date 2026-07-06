@@ -1,20 +1,20 @@
 /**
  * Shared metadata and result types for embedded-agent runner surfaces.
  */
-import type { HeartbeatToolResponse } from "../../auto-reply/heartbeat-tool-response.js";
+import type { HeartbeatToolResponse } from "../../auto-reply/heartbeat-tool-response.ts";
 import type {
   CliSessionBinding,
   SessionContextBudgetStatus,
   SessionSystemPromptReport,
-} from "../../config/sessions/types.js";
-import type { DiagnosticTraceContext } from "../../infra/diagnostic-trace-context.js";
-import type { AcceptedSessionSpawn } from "../accepted-session-spawn.js";
+} from "../../config/sessions/types.ts";
+import type { DiagnosticTraceContext } from "../../infra/diagnostic-trace-context.ts";
+import type { AcceptedSessionSpawn } from "../accepted-session-spawn.ts";
 import type {
   MessagingToolSend,
   MessagingToolSourceReplyPayload,
-} from "../embedded-agent-messaging.types.js";
-import type { FallbackAttempt } from "../model-fallback.types.js";
-import type { AgentRunTimeoutPhase } from "../run-timeout-attribution.js";
+} from "../embedded-agent-messaging.types.ts";
+import type { FallbackAttempt } from "../model-fallback.types.ts";
+import type { AgentRunTimeoutPhase } from "../run-timeout-attribution.ts";
 
 export type EmbeddedAgentMeta = {
   sessionId: string;

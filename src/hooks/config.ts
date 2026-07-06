@@ -1,12 +1,12 @@
 // Hook config helpers read, normalize, and update hook configuration.
-import type { OpenClawConfig, HookConfig } from "../config/config.js";
+import type { OpenClawConfig, HookConfig } from "../config/config.ts";
 import {
   evaluateRuntimeEligibility,
   hasBinary,
   isConfigPathTruthyWithDefaults,
-} from "../shared/config-eval.js";
-import { resolveHookConfig, resolveHookEnableState } from "./policy.js";
-import type { HookEligibilityContext, HookEntry } from "./types.js";
+} from "../shared/config-eval.ts";
+import { resolveHookConfig, resolveHookEnableState } from "./policy.ts";
+import type { HookEligibilityContext, HookEntry } from "./types.ts";
 
 const DEFAULT_CONFIG_VALUES: Record<string, boolean> = {
   "browser.enabled": true,
@@ -16,7 +16,7 @@ const DEFAULT_CONFIG_VALUES: Record<string, boolean> = {
 
 export { hasBinary };
 
-/** Evaluate a config path with hook-specific defaults for legacy runtime requirements. */
+/** Evaluate a config path with hook-specific defaults for older runtime requirements. */
 export function isConfigPathTruthy(config: OpenClawConfig | undefined, pathStr: string): boolean {
   return isConfigPathTruthyWithDefaults(config, pathStr, DEFAULT_CONFIG_VALUES);
 }

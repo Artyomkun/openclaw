@@ -9,8 +9,8 @@ import path from "node:path";
 import {
   killProcessTree as killProcessTreeGracefully,
   type KillProcessTreeOptions,
-} from "../process/kill-tree.js";
-import { getBinDir } from "./config.js";
+} from "../process/kill-tree.ts";
+import { getBinDir } from "./config.ts";
 
 export interface ShellConfig {
   shell: string;

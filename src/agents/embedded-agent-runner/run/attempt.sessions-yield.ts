@@ -1,10 +1,10 @@
 /**
  * Handles sessions-yield interruption, persistence, and artifact cleanup.
  */
-import { isTranscriptOnlyOpenClawAssistantMessage } from "../../../shared/transcript-only-openclaw-assistant.js";
-import type { AgentMessage } from "../../runtime/index.js";
-import { log } from "../logger.js";
-import { resolveEmbeddedAbortSettleTimeoutMs } from "./attempt.abort-settle-timeout.js";
+import { isTranscriptOnlyOpenClawAssistantMessage } from "../../../shared/transcript-only-openclaw-assistant.ts";
+import type { AgentMessage } from "../../runtime/index.ts";
+import { log } from "../logger.ts";
+import { resolveEmbeddedAbortSettleTimeoutMs } from "./attempt.abort-settle-timeout.ts";
 
 const SESSIONS_YIELD_INTERRUPT_CUSTOM_TYPE = "openclaw.sessions_yield_interrupt";
 const SESSIONS_YIELD_CONTEXT_CUSTOM_TYPE = "openclaw.sessions_yield";

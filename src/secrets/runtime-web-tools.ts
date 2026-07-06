@@ -1,27 +1,27 @@
 /** Builds web-tool secret metadata from config, plugins, and provider contracts. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "../plugins/installed-plugin-index-records.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "../plugins/installed-plugin-index-records.ts";
 import type {
   PluginWebFetchProviderEntry,
   PluginWebSearchProviderEntry,
   WebFetchCredentialResolutionSource,
   WebSearchCredentialResolutionSource,
-} from "../plugins/types.js";
-import { sortWebFetchProvidersForAutoDetect } from "../plugins/web-fetch-providers.shared.js";
+} from "../plugins/types.ts";
+import { sortWebFetchProvidersForAutoDetect } from "../plugins/web-fetch-providers.shared.ts";
 import {
   resolveBundledExplicitWebFetchProvidersFromPublicArtifacts,
   resolveBundledExplicitWebSearchProvidersFromPublicArtifacts,
-} from "../plugins/web-provider-public-artifacts.explicit.js";
-import { sortWebSearchProvidersForAutoDetect } from "../plugins/web-search-providers.shared.js";
-import { createLazyRuntimeSurface } from "../shared/lazy-runtime.js";
-import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
-import { secretRefKey } from "./ref-contract.js";
-import { resolveSecretRefValues } from "./resolve.js";
-import { hasCredentialBearingObjectValue } from "./runtime-secret-scan.js";
-import type { ResolverContext, SecretDefaults } from "./runtime-shared.js";
+} from "../plugins/web-provider-public-artifacts.explicit.ts";
+import { sortWebSearchProvidersForAutoDetect } from "../plugins/web-search-providers.shared.ts";
+import { createLazyRuntimeSurface } from "../shared/lazy-runtime.ts";
+import { normalizeSecretInput } from "../utils/normalize-secret-input.ts";
+import { secretRefKey } from "./ref-contract.ts";
+import { resolveSecretRefValues } from "./resolve.ts";
+import { hasCredentialBearingObjectValue } from "./runtime-secret-scan.ts";
+import type { ResolverContext, SecretDefaults } from "./runtime-shared.ts";
 import {
   ensureObject,
   hasConfiguredSecretRef,
@@ -29,14 +29,14 @@ import {
   resolveRuntimeWebProviderSurface,
   resolveRuntimeWebProviderSelection,
   type SecretResolutionResult,
-} from "./runtime-web-tools.shared.js";
+} from "./runtime-web-tools.shared.ts";
 import type {
   RuntimeWebDiagnostic,
   RuntimeWebDiagnosticCode,
   RuntimeWebFetchMetadata,
   RuntimeWebSearchMetadata,
   RuntimeWebToolsMetadata,
-} from "./runtime-web-tools.types.js";
+} from "./runtime-web-tools.types.ts";
 
 export type {
   RuntimeWebDiagnostic,
@@ -559,30 +559,6 @@ export async function resolveRuntimeWebTools(params: {
     });
     return hasCustomWebFetchRisk;
   };
-  const legacyXSearchSource = isRecord(sourceWeb?.x_search) ? sourceWeb.x_search : undefined;
-  const legacyXSearchResolved = isRecord(resolvedWeb?.x_search) ? resolvedWeb.x_search : undefined;
-
-  // Doctor owns the migration, but runtime still needs to resolve the legacy SecretRef surface
-  // so existing configs do not silently stop working before users repair them.
-  if (
-    legacyXSearchSource &&
-    legacyXSearchResolved &&
-    Object.hasOwn(legacyXSearchSource, "apiKey")
-  ) {
-    const legacyXSearchSourceRecord = legacyXSearchSource as Record<string, unknown>;
-    const legacyXSearchResolvedRecord = legacyXSearchResolved as Record<string, unknown>;
-    const resolution = await resolveSecretInputWithEnvFallback({
-      sourceConfig: params.sourceConfig,
-      context: params.context,
-      defaults,
-      value: legacyXSearchSourceRecord.apiKey,
-      path: "tools.web.x_search.apiKey",
-      envVars: ["XAI_API_KEY"],
-    });
-    if (resolution.value) {
-      legacyXSearchResolvedRecord.apiKey = resolution.value;
-    }
-  }
 
   const hasPluginWebSearchConfig = hasPluginScopedWebToolConfig(params.sourceConfig, "webSearch");
   const hasPluginWebFetchConfig = hasPluginScopedWebToolConfig(params.sourceConfig, "webFetch");

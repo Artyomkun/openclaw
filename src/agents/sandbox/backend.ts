@@ -11,7 +11,7 @@ import type {
   SandboxBackendManager,
   SandboxBackendRegistration,
   SandboxBackendWorkdirResolver,
-} from "./backend.types.js";
+} from "./backend.types.ts";
 
 export type {
   CreateSandboxBackendParams,
@@ -22,7 +22,7 @@ export type {
   SandboxBackendRuntimeInfo,
   SandboxBackendWorkdirValidation,
   SandboxBackendWorkdirResolver,
-} from "./backend.types.js";
+} from "./backend.types.ts";
 export type {
   SandboxBackendCommandParams,
   SandboxBackendCommandResult,
@@ -30,7 +30,7 @@ export type {
   SandboxBackendHandle,
   SandboxBackendPreparedWorkdirDiscarder,
   SandboxBackendWorkdirValidator,
-} from "./backend-handle.types.js";
+} from "./backend-handle.types.ts";
 
 const SANDBOX_BACKEND_FACTORIES_STATE_KEY = Symbol.for("openclaw.sandboxBackendFactories");
 
@@ -101,12 +101,12 @@ export function requireSandboxBackendFactory(id: string): SandboxBackendFactory 
   );
 }
 
-import { createDockerSandboxBackend, dockerSandboxBackendManager } from "./docker-backend.js";
+import { createDockerSandboxBackend, dockerSandboxBackendManager } from "./docker-backend.ts";
 import {
   createSshSandboxBackend,
   resolveSshRuntimePaths,
   sshSandboxBackendManager,
-} from "./ssh-backend.js";
+} from "./ssh-backend.ts";
 
 registerSandboxBackend("docker", {
   factory: createDockerSandboxBackend,

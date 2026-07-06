@@ -3,11 +3,11 @@
  * liveness, emit agent events, run hooks, reconcile persisted counts, and
  * clear stale usage after compaction rewrites history.
  */
-import { emitAgentEvent } from "../infra/agent-events.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import { stripStaleAssistantUsageBeforeLatestCompaction } from "./compaction-usage.js";
-import type { EmbeddedAgentSubscribeContext } from "./embedded-agent-subscribe.handlers.types.js";
-import type { AgentSessionEvent } from "./sessions/index.js";
+import { emitAgentEvent } from "../infra/agent-events.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import { stripStaleAssistantUsageBeforeLatestCompaction } from "./compaction-usage.ts";
+import type { EmbeddedAgentSubscribeContext } from "./embedded-agent-subscribe.handlers.types.ts";
+import type { AgentSessionEvent } from "./sessions/index.ts";
 
 type SessionCompactionStartEvent = Extract<AgentSessionEvent, { type: "compaction_start" }>;
 type SessionCompactionEndEvent = Extract<AgentSessionEvent, { type: "compaction_end" }>;

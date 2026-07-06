@@ -1,10 +1,10 @@
 // Interactive grouped auth-choice prompt used by onboarding and agent setup.
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.js";
-import { buildAuthChoiceGroups, compareAuthChoiceGroups } from "./auth-choice-options.js";
-import type { AuthChoiceGroup } from "./auth-choice-options.static.js";
-import type { AuthChoice } from "./onboard-types.js";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.ts";
+import { buildAuthChoiceGroups, compareAuthChoiceGroups } from "./auth-choice-options.ts";
+import type { AuthChoiceGroup } from "./auth-choice-options.static.ts";
+import type { AuthChoice } from "./onboard-types.ts";
 
 const BACK_VALUE = "__back";
 const MORE_VALUE = "__more";

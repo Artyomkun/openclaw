@@ -1,9 +1,9 @@
 /** Resolves and emits cron failure-alert notifications. */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveFailoverReasonFromError } from "../../agents/failover-error.js";
-import { truncateUtf16Safe } from "../../shared/utf16-slice.js";
-import type { CronFailureNotificationDelivery, CronJob, CronMessageChannel } from "../types.js";
-import type { CronServiceState } from "./state.js";
+import { resolveFailoverReasonFromError } from "../../agents/failover-error.ts";
+import { truncateUtf16Safe } from "../../shared/utf16-slice.ts";
+import type { CronFailureNotificationDelivery, CronJob, CronMessageChannel } from "../types.ts";
+import type { CronServiceState } from "./state.ts";
 
 const DEFAULT_FAILURE_ALERT_AFTER = 2;
 const DEFAULT_FAILURE_ALERT_COOLDOWN_MS = 60 * 60_000; // 1 hour

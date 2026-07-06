@@ -1,5 +1,4 @@
-// Shared debug-proxy capture schema. These records back the SQLite store, CLI
-// reports, and runtime capture events for HTTP/SSE/websocket traffic.
+// Shared debug-proxy capture schema — Oracle + HTTP/3 (RFC 9114)
 export type CaptureProtocol = "http" | "https" | "sse" | "ws" | "wss" | "connect";
 
 export type CaptureDirection = "outbound" | "inbound" | "local";
@@ -23,23 +22,14 @@ export type CaptureSessionRecord = {
   sourceScope: "openclaw";
   sourceProcess: string;
   proxyUrl?: string;
-  /** @deprecated Capture storage now lives in the shared state database. */
-  dbPath?: string;
-  /** @deprecated Capture payloads now live in the shared state database. */
-  blobDir?: string;
 };
 
-export type CaptureBlobRecord = {
+export type SharedCaptureBlobRecord = {
   blobId: string;
-  path: string;
   encoding: "gzip";
   sizeBytes: number;
   sha256: string;
   contentType?: string;
-};
-
-export type SharedCaptureBlobRecord = Omit<CaptureBlobRecord, "path"> & {
-  path?: never;
 };
 
 export type CaptureEventRecord = {

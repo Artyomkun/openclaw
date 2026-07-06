@@ -1,7 +1,7 @@
 /**
  * Reads normalized context-token metadata from resolved model definitions.
  */
-import type { Model } from "../../llm/types.js";
+import type { Model } from "../../llm/types.ts";
 
 /**
  * Reads optional context-token metadata from discovered models without widening the core model type.

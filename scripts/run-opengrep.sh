@@ -37,7 +37,7 @@ CONFIG="$REPO_ROOT/security/opengrep/precise.yml"
 
 if [[ ! -f "$CONFIG" ]]; then
   echo "error: rulepack not found at $CONFIG" >&2
-  echo "Recompile with: node security/opengrep/compile-rules.mjs --rules-dir <rules-dir> --out-dir security/opengrep" >&2
+  echo "Recompile with: node security/opengrep/compile-rules.ts --rules-dir <rules-dir> --out-dir security/opengrep" >&2
   exit 66
 fi
 
@@ -156,7 +156,7 @@ resolve_changed_diff_ref() {
   # First-parent resolution is shared with the Node CI routers so PR diff
   # scope cannot drift between changed-lanes, changed-scope, and OpenGrep.
   resolved_base="$(
-    node "$REPO_ROOT/scripts/lib/merge-head-diff-base.mjs" \
+    node "$REPO_ROOT/scripts/lib/merge-head-diff-base.ts" \
       --base "$base_ref" \
       --head "$head_ref" \
       --prefer-first-parent 2>/dev/null || true

@@ -32,7 +32,7 @@ export function normalizeAssistantPhase(value: unknown): AssistantPhase | undefi
   return value === "commentary" || value === "final_answer" ? value : undefined;
 }
 
-/** Parses assistant text block signatures, preserving legacy raw ids when not JSON encoded. */
+/** Parses assistant text block signatures, preserving older raw ids when not JSON encoded. */
 export function parseAssistantTextSignature(
   value: unknown,
 ): { id?: string; phase?: AssistantPhase } | null {
@@ -108,7 +108,7 @@ export function resolveAssistantEventPhase(data: unknown): AssistantPhase | unde
   );
 }
 
-/** Extracts assistant text for a requested phase without mixing legacy and explicitly phased text. */
+/** Extracts assistant text for a requested phase without mixing older and explicitly phased text. */
 export function extractAssistantTextForPhase(
   message: unknown,
   options?: {
@@ -166,7 +166,7 @@ export function extractAssistantTextForPhase(
     return Boolean(parseAssistantTextSignature(record.textSignature)?.phase);
   });
 
-  // Once explicit phased blocks exist, unphased extraction should not revive legacy text.
+  // Once explicit phased blocks exist, unphased extraction should not revive older text.
   if (!phase && hasExplicitPhasedTextBlocks) {
     return undefined;
   }
@@ -197,7 +197,7 @@ export function extractAssistantTextForPhase(
   return normalizeJoinedText(parts.join(joinWith));
 }
 
-/** Returns user-visible assistant text, preferring final answers over legacy unphased text. */
+/** Returns user-visible assistant text, preferring final answers over older unphased text. */
 export function extractAssistantVisibleText(message: unknown): string | undefined {
   const finalAnswerText = extractAssistantTextForPhase(message, { phase: "final_answer" });
   if (finalAnswerText) {

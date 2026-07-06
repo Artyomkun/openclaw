@@ -7,32 +7,32 @@ import {
   resolveConfigPath,
   resolveGatewayPort,
   resolveStateDir,
-} from "../../config/config.js";
+} from "../../config/config.ts";
 import type {
   OpenClawConfig,
   ConfigFileSnapshot,
   GatewayBindMode,
   GatewayControlUiConfig,
-} from "../../config/types.js";
-import { resolveSecretInputRef } from "../../config/types.secrets.js";
-import { readLastGatewayErrorLine } from "../../daemon/diagnostics.js";
-import type { FindExtraGatewayServicesOptions } from "../../daemon/inspect.js";
-import type { StaleOpenClawUpdateLaunchdJob } from "../../daemon/launchd.js";
-import type { ServiceConfigAudit } from "../../daemon/service-audit.js";
-import type { GatewayServiceRuntime } from "../../daemon/service-runtime.js";
-import { resolveGatewayService } from "../../daemon/service.js";
-import { gatewaySecretInputPathCanWin } from "../../gateway/credentials-secret-inputs.js";
-import { trimToUndefined } from "../../gateway/credentials.js";
-import { resolveGatewayProbeCredentialConfig } from "../../gateway/probe-auth.js";
+} from "../../config/types.ts";
+import { resolveSecretInputRef } from "../../config/types.secrets.ts";
+import { readLastGatewayErrorLine } from "../../daemon/diagnostics.ts";
+import type { FindExtraGatewayServicesOptions } from "../../daemon/inspect.ts";
+import type { StaleOpenClawUpdateLaunchdJob } from "../../daemon/launchd.ts";
+import type { ServiceConfigAudit } from "../../daemon/service-audit.ts";
+import type { GatewayServiceRuntime } from "../../daemon/service-runtime.ts";
+import { resolveGatewayService } from "../../daemon/service.ts";
+import { gatewaySecretInputPathCanWin } from "../../gateway/credentials-secret-inputs.ts";
+import { trimToUndefined } from "../../gateway/credentials.ts";
+import { resolveGatewayProbeCredentialConfig } from "../../gateway/probe-auth.ts";
 import {
   ALL_GATEWAY_SECRET_INPUT_PATHS,
   readGatewaySecretInputValue,
-} from "../../gateway/secret-input-paths.js";
+} from "../../gateway/secret-input-paths.ts";
 import {
   inspectBestEffortPrimaryTailnetIPv4,
   resolveBestEffortGatewayBindHostForDisplay,
-} from "../../infra/network-discovery-display.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
+} from "../../infra/network-discovery-display.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
 import {
   formatPortDiagnostics,
   inspectPortConnections,
@@ -40,21 +40,21 @@ import {
   type PortConnection,
   type PortListener,
   type PortUsageStatus,
-} from "../../infra/ports.js";
+} from "../../infra/ports.ts";
 import {
   readGatewayRestartHandoffSync,
   type GatewayRestartHandoff,
-} from "../../infra/restart-handoff.js";
-import { resolveConfiguredLogFilePath } from "../../logging/log-file-path.js";
-import { loadInstalledPluginIndexInstallRecords } from "../../plugins/installed-plugin-index-record-reader.js";
+} from "../../infra/restart-handoff.ts";
+import { resolveConfiguredLogFilePath } from "../../logging/log-file-path.ts";
+import { loadInstalledPluginIndexInstallRecords } from "../../plugins/installed-plugin-index-record-reader.ts";
 import {
   detectPluginVersionDrift,
   type PluginVersionDriftReport,
-} from "../../plugins/plugin-version-drift.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { VERSION } from "../../version.js";
-import { normalizeListenerAddress, parsePortFromArgs, pickProbeHostForBind } from "./shared.js";
-import type { GatewayRpcOpts } from "./types.js";
+} from "../../plugins/plugin-version-drift.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { VERSION } from "../../version.ts";
+import { normalizeListenerAddress, parsePortFromArgs, pickProbeHostForBind } from "./shared.ts";
+import type { GatewayRpcOpts } from "./types.ts";
 
 type ConfigSummary = {
   path: string;

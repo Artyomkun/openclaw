@@ -1,14 +1,14 @@
 // Bridges ACP transcript events into persisted OpenClaw session transcripts.
 import { resolveAcpSessionCwd } from "@openclaw/acp-core/runtime/session-identifiers";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { persistAcpTurnTranscript } from "../../agents/command/attempt-execution.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { persistAcpTurnTranscript } from "../../agents/command/attempt-execution.ts";
 import {
   loadSessionStore,
   resolveSessionStoreEntry,
   resolveStorePath,
-} from "../../config/sessions.js";
-import type { SessionAcpMeta } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/sessions.ts";
+import type { SessionAcpMeta } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
 export async function persistAcpDispatchTranscript(params: {
   cfg: OpenClawConfig;

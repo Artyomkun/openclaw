@@ -7,20 +7,20 @@ import fs from "node:fs";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { isBundledSourceOverlayPath } from "../../plugins/bundled-source-overlays.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { isBundledSourceOverlayPath } from "../../plugins/bundled-source-overlays.ts";
 import {
   listChannelCatalogEntries,
   type PluginChannelCatalogEntry,
-} from "../../plugins/channel-catalog-registry.js";
-import type { PluginDiscoveryResult } from "../../plugins/discovery.js";
+} from "../../plugins/channel-catalog-registry.ts";
+import type { PluginDiscoveryResult } from "../../plugins/discovery.ts";
 import {
   getCachedPluginModuleLoader,
   type PluginModuleLoaderCache,
-} from "../../plugins/plugin-module-loader-cache.js";
-import { loadChannelPluginModule, resolveExistingPluginModulePath } from "./module-loader.js";
+} from "../../plugins/plugin-module-loader-cache.ts";
+import { loadChannelPluginModule, resolveExistingPluginModulePath } from "./module-loader.ts";
 
 type ChannelPackageStateChecker = (params: {
   cfg: OpenClawConfig;

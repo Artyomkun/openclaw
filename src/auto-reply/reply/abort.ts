@@ -3,23 +3,23 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getAcpSessionManager } from "../../acp/control-plane/manager.js";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
+import { getAcpSessionManager } from "../../acp/control-plane/manager.ts";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
 import {
   abortEmbeddedAgentRun,
   resolveActiveEmbeddedRunSessionId,
-} from "../../agents/embedded-agent-runner/runs.js";
+} from "../../agents/embedded-agent-runner/runs.ts";
 import {
   getLatestSubagentRunByChildSessionKey,
   listSubagentRunsForController,
   markSubagentRunTerminated,
-} from "../../agents/subagent-registry.js";
-import type { SubagentRunRecord } from "../../agents/subagent-registry.js";
+} from "../../agents/subagent-registry.ts";
+import type { SubagentRunRecord } from "../../agents/subagent-registry.ts";
 import {
   resolveInternalSessionKey,
   resolveMainSessionAlias,
-} from "../../agents/tools/sessions-helpers.js";
-import { resolveStorePath } from "../../config/sessions.js";
+} from "../../agents/tools/sessions-helpers.ts";
+import { resolveStorePath } from "../../config/sessions.ts";
 import {
   loadSessionEntry,
   markSessionAbortTarget,
@@ -27,18 +27,18 @@ import {
   type SessionAbortTargetContext,
   type SessionAbortTargetIdentity,
   type SessionAbortTargetResult,
-} from "../../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { isAcpSessionKey, parseAgentSessionKey } from "../../routing/session-key.js";
-import { resolveCommandAuthorization } from "../command-auth.js";
-import type { FinalizedMsgContext } from "../templating.js";
+} from "../../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { isAcpSessionKey, parseAgentSessionKey } from "../../routing/session-key.ts";
+import { resolveCommandAuthorization } from "../command-auth.ts";
+import type { FinalizedMsgContext } from "../templating.ts";
 import {
   type AbortCutoff,
   resolveAbortCutoffFromContext,
   shouldPersistAbortCutoff,
-} from "./abort-cutoff.js";
+} from "./abort-cutoff.ts";
 import {
   getAbortMemory,
   getAbortMemorySizeForTest,
@@ -46,14 +46,14 @@ import {
   isAbortTrigger,
   resetAbortMemoryForTest,
   setAbortMemory,
-} from "./abort-primitives.js";
-import { resolveEffectiveResetTargetSessionKey } from "./acp-reset-target.js";
-import { resolveConversationBindingContextFromMessage } from "./conversation-binding-input.js";
-import { stripMentions, stripStructuralPrefixes } from "./mentions.js";
-import { clearSessionQueues } from "./queue.js";
-import { replyRunRegistry } from "./reply-run-registry.js";
+} from "./abort-primitives.ts";
+import { resolveEffectiveResetTargetSessionKey } from "./acp-reset-target.ts";
+import { resolveConversationBindingContextFromMessage } from "./conversation-binding-input.ts";
+import { stripMentions, stripStructuralPrefixes } from "./mentions.ts";
+import { clearSessionQueues } from "./queue.ts";
+import { replyRunRegistry } from "./reply-run-registry.ts";
 
-export { resolveAbortCutoffFromContext, shouldSkipMessageByAbortCutoff } from "./abort-cutoff.js";
+export { resolveAbortCutoffFromContext, shouldSkipMessageByAbortCutoff } from "./abort-cutoff.ts";
 export {
   getAbortMemory,
   getAbortMemorySizeForTest,

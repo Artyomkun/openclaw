@@ -17,18 +17,18 @@ import * as bundledTypebox from "typebox";
 import * as bundledTypeboxCompile from "typebox/compile";
 import * as bundledTypeboxFormat from "typebox/format";
 import * as bundledTypeboxValue from "typebox/value";
-import { installOpenClawInternalCorePackageNativeResolver } from "../../../plugins/plugin-sdk-native-resolver.js";
+import { installOpenClawInternalCorePackageNativeResolver } from "../../../plugins/plugin-sdk-native-resolver.ts";
 import {
   buildPluginLoaderAliasMap,
   buildPluginLoaderJitiOptions,
-} from "../../../plugins/sdk-alias.js";
-import { CONFIG_DIR_NAME, getAgentDir, isBunBinary } from "../../config.js";
-import * as bundledAgentCore from "../../runtime/index.js";
-import { createEventBus, type EventBus } from "../event-bus.js";
-import type { ExecOptions } from "../exec.js";
-import { execCommand } from "../exec.js";
-import * as bundledAgentSessions from "../extension-sdk.js";
-import { createSyntheticSourceInfo } from "../source-info.js";
+} from "../../../plugins/sdk-alias.ts";
+import { CONFIG_DIR_NAME, getAgentDir, isBunBinary } from "../../config.ts";
+import * as bundledAgentCore from "../../runtime/index.ts";
+import { createEventBus, type EventBus } from "../event-bus.ts";
+import type { ExecOptions } from "../exec.ts";
+import { execCommand } from "../exec.ts";
+import * as bundledAgentSessions from "../extension-sdk.ts";
+import { createSyntheticSourceInfo } from "../source-info.ts";
 import type {
   Extension,
   ExtensionAPI,
@@ -40,7 +40,7 @@ import type {
   ProviderConfig,
   RegisteredCommand,
   ToolDefinition,
-} from "./types.js";
+} from "./types.ts";
 
 /** Modules available to extensions via virtualModules (for compiled Bun binary) */
 const VIRTUAL_MODULES: Record<string, unknown> = {
@@ -382,8 +382,7 @@ function resolveExtensionFactory(module: unknown): ExtensionFactory | undefined 
 
 function isJavaScriptExtensionPath(extensionPath: string): boolean {
   switch (path.extname(extensionPath).toLowerCase()) {
-    case ".cjs":
-    case ".mjs":
+    case ".ts":
       return true;
     default:
       return false;

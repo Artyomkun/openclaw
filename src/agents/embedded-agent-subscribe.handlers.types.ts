@@ -3,31 +3,31 @@
  * Message, tool, compaction, and liveness handlers all mutate this single
  * state shape while keeping their implementation files decoupled.
  */
-import type { InlineCodeState } from "../../packages/markdown-core/src/code-spans.js";
-import type { FenceScanState } from "../../packages/markdown-core/src/fences.js";
-import type { HeartbeatToolResponse } from "../auto-reply/heartbeat-tool-response.js";
-import type { ReplyDirectiveParseResult } from "../auto-reply/reply/reply-directives.js";
-import type { ReasoningLevel } from "../auto-reply/thinking.js";
-import type { HookRunner } from "../plugins/hooks.js";
-import type { AssistantPhase } from "../shared/chat-message-content.js";
-import type { AcceptedSessionSpawn } from "./accepted-session-spawn.js";
-import type { EmbeddedBlockChunker } from "./embedded-agent-block-chunker.js";
+import type { InlineCodeState } from "../../packages/markdown-core/src/code-spans.ts";
+import type { FenceScanState } from "../../packages/markdown-core/src/fences.ts";
+import type { HeartbeatToolResponse } from "../auto-reply/heartbeat-tool-response.ts";
+import type { ReplyDirectiveParseResult } from "../auto-reply/reply/reply-directives.ts";
+import type { ReasoningLevel } from "../auto-reply/thinking.ts";
+import type { HookRunner } from "../plugins/hooks.ts";
+import type { AssistantPhase } from "../shared/chat-message-content.ts";
+import type { AcceptedSessionSpawn } from "./accepted-session-spawn.ts";
+import type { EmbeddedBlockChunker } from "./embedded-agent-block-chunker.ts";
 import type {
   MessagingToolSend,
   MessagingToolSourceReplyPayload,
-} from "./embedded-agent-messaging.types.js";
-import type { BlockReplyPayload } from "./embedded-agent-payloads.js";
-import type { EmbeddedRunReplayState } from "./embedded-agent-runner/replay-state.js";
-import type { EmbeddedRunLivenessState } from "./embedded-agent-runner/types.js";
+} from "./embedded-agent-messaging.types.ts";
+import type { BlockReplyPayload } from "./embedded-agent-payloads.ts";
+import type { EmbeddedRunReplayState } from "./embedded-agent-runner/replay-state.ts";
+import type { EmbeddedRunLivenessState } from "./embedded-agent-runner/types.ts";
 import type {
   BlockReplyChunking,
   SubscribeEmbeddedAgentSessionParams,
-} from "./embedded-agent-subscribe.types.js";
-import type { AgentRunTimeoutPhase } from "./run-timeout-attribution.js";
-import type { AgentMessage } from "./runtime/index.js";
-import type { AgentSessionEvent } from "./sessions/index.js";
-import type { ToolErrorSummary } from "./tool-error-summary.js";
-import type { NormalizedUsage } from "./usage.js";
+} from "./embedded-agent-subscribe.types.ts";
+import type { AgentRunTimeoutPhase } from "./run-timeout-attribution.ts";
+import type { AgentMessage } from "./runtime/index.ts";
+import type { AgentSessionEvent } from "./sessions/index.ts";
+import type { ToolErrorSummary } from "./tool-error-summary.ts";
+import type { NormalizedUsage } from "./usage.ts";
 
 type EmbeddedSubscribeLogger = {
   debug: (message: string, meta?: Record<string, unknown>) => void;

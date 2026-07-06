@@ -1,13 +1,13 @@
 // Gateway live state factory.
 // Combines mutable runtime handles with startup-resolved services for request contexts.
-import type { PluginServicesHandle } from "../plugins/services.js";
-import type { HooksConfigResolved } from "./hooks.js";
-import type { GatewayCronState } from "./server-cron.js";
+import type { PluginServicesHandle } from "../plugins/services.ts";
+import type { HooksConfigResolved } from "./hooks.ts";
+import type { GatewayCronState } from "./server-cron.ts";
 import {
   createGatewayServerMutableState,
   type GatewayServerMutableState,
-} from "./server-runtime-handles.js";
-import type { HookClientIpConfig } from "./server/hooks-request-handler.js";
+} from "./server-runtime-handles.ts";
+import type { HookClientIpConfig } from "./server/hooks-request-handler.ts";
 
 /** Mutable gateway server state shared across request contexts. */
 export type GatewayServerLiveState = GatewayServerMutableState & {

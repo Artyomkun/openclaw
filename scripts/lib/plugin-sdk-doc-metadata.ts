@@ -2,7 +2,6 @@
 export type PluginSdkDocCategory =
   | "channel"
   | "core"
-  | "legacy"
   | "provider"
   | "runtime"
   | "utilities";
@@ -12,9 +11,6 @@ type PluginSdkDocMetadata = {
 };
 
 export const pluginSdkDocMetadata = {
-  index: {
-    category: "legacy",
-  },
   core: {
     category: "core",
   },
@@ -55,9 +51,6 @@ export const pluginSdkDocMetadata = {
     category: "channel",
   },
   "channel-config-schema": {
-    category: "channel",
-  },
-  "channel-config-schema-legacy": {
     category: "channel",
   },
   "chat-channel-ids": {

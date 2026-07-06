@@ -1,18 +1,18 @@
 // Formatting layer for `openclaw skills` commands; keeps discovery data separate from terminal UI.
-import { sanitizeForLog, stripAnsi } from "../../packages/terminal-core/src/ansi.js";
+import { sanitizeForLog, stripAnsi } from "../../packages/terminal-core/src/ansi.ts";
 import {
   decorativeEmoji,
   decorativePrefix,
-} from "../../packages/terminal-core/src/decorative-emoji.js";
-import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
+} from "../../packages/terminal-core/src/decorative-emoji.ts";
+import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   resolveSkillStatusEntry,
   type SkillStatusEntry,
   type SkillStatusReport,
-} from "../skills/discovery/status.js";
-import { shortenHomePath } from "../utils.js";
-import { formatCliCommand } from "./command-format.js";
+} from "../skills/discovery/status.ts";
+import { shortenHomePath } from "../utils.ts";
+import { formatCliCommand } from "./command-format.ts";
 
 /** Options for rendering the skill list command. */
 export type SkillsListOptions = {

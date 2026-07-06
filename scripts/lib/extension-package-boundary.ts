@@ -1,7 +1,7 @@
 // Extension Package Boundary script supports OpenClaw repository automation.
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join, posix, resolve } from "node:path";
-import { privateLocalOnlyPluginSdkEntrypoints } from "./plugin-sdk-entries.mjs";
+import { privateLocalOnlyPluginSdkEntrypoints } from "./plugin-sdk-entries.ts";
 
 export const EXTENSION_PACKAGE_BOUNDARY_INCLUDE = ["./*.ts", "./src/**/*.ts"] as const;
 export const EXTENSION_PACKAGE_BOUNDARY_EXCLUDE = [
@@ -39,7 +39,7 @@ function buildPackageBoundaryDtsPaths(params: {
       if (subpath === null || subpath.includes("..") || typeof importPath !== "string") {
         return [];
       }
-      if (!importPath.startsWith("./dist/") || !importPath.endsWith(".mjs")) {
+      if (!importPath.startsWith("./dist/") || !importPath.endsWith(".ts")) {
         return [];
       }
       const specifier = subpath ? `${params.packageName}/${subpath}` : params.packageName;

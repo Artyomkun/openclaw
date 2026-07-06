@@ -1,6 +1,6 @@
 // Gateway Tailscale exposure helper.
 // Applies Serve/Funnel routes and returns optional shutdown cleanup.
-import { formatErrorMessage } from "../infra/errors.js";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   disableTailscaleFunnel,
   disableTailscaleServe,
@@ -8,8 +8,8 @@ import {
   enableTailscaleServe,
   getTailnetHostname,
   hasTailscaleFunnelRouteForPort,
-} from "../infra/tailscale.js";
-import { resolveTailscalePublishedHost } from "../shared/tailscale-status.js";
+} from "../infra/tailscale.ts";
+import { resolveTailscalePublishedHost } from "../shared/tailscale-status.ts";
 
 export async function startGatewayTailscaleExposure(params: {
   tailscaleMode: "off" | "serve" | "funnel";

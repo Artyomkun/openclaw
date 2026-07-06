@@ -1,13 +1,13 @@
 /**
- * Provider-owned error-pattern dispatch plus legacy fallback patterns.
+ * Provider-owned error-pattern dispatch.
  *
  * Most provider-specific failover classification now lives on provider-plugin
  * hooks. This module keeps only fallback patterns for providers that do not
  * yet ship a dedicated provider plugin hook surface.
  */
 
-import { resolveNodeRequireFromMeta } from "../../logging/node-require.js";
-import type { FailoverReason } from "./types.js";
+import { resolveNodeRequireFromMeta } from "../../logging/node-require.ts";
+import type { FailoverReason } from "./types.ts";
 
 type ProviderErrorPattern = {
   /** Regex to match against the raw error message. */

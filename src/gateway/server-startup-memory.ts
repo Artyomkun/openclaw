@@ -1,14 +1,14 @@
 // Gateway memory startup helper.
 // Starts qmd memory boot sync for eligible agents without loading every agent.
-import { listAgentEntries, listAgentIds, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { resolveMemorySearchConfig } from "../agents/memory-search.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { listAgentEntries, listAgentIds, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { resolveMemorySearchConfig } from "../agents/memory-search.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveMemoryBackendConfig,
   type ResolvedQmdConfig,
-} from "../memory-host-sdk/host/backend-config.js";
-import { getActiveMemorySearchManager } from "../plugins/memory-runtime.js";
-import { normalizeAgentId } from "../routing/session-key.js";
+} from "../memory-host-sdk/host/backend-config.ts";
+import { getActiveMemorySearchManager } from "../plugins/memory-runtime.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
 
 /** True when qmd memory config opts into Gateway startup manager work. */
 function shouldRunQmdStartupManager(qmd: ResolvedQmdConfig): boolean {

@@ -1,7 +1,7 @@
 // Commander registration for model catalog, status, auth, alias, and fallback commands.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 
 type ModelsCliRuntime = typeof import("./models-cli.runtime.js");
 

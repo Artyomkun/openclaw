@@ -1,6 +1,6 @@
 // Defines user-facing config field help text for docs and UI surfaces.
-import { MEDIA_AUDIO_FIELD_HELP } from "./media-audio-field-metadata.js";
-import { describeTalkSilenceTimeoutDefaults } from "./talk-defaults.js";
+import { MEDIA_AUDIO_FIELD_HELP } from "./media-audio-field-metadata.ts";
+import { describeTalkSilenceTimeoutDefaults } from "./talk-defaults.ts";
 
 export const FIELD_HELP: Record<string, string> = {
   meta: "Metadata fields automatically maintained by OpenClaw to record write/version history for this config file. Keep these values system-managed and avoid manual edits unless debugging migration history.",
@@ -165,8 +165,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Remote gateway over SSH (tunnels the gateway port to localhost). Format: user@host or user@host:port.",
   "gateway.remote.sshIdentity": "Optional SSH identity file path (passed to ssh -i).",
   "talk.provider": 'Active Talk provider id (for example "acme-speech").',
-  "talk.providers":
-    "Provider-specific Talk settings keyed by provider id. During migration, prefer this over legacy talk.* keys.",
   "talk.providers.*": "Provider-owned Talk config fields for the matching provider id.",
   "talk.providers.*.apiKey": "Provider API key for Talk mode.", // pragma: allowlist secret
   "talk.realtime":
@@ -366,8 +364,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Per-profile Chrome DevTools MCP command for existing-session attachment. Defaults to npx.",
   "browser.profiles.*.mcpArgs":
     "Extra per-profile Chrome DevTools MCP arguments for existing-session attachment, such as --no-usage-statistics. Endpoint arguments here override the built-in auto-connect or browser URL selection.",
-  "browser.profiles.*.driver":
-    'Per-profile browser driver mode. Use "openclaw" (or legacy "clawd") for CDP-based profiles, or use "existing-session" for Chrome DevTools MCP attachment on the selected host or browser node.',
   "browser.profiles.*.executablePath":
     "Per-profile browser executable path for locally launched managed browser profiles. Overrides browser.executablePath and accepts paths starting with ~ for the OS home directory.",
   "browser.profiles.*.headless":
@@ -398,8 +394,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Allows access to private-network address ranges from browser tooling. Default is disabled when unset; enable only for explicitly trusted private-network destinations.",
   "browser.ssrfPolicy.allowedHostnames":
     "Explicit hostname allowlist exceptions for SSRF policy checks on browser/network requests. Keep this list minimal and review entries regularly to avoid stale broad access.",
-  "browser.ssrfPolicy.hostnameAllowlist":
-    "Legacy/alternate hostname allowlist field used by SSRF policy consumers for explicit host exceptions. Use stable exact hostnames and avoid wildcard-like broad patterns.",
   "browser.remoteCdpTimeoutMs":
     "Timeout in milliseconds for connecting to a remote CDP endpoint before failing the browser attach attempt. Increase for high-latency tunnels, or lower for faster failure detection.",
   "browser.remoteCdpHandshakeTimeoutMs":
@@ -634,8 +628,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Maximum time allowed for the transcription command to finish before it is aborted. Increase this for longer recordings, and keep it tight in latency-sensitive deployments.",
   bindings:
     "Top-level binding rules for routing and persistent ACP conversation ownership. Use type=route for normal routing and type=acp for persistent ACP harness bindings.",
-  "bindings[].type":
-    'Binding kind. Use "route" (or omit for legacy route entries) for normal routing, and "acp" for persistent ACP conversation bindings.',
   "bindings[].agentId":
     "Target agent ID that receives traffic when the corresponding binding match rule is satisfied. Use valid configured agent IDs only so routing does not fail at runtime.",
   "bindings[].session":
@@ -650,8 +642,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Optional account selector for multi-account channel setups so the binding applies only to one identity. Use this when account scoping is required for the route and leave unset otherwise.",
   "bindings[].match.peer":
     "Optional peer matcher for specific conversations including peer kind and peer id. Use this when only one direct/group/channel target should be pinned to an agent.",
-  "bindings[].match.peer.kind":
-    'Peer conversation type: "direct", "group", "channel", or legacy "dm" (deprecated alias for direct). Prefer "direct" for new configs and keep kind aligned with channel semantics.',
   "bindings[].match.peer.id":
     "Conversation identifier used with peer matching, such as a chat ID, channel ID, or group ID from the provider. Keep this exact to avoid silent non-matches.",
   "bindings[].match.guildId":
@@ -900,8 +890,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Restrict filesystem tools (read/write/edit/apply_patch) to the workspace directory (default: false).",
   "tools.sessions.visibility":
     'Controls which sessions can be targeted by sessions_list/sessions_history/sessions_send. ("tree" default = current session + spawned subagent sessions; "self" = only current; "agent" = any session in the current agent id; "all" = any session; cross-agent still requires tools.agentToAgent).',
-  "tools.message.allowCrossContextSend":
-    "Legacy override: allow cross-context sends across all providers.",
   "tools.message.crossContext.allowWithinProvider":
     "Allow sends to other channels within the same provider (default: true).",
   "tools.message.crossContext.allowAcrossProviders":
@@ -1397,8 +1385,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Per-plugin enablement override for a specific entry, applied on top of global plugin policy (restart required). Use this to stage plugin rollout gradually across environments.",
   "plugins.entries.*.hooks":
     "Per-plugin typed hook policy controls for core-enforced safety gates. Use this to constrain high-impact hook categories without disabling the entire plugin.",
-  "plugins.entries.*.hooks.allowPromptInjection":
-    "Controls whether this plugin may mutate prompts through typed hooks. Set false to block `before_prompt_build` and ignore prompt-mutating fields from legacy `before_agent_start`, while preserving legacy `modelOverride` and `providerOverride` behavior.",
   "plugins.entries.*.hooks.allowConversationAccess":
     "Controls whether this plugin may read raw conversation content from typed hooks such as `before_agent_run`, `before_model_resolve`, `before_agent_reply`, `llm_input`, `llm_output`, `before_agent_finalize`, and `agent_end`. Non-bundled plugins must opt in explicitly.",
   "plugins.entries.*.hooks.timeoutMs":
@@ -1505,8 +1491,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Enable structured mid-turn context pressure checks for embedded OpenClaw tool loops. Default: false. Keep disabled unless long tool-heavy sessions hit context overflow before normal turn-end compaction can run.",
   "agents.defaults.compaction.postIndexSync":
     'Controls post-compaction session memory reindex mode: "off", "async", or "await" (default: "async"). Use "await" for strongest freshness, "async" for lower compaction latency, and "off" only when session-memory sync is handled elsewhere.',
-  "agents.defaults.compaction.postCompactionSections":
-    'Opt-in AGENTS.md H2/H3 section names re-injected after compaction so the agent reruns critical startup guidance. Leave unset or set [] to disable reinjection. Explicitly set ["Session Startup", "Red Lines"] to enable the legacy default pair with fallback to older "Every Session"/"Safety" headings. Enabling this can duplicate project context already present in the compaction summary.',
   "agents.defaults.compaction.timeoutSeconds":
     "Maximum time in seconds allowed for a single compaction operation before it is aborted (default: 180). Increase this for very large sessions that need more time to summarize, or decrease it to fail faster on unresponsive models.",
   "agents.defaults.compaction.model":
@@ -1618,8 +1602,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Maps canonical identities to provider-prefixed peer IDs so equivalent users resolve to one DM thread (example: telegram:123456). Use this when the same human appears across multiple channels or accounts.",
   "session.resetTriggers":
     "Lists message triggers that force a session reset when matched in inbound content. Use sparingly for explicit reset phrases so context is not dropped unexpectedly during normal conversation.",
-  "session.idleMinutes":
-    "Applies a legacy idle reset window in minutes for session reuse behavior across inactivity gaps. Use this only for compatibility and prefer structured reset policies under session.reset/session.resetByType.",
   "session.reset":
     "Defines the default reset policy object used when no type-specific or channel-specific override applies. Set this first, then layer resetByType or resetByChannel only where behavior must differ.",
   "session.reset.mode":
@@ -1630,8 +1612,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Sets inactivity window before reset for idle mode and can also act as secondary guard with daily mode. Use larger values to preserve continuity or smaller values for fresher short-lived threads.",
   "session.resetByType":
     "Overrides reset behavior by chat type (direct, group, thread) when defaults are not sufficient. Use this when group/thread traffic needs different reset cadence than direct messages.",
-  "session.resetByType.direct":
-    "Defines reset policy for direct chats and supersedes the base session.reset configuration for that type. Use this as the canonical direct-message override instead of the legacy dm alias.",
   "session.resetByType.dm":
     "Deprecated alias for direct reset behavior kept for backward compatibility with older configs. Use session.resetByType.direct instead so future tooling and validation remain consistent.",
   "session.resetByType.group":
@@ -1696,8 +1676,6 @@ export const FIELD_HELP: Record<string, string> = {
     'Determines whether maintenance policies are only reported ("warn") or actively applied ("enforce"). Keep "warn" during rollout and switch to "enforce" after validating safe thresholds.',
   "session.maintenance.pruneAfter":
     "Removes entries older than this duration (for example `30d` or `12h`) during maintenance passes. Use this as the primary age-retention control and align it with data retention policy.",
-  "session.maintenance.pruneDays":
-    "Deprecated age-retention field kept for compatibility with legacy configs using day counts. Use session.maintenance.pruneAfter instead so duration syntax and behavior are consistent.",
   "session.maintenance.maxEntries":
     "Caps total session entry count retained in the store to prevent unbounded growth over time. Use lower limits for constrained environments, or higher limits when longer history is required.",
   "session.maintenance.rotateBytes":
@@ -1723,9 +1701,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Backoff delays in ms for each retry attempt (default: [30000, 60000, 300000]). Use shorter values for faster retries.",
   "cron.retry.retryOn":
     "Error types to retry: rate_limit, overloaded, network, timeout, server_error. Use to restrict which errors trigger retries; omit to retry all transient types.",
-  "cron.webhook":
-    'Deprecated legacy fallback webhook URL used by `openclaw doctor --fix` to migrate old jobs with `notify=true`. Runtime delivery uses per-job `delivery.mode="webhook"` plus `delivery.to`, or `delivery.completionDestination` when preserving announce delivery.',
-  "cron.webhookToken":
     "Bearer token attached to cron webhook POST deliveries when webhook mode is used. Prefer secret/env substitution and rotate this token regularly if shared webhook endpoints are internet-reachable.",
   "cron.sessionRetention":
     "Controls how long completed cron run sessions are kept before pruning (`24h`, `7d`, `1h30m`, or `false` to disable pruning; default: `24h`). Use shorter retention to reduce storage growth on high-frequency schedules.",
@@ -1887,8 +1862,6 @@ export const FIELD_HELP: Record<string, string> = {
     "Prefix text prepended to outbound assistant replies before sending to channels. Use for lightweight branding/context tags and avoid long prefixes that reduce content density.",
   "messages.usageTemplate":
     "Custom /usage full footer template, either an inline object or a JSON file path. Invalid or unavailable templates fall back to the built-in usage line.",
-  "messages.responseUsage":
-    'Default per-reply usage footer mode ("off"|"tokens"|"full") seeded into sessions that have not chosen one via /usage. Also accepts "on" as a legacy alias for "tokens". Accepts a bare mode or a per-channel map with a "default" fallback. Precedence: session value -> channel entry -> default -> off; an explicit /usage choice (including off) is persisted and overrides the default. Use /usage reset (aliases: inherit, clear, default) to clear a session override and re-inherit this configured default.',
   "messages.groupChat":
     "Group-message handling controls including mention triggers and history window sizing. Keep mention patterns narrow so group channels do not trigger on every message.",
   "messages.groupChat.mentionPatterns":

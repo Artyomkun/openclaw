@@ -1,21 +1,21 @@
 // Durable final-reply delivery for inbound channel turns.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import type { FinalizedMsgContext } from "../../auto-reply/templating.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeDeliverableOutboundChannel } from "../../infra/outbound/channel-resolution.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import type { FinalizedMsgContext } from "../../auto-reply/templating.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeDeliverableOutboundChannel } from "../../infra/outbound/channel-resolution.ts";
 import {
   type DeliverOutboundPayloadsParams,
   type DurableFinalDeliveryRequirement,
   type DurableFinalDeliveryRequirements,
   type OutboundDeliveryIntent,
   resolveOutboundDurableFinalDeliverySupport,
-} from "../../infra/outbound/deliver.js";
-import { buildOutboundSessionContext } from "../../infra/outbound/session-context.js";
-import { deriveDurableFinalDeliveryRequirements } from "../message/capabilities.js";
-import { sendDurableMessageBatch } from "../message/send.js";
-import { createChannelDeliveryResultFromReceipt } from "./delivery-result.js";
-import type { ChannelDeliveryInfo, ChannelDeliveryResult } from "./types.js";
+} from "../../infra/outbound/deliver.ts";
+import { buildOutboundSessionContext } from "../../infra/outbound/session-context.ts";
+import { deriveDurableFinalDeliveryRequirements } from "../message/capabilities.ts";
+import { sendDurableMessageBatch } from "../message/send.ts";
+import { createChannelDeliveryResultFromReceipt } from "./delivery-result.ts";
+import type { ChannelDeliveryInfo, ChannelDeliveryResult } from "./types.ts";
 
 /** Options controlling durable final delivery for inbound channel replies. */
 export type DurableInboundReplyDeliveryOptions = Pick<
@@ -233,6 +233,3 @@ export async function deliverInboundReplyWithMessageSendContext(
   }
   return { status: "handled_visible", delivery };
 }
-
-/** @deprecated Use `deliverInboundReplyWithMessageSendContext`. */
-export const deliverDurableInboundReplyPayload = deliverInboundReplyWithMessageSendContext;

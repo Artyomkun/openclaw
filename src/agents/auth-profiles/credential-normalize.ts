@@ -1,5 +1,5 @@
-import { normalizeSecretInput } from "../../utils/normalize-secret-input.js";
-import type { AuthProfileCredential } from "./types.js";
+import { normalizeSecretInput } from "../../utils/normalize-secret-input.ts";
+import type { AuthProfileCredential } from "./types.ts";
 
 // Upsert paths normalize literal secret strings but preserve SecretRef-backed
 // credentials for the secret resolver.

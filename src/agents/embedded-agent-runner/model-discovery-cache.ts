@@ -3,18 +3,18 @@
  */
 import { statSync } from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
 import {
   resolveRuntimeExternalAuthProviderRefs,
   resolveRuntimeSyntheticAuthProviderRefs,
-} from "../../plugins/synthetic-auth.runtime.js";
-import { discoverAuthStorage, discoverModels } from "../agent-model-discovery.js";
-import { resolveDefaultAgentDir } from "../agent-scope.js";
-import { hasAnyRuntimeAuthProfileStoreSource } from "../auth-profiles/runtime-snapshots.js";
-import { resolveModelPluginMetadataSnapshot } from "../model-discovery-context.js";
-import { listPluginModelCatalogFiles } from "../plugin-model-catalog.js";
-import type { AuthStorage, ModelRegistry } from "../sessions/index.js";
+} from "../../plugins/synthetic-auth.runtime.ts";
+import { discoverAuthStorage, discoverModels } from "../agent-model-discovery.ts";
+import { resolveDefaultAgentDir } from "../agent-scope.ts";
+import { hasAnyRuntimeAuthProfileStoreSource } from "../auth-profiles/runtime-snapshots.ts";
+import { resolveModelPluginMetadataSnapshot } from "../model-discovery-context.ts";
+import { listPluginModelCatalogFiles } from "../plugin-model-catalog.ts";
+import type { AuthStorage, ModelRegistry } from "../sessions/index.ts";
 
 /**
  * Caches auth/model discovery for embedded-agent turns that reuse a stable agent directory.

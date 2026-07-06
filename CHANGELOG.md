@@ -2155,7 +2155,7 @@ This audited record covers the complete v2026.5.28..v2026.5.31-beta.4 history: 4
 - QA-Lab: add `qa coverage --match <query>` so focused proof selection can discover matching scenarios from existing metadata before running live or remote lanes.
 - Discord/model picker: surface an alpha-bucket select (e.g. `A–G (12) · H–N (18) · O–Z (5)`) when the provider list or a provider's model list exceeds 25 items, so configs with `provider/*` wildcards stay one click from the right page instead of paginating through prev/next; falls back to numeric chunks when every item shares the same first letter. (#86181) Thanks @rendrag-git.
 - Control UI: add an ephemeral Activity tab for sanitized live tool activity summaries without persisting raw telemetry. Fixes #12831. Thanks @BunsDev.
-- Build: include `ui:build` in the `full` and `ciArtifacts` profiles of `scripts/build-all.mjs` so `pnpm build` always rebuilds `dist/control-ui` after `tsdown` cleans `dist`, removing the second-command requirement and the missing-asset failure mode for source/runtime installs and CI artifact uploads. (#85206)
+- Build: include `ui:build` in the `full` and `ciArtifacts` profiles of `scripts/build-all.ts` so `pnpm build` always rebuilds `dist/control-ui` after `tsdown` cleans `dist`, removing the second-command requirement and the missing-asset failure mode for source/runtime installs and CI artifact uploads. (#85206)
 - iOS: improve Talk mode with direct realtime voice sessions, compact toolbar status, and responsive voice waveform feedback. (#86355) Thanks @ngutman.
 - Media: replace the Sharp image backend with Rastermill for metadata, resizing, EXIF orientation, and PNG alpha-preserving optimization so OpenClaw no longer installs Sharp or the WhatsApp Jimp fallback for image processing. (#86437)
 - Codex: update the bundled Codex CLI to 0.134.0 and keep native compaction disabled for budget-triggered app-server turns so OpenClaw owns the recovery boundary. (#86772)
@@ -2618,7 +2618,7 @@ This audited record covers the complete v2026.5.28..v2026.5.31-beta.4 history: 4
 - Providers/MiniMax music: stop advertising `durationSeconds` control and remove prompt-injected duration hints, so `music_generate` reports MiniMax duration as an unsupported override instead of suggesting MiniMax can enforce track length. Fixes #84508. Thanks @neeravmakwana.
 - Doctor: warn when sandbox tool policy hides configured MCP server tools before provider requests. (#84699) Thanks @nxmxbbd.
 - WhatsApp: update Baileys to `7.0.0-rc12`.
-- Build: suppress per-locale `rolldown-plugin-dts:fake-js` CommonJS dts warnings emitted while bundling the intentionally-inlined `zod/v4/locales/*.d.cts` files, so `pnpm build` output stays readable after the 0.25.1 plugin bump. Thanks @RomneyDa.
+- Build: suppress per-locale `rolldown-plugin-dts:fake-js` CommonJS dts warnings emitted while bundling the intentionally-inlined `zod/v4/locales/*.d.ts` files, so `pnpm build` output stays readable after the 0.25.1 plugin bump. Thanks @RomneyDa.
 - CLI/nodes: route lazy plugin-registration logs to stderr for JSON-mode `openclaw nodes` commands so stdout stays parseable. (#84684) Thanks @TurboTheTurtle.
 - Approvals: route manual `/approve` decisions through the trusted approval runtime so active exec and plugin approvals no longer look unknown or expired.
 - Mac app: update the About settings copyright year to 2026. (#84385) Thanks @pejmanjohn.
@@ -9209,7 +9209,7 @@ This audited record covers the complete v2026.5.28..v2026.5.31-beta.4 history: 4
 - Background tasks: keep durable lifecycle records for ACP/subagent spawned work and deliver ACP completion/failure updates through the real requester chat path instead of session-only stream events. Thanks @mbelinky and @vincentkoc.
 - Agents/compaction: preserve the post-compaction AGENTS refresh on stale-usage preflight compaction for both immediate replies and queued followups. (#49479) Thanks @jared596.
 - Agents/compaction: surface safeguard-specific cancel reasons and relabel benign manual `/compact` no-op cases as skipped instead of failed. (#51072) Thanks @afurm.
-- Docs: add `pnpm docs:check-links:anchors` for Mintlify anchor validation while keeping `scripts/docs-link-audit.mjs` as the stable link-audit entrypoint. (#55912) Thanks @velvet-shark.
+- Docs: add `pnpm docs:check-links:anchors` for Mintlify anchor validation while keeping `scripts/docs-link-audit.ts` as the stable link-audit entrypoint. (#55912) Thanks @velvet-shark.
 - Tavily: mark outbound API requests with `X-Client-Source: openclaw` so Tavily can attribute OpenClaw-originated traffic. (#55335) Thanks @lakshyaag-tavily.
 - Plugins/hooks: add async `requireApproval` to `before_tool_call` hooks, letting plugins pause tool execution and prompt the user for approval via the exec approval overlay, Telegram buttons, Discord interactions, or the `/approve` command on any channel. The `/approve` command now handles both exec and plugin approvals with automatic fallback. (#55339) Thanks @vaclavbelak and @joshavant.
 
@@ -10464,7 +10464,7 @@ This audited record covers the complete v2026.5.28..v2026.5.31-beta.4 history: 4
 - CLI/Docs memory help accuracy: clarify `openclaw memory status --deep` behavior and align memory command examples/docs with the current search options. (#31803) Thanks @JasonOA888 and @Avi974.
 - Auto-reply/allowlist store account scoping: keep `/allowlist .. --store` writes scoped to the selected account and clear legacy unscoped entries when removing default-account store access, preventing cross-account default allowlist bleed-through from legacy pairing-store reads. Thanks @tdjackey for reporting and @vincentkoc for the fix.
 - Security/Nostr: harden profile mutation/import loopback guards by failing closed on non-loopback forwarded client headers (`x-forwarded-for` / `x-real-ip`) and rejecting `sec-fetch-site: cross-site`; adds regression coverage for proxy-forwarded and browser cross-site mutation attempts.
-- CLI/bootstrap Node version hint maintenance: replace hardcoded nvm `22` instructions in `openclaw.mjs` with `MIN_NODE_MAJOR` interpolation so future minimum-Node bumps keep startup guidance in sync automatically. (#39056) Thanks @onstash.
+- CLI/bootstrap Node version hint maintenance: replace hardcoded nvm `22` instructions in `openclaw.ts` with `MIN_NODE_MAJOR` interpolation so future minimum-Node bumps keep startup guidance in sync automatically. (#39056) Thanks @onstash.
 - Discord/native slash command auth: honor `commands.allowFrom.discord` (and `commands.allowFrom["*"]`) in guild slash-command pre-dispatch authorization so allowlisted senders are no longer incorrectly rejected as unauthorized. (#38794) Thanks @jskoiz and @thewilloftheshadow.
 - Outbound/message target normalization: ignore empty legacy `to`/`channelId` fields when explicit `target` is provided so valid target-based sends no longer fail legacy-param validation; includes regression coverage. (#38944) Thanks @Narcooo.
 - Models/auth token prompts: guard cancelled manual token prompts so `Symbol(clack:cancel)` values cannot be persisted into auth profiles; adds regression coverage for cancelled `models auth paste-token`. (#38951) Thanks @MumuTW.
@@ -10733,7 +10733,7 @@ This audited record covers the complete v2026.5.28..v2026.5.31-beta.4 history: 4
 - Sessions/lock recovery: reclaim orphan legacy same-PID lock files missing `starttime` when no in-process lock ownership exists, avoiding false lock timeouts after PID reuse while preserving active lock safety checks. (#32081) Thanks @bmendonca3.
 - Sessions/store cache invalidation: reload cached session stores when file size changes within the same mtime tick by keying cache validation on a single file-stat snapshot (`mtimeMs` + `sizeBytes`), with regression coverage for same-tick rewrites. (#32191) Thanks @jalehman.
 - Agents/Subagents `sessions_spawn`: reject malformed `agentId` inputs before normalization (for example error-message/path-like strings) to prevent unintended synthetic agent IDs and ghost workspace/session paths; includes strict validation regression coverage. (#31381) Thanks @openperf.
-- CLI/installer Node preflight: enforce Node.js `v22.12+` consistently in both `openclaw.mjs` runtime bootstrap and installer active-shell checks, with actionable nvm recovery guidance for mismatched shell PATH/defaults. (#32356) Thanks @jasonhargrove.
+- CLI/installer Node preflight: enforce Node.js `v22.12+` consistently in both `openclaw.ts` runtime bootstrap and installer active-shell checks, with actionable nvm recovery guidance for mismatched shell PATH/defaults. (#32356) Thanks @jasonhargrove.
 - Web UI/config form: support SecretInput string-or-secret-ref unions in map `additionalProperties`, so provider API key fields stay editable instead of being marked unsupported. (#31866) Thanks @ningding97.
 - Auto-reply/inline command cleanup: preserve newline structure when stripping inline `/status` and extracting inline slash commands by collapsing only horizontal whitespace, preventing paragraph flattening in multi-line replies. (#32224) Thanks @scoootscooob.
 - Config/raw redaction safety: preserve non-sensitive literals during raw redaction round-trips, scope SecretRef redaction to secret IDs (not structural fields like `source`/`provider`), and fall back to structured raw redaction when text replacement cannot restore the original config shape. (#32174) Thanks @bmendonca3.
@@ -11390,7 +11390,6 @@ This audited record covers the complete v2026.5.28..v2026.5.31-beta.4 history: 4
 - Security/OTEL: redact sensitive values (API keys, tokens, credential fields) from diagnostics-otel log bodies, log attributes, and error/reason span fields before OTLP export. (#12542) Thanks @brandonwise.
 - Security/CI: add pre-commit security hook coverage for private-key detection and production dependency auditing, and enforce those checks in CI alongside baseline secret scanning. Thanks @vincentkoc.
 - Skills/Python: harden skill script packaging and validation edge cases (self-including `.skill` outputs, CRLF frontmatter parsing, strict `--days` validation, and safer image file loading), with expanded Python regression coverage. Thanks @vincentkoc.
-- Skills/Python: add CI + pre-commit linting (`ruff`) and pytest discovery coverage for Python scripts/tests under `skills/`, including package test execution from repo root. Thanks @vincentkoc.
 
 ### Breaking
 
@@ -11457,7 +11456,7 @@ This audited record covers the complete v2026.5.28..v2026.5.31-beta.4 history: 4
 - Gateway/Pairing: auto-approve loopback `scope-upgrade` pairing requests (including device-token reconnects) so local clients do not disconnect on pairing-required scope elevation. (#23708) Thanks @widingmarcus-cyber.
 - Gateway/Scopes: include `operator.read` and `operator.write` in default operator connect scope bundles across CLI, Control UI, and macOS clients so write-scoped announce/sub-agent follow-up calls no longer hit `pairing required` disconnects on loopback gateways. (#22582) thanks @YuzuruS.
 - Gateway/Pairing: treat operator.admin pairing tokens as satisfying operator.write requests so legacy devices stop looping through scope-upgrade prompts introduced in 2026.2.19. (#23125, #23006) Thanks @vignesh07.
-- Gateway/Restart: fix restart-loop edge cases by keeping `openclaw.mjs -> dist/entry.js` bootstrap detection explicit, reacquiring the gateway lock for in-process restart fallback paths, and tightening restart-loop regression coverage. (#23416) Thanks @jeffwnli.
+- Gateway/Restart: fix restart-loop edge cases by keeping `openclaw.ts -> dist/entry.js` bootstrap detection explicit, reacquiring the gateway lock for in-process restart fallback paths, and tightening restart-loop regression coverage. (#23416) Thanks @jeffwnli.
 - Gateway/Lock: use optional gateway-port reachability as a primary stale-lock liveness signal (and wire gateway run-loop lock acquisition to the resolved port), reducing false "already running" lockouts after unclean exits. (#23760) Thanks @Operative-001.
 - Delivery/Queue: quarantine queue entries immediately on known permanent delivery errors (for example invalid recipients or missing conversation references) by moving them to `failed/` instead of retrying on every restart. (#23794) Thanks @aldoeliacim.
 - Cron/Status: split execution outcome (`lastRunStatus`) from delivery outcome (`lastDeliveryStatus`) in persisted cron state, finished events, and run history so failed/unknown announcement delivery is visible without conflating it with run errors.
@@ -12654,7 +12653,7 @@ This audited record covers the complete v2026.5.28..v2026.5.31-beta.4 history: 4
 
 - Control UI: add hardened fallback for asset resolution in global npm installs. (#4855) Thanks @anapivirtua.
 - Update: remove dead restore control-ui step that failed on gitignored dist/ output (#2402). Thanks @ramin-shirali.
-- Update: avoid wiping prebuilt Control UI assets during dev auto-builds (`tsdown --no-clean`), run update doctor via `openclaw.mjs`, and auto-restore missing UI assets after doctor. (#10146) Thanks @gumadeiras.
+- Update: avoid wiping prebuilt Control UI assets during dev auto-builds (`tsdown --no-clean`), run update doctor via `openclaw.ts`, and auto-restore missing UI assets after doctor. (#10146) Thanks @gumadeiras.
 - Models: add forward-compat fallback for `openai-codex/gpt-5.3-codex` when model registry hasn't discovered it yet. (#9989) Thanks @w1kke.
 - Auto-reply/Docs: normalize `extra-high` (and spaced variants) to `xhigh` for Codex thinking levels, and align Codex 5.3 FAQ examples. (#9976) Thanks @slonce70.
 - Compaction: remove orphaned `tool_result` messages during history pruning to prevent session corruption from aborted tool calls. (#9868, fixes #9769, #9724, #9672) (#2402) Thanks @ramin-shirali.

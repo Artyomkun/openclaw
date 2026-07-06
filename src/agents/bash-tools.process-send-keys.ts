@@ -3,10 +3,10 @@
  * Encodes symbolic keys, hex bytes, and literal input before writing to a
  * live process stdin.
  */
-import type { ProcessSession } from "./bash-process-registry.js";
-import { deriveSessionName } from "./bash-tools.shared.js";
-import { encodeKeySequence, hasCursorModeSensitiveKeys } from "./pty-keys.js";
-import type { AgentToolResult } from "./runtime/index.js";
+import type { ProcessSession } from "./bash-process-registry.ts";
+import { deriveSessionName } from "./bash-tools.shared.ts";
+import { encodeKeySequence, hasCursorModeSensitiveKeys } from "./pty-keys.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
 
 /** Writable stdin surface shared by child-process and PTY session records. */
 export type WritableStdin = {

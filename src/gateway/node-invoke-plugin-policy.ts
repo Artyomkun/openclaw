@@ -2,18 +2,18 @@
 // Lets plugin policies gate dangerous node commands before transport dispatch.
 import { randomUUID } from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { PluginApprovalRequestPayload } from "../infra/plugin-approvals.js";
-import { resolvePluginApprovalTimeoutMs } from "../infra/plugin-approvals.js";
-import { getActiveRuntimePluginRegistry } from "../plugins/active-runtime-registry.js";
-import type { PluginRegistry } from "../plugins/registry-types.js";
+import type { PluginApprovalRequestPayload } from "../infra/plugin-approvals.ts";
+import { resolvePluginApprovalTimeoutMs } from "../infra/plugin-approvals.ts";
+import { getActiveRuntimePluginRegistry } from "../plugins/active-runtime-registry.ts";
+import type { PluginRegistry } from "../plugins/registry-types.ts";
 import type {
   OpenClawPluginNodeInvokePolicyContext,
   OpenClawPluginNodeInvokePolicyResult,
   OpenClawPluginNodeInvokeTransportResult,
-} from "../plugins/types.js";
-import type { NodeSession } from "./node-registry.js";
-import { resolveApprovalRequestRecipientConnIds } from "./server-methods/approval-shared.js";
-import type { GatewayClient, GatewayRequestContext } from "./server-methods/types.js";
+} from "../plugins/types.ts";
+import type { NodeSession } from "./node-registry.ts";
+import { resolveApprovalRequestRecipientConnIds } from "./server-methods/approval-shared.ts";
+import type { GatewayClient, GatewayRequestContext } from "./server-methods/types.ts";
 
 // Plugin node.invoke policies are the last gateway-side guard before a
 // plugin-declared dangerous node command reaches the node transport.

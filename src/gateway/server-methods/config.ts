@@ -19,55 +19,55 @@ import {
   validateConfigSchemaLookupResult,
   validateConfigSchemaParams,
   validateConfigSetParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   createConfigIO,
   parseConfigJson5,
   readConfigFileSnapshot,
   readConfigFileSnapshotForWrite,
   resolveConfigSnapshotHash,
-} from "../../config/io.js";
-import { createMergePatch, projectSourceOntoRuntimeShape } from "../../config/io.write-prepare.js";
-import { formatConfigIssueLines } from "../../config/issue-format.js";
-import { applyMergePatch } from "../../config/merge-patch.js";
-import { normalizeConfigPatchReplacePaths } from "../../config/patch-replace-paths.js";
+} from "../../config/io.ts";
+import { createMergePatch, projectSourceOntoRuntimeShape } from "../../config/io.write-prepare.ts";
+import { formatConfigIssueLines } from "../../config/issue-format.ts";
+import { applyMergePatch } from "../../config/merge-patch.ts";
+import { normalizeConfigPatchReplacePaths } from "../../config/patch-replace-paths.ts";
 import {
   redactConfigObject,
   redactConfigSnapshot,
   restoreRedactedValues,
-} from "../../config/redact-snapshot.js";
-import { loadGatewayRuntimeConfigSchema } from "../../config/runtime-schema.js";
-import { lookupConfigSchema, type ConfigSchemaResponse } from "../../config/schema.js";
-import type { ConfigValidationIssue, OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/redact-snapshot.ts";
+import { loadGatewayRuntimeConfigSchema } from "../../config/runtime-schema.ts";
+import { lookupConfigSchema, type ConfigSchemaResponse } from "../../config/schema.ts";
+import type { ConfigValidationIssue, OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   validateConfigObjectRawWithPlugins,
   validateConfigObjectWithPlugins,
-} from "../../config/validation.js";
-import { isBuiltInModelProviderOverlayId } from "../../config/zod-schema.core.js";
-import { formatErrorMessage, toErrorObject } from "../../infra/errors.js";
-import { isPlainObject } from "../../infra/plain-object.js";
-import { isBlockedObjectKey } from "../../infra/prototype-keys.js";
+} from "../../config/validation.ts";
+import { isBuiltInModelProviderOverlayId } from "../../config/zod-schema.core.ts";
+import { formatErrorMessage, toErrorObject } from "../../infra/errors.ts";
+import { isPlainObject } from "../../infra/plain-object.ts";
+import { isBlockedObjectKey } from "../../infra/prototype-keys.ts";
 import {
   prepareSecretsRuntimeSnapshot,
   type PreparedSecretsRuntimeSnapshot,
-} from "../../secrets/runtime.js";
-import { diffConfigPaths } from "../config-diff.js";
-import { resolveConfigReloadMetadata } from "../config-reload-plan.js";
+} from "../../secrets/runtime.ts";
+import { diffConfigPaths } from "../config-diff.ts";
+import { resolveConfigReloadMetadata } from "../config-reload-plan.ts";
 import {
   formatControlPlaneActor,
   resolveControlPlaneActor,
   summarizeChangedPaths,
-} from "../control-plane-audit.js";
-import { resolveBaseHashParam } from "./base-hash.js";
+} from "../control-plane-audit.ts";
+import { resolveBaseHashParam } from "./base-hash.ts";
 import {
   commitGatewayConfigWrite,
   didActiveSharedGatewayAuthChange,
   didSharedGatewayAuthChange,
   resolveGatewayConfigPath,
   resolveGatewayConfigRestartWriteResult,
-} from "./config-write-flow.js";
-import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.js";
-import { assertValidParams } from "./validation.js";
+} from "./config-write-flow.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.ts";
+import { assertValidParams } from "./validation.ts";
 
 const MAX_CONFIG_ISSUES_IN_ERROR_MESSAGE = 3;
 const CONFIG_SCHEMA_RESPONSE_CACHE_TTL_MS = 5_000;

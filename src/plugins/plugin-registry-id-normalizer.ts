@@ -1,7 +1,7 @@
 // Normalizes plugin registry identifiers from installed index records.
-import type { InstalledPluginIndex } from "./installed-plugin-index.js";
-import { loadPluginManifestRegistryForInstalledIndex } from "./manifest-registry-installed.js";
-import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
+import type { InstalledPluginIndex } from "./installed-plugin-index.ts";
+import { loadPluginManifestRegistryForInstalledIndex } from "./manifest-registry-installed.ts";
+import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.ts";
 
 /** Inputs used to resolve aliases for installed plugin ids. */
 export type PluginRegistryIdNormalizerOptions = {
@@ -32,7 +32,6 @@ function listPluginRegistryNormalizerAliases(plugin: PluginManifestRecord): read
     ...collectObjectKeys(plugin.modelCatalog?.providers),
     ...collectObjectKeys(plugin.modelCatalog?.aliases),
     ...collectObjectKeys(plugin.providerAuthAliases),
-    ...(plugin.legacyPluginIds ?? []),
   ];
 }
 

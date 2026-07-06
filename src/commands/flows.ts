@@ -1,21 +1,21 @@
 /** CLI commands for listing, inspecting, and cancelling TaskFlow records. */
 import { timestampMsToIsoString } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { info } from "../globals.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { writeRuntimeJson } from "../runtime.js";
-import { listTasksForFlowId } from "../tasks/runtime-internal.js";
-import { cancelFlowById, getFlowTaskSummary } from "../tasks/task-executor.js";
-import type { TaskFlowRecord, TaskFlowStatus } from "../tasks/task-flow-registry.types.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { info } from "../globals.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { writeRuntimeJson } from "../runtime.ts";
+import { listTasksForFlowId } from "../tasks/runtime-internal.ts";
+import { cancelFlowById, getFlowTaskSummary } from "../tasks/task-executor.ts";
+import type { TaskFlowRecord, TaskFlowStatus } from "../tasks/task-flow-registry.types.ts";
 import {
   getTaskFlowById,
   listTaskFlowRecords,
   resolveTaskFlowForLookupToken,
-} from "../tasks/task-flow-runtime-internal.js";
+} from "../tasks/task-flow-runtime-internal.ts";
 
 const ID_PAD = 10;
 const STATUS_PAD = 10;

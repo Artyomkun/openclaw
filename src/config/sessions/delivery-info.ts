@@ -1,24 +1,21 @@
 // Delivery lookup recovers routable channel context from persisted session stores.
-import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import {
   resolveSessionStoreAgentId,
   resolveSessionStoreKey,
-} from "../../gateway/session-store-key.js";
-import { requiresFoldedSessionKeyAliasProof } from "../../sessions/session-key-utils.js";
-import { deliveryContextFromSession } from "../../utils/delivery-context.shared.js";
-import { getRuntimeConfig } from "../io.js";
-import type { OpenClawConfig } from "../types.openclaw.js";
-import { resolveStorePath } from "./paths.js";
+} from "../../gateway/session-store-key.ts";
+import { requiresFoldedSessionKeyAliasProof } from "../../sessions/session-key-utils.ts";
+import { deliveryContextFromSession } from "../../utils/delivery-context.shared.ts";
+import { getRuntimeConfig } from "../io.ts";
+import type { OpenClawConfig } from "../types.openclaw.ts";
+import { resolveStorePath } from "./paths.ts";
 import {
-  foldedSessionKeyAliasCandidates,
   hasMismatchedCaseSensitiveDeliveryProof,
-  isConfirmedLowercasedLegacyAlias,
   normalizeStoreSessionKey,
-} from "./store-entry.js";
-import { readSessionStoreSnapshot } from "./store.js";
-import { resolveAllAgentSessionStoreTargetsSync } from "./targets.js";
-import { parseSessionThreadInfo } from "./thread-info.js";
-import type { SessionEntry } from "./types.js";
+} from "./store-entry.ts";
+import { readSessionStoreSnapshot } from "./store.ts";
+import { resolveAllAgentSessionStoreTargetsSync } from "./targets.ts";
+import { parseSessionThreadInfo } from "./thread-info.ts";
+import type { SessionEntry } from "./types.ts";
 
 function hasRoutableDeliveryContext(context?: {
   channel?: string;
@@ -133,7 +130,6 @@ function findSessionEntryInStore(
   for (const key of keys) {
     const trimmed = key.trim();
     const normalized = normalizeStoreSessionKey(key);
-    const foldedLegacyKeys = foldedSessionKeyAliasCandidates(normalized);
     const exactKeyWins = requiresFoldedSessionKeyAliasProof(normalized);
     let foundRoutableCandidate = false;
     if (
@@ -144,19 +140,6 @@ function findSessionEntryInStore(
         deliveryContextFromSession(asSessionEntry(store[normalized])),
       );
       acceptCandidate(store[normalized], exactKeyWins);
-    }
-    for (const foldedLegacyKey of foldedLegacyKeys) {
-      if (
-        !Object.hasOwn(store, foldedLegacyKey) ||
-        !isConfirmedLowercasedLegacyAlias(asSessionEntry(store[foldedLegacyKey]), normalized)
-      ) {
-        continue;
-      }
-      const foldedLegacyEntry = asSessionEntry(store[foldedLegacyKey]);
-      foundRoutableCandidate ||= hasRoutableDeliveryContext(
-        deliveryContextFromSession(foldedLegacyEntry),
-      );
-      acceptCandidate(foldedLegacyEntry);
     }
     if (
       trimmed !== normalized &&
@@ -175,12 +158,6 @@ function findSessionEntryInStore(
       const freshest = normalizedIndex.get(normalized);
       if (!hasMismatchedCaseSensitiveDeliveryProof(freshest, normalized)) {
         acceptCandidate(freshest);
-      }
-      for (const foldedLegacyKey of foldedLegacyKeys) {
-        const foldedFreshest = normalizedIndex.get(foldedLegacyKey);
-        if (isConfirmedLowercasedLegacyAlias(foldedFreshest, normalized)) {
-          acceptCandidate(foldedFreshest);
-        }
       }
     }
   }
@@ -206,24 +183,6 @@ function buildFreshestSessionEntryIndex(
       (entryRoutable === existingRoutable && (entry.updatedAt ?? 0) > (existing.updatedAt ?? 0))
     ) {
       index.set(normalized, entry);
-    }
-    // Lowercase aliases are only indexed when case folding is not proof-sensitive; Matrix-style
-    // opaque ids must keep exact-case delivery evidence.
-    const foldedLegacyKey = normalizeLowercaseStringOrEmpty(normalized);
-    if (foldedLegacyKey === normalized || requiresFoldedSessionKeyAliasProof(normalized)) {
-      continue;
-    }
-    const foldedExisting = index.get(foldedLegacyKey);
-    const foldedExistingRoutable = hasRoutableDeliveryContext(
-      deliveryContextFromSession(foldedExisting),
-    );
-    if (
-      !foldedExisting ||
-      (entryRoutable && !foldedExistingRoutable) ||
-      (entryRoutable === foldedExistingRoutable &&
-        (entry.updatedAt ?? 0) > (foldedExisting.updatedAt ?? 0))
-    ) {
-      index.set(foldedLegacyKey, entry);
     }
   }
   return index;

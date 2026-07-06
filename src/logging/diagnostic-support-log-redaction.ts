@@ -1,10 +1,10 @@
 // Support log redaction helpers scrub sensitive fields from diagnostic log payloads.
 import { asOptionalRecord } from "@openclaw/normalization-core/record-coerce";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
 import {
   redactSupportString,
   type SupportRedactionContext,
-} from "./diagnostic-support-redaction.js";
+} from "./diagnostic-support-redaction.ts";
 
 // Sanitizes JSON log records before they enter support bundles.
 const LOG_STRING_FIELD_RE =

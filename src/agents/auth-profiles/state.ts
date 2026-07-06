@@ -9,9 +9,9 @@ import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawAgentDatabase } from "../../state/openclaw-agent-db.js";
-import { AUTH_STORE_VERSION } from "./constants.js";
-import { readPersistedAuthProfileStateRaw, writePersistedAuthProfileStateRaw } from "./sqlite.js";
+import type { OpenClawAgentDatabase } from "../../state/openclaw-agent-db.ts";
+import { AUTH_STORE_VERSION } from "./constants.ts";
+import { readPersistedAuthProfileStateRaw, writePersistedAuthProfileStateRaw } from "./sqlite.ts";
 import type {
   AuthProfileBlockedReason,
   AuthProfileBlockedSource,
@@ -19,7 +19,7 @@ import type {
   AuthProfileState,
   AuthProfileStateStore,
   ProfileUsageStats,
-} from "./types.js";
+} from "./types.ts";
 
 const AUTH_FAILURE_REASONS = new Set<AuthProfileFailureReason>([
   "auth",

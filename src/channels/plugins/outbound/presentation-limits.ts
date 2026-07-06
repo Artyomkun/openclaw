@@ -4,14 +4,14 @@
  * Truncates and reshapes portable presentation blocks to match per-channel limits.
  */
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveMessagePresentationActionValue } from "../../../interactive/payload.js";
+import { resolveMessagePresentationActionValue } from "../../../interactive/payload.ts";
 import type {
   MessagePresentation,
   MessagePresentationBlock,
   MessagePresentationButton,
   MessagePresentationOption,
-} from "../../../interactive/payload.js";
-import type { ChannelPresentationCapabilities } from "../outbound.types.js";
+} from "../../../interactive/payload.ts";
+import type { ChannelPresentationCapabilities } from "../outbound.types.ts";
 
 type ActionLimits = NonNullable<NonNullable<ChannelPresentationCapabilities["limits"]>["actions"]>;
 type SelectLimits = NonNullable<NonNullable<ChannelPresentationCapabilities["limits"]>["selects"]>;

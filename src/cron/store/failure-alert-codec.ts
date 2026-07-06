@@ -1,7 +1,7 @@
 /** SQLite column codec for cron failure-alert configuration. */
-import type { CronFailureAlert } from "../types.js";
-import { booleanToInteger, integerToBoolean, normalizeNumber } from "./scalar-codec.js";
-import type { CronJobInsert, CronJobRow } from "./schema.js";
+import type { CronFailureAlert } from "../types.ts";
+import { booleanToInteger, integerToBoolean, normalizeNumber } from "./scalar-codec.ts";
+import type { CronJobInsert, CronJobRow } from "./schema.ts";
 
 /** Maps cron failure-alert config into normalized SQLite columns. */
 export function bindFailureAlertColumns(

@@ -8,36 +8,36 @@ import {
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveSessionAgentId,
-} from "../../agents/agent-scope.js";
-import { listCliRuntimeModelBackendBindings } from "../../agents/cli-backends.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
-import { resolveModelAuthLabel } from "../../agents/model-auth-label.js";
-import { loadModelCatalogForBrowse } from "../../agents/model-catalog-browse.js";
-import { resolveVisibleModelCatalog } from "../../agents/model-catalog-visibility.js";
-import { loadModelCatalog } from "../../agents/model-catalog.js";
-import { isRetiredModelPickerProvider } from "../../agents/model-picker-visibility.js";
-import { createProviderAuthChecker } from "../../agents/model-provider-auth.js";
+} from "../../agents/agent-scope.ts";
+import { listCliRuntimeModelBackendBindings } from "../../agents/cli-backends.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
+import { resolveModelAuthLabel } from "../../agents/model-auth-label.ts";
+import { loadModelCatalogForBrowse } from "../../agents/model-catalog-browse.ts";
+import { resolveVisibleModelCatalog } from "../../agents/model-catalog-visibility.ts";
+import { loadModelCatalog } from "../../agents/model-catalog.ts";
+import { isRetiredModelPickerProvider } from "../../agents/model-picker-visibility.ts";
+import { createProviderAuthChecker } from "../../agents/model-provider-auth.ts";
 import {
   buildModelAliasIndex,
   normalizeProviderId,
   resolveBareModelDefaultProvider,
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
-} from "../../agents/model-selection.js";
+} from "../../agents/model-selection.ts";
 import {
   RUNTIME_MODEL_VISIBILITY_NORMALIZATION,
   createModelVisibilityPolicy,
-} from "../../agents/model-visibility-policy.js";
-import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../../agents/openai-routing.js";
-import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getCurrentPluginMetadataSnapshot } from "../../plugins/current-plugin-metadata-snapshot.js";
-import { resolveAgentRuntimeLabel } from "../../status/agent-runtime-label.js";
-import type { ReplyPayload } from "../types.js";
-import { rejectUnauthorizedCommand } from "./command-gates.js";
-import type { CommandHandler } from "./commands-types.js";
+} from "../../agents/model-visibility-policy.ts";
+import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../../agents/openai-routing.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getCurrentPluginMetadataSnapshot } from "../../plugins/current-plugin-metadata-snapshot.ts";
+import { resolveAgentRuntimeLabel } from "../../status/agent-runtime-label.ts";
+import type { ReplyPayload } from "../types.ts";
+import { rejectUnauthorizedCommand } from "./command-gates.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 const PAGE_SIZE_DEFAULT = 20;
 const PAGE_SIZE_MAX = 100;

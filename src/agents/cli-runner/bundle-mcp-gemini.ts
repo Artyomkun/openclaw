@@ -4,15 +4,15 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { applyMergePatch } from "../../config/merge-patch.js";
-import { tryReadJson, writeJson } from "../../infra/json-files.js";
-import type { BundleMcpConfig, BundleMcpServerConfig } from "../../plugins/bundle-mcp.js";
+import { applyMergePatch } from "../../config/merge-patch.ts";
+import { tryReadJson, writeJson } from "../../infra/json-files.ts";
+import type { BundleMcpConfig, BundleMcpServerConfig } from "../../plugins/bundle-mcp.ts";
 import {
   applyCommonServerConfig,
   decodeHeaderEnvPlaceholder,
   isRecord,
   normalizeStringRecord,
-} from "./bundle-mcp-adapter-shared.js";
+} from "./bundle-mcp-adapter-shared.ts";
 
 async function readJsonObject(filePath: string): Promise<Record<string, unknown>> {
   const raw = await tryReadJson<unknown>(filePath);

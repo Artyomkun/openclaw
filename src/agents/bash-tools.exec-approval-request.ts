@@ -17,18 +17,18 @@ import type {
   ExecAsk,
   ExecSecurity,
   SystemRunApprovalPlan,
-} from "../infra/exec-approvals.js";
-import { normalizeExecutableToken } from "../infra/exec-wrapper-tokens.js";
+} from "../infra/exec-approvals.ts";
+import { normalizeExecutableToken } from "../infra/exec-wrapper-tokens.ts";
 import {
   isShellWrapperExecutable,
   POSIX_SHELL_WRAPPERS,
   resolveShellWrapperTransportArgv,
-} from "../infra/shell-wrapper-resolution.js";
+} from "../infra/shell-wrapper-resolution.ts";
 import {
   DEFAULT_APPROVAL_REQUEST_TIMEOUT_MS,
   DEFAULT_APPROVAL_TIMEOUT_MS,
-} from "./bash-tools.exec-runtime.js";
-import { callGatewayTool } from "./tools/gateway.js";
+} from "./bash-tools.exec-runtime.ts";
+import { callGatewayTool } from "./tools/gateway.ts";
 
 type ExecApprovalCommandSpansRuntime =
   typeof import("./bash-tools.exec-approval-request.runtime.js");

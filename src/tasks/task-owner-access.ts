@@ -7,9 +7,9 @@ import {
   markTaskTerminalById as markTaskTerminalRecordById,
   resolveTaskForLookupToken,
   updateTaskNotifyPolicyById,
-} from "./task-registry.js";
-import type { TaskNotifyPolicy, TaskRecord } from "./task-registry.types.js";
-import { buildTaskStatusSnapshot } from "./task-status.js";
+} from "./task-registry.ts";
+import type { TaskNotifyPolicy, TaskRecord } from "./task-registry.types.ts";
+import { buildTaskStatusSnapshot } from "./task-status.ts";
 
 function canOwnerAccessTask(task: TaskRecord, callerOwnerKey: string): boolean {
   return (

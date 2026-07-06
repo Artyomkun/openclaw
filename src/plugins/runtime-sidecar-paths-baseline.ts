@@ -1,8 +1,8 @@
 // Loads runtime sidecar path baselines for bundled plugin checks.
 import fs from "node:fs";
 import path from "node:path";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import { listBundledPluginMetadata } from "./bundled-plugin-metadata.js";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+import { listBundledPluginMetadata } from "./bundled-plugin-metadata.ts";
 
 const NON_PACKAGED_RUNTIME_SIDECAR_PLUGIN_DIRS = new Set(["qa-channel", "qa-lab", "qa-matrix"]);
 

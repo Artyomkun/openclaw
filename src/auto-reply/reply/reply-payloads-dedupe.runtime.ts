@@ -5,4 +5,4 @@ export {
   resolveMessagingToolPayloadDedupe,
   shouldDedupeMessagingToolRepliesForRoute,
   type MessagingToolPayloadDedupeDecision,
-} from "./reply-payloads-dedupe.js";
+} from "./reply-payloads-dedupe.ts";

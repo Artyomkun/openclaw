@@ -3,10 +3,8 @@ import type { ChannelDoctorAdapter } from "openclaw/plugin-sdk/channel-contract"
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { collectProviderDangerousNameMatchingScopes } from "openclaw/plugin-sdk/runtime-doctor";
 import { normalizeOptionalString } from "openclaw/plugin-sdk/string-coerce-runtime";
-import { inspectDiscordAccount } from "./account-inspect.js";
 import { resolveDefaultDiscordAccountId } from "./accounts.js";
 import { normalizeCompatibilityConfig as normalizeDiscordCompatibilityConfig } from "./doctor-contract.js";
-import { DISCORD_LEGACY_CONFIG_RULES } from "./doctor-shared.js";
 import { isDiscordMutableAllowEntry } from "./security-doctor.js";
 
 type DiscordNumericIdHit = { path: string; entry: number; safe: boolean };
@@ -245,14 +243,6 @@ export function collectDiscordMissingEnvTokenWarnings(params: {
   if (resolveDefaultDiscordAccountId(params.cfg) !== "default") {
     return [];
   }
-  const account = inspectDiscordAccount({
-    cfg: params.cfg,
-    accountId: "default",
-    envToken: params.env?.DISCORD_BOT_TOKEN ?? "",
-  });
-  if (!account.enabled || account.tokenStatus !== "missing" || account.tokenSource !== "none") {
-    return [];
-  }
   return [
     "- channels.discord: default account has no available bot token, and DISCORD_BOT_TOKEN is absent in this doctor environment. After migration, verify DISCORD_BOT_TOKEN is present in the state-dir .env or configure channels.discord.token / channels.discord.accounts.default.token as a SecretRef.",
   ];
@@ -327,7 +317,6 @@ export const discordDoctor: ChannelDoctorAdapter = {
   groupModel: "route",
   groupAllowFromFallbackToAllowFrom: false,
   warnOnEmptyGroupSenderAllowlist: false,
-  legacyConfigRules: DISCORD_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig: normalizeDiscordCompatibilityConfig,
   collectPreviewWarnings: ({ cfg, doctorFixCommand, env }) => [
     ...collectDiscordMissingEnvTokenWarnings({ cfg, env }),

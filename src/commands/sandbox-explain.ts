@@ -8,29 +8,29 @@ import {
   normalizeOptionalLowercaseString,
   normalizeStringifiedEntries,
 } from "@openclaw/normalization-core/string-coerce";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { resolveAgentConfig } from "../agents/agent-scope.js";
-import { resolveSandboxConfigForAgent } from "../agents/sandbox.js";
-import { resolveSandboxToolPolicyForAgent } from "../agents/sandbox/tool-policy.js";
-import { normalizeAnyChannelId } from "../channels/registry.js";
-import { getRuntimeConfig } from "../config/config.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { resolveAgentConfig } from "../agents/agent-scope.ts";
+import { resolveSandboxConfigForAgent } from "../agents/sandbox.ts";
+import { resolveSandboxToolPolicyForAgent } from "../agents/sandbox/tool-policy.ts";
+import { normalizeAnyChannelId } from "../channels/registry.ts";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   resolveAgentMainSessionKey,
   resolveMainSessionKey,
   resolveStorePath,
-} from "../config/sessions.js";
-import { loadSessionEntry } from "../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../config/sessions.ts";
+import { loadSessionEntry } from "../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   buildAgentMainSessionKey,
   normalizeAgentId,
   normalizeMainKey,
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
-} from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.js";
+} from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.ts";
 
 type SandboxExplainOptions = {
   session?: string;
@@ -86,7 +86,7 @@ function inferProviderFromSessionKey(params: {
   if (parts[0] === configuredMainKey) {
     return undefined;
   }
-  // Legacy session keys embedded provider/channel in the first segment after
+  // Session keys embedded provider/channel in the first segment after
   // agent id; use that as a fallback when the session store lacks channel data.
   const candidate = normalizeOptionalLowercaseString(parts[0]);
   if (!candidate) {
@@ -114,7 +114,6 @@ function resolveActiveChannel(params: {
     | {
         lastChannel?: string;
         channel?: string;
-        // Legacy keys (pre-rename).
         lastProvider?: string;
         provider?: string;
       }
@@ -128,7 +127,7 @@ function resolveActiveChannel(params: {
   ).trim();
   const normalizedCandidate = normalizeOptionalLowercaseString(candidate);
   if (!normalizedCandidate) {
-    // Empty session-store channel fields can still be recovered from legacy key
+    // Empty session-store channel fields can still be recovered from key
     // shapes, which keeps explain useful for old persisted sessions.
     return inferProviderFromSessionKey({
       cfg: params.cfg,

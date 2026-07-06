@@ -1,35 +1,35 @@
 /** Loads manifest and installed-index contributions used to build plugin registry snapshots. */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeSortedUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   normalizePluginsConfigWithResolver,
   type NormalizedPluginsConfig,
-} from "./config-normalization-shared.js";
-import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.js";
-import { isInstalledPluginEnabled } from "./installed-plugin-index.js";
-import { loadPluginManifestRegistryForInstalledIndex } from "./manifest-registry-installed.js";
+} from "./config-normalization-shared.ts";
+import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.ts";
+import { isInstalledPluginEnabled } from "./installed-plugin-index.ts";
+import { loadPluginManifestRegistryForInstalledIndex } from "./manifest-registry-installed.ts";
 import type {
   BundledChannelConfigCollector,
   PluginManifestContractListKey,
   PluginManifestRecord,
   PluginManifestRegistry,
-} from "./manifest-registry.js";
-import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.types.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
+} from "./manifest-registry.ts";
+import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.types.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
 import {
   createPluginRegistryIdNormalizer,
   type PluginRegistryIdNormalizerOptions,
-} from "./plugin-registry-id-normalizer.js";
+} from "./plugin-registry-id-normalizer.ts";
 import {
   loadPluginRegistrySnapshot,
   type LoadPluginRegistryParams,
   type PluginRegistrySnapshot,
-} from "./plugin-registry-snapshot.js";
+} from "./plugin-registry-snapshot.ts";
 export {
   createPluginRegistryIdNormalizer,
   type PluginRegistryIdNormalizerOptions,
-} from "./plugin-registry-id-normalizer.js";
+} from "./plugin-registry-id-normalizer.ts";
 
 export type PluginLookUpTable = Pick<
   PluginMetadataSnapshot,

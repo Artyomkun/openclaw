@@ -7,21 +7,21 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { colorize, isRich, theme } from "../../../packages/terminal-core/src/theme.js";
-import { listChannelPlugins } from "../../channels/plugins/index.js";
-import { parseAbsoluteTimeMs } from "../../cron/parse.js";
-import { resolveCronStaggerMs } from "../../cron/stagger.js";
-import type { CronDeliveryPreview, CronJob, CronSchedule } from "../../cron/types.js";
-import { danger } from "../../globals.js";
+import { colorize, isRich, theme } from "../../../packages/terminal-core/src/theme.ts";
+import { listChannelPlugins } from "../../channels/plugins/index.ts";
+import { parseAbsoluteTimeMs } from "../../cron/parse.ts";
+import { resolveCronStaggerMs } from "../../cron/stagger.ts";
+import type { CronDeliveryPreview, CronJob, CronSchedule } from "../../cron/types.ts";
+import { danger } from "../../globals.ts";
 import { formatDurationHuman } from "../../infra/format-time/format-duration.ts";
 import {
   isOffsetlessIsoDateTime,
   parseOffsetlessIsoDateTimeInTimeZone,
-} from "../../infra/format-time/parse-offsetless-zoned-datetime.js";
-import { formatTimestamp } from "../../logging/timestamps.js";
-import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
-import type { GatewayRpcOpts } from "../gateway-rpc.js";
-import { callGatewayFromCli } from "../gateway-rpc.js";
+} from "../../infra/format-time/parse-offsetless-zoned-datetime.ts";
+import { formatTimestamp } from "../../logging/timestamps.ts";
+import { defaultRuntime, type RuntimeEnv } from "../../runtime.ts";
+import type { GatewayRpcOpts } from "../gateway-rpc.ts";
+import { callGatewayFromCli } from "../gateway-rpc.ts";
 
 export function parseCronCommandArgv(value: unknown): string[] | undefined {
   if (typeof value !== "string") {

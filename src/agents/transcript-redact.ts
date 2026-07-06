@@ -7,14 +7,14 @@ import {
   sanitizeInlineImageBase64,
   sanitizeInlineImageDataUrlForStorage,
 } from "@openclaw/media-core/inline-image-data-url";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { readLoggingConfig } from "../logging/config.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { readLoggingConfig } from "../logging/config.ts";
 import {
   getDefaultRedactPatterns,
   redactSensitiveFieldValue,
   redactSensitiveText,
-} from "../logging/redact.js";
-import type { AgentMessage } from "./runtime/index.js";
+} from "../logging/redact.ts";
+import type { AgentMessage } from "./runtime/index.ts";
 
 function resolveTranscriptRedactPatterns(patterns?: string[]) {
   return patterns && patterns.length > 0 ? [...patterns, ...getDefaultRedactPatterns()] : undefined;

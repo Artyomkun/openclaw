@@ -8,28 +8,28 @@ import {
   timestampMsToIsoString,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../state/openclaw-state-db.js";
-import { VERSION } from "../version.js";
-import { isTruthyEnvValue } from "./env.js";
+} from "../state/openclaw-state-db.ts";
+import { VERSION } from "../version.ts";
+import { isTruthyEnvValue } from "./env.ts";
 import {
   executeSqliteQuerySync,
   executeSqliteQueryTakeFirstSync,
   getNodeSqliteKysely,
-} from "./kysely-sync.js";
-import { resolveOpenClawPackageRoot } from "./openclaw-root.js";
-import { scheduleGatewaySigusr1Restart } from "./restart.js";
-import { detectRespawnSupervisor, type RespawnSupervisor } from "./supervisor-markers.js";
-import { normalizeUpdateChannel, DEFAULT_PACKAGE_CHANNEL } from "./update-channels.js";
-import { compareSemverStrings, resolveNpmChannelTag, checkUpdateStatus } from "./update-check.js";
-import { CONTROL_PLANE_UPDATE_HANDOFF_STARTED_REASON } from "./update-control-plane-sentinel.js";
-import { startManagedServiceUpdateHandoff } from "./update-managed-service-handoff.js";
+} from "./kysely-sync.ts";
+import { resolveOpenClawPackageRoot } from "./openclaw-root.ts";
+import { scheduleGatewaySigusr1Restart } from "./restart.ts";
+import { detectRespawnSupervisor, type RespawnSupervisor } from "./supervisor-markers.ts";
+import { normalizeUpdateChannel, DEFAULT_PACKAGE_CHANNEL } from "./update-channels.ts";
+import { compareSemverStrings, resolveNpmChannelTag, checkUpdateStatus } from "./update-check.ts";
+import { CONTROL_PLANE_UPDATE_HANDOFF_STARTED_REASON } from "./update-control-plane-sentinel.ts";
+import { startManagedServiceUpdateHandoff } from "./update-managed-service-handoff.ts";
 
 type UpdateCheckState = {
   lastCheckedAt?: string;
@@ -405,9 +405,9 @@ async function runAutoUpdateCommand(params: {
   } else if (execPath && params.root) {
     const candidates = [
       path.join(params.root, "dist", "entry.js"),
-      path.join(params.root, "dist", "entry.mjs"),
+      path.join(params.root, "dist", "entry.ts"),
       path.join(params.root, "dist", "index.js"),
-      path.join(params.root, "dist", "index.mjs"),
+      path.join(params.root, "dist", "index.ts"),
     ];
     for (const candidate of candidates) {
       try {

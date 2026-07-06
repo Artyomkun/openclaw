@@ -13,7 +13,7 @@ export {
   normalizeStringifiedEntries,
   normalizeStringifiedOptionalString,
   readStringValue,
-} from "../../packages/normalization-core/src/string-coerce.js";
+} from "../../packages/normalization-core/src/string-coerce.ts";
 export {
   asFiniteNumberInRange,
   asFiniteNumber,
@@ -24,15 +24,15 @@ export {
   parseStrictInteger,
   parseStrictNonNegativeInteger,
   parseStrictPositiveInteger,
-} from "../../packages/normalization-core/src/number-coercion.js";
-export { asBoolean, parseBooleanValue } from "../utils/boolean.js";
+} from "../../packages/normalization-core/src/number-coercion.ts";
+export { asBoolean, parseBooleanValue } from "../utils/boolean.ts";
 export {
   asRecord,
   asNullableRecord,
   asOptionalRecord,
   readStringField,
-} from "../../packages/normalization-core/src/record-coerce.js";
-export { isRecord } from "../utils.js";
+} from "../../packages/normalization-core/src/record-coerce.ts";
+export { isRecord } from "../utils.ts";
 export {
   normalizeAtHashSlug,
   normalizeHyphenSlug,
@@ -47,5 +47,5 @@ export {
   sortUniqueStrings,
   uniqueStrings,
   uniqueValues,
-} from "../../packages/normalization-core/src/string-normalization.js";
-export { summarizeStringEntries } from "../shared/string-sample.js";
+} from "../../packages/normalization-core/src/string-normalization.ts";
+export { summarizeStringEntries } from "../shared/string-sample.ts";

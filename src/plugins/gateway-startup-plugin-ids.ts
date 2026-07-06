@@ -7,49 +7,49 @@ import {
 } from "@openclaw/model-catalog-core/provider-id";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { collectConfiguredAgentHarnessRuntimes } from "../agents/harness-runtimes.js";
-import { splitTrailingAuthProfile } from "../agents/model-ref-profile.js";
+import { collectConfiguredAgentHarnessRuntimes } from "../agents/harness-runtimes.ts";
+import { splitTrailingAuthProfile } from "../agents/model-ref-profile.ts";
 import {
   listExplicitlyDisabledChannelIdsForConfig,
   listPotentialConfiguredChannelIds,
-} from "../channels/config-presence.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../channels/config-presence.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   DEFAULT_MEMORY_DREAMING_PLUGIN_ID,
   resolveMemoryDreamingConfig,
   resolveMemoryDreamingPluginConfig,
   resolveMemoryDreamingPluginId,
-} from "../memory-host-sdk/dreaming.js";
-import { planManifestModelCatalogRows } from "../model-catalog/manifest-planner.js";
-import { hasExplicitChannelConfig } from "./channel-presence-policy.js";
-import { collectPluginConfigContractMatches } from "./config-contracts.js";
-import { normalizePluginsConfigWithResolver } from "./config-normalization-shared.js";
-import { resolveEffectivePluginActivationState } from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import { resolveConfiguredGenericEmbeddingProviderId } from "./embedding-provider-config.js";
+} from "../memory-host-sdk/dreaming.ts";
+import { planManifestModelCatalogRows } from "../model-catalog/manifest-planner.ts";
+import { hasExplicitChannelConfig } from "./channel-presence-policy.ts";
+import { collectPluginConfigContractMatches } from "./config-contracts.ts";
+import { normalizePluginsConfigWithResolver } from "./config-normalization-shared.ts";
+import { resolveEffectivePluginActivationState } from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import { resolveConfiguredGenericEmbeddingProviderId } from "./embedding-provider-config.ts";
 import {
   collectConfiguredSpeechProviderIds,
   normalizeConfiguredSpeechProviderIdForStartup,
-} from "./gateway-startup-speech-providers.js";
-import { hashJson } from "./installed-plugin-index-hash.js";
+} from "./gateway-startup-speech-providers.ts";
+import { hashJson } from "./installed-plugin-index-hash.ts";
 import {
   createInstalledPluginIndexScopeLookup,
   type InstalledPluginIndexScopeLookup,
-} from "./installed-plugin-index-scope-lookup.js";
-import type { InstalledPluginIndex, InstalledPluginIndexRecord } from "./installed-plugin-index.js";
-import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
+} from "./installed-plugin-index-scope-lookup.ts";
+import type { InstalledPluginIndex, InstalledPluginIndexRecord } from "./installed-plugin-index.ts";
+import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.ts";
 import {
   isPluginMetadataSnapshotCompatible,
   resolvePluginMetadataSnapshot,
   type PluginMetadataSnapshot,
-} from "./plugin-metadata-snapshot.js";
-import type { PluginMetadataSnapshotPluginIdScope } from "./plugin-metadata-snapshot.types.js";
+} from "./plugin-metadata-snapshot.ts";
+import type { PluginMetadataSnapshotPluginIdScope } from "./plugin-metadata-snapshot.types.ts";
 import {
   createPluginRegistryIdNormalizer,
   normalizePluginsConfigWithRegistry,
-} from "./plugin-registry-contributions.js";
-import type { PluginRegistrySnapshot } from "./plugin-registry-snapshot.js";
-import { normalizePluginIdScope } from "./plugin-scope.js";
+} from "./plugin-registry-contributions.ts";
+import type { PluginRegistrySnapshot } from "./plugin-registry-snapshot.ts";
+import { normalizePluginIdScope } from "./plugin-scope.ts";
 
 export type GatewayStartupPluginPlan = {
   channelPluginIds: readonly string[];
@@ -231,10 +231,6 @@ function resolveContextEngineSlotStartupPluginId(params: {
     return undefined;
   }
   const normalized = normalizePluginId(configuredSlot);
-  // "legacy" is the built-in default engine — no plugin startup needed.
-  if (normalized === "legacy") {
-    return undefined;
-  }
   if (activationSourcePlugins.deny.includes(normalized)) {
     return undefined;
   }
@@ -1137,7 +1133,7 @@ function addValidationPluginConfigReferences(
   const contextEngineSlot = hasExplicitContextEngineSlot
     ? params.pluginsConfig.slots.contextEngine
     : undefined;
-  if (typeof contextEngineSlot === "string" && contextEngineSlot !== "legacy") {
+  if (typeof contextEngineSlot === "string") {
     target.add(params.normalizePluginId(contextEngineSlot));
   }
 }

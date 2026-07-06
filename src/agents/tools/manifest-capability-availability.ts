@@ -3,21 +3,21 @@
  *
  * Combines plugin contracts, availability, config signals, auth profiles, env candidates, and base URL guards.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getCurrentPluginMetadataSnapshot } from "../../plugins/current-plugin-metadata-snapshot.js";
-import { isManifestPluginAvailableForControlPlane } from "../../plugins/manifest-contract-eligibility.js";
-import type { PluginManifestRecord } from "../../plugins/manifest-registry.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getCurrentPluginMetadataSnapshot } from "../../plugins/current-plugin-metadata-snapshot.ts";
+import { isManifestPluginAvailableForControlPlane } from "../../plugins/manifest-contract-eligibility.ts";
+import type { PluginManifestRecord } from "../../plugins/manifest-registry.ts";
 import {
   hasNonEmptyManifestEnvCandidate,
   manifestConfigSignalPasses,
   manifestPluginSetupProviderEnvVars,
   manifestProviderBaseUrlGuardPasses,
-} from "../../plugins/manifest-tool-availability.js";
-import { resolvePluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
-import { getActivePluginRegistryWorkspaceDirFromState } from "../../plugins/runtime-state.js";
-import { listProfilesForProvider } from "../auth-profiles/profile-list.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
+} from "../../plugins/manifest-tool-availability.ts";
+import { resolvePluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
+import { getActivePluginRegistryWorkspaceDirFromState } from "../../plugins/runtime-state.ts";
+import { listProfilesForProvider } from "../auth-profiles/profile-list.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
 
 /** Manifest contract keys that represent provider-backed tool capabilities. */
 type CapabilityContractKey =

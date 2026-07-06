@@ -1,25 +1,25 @@
 /** Loads plugin CLI registrations lazily for the command tree and plugin-owned subcommands. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { collectUniqueCommandDescriptors } from "../cli/program/command-descriptor-utils.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveManifestActivationPluginIds } from "./activation-planner.js";
-import { createPluginCliGatewayNodesRuntime } from "./cli-gateway-nodes-runtime.js";
-import type { PluginLoadOptions } from "./loader.js";
-import { loadOpenClawPluginCliRegistry, loadOpenClawPlugins } from "./loader.js";
-import { createEmptyPluginRegistry } from "./registry-empty.js";
-import type { PluginRegistry } from "./registry.js";
+import { collectUniqueCommandDescriptors } from "../cli/program/command-descriptor-utils.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveManifestActivationPluginIds } from "./activation-planner.ts";
+import { createPluginCliGatewayNodesRuntime } from "./cli-gateway-nodes-runtime.ts";
+import type { PluginLoadOptions } from "./loader.ts";
+import { loadOpenClawPluginCliRegistry, loadOpenClawPlugins } from "./loader.ts";
+import { createEmptyPluginRegistry } from "./registry-empty.ts";
+import type { PluginRegistry } from "./registry.ts";
 import {
   buildPluginRuntimeLoadOptions,
   createPluginRuntimeLoaderLogger,
   resolvePluginRuntimeLoadContext,
   type PluginRuntimeLoadContext,
-} from "./runtime/load-context.js";
+} from "./runtime/load-context.ts";
 import type {
   OpenClawPluginCliCommandDescriptor,
   OpenClawPluginCliContext,
   PluginLogger,
-} from "./types.js";
+} from "./types.ts";
 
 export type PluginCliLoaderOptions = Pick<PluginLoadOptions, "pluginSdkResolution">;
 

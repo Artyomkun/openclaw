@@ -1,65 +1,65 @@
 /**
  * Queues embedded-agent session compaction onto the correct command lane.
  */
-import { OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST } from "../../context-engine/host-compat.js";
-import { ensureContextEnginesInitialized } from "../../context-engine/init.js";
+import { OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST } from "../../context-engine/host-compat.ts";
+import { ensureContextEnginesInitialized } from "../../context-engine/init.ts";
 import {
   resolveContextEngine,
   resolveContextEngineOwnerPluginId,
-} from "../../context-engine/registry.js";
-import { buildContextEngineRuntimeSettings } from "../../context-engine/runtime-settings.js";
+} from "../../context-engine/registry.ts";
+import { buildContextEngineRuntimeSettings } from "../../context-engine/runtime-settings.ts";
 import type {
   ContextEngine,
   ContextEngineRuntimeContext,
   ContextEngineRuntimeSettings,
-} from "../../context-engine/types.js";
+} from "../../context-engine/types.ts";
 import {
   createFileBackedCompactionCheckpointStore,
   readSessionLeafStateFromTranscriptAsync,
   resolveCompactionCheckpointTranscriptPosition,
   resolveSessionCompactionCheckpointReason,
   type CapturedCompactionCheckpointSnapshot,
-} from "../../gateway/session-compaction-checkpoints.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
-import { enqueueCommandInLane } from "../../process/command-queue.js";
-import { parseAgentSessionKey } from "../../routing/session-key.js";
-import { resolveUserPath } from "../../utils.js";
-import { isDefaultAgentRuntimeId, normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.js";
-import { resolveAgentDir, resolveSessionAgentIds } from "../agent-scope.js";
-import { resolveContextWindowInfo } from "../context-window-guard.js";
-import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.js";
-import { isRecoverableNativeHarnessBindingFailure } from "../harness/compaction-recovery.js";
-import { maybeCompactAgentHarnessSession } from "../harness/compaction.js";
-import { resolveAgentHarnessPolicy } from "../harness/policy.js";
-import { ensureSelectedAgentHarnessPlugin } from "../harness/runtime-plugin.js";
-import { isOpenAIProvider } from "../openai-routing.js";
-import { ensureRuntimePluginsLoaded } from "../runtime-plugins.js";
-import { DEFERRED_CONTEXT_ENGINE_COMPACTION_REASON } from "./compact-reasons.js";
-import type { CompactEmbeddedAgentSessionParams } from "./compact.types.js";
-import { asCompactionHookRunner, runPostCompactionSideEffects } from "./compaction-hooks.js";
+} from "../../gateway/session-compaction-checkpoints.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
+import { enqueueCommandInLane } from "../../process/command-queue.ts";
+import { parseAgentSessionKey } from "../../routing/session-key.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { isDefaultAgentRuntimeId, normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.ts";
+import { resolveAgentDir, resolveSessionAgentIds } from "../agent-scope.ts";
+import { resolveContextWindowInfo } from "../context-window-guard.ts";
+import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.ts";
+import { isRecoverableNativeHarnessBindingFailure } from "../harness/compaction-recovery.ts";
+import { maybeCompactAgentHarnessSession } from "../harness/compaction.ts";
+import { resolveAgentHarnessPolicy } from "../harness/policy.ts";
+import { ensureSelectedAgentHarnessPlugin } from "../harness/runtime-plugin.ts";
+import { isOpenAIProvider } from "../openai-routing.ts";
+import { ensureRuntimePluginsLoaded } from "../runtime-plugins.ts";
+import { DEFERRED_CONTEXT_ENGINE_COMPACTION_REASON } from "./compact-reasons.ts";
+import type { CompactEmbeddedAgentSessionParams } from "./compact.types.ts";
+import { asCompactionHookRunner, runPostCompactionSideEffects } from "./compaction-hooks.ts";
 import {
   buildEmbeddedCompactionRuntimeContext,
   resolveEmbeddedCompactionTarget,
-} from "./compaction-runtime-context.js";
+} from "./compaction-runtime-context.ts";
 import {
   compactWithSafetyTimeout,
   compactContextEngineWithSafetyTimeout,
   resolveCompactionTimeoutMs,
-} from "./compaction-safety-timeout.js";
+} from "./compaction-safety-timeout.ts";
 import {
   rotateTranscriptFileAfterCompaction,
   shouldRotateCompactionTranscript,
-} from "./compaction-successor-transcript.js";
-import { resolveContextEngineCapabilities } from "./context-engine-capabilities.js";
-import { runContextEngineMaintenance } from "./context-engine-maintenance.js";
-import { resolveGlobalLane, resolveSessionLane } from "./lanes.js";
-import { log } from "./logger.js";
-import { readAgentModelContextTokens } from "./model-context-tokens.js";
-import { resolveModelAsync } from "./model.js";
-import type { EmbeddedAgentCompactResult } from "./types.js";
-import { normalizeContextTokenBudget } from "./utils.js";
+} from "./compaction-successor-transcript.ts";
+import { resolveContextEngineCapabilities } from "./context-engine-capabilities.ts";
+import { runContextEngineMaintenance } from "./context-engine-maintenance.ts";
+import { resolveGlobalLane, resolveSessionLane } from "./lanes.ts";
+import { log } from "./logger.ts";
+import { readAgentModelContextTokens } from "./model-context-tokens.ts";
+import { resolveModelAsync } from "./model.ts";
+import type { EmbeddedAgentCompactResult } from "./types.ts";
+import { normalizeContextTokenBudget } from "./utils.ts";
 
 const compactionCheckpointStore = createFileBackedCompactionCheckpointStore();
 
@@ -302,7 +302,7 @@ export async function compactEmbeddedAgentSession(
     requestedModel: params.model,
     resolvedModel: ceModelId,
     selectedContextEngineId: contextEngine.info.id,
-    contextEngineSelectionSource: contextEngine.info.id === "legacy" ? "default" : "configured",
+    contextEngineSelectionSource: contextEngine.info.id === "configured",
     promptTokenBudget: contextTokenBudget,
   });
   const contextEngineOwnsCompaction = contextEngine.info.ownsCompaction === true;

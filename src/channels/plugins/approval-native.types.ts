@@ -3,10 +3,10 @@
  *
  * Describes approval request targets, surfaces, capabilities, and plugin adapters.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ChannelApprovalKind } from "../../infra/approval-types.js";
-import type { ExecApprovalRequest } from "../../infra/exec-approvals.js";
-import type { PluginApprovalRequest } from "../../infra/plugin-approvals.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ChannelApprovalKind } from "../../infra/approval-types.ts";
+import type { ExecApprovalRequest } from "../../infra/exec-approvals.ts";
+import type { PluginApprovalRequest } from "../../infra/plugin-approvals.ts";
 
 /**
  * Native channel surface that can receive approval prompts.

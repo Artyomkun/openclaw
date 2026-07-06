@@ -1,5 +1,5 @@
 // Defines user-facing config field labels used by schema metadata.
-import { MEDIA_AUDIO_FIELD_LABELS } from "./media-audio-field-metadata.js";
+import { MEDIA_AUDIO_FIELD_LABELS } from "./media-audio-field-metadata.ts";
 
 export const FIELD_LABELS: Record<string, string> = {
   meta: "Metadata",
@@ -112,8 +112,6 @@ export const FIELD_LABELS: Record<string, string> = {
   "agents.list.*.models": "Agent Model Overrides",
   "agents.list.*.models.*.agentRuntime": "Agent Model Runtime",
   "agents.list.*.models.*.agentRuntime.id": "Agent Model Runtime ID",
-  "agents.list.*.agentRuntime": "Legacy Agent Runtime",
-  "agents.list.*.agentRuntime.id": "Legacy Agent Runtime ID",
   gateway: "Gateway",
   "gateway.port": "Gateway Port",
   "gateway.mode": "Gateway Mode",
@@ -868,7 +866,6 @@ export const FIELD_LABELS: Record<string, string> = {
   "cron.retry.maxAttempts": "Cron Retry Max Attempts",
   "cron.retry.backoffMs": "Cron Retry Backoff (ms)",
   "cron.retry.retryOn": "Cron Retry Error Types",
-  "cron.webhook": "Cron Legacy Webhook (Deprecated)",
   "cron.webhookToken": "Cron Webhook Bearer Token",
   "cron.sessionRetention": "Cron Session Retention",
   "cron.runLog": "Cron Run Log Pruning",

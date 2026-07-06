@@ -7,53 +7,53 @@
 import fs from "node:fs";
 import path from "node:path";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { resolveBundledInstallPlanForCatalogEntry } from "../cli/plugin-install-plan.js";
-import { invalidatePluginRuntimeDiscoveryAfterConfigMutation } from "../cli/plugins-registry-refresh.js";
-import { assertConfigWriteAllowedInCurrentMode } from "../config/nix-mode-write-guard.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
-import { isOpenClawOrgNpmSpec, parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
-import { normalizeUpdateChannel, resolveRegistryUpdateChannel } from "../infra/update-channels.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { resolveBundledInstallPlanForCatalogEntry } from "../cli/plugin-install-plan.ts";
+import { invalidatePluginRuntimeDiscoveryAfterConfigMutation } from "../cli/plugins-registry-refresh.ts";
+import { assertConfigWriteAllowedInCurrentMode } from "../config/nix-mode-write-guard.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { parseClawHubPluginSpec } from "../infra/clawhub-spec.ts";
+import { isOpenClawOrgNpmSpec, parseRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
+import { normalizeUpdateChannel, resolveRegistryUpdateChannel } from "../infra/update-channels.ts";
 import {
   findBundledPluginSourceInMap,
   resolveBundledPluginSources,
-} from "../plugins/bundled-sources.js";
-import { CLAWHUB_INSTALL_ERROR_CODE } from "../plugins/clawhub-error-codes.js";
-import { buildClawHubPluginInstallRecordFields } from "../plugins/clawhub-install-records.js";
+} from "../plugins/bundled-sources.ts";
+import { CLAWHUB_INSTALL_ERROR_CODE } from "../plugins/clawhub-error-codes.ts";
+import { buildClawHubPluginInstallRecordFields } from "../plugins/clawhub-install-records.ts";
 import {
   enableExplicitlySelectedPluginInConfig,
   type PluginEnableResult,
-} from "../plugins/enable.js";
+} from "../plugins/enable.ts";
 import {
   resolveClawHubInstallSpecsForUpdateChannel,
   resolveNpmInstallSpecsForUpdateChannel,
-} from "../plugins/install-channel-specs.js";
+} from "../plugins/install-channel-specs.ts";
 import {
   type PluginInstallOverride,
   resolvePluginInstallOverride,
   PLUGIN_INSTALL_OVERRIDES_ENV,
   ALLOW_PLUGIN_INSTALL_OVERRIDES_ENV,
-} from "../plugins/install-overrides.js";
-import { resolveDefaultPluginExtensionsDir } from "../plugins/install-paths.js";
+} from "../plugins/install-overrides.ts";
+import { resolveDefaultPluginExtensionsDir } from "../plugins/install-paths.ts";
 import {
   installPluginFromNpmSpec,
   installPluginFromNpmPackArchive,
   type InstallPluginResult,
-} from "../plugins/install.js";
-import { clearLoadInstalledPluginIndexInstallRecordsCache } from "../plugins/installed-plugin-index-records.js";
+} from "../plugins/install.ts";
+import { clearLoadInstalledPluginIndexInstallRecordsCache } from "../plugins/installed-plugin-index-records.ts";
 import {
   buildNpmResolutionInstallFields,
   recordPluginInstall,
   resolveNpmInstallRecordSpec,
-} from "../plugins/installs.js";
-import type { PluginPackageInstall } from "../plugins/manifest.js";
-import { clearPluginMetadataLifecycleCaches } from "../plugins/plugin-metadata-lifecycle.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { withTimeout } from "../utils/with-timeout.js";
-import { VERSION } from "../version.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+} from "../plugins/installs.ts";
+import type { PluginPackageInstall } from "../plugins/manifest.ts";
+import { clearPluginMetadataLifecycleCaches } from "../plugins/plugin-metadata-lifecycle.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { withTimeout } from "../utils/with-timeout.ts";
+import { VERSION } from "../version.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 
 type InstallChoice = "clawhub" | "npm" | "local" | "skip";
 type InstallPluginFromClawHubResult = Awaited<

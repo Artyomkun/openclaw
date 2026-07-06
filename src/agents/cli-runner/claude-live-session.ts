@@ -3,16 +3,16 @@
  */
 import crypto from "node:crypto";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import type { ReplyBackendHandle } from "../../auto-reply/reply/reply-run-registry.js";
-import type { CliBackendConfig } from "../../config/types.js";
+import type { ReplyBackendHandle } from "../../auto-reply/reply/reply-run-registry.ts";
+import type { CliBackendConfig } from "../../config/types.ts";
 import {
   emitTrustedDiagnosticEvent,
   type DiagnosticToolParamsSummary,
   type DiagnosticToolSource,
   type DiagnosticToolExecutionErrorEvent,
   type DiagnosticToolExecutionCompletedEvent,
-} from "../../infra/diagnostic-events.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+} from "../../infra/diagnostic-events.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   loadExecApprovals,
   maxAsk,
@@ -21,8 +21,8 @@ import {
   resolveExecApprovalsFromFile,
   type ExecAsk,
   type ExecSecurity,
-} from "../../infra/exec-approvals.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
+} from "../../infra/exec-approvals.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
 import {
   createCliJsonlStreamingParser,
   extractCliErrorMessage,
@@ -31,13 +31,13 @@ import {
   type CliStreamingDelta,
   type CliToolResultDelta,
   type CliToolUseStartDelta,
-} from "../cli-output.js";
-import { classifyFailoverReason } from "../embedded-agent-helpers.js";
-import { FailoverError, resolveFailoverStatus } from "../failover-error.js";
-import { prepareCliBundleMcpCaptureAttempt } from "./bundle-mcp.js";
-import { buildClaudeOwnerKey } from "./helpers.js";
-import { cliBackendLog, formatCliBackendOutputDigest } from "./log.js";
-import type { PreparedCliRunContext } from "./types.js";
+} from "../cli-output.ts";
+import { classifyFailoverReason } from "../embedded-agent-helpers.ts";
+import { FailoverError, resolveFailoverStatus } from "../failover-error.ts";
+import { prepareCliBundleMcpCaptureAttempt } from "./bundle-mcp.ts";
+import { buildClaudeOwnerKey } from "./helpers.ts";
+import { cliBackendLog, formatCliBackendOutputDigest } from "./log.ts";
+import type { PreparedCliRunContext } from "./types.ts";
 
 type ProcessSupervisor = ReturnType<
   typeof import("../../process/supervisor/index.js").getProcessSupervisor

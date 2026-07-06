@@ -8,8 +8,6 @@ const AllowDenyChatTypeSchema = z
     z.literal("direct"),
     z.literal("group"),
     z.literal("channel"),
-    /** @deprecated Use `direct` instead. Kept for backward compatibility. */
-    z.literal("dm"),
   ])
   .optional();
 

@@ -1,34 +1,34 @@
 // Gateway service lifecycle runners, including unmanaged-process fallbacks and restart health checks.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { isRestartEnabled } from "../../config/commands.flags.js";
-import { readBestEffortConfig, resolveGatewayPort } from "../../config/config.js";
-import { resolveGatewayService } from "../../daemon/service.js";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { isRestartEnabled } from "../../config/commands.flags.ts";
+import { readBestEffortConfig, resolveGatewayPort } from "../../config/config.ts";
+import { resolveGatewayService } from "../../daemon/service.ts";
 import {
   findInstalledSystemdGatewayScope,
   restartSystemdService,
   stopSystemdService,
-} from "../../daemon/systemd.js";
-import { callGatewayCli } from "../../gateway/call.js";
-import { probeGateway } from "../../gateway/probe.js";
+} from "../../daemon/systemd.ts";
+import { callGatewayCli } from "../../gateway/call.ts";
+import { probeGateway } from "../../gateway/probe.ts";
 import {
   findVerifiedGatewayListenerPidsOnPortSync,
   formatGatewayPidList,
   signalVerifiedGatewayPidSync,
-} from "../../infra/gateway-processes.js";
-import type { SafeGatewayRestartRequestResult } from "../../infra/restart-coordinator.js";
-import { type GatewayRestartIntent, writeGatewayRestartIntentSync } from "../../infra/restart.js";
-import { defaultRuntime } from "../../runtime.js";
-import { formatCliCommand } from "../command-format.js";
-import { parseDurationMs } from "../parse-duration.js";
-import { recoverInstalledLaunchAgent } from "./launchd-recovery.js";
+} from "../../infra/gateway-processes.ts";
+import type { SafeGatewayRestartRequestResult } from "../../infra/restart-coordinator.ts";
+import { type GatewayRestartIntent, writeGatewayRestartIntentSync } from "../../infra/restart.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { parseDurationMs } from "../parse-duration.ts";
+import { recoverInstalledLaunchAgent } from "./launchd-recovery.ts";
 import {
   runServiceRestart,
   runServiceStart,
   runServiceStop,
   runServiceUninstall,
-} from "./lifecycle-core.js";
-import { createNullWriter } from "./response.js";
+} from "./lifecycle-core.ts";
+import { createNullWriter } from "./response.ts";
 import {
   DEFAULT_RESTART_HEALTH_ATTEMPTS,
   DEFAULT_RESTART_HEALTH_DELAY_MS,
@@ -38,10 +38,10 @@ import {
   terminateStaleGatewayPids,
   waitForGatewayHealthyListener,
   waitForGatewayHealthyRestart,
-} from "./restart-health.js";
-import { parsePortFromArgs, renderGatewayServiceStartHints } from "./shared.js";
-import { repairLoadedGatewayServiceForStart } from "./start-repair.js";
-import type { DaemonLifecycleOptions } from "./types.js";
+} from "./restart-health.ts";
+import { parsePortFromArgs, renderGatewayServiceStartHints } from "./shared.ts";
+import { repairLoadedGatewayServiceForStart } from "./start-repair.ts";
+import type { DaemonLifecycleOptions } from "./types.ts";
 
 const POST_RESTART_HEALTH_ATTEMPTS = DEFAULT_RESTART_HEALTH_ATTEMPTS;
 const POST_RESTART_HEALTH_DELAY_MS = DEFAULT_RESTART_HEALTH_DELAY_MS;

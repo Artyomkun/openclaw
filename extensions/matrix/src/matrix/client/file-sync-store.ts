@@ -128,18 +128,6 @@ function normalizePersistedStore(value: unknown): PersistedMatrixSyncStore | nul
   };
 }
 
-function normalizeLegacyPersistedStore(value: unknown): PersistedMatrixSyncStore | null {
-  const persisted = normalizePersistedStore(value);
-  if (persisted) {
-    return persisted;
-  }
-  return {
-    version: STORE_VERSION,
-    savedSync: toPersistedSyncData(value),
-    cleanShutdown: false,
-  };
-}
-
 function cloneJson<T>(value: T): T {
   return structuredClone(value);
 }
@@ -275,9 +263,7 @@ export class SqliteBackedMatrixSyncStore extends MemoryStore {
         this.store.delete(row.key);
       }
     }
-    await fs
-      .rm(resolveLegacySyncCachePath(this.storageRootDir), { force: true })
-      .catch(() => undefined);
+    await fs.rm(path.join(this.storageRootDir, "cache"), { force: true });
   }
 
   markCleanShutdown(): void {
@@ -395,8 +381,8 @@ function readPersistedStoreFromSyncStore(
   }
   let savedSync: ISyncData | null = null;
   if (chunks.length > 0) {
-    const syncJson = chunks.join("");
-    if (meta.syncDigest !== digestText(syncJson)) {
+    const syntson = chunks.join("");
+    if (meta.syncDigest !== digestText(syntson)) {
       return normalizePersistedStore({
         version: STORE_VERSION,
         savedSync: null,
@@ -405,7 +391,7 @@ function readPersistedStoreFromSyncStore(
       });
     }
     try {
-      savedSync = toPersistedSyncData(JSON.parse(syncJson));
+      savedSync = toPersistedSyncData(JSON.parse(syntson));
     } catch {
       savedSync = null;
     }
@@ -436,10 +422,6 @@ function chunkKeyPrefix(stateKey: string): string {
 
 function chunkKey(stateKey: string, generation: string, index: number): string {
   return `${chunkKeyPrefix(stateKey)}${generation}:${index}`;
-}
-
-function resolveLegacySyncCachePath(storageRootDir: string): string {
-  return path.join(storageRootDir, "bot-storage.json");
 }
 
 function digestText(value: string): string {
@@ -506,8 +488,8 @@ function buildSyncCacheRows(
   nextChunkKeys: Set<string>;
 } {
   const generation = randomUUID().replaceAll("-", "");
-  const syncJson = payload.savedSync ? JSON.stringify(payload.savedSync) : "";
-  const chunkValues = syncJson ? chunkSyncCacheJson(syncJson) : [];
+  const syntson = payload.savedSync ? JSON.stringify(payload.savedSync) : "";
+  const chunkValues = syntson ? chunkSyncCacheJson(syntson) : [];
   const chunks = chunkValues.map((data, index) => ({
     key: chunkKey(stateKey, generation, index),
     value: {
@@ -526,27 +508,12 @@ function buildSyncCacheRows(
         version: STORE_VERSION,
         generation,
         chunkCount: chunks.length,
-        ...(syncJson ? { syncDigest: digestText(syncJson) } : {}),
+        ...(syntson ? { syncDigest: digestText(syntson) } : {}),
         ...(payload.clientOptions ? { clientOptions: payload.clientOptions } : {}),
         cleanShutdown: payload.cleanShutdown === true,
       },
     },
   };
-}
-
-export async function readLegacyMatrixSyncCacheState(
-  storageRootDir: string,
-): Promise<PersistedMatrixSyncStore | null> {
-  try {
-    const raw = await fs.readFile(resolveLegacySyncCachePath(storageRootDir), "utf8");
-    const persisted = normalizeLegacyPersistedStore(JSON.parse(raw));
-    if (!persisted?.savedSync && !persisted?.clientOptions) {
-      return null;
-    }
-    return persisted;
-  } catch {
-    return null;
-  }
 }
 
 export async function hasMatrixSyncCacheStateInStore(params: {
@@ -566,12 +533,12 @@ export async function hasMatrixSyncCacheStateInStore(params: {
     }
     chunks.push(chunk.data);
   }
-  const syncJson = chunks.join("");
-  if (meta.syncDigest !== digestText(syncJson)) {
+  const syntson = chunks.join("");
+  if (meta.syncDigest !== digestText(syntson)) {
     return false;
   }
   try {
-    return toPersistedSyncData(JSON.parse(syncJson)) !== null;
+    return toPersistedSyncData(JSON.parse(syntson)) !== null;
   } catch {
     return false;
   }

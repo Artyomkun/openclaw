@@ -160,7 +160,7 @@ function normalizeExplicitCommandTurn(
   });
 }
 
-/** Normalizes command metadata with a legacy body fallback for older channel contexts. */
+/** Normalizes command metadata with a older body fallback for older channel contexts. */
 export function resolveCommandTurnContext(input: CommandTurnContextInput): CommandTurnContext {
   const explicit = normalizeExplicitCommandTurn(input.CommandTurn, input);
   if (explicit) {

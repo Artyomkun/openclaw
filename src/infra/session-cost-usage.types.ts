@@ -1,9 +1,9 @@
 // Shared session cost and usage accounting type contracts.
-import type { NormalizedUsage } from "../agents/usage.js";
+import type { NormalizedUsage } from "../agents/usage.ts";
 import type {
   SessionUsageTimePoint as SharedSessionUsageTimePoint,
   SessionUsageTimeSeries as SharedSessionUsageTimeSeries,
-} from "../shared/session-usage-timeseries-types.js";
+} from "../shared/session-usage-timeseries-types.ts";
 
 export type CostBreakdown = {
   total?: number;
@@ -108,7 +108,7 @@ export type SessionUtcQuarterHourTokenUsage = {
   cacheWrite: number;
   // Uses the same token total basis as CostUsageTotals: usage.total when present,
   // otherwise input + output + cacheRead + cacheWrite. This intentionally differs
-  // from legacy dailyBreakdown.tokens, which preserves its existing component-sum
+  // from older dailyBreakdown.tokens, which preserves its existing component-sum
   // behavior until daily usage buckets are refactored separately.
   totalTokens: number;
   totalCost: number;

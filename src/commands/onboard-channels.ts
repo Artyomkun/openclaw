@@ -4,5 +4,5 @@ export {
   createChannelOnboardingPostWriteHookCollector,
   runCollectedChannelOnboardingPostWriteHooks,
   setupChannels,
-} from "../flows/channel-setup.js";
-export { noteChannelStatus } from "../flows/channel-setup.status.js";
+} from "../flows/channel-setup.ts";
+export { noteChannelStatus } from "../flows/channel-setup.status.ts";

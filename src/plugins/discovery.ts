@@ -5,22 +5,18 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { satisfiesPluginApiRange } from "../infra/clawhub.js";
-import { readRootJsonObjectSync } from "../infra/json-files.js";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveCompatibilityHostVersion } from "../version.js";
-import { detectBundleManifestFormat, loadBundleManifest } from "./bundle-manifest.js";
-import { resolveSourceCheckoutDependencyDiagnostic } from "./bundled-dir.js";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { satisfiesPluginApiRange } from "../infra/clawhub.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveCompatibilityHostVersion } from "../version.ts";
+import { detectBundleManifestFormat, loadBundleManifest } from "./bundle-manifest.ts";
+import { resolveSourceCheckoutDependencyDiagnostic } from "./bundled-dir.ts";
 import {
-  buildLegacyBundledRootPath,
   resolvePackagedBundledLoadPathAlias,
-} from "./bundled-load-path-aliases.js";
-import { listBundledSourceOverlayDirs } from "./bundled-source-overlays.js";
-import { shouldRejectHardlinkedPluginFiles } from "./hardlink-policy.js";
-import { readLegacyNpmPluginDeclaration } from "./legacy-npm-declaration.js";
-import type { PluginBundleFormat, PluginDiagnostic, PluginFormat } from "./manifest-types.js";
+} from "./bundled-load-path-aliases.ts";
+import { listBundledSourceOverlayDirs } from "./bundled-source-overlays.ts";
+import { shouldRejectHardlinkedPluginFiles } from "./hardlink-policy.ts";
+import type { PluginBundleFormat, PluginDiagnostic, PluginFormat } from "./manifest-types.ts";
 import {
   DEFAULT_PLUGIN_ENTRY_CANDIDATES,
   getPackageManifestMetadata,
@@ -30,23 +26,23 @@ import {
   type OpenClawPackageManifest,
   type PackageExtensionResolution,
   type PackageManifest,
-} from "./manifest.js";
-import { resolvePackagePluginApiRange } from "./package-compat.js";
+} from "./manifest.ts";
+import { resolvePackagePluginApiRange } from "./package-compat.ts";
 import {
   resolvePackageRuntimeExtensionSources,
   resolvePackageSetupSource,
-} from "./package-entry-resolution.js";
-import { formatPosixMode, isPathInside, safeRealpathSync, safeStatSync } from "./path-safety.js";
-import { tracePluginLifecyclePhase } from "./plugin-lifecycle-trace.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
-import { withPluginScanExistenceCache } from "./plugin-scan-existence-cache.js";
-import { resolvePluginSourceRoots } from "./roots.js";
+} from "./package-entry-resolution.ts";
+import { formatPosixMode, isPathInside, safeRealpathSync, safeStatSync } from "./path-safety.ts";
+import { tracePluginLifecyclePhase } from "./plugin-lifecycle-trace.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
+import { withPluginScanExistenceCache } from "./plugin-scan-existence-cache.ts";
+import { resolvePluginSourceRoots } from "./roots.ts";
 import {
   normalizePluginDependencySpecs,
   type PluginDependencySpecMap,
-} from "./status-dependencies-core.js";
+} from "./status-dependencies-core.ts";
 
-const EXTENSION_EXTS = new Set([".ts", ".js", ".mts", ".cts", ".mjs", ".cjs"]);
+const EXTENSION_EXTS = new Set([".ts", ".js", ".ts", ".ts"]);
 const SCANNED_DIRECTORY_IGNORE_NAMES = new Set([
   ".git",
   ".hg",
@@ -551,25 +547,6 @@ function isManagedPluginDir(params: {
   return params.managedPluginDirs.has(key);
 }
 
-function readPackageManifest(
-  dir: string,
-  rejectHardlinks = true,
-  rootRealPath?: string,
-): PackageManifest | null {
-  const result = readRootJsonObjectSync({
-    rootDir: dir,
-    ...(rootRealPath !== undefined ? { rootRealPath } : {}),
-    relativePath: "package.json",
-    boundaryLabel: "plugin package directory",
-    rejectHardlinks,
-  });
-  return result.ok ? (result.value as PackageManifest) : null;
-}
-
-function readTrustedPackageManifest(dir: string): PackageManifest | null {
-  return tryReadJsonSync<PackageManifest>(path.join(dir, "package.json"));
-}
-
 function readPackageManifestStat(dir: string): { mtimeMs: number; size: number } | null {
   try {
     const stat = fs.statSync(path.join(dir, "package.json"));
@@ -607,24 +584,34 @@ function readCandidatePackageManifest(params: {
   if (cached !== undefined) {
     return cached;
   }
-  const canUseProcessCache = params.origin === "bundled" || !params.rejectHardlinks;
+
   const stat = readPackageManifestStat(params.dir);
-  if (canUseProcessCache && stat) {
+  if (!stat) {
+    params.packageManifestCache?.set(cacheKey, null);
+    return null;
+  }
+
+  const canUseProcessCache = params.origin === "bundled" || !params.rejectHardlinks;
+  if (canUseProcessCache) {
     const processCached = packageManifestProcessCache.get(cacheKey);
-    if (processCached?.mtimeMs === stat.mtimeMs && processCached.size === stat.size) {
+    if (processCached?.mtimeMs === stat.mtimeMs && processCached?.size === stat.size) {
       params.packageManifestCache?.set(cacheKey, processCached.manifest);
       return processCached.manifest;
     }
   }
-  const manifest =
-    params.origin === "bundled"
-      ? readTrustedPackageManifest(params.dir)
-      : readPackageManifest(params.dir, params.rejectHardlinks, params.rootRealPath);
+
+  const manifest = readPackageManifestStat(params.dir);
+  if (!manifest) {
+    params.packageManifestCache?.set(cacheKey, null);
+    return null;
+  }
+
   params.packageManifestCache?.set(cacheKey, manifest);
-  if (canUseProcessCache && stat) {
+  if (canUseProcessCache) {
     packageManifestProcessCache.set(cacheKey, { ...stat, manifest });
     prunePackageManifestProcessCache();
   }
+
   return manifest;
 }
 
@@ -856,23 +843,6 @@ function discoverBundleInRoot(params: {
     });
     return "added";
   });
-}
-
-function addLegacyNpmDeclarationDiagnostic(params: {
-  pluginDir: string;
-  diagnostics: PluginDiagnostic[];
-}): boolean {
-  const declaration = readLegacyNpmPluginDeclaration(params.pluginDir);
-  if (!declaration) {
-    return false;
-  }
-  params.diagnostics.push({
-    level: "warn",
-    pluginId: declaration.pluginId,
-    source: declaration.source,
-    message: `legacy npm plugin declaration ignored for "${declaration.pluginId}"; run "openclaw doctor --fix" to install ${declaration.npmSpec} into the managed plugin root`,
-  });
-  return true;
 }
 
 function shouldSkipIncompatiblePackagePluginApi(params: {
@@ -1134,15 +1104,6 @@ function discoverInDirectory(params: {
       continue;
     }
 
-    if (
-      addLegacyNpmDeclarationDiagnostic({
-        pluginDir: fullPath,
-        diagnostics: params.diagnostics,
-      })
-    ) {
-      continue;
-    }
-
     if (params.recurseDirectories) {
       discoverInDirectory({
         ...params,
@@ -1152,43 +1113,11 @@ function discoverInDirectory(params: {
   }
 }
 
-function hasDiscoverablePluginTree(pluginsDir: string): boolean {
-  try {
-    return fs.readdirSync(pluginsDir, { withFileTypes: true }).some((entry) => {
-      if (!entry.isDirectory()) {
-        return false;
-      }
-      const pluginDir = path.join(pluginsDir, entry.name);
-      return (
-        fs.existsSync(path.join(pluginDir, "package.json")) ||
-        fs.existsSync(path.join(pluginDir, "openclaw.plugin.json"))
-      );
-    });
-  } catch {
-    return false;
-  }
-}
-
-function isSourceCheckoutExtensionsDir(extensionsDir: string): boolean {
-  const packageRoot = path.dirname(extensionsDir);
-  return (
-    fs.existsSync(path.join(packageRoot, ".git")) &&
-    fs.existsSync(path.join(packageRoot, "pnpm-workspace.yaml")) &&
-    fs.existsSync(path.join(packageRoot, "src")) &&
-    fs.existsSync(extensionsDir) &&
-    hasDiscoverablePluginTree(extensionsDir)
-  );
-}
-
 function resolveBundledSourceCheckoutExtensionsDir(bundledRoot?: string): string | undefined {
   if (!bundledRoot) {
     return undefined;
   }
-  const legacyRoot = buildLegacyBundledRootPath(bundledRoot);
-  if (!legacyRoot || !isSourceCheckoutExtensionsDir(legacyRoot)) {
-    return undefined;
-  }
-  return legacyRoot;
+  return bundledRoot;
 }
 
 function readChildDirectoryNames(dir: string | undefined): Set<string> {
@@ -1394,15 +1323,6 @@ function discoverFromPath(params: {
         requiredPluginSource: candidateManifest?.manifestPath,
         realpathCache: params.realpathCache,
       });
-      return;
-    }
-
-    if (
-      addLegacyNpmDeclarationDiagnostic({
-        pluginDir: resolved,
-        diagnostics: params.diagnostics,
-      })
-    ) {
       return;
     }
 

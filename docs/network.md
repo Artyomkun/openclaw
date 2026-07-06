@@ -55,7 +55,7 @@ Local trust:
 ## Nodes + transports
 
 - [Nodes overview](/nodes)
-- [Bridge protocol (legacy nodes, historical)](/gateway/bridge-protocol)
+- [Bridge protocol (historical nodes)](/gateway/bridge-protocol)
 - [Node runbook: iOS](/platforms/ios)
 - [Node runbook: Android](/platforms/android)
 

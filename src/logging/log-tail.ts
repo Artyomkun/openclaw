@@ -1,9 +1,9 @@
 // Log tail helpers read recent log lines with optional parsing and redaction.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { getResolvedLoggerSettings } from "../logging.js";
-import { clamp } from "../utils.js";
-import { redactSensitiveLines, resolveRedactOptions } from "./redact.js";
+import { getResolvedLoggerSettings } from "../logging.ts";
+import { clamp } from "../utils.ts";
+import { redactSensitiveLines, resolveRedactOptions } from "./redact.ts";
 
 // Tail reader for the active log file, with cursor reset and line redaction.
 const DEFAULT_LIMIT = 500;

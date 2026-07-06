@@ -7,32 +7,32 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, resolve, sep } from "node:path";
 import chalk from "chalk";
-import { CONFIG_DIR_NAME } from "../config.js";
-import { loadThemeFromPath, type Theme } from "../modes/interactive/theme/theme.js";
-import type { ResourceDiagnostic } from "./diagnostics.js";
+import { CONFIG_DIR_NAME } from "../config.ts";
+import { loadThemeFromPath, type Theme } from "../modes/interactive/theme/theme.ts";
+import type { ResourceDiagnostic } from "./diagnostics.ts";
 
-export type { ResourceCollision, ResourceDiagnostic } from "./diagnostics.js";
+export type { ResourceCollision, ResourceDiagnostic } from "./diagnostics.ts";
 
-import type { Skill } from "../../skills/loading/session.js";
-import { loadSkills } from "../../skills/loading/session.js";
-import { canonicalizePath, isLocalPath } from "../utils/paths.js";
-import { createEventBus, type EventBus } from "./event-bus.js";
+import type { Skill } from "../../skills/loading/session.ts";
+import { loadSkills } from "../../skills/loading/session.ts";
+import { canonicalizePath, isLocalPath } from "../utils/paths.ts";
+import { createEventBus, type EventBus } from "./event-bus.ts";
 import {
   createExtensionRuntime,
   loadExtensionFromFactory,
   loadExtensions,
-} from "./extensions/loader.js";
+} from "./extensions/loader.ts";
 import type {
   Extension,
   ExtensionFactory,
   ExtensionRuntime,
   LoadExtensionsResult,
-} from "./extensions/types.js";
-import { DefaultPackageManager, type PathMetadata } from "./package-manager.js";
-import type { PromptTemplate } from "./prompt-templates.js";
-import { loadPromptTemplates } from "./prompt-templates.js";
-import { SettingsManager } from "./settings-manager.js";
-import { createSourceInfo, type SourceInfo } from "./source-info.js";
+} from "./extensions/types.ts";
+import { DefaultPackageManager, type PathMetadata } from "./package-manager.ts";
+import type { PromptTemplate } from "./prompt-templates.ts";
+import { loadPromptTemplates } from "./prompt-templates.ts";
+import { SettingsManager } from "./settings-manager.ts";
+import { createSourceInfo, type SourceInfo } from "./source-info.ts";
 
 export interface ResourceExtensionPaths {
   skillPaths?: Array<{ path: string; metadata: PathMetadata }>;
@@ -168,10 +168,6 @@ export interface DefaultResourceLoaderOptions {
   };
   systemPromptTransform?: (base: string | undefined) => string | undefined;
   appendSystemPromptTransform?: (base: string[]) => string[];
-  /** @deprecated Public SDK alias. Use systemPromptTransform. */
-  systemPromptOverride?: (base: string | undefined) => string | undefined;
-  /** @deprecated Public SDK alias. Use appendSystemPromptTransform. */
-  appendSystemPromptOverride?: (base: string[]) => string[];
 }
 
 export class DefaultResourceLoader implements ResourceLoader {

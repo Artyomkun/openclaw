@@ -4,12 +4,12 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import {
   AUTO_AGENT_RUNTIME_ID,
   normalizeOptionalAgentRuntimeId,
-} from "../agents/agent-runtime-id.js";
-import { resolveModelRuntimePolicy } from "../agents/model-runtime-policy.js";
-import { openAIProviderUsesCodexRuntimeByDefault } from "../agents/openai-routing.js";
-import type { AgentModelEntryConfig } from "./types.agent-defaults.js";
-import type { AgentRuntimePolicyConfig } from "./types.agents-shared.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+} from "../agents/agent-runtime-id.ts";
+import { resolveModelRuntimePolicy } from "../agents/model-runtime-policy.ts";
+import { openAIProviderUsesCodexRuntimeByDefault } from "../agents/openai-routing.ts";
+import type { AgentModelEntryConfig } from "./types.agent-defaults.ts";
+import type { AgentRuntimePolicyConfig } from "./types.agents-shared.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 const CODEX_PLUGIN_ID = "codex";
 const OPENAI_PROVIDER_ID = "openai";

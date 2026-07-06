@@ -1,13 +1,13 @@
 /** Resolves model fallback chains for isolated cron runs and preflight. */
-import { resolveModelCandidateChain } from "../../agents/model-fallback.js";
-import type { ModelCandidate } from "../../agents/model-fallback.types.js";
-import { resolveAgentModelFallbackValues } from "../../config/model-input.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { CronJob } from "../types.js";
+import { resolveModelCandidateChain } from "../../agents/model-fallback.ts";
+import type { ModelCandidate } from "../../agents/model-fallback.types.ts";
+import { resolveAgentModelFallbackValues } from "../../config/model-input.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { CronJob } from "../types.ts";
 import {
   resolveEffectiveModelFallbacks,
   resolveSubagentModelFallbacksOverride,
-} from "./run-execution.runtime.js";
+} from "./run-execution.runtime.ts";
 
 /** Resolves cron model fallbacks, giving explicit payload fallbacks precedence over subagent/default policy. */
 export function resolveCronFallbacksOverride(params: {

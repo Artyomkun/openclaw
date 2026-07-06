@@ -1,18 +1,18 @@
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { HookContext } from "../agent-tools.before-tool-call.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { HookContext } from "../agent-tools.before-tool-call.ts";
 import {
   CODE_MODE_EXEC_TOOL_NAME,
   CODE_MODE_WAIT_TOOL_NAME,
   applyCodeModeCatalog,
   createCodeModeTools,
   resolveCodeModeConfig,
-} from "../code-mode.js";
+} from "../code-mode.ts";
 import {
   applyLocalModelLeanToolSearchDefaults,
   filterLocalModelLeanTools,
   resolveLocalModelLeanPreserveToolNames,
-} from "../local-model-lean.js";
-import { filterRuntimeCompatibleTools } from "../tool-schema-projection.js";
+} from "../local-model-lean.ts";
+import { filterRuntimeCompatibleTools } from "../tool-schema-projection.ts";
 import {
   applyToolSchemaDirectoryCatalog,
   applyToolSearchCatalog,
@@ -26,8 +26,8 @@ import {
   TOOL_SEARCH_RAW_TOOL_NAME,
   type ToolSearchCatalogRef,
   type ToolSearchCatalogToolExecutor,
-} from "../tool-search.js";
-import type { AnyAgentTool } from "../tools/common.js";
+} from "../tool-search.ts";
+import type { AnyAgentTool } from "../tools/common.ts";
 
 const TOOL_SEARCH_CONTROL_ALLOWLIST_NAMES = [
   TOOL_SEARCH_CODE_MODE_TOOL_NAME,

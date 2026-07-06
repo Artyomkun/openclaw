@@ -440,12 +440,12 @@ Example:
 
     Multi-account precedence:
 
-    - `channels.discord.accounts.default.allowFrom` applies only to the `default` account.
-    - For one account, `allowFrom` takes precedence over legacy `dm.allowFrom`.
-    - Named accounts inherit `channels.discord.allowFrom` when their own `allowFrom` and legacy `dm.allowFrom` are unset.
+   - `channels.discord.accounts.default.allowFrom` applies only to the `default` account.
+    - For one account, `allowFrom` takes precedence over older `dm.allowFrom`.
+    - Named accounts inherit `channels.discord.allowFrom` when their own `allowFrom` and older `dm.allowFrom` are unset.
     - Named accounts do not inherit `channels.discord.accounts.default.allowFrom`.
 
-    Legacy `channels.discord.dm.policy` and `channels.discord.dm.allowFrom` still read for compatibility. `openclaw doctor --fix` migrates them to `dmPolicy` and `allowFrom` when it can do so without changing access.
+    Older `channels.discord.dm.policy` and `channels.discord.dm.allowFrom` still read for compatibility. `openclaw doctor --fix` migrates them to `dmPolicy` and `allowFrom` when it can do so without changing access.
 
     DM target format for delivery:
 
@@ -586,7 +586,7 @@ Example:
     - configured mention patterns (`agents.list[].groupChat.mentionPatterns`, fallback `messages.groupChat.mentionPatterns`)
     - implicit reply-to-bot behavior in supported cases
 
-    When writing outbound Discord messages, use canonical mention syntax: `<@USER_ID>` for users, `<#CHANNEL_ID>` for channels, and `<@&ROLE_ID>` for roles. Do not use the legacy `<@!USER_ID>` nickname mention form.
+    When writing outbound Discord messages, use canonical mention syntax: `<@USER_ID>` for users, `<#CHANNEL_ID>` for channels, and `<@&ROLE_ID>` for roles. Do not use the older `<@!USER_ID>` nickname mention form.
 
     `requireMention` is configured per guild/channel (`channels.discord.guilds...`).
     `ignoreOtherMentions` optionally drops messages that mention another user/role but not the bot (excluding @everyone/@here).
@@ -684,7 +684,7 @@ Default slash command settings:
   </Accordion>
 
   <Accordion title="Live stream preview">
-    OpenClaw can stream draft replies by sending a temporary message and editing it as text arrives. `channels.discord.streaming` takes `off` | `partial` | `block` | `progress` (default). `progress` keeps one editable status draft and updates it with tool progress until final delivery; the shared starter label is a rolling line, so it scrolls away like the rest once enough work appears. `streamMode` is a legacy runtime alias. Run `openclaw doctor --fix` to rewrite persisted config to the canonical key.
+    OpenClaw can stream draft replies by sending a temporary message and editing it as text arrives. `channels.discord.streaming` takes `off` | `partial` | `block` | `progress` (default). `progress` keeps one editable status draft and updates it with tool progress until final delivery; the shared starter label is a rolling line, so it scrolls away like the rest once enough work appears. `streamMode` is an older runtime alias. Run `openclaw doctor --fix` to rewrite persisted config to the canonical key.
 
     Set `channels.discord.streaming.mode` to `off` to disable Discord preview edits. If Discord block streaming is explicitly enabled, OpenClaw skips the preview stream to avoid double-streaming.
 
@@ -1090,7 +1090,7 @@ Default slash command settings:
     - `channels.discord.execApprovals.target` (`dm` | `channel` | `both`, default: `dm`)
     - `agentFilter`, `sessionFilter`, `cleanupAfterResolve`
 
-    Discord auto-enables native exec approvals when `enabled` is unset or `"auto"` and at least one approver can be resolved, either from `execApprovals.approvers` or from `commands.ownerAllowFrom`. Discord does not infer exec approvers from channel `allowFrom`, legacy `dm.allowFrom`, or direct-message `defaultTo`. Set `enabled: false` to disable Discord as a native approval client explicitly.
+    Discord auto-enables native exec approvals when `enabled` is unset or `"auto"` and at least one approver can be resolved, either from `execApprovals.approvers` or from `commands.ownerAllowFrom`. Discord does not infer exec approvers from channel `allowFrom`, older `dm.allowFrom`, or direct-message `defaultTo`. Set `enabled: false` to disable Discord as a native approval client explicitly.
 
     For sensitive owner-only group commands such as `/diagnostics` and `/export-trajectory`, OpenClaw sends approval prompts and final results privately. It tries Discord DM first when the invoking owner has a Discord owner route; if that is not available, it falls back to the first available owner route from `commands.ownerAllowFrom`, such as Telegram.
 
@@ -1139,7 +1139,7 @@ Default gate behavior:
 
 ## Components v2 UI
 
-OpenClaw uses Discord components v2 for exec approvals and cross-context markers. Discord message actions can also accept `components` for custom UI (advanced; requires constructing a component payload via the discord tool), while legacy `embeds` remain available but are not recommended.
+OpenClaw uses Discord components v2 for exec approvals and cross-context markers. Discord message actions can also accept `components` for custom UI (advanced; requires constructing a component payload via the discord tool), while older `embeds` remain available but are not recommended.
 
 - `channels.discord.ui.components.accentColor` sets the accent color used by Discord component containers (hex).
 - Set per account with `channels.discord.accounts.<id>.ui.components.accentColor`.
@@ -1240,7 +1240,7 @@ Notes:
 - In realtime modes, `voice.realtime.provider`, `voice.realtime.model`, and `voice.realtime.speakerVoice` configure the realtime audio session. For OpenAI Realtime 2 plus the Codex brain, use `voice.realtime.model: "gpt-realtime-2"` and `voice.model: "openai/gpt-5.5"`.
 - Realtime voice modes include small `IDENTITY.md`, `USER.md`, and `SOUL.md` profile files in the realtime provider instructions by default so fast direct turns keep the same identity, user grounding, and persona as the routed OpenClaw agent. Set `voice.realtime.bootstrapContextFiles` to a subset to customize this, or `[]` to disable it. The supported realtime bootstrap files are limited to those profile files; `AGENTS.md` stays in the normal agent context. The injected profile context does not replace `openclaw_agent_consult` for workspace work, current facts, memory lookup, or tool-backed actions.
 - In OpenAI `agent-proxy` realtime mode, set `voice.realtime.requireWakeName: true` to keep Discord realtime voice silent until a transcript starts or ends with a wake name. Configured wake names must be one or two words. If `voice.realtime.wakeNames` is unset, OpenClaw uses the routed agent `name` plus `OpenClaw`, falling back to the agent id plus `OpenClaw`. Wake-name gating disables realtime provider auto-response, routes accepted turns through the OpenClaw agent consult path, and gives a short spoken acknowledgement when a leading wake name is recognized from partial transcription before the final transcript arrives.
-- The OpenAI realtime provider accepts current Realtime 2 event names and legacy Codex-compatible aliases for output audio and transcript events, so compatible provider snapshots can drift without dropping assistant audio.
+- The OpenAI realtime provider accepts current Realtime 2 event names and older Codex-compatible aliases for output audio and transcript events, so compatible provider snapshots can drift without dropping assistant audio.
 - `voice.realtime.bargeIn` controls whether Discord speaker-start events interrupt active realtime playback. If unset, it follows the realtime provider's input-audio interruption setting.
 - `voice.realtime.minBargeInAudioEndMs` controls the minimum assistant playback duration before an OpenAI realtime barge-in truncates audio. Default: `250`. Set `0` for immediate interruption in low-echo rooms, or raise it for echo-heavy speaker setups.
 - For an OpenAI voice on Discord playback, set `voice.tts.provider: "openai"` and choose a Text-to-speech voice under `voice.tts.providers.openai.speakerVoice`. `cedar` is a good masculine-sounding choice on the current OpenAI TTS model.
@@ -1344,7 +1344,7 @@ Default agent-proxy voice-channel session example:
 
 With no `voice.agentSession` block, each voice channel gets its own routed OpenClaw session. For example, `/vc join channel:234567890123456789` talks to the session for that Discord voice channel. The realtime model is only the voice front end; substantive requests are handed to the configured OpenClaw agent. If the realtime model produces a final transcript without calling the consult tool, OpenClaw forces the consult as a fallback so the default still behaves like talking to the agent.
 
-Legacy STT plus TTS example:
+Older STT plus TTS example:
 
 ```json5
 {
@@ -1625,7 +1625,7 @@ openclaw logs --follow
   <Accordion title="DM and pairing issues">
 
     - DM disabled: `channels.discord.dm.enabled=false`
-    - DM policy disabled: `channels.discord.dmPolicy="disabled"` (legacy: `channels.discord.dm.policy`)
+    - DM policy disabled: `channels.discord.dmPolicy="disabled"` (older: `channels.discord.dm.policy`)
     - awaiting pairing approval in `pairing` mode
 
   </Accordion>
@@ -1722,7 +1722,7 @@ Primary reference: [Configuration reference - Discord](/gateway/config-channels#
 - gateway: `gatewayInfoTimeoutMs`, `gatewayReadyTimeoutMs`, `gatewayRuntimeReadyTimeoutMs`
 - reply/history: `replyToMode`, `historyLimit`, `dmHistoryLimit`, `dms.*.historyLimit`
 - delivery: `textChunkLimit`, `chunkMode`, `maxLinesPerMessage`
-- streaming: `streaming` (legacy alias: `streamMode`), `streaming.preview.toolProgress`, `draftChunk`, `blockStreaming`, `blockStreamingCoalesce`
+- streaming: `streaming`, `streaming.preview.toolProgress`, `draftChunk`, `blockStreaming`, `blockStreamingCoalesce`
 - media/retry: `mediaMaxMb` (caps outbound Discord uploads, default `100MB`), `retry`
 - actions: `actions.*`
 - presence: `activity`, `status`, `activityType`, `activityUrl`

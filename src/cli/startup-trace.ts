@@ -1,6 +1,6 @@
 // Shared gateway startup tracing for the entry wrapper and CLI dispatcher.
 import process from "node:process";
-import { isTruthyEnvValue } from "../infra/env.js";
+import { isTruthyEnvValue } from "../infra/env.ts";
 
 export type GatewayStartupTraceSource = "entry" | "cli.main";
 

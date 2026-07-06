@@ -7,62 +7,62 @@ import {
   normalizeNullableString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { MediaUnderstandingSkipError } from "../../packages/media-understanding-common/src/errors.js";
-import { extractGeminiResponse } from "../../packages/media-understanding-common/src/output-extract.js";
+import { MediaUnderstandingSkipError } from "../../packages/media-understanding-common/src/errors.ts";
+import { extractGeminiResponse } from "../../packages/media-understanding-common/src/output-extract.ts";
 import {
   estimateBase64Size,
   resolveVideoMaxBase64Bytes,
-} from "../../packages/media-understanding-common/src/video.js";
+} from "../../packages/media-understanding-common/src/video.ts";
 import {
   collectProviderApiKeysForExecution,
   executeWithApiKeyRotation,
-} from "../agents/api-key-rotation.js";
-import { CUSTOM_LOCAL_AUTH_MARKER } from "../agents/model-auth-markers.js";
+} from "../agents/api-key-rotation.ts";
+import { CUSTOM_LOCAL_AUTH_MARKER } from "../agents/model-auth-markers.ts";
 import {
   mergeModelProviderRequestOverrides,
   sanitizeConfiguredModelProviderRequest,
   sanitizeConfiguredProviderRequest,
-} from "../agents/provider-request-config.js";
-import type { MsgContext } from "../auto-reply/templating.js";
-import { applyTemplate } from "../auto-reply/templating.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { ModelProviderConfig, OpenClawConfig } from "../config/types.js";
+} from "../agents/provider-request-config.ts";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import { applyTemplate } from "../auto-reply/templating.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { ModelProviderConfig, OpenClawConfig } from "../config/types.ts";
 import type {
   MediaUnderstandingConfig,
   MediaUnderstandingModelConfig,
-} from "../config/types.tools.js";
-import { logVerbose, shouldLogVerbose } from "../globals.js";
-import { writeExternalFileWithinRoot } from "../infra/fs-safe.js";
-import { resolveProxyFetchFromEnv } from "../infra/net/proxy-fetch.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
-import { runFfmpeg } from "../media/media-services.js";
+} from "../config/types.tools.ts";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
+import { writeExternalFileWithinRoot } from "../infra/fs-safe.ts";
+import { resolveProxyFetchFromEnv } from "../infra/net/proxy-fetch.ts";
+import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.ts";
+import { runFfmpeg } from "../media/media-services.ts";
 import {
   getOfficialExternalPluginCatalogManifest,
   listOfficialExternalProviderCatalogEntries,
-} from "../plugins/official-external-plugin-catalog.js";
-import { resolveOfficialExternalPluginRepairHint } from "../plugins/official-external-plugin-repair-hints.js";
-import { runExec } from "../process/exec.js";
-import { providerOperationRetryConfig } from "../provider-runtime/operation-retry.js";
-import { MediaAttachmentCache } from "./attachments.js";
+} from "../plugins/official-external-plugin-catalog.ts";
+import { resolveOfficialExternalPluginRepairHint } from "../plugins/official-external-plugin-repair-hints.ts";
+import { runExec } from "../process/exec.ts";
+import { providerOperationRetryConfig } from "../provider-runtime/operation-retry.ts";
+import { MediaAttachmentCache } from "./attachments.ts";
 import {
   CLI_OUTPUT_MAX_BUFFER,
   DEFAULT_TIMEOUT_SECONDS,
   MIN_AUDIO_FILE_BYTES,
-} from "./defaults.constants.js";
-import { fileExists } from "./fs.js";
-import { normalizeImageDescriptionInput } from "./image-input-normalize.js";
-import { describeImageWithModel } from "./image-runtime.js";
-import { resolveOpenAiAudioAuthModelApi } from "./openai-audio-api.js";
-import { normalizeMediaExecutionProviderId } from "./provider-id.js";
-import { getMediaUnderstandingProvider, normalizeMediaProviderId } from "./provider-registry.js";
-import { resolveMaxBytes, resolveMaxChars, resolvePrompt, resolveTimeoutMs } from "./resolve.js";
+} from "./defaults.constants.ts";
+import { fileExists } from "./fs.ts";
+import { normalizeImageDescriptionInput } from "./image-input-normalize.ts";
+import { describeImageWithModel } from "./image-runtime.ts";
+import { resolveOpenAiAudioAuthModelApi } from "./openai-audio-api.ts";
+import { normalizeMediaExecutionProviderId } from "./provider-id.ts";
+import { getMediaUnderstandingProvider, normalizeMediaProviderId } from "./provider-registry.ts";
+import { resolveMaxBytes, resolveMaxChars, resolvePrompt, resolveTimeoutMs } from "./resolve.ts";
 import type {
   MediaUnderstandingCapability,
   MediaUnderstandingDecision,
   MediaUnderstandingModelDecision,
   MediaUnderstandingOutput,
   MediaUnderstandingProvider,
-} from "./types.js";
+} from "./types.ts";
 
 type ProviderRegistry = Map<string, MediaUnderstandingProvider>;
 type ResolveApiKeyForProvider = typeof import("../agents/model-auth.js").resolveApiKeyForProvider;
@@ -684,7 +684,7 @@ function assertMinAudioSize(params: { size: number; attachmentIndex: number }): 
  *   declares a `contracts.mediaUnderstandingProviders` block listing the
  *   id — emit the catalog-backed install + registry refresh + doctor fix
  *   commands.
- * Tier 2: empty string — keeps the legacy message verbatim for ids that
+ * Tier 2: empty string — keeps the older message verbatim for ids that
  *   are not in the provider catalog (channel ids, plugin ids, unknown
  *   ids, internal ids, etc.). Newly externalized media providers must
  *   register with the official external provider catalog to receive the

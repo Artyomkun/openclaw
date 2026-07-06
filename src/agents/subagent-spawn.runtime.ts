@@ -6,40 +6,36 @@
 export {
   DEFAULT_SUBAGENT_MAX_CHILDREN_PER_AGENT,
   DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH,
-} from "../config/agent-limits.js";
-export { getRuntimeConfig } from "../config/config.js";
-export { loadSessionStore, mergeSessionEntry, updateSessionStore } from "../config/sessions.js";
+} from "../config/agent-limits.ts";
+export { getRuntimeConfig } from "../config/config.ts";
+export { loadSessionStore, mergeSessionEntry, updateSessionStore } from "../config/sessions.ts";
 export {
   forkSessionEntryFromParent,
   forkSessionFromParent,
   resolveParentForkDecision,
   type ParentForkDecision,
-} from "../auto-reply/reply/session-fork.js";
-export { ensureContextEnginesInitialized } from "../context-engine/init.js";
-export { resolveContextEngine } from "../context-engine/registry.js";
-export { callGateway } from "../gateway/call.js";
+} from "../auto-reply/reply/session-fork.ts";
+export { ensureContextEnginesInitialized } from "../context-engine/init.ts";
+export { resolveContextEngine } from "../context-engine/registry.ts";
+export { callGateway } from "../gateway/call.ts";
 export {
   dispatchGatewayMethodInProcess,
   hasInProcessGatewayContext,
-} from "../gateway/server-plugins.js";
-export { ADMIN_SCOPE, isAdminOnlyMethod } from "../gateway/method-scopes.js";
-export { getSessionBindingService } from "../infra/outbound/session-binding-service.js";
-export {
-  pruneLegacyStoreKeys,
-  resolveGatewaySessionStoreTarget,
-} from "../gateway/session-utils.js";
-export { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-export { emitSessionLifecycleEvent } from "../sessions/session-lifecycle-events.js";
+} from "../gateway/server-plugins.ts";
+export { ADMIN_SCOPE, isAdminOnlyMethod } from "../gateway/method-scopes.ts";
+export { getSessionBindingService } from "../infra/outbound/session-binding-service.ts";
+export { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+export { emitSessionLifecycleEvent } from "../sessions/session-lifecycle-events.ts";
 export {
   mergeDeliveryContext,
   normalizeDeliveryContext,
-} from "../utils/delivery-context.shared.js";
-export { resolveAgentConfig } from "./agent-scope.js";
-export { AGENT_LANE_SUBAGENT } from "./lanes.js";
-export { resolveSandboxRuntimeStatus } from "./sandbox/runtime-status.js";
-export { buildSubagentSystemPrompt } from "./subagent-system-prompt.js";
+} from "../utils/delivery-context.shared.ts";
+export { resolveAgentConfig } from "./agent-scope.ts";
+export { AGENT_LANE_SUBAGENT } from "./lanes.ts";
+export { resolveSandboxRuntimeStatus } from "./sandbox/runtime-status.ts";
+export { buildSubagentSystemPrompt } from "./subagent-system-prompt.ts";
 export {
   resolveDisplaySessionKey,
   resolveInternalSessionKey,
   resolveMainSessionAlias,
-} from "./tools/sessions-helpers.js";
+} from "./tools/sessions-helpers.ts";

@@ -3,17 +3,17 @@
  *
  * Defines the full plugin object shape composed from config, runtime, setup, and adapter surfaces.
  */
-import type { ChannelMessageAdapterShape } from "../message/types.js";
-import type { ChannelSetupWizard, ChannelSetupWizardAdapter } from "./setup-wizard-types.js";
-import type { ChannelConfigSchema } from "./types.config.js";
+import type { ChannelMessageAdapterShape } from "../message/types.ts";
+import type { ChannelSetupWizard, ChannelSetupWizardAdapter } from "./setup-wizard-types.ts";
+import type { ChannelConfigSchema } from "./types.config.ts";
 export type {
   ChannelConfigRuntimeIssue,
   ChannelConfigRuntimeParseResult,
   ChannelConfigRuntimeSchema,
   ChannelConfigSchema,
   ChannelConfigUiHint,
-} from "./types.config.js";
-import type { OperatorScope } from "../../gateway/operator-scopes.js";
+} from "./types.config.ts";
+import type { OperatorScope } from "../../gateway/operator-scopes.ts";
 import type {
   ChannelApprovalCapability,
   ChannelAuthAdapter,
@@ -36,7 +36,7 @@ import type {
   ChannelStatusAdapter,
   ChannelAllowlistAdapter,
   ChannelConfiguredBindingProvider,
-} from "./types.adapters.js";
+} from "./types.adapters.ts";
 import type {
   ChannelAgentTool,
   ChannelAgentToolFactory,
@@ -49,7 +49,7 @@ import type {
   ChannelMeta,
   ChannelStreamingAdapter,
   ChannelThreadingAdapter,
-} from "./types.core.js";
+} from "./types.core.ts";
 
 /** Full capability contract for a native channel plugin. */
 type ChannelPluginSetupWizard = ChannelSetupWizard | ChannelSetupWizardAdapter;
@@ -62,8 +62,7 @@ export type ChannelGatewayMethodDescriptor = {
 
 // Omitted generic means "plugin with some account shape"; using unknown makes
 // callback parameters contravariant and rejects concrete plugin implementations.
-// oxlint-disable-next-line typescript/no-explicit-any
-export type ChannelPlugin<ResolvedAccount = any, Probe = unknown, Audit = unknown> = {
+export type ChannelPlugin<ResolvedAccount = unknown, Probe = unknown, Audit = unknown> = {
   id: ChannelId;
   meta: ChannelMeta;
   capabilities: ChannelCapabilities;

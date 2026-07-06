@@ -3,17 +3,17 @@
  *
  * Ensures or resets stateful binding targets through registered target drivers.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ConfiguredBindingResolution } from "./binding-types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ConfiguredBindingResolution } from "./binding-types.ts";
 import {
   ensureStatefulTargetBuiltinsRegistered,
   isStatefulTargetBuiltinDriverId,
-} from "./stateful-target-builtins.js";
+} from "./stateful-target-builtins.ts";
 import {
   getStatefulBindingTargetDriver,
   resolveStatefulBindingTargetBySessionKey,
   type StatefulBindingTargetResetResult,
-} from "./stateful-target-drivers.js";
+} from "./stateful-target-drivers.ts";
 
 /**
  * Ensures the stateful target driver for a configured binding is ready to receive traffic.

@@ -5,7 +5,7 @@ import type {
   StreamOptions,
   ThinkingBudgets,
   ThinkingLevel,
-} from "../types.js";
+} from "../types.ts";
 
 export function buildBaseOptions(
   model: Model,

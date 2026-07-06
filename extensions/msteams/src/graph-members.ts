@@ -1,6 +1,9 @@
-// Msteams plugin module implements graph members behavior.
+/**
+ * MSTeams - Graph Members
+ */
+
 import type { OpenClawConfig } from "../runtime-api.js";
-import { fetchGraphJson, resolveGraphToken } from "./graph.js";
+import { resolveGraphToken, graphRequest } from "./graph.js";
 
 type GraphUserProfile = {
   id?: string;
@@ -11,12 +14,12 @@ type GraphUserProfile = {
   officeLocation?: string;
 };
 
-type GetMemberInfoMSTeamsParams = {
+type GetMemberInfoParams = {
   cfg: OpenClawConfig;
   userId: string;
 };
 
-type GetMemberInfoMSTeamsResult = {
+type GetMemberInfoResult = {
   user: {
     id: string | undefined;
     displayName: string | undefined;
@@ -27,15 +30,12 @@ type GetMemberInfoMSTeamsResult = {
   };
 };
 
-/**
- * Fetch a user profile from Microsoft Graph by user ID.
- */
-export async function getMemberInfoMSTeams(
-  params: GetMemberInfoMSTeamsParams,
-): Promise<GetMemberInfoMSTeamsResult> {
+export async function getMemberInfo(
+  params: GetMemberInfoParams
+): Promise<GetMemberInfoResult> {
   const token = await resolveGraphToken(params.cfg);
   const path = `/users/${encodeURIComponent(params.userId)}?$select=id,displayName,mail,jobTitle,userPrincipalName,officeLocation`;
-  const user = await fetchGraphJson<GraphUserProfile>({ token, path });
+  const user = await graphRequest<GraphUserProfile>({ token, path });
   return {
     user: {
       id: user.id,

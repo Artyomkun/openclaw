@@ -1,16 +1,16 @@
 /** Resolves /model directive selections and auth profile overrides. */
-import { ensureAuthProfileStore } from "../../agents/auth-profiles.js";
-import { isModelKeyAllowedBySet } from "../../agents/model-selection-shared.js";
+import { ensureAuthProfileStore } from "../../agents/auth-profiles.ts";
+import { isModelKeyAllowedBySet } from "../../agents/model-selection-shared.ts";
 import {
   type ModelAliasIndex,
   modelKey,
   resolveModelRefFromString,
-} from "../../agents/model-selection.js";
-import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveProfileOverride } from "./directive-handling.auth-profile.js";
-import type { InlineDirectives } from "./directive-handling.parse.js";
-import { type ModelDirectiveSelection, resolveModelDirectiveSelection } from "./model-selection.js";
+} from "../../agents/model-selection.ts";
+import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveProfileOverride } from "./directive-handling.auth-profile.ts";
+import type { InlineDirectives } from "./directive-handling.parse.ts";
+import { type ModelDirectiveSelection, resolveModelDirectiveSelection } from "./model-selection.ts";
 
 function resolveStoredNumericProfileModelDirective(params: { raw: string; agentDir: string }): {
   modelRaw: string;

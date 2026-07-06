@@ -1,56 +1,56 @@
 /** Dispatches isolated cron output to direct delivery, mirrors, and follow-up queues. */
 import { isAudioFileName } from "@openclaw/media-core/mime";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
 import {
   isSilentReplyText,
   SILENT_REPLY_TOKEN,
   startsWithSilentToken,
   stripLeadingSilentToken,
   stripSilentToken,
-} from "../../auto-reply/tokens.js";
-import type { CliDeps } from "../../cli/outbound-send-deps.js";
-import { resolveStorePath } from "../../config/sessions/inbound.runtime.js";
+} from "../../auto-reply/tokens.ts";
+import type { CliDeps } from "../../cli/outbound-send-deps.ts";
+import { resolveStorePath } from "../../config/sessions/inbound.runtime.ts";
 import {
   canonicalizeMainSessionAlias,
   resolveAgentMainSessionKey,
   resolveMainSessionKey,
-} from "../../config/sessions/main-session.js";
-import { resolveMirroredTranscriptText } from "../../config/sessions/transcript-mirror.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { TtsAutoMode } from "../../config/types.tts.js";
-import { isSuppressedControlReplyText } from "../../gateway/control-reply-text.js";
-import { sleepWithAbort } from "../../infra/backoff.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+} from "../../config/sessions/main-session.ts";
+import { resolveMirroredTranscriptText } from "../../config/sessions/transcript-mirror.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { TtsAutoMode } from "../../config/types.tts.ts";
+import { isSuppressedControlReplyText } from "../../gateway/control-reply-text.ts";
+import { sleepWithAbort } from "../../infra/backoff.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import type {
   NormalizedOutboundPayload,
   OutboundDeliveryResult,
-} from "../../infra/outbound/deliver.js";
+} from "../../infra/outbound/deliver.ts";
 import {
   createOutboundPayloadPlan,
   projectOutboundPayloadPlanForMirror,
-} from "../../infra/outbound/payloads.js";
+} from "../../infra/outbound/payloads.ts";
 import type {
   SourceDeliveryOutcome,
   SourceDeliveryVisibleDelivery,
-} from "../../infra/outbound/source-delivery-plan.js";
-import { normalizeTargetForProvider } from "../../infra/outbound/target-normalization.js";
-import { hasReplyPayloadContent } from "../../interactive/payload.js";
-import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.js";
+} from "../../infra/outbound/source-delivery-plan.ts";
+import { normalizeTargetForProvider } from "../../infra/outbound/target-normalization.ts";
+import { hasReplyPayloadContent } from "../../interactive/payload.ts";
+import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.ts";
 import {
   parseThreadSessionSuffix,
   resolveAgentIdFromSessionKey,
-} from "../../routing/session-key.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { shouldAttemptTtsPayload } from "../../tts/tts-config.js";
-import { createCronExecutionId } from "../run-id.js";
-import { hasScheduledNextRunAtMs } from "../service/jobs.js";
-import type { CronJob, CronRunTelemetry } from "../types.js";
-import type { DeliveryTargetResolution } from "./delivery-target.js";
-import { pickLastNonEmptyTextFromPayloads, pickSummaryFromOutput } from "./helpers.js";
-import type { RunCronAgentTurnResult } from "./run.types.js";
-import { cleanupCronRunSessionAfterRun } from "./session-cleanup.js";
-import { expectsSubagentFollowup, isLikelyInterimCronMessage } from "./subagent-followup-hints.js";
+} from "../../routing/session-key.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { shouldAttemptTtsPayload } from "../../tts/tts-config.ts";
+import { createCronExecutionId } from "../run-id.ts";
+import { hasScheduledNextRunAtMs } from "../service/jobs.ts";
+import type { CronJob, CronRunTelemetry } from "../types.ts";
+import type { DeliveryTargetResolution } from "./delivery-target.ts";
+import { pickLastNonEmptyTextFromPayloads, pickSummaryFromOutput } from "./helpers.ts";
+import type { RunCronAgentTurnResult } from "./run.types.ts";
+import { cleanupCronRunSessionAfterRun } from "./session-cleanup.ts";
+import { expectsSubagentFollowup, isLikelyInterimCronMessage } from "./subagent-followup-hints.ts";
 
 function normalizeDeliveryTarget(channel: string, to: string): string {
   const toTrimmed = to.trim();

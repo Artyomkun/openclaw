@@ -1,23 +1,23 @@
 // Configure wizard model/auth selection and gateway auth config helpers.
-import { ensureAuthProfileStore } from "../agents/auth-profiles.js";
-import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig, GatewayAuthConfig } from "../config/config.js";
-import { isSecretRef, type SecretInput } from "../config/types.secrets.js";
-import type { RuntimeEnv } from "../runtime.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import { promptAuthChoiceGrouped } from "./auth-choice-prompt.js";
-import { applyAuthChoice, resolvePreferredProviderForAuthChoice } from "./auth-choice.js";
+import { ensureAuthProfileStore } from "../agents/auth-profiles.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig, GatewayAuthConfig } from "../config/config.ts";
+import { isSecretRef, type SecretInput } from "../config/types.secrets.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import { promptAuthChoiceGrouped } from "./auth-choice-prompt.ts";
+import { applyAuthChoice, resolvePreferredProviderForAuthChoice } from "./auth-choice.ts";
 import {
   applyModelAllowlist,
   applyModelFallbacksFromSelection,
   applyPrimaryModel,
   promptDefaultModel,
   promptModelAllowlist,
-} from "./model-picker.js";
-import { loadStaticManifestCatalogRowsForList } from "./models/list.manifest-catalog.js";
-import { promptCustomApiConfig } from "./onboard-custom.js";
-import { randomToken } from "./random-token.js";
+} from "./model-picker.ts";
+import { loadStaticManifestCatalogRowsForList } from "./models/list.manifest-catalog.ts";
+import { promptCustomApiConfig } from "./onboard-custom.ts";
+import { randomToken } from "./random-token.ts";
 
 type GatewayAuthChoice = "token" | "password" | "trusted-proxy";
 type ProviderChoiceModelPrompt = {
@@ -109,25 +109,6 @@ function resolveProviderFromModelRef(model: string | undefined): string | undefi
   const trimmed = model?.trim();
   const slashIndex = trimmed?.indexOf("/") ?? -1;
   return slashIndex > 0 ? trimmed?.slice(0, slashIndex) : undefined;
-}
-
-function resolveCanonicalOpenAISelectionForLegacyCodexPrimary(
-  cfg: OpenClawConfig,
-  selectedModels: readonly string[],
-): string | undefined {
-  const currentModel = cfg.agents?.defaults?.model;
-  const primary =
-    typeof currentModel === "string"
-      ? currentModel.trim()
-      : currentModel && typeof currentModel === "object" && typeof currentModel.primary === "string"
-        ? currentModel.primary.trim()
-        : undefined;
-  const modelId = primary?.startsWith("codex/") ? primary.slice("codex/".length).trim() : "";
-  if (!modelId) {
-    return undefined;
-  }
-  const canonical = `openai/${modelId}`;
-  return selectedModels.find((model) => model.trim() === canonical);
 }
 
 function resolveConfiguredProviderFromAuthChange(params: {
@@ -307,13 +288,6 @@ export async function promptAuthConfig(
       loadCatalog: shouldLoadModelCatalog,
     });
     if (allowlistSelection.models) {
-      const canonicalPrimary = resolveCanonicalOpenAISelectionForLegacyCodexPrimary(
-        next,
-        allowlistSelection.models,
-      );
-      if (canonicalPrimary) {
-        next = applyPrimaryModel(next, canonicalPrimary);
-      }
       next = applyModelFallbacksFromSelection(next, allowlistSelection.models, {
         scopeKeys: allowlistSelection.scopeKeys,
       });

@@ -4,7 +4,7 @@ export {
   TtsConfigSchema,
   TtsModeSchema,
   TtsProviderSchema,
-} from "../config/zod-schema.core.js";
+} from "../config/zod-schema.core.ts";
 
 /** Compatibility no-op retained for callers that prewarm facade runtimes generically. */
 export function prewarmTtsRuntimeFacade(): void {}
@@ -52,4 +52,4 @@ export {
   type TtsSynthesisStreamResult,
   type TtsStreamResult,
   type TtsTelephonyResult,
-} from "../../packages/speech-core/runtime-api.js";
+} from "../../packages/speech-core/runtime-api.ts";

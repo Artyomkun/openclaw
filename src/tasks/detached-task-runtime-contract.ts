@@ -1,5 +1,5 @@
 // Defines the detached task runtime contract and spawn options.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   TaskDeliveryState,
   TaskDeliveryStatus,
@@ -9,7 +9,7 @@ import type {
   TaskScopeKind,
   TaskStatus,
   TaskTerminalOutcome,
-} from "./task-registry.types.js";
+} from "./task-registry.types.ts";
 
 export type DetachedTaskCreateParams = {
   runtime: TaskRuntime;
@@ -136,7 +136,7 @@ export type DetachedTaskLifecycleRuntime = {
   setDetachedTaskDeliveryStatusByRunId: (params: DetachedTaskDeliveryStatusParams) => TaskRecord[];
   /**
    * Return `found: false` when this runtime does not own the task so core can
-   * fall back to the legacy detached-task cancel path.
+   * fall back to the older detached-task cancel path.
    */
   cancelDetachedTaskRunById: (
     params: DetachedTaskCancelParams,

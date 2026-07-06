@@ -13,6 +13,6 @@ export {
   type SafeBinProfile,
   type SafeBinProfileFixture,
   type SafeBinProfileFixtures,
-} from "./exec-safe-bin-policy-profiles.js";
+} from "./exec-safe-bin-policy-profiles.ts";
 
-export { validateSafeBinArgv } from "./exec-safe-bin-policy-validator.js";
+export { validateSafeBinArgv } from "./exec-safe-bin-policy-validator.ts";

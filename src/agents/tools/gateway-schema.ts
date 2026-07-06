@@ -4,7 +4,7 @@
  * Keeps gateway URL/token/timeout parameters aligned across tools that call Gateway methods.
  */
 import { Type } from "typebox";
-import { optionalPositiveIntegerSchema } from "../schema/typebox.js";
+import { optionalPositiveIntegerSchema } from "../schema/typebox.ts";
 
 /** Returns optional gateway URL/token/timeout schema properties for tool params. */
 export function gatewayCallOptionSchemaProperties() {

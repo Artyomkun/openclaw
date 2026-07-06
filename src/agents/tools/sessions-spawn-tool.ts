@@ -4,47 +4,47 @@
  * Starts subagent or ACP-backed sessions with inherited tool policy and delivery context.
  */
 import { Type } from "typebox";
-import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.js";
+import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.ts";
 import {
   resolveThreadBindingSpawnPolicy,
   supportsAutomaticThreadBindingSpawn,
-} from "../../channels/thread-bindings-policy.js";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { callGateway } from "../../gateway/call.js";
-import { resolveSnakeCaseParamKey } from "../../param-key.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { normalizeDeliveryContext } from "../../utils/delivery-context.shared.js";
-import type { GatewayMessageChannel } from "../../utils/message-channel.js";
+} from "../../channels/thread-bindings-policy.ts";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { resolveSnakeCaseParamKey } from "../../param-key.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { normalizeDeliveryContext } from "../../utils/delivery-context.shared.ts";
+import type { GatewayMessageChannel } from "../../utils/message-channel.ts";
 import {
   findAcpUnsupportedInheritedToolAllow,
   findAcpUnsupportedInheritedToolDeny,
   formatAcpInheritedToolAllowError,
   formatAcpInheritedToolDenyError,
-} from "../inherited-tool-deny.js";
-import { optionalStringEnum } from "../schema/typebox.js";
-import type { SpawnedToolContext } from "../spawned-context.js";
-import { resolveAcpSessionsSpawnImageAttachments } from "../subagent-attachments.js";
-import { registerSubagentRun } from "../subagent-registry.js";
-import { resolveSubagentSpawnOwnership } from "../subagent-spawn-ownership.js";
+} from "../inherited-tool-deny.ts";
+import { optionalStringEnum } from "../schema/typebox.ts";
+import type { SpawnedToolContext } from "../spawned-context.ts";
+import { resolveAcpSessionsSpawnImageAttachments } from "../subagent-attachments.ts";
+import { registerSubagentRun } from "../subagent-registry.ts";
+import { resolveSubagentSpawnOwnership } from "../subagent-spawn-ownership.ts";
 import {
   SUBAGENT_SPAWN_CONTEXT_MODES,
   SUBAGENT_SPAWN_MODES,
   spawnSubagentDirect,
-} from "../subagent-spawn.js";
-import { normalizeSubagentTaskName } from "../subagent-task-name.js";
+} from "../subagent-spawn.ts";
+import { normalizeSubagentTaskName } from "../subagent-task-name.ts";
 import {
   describeSessionsSpawnTool,
   SESSIONS_SPAWN_SUBAGENT_TOOL_DISPLAY_SUMMARY,
   SESSIONS_SPAWN_TOOL_DISPLAY_SUMMARY,
-} from "../tool-description-presets.js";
-import type { AnyAgentTool } from "./common.js";
+} from "../tool-description-presets.ts";
+import type { AnyAgentTool } from "./common.ts";
 import {
   jsonResult,
   normalizeToolModelOverride,
   readStringParam,
   ToolInputError,
-} from "./common.js";
+} from "./common.ts";
 
 const SESSIONS_SPAWN_RUNTIMES = ["subagent", "acp"] as const;
 const SESSIONS_SPAWN_SANDBOX_MODES = ["inherit", "require"] as const;

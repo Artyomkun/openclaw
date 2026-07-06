@@ -3,16 +3,16 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { resolveTimestampMsToIsoString } from "@openclaw/normalization-core/number-coercion";
-import type { AgentMessage } from "../../agents/runtime/index.js";
+import type { AgentMessage } from "../../agents/runtime/index.ts";
 import {
   acquireSessionWriteLock,
   resolveSessionWriteLockOptions,
-} from "../../agents/session-write-lock.js";
-import { redactTranscriptMessage } from "../../agents/transcript-redact.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { redactSecrets } from "../../logging/redact.js";
-import { isTranscriptOnlyOpenClawAssistantMessage } from "../../shared/transcript-only-openclaw-assistant.js";
-import { createSessionTranscriptHeader } from "./transcript-header.js";
+} from "../../agents/session-write-lock.ts";
+import { redactTranscriptMessage } from "../../agents/transcript-redact.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { redactSecrets } from "../../logging/redact.ts";
+import { isTranscriptOnlyOpenClawAssistantMessage } from "../../shared/transcript-only-openclaw-assistant.ts";
+import { createSessionTranscriptHeader } from "./transcript-header.ts";
 import {
   appendJsonlEntry,
   appendSerializedJsonlEntry,
@@ -20,17 +20,17 @@ import {
   serializeJsonlLine,
   writeJsonlEntry,
   writeJsonlLines,
-} from "./transcript-jsonl.js";
+} from "./transcript-jsonl.ts";
 import {
   streamSessionTranscriptLines,
   streamSessionTranscriptLinesReverse,
-} from "./transcript-stream.js";
-import { isCanonicalSessionTranscriptEntry } from "./transcript-tree.js";
+} from "./transcript-stream.ts";
+import { isCanonicalSessionTranscriptEntry } from "./transcript-tree.ts";
 import {
   resolveOwnedSessionTranscriptWriteLockRunner,
   type OwnedSessionTranscriptPublishedEntry,
-} from "./transcript-write-context.js";
-import { CURRENT_SESSION_VERSION } from "./version.js";
+} from "./transcript-write-context.ts";
+import { CURRENT_SESSION_VERSION } from "./version.ts";
 
 const SESSION_MANAGER_APPEND_MAX_BYTES = 8 * 1024 * 1024;
 
@@ -310,7 +310,7 @@ async function readTranscriptLeafInfo(transcriptPath: string): Promise<Transcrip
         nonSessionEntryCount: 0,
       };
     }
-    // A latest entry without parent linkage may be a legacy linear transcript.
+    // A latest entry without parent linkage may be a older linear transcript.
     // Fall back to the full scan only when migration detection needs it.
     break;
   }
@@ -349,7 +349,7 @@ async function migrateLinearTranscriptToParentLinked(transcriptPath: string): Pr
     existingIds.add(id);
     record.id = id;
     if (!Object.hasOwn(record, "parentId")) {
-      // Legacy linear transcripts become a linked list while preserving existing ids when present.
+      // Older linear transcripts become a linked list while preserving existing ids when present.
       record.parentId = previousId;
     }
     previousId = id;

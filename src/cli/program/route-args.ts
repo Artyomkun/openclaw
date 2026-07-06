@@ -1,13 +1,13 @@
 // Route-first argv parsers for commands that can skip full Commander startup.
-import { isValueToken } from "../../infra/cli-root-options.js";
+import { isValueToken } from "../../infra/cli-root-options.ts";
 import {
   getCommandPositionalsWithRootOptions,
   getFlagValue,
   getPositiveIntFlagValue,
   getVerboseFlag,
   hasFlag,
-} from "../argv.js";
-import { parseStrictPositiveIntOrUndefined } from "./helpers.js";
+} from "../argv.ts";
+import { parseStrictPositiveIntOrUndefined } from "./helpers.ts";
 
 type OptionalFlagParse = {
   ok: boolean;

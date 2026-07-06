@@ -3,13 +3,13 @@
  *
  * Removes stale runtime containers and browser bridges on a best-effort schedule.
  */
-import { getRuntimeConfig } from "../../config/config.js";
-import { stopBrowserBridgeServer } from "../../plugin-sdk/browser-bridge.js";
-import { defaultRuntime } from "../../runtime.js";
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
-import { getSandboxBackendManager } from "./backend.js";
-import { BROWSER_BRIDGES } from "./browser-bridges.js";
-import { dockerSandboxBackendManager } from "./docker-backend.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import { stopBrowserBridgeServer } from "../../plugin-sdk/browser-bridge.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
+import { getSandboxBackendManager } from "./backend.ts";
+import { BROWSER_BRIDGES } from "./browser-bridges.ts";
+import { dockerSandboxBackendManager } from "./docker-backend.ts";
 import {
   readBrowserRegistry,
   readRegistry,
@@ -17,8 +17,8 @@ import {
   removeRegistryEntry,
   type SandboxBrowserRegistryEntry,
   type SandboxRegistryEntry,
-} from "./registry.js";
-import type { SandboxConfig } from "./types.js";
+} from "./registry.ts";
+import type { SandboxConfig } from "./types.ts";
 
 let lastPruneAtMs = 0;
 

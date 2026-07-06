@@ -1,7 +1,7 @@
 // Account core contracts re-export config and account types used by plugin account flows.
-export type { OpenClawConfig } from "../config/config.js";
+export type { OpenClawConfig } from "../config/config.ts";
 
-export { createAccountActionGate } from "../channels/plugins/account-action-gate.js";
+export { createAccountActionGate } from "../channels/plugins/account-action-gate.ts";
 export {
   createAccountListHelpers,
   describeAccountSnapshot,
@@ -10,16 +10,16 @@ export {
   mergeAccountConfig,
   resolveListedDefaultAccountId,
   resolveMergedAccountConfig,
-} from "../channels/plugins/account-helpers.js";
-export { normalizeChatType } from "../channels/chat-type.js";
-export { resolveAccountEntry, resolveNormalizedAccountEntry } from "../routing/account-lookup.js";
+} from "../channels/plugins/account-helpers.ts";
+export { normalizeChatType } from "../channels/chat-type.ts";
+export { resolveAccountEntry, resolveNormalizedAccountEntry } from "../routing/account-lookup.ts";
 export {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   normalizeOptionalAccountId,
-} from "../routing/session-key.js";
-export { normalizeE164, pathExists, resolveUserPath } from "../utils.js";
-export { listConfiguredAccountIds } from "./account-configured-ids.js";
+} from "../routing/session-key.ts";
+export { normalizeE164, pathExists, resolveUserPath } from "../utils.ts";
+export { listConfiguredAccountIds } from "./account-configured-ids.ts";
 
 /** Resolve an account by id, then fall back to the default account when the primary lacks credentials. */
 export function resolveAccountWithDefaultFallback<TAccount>(params: {

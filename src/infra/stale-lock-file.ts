@@ -2,7 +2,7 @@
 import {
   getProcessStartTime as defaultGetProcessStartTime,
   isPidDefinitelyDead as defaultIsPidDefinitelyDead,
-} from "../shared/pid-alive.js";
+} from "../shared/pid-alive.ts";
 
 export type LockFileOwnerPayload = {
   pid?: number;

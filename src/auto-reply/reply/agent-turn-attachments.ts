@@ -1,16 +1,16 @@
 /** Resolves media attachments available to the current agent turn. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { AcpTurnAttachment as AgentTurnAttachment } from "../../acp/control-plane/manager.types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import type { MediaAttachment } from "../../media-understanding/types.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { MsgContext } from "../templating.js";
+import type { AcpTurnAttachment as AgentTurnAttachment } from "../../acp/control-plane/manager.types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import type { MediaAttachment } from "../../media-understanding/types.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { MsgContext } from "../templating.ts";
 import {
   type RecentInboundHistoryImage,
   resolveRecentInboundHistoryImages,
-} from "./history-media.js";
-import { hasInboundMedia } from "./inbound-media.js";
+} from "./history-media.ts";
+import { hasInboundMedia } from "./inbound-media.ts";
 
 const agentTurnMediaRuntimeLoader = createLazyImportLoader(
   () => import("./dispatch-acp-media.runtime.js"),

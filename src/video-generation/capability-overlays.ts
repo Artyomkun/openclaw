@@ -1,13 +1,13 @@
 // Video capability overlays merge config overrides into provider capabilities.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveVideoGenerationModeCapabilities } from "./capabilities.js";
-import type { GenerateVideoParams } from "./runtime-types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveVideoGenerationModeCapabilities } from "./capabilities.ts";
+import type { GenerateVideoParams } from "./runtime-types.ts";
 import type {
   VideoGenerationModeCapabilities,
   VideoGenerationProvider,
   VideoGenerationProviderCapabilities,
   VideoGenerationTransformCapabilities,
-} from "./types.js";
+} from "./types.ts";
 
 // Runtime/model capability overlays let a provider refine static manifest caps
 // for the selected model without rebuilding the registry.

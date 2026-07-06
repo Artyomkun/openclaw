@@ -3,8 +3,8 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getChatCommands } from "../../auto-reply/commands-registry.data.js";
-import type { SkillCommandSpec } from "../types.js";
+import { getChatCommands } from "../../auto-reply/commands-registry.data.ts";
+import type { SkillCommandSpec } from "../types.ts";
 
 /** Lists slash command names reserved by built-in chat commands and callers. */
 export function listReservedChatSlashCommandNames(extraNames: string[] = []): Set<string> {

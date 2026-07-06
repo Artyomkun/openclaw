@@ -5,17 +5,17 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { satisfiesPluginApiRange } from "../infra/clawhub.js";
-import { packageNameMatchesId } from "../infra/install-safe-path.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { satisfiesPluginApiRange } from "../infra/clawhub.ts";
+import { packageNameMatchesId } from "../infra/install-safe-path.ts";
 import {
   resolveNpmPackArchiveMetadata,
   resolveNpmSpecMetadata,
   createNpmMetadataEnv,
   type NpmIntegrityDrift,
   type NpmSpecResolution,
-} from "../infra/install-source-utils.js";
-import { resolveNpmIntegrityDriftWithDefaultMessage } from "../infra/npm-integrity.js";
+} from "../infra/install-source-utils.ts";
+import { resolveNpmIntegrityDriftWithDefaultMessage } from "../infra/npm-integrity.ts";
 import {
   type ManagedNpmRootPeerDependencySnapshot,
   listMissingRequiredPlatformPackages,
@@ -29,7 +29,7 @@ import {
   syncManagedNpmRootPeerDependencies,
   upsertManagedNpmRootDependency,
   type ManagedNpmRootInstalledDependency,
-} from "../infra/npm-managed-root.js";
+} from "../infra/npm-managed-root.ts";
 import {
   compareOpenClawReleaseVersions,
   formatPrereleaseResolutionError,
@@ -39,17 +39,17 @@ import {
   parseRegistryNpmSpec,
   validateRegistryNpmSpec,
   type ParsedRegistryNpmSpec,
-} from "../infra/npm-registry-spec.js";
-import { installedPackageNeedsOpenClawPeerLinkRepair } from "../infra/package-update-utils.js";
+} from "../infra/npm-registry-spec.ts";
+import { installedPackageNeedsOpenClawPeerLinkRepair } from "../infra/package-update-utils.ts";
 import {
   createSafeNpmInstallArgs,
   createSafeNpmInstallEnv,
-} from "../infra/safe-package-install.js";
-import { compareComparableSemver, parseComparableSemver } from "../infra/semver-compare.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import type { InstallPolicySource } from "../security/install-policy.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { resolveUserPath } from "../utils.js";
+} from "../infra/safe-package-install.ts";
+import { compareComparableSemver, parseComparableSemver } from "../infra/semver-compare.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import type { InstallPolicySource } from "../security/install-policy.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { resolveUserPath } from "../utils.ts";
 import {
   encodePluginInstallDirName,
   matchesExpectedPluginId,
@@ -60,32 +60,32 @@ import {
   resolvePluginNpmProjectDir,
   safePluginInstallFileName,
   validatePluginId,
-} from "./install-paths.js";
+} from "./install-paths.ts";
 import {
   preflightPluginNpmInstallPolicy,
   type InstallSecurityScanResult,
   type InstallSafetyOverrides,
-} from "./install-security-scan.js";
-import { hasRetainedManagedNpmInstallMarker } from "./managed-npm-retention.js";
+} from "./install-security-scan.ts";
+import { hasRetainedManagedNpmInstallMarker } from "./managed-npm-retention.ts";
 import {
   resolvePackageExtensionEntries,
   type OpenClawPackageManifest,
   type PackageManifest as PluginPackageManifest,
-} from "./manifest.js";
-import { resolvePackagePluginApiRange } from "./package-compat.js";
-import { validatePackageExtensionEntriesForInstall } from "./package-entry-resolution.js";
+} from "./manifest.ts";
+import { resolvePackagePluginApiRange } from "./package-compat.ts";
+import { validatePackageExtensionEntriesForInstall } from "./package-entry-resolution.ts";
 import {
   linkOpenClawPeerDependencies,
   relinkOpenClawPeerDependenciesInManagedNpmRoot,
-} from "./plugin-peer-link.js";
+} from "./plugin-peer-link.ts";
 import {
   emitPluginAuditSecurityEvent,
   emitPluginInstallSecurityEvent,
   pluginAuditOutcomeForReason,
   type PluginSecuritySourceFamily,
-} from "./security-events.js";
+} from "./security-events.ts";
 
-export { resolvePluginInstallDir } from "./install-paths.js";
+export { resolvePluginInstallDir } from "./install-paths.ts";
 
 const pluginInstallRuntimeLoader = createLazyImportLoader(() => import("./install.runtime.js"));
 const rollbackSnapshotCopyMode = fsConstants.COPYFILE_FICLONE;
@@ -635,7 +635,6 @@ async function rollbackManagedNpmPluginInstall(params: {
         "npm",
         "uninstall",
         "--loglevel=error",
-        "--legacy-peer-deps",
         "--ignore-scripts",
         "--no-audit",
         "--no-fund",
@@ -645,7 +644,6 @@ async function rollbackManagedNpmPluginInstall(params: {
         cwd: params.npmRoot,
         timeoutMs: Math.max(params.timeoutMs, 300_000),
         env: createSafeNpmInstallEnv(process.env, {
-          legacyPeerDeps: true,
           npmConfigCwd: params.npmRoot,
           packageLock: true,
           quiet: true,
@@ -697,7 +695,6 @@ async function rollbackManagedNpmPluginInstall(params: {
           "--omit=dev",
           "--omit=peer",
           "--loglevel=error",
-          "--legacy-peer-deps",
           "--ignore-scripts",
           "--no-audit",
           "--no-fund",
@@ -706,7 +703,6 @@ async function rollbackManagedNpmPluginInstall(params: {
           cwd: params.npmRoot,
           timeoutMs: Math.max(params.timeoutMs, 300_000),
           env: createSafeNpmInstallEnv(process.env, {
-            legacyPeerDeps: true,
             npmConfigCwd: params.npmRoot,
             packageLock: true,
             quiet: true,
@@ -1167,19 +1163,10 @@ async function listManagedNpmPackageDirsForPackage(params: {
   packageName: string;
 }): Promise<string[]> {
   const packageDirs: string[] = [];
-  const legacyProjectRoot = resolvePluginNpmProjectDir({
-    npmDir: params.npmBaseDir,
-    packageName: params.packageName,
-  });
-  const legacyPackageDir = resolveManagedNpmRootPackageDir(legacyProjectRoot, params.packageName);
-  if (await params.runtime.fileExists(legacyPackageDir)) {
-    packageDirs.push(legacyPackageDir);
-  }
-  const projectsDir = path.dirname(legacyProjectRoot);
   const generationPrefix = resolvePluginNpmGenerationProjectDirPrefix(params.packageName);
   let entries: Dirent[];
   try {
-    entries = await fs.readdir(projectsDir, { withFileTypes: true });
+    entries = await fs.readdir({ withFileTypes: true });
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") {
       return packageDirs;
@@ -1191,7 +1178,7 @@ async function listManagedNpmPackageDirsForPackage(params: {
       continue;
     }
     const packageDir = resolveManagedNpmRootPackageDir(
-      path.join(projectsDir, entry.name),
+      path.join(entry.name),
       params.packageName,
     );
     if (await params.runtime.fileExists(packageDir)) {
@@ -1517,7 +1504,6 @@ async function installPluginFromManagedNpmRoot(
         omitDev: true,
         omitPeer: true,
         loglevel: "error",
-        legacyPeerDeps: true,
         noAudit: true,
         noFund: true,
       }),
@@ -1526,7 +1512,6 @@ async function installPluginFromManagedNpmRoot(
       cwd: npmRoot,
       timeoutMs: Math.max(timeoutMs, 300_000),
       env: createSafeNpmInstallEnv(process.env, {
-        legacyPeerDeps: true,
         npmConfigCwd: npmRoot,
         packageLock: true,
         quiet: true,

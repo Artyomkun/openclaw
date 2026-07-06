@@ -7,7 +7,7 @@
 export {
   countActiveDescendantRuns,
   getLatestSubagentRunByChildSessionKey,
-} from "./subagent-registry-read.js";
+} from "./subagent-registry-read.ts";
 export {
   countPendingDescendantRuns,
   countPendingDescendantRunsExcludingRun,
@@ -15,5 +15,5 @@ export {
   listSubagentRunsForRequester,
   resolveRequesterForChildSession,
   shouldIgnorePostCompletionAnnounceForSession,
-} from "./subagent-registry-announce-read.js";
-export { replaceSubagentRunAfterSteer } from "./subagent-registry-steer-runtime.js";
+} from "./subagent-registry-announce-read.ts";
+export { replaceSubagentRunAfterSteer } from "./subagent-registry-steer-runtime.ts";

@@ -2,9 +2,9 @@
  * Decides when a GitHub Copilot model selection should install the Copilot
  * runtime plugin instead of using the built-in provider path.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveModelRuntimePolicy } from "./model-runtime-policy.js";
-import { parseModelRefProvider } from "./openai-routing.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveModelRuntimePolicy } from "./model-runtime-policy.ts";
+import { parseModelRefProvider } from "./openai-routing.ts";
 
 const GITHUB_COPILOT_PROVIDER_ID = "github-copilot";
 

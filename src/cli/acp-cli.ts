@@ -1,14 +1,14 @@
 // Commander registration for ACP bridge and interactive ACP client commands.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { runAcpClientInteractive } from "../acp/client.js";
-import { serveAcpGateway } from "../acp/server.js";
-import { normalizeAcpProvenanceMode } from "../acp/types.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { defaultRuntime } from "../runtime.js";
-import { inheritOptionFromParent } from "./command-options.js";
-import { resolveGatewayAuthOptions } from "./gateway-secret-options.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { runAcpClientInteractive } from "../acp/client.ts";
+import { serveAcpGateway } from "../acp/server.ts";
+import { normalizeAcpProvenanceMode } from "../acp/types.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { inheritOptionFromParent } from "./command-options.ts";
+import { resolveGatewayAuthOptions } from "./gateway-secret-options.ts";
 
 export function registerAcpCli(program: Command) {
   const acp = program.command("acp").description("Run an ACP bridge backed by the Gateway");

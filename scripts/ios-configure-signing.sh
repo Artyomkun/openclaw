@@ -98,8 +98,6 @@ OPENCLAW_CODE_SIGN_STYLE = ${code_sign_style}
 OPENCLAW_CODE_SIGN_IDENTITY = ${code_sign_identity}
 OPENCLAW_CODE_SIGN_ENTITLEMENTS = Sources/OpenClaw.entitlements
 OPENCLAW_DEVELOPMENT_TEAM = ${team_id}
-// Keep legacy key for compatibility with older signing config paths.
-OPENCLAW_IOS_SELECTED_TEAM = ${team_id}
 OPENCLAW_APP_BUNDLE_ID = ${bundle_base}
 OPENCLAW_SHARE_BUNDLE_ID = ${share_bundle_id}
 OPENCLAW_APP_GROUP_ID = ${app_group_id}

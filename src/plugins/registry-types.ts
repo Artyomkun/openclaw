@@ -1,17 +1,17 @@
 /** Shared registration types that make up the in-memory plugin registry. */
-import type { AgentHarness } from "../agents/harness/types.js";
-import type { GatewayMethodDescriptor } from "../gateway/methods/descriptor.js";
-import type { GatewayRequestHandlers } from "../gateway/server-methods/types.js";
-import type { HookEntry } from "../hooks/types.js";
-import type { JsonSchemaObject } from "../shared/json-schema.types.js";
+import type { AgentHarness } from "../agents/harness/types.ts";
+import type { GatewayMethodDescriptor } from "../gateway/methods/descriptor.ts";
+import type { GatewayRequestHandlers } from "../gateway/server-methods/types.ts";
+import type { HookEntry } from "../hooks/types.ts";
+import type { JsonSchemaObject } from "../shared/json-schema.types.ts";
 import type {
   AgentToolResultMiddleware,
   AgentToolResultMiddlewareRuntime,
-} from "./agent-tool-result-middleware-types.js";
-import type { CodexAppServerExtensionFactory } from "./codex-app-server-extension-types.js";
-import type { PluginCompatCode } from "./compat/registry.js";
-import type { PluginActivationSource } from "./config-state.js";
-import type { EmbeddingProviderAdapter } from "./embedding-providers.js";
+} from "./agent-tool-result-middleware-types.ts";
+import type { CodexAppServerExtensionFactory } from "./codex-app-server-extension-types.ts";
+import type { PluginCompatCode } from "./compat/registry.ts";
+import type { PluginActivationSource } from "./config-state.ts";
+import type { EmbeddingProviderAdapter } from "./embedding-providers.ts";
 import type {
   PluginAgentEventSubscriptionRegistration,
   PluginControlUiDescriptor,
@@ -21,18 +21,18 @@ import type {
   PluginSessionExtensionRegistration,
   PluginToolMetadataRegistration,
   PluginTrustedToolPolicyRegistration,
-} from "./host-hooks.js";
+} from "./host-hooks.ts";
 import type {
   PluginBundleFormat,
   PluginConfigUiHint,
   PluginDiagnostic,
   PluginFormat,
-} from "./manifest-types.js";
-import type { PluginManifestContracts } from "./manifest.js";
-import type { MemoryEmbeddingProviderAdapter } from "./memory-embedding-providers.js";
-import type { PluginKind } from "./plugin-kind.types.js";
-import type { PluginRuntime } from "./runtime/types.js";
-import type { PluginDependencyStatus } from "./status-dependencies-core.js";
+} from "./manifest-types.ts";
+import type { PluginManifestContracts } from "./manifest.ts";
+import type { MemoryEmbeddingProviderAdapter } from "./memory-embedding-providers.ts";
+import type { PluginKind } from "./plugin-kind.types.ts";
+import type { PluginRuntime } from "./runtime/types.ts";
+import type { PluginDependencyStatus } from "./status-dependencies-core.ts";
 type ChannelPlugin = import("../channels/plugins/types.plugin.js").ChannelPlugin;
 type CliBackendPlugin = import("./types.js").CliBackendPlugin;
 type ImageGenerationProviderPlugin = import("./types.js").ImageGenerationProviderPlugin;

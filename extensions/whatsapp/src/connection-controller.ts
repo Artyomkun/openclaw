@@ -224,7 +224,6 @@ type WhatsAppLoginWaitResult =
 export async function waitForWhatsAppLoginResult(params: {
   sock: WaSocket;
   authDir: string;
-  isLegacyAuthDir: boolean;
   verbose: boolean;
   runtime: RuntimeEnv;
   waitForConnection?: typeof waitForWaConnection;
@@ -320,7 +319,6 @@ export async function waitForWhatsAppLoginResult(params: {
         closeWaSocket(currentSock);
         const cleared = await logoutWeb({
           authDir: params.authDir,
-          isLegacyAuthDir: params.isLegacyAuthDir,
           runtime: params.runtime,
         });
         if (!cleared) {

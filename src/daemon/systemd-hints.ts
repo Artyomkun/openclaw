@@ -1,9 +1,9 @@
 /** Renders Linux systemd availability hints for gateway service commands. */
-import { formatCliCommand } from "../cli/command-format.js";
+import { formatCliCommand } from "../cli/command-format.ts";
 import {
   classifySystemdUnavailableDetail,
   type SystemdUnavailableKind,
-} from "./systemd-unavailable.js";
+} from "./systemd-unavailable.ts";
 
 type SystemdUnavailableHintOptions = {
   wsl?: boolean;

@@ -6,20 +6,20 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { resolveGatewayInstallEntrypoint } from "../daemon/gateway-entrypoint.js";
-import { type CommandOptions, runCommandWithTimeout } from "../process/exec.js";
+import { resolveGatewayInstallEntrypoint } from "../daemon/gateway-entrypoint.ts";
+import { type CommandOptions, runCommandWithTimeout } from "../process/exec.ts";
 import {
   resolveControlUiDistIndexHealth,
   resolveControlUiDistIndexPathForRoot,
-} from "./control-ui-assets.js";
-import { readPackageName, readPackageVersion } from "./package-json.js";
-import { normalizePackageTagInput } from "./package-tag.js";
+} from "./control-ui-assets.ts";
+import { readPackageName, readPackageVersion } from "./package-json.ts";
+import { normalizePackageTagInput } from "./package-tag.ts";
 import {
   runGlobalPackageUpdateSteps,
   type PackageUpdateStepAdvisory,
-} from "./package-update-steps.js";
-import { trimLogTail } from "./restart-sentinel.js";
-import { resolveStableNodePath } from "./stable-node-path.js";
+} from "./package-update-steps.ts";
+import { trimLogTail } from "./restart-sentinel.ts";
+import { resolveStableNodePath } from "./stable-node-path.ts";
 import {
   channelToNpmTag,
   DEFAULT_PACKAGE_CHANNEL,
@@ -27,8 +27,8 @@ import {
   isBetaTag,
   isStableTag,
   type UpdateChannel,
-} from "./update-channels.js";
-import { compareSemverStrings } from "./update-check.js";
+} from "./update-channels.ts";
+import { compareSemverStrings } from "./update-check.ts";
 import {
   cleanupGlobalRenameDirs,
   createGlobalInstallEnv,
@@ -36,14 +36,14 @@ import {
   resolveGlobalInstallTarget,
   resolveGlobalInstallSpec,
   type GlobalInstallManager,
-} from "./update-global.js";
+} from "./update-global.ts";
 import {
   managerInstallIgnoreScriptsArgs,
   managerInstallArgs,
   managerScriptArgs,
   resolveUpdateBuildManager,
   type UpdatePackageManagerFailureReason,
-} from "./update-package-manager.js";
+} from "./update-package-manager.ts";
 
 export type UpdateStepAdvisory = PackageUpdateStepAdvisory;
 
@@ -1545,7 +1545,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
         return await buildGitErrorResultWithRollback("ui-build-failed");
       }
 
-      const doctorEntry = path.join(gitRoot, "openclaw.mjs");
+      const doctorEntry = path.join(gitRoot, "openclaw.ts");
       const doctorEntryExists = await fs
         .stat(doctorEntry)
         .then(() => true)

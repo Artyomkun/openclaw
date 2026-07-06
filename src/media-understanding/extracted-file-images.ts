@@ -1,5 +1,5 @@
 // Shared transient image payloads extracted from inbound file attachments.
-import type { ImageContent } from "../llm/types.js";
+import type { ImageContent } from "../llm/types.ts";
 
 export type ExtractedFileImage = ImageContent & {
   attachmentIndex: number;

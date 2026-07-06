@@ -2,8 +2,8 @@
 // core plugin-state store: envelope validation, process-liveness hygiene, and
 // per-process cleanup. Domain modules own record fields and display keys.
 import { randomUUID } from "node:crypto";
-import { getProcessStartTime } from "../shared/pid-alive.js";
-import { createCorePluginStateSyncKeyedStore } from "./plugin-state-store.js";
+import { getProcessStartTime } from "../shared/pid-alive.ts";
+import { createCorePluginStateSyncKeyedStore } from "./plugin-state-store.ts";
 
 /** Envelope persisted with every cross-process runtime health record. */
 export type RuntimeHealthRecordEnvelope = {
@@ -74,12 +74,6 @@ export function createRuntimeHealthRecordEnvelope(failedAt: Date): RuntimeHealth
   };
 }
 
-// Records surface only with a positive incarnation match; unverifiable
-// identity fails closed so a recycled PID can never keep stale failures alive.
-// Own PID: the per-process token proves incarnation on every platform.
-// Sibling PIDs: the Linux /proc starttime must match; where it is unavailable
-// (non-Linux, /proc read failure) sibling visibility is sacrificed instead of
-// trusting a bare kill(0) liveness probe.
 function processLooksLive(record: RuntimeHealthRecordEnvelope): boolean {
   if (record.processId === process.pid) {
     return record.processToken === currentProcessToken;
@@ -88,12 +82,10 @@ function processLooksLive(record: RuntimeHealthRecordEnvelope): boolean {
   return currentStartTime !== null && currentStartTime === record.processStartTime;
 }
 
-/** Opens a SQLite-backed health record namespace shared across runtime processes. */
+/** Opens a Oracle-backed health record namespace shared across runtime processes. */
 export function createRuntimeHealthStore<T extends RuntimeHealthRecordEnvelope>(
   options: RuntimeHealthStoreOptions<T>,
 ): RuntimeHealthStore<T> {
-  // The keyed store is opened per operation so records follow the state dir
-  // active at call time (tests and embedded runtimes swap OPENCLAW_STATE_DIR).
   const openStore = () =>
     createCorePluginStateSyncKeyedStore<T>({
       ownerId: options.ownerId,
@@ -142,9 +134,7 @@ export function createRuntimeHealthStore<T extends RuntimeHealthRecordEnvelope>(
             store.delete(entry.key);
           }
         }
-      } catch {
-        // Best-effort cleanup; callers also clear their in-memory state.
-      }
+      } catch {}
     },
   };
 }

@@ -5,9 +5,9 @@
  */
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { describeInterpreterInlineEval } from "../infra/command-analysis/inline-eval.js";
-import { detectPolicyInlineEval } from "../infra/command-analysis/policy.js";
-import { emitTrustedSecurityEvent } from "../infra/diagnostic-events.js";
+import { describeInterpreterInlineEval } from "../infra/command-analysis/inline-eval.ts";
+import { detectPolicyInlineEval } from "../infra/command-analysis/policy.ts";
+import { emitTrustedSecurityEvent } from "../infra/diagnostic-events.ts";
 import {
   type AllowAlwaysPersistenceDecision,
   commandRequiresSecurityAuditSuppressionApproval,
@@ -26,22 +26,22 @@ import {
   resolveAllowAlwaysPersistenceDecision,
   resolveExecApprovalUnavailableDecisions,
   requiresExecApproval,
-} from "../infra/exec-approvals.js";
-import type { ExecAuthorizationPlan } from "../infra/exec-authorization-plan.js";
-import { buildAuthorizedShellCommandFromPlan } from "../infra/exec-authorization-render.js";
+} from "../infra/exec-approvals.ts";
+import type { ExecAuthorizationPlan } from "../infra/exec-authorization-plan.ts";
+import { buildAuthorizedShellCommandFromPlan } from "../infra/exec-authorization-render.ts";
 import {
   defaultExecAutoReviewer,
   type ExecAutoReviewer,
   type ExecAutoReviewInput,
-} from "../infra/exec-auto-review.js";
-import type { SafeBinProfile } from "../infra/exec-safe-bin-policy.js";
-import { isNativeApprovalChannel, normalizeMessageChannel } from "../utils/message-channel.js";
-import { markBackgrounded, tail } from "./bash-process-registry.js";
+} from "../infra/exec-auto-review.ts";
+import type { SafeBinProfile } from "../infra/exec-safe-bin-policy.ts";
+import { isNativeApprovalChannel, normalizeMessageChannel } from "../utils/message-channel.ts";
+import { markBackgrounded, tail } from "./bash-process-registry.ts";
 import {
   buildExecApprovalRequesterContext,
   buildExecApprovalTurnSourceContext,
   registerExecApprovalRequestForHostOrThrow,
-} from "./bash-tools.exec-approval-request.js";
+} from "./bash-tools.exec-approval-request.ts";
 import {
   buildDefaultExecApprovalRequestArgs,
   buildHeadlessExecApprovalDeniedMessage,
@@ -54,20 +54,20 @@ import {
   resolveExecHostApprovalContext,
   sendExecApprovalFollowupResult,
   shouldResolveExecApprovalUnavailableInline,
-} from "./bash-tools.exec-host-shared.js";
+} from "./bash-tools.exec-host-shared.ts";
 import {
   DEFAULT_NOTIFY_TAIL_CHARS,
   createApprovalSlug,
   normalizeNotifyOutput,
   runExecProcess,
-} from "./bash-tools.exec-runtime.js";
+} from "./bash-tools.exec-runtime.ts";
 import type {
   ExecElevatedDefaults,
   ExecApprovalFollowupFactory,
   ExecApprovalFollowupOutcome,
   ExecToolDetails,
-} from "./bash-tools.exec-types.js";
-import type { AgentToolResult } from "./runtime/index.js";
+} from "./bash-tools.exec-types.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
 
 /** Full input bundle for gateway-host allowlist and approval processing. */
 type ProcessGatewayAllowlistParams = {

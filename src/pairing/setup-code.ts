@@ -12,22 +12,22 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveGatewayPort } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { normalizeSecretInputString, resolveSecretInputRef } from "../config/types.secrets.js";
-import { materializeGatewayAuthSecretRefs } from "../gateway/auth-config-utils.js";
-import { assertExplicitGatewayAuthModeWhenBothConfigured } from "../gateway/auth-mode-policy.js";
-import { issueDeviceBootstrapToken } from "../infra/device-bootstrap.js";
+import { resolveGatewayPort } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { normalizeSecretInputString, resolveSecretInputRef } from "../config/types.secrets.ts";
+import { materializeGatewayAuthSecretRefs } from "../gateway/auth-config-utils.ts";
+import { assertExplicitGatewayAuthModeWhenBothConfigured } from "../gateway/auth-mode-policy.ts";
+import { issueDeviceBootstrapToken } from "../infra/device-bootstrap.ts";
 import {
   pickMatchingExternalInterfaceAddress,
   safeNetworkInterfaces,
-} from "../infra/network-interfaces.js";
-import { PAIRING_SETUP_BOOTSTRAP_PROFILE } from "../shared/device-bootstrap-profile.js";
-import { resolveGatewayBindUrl } from "../shared/gateway-bind-url.js";
+} from "../infra/network-interfaces.ts";
+import { PAIRING_SETUP_BOOTSTRAP_PROFILE } from "../shared/device-bootstrap-profile.ts";
+import { resolveGatewayBindUrl } from "../shared/gateway-bind-url.ts";
 import {
   resolveTailnetHostWithRunner,
   resolveTailscalePublishedHost,
-} from "../shared/tailscale-status.js";
+} from "../shared/tailscale-status.ts";
 
 export type PairingSetupPayload = {
   url: string;

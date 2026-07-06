@@ -4,14 +4,14 @@
  * Applies account names and validates setup results for channel onboarding adapters.
  */
 import { z, type ZodType } from "zod";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.ts";
 import {
   collectSingleAccountPromotionEntries,
   isSetupSingleAccountPromotionKey,
-} from "./setup-promotion-keys.js";
-import type { ChannelSetupAdapter } from "./types.adapters.js";
-import type { ChannelSetupInput } from "./types.core.js";
+} from "./setup-promotion-keys.ts";
+import type { ChannelSetupAdapter } from "./types.adapters.ts";
+import type { ChannelSetupInput } from "./types.core.ts";
 
 type ChannelSectionBase = {
   name?: string;
@@ -490,7 +490,7 @@ function resolveSingleAccountPromotionTarget(params: { channel: ChannelSectionBa
 }
 
 /**
- * Promotes legacy single-account channel fields into the account map for multi-account setup.
+ * Promotes older single-account channel fields into the account map for multi-account setup.
  */
 export function moveSingleAccountChannelSectionToDefaultAccount(params: {
   cfg: OpenClawConfig;

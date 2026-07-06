@@ -16,7 +16,7 @@ The macOS app surfaces OpenClaw skills via the gateway; it does not parse skills
 
 ## Install actions
 
-- `metadata.openclaw.install` defines install options (brew/node/go/uv).
+- `metadata.openclaw.install` defines install options (brew/node/go).
 - The app calls `skills.install` to run installers on the gateway host.
 - Operator-owned `security.installPolicy` can block gateway-backed skill
   installs before installer metadata runs. Install-time built-in dangerous-code
@@ -25,7 +25,7 @@ The macOS app surfaces OpenClaw skills via the gateway; it does not parse skills
   choices.
 - Otherwise, the gateway picks one preferred installer using the current
   install preferences and host binaries: Homebrew first when
-  `skills.install.preferBrew` is enabled and `brew` exists, then `uv`, then the
+  `skills.install.preferBrew` is enabled and `brew` exists, then the
   configured node manager from `skills.install.nodeManager`, then later
   fallbacks like `go` or `download`.
 - Node install labels reflect the configured node manager, including `yarn`.

@@ -7,8 +7,8 @@ import {
   makeCfg,
   requireSessionStorePath,
   withTempHome,
-} from "../../test/helpers/auto-reply/trigger-handling-test-harness.js";
-import { loadSessionStore } from "../config/sessions.js";
+} from "../../test/helpers/auto-reply/trigger-handling-test-harness.ts";
+import { loadSessionStore } from "../config/sessions.ts";
 
 type GetReplyFromConfig = typeof import("./reply.js").getReplyFromConfig;
 

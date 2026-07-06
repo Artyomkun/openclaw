@@ -1,20 +1,20 @@
 /**
  * Runtime SDK subpath for lazy reply dispatch and inbound-context helpers.
  */
-export { resolveChunkMode } from "../auto-reply/chunk.js";
-export { generateConversationLabel } from "../auto-reply/reply/conversation-label-generator.js";
-export { finalizeInboundContext } from "../auto-reply/reply/inbound-context.js";
-export type { CommandTurnContext } from "../auto-reply/command-turn-context.js";
+export { resolveChunkMode } from "../auto-reply/chunk.ts";
+export { generateConversationLabel } from "../auto-reply/reply/conversation-label-generator.ts";
+export { finalizeInboundContext } from "../auto-reply/reply/inbound-context.ts";
+export type { CommandTurnContext } from "../auto-reply/command-turn-context.ts";
 import type {
   DispatchReplyWithBufferedBlockDispatcher,
   DispatchReplyWithDispatcher,
-} from "../auto-reply/reply/provider-dispatcher.types.js";
+} from "../auto-reply/reply/provider-dispatcher.types.ts";
 
 export type {
   DispatchReplyWithBufferedBlockDispatcher,
   DispatchReplyWithDispatcher,
-} from "../auto-reply/reply/provider-dispatcher.types.js";
-export type { ReplyPayload } from "./reply-payload.js";
+} from "../auto-reply/reply/provider-dispatcher.types.ts";
+export type { ReplyPayload } from "./reply-payload.ts";
 
 let providerDispatcherRuntimeModulePromise: Promise<
   typeof import("../auto-reply/reply/provider-dispatcher.runtime.js")

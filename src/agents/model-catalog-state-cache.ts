@@ -1,16 +1,16 @@
 import { createHash } from "node:crypto";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   executeSqliteQuerySync,
   executeSqliteQueryTakeFirstSync,
   getNodeSqliteKysely,
-} from "../infra/kysely-sync.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.js";
-import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.js";
+} from "../infra/kysely-sync.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.ts";
+import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../state/openclaw-state-db.js";
+} from "../state/openclaw-state-db.ts";
 const AGENT_MODEL_CATALOG_CACHE_VERSION = 1;
 const AGENT_MODEL_CATALOG_CACHE_TTL_MS = 30 * 60 * 1000;
 

@@ -4,17 +4,17 @@
  * Builds redacted labels and compact details from tool metadata without affecting execution semantics.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { redactToolDetail } from "../logging/redact.js";
-import { shortenHomeInString } from "../utils.js";
+import { redactToolDetail } from "../logging/redact.ts";
+import { shortenHomeInString } from "../utils.ts";
 import {
   defaultTitle,
   formatToolDetailText,
   formatDetailKey,
   normalizeToolName,
   resolveToolVerbAndDetailForArgs,
-} from "./tool-display-common.js";
-import { TOOL_DISPLAY_CONFIG } from "./tool-display-config.js";
-import type { ToolDetailMode } from "./tool-display-exec.js";
+} from "./tool-display-common.ts";
+import { TOOL_DISPLAY_CONFIG } from "./tool-display-config.ts";
+import type { ToolDetailMode } from "./tool-display-exec.ts";
 
 type ToolDisplay = {
   name: string;

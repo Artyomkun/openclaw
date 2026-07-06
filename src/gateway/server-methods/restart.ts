@@ -1,10 +1,10 @@
 // Gateway RPC handlers for safe gateway restart requests and preflight state.
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
 import {
   createSafeGatewayRestartPreflight,
   requestSafeGatewayRestart,
-} from "../../infra/restart-coordinator.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../infra/restart-coordinator.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 function isRestartRequestParams(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);

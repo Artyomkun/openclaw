@@ -4,38 +4,38 @@ import path from "node:path";
 import process from "node:process";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import type { Command as CommanderCommand, Option as CommanderOption } from "commander";
-import { resolveStateDir } from "../config/paths.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.js";
-import { FLAG_TERMINATOR, isValueToken } from "../infra/cli-root-options.js";
-import { isTruthyEnvValue, normalizeEnv } from "../infra/env.js";
-import type { ProxyHandle } from "../infra/net/proxy/proxy-lifecycle.js";
-import { ensureOpenClawCliOnPath } from "../infra/path-env.js";
-import { assertSupportedRuntime } from "../infra/runtime-guard.js";
-import type { PluginManifestCommandAliasRegistry } from "../plugins/manifest-command-aliases.js";
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
+import { resolveStateDir } from "../config/paths.ts";
+import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.ts";
+import { FLAG_TERMINATOR, isValueToken } from "../infra/cli-root-options.ts";
+import { isTruthyEnvValue, normalizeEnv } from "../infra/env.ts";
+import type { ProxyHandle } from "../infra/net/proxy/proxy-lifecycle.ts";
+import { ensureOpenClawCliOnPath } from "../infra/path-env.ts";
+import { assertSupportedRuntime } from "../infra/runtime-guard.ts";
+import type { PluginManifestCommandAliasRegistry } from "../plugins/manifest-command-aliases.ts";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
 import {
   normalizeGeneratedHelpCommandArgv,
   normalizeRootHelpTargetArgv,
   normalizeRootLogLevelArgv,
   normalizeRootNoColorArgv,
-} from "./argv.js";
+} from "./argv.ts";
 import {
   isReservedNonPluginCommandRoot,
   shouldRegisterPrimaryCommandOnly,
   shouldSkipPluginCommandRegistration,
-} from "./command-registration-policy.js";
-import { maybeRunCliInContainer, parseCliContainerArgs } from "./container-target.js";
+} from "./command-registration-policy.ts";
+import { maybeRunCliInContainer, parseCliContainerArgs } from "./container-target.ts";
 import {
   consumeGatewayFastPathRootOptionToken,
   consumeGatewayRunOptionToken,
   resolveGatewayCatalogCommandPath,
   resolveGatewayRunPreBootstrapOptions,
-} from "./gateway-run-argv.js";
-import { hasJsonOutputFlag, withConsoleLogsRoutedToStderrForJson } from "./json-output-mode.js";
-import { applyCliProfileEnv, parseCliProfileArgs } from "./profile.js";
-import { formatCliCommandSuggestions } from "./program/command-suggestions.js";
-import { getCoreCliCommandNames } from "./program/core-command-descriptors.js";
-import { getSubCliEntries } from "./program/subcli-descriptors.js";
+} from "./gateway-run-argv.ts";
+import { hasJsonOutputFlag, withConsoleLogsRoutedToStderrForJson } from "./json-output-mode.ts";
+import { applyCliProfileEnv, parseCliProfileArgs } from "./profile.ts";
+import { formatCliCommandSuggestions } from "./program/command-suggestions.ts";
+import { getCoreCliCommandNames } from "./program/core-command-descriptors.ts";
+import { getSubCliEntries } from "./program/subcli-descriptors.ts";
 import {
   resolvePrecomputedSubcommandHelpFastPath,
   resolveMissingPluginCommandMessage as resolveMissingPluginCommandMessageFromPolicy,
@@ -49,9 +49,9 @@ import {
   shouldUseRootHelpFastPath,
   shouldUseSecretsHelpFastPath,
   shouldUseSetupOnboardConfigureHelpFastPath,
-} from "./run-main-policy.js";
-import { createGatewayStartupTrace } from "./startup-trace.js";
-import { normalizeWindowsArgv } from "./windows-argv.js";
+} from "./run-main-policy.ts";
+import { createGatewayStartupTrace } from "./startup-trace.ts";
+import { normalizeWindowsArgv } from "./windows-argv.ts";
 
 export {
   resolvePrecomputedSubcommandHelpFastPath,
@@ -65,7 +65,7 @@ export {
   shouldUseRootHelpFastPath,
   shouldUseSecretsHelpFastPath,
   shouldUseSetupOnboardConfigureHelpFastPath,
-} from "./run-main-policy.js";
+} from "./run-main-policy.ts";
 
 const CLI_PROXY_ENV_KEYS = [
   "HTTP_PROXY",

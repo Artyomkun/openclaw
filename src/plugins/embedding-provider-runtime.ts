@@ -1,16 +1,16 @@
 /** Runtime resolver for plugin-contributed embedding providers. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveConfiguredGenericEmbeddingProviderId } from "./embedding-provider-config.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveConfiguredGenericEmbeddingProviderId } from "./embedding-provider-config.ts";
 import {
   getRuntimeEmbeddingProviderAdapter,
   listRuntimeEmbeddingProviderAdapters,
   resolveRuntimeEmbeddingProviderLookupIds,
-} from "./embedding-provider-runtime-shared.js";
+} from "./embedding-provider-runtime-shared.ts";
 import {
   getRegisteredEmbeddingProvider,
   listRegisteredEmbeddingProviders,
   type EmbeddingProviderAdapter,
-} from "./embedding-providers.js";
+} from "./embedding-providers.ts";
 
 export { listRegisteredEmbeddingProviders };
 
@@ -65,4 +65,4 @@ export type {
   EmbeddingProviderCreateResult,
   EmbeddingProviderRuntime,
   RegisteredEmbeddingProvider,
-} from "./embedding-providers.js";
+} from "./embedding-providers.ts";

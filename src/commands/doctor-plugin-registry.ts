@@ -2,39 +2,39 @@
 import fs from "node:fs";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
-import { saveJsonFile } from "../infra/json-file.js";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import type { BundledPluginSource } from "../plugins/bundled-sources.js";
-import { resolveDefaultPluginNpmDir } from "../plugins/install-paths.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.ts";
+import { saveJsonFile } from "../infra/json-file.ts";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+import type { BundledPluginSource } from "../plugins/bundled-sources.ts";
+import { resolveDefaultPluginNpmDir } from "../plugins/install-paths.ts";
 import {
   loadInstalledPluginIndexInstallRecords,
   type InstalledPluginIndexRecordStoreOptions,
-} from "../plugins/installed-plugin-index-records.js";
-import { loadInstalledPluginIndex } from "../plugins/installed-plugin-index.js";
-import { hasRetainedManagedNpmInstallMarker } from "../plugins/managed-npm-retention.js";
-import { listManagedPluginNpmRootsSync } from "../plugins/npm-project-roots.js";
+} from "../plugins/installed-plugin-index-records.ts";
+import { loadInstalledPluginIndex } from "../plugins/installed-plugin-index.ts";
+import { hasRetainedManagedNpmInstallMarker } from "../plugins/managed-npm-retention.ts";
+import { listManagedPluginNpmRootsSync } from "../plugins/npm-project-roots.ts";
 import {
   auditOpenClawPeerDependenciesInManagedNpmRoot,
   type OpenClawPeerLinkAuditIssue,
   relinkOpenClawPeerDependenciesInManagedNpmRoot,
-} from "../plugins/plugin-peer-link.js";
-import { refreshPluginRegistry } from "../plugins/plugin-registry.js";
+} from "../plugins/plugin-peer-link.ts";
+import { refreshPluginRegistry } from "../plugins/plugin-registry.ts";
 import {
   listStaleLocalBundledPluginInstallRecords,
   type StaleLocalBundledPluginInstallRecord,
-} from "../plugins/stale-local-bundled-plugin-install-records.js";
-import { shortenHomePath } from "../utils.js";
-import type { DoctorPrompter } from "./doctor-prompter.js";
+} from "../plugins/stale-local-bundled-plugin-install-records.ts";
+import { shortenHomePath } from "../utils.ts";
+import type { DoctorPrompter } from "./doctor-prompter.ts";
 import {
   DISABLE_PLUGIN_REGISTRY_MIGRATION_ENV,
   migratePluginRegistryForInstall,
   preflightPluginRegistryInstallMigration,
   type PluginRegistryInstallMigrationParams,
-} from "./doctor/shared/plugin-registry-migration.js";
+} from "./doctor/shared/plugin-registry-migration.ts";
 
 const PLUGIN_REGISTRY_CHECK_ID = "core/doctor/plugin-registry";
 

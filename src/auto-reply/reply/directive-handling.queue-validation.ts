@@ -1,10 +1,10 @@
 /** Validation and status handling for /queue directives. */
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ReplyPayload } from "../types.js";
-import type { InlineDirectives } from "./directive-handling.parse.js";
-import { withOptions } from "./directive-handling.shared.js";
-import { resolveQueueSettings } from "./queue/settings.js";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { InlineDirectives } from "./directive-handling.parse.ts";
+import { withOptions } from "./directive-handling.shared.ts";
+import { resolveQueueSettings } from "./queue/settings.ts";
 
 /** Validates `/queue` directives and returns immediate status/error replies. */
 export function maybeHandleQueueDirective(params: {

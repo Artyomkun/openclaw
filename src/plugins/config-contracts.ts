@@ -1,16 +1,16 @@
 /** Resolves plugin config contract metadata for scanners and secret/config policy checks. */
 import { normalizeSortedUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { findBundledPluginMetadataById } from "./bundled-plugin-metadata.js";
-import { discoverOpenClawPlugins, type PluginDiscoveryResult } from "./discovery.js";
-import { loadPluginManifestRegistry } from "./manifest-registry.js";
-import type { PluginManifestConfigContracts } from "./manifest.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { findBundledPluginMetadataById } from "./bundled-plugin-metadata.ts";
+import { discoverOpenClawPlugins, type PluginDiscoveryResult } from "./discovery.ts";
+import { loadPluginManifestRegistry } from "./manifest-registry.ts";
+import type { PluginManifestConfigContracts } from "./manifest.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.ts";
 export {
   collectPluginConfigContractMatches,
   type PluginConfigContractMatch,
-} from "./config-contract-matches.js";
+} from "./config-contract-matches.ts";
 
 export type PluginConfigContractMetadata = {
   /** Runtime origin that supplied the contract metadata. */

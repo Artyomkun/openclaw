@@ -184,12 +184,12 @@ function rpcMethodsFromPayload(payload: Record<string, unknown>): string[] {
   return raw.filter((entry): entry is string => typeof entry === "string");
 }
 
-// Probe whether the installed imsg CLI accepts `--file` on the `send-rich`
-// subcommand (added by openclaw/imsg#114, which lets a single bridge call
-// combine `--reply-to` and an attachment). We grep the help output rather
-// than trying a real send so the probe is side-effect-free, and we resolve
-// to `false` on any failure (timeout, non-zero exit, missing binary) so
-// callers fall back to the legacy throw rather than silently dropping.
+// Check whether the installed `imsg` binary supports the `--file` flag on the
+// `send-rich` subcommand. This capability was added in openclaw/imsg#114 and
+// allows sending attachments together with `--reply-to` in a single call.
+// We inspect the `--help` output instead of performing an actual send to keep
+// the probe side-effect-free. On any failure (timeout, non-zero exit, missing
+// binary) we return `false`, so the caller can fall back to the older behavior.
 async function probeSendRichSupportsAttachment(
   cliPath: string,
   timeoutMs: number,
@@ -240,12 +240,12 @@ export async function probeIMessagePrivateApi(
     // imsg explains an unavailable bridge here (SIP, library validation, macOS
     // 26 AMFI gate). Carry it forward so blocked actions can show the reason.
     const statusMessage = typeof payload?.message === "string" ? payload.message : undefined;
-    // Probe `imsg send-rich --help` for the `--file` flag added by
-    // openclaw/imsg#114. We do this even when the bridge is unavailable
-    // because the help output ships with the CLI binary itself, and the
-    // result is what gates whether reply-with-attachment can route through
-    // the threaded send path. Treat any failure as "not supported" so
-    // callers fall back to the legacy throw rather than silently dropping.
+    // Check `imsg send-rich --help` for the `--file` flag (added in openclaw/imsg#114).
+    // We run this check even when the bridge is unavailable, because the help output
+    // is part of the CLI binary itself. The result determines whether replies with
+    // attachments can use the threaded send path. Any failure is treated as
+    // "not supported", so callers fall back to the older behavior instead of
+    // silently dropping the attachment.
     const sendRichSupportsAttachment = await probeSendRichSupportsAttachment(key, timeoutMs);
     const status: NonNullable<IMessageProbe["privateApi"]> = {
       available: result.code === 0 && advancedFeatures && v2Ready,

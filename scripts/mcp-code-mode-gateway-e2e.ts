@@ -190,7 +190,7 @@ export async function main() {
     provider = await startQaMockOpenAiServer();
     const stateDir = path.join(rootDir, "state");
     const workspaceDir = path.join(rootDir, "workspace");
-    const serverPath = path.join(rootDir, "mcp", "fixture-server.mjs");
+    const serverPath = path.join(rootDir, "mcp", "fixture-server.ts");
     const configPath = path.join(stateDir, "openclaw.json");
     const gatewayPort = await freePort();
     await fs.mkdir(workspaceDir, { recursive: true });

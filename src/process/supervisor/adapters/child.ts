@@ -1,18 +1,18 @@
 // Child process adapter wraps spawned child processes for the supervisor.
 import type { ChildProcessWithoutNullStreams, SpawnOptions } from "node:child_process";
-import { toErrorObject } from "../../../infra/errors.js";
-import { createWindowsOutputDecoder } from "../../../infra/windows-encoding.js";
-import { signalProcessTree } from "../../kill-tree.js";
-import { prepareOomScoreAdjustedSpawn } from "../../linux-oom-score.js";
-import { spawnWithFallback } from "../../spawn-utils.js";
+import { toErrorObject } from "../../../infra/errors.ts";
+import { createWindowsOutputDecoder } from "../../../infra/windows-encoding.ts";
+import { signalProcessTree } from "../../kill-tree.ts";
+import { prepareOomScoreAdjustedSpawn } from "../../linux-oom-score.ts";
+import { spawnWithFallback } from "../../spawn-utils.ts";
 import {
   buildWindowsCmdExeCommandLine,
   isWindowsBatchCommand,
   resolveTrustedWindowsCmdExe,
   resolveWindowsCommandShim,
-} from "../../windows-command.js";
-import type { ManagedRunStdin, SpawnProcessAdapter } from "../types.js";
-import { toStringEnv } from "./env.js";
+} from "../../windows-command.ts";
+import type { ManagedRunStdin, SpawnProcessAdapter } from "../types.ts";
+import { toStringEnv } from "./env.ts";
 
 const FORCE_KILL_WAIT_FALLBACK_MS = 4000;
 const WINDOWS_CLOSE_STATE_SETTLE_TIMEOUT_MS = 250;

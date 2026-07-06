@@ -14,7 +14,7 @@
  * do not show AI-facing envelope metadata as user text.
  */
 
-import { MESSAGE_TOOL_DELIVERY_HINTS } from "./delivery-hints.js";
+import { MESSAGE_TOOL_DELIVERY_HINTS } from "./delivery-hints.ts";
 
 const LEADING_TIMESTAMP_PREFIX_RE = /^\[[A-Za-z]{3} \d{4}-\d{2}-\d{2} \d{2}:\d{2}[^\]]*\] */;
 

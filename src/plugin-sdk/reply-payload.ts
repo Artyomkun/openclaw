@@ -1,17 +1,17 @@
 // Reply payload helpers normalize plugin reply targets, text, media, and approval metadata.
-import { normalizeLowercaseStringOrEmpty } from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.js";
-import type { ReplyPayload as InternalReplyPayload } from "../auto-reply/reply-payload.js";
-import type { ChannelOutboundAdapter } from "../channels/plugins/outbound.types.js";
-import { normalizeOutboundReplyPayload as normalizeCoreOutboundReplyPayload } from "../infra/outbound/reply-payload-normalize.js";
-import { createReplyToFanout } from "../infra/outbound/reply-policy.js";
-import { hasReplyPayloadContent } from "../interactive/payload.js";
+import { normalizeLowercaseStringOrEmpty } from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.ts";
+import type { ReplyPayload as InternalReplyPayload } from "../auto-reply/reply-payload.ts";
+import type { ChannelOutboundAdapter } from "../channels/plugins/outbound.types.ts";
+import { normalizeOutboundReplyPayload as normalizeCoreOutboundReplyPayload } from "../infra/outbound/reply-payload-normalize.ts";
+import { createReplyToFanout } from "../infra/outbound/reply-policy.ts";
+import { hasReplyPayloadContent } from "../interactive/payload.ts";
 
-export type { MediaPayload, MediaPayloadInput } from "../channels/plugins/media-payload.js";
-export { buildMediaPayload } from "../channels/plugins/media-payload.js";
+export type { MediaPayload, MediaPayloadInput } from "../channels/plugins/media-payload.ts";
+export { buildMediaPayload } from "../channels/plugins/media-payload.ts";
 /** Plugin-facing reply payload without core-only trusted local media internals. */
 export type ReplyPayload = Omit<InternalReplyPayload, "trustedLocalMedia">;
-export type { ReplyPayloadTtsSupplement } from "../auto-reply/reply-payload.js";
+export type { ReplyPayloadTtsSupplement } from "../auto-reply/reply-payload.ts";
 export {
   buildTtsSupplementMediaPayload,
   FAST_MODE_AUTO_PROGRESS_KIND,
@@ -20,7 +20,7 @@ export {
   isReplyPayloadNonTerminalToolErrorWarning,
   isReplyPayloadTtsSupplement,
   markReplyPayloadAsTtsSupplement,
-} from "../auto-reply/reply-payload.js";
+} from "../auto-reply/reply-payload.ts";
 
 /** Normalized outbound reply payload accepted by channel send helpers. */
 export type OutboundReplyPayload = {
@@ -28,14 +28,10 @@ export type OutboundReplyPayload = {
   text?: string;
   /** Ordered media attachments for channels that can send multiple media items. */
   mediaUrls?: string[];
-  /** Legacy single media attachment. */
+  /** Older single media attachment. */
   mediaUrl?: string;
   /** Rich presentation payload for channels that support structured replies. */
   presentation?: InternalReplyPayload["presentation"];
-  /**
-   * @deprecated Use presentation. Runtime support remains for legacy producers.
-   */
-  interactive?: InternalReplyPayload["interactive"];
   /** Channel-specific opaque data forwarded to outbound adapters. */
   channelData?: InternalReplyPayload["channelData"];
   /** Marks media as sensitive for channel-specific spoiler/safety handling. */
@@ -124,7 +120,7 @@ export function createNormalizedOutboundDeliverer(
   };
 }
 
-/** Prefer multi-attachment payloads, then fall back to the legacy single-media field. */
+/** Prefer multi-attachment payloads, then fall back to the older single-media field. */
 export function resolveOutboundMediaUrls(payload: {
   mediaUrls?: string[];
   mediaUrl?: string;
@@ -138,12 +134,12 @@ export function resolveOutboundMediaUrls(payload: {
   return [];
 }
 
-/** Resolve media URLs from a channel sendPayload context after legacy fallback normalization. */
+/** Resolve media URLs from a channel sendPayload context after older fallback normalization. */
 export function resolvePayloadMediaUrls(payload: SendPayloadContext["payload"]): string[] {
   return resolveOutboundMediaUrls(payload);
 }
 
-/** Count outbound media items after legacy single-media fallback normalization. */
+/** Count outbound media items after older single-media fallback normalization. */
 export function countOutboundMedia(payload: { mediaUrls?: string[]; mediaUrl?: string }): number {
   return resolveOutboundMediaUrls(payload).length;
 }

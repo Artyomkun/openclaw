@@ -5,7 +5,7 @@ import {
   createRuntimeHealthRecordEnvelope,
   createRuntimeHealthStore,
   type RuntimeHealthRecordEnvelope,
-} from "../plugin-state/runtime-health-store.js";
+} from "../plugin-state/runtime-health-store.ts";
 
 type RuntimeToolSchemaQuarantine = {
   toolName: string;

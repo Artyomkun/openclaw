@@ -17,30 +17,30 @@ import {
 import {
   fetchWithSsrFGuard,
   withTrustedEnvProxyGuardedFetchMode,
-} from "../infra/net/fetch-guard.js";
-import { shouldUseEnvHttpProxyForUrl } from "../infra/net/proxy-env.js";
+} from "../infra/net/fetch-guard.ts";
+import { shouldUseEnvHttpProxyForUrl } from "../infra/net/proxy-env.ts";
 import {
   mergeSsrFPolicies,
   ssrfPolicyFromHttpBaseUrlFakeIpHostnameAllowlist,
   ssrfPolicyFromHttpBaseUrlAllowedOrigin,
   type SsrFPolicy,
-} from "../infra/net/ssrf.js";
-import type { Model } from "../llm/types.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveDebugProxySettings } from "../proxy-capture/env.js";
-import { emitModelTransportDebug } from "./model-transport-debug.js";
-import { formatModelTransportDebugUrl } from "./model-transport-url.js";
-import { ProviderHttpError, readResponseTextLimited } from "./provider-http-errors.js";
+} from "../infra/net/ssrf.ts";
+import type { Model } from "../llm/types.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveDebugProxySettings } from "../proxy-capture/env.ts";
+import { emitModelTransportDebug } from "./model-transport-debug.ts";
+import { formatModelTransportDebugUrl } from "./model-transport-url.ts";
+import { ProviderHttpError, readResponseTextLimited } from "./provider-http-errors.ts";
 import {
   ensureModelProviderLocalService,
   type ProviderLocalServiceLease,
-} from "./provider-local-service.js";
+} from "./provider-local-service.ts";
 import {
   buildProviderRequestDispatcherPolicy,
   getModelProviderRequestTransport,
   mergeModelProviderRequestOverrides,
   resolveProviderRequestPolicyConfig,
-} from "./provider-request-config.js";
+} from "./provider-request-config.ts";
 
 const DEFAULT_MAX_SDK_RETRY_WAIT_SECONDS = 60;
 const OPENAI_SDK_STREAM_CONTENT_SNIFF_BYTES = 2 * 1024;

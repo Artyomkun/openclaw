@@ -5,21 +5,21 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { updatePairedDeviceMetadata } from "../infra/device-pairing.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { updatePairedDeviceMetadata } from "../infra/device-pairing.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   resolveEventSessionKeyForPolicy,
   resolveEventSessionRoutingPolicy,
   scopedHeartbeatWakeOptionsForPolicy,
-} from "../infra/event-session-routing.js";
-import { updatePairedNodeMetadata } from "../infra/node-pairing.js";
-import type { PromptImageOrderEntry } from "../media/prompt-image-order.js";
+} from "../infra/event-session-routing.ts";
+import { updatePairedNodeMetadata } from "../infra/node-pairing.ts";
+import type { PromptImageOrderEntry } from "../media/prompt-image-order.ts";
 import {
   NODE_PRESENCE_ALIVE_EVENT,
   normalizeNodePresenceAliveReason,
-} from "../shared/node-presence.js";
-import type { NodeEvent, NodeEventContext } from "./server-node-events-types.js";
+} from "../shared/node-presence.ts";
+import type { NodeEvent, NodeEventContext } from "./server-node-events-types.ts";
 import {
   agentCommandFromIngress,
   buildOutboundSessionContext,
@@ -45,7 +45,7 @@ import {
   sanitizeInboundSystemTags,
   sendDurableMessageBatch,
   canonicalizeSessionEntryAliases,
-} from "./server-node-events.runtime.js";
+} from "./server-node-events.runtime.ts";
 
 const MAX_EXEC_EVENT_OUTPUT_CHARS = 180;
 const MAX_NOTIFICATION_EVENT_TEXT_CHARS = 120;
@@ -790,7 +790,7 @@ export const handleNodeEvent = async (
       });
       if (queued) {
         // Scope wakes only for canonical agent sessions. Synthetic node-* fallback
-        // keys should keep legacy unscoped behavior so enabled non-main heartbeat
+        // keys should keep older unscoped behavior so enabled non-main heartbeat
         // agents still run when no explicit agent session is provided.
         requestHeartbeat(
           scopedHeartbeatWakeOptionsForPolicy(

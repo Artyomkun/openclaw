@@ -4,12 +4,12 @@
  * Reads native command/skill defaults from installed plugin manifests without loading plugins.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { isBlockedObjectKey } from "../../infra/prototype-keys.js";
-import { isInstalledPluginEnabled } from "../../plugins/installed-plugin-index.js";
-import type { PluginManifestRecord } from "../../plugins/manifest-registry.js";
-import { resolvePluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.js";
-import type { ChannelPlugin } from "./types.plugin.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { isBlockedObjectKey } from "../../infra/prototype-keys.ts";
+import { isInstalledPluginEnabled } from "../../plugins/installed-plugin-index.ts";
+import type { PluginManifestRecord } from "../../plugins/manifest-registry.ts";
+import { resolvePluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.ts";
+import type { ChannelPlugin } from "./types.plugin.ts";
 
 const SAFE_MANIFEST_CHANNEL_ID_PATTERN = /^[a-z0-9][a-z0-9_-]{0,63}$/i;
 

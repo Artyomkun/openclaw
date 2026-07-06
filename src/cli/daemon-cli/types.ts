@@ -1,5 +1,5 @@
 // Shared option types for Gateway service CLI commands.
-import type { FindExtraGatewayServicesOptions } from "../../daemon/inspect.js";
+import type { FindExtraGatewayServicesOptions } from "../../daemon/inspect.ts";
 
 /** RPC probe options accepted by Gateway service status commands. */
 export type GatewayRpcOpts = {

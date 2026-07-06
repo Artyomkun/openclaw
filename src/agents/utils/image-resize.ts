@@ -3,12 +3,12 @@
  *
  * Downscales base64 image content for provider payload limits using the configured image processor.
  */
-import type { ImageContent } from "../../llm/types.js";
+import type { ImageContent } from "../../llm/types.ts";
 import {
   createImageProcessor,
   isImageProcessorUnavailableError,
   type ImageProbe,
-} from "../../media/image-ops.js";
+} from "../../media/image-ops.ts";
 
 interface ImageResizeOptions {
   maxWidth?: number; // Default: 2000

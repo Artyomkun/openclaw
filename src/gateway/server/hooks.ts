@@ -5,22 +5,22 @@ import {
   resolveTimestampMsToIsoString,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeInboundSystemTags } from "../../auto-reply/reply/inbound-text.js";
-import type { CliDeps } from "../../cli/deps.types.js";
-import { getRuntimeConfig } from "../../config/io.js";
+import { sanitizeInboundSystemTags } from "../../auto-reply/reply/inbound-text.ts";
+import type { CliDeps } from "../../cli/deps.types.ts";
+import { getRuntimeConfig } from "../../config/io.ts";
 import {
   resolveAgentMainSessionKey,
   resolveMainSessionKey,
   resolveMainSessionKeyFromConfig,
-} from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RunCronAgentTurnResult } from "../../cron/isolated-agent/run.types.js";
-import type { CronJob } from "../../cron/types.js";
-import { requestHeartbeat } from "../../infra/heartbeat-wake.js";
-import { enqueueSystemEvent } from "../../infra/system-events.js";
-import type { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { HookAgentDispatchPayload, HooksConfigResolved } from "../hooks.js";
-import { createHooksRequestHandler, type HookClientIpConfig } from "./hooks-request-handler.js";
+} from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RunCronAgentTurnResult } from "../../cron/isolated-agent/run.types.ts";
+import type { CronJob } from "../../cron/types.ts";
+import { requestHeartbeat } from "../../infra/heartbeat-wake.ts";
+import { enqueueSystemEvent } from "../../infra/system-events.ts";
+import type { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { HookAgentDispatchPayload, HooksConfigResolved } from "../hooks.ts";
+import { createHooksRequestHandler, type HookClientIpConfig } from "./hooks-request-handler.ts";
 
 /**
  * Gateway hook HTTP handler factory.

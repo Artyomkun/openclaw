@@ -1,28 +1,28 @@
 // Runtime implementations for `openclaw plugins` subcommands. Heavy plugin modules stay
 // lazy-loaded so the base CLI can start without activating the plugin registry.
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   collectConfiguredRuntimePluginIds,
   resolveConfiguredRuntimePluginInstallCandidate,
-} from "../commands/doctor/shared/configured-runtime-plugin-installs.js";
+} from "../commands/doctor/shared/configured-runtime-plugin-installs.ts";
 import {
   assertConfigWriteAllowedInCurrentMode,
   getRuntimeConfig,
   readConfigFileSnapshot,
   replaceConfigFile,
-} from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.js";
-import { defaultRuntime } from "../runtime.js";
-import { shortenHomeInString } from "../utils.js";
-import { formatMissingPluginMessage } from "./error-format.js";
+} from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { shortenHomeInString } from "../utils.ts";
+import { formatMissingPluginMessage } from "./error-format.ts";
 import type {
   PluginMarketplaceEntriesOptions,
   PluginMarketplaceListOptions,
   PluginMarketplaceRefreshOptions,
   PluginRegistryOptions,
-} from "./plugins-cli.js";
+} from "./plugins-cli.ts";
 
 type PluginInstallActionOptions = {
   acknowledgeClawHubRisk?: boolean;

@@ -7,23 +7,23 @@ import {
   isSilentReplyPayloadText,
   isSilentReplyText,
   SILENT_REPLY_TOKEN,
-} from "../../../auto-reply/tokens.js";
-import { hasAcceptedSessionSpawn } from "../../accepted-session-spawn.js";
-import { collectTextContentBlocks } from "../../content-blocks.js";
+} from "../../../auto-reply/tokens.ts";
+import { hasAcceptedSessionSpawn } from "../../accepted-session-spawn.ts";
+import { collectTextContentBlocks } from "../../content-blocks.ts";
 import {
   isStrictAgenticSupportedProviderModel,
   stripProviderPrefix,
-} from "../../execution-contract.js";
-import { hasOnlyAssistantReasoningContent } from "../../replay-turn-classification.js";
-import type { AgentMessage } from "../../runtime/index.js";
+} from "../../execution-contract.ts";
+import { hasOnlyAssistantReasoningContent } from "../../replay-turn-classification.ts";
+import type { AgentMessage } from "../../runtime/index.ts";
 import {
   hasCommittedMessagingToolDeliveryEvidence,
   hasMessagingToolDeliveryEvidence,
-} from "../delivery-evidence.js";
-import { isZeroUsageEmptyStopAssistantTurn } from "../empty-assistant-turn.js";
-import { assessLastAssistantMessage } from "../thinking.js";
-import type { EmbeddedRunLivenessState } from "../types.js";
-import type { EmbeddedRunAttemptResult } from "./types.js";
+} from "../delivery-evidence.ts";
+import { isZeroUsageEmptyStopAssistantTurn } from "../empty-assistant-turn.ts";
+import { assessLastAssistantMessage } from "../thinking.ts";
+import type { EmbeddedRunLivenessState } from "../types.ts";
+import type { EmbeddedRunAttemptResult } from "./types.ts";
 
 type ReplayMetadataAttempt = Pick<
   EmbeddedRunAttemptResult,

@@ -1,12 +1,12 @@
 // Status, health, sessions, commitments, and task/flow command registration.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { setVerbose } from "../../globals.js";
-import { defaultRuntime } from "../../runtime.js";
-import { runCommandWithRuntime } from "../cli-utils.js";
-import { formatHelpExamples } from "../help-format.js";
-import { parsePositiveIntOrUndefined, parseStrictPositiveIntOrUndefined } from "./helpers.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { setVerbose } from "../../globals.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { runCommandWithRuntime } from "../cli-utils.ts";
+import { formatHelpExamples } from "../help-format.ts";
+import { parsePositiveIntOrUndefined, parseStrictPositiveIntOrUndefined } from "./helpers.ts";
 
 function resolveVerbose(opts: { verbose?: boolean; debug?: boolean }): boolean {
   return Boolean(opts.verbose || opts.debug);

@@ -4,8 +4,8 @@
  * status, storage, and provider selection.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { AuthProfileStore } from "./types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { AuthProfileStore } from "./types.ts";
 
 // Metadata can be configured separately from stored credentials. Config wins so
 // display labels can be edited without mutating secrets.

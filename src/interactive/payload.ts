@@ -33,7 +33,7 @@ export type MessagePresentationButton = {
   /** Typed action sent when the button is pressed. */
   action?: MessagePresentationAction;
   /**
-   * Legacy opaque callback value sent when the button is pressed.
+   * LOlder opaque callback value sent when the button is pressed.
    * Prefer action for new presentation controls.
    */
   value?: string;
@@ -41,12 +41,6 @@ export type MessagePresentationButton = {
   url?: string;
   /** Telegram-style web app launch target. */
   webApp?: {
-    url: string;
-  };
-  /**
-   * @deprecated Use webApp. The snake_case alias is accepted for legacy JSON payloads only.
-   */
-  web_app?: {
     url: string;
   };
   /** Higher-priority buttons are kept first when channel limits require truncation. */
@@ -65,7 +59,7 @@ export type MessagePresentationOption = {
   label: string;
   /** Typed action sent when the option is selected. */
   action?: MessagePresentationAction;
-  /** Legacy opaque callback value sent when the option is selected. */
+  /** Older opaque callback value sent when the option is selected. */
   value?: string;
 };
 
@@ -87,57 +81,6 @@ export function resolveMessagePresentationControlValue(control: {
 }): string | undefined {
   return resolveMessagePresentationActionValue(control.action) ?? control.value;
 }
-
-/**
- * @deprecated Use MessagePresentationButton.
- */
-export type InteractiveReplyButton = MessagePresentationButton;
-
-/**
- * @deprecated Use MessagePresentationOption.
- */
-export type InteractiveReplyOption = MessagePresentationOption;
-
-/**
- * @deprecated Use MessagePresentationTextBlock.
- */
-export type InteractiveReplyTextBlock = {
-  type: "text";
-  text: string;
-};
-
-/**
- * @deprecated Use MessagePresentationButtonsBlock.
- */
-type InteractiveReplyButtonsBlock = {
-  type: "buttons";
-  buttons: InteractiveReplyButton[];
-};
-
-/**
- * @deprecated Use MessagePresentationSelectBlock.
- */
-export type InteractiveReplySelectBlock = {
-  type: "select";
-  placeholder?: string;
-  options: InteractiveReplyOption[];
-};
-
-/**
- * @deprecated Use MessagePresentationBlock.
- */
-export type InteractiveReplyBlock =
-  | InteractiveReplyTextBlock
-  | InteractiveReplyButtonsBlock
-  | InteractiveReplySelectBlock;
-
-/**
- * @deprecated Use MessagePresentation.
- */
-export type InteractiveReply = {
-  blocks: InteractiveReplyBlock[];
-};
-
 export type MessagePresentationTextBlock = {
   type: "text";
   /** Primary markdown-ish text rendered in the message body. */
@@ -288,45 +231,6 @@ function normalizeList<T>(value: unknown, normalizeEntry: (entry: unknown) => T 
     : [];
 }
 
-function normalizeInteractiveBlock(raw: unknown): InteractiveReplyBlock | undefined {
-  const record = toRecord(raw);
-  if (!record) {
-    return undefined;
-  }
-  const type = normalizeOptionalLowercaseString(record.type);
-  if (type === "text") {
-    const text = normalizeOptionalString(record.text);
-    return text ? { type: "text", text } : undefined;
-  }
-  if (type === "buttons") {
-    const buttons = normalizeList(record.buttons, normalizeButton);
-    return buttons.length > 0 ? { type: "buttons", buttons } : undefined;
-  }
-  if (type === "select") {
-    const options = normalizeList(record.options, normalizeOption);
-    return options.length > 0
-      ? {
-          type: "select",
-          placeholder: normalizeOptionalString(record.placeholder),
-          options,
-        }
-      : undefined;
-  }
-  return undefined;
-}
-
-/**
- * @deprecated Use normalizeMessagePresentation.
- */
-export function normalizeInteractiveReply(raw: unknown): InteractiveReply | undefined {
-  const record = toRecord(raw);
-  if (!record) {
-    return undefined;
-  }
-  const blocks = normalizeList(record.blocks, normalizeInteractiveBlock);
-  return blocks.length > 0 ? { blocks } : undefined;
-}
-
 function normalizePresentationBlock(raw: unknown): MessagePresentationBlock | undefined {
   const record = toRecord(raw);
   if (!record) {
@@ -374,133 +278,14 @@ export function normalizeMessagePresentation(raw: unknown): MessagePresentation 
   };
 }
 
-/**
- * @deprecated Use hasMessagePresentationBlocks.
- */
-export function hasInteractiveReplyBlocks(value: unknown): value is InteractiveReply {
-  return Boolean(normalizeInteractiveReply(value));
-}
-
 export function hasMessagePresentationBlocks(value: unknown): value is MessagePresentation {
   return Boolean(normalizeMessagePresentation(value));
-}
-
-/**
- * @deprecated Avoid producing InteractiveReply payloads; send MessagePresentation directly.
- */
-export function presentationToInteractiveReply(
-  presentation: MessagePresentation,
-): InteractiveReply | undefined {
-  const blocks: InteractiveReplyBlock[] = [];
-  if (presentation.title) {
-    blocks.push({ type: "text", text: presentation.title });
-  }
-  for (const block of presentation.blocks) {
-    if (block.type === "text" || block.type === "context") {
-      blocks.push({ type: "text", text: block.text });
-      continue;
-    }
-    if (block.type === "buttons") {
-      const buttons = block.buttons
-        .filter(
-          (button) =>
-            button.action || button.value || button.url || button.webApp || button.web_app,
-        )
-        .map((button) => {
-          const interactiveButton: InteractiveReplyButton = {
-            label: button.label,
-            style: button.style,
-          };
-          if (button.action) {
-            interactiveButton.action = button.action;
-          }
-          if (button.value) {
-            interactiveButton.value = button.value;
-          } else if (button.action?.type === "command") {
-            interactiveButton.value = button.action.command;
-          } else if (button.action?.type === "callback") {
-            interactiveButton.value = button.action.value;
-          }
-          if (button.url) {
-            interactiveButton.url = button.url;
-          }
-          const webApp = button.webApp ?? button.web_app;
-          if (webApp) {
-            interactiveButton.webApp = webApp;
-          }
-          if (button.priority !== undefined) {
-            interactiveButton.priority = button.priority;
-          }
-          if (button.disabled === true) {
-            interactiveButton.disabled = true;
-          }
-          if (button.reusable === true) {
-            interactiveButton.reusable = true;
-          }
-          return interactiveButton;
-        });
-      if (buttons.length > 0) {
-        blocks.push({ type: "buttons", buttons });
-      }
-      continue;
-    }
-    if (block.type === "select") {
-      blocks.push({
-        type: "select",
-        placeholder: block.placeholder,
-        options: block.options.map((option) => {
-          const interactiveOption: InteractiveReplyOption = {
-            label: option.label,
-            value: resolveMessagePresentationControlValue(option) ?? option.value,
-          };
-          if (option.action) {
-            interactiveOption.action = option.action;
-          }
-          return interactiveOption;
-        }),
-      });
-    }
-  }
-  return blocks.length > 0 ? { blocks } : undefined;
 }
 
 export function isMessagePresentationInteractiveBlock(
   block: MessagePresentationBlock,
 ): block is MessagePresentationInteractiveBlock {
   return block.type === "buttons" || block.type === "select";
-}
-
-/**
- * @deprecated Avoid producing InteractiveReply payloads; send MessagePresentation directly.
- */
-export function presentationToInteractiveControlsReply(
-  presentation: MessagePresentation,
-): InteractiveReply | undefined {
-  return presentationToInteractiveReply({
-    blocks: presentation.blocks.filter(isMessagePresentationInteractiveBlock),
-  });
-}
-
-/**
- * @deprecated Legacy bridge for old InteractiveReply payloads. New producers should send MessagePresentation.
- */
-export function interactiveReplyToPresentation(
-  interactive: InteractiveReply,
-): MessagePresentation | undefined {
-  const blocks = interactive.blocks.map((block): MessagePresentationBlock => {
-    if (block.type === "text") {
-      return { type: "text", text: block.text };
-    }
-    if (block.type === "buttons") {
-      return { type: "buttons", buttons: block.buttons };
-    }
-    return {
-      type: "select",
-      placeholder: block.placeholder,
-      options: block.options,
-    };
-  });
-  return blocks.length > 0 ? { blocks } : undefined;
 }
 
 export function renderMessagePresentationFallbackText(params: {
@@ -601,23 +386,4 @@ export function hasReplyPayloadContent(
     hasChannelData: options?.hasChannelData ?? hasReplyChannelData(payload.channelData),
     extraContent: options?.extraContent,
   });
-}
-
-/**
- * @deprecated Use renderMessagePresentationFallbackText with MessagePresentation.
- */
-export function resolveInteractiveTextFallback(params: {
-  text?: string;
-  interactive?: InteractiveReply;
-}): string | undefined {
-  const text = normalizeOptionalString(params.text);
-  if (text) {
-    return params.text;
-  }
-  const interactiveText = (params.interactive?.blocks ?? [])
-    .filter((block): block is InteractiveReplyTextBlock => block.type === "text")
-    .map((block) => block.text.trim())
-    .filter(Boolean)
-    .join("\n\n");
-  return interactiveText || params.text;
 }

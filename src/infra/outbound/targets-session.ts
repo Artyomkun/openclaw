@@ -5,20 +5,20 @@ import {
   normalizeOptionalString,
   normalizeOptionalThreadValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveExplicitDeliveryTargetCompat } from "../../channels/plugins/target-parsing-loaded.js";
-import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import { channelRouteTargetsShareConversation } from "../../plugin-sdk/channel-route.js";
-import { deliveryContextFromSession } from "../../utils/delivery-context.shared.js";
+import { resolveExplicitDeliveryTargetCompat } from "../../channels/plugins/target-parsing-loaded.ts";
+import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import { channelRouteTargetsShareConversation } from "../../plugin-sdk/channel-route.ts";
+import { deliveryContextFromSession } from "../../utils/delivery-context.shared.ts";
 import {
   isDeliverableMessageChannel,
   normalizeMessageChannel,
-} from "../../utils/message-channel-core.js";
+} from "../../utils/message-channel-core.ts";
 import type {
   DeliverableMessageChannel,
   GatewayMessageChannel,
-} from "../../utils/message-channel-normalize.js";
-import { resolveTargetPrefixedChannel } from "./channel-target-prefix.js";
+} from "../../utils/message-channel-normalize.ts";
+import { resolveTargetPrefixedChannel } from "./channel-target-prefix.ts";
 
 /**
  * Resolved delivery destination derived from session history, turn source, or explicit input.

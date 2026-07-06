@@ -1,2 +1,2 @@
 // Core facade for shared assistant-message event stream utilities.
-export * from "../../../packages/llm-core/src/utils/event-stream.js";
+export * from "../../../packages/llm-core/src/utils/event-stream.ts";

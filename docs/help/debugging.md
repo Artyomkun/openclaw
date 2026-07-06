@@ -121,7 +121,7 @@ tmux attach -t openclaw-gateway-watch-main
 The tmux pane runs the raw watcher:
 
 ```bash
-node scripts/watch-node.mjs gateway --force
+node scripts/watch-node.ts gateway --force
 ```
 
 Use foreground mode when tmux is not wanted:
@@ -177,9 +177,8 @@ set `FORCE_COLOR=0` when starting `pnpm gateway:watch` to disable ANSI output.
 
 The watcher restarts on build-relevant files under `src/`, extension source files,
 extension `package.json` and `openclaw.plugin.json` metadata, `tsconfig.json`,
-`package.json`, and `tsdown.config.ts`. Extension metadata changes restart the
-gateway without forcing a `tsdown` rebuild; source and config changes still
-rebuild `dist` first.
+and `package.json`. Extension metadata changes restart the gateway without forcing
+a rebuild; source and config changes still rebuild `dist` first using `tsc`.
 
 Add any gateway CLI flags after `gateway:watch` and they will be passed through on
 each restart. Re-running the same watch command respawns the named tmux pane, and
@@ -333,7 +332,7 @@ You can now set breakpoints in your TypeScript source files (`src/` directory) a
 - If using the **"Rebuild and Debug Gateway"** option - each time the debugger is launched it will completely delete the `/dist` folder and run a full `pnpm build` with source maps enabled before starting the Gateway
 - If using the **"Debug Gateway"** option - debug sessions can be started and stopped at any time without affecting the `/dist` folder, but you must use a separate terminal process to both enable debugging and manage the build cycle
 - Modify the `launch.json` settings for `args` to debug other sections of the project
-- If you need to use the built OpenClaw CLI for other tasks (i.e. `dashboard --no-open` if your debug session spawns a new auth token), you can execute it in another terminal as `node ./openclaw.mjs` or create a shell alias like `alias openclaw-build="node $(pwd)/openclaw.mjs"`
+- If you need to use the built OpenClaw CLI for other tasks (i.e. `dashboard --no-open` if your debug session spawns a new auth token), you can execute it in another terminal as `node ./openclaw.ts` or create a shell alias like `alias openclaw-build="node $(pwd)/openclaw.ts"`
 
 ## Related
 

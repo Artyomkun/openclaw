@@ -1,11 +1,11 @@
 // Resolves interactive plugin entries from registry metadata.
-import { resolvePluginInteractiveNamespaceMatch } from "./interactive-registry.js";
+import { resolvePluginInteractiveNamespaceMatch } from "./interactive-registry.ts";
 import {
   claimPluginInteractiveCallbackDedupe,
   commitPluginInteractiveCallbackDedupe,
   releasePluginInteractiveCallbackDedupe,
   type RegisteredInteractiveHandler,
-} from "./interactive-state.js";
+} from "./interactive-state.ts";
 
 type InteractiveDispatchResult<TResult = unknown> =
   | { matched: false; handled: false; duplicate: false }
@@ -27,8 +27,8 @@ export {
   clearPluginInteractiveHandlers,
   clearPluginInteractiveHandlersForPlugin,
   registerPluginInteractiveHandler,
-} from "./interactive-registry.js";
-export type { InteractiveRegistrationResult } from "./interactive-registry.js";
+} from "./interactive-registry.ts";
+export type { InteractiveRegistrationResult } from "./interactive-registry.ts";
 
 /** Dispatches one interactive callback payload to a matching plugin handler. */
 export async function dispatchPluginInteractiveHandler<

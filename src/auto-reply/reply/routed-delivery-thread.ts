@@ -1,6 +1,6 @@
 /** Resolves the thread id used when replies are routed through channel delivery helpers. */
-import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.js";
-import type { MsgContext } from "../templating.js";
+import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.ts";
+import type { MsgContext } from "../templating.ts";
 
 /** Prefers current inbound thread ids, falling back to persisted session thread metadata. */
 export function resolveRoutedDeliveryThreadId(params: {

@@ -1,7 +1,7 @@
 // Formats port probe results for diagnostics and CLI output.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { PortListener, PortListenerKind, PortUsage } from "./ports-types.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { PortListener, PortListenerKind, PortUsage } from "./ports-types.ts";
 
 /** Classifies a listener as OpenClaw Gateway, SSH tunnel, known non-gateway, or unknown. */
 export function classifyPortListener(listener: PortListener, _port: number): PortListenerKind {

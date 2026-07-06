@@ -1,14 +1,14 @@
 // Persists and resolves per-session model override choices.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { hasSessionAutoModelFallbackProvenance } from "../../agents/agent-scope.js";
+import { hasSessionAutoModelFallbackProvenance } from "../../agents/agent-scope.ts";
 import {
   modelKey,
   normalizeModelRef,
   normalizeStoredOverrideModel,
   resolvePersistedOverrideModelRef,
-} from "../../agents/model-selection.js";
-import { resolveSessionParentSessionKey } from "../../channels/plugins/session-conversation.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
+} from "../../agents/model-selection.ts";
+import { resolveSessionParentSessionKey } from "../../channels/plugins/session-conversation.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
 
 /** Model override loaded from the current session or its parent session. */
 export type StoredModelOverride = {

@@ -15,8 +15,8 @@ export {
   type ResolvedBrowserConfig,
   type ResolvedBrowserProfile,
   type ResolvedBrowserTabCleanupConfig,
-} from "./browser-profiles.js";
-export { parseBrowserHttpUrl, redactCdpUrl } from "./browser-cdp.js";
-export { ensureBrowserControlAuth, resolveBrowserControlAuth } from "./browser-control-auth.js";
-export { movePathToTrash, type MovePathToTrashOptions } from "./browser-trash.js";
-export type { BrowserControlAuth } from "./browser-control-auth.js";
+} from "./browser-profiles.ts";
+export { parseBrowserHttpUrl, redactCdpUrl } from "./browser-cdp.ts";
+export { ensureBrowserControlAuth, resolveBrowserControlAuth } from "./browser-control-auth.ts";
+export { movePathToTrash, type MovePathToTrashOptions } from "./browser-trash.ts";
+export type { BrowserControlAuth } from "./browser-control-auth.ts";

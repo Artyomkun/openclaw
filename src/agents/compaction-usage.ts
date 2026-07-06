@@ -2,8 +2,8 @@
  * Shared helpers for clearing assistant usage snapshots invalidated by
  * transcript compaction.
  */
-import type { AgentMessage } from "./runtime/index.js";
-import { makeZeroUsageSnapshot } from "./usage.js";
+import type { AgentMessage } from "./runtime/index.ts";
+import { makeZeroUsageSnapshot } from "./usage.ts";
 
 function parseCompactionUsageTimestamp(value: unknown): number | null {
   if (typeof value === "number" && Number.isFinite(value)) {
@@ -61,9 +61,7 @@ export function stripStaleAssistantUsageBeforeLatestCompaction<TMessage extends 
       hasCompactionSummary && compactionTimestamp !== null && messageTimestamp !== null;
     const staleByMissingSummary = !hasCompactionSummary;
     const staleByTimestamp = hasTimestampBoundary && messageTimestamp <= compactionTimestamp;
-    const staleByLegacyOrdering =
-      hasCompactionSummary && !hasTimestampBoundary && i < latestCompactionSummaryIndex;
-    if (!staleByMissingSummary && !staleByTimestamp && !staleByLegacyOrdering) {
+    if (!staleByMissingSummary && !staleByTimestamp) {
       continue;
     }
 

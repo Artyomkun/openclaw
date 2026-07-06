@@ -1,8 +1,8 @@
 /**
  * Steers active embedded sessions and waits for transcript commits when needed.
  */
-import { toErrorObject } from "../../../infra/errors.js";
-import { log } from "../logger.js";
+import { toErrorObject } from "../../../infra/errors.ts";
+import { log } from "../logger.ts";
 
 /**
  * Minimal active-session surface needed to steer a running attempt and observe

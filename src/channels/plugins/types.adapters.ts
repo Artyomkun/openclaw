@@ -3,24 +3,23 @@
  *
  * Defines approval, setup, config, outbound, directory, and messaging adapter surfaces.
  */
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import type { LegacyConfigRule } from "../../config/legacy.shared.js";
-import type { AgentBinding } from "../../config/types.agents.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { GroupToolPolicyConfig } from "../../config/types.tools.js";
-import type { ChannelApprovalNativeRuntimeAdapter } from "../../infra/approval-handler-runtime-types.js";
-import type { ChannelApprovalKind } from "../../infra/approval-types.js";
-import type { ExecApprovalRequest, ExecApprovalResolved } from "../../infra/exec-approvals.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import type { AgentBinding } from "../../config/types.agents.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { GroupToolPolicyConfig } from "../../config/types.tools.ts";
+import type { ChannelApprovalNativeRuntimeAdapter } from "../../infra/approval-handler-runtime-types.ts";
+import type { ChannelApprovalKind } from "../../infra/approval-types.ts";
+import type { ExecApprovalRequest, ExecApprovalResolved } from "../../infra/exec-approvals.ts";
 import type {
   PluginApprovalRequest,
   PluginApprovalResolved,
-} from "../../infra/plugin-approvals.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import type { ResolverContext, SecretDefaults } from "../../secrets/runtime-shared.js";
-import type { SecretTargetRegistryEntry } from "../../secrets/target-registry-types.js";
-import type { ChannelApprovalNativeAdapter } from "./approval-native.types.js";
-import type { ChannelRuntimeSurface } from "./channel-runtime-surface.types.js";
-import type { ConfigWriteTarget } from "./config-writes.js";
+} from "../../infra/plugin-approvals.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import type { ResolverContext, SecretDefaults } from "../../secrets/runtime-shared.ts";
+import type { SecretTargetRegistryEntry } from "../../secrets/target-registry-types.ts";
+import type { ChannelApprovalNativeAdapter } from "./approval-native.types.ts";
+import type { ChannelRuntimeSurface } from "./channel-runtime-surface.types.ts";
+import type { ConfigWriteTarget } from "./config-writes.ts";
 export type {
   ChannelOutboundAdapter,
   ChannelOutboundChunkContext,
@@ -30,24 +29,23 @@ export type {
   ChannelOutboundPayloadHint,
   ChannelOutboundTargetRef,
   ChannelDeliveryCapabilities,
-} from "./outbound.types.js";
+} from "./outbound.types.ts";
 import type {
   ChannelAccountSnapshot,
   ChannelAccountState,
   ChannelDirectoryEntry,
   ChannelGroupContext,
   ChannelHeartbeatDeps,
-  ChannelLegacyStateMigrationPlan,
   ChannelLogSink,
   ChannelSecurityContext,
   ChannelSecurityDmPolicy,
   ChannelSetupInput,
   ChannelStatusIssue,
-} from "./types.core.js";
-export type { ChannelPairingAdapter } from "./pairing.types.js";
+} from "./types.core.ts";
+export type { ChannelPairingAdapter } from "./pairing.types.ts";
 
 type ConfiguredBindingRule = AgentBinding;
-export type { ChannelApprovalKind } from "../../infra/approval-types.js";
+export type { ChannelApprovalKind } from "../../infra/approval-types.ts";
 
 export type ChannelActionAvailabilityState =
   | { kind: "enabled" }
@@ -490,9 +488,7 @@ export type ChannelDoctorConfigMutation = {
   config: OpenClawConfig;
   changes: string[];
   warnings?: string[];
-};
-
-export type ChannelDoctorLegacyConfigRule = LegacyConfigRule;
+}
 
 export type ChannelDoctorSequenceResult = {
   changeNotes: string[];
@@ -513,7 +509,6 @@ export type ChannelDoctorAdapter = {
   groupModel?: "sender" | "route" | "hybrid";
   groupAllowFromFallbackToAllowFrom?: boolean;
   warnOnEmptyGroupSenderAllowlist?: boolean;
-  legacyConfigRules?: LegacyConfigRule[];
   normalizeCompatibilityConfig?: (params: { cfg: OpenClawConfig }) => ChannelDoctorConfigMutation;
   collectPreviewWarnings?: (params: {
     cfg: OpenClawConfig;
@@ -566,12 +561,6 @@ export type ChannelLifecycleAdapter = {
     trigger?: string;
     logPrefix?: string;
   }) => Promise<void> | void;
-  detectLegacyStateMigrations?: (params: {
-    cfg: OpenClawConfig;
-    env: NodeJS.ProcessEnv;
-    stateDir: string;
-    oauthDir: string;
-  }) => ChannelLegacyStateMigrationPlan[] | Promise<ChannelLegacyStateMigrationPlan[]>;
 };
 
 export type ChannelApprovalDeliveryAdapter = {
@@ -595,7 +584,7 @@ export type {
   ChannelApprovalNativeRequest,
   ChannelApprovalNativeSurface,
   ChannelApprovalNativeTarget,
-} from "./approval-native.types.js";
+} from "./approval-native.types.ts";
 
 export type ChannelApprovalRenderAdapter = {
   exec?: {

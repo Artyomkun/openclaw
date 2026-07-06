@@ -1,8 +1,8 @@
 // Outbound media helpers normalize plugin media attachments before channel delivery.
 import { randomBytes } from "node:crypto";
-import { buildOutboundMediaLoadOptions, type OutboundMediaAccess } from "../media/load-options.js";
-import type { PluginStateKeyedStore } from "./plugin-state-runtime.js";
-import { loadWebMedia } from "./web-media.js";
+import { buildOutboundMediaLoadOptions, type OutboundMediaAccess } from "../media/load-options.ts";
+import type { PluginStateKeyedStore } from "./plugin-state-runtime.ts";
+import { loadWebMedia } from "./web-media.ts";
 
 /** Media loading policy used before plugin media is handed to channel delivery. */
 export type OutboundMediaLoadOptions = {

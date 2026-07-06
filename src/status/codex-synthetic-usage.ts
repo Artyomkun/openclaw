@@ -1,7 +1,7 @@
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { CODEX_APP_SERVER_AUTH_MARKER } from "../agents/model-auth-markers.js";
-import type { ProviderAuth } from "../infra/provider-usage.auth.js";
-import type { ProviderUsageSnapshot, UsageSummary } from "../infra/provider-usage.types.js";
+import { CODEX_APP_SERVER_AUTH_MARKER } from "../agents/model-auth-markers.ts";
+import type { ProviderAuth } from "../infra/provider-usage.auth.ts";
+import type { ProviderUsageSnapshot, UsageSummary } from "../infra/provider-usage.types.ts";
 
 export const CODEX_SYNTHETIC_USAGE_PROVIDER = "openai";
 export const CODEX_SYNTHETIC_USAGE_HOOK_PROVIDER = "codex";

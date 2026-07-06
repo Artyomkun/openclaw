@@ -1,15 +1,15 @@
 // Converts status data into reusable report sections.
 // Section builders keep table column definitions close to the rows they format.
 
-import type { RenderTableOptions, TableColumn } from "../../../packages/terminal-core/src/table.js";
-import { buildStatusChannelsTableRows, statusChannelsTableColumns } from "./channels-table.js";
+import type { RenderTableOptions, TableColumn } from "../../../packages/terminal-core/src/table.ts";
+import { buildStatusChannelsTableRows, statusChannelsTableColumns } from "./channels-table.ts";
 import {
   buildStatusAgentTableRows,
   buildStatusChannelDetailSections,
   statusAgentsTableColumns,
   statusOverviewTableColumns,
-} from "./report-tables.js";
-import type { StatusReportSection } from "./text-report.js";
+} from "./report-tables.ts";
+import type { StatusReportSection } from "./text-report.ts";
 
 type TableRenderer = (input: RenderTableOptions) => string;
 

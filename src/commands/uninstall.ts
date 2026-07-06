@@ -7,20 +7,20 @@ import {
   stylePromptHint,
   stylePromptMessage,
   stylePromptTitle,
-} from "../../packages/terminal-core/src/prompt-style.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { isNixMode } from "../config/config.js";
-import { resolveGatewayService } from "../daemon/service.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { resolveHomeDir } from "../utils.js";
-import { resolveCleanupPlanFromDisk } from "./cleanup-plan.js";
+} from "../../packages/terminal-core/src/prompt-style.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { isNixMode } from "../config/config.ts";
+import { resolveGatewayService } from "../daemon/service.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { resolveHomeDir } from "../utils.ts";
+import { resolveCleanupPlanFromDisk } from "./cleanup-plan.ts";
 import {
   removePath,
   removeStateAndLinkedPaths,
   removeWorkspaceAttestationPaths,
   removeWorkspaceDirs,
-} from "./cleanup-utils.js";
+} from "./cleanup-utils.ts";
 
 type UninstallScope = "service" | "state" | "workspace" | "app";
 

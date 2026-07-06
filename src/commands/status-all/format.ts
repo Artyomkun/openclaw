@@ -2,17 +2,17 @@
 // These functions keep text and JSON status surfaces aligned without pulling in command orchestration.
 
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveGatewayPort } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.js";
-import { resolveControlUiLinks } from "../../gateway/control-ui-links.js";
+import { resolveGatewayPort } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.ts";
+import { resolveControlUiLinks } from "../../gateway/control-ui-links.ts";
 import { formatDurationPrecise } from "../../infra/format-time/format-duration.ts";
 import {
   normalizeUpdateChannel,
   resolveUpdateChannelDisplay,
-} from "../../infra/update-channels.js";
-import { formatGitInstallLabel, type UpdateCheckResult } from "../../infra/update-check.js";
-import { VERSION } from "../../version.js";
-import { formatUpdateOneLiner, resolveUpdateAvailability } from "../status.update.js";
+} from "../../infra/update-channels.ts";
+import { formatGitInstallLabel, type UpdateCheckResult } from "../../infra/update-check.ts";
+import { VERSION } from "../../version.ts";
+import { formatUpdateOneLiner, resolveUpdateAvailability } from "../status.update.ts";
 
 export { formatTimeAgo } from "../../infra/format-time/format-relative.ts";
 

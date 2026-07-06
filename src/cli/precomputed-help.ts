@@ -1,4 +1,4 @@
-import { consumeRootOptionToken } from "../infra/cli-root-options.js";
+import { consumeRootOptionToken } from "../infra/cli-root-options.ts";
 
 export type PrecomputedSubcommandHelpName =
   | "doctor"

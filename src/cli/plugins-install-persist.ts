@@ -2,43 +2,43 @@
 import fs from "node:fs";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { replaceConfigFile } from "../config/config.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { replaceConfigFile } from "../config/config.ts";
 import {
   hashConfigIncludeRaw,
   readConfigIncludeFileWithGuards,
   resolveConfigIncludeWritePath,
-} from "../config/includes.js";
-import type { ConfigWriteOptions } from "../config/io.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { type HookInstallUpdate, recordHookInstall } from "../hooks/installs.js";
-import { isPathInside } from "../infra/path-guards.js";
-import { enablePluginInConfig } from "../plugins/enable.js";
+} from "../config/includes.ts";
+import type { ConfigWriteOptions } from "../config/io.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { type HookInstallUpdate, recordHookInstall } from "../hooks/installs.ts";
+import { isPathInside } from "../infra/path-guards.ts";
+import { enablePluginInConfig } from "../plugins/enable.ts";
 import {
   loadInstalledPluginIndexInstallRecords,
   recordPluginInstallInRecords,
   withoutPluginInstallRecords,
-} from "../plugins/installed-plugin-index-records.js";
-import type { PluginInstallUpdate } from "../plugins/installs.js";
-import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.js";
-import { buildPluginSnapshotReport } from "../plugins/status.js";
+} from "../plugins/installed-plugin-index-records.ts";
+import type { PluginInstallUpdate } from "../plugins/installs.ts";
+import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.ts";
+import { buildPluginSnapshotReport } from "../plugins/status.ts";
 import {
   applyPluginUninstallDirectoryRemoval,
   planPluginUninstall,
   type PluginUninstallDirectoryRemoval,
-} from "../plugins/uninstall.js";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
-import { resolveUserPath, shortenHomePath } from "../utils.js";
-import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.js";
+} from "../plugins/uninstall.ts";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+import { resolveUserPath, shortenHomePath } from "../utils.ts";
+import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.ts";
 import {
   applySlotSelectionForPlugin,
   enableInternalHookEntries,
   logHookPackRestartHint,
   logSlotWarnings,
-} from "./plugins-command-helpers.js";
-import { commitPluginInstallRecordsWithConfig } from "./plugins-install-record-commit.js";
-import { refreshPluginRegistryAfterConfigMutation } from "./plugins-registry-refresh.js";
+} from "./plugins-command-helpers.ts";
+import { commitPluginInstallRecordsWithConfig } from "./plugins-install-record-commit.ts";
+import { refreshPluginRegistryAfterConfigMutation } from "./plugins-registry-refresh.ts";
 
 function addInstalledPluginToAllowlist(cfg: OpenClawConfig, pluginId: string): OpenClawConfig {
   const allow = cfg.plugins?.allow;

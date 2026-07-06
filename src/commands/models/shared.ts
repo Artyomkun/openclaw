@@ -1,24 +1,23 @@
 /** Shared helpers for model commands that read or mutate model config. */
-import { resolveAgentDir, resolveDefaultAgentId, listAgentIds } from "../../agents/agent-scope.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../agents/defaults.js";
+import { resolveAgentDir, resolveDefaultAgentId, listAgentIds } from "../../agents/agent-scope.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../agents/defaults.ts";
 import {
   buildModelAliasIndex,
-  legacyModelKey,
   modelKey,
   resolveModelRefFromString,
-} from "../../agents/model-selection.js";
-import { formatCliCommand } from "../../cli/command-format.js";
+} from "../../agents/model-selection.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
 import {
   type OpenClawConfig,
   readConfigFileSnapshot,
   replaceConfigFile,
-} from "../../config/config.js";
-import { formatConfigIssueLines } from "../../config/issue-format.js";
-import { normalizeAgentModelRefForConfig, toAgentModelListLike } from "../../config/model-input.js";
-import type { AgentModelEntryConfig } from "../../config/types.agent-defaults.js";
-import type { AgentModelConfig } from "../../config/types.agents-shared.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { canonicalizeModelCatalogProviderRef } from "./provider-aliases.js";
+} from "../../config/config.ts";
+import { formatConfigIssueLines } from "../../config/issue-format.ts";
+import { normalizeAgentModelRefForConfig, toAgentModelListLike } from "../../config/model-input.ts";
+import type { AgentModelEntryConfig } from "../../config/types.agent-defaults.ts";
+import type { AgentModelConfig } from "../../config/types.agents-shared.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { canonicalizeModelCatalogProviderRef } from "./provider-aliases.ts";
 
 export const ensureFlagCompatibility = (opts: { json?: boolean; plain?: boolean }) => {
   if (opts.json && opts.plain) {
@@ -107,22 +106,6 @@ export function resolveModelTarget(params: { raw: string; cfg: OpenClawConfig })
   return canonicalizeModelCatalogProviderRef(resolved.ref, { cfg: params.cfg });
 }
 
-function resolveAuthoredModelAliasTarget(params: {
-  raw: string;
-  cfg: OpenClawConfig;
-}): { provider: string; model: string } | undefined {
-  const aliasIndex = buildModelAliasIndex({
-    cfg: params.cfg,
-    defaultProvider: DEFAULT_PROVIDER,
-  });
-  const resolved = resolveModelRefFromString({
-    raw: params.raw,
-    defaultProvider: DEFAULT_PROVIDER,
-    aliasIndex,
-  });
-  return resolved?.alias ? resolved.ref : undefined;
-}
-
 /** Resolves model reference strings to canonical provider/model keys. */
 export function resolveModelKeysFromEntries(params: {
   cfg: OpenClawConfig;
@@ -179,51 +162,6 @@ export function resolveModelsTargetAgent(
 /** Normalized primary/fallback config shape used by text and image defaults. */
 export type PrimaryFallbackConfig = { primary?: string; fallbacks?: string[] };
 
-/** Upserts the canonical model entry and folds legacy key metadata into it. */
-export function upsertCanonicalModelConfigEntry(
-  models: Record<string, AgentModelEntryConfig>,
-  params: { provider: string; model: string },
-) {
-  const key = modelKey(params.provider, params.model);
-  const legacyKeys = [
-    legacyModelKey(params.provider, params.model),
-    `${params.provider}/${key}`,
-  ].filter(
-    (legacyKey): legacyKey is string =>
-      typeof legacyKey === "string" && legacyKey.length > 0 && legacyKey !== key,
-  );
-  let legacyEntry: AgentModelEntryConfig | undefined;
-  for (const legacyKey of legacyKeys) {
-    const entry = models[legacyKey];
-    if (!entry) {
-      continue;
-    }
-    Object.assign((legacyEntry ??= {}), entry);
-    legacyEntry.params = {
-      ...legacyEntry.params,
-      ...entry.params,
-    };
-  }
-
-  if (legacyEntry) {
-    // Preserve legacy per-model params while moving the entry to provider/model.
-    models[key] = {
-      ...legacyEntry,
-      ...models[key],
-      params: {
-        ...legacyEntry.params,
-        ...models[key]?.params,
-      },
-    };
-  } else if (!models[key]) {
-    models[key] = {};
-  }
-  for (const legacyKey of legacyKeys) {
-    delete models[legacyKey];
-  }
-  return key;
-}
-
 /** Merges primary/fallback patches while normalizing refs for config storage. */
 export function mergePrimaryFallbackConfig(
   existing: PrimaryFallbackConfig | undefined,
@@ -249,24 +187,9 @@ export function applyDefaultModelPrimaryUpdate(params: {
   modelRaw: string;
   field: "model" | "imageModel";
 }): OpenClawConfig {
-  const resolved =
-    params.resolveCfg && params.resolveCfg !== params.cfg
-      ? (resolveAuthoredModelAliasTarget({
-          raw: params.modelRaw,
-          cfg: params.cfg,
-        }) ??
-        resolveModelTarget({
-          raw: params.modelRaw,
-          cfg: params.resolveCfg,
-        }))
-      : resolveModelTarget({
-          raw: params.modelRaw,
-          cfg: params.cfg,
-        });
   const nextModels = {
     ...params.cfg.agents?.defaults?.models,
   } as Record<string, AgentModelEntryConfig>;
-  const key = upsertCanonicalModelConfigEntry(nextModels, resolved);
 
   const defaults = params.cfg.agents?.defaults ?? {};
   const existing = toAgentModelListLike(
@@ -279,7 +202,7 @@ export function applyDefaultModelPrimaryUpdate(params: {
       ...params.cfg.agents,
       defaults: {
         ...defaults,
-        [params.field]: mergePrimaryFallbackConfig(existing, { primary: key }),
+        [params.field]: mergePrimaryFallbackConfig(existing),
         models: nextModels,
       },
     },

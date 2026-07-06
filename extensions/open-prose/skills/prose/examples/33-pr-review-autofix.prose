@@ -80,7 +80,7 @@ parallel:
 Analyze the PR:
 1. What code changed?
 2. Are there tests for the changes?
-3. Run existing tests: npm test / pytest / cargo test
+3. Run existing tests: npm test
 Return: test status and coverage gaps
 """
     context: pr_diff

@@ -3,8 +3,8 @@ import {
   collectSecretInputAssignment,
   type ResolverContext,
   type SecretDefaults,
-} from "./runtime-shared.js";
-import { isRecord } from "./shared.js";
+} from "./runtime-shared.ts";
+import { isRecord } from "./shared.ts";
 
 function collectProviderApiKeyAssignment(params: {
   providerId: string;

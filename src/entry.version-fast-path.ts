@@ -1,6 +1,6 @@
 // Handles fast version output before the full CLI graph loads.
-import { isRootVersionInvocation } from "./cli/argv.js";
-import { resolveCliContainerTarget } from "./cli/container-target.js";
+import { isRootVersionInvocation } from "./cli/argv.ts";
+import { resolveCliContainerTarget } from "./cli/container-target.ts";
 
 export function tryHandleRootVersionFastPath(
   argv: string[],

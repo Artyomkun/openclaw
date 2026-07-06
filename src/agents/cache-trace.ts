@@ -3,16 +3,16 @@
  */
 import crypto from "node:crypto";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveUserPath } from "../utils.js";
-import { parseBooleanValue } from "../utils/boolean.js";
-import { safeJsonStringify } from "../utils/safe-json.js";
-import { redactAgentDiagnosticPayload } from "./diagnostic-redaction.js";
-import { getQueuedFileWriter, type QueuedFileWriter } from "./queued-file-writer.js";
-import type { AgentMessage, StreamFn } from "./runtime/index.js";
-import { stableStringify } from "./stable-stringify.js";
-import { buildAgentTraceBase } from "./trace-base.js";
+import { resolveStateDir } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveUserPath } from "../utils.ts";
+import { parseBooleanValue } from "../utils/boolean.ts";
+import { safeJsonStringify } from "../utils/safe-json.ts";
+import { redactAgentDiagnosticPayload } from "./diagnostic-redaction.ts";
+import { getQueuedFileWriter, type QueuedFileWriter } from "./queued-file-writer.ts";
+import type { AgentMessage, StreamFn } from "./runtime/index.ts";
+import { stableStringify } from "./stable-stringify.ts";
+import { buildAgentTraceBase } from "./trace-base.ts";
 
 // Payloads are redacted before JSONL output while stable digests preserve
 // correlation across prompt/session/cache stages.

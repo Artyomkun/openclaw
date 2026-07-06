@@ -42,7 +42,6 @@ import { createMatrixPairingText, createMatrixProbeAccount } from "./channel-acc
 import { DEFAULT_ACCOUNT_ID, matrixConfigAdapter } from "./config-adapter.js";
 import { MatrixChannelConfigSchema } from "./config-schema.js";
 import {
-  legacyConfigRules as MATRIX_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig as normalizeMatrixCompatibilityConfig,
 } from "./doctor-contract.js";
 import { shouldSuppressLocalMatrixExecApprovalPrompt } from "./exec-approvals.js";
@@ -125,7 +124,6 @@ const matrixDoctor: ChannelDoctorAdapter = {
   groupModel: "sender",
   groupAllowFromFallbackToAllowFrom: false,
   warnOnEmptyGroupSenderAllowlist: true,
-  legacyConfigRules: MATRIX_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig: normalizeMatrixCompatibilityConfig,
   runConfigSequence: async ({ cfg, env, shouldRepair }) =>
     await (await loadMatrixDoctorModule()).runMatrixDoctorSequence({ cfg, env, shouldRepair }),

@@ -1,54 +1,54 @@
 /** Collects and renders gateway health for channels, agents, plugins, and sessions. */
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import { asNullableRecord } from "@openclaw/normalization-core/record-coerce";
-import { styleHealthChannelLine } from "../../packages/terminal-core/src/health-style.js";
-import { isRich } from "../../packages/terminal-core/src/theme.js";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { inspectChannelAccount } from "../channels/account-inspection.js";
+import { styleHealthChannelLine } from "../../packages/terminal-core/src/health-style.ts";
+import { isRich } from "../../packages/terminal-core/src/theme.ts";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { inspectChannelAccount } from "../channels/account-inspection.ts";
 import {
   resolveChannelAccountConfigured,
   resolveChannelAccountEnabled,
-} from "../channels/account-summary.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.js";
-import { buildChannelAccountSnapshotFromAccount } from "../channels/plugins/status.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js";
-import { probeGatewayStatus } from "../cli/daemon-cli/probe.js";
-import { withProgress } from "../cli/progress.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { listContextEngineQuarantines } from "../context-engine/registry.js";
+} from "../channels/account-summary.ts";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
+import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.ts";
+import { buildChannelAccountSnapshotFromAccount } from "../channels/plugins/status.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.ts";
+import { probeGatewayStatus } from "../cli/daemon-cli/probe.ts";
+import { withProgress } from "../cli/progress.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { listContextEngineQuarantines } from "../context-engine/registry.ts";
 import {
   buildGatewayConnectionDetails,
   buildGatewayProbeConnectionDetails,
   callGateway,
   formatGatewayTransportErrorJson,
   isGatewayCredentialsRequiredError,
-} from "../gateway/call.js";
+} from "../gateway/call.ts";
 import {
   DEFAULT_CHANNEL_CONNECT_GRACE_MS,
   DEFAULT_CHANNEL_STALE_EVENT_THRESHOLD_MS,
   evaluateChannelHealth,
-} from "../gateway/channel-health-policy.js";
-import { isGatewaySecretRefUnavailableError } from "../gateway/credentials.js";
-import { getGatewayModelPricingHealth } from "../gateway/model-pricing-cache-state.js";
-import { isGatewayModelPricingEnabled } from "../gateway/model-pricing-config.js";
-import type { ChannelRuntimeSnapshot } from "../gateway/server-channel-runtime.types.js";
-import { info } from "../globals.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveHeartbeatSummaryForAgent } from "../infra/heartbeat-summary.js";
-import { getActivePluginRegistry } from "../plugins/runtime.js";
-import { buildChannelAccountBindings, resolvePreferredAccountId } from "../routing/bindings.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
+} from "../gateway/channel-health-policy.ts";
+import { isGatewaySecretRefUnavailableError } from "../gateway/credentials.ts";
+import { getGatewayModelPricingHealth } from "../gateway/model-pricing-cache-state.ts";
+import { isGatewayModelPricingEnabled } from "../gateway/model-pricing-config.ts";
+import type { ChannelRuntimeSnapshot } from "../gateway/server-channel-runtime.types.ts";
+import { info } from "../globals.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveHeartbeatSummaryForAgent } from "../infra/heartbeat-summary.ts";
+import { getActivePluginRegistry } from "../plugins/runtime.ts";
+import { buildChannelAccountBindings, resolvePreferredAccountId } from "../routing/bindings.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
 import {
   buildCredentialsRequiredHealthDiagnostic,
   GATEWAY_HEALTH_REACHABLE_LINE,
   gatewayProbeResultSawGateway,
-} from "./gateway-health-auth-diagnostic.js";
-import { formatHealthChannelLines } from "./health-format.js";
+} from "./gateway-health-auth-diagnostic.ts";
+import { formatHealthChannelLines } from "./health-format.ts";
 import type {
   AgentHealthSummary,
   ChannelAccountHealthSummary,
@@ -57,10 +57,10 @@ import type {
   HealthSummary,
   PluginHealthErrorSummary,
   PluginHealthSummary,
-} from "./health.types.js";
-import { logGatewayConnectionDetails } from "./status.gateway-connection.js";
-export { formatHealthChannelLines } from "./health-format.js";
-export type { HealthSummary } from "./health.types.js";
+} from "./health.types.ts";
+import { logGatewayConnectionDetails } from "./status.gateway-connection.ts";
+export { formatHealthChannelLines } from "./health-format.ts";
+export type { HealthSummary } from "./health.types.ts";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 
@@ -239,7 +239,7 @@ export function formatContextEngineHealthLine(summary: HealthSummary): string | 
     return null;
   }
   const engines = quarantined.map((entry) => entry.engineId).join(", ");
-  return `Context engine: warning (${quarantined.length} quarantined; downgraded to legacy: ${engines})`;
+  return `Context engine: warning (${quarantined.length} quarantined; downgraded to older: ${engines})`;
 }
 
 const resolveHeartbeatSummary = (cfg: OpenClawConfig, agentId: string) =>

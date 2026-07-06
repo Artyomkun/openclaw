@@ -1,15 +1,15 @@
 // Hook request handler validates hook tokens, applies mappings, dedupes requests, and dispatches wake or agent work.
 import { createHash } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { createSubsystemLogger } from "../../logging/subsystem.js";
-import { resolveHookExternalContentSource as resolveHookExternalContentSourceFromSession } from "../../security/external-content.js";
-import { safeEqualSecret } from "../../security/secret-equal.js";
+import type { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { resolveHookExternalContentSource as resolveHookExternalContentSourceFromSession } from "../../security/external-content.ts";
+import { safeEqualSecret } from "../../security/secret-equal.ts";
 import {
   AUTH_RATE_LIMIT_SCOPE_HOOK_AUTH,
   createAuthRateLimiter,
   normalizeRateLimitClientIp,
-} from "../auth-rate-limit.js";
-import { applyHookMappings } from "../hooks-mapping.js";
+} from "../auth-rate-limit.ts";
+import { applyHookMappings } from "../hooks-mapping.ts";
 import {
   extractHookToken,
   getHookAgentPolicyError,
@@ -30,10 +30,10 @@ import {
   resolveHookIdempotencyKey,
   resolveHookSessionKey,
   resolveHookTargetAgentId,
-} from "../hooks.js";
-import { sendJson } from "../http-common.js";
-import { resolveRequestClientIp } from "../net.js";
-import { DEDUPE_MAX, DEDUPE_TTL_MS } from "../server-constants.js";
+} from "../hooks.ts";
+import { sendJson } from "../http-common.ts";
+import { resolveRequestClientIp } from "../net.ts";
+import { DEDUPE_MAX, DEDUPE_TTL_MS } from "../server-constants.ts";
 
 type SubsystemLogger = ReturnType<typeof createSubsystemLogger>;
 

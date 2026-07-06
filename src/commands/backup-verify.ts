@@ -2,8 +2,8 @@
 import path from "node:path";
 import { readStringValue } from "@openclaw/normalization-core/string-coerce";
 import * as tar from "tar";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { isRecord, resolveUserPath } from "../utils.js";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { isRecord, resolveUserPath } from "../utils.ts";
 
 const WINDOWS_ABSOLUTE_ARCHIVE_PATH_RE = /^[A-Za-z]:[\\/]/;
 const MAX_MANIFEST_BYTES = 1024 * 1024;

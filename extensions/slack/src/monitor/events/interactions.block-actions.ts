@@ -853,36 +853,6 @@ function buildSlackConfirmationBlocks(params: {
   return updatedBlocks as (Block | KnownBlock)[];
 }
 
-async function updateSlackLegacyBlockAction(params: {
-  ctx: SlackMonitorContext;
-  parsed: ParsedSlackBlockAction;
-  respond?: SlackBlockActionRespond;
-}): Promise<void> {
-  const originalBlocks = params.parsed.typedBody.message?.blocks;
-  if (
-    !Array.isArray(originalBlocks) ||
-    !params.parsed.channelId ||
-    !params.parsed.messageTs ||
-    !params.parsed.blockId
-  ) {
-    return;
-  }
-  try {
-    await updateSlackInteractionMessage({
-      ctx: params.ctx,
-      channelId: params.parsed.channelId,
-      messageTs: params.parsed.messageTs,
-      text: params.parsed.typedBody.message?.text ?? "",
-      blocks: buildSlackConfirmationBlocks({
-        parsed: params.parsed,
-        originalBlocks,
-      }),
-    });
-  } catch {
-    await respondEphemeral(params.respond, `Button "${params.parsed.actionId}" clicked!`);
-  }
-}
-
 async function handleSlackBlockAction(params: {
   ctx: SlackMonitorContext;
   trackEvent?: () => void;
@@ -961,11 +931,6 @@ async function handleSlackBlockAction(params: {
     parsed,
     auth,
     formatSystemEvent: params.formatSystemEvent,
-  });
-  await updateSlackLegacyBlockAction({
-    ctx: params.ctx,
-    parsed,
-    respond,
   });
 }
 

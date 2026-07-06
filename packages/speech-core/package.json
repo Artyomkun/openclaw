@@ -4,33 +4,33 @@
   "private": true,
   "description": "OpenClaw speech runtime package",
   "type": "module",
-  "main": "./dist/runtime-api.mjs",
-  "types": "./dist/runtime-api.d.mts",
+  "main": "./dist/runtime-api.ts",
+  "types": "./dist/runtime-api.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/runtime-api.d.mts",
-      "import": "./dist/runtime-api.mjs",
-      "default": "./dist/runtime-api.mjs"
+      "types": "./dist/runtime-api.d.ts",
+      "import": "./dist/runtime-api.ts",
+      "default": "./dist/runtime-api.ts"
     },
     "./api": {
-      "types": "./dist/api.d.mts",
-      "import": "./dist/api.mjs",
-      "default": "./dist/api.mjs"
+      "types": "./dist/api.d.ts",
+      "import": "./dist/api.ts",
+      "default": "./dist/api.ts"
     },
     "./runtime-api": {
-      "types": "./dist/runtime-api.d.mts",
-      "import": "./dist/runtime-api.mjs",
-      "default": "./dist/runtime-api.mjs"
+      "types": "./dist/runtime-api.d.ts",
+      "import": "./dist/runtime-api.ts",
+      "default": "./dist/runtime-api.ts"
     },
     "./speaker": {
-      "types": "./dist/speaker.d.mts",
-      "import": "./dist/speaker.mjs",
-      "default": "./dist/speaker.mjs"
+      "types": "./dist/speaker.d.ts",
+      "import": "./dist/speaker.ts",
+      "default": "./dist/speaker.ts"
     },
     "./voice-models": {
-      "types": "./dist/voice-models.d.mts",
-      "import": "./dist/voice-models.mjs",
-      "default": "./dist/voice-models.mjs"
+      "types": "./dist/voice-models.d.ts",
+      "import": "./dist/voice-models.ts",
+      "default": "./dist/voice-models.ts"
     }
   },
   "dependencies": {

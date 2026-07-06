@@ -1,9 +1,9 @@
 // Manual facade. Keep loader boundary explicit.
-import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.js";
+import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.ts";
 import {
   createLazyFacadeObjectValue,
   loadBundledPluginPublicSurfaceModuleSync,
-} from "./facade-loader.js";
+} from "./facade-loader.ts";
 
 type ModelCost = ModelDefinitionConfig["cost"];
 

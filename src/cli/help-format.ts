@@ -1,5 +1,5 @@
 // Small help-text formatter shared by command registrations.
-import { theme } from "../../packages/terminal-core/src/theme.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 
 /** Command plus short description tuple used in help epilogues. */
 export type HelpExample = readonly [command: string, description: string];

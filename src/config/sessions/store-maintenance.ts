@@ -3,18 +3,18 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { parseByteSize } from "../../cli/parse-bytes.js";
-import { parseDurationMs } from "../../cli/parse-duration.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import { parseByteSize } from "../../cli/parse-bytes.ts";
+import { parseDurationMs } from "../../cli/parse-duration.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import {
   isAcpSessionKey,
   isCronSessionKey,
   isSubagentSessionKey,
   parseAgentSessionKey,
-} from "../../sessions/session-key-utils.js";
-import type { SessionMaintenanceConfig, SessionMaintenanceMode } from "../types.base.js";
-import { parseSessionThreadInfoFast } from "./thread-info.js";
-import type { SessionEntry } from "./types.js";
+} from "../../sessions/session-key-utils.ts";
+import type { SessionMaintenanceConfig, SessionMaintenanceMode } from "../types.base.ts";
+import { parseSessionThreadInfoFast } from "./thread-info.ts";
+import type { SessionEntry } from "./types.ts";
 
 const log = createSubsystemLogger("sessions/store");
 

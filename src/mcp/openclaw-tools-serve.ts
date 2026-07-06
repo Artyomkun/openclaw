@@ -5,11 +5,11 @@
  * Or: bun src/mcp/openclaw-tools-serve.ts
  */
 import { pathToFileURL } from "node:url";
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import type { AnyAgentTool } from "../agents/tools/common.js";
-import { createCronTool } from "../agents/tools/cron-tool.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { connectToolsMcpServerToStdio, createToolsMcpServer } from "./tools-stdio-server.js";
+import { Server } from "@modelcontextprotocol/sdk/server/index.ts";
+import type { AnyAgentTool } from "../agents/tools/common.ts";
+import { createCronTool } from "../agents/tools/cron-tool.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { connectToolsMcpServerToStdio, createToolsMcpServer } from "./tools-stdio-server.ts";
 
 export const OPENCLAW_TOOLS_MCP_AGENT_SESSION_KEY_ENV = "OPENCLAW_TOOLS_MCP_AGENT_SESSION_KEY";
 

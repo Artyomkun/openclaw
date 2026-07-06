@@ -1,17 +1,17 @@
 // Handles TUI keyboard, paste, backend, and command events.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { classifyFailoverReason, isAuthErrorMessage } from "../agents/embedded-agent-helpers.js";
-import { parseAgentSessionKey } from "../sessions/session-key-utils.js";
-import { formatRawAssistantErrorForUi } from "../shared/assistant-error-format.js";
-import { asString, extractTextFromMessage, isCommandMessage } from "./tui-formatters.js";
-import { TuiStreamAssembler } from "./tui-stream-assembler.js";
+import { classifyFailoverReason, isAuthErrorMessage } from "../agents/embedded-agent-helpers.ts";
+import { parseAgentSessionKey } from "../sessions/session-key-utils.ts";
+import { formatRawAssistantErrorForUi } from "../shared/assistant-error-format.ts";
+import { asString, extractTextFromMessage, isCommandMessage } from "./tui-formatters.ts";
+import { TuiStreamAssembler } from "./tui-stream-assembler.ts";
 import type {
   AgentEvent,
   BtwEvent,
   ChatEvent,
   SessionChangedEvent,
   TuiStateAccess,
-} from "./tui-types.js";
+} from "./tui-types.ts";
 
 type EventHandlerChatLog = {
   startTool: (toolCallId: string, toolName: string, args: unknown) => void;

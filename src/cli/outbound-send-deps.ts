@@ -1,9 +1,9 @@
 // CLI adapter for outbound sending dependencies used by message-style commands.
-import type { OutboundSendDeps } from "../infra/outbound/send-deps.js";
-import type { CliDeps } from "./deps.types.js";
-import { createOutboundSendDepsFromCliSource } from "./outbound-send-mapping.js";
+import type { OutboundSendDeps } from "../infra/outbound/send-deps.ts";
+import type { CliDeps } from "./deps.types.ts";
+import { createOutboundSendDepsFromCliSource } from "./outbound-send-mapping.ts";
 
-export type { CliDeps } from "./deps.types.js";
+export type { CliDeps } from "./deps.types.ts";
 
 /** Convert the broad CLI dependency bundle into the narrow outbound-send dependency shape. */
 export function createOutboundSendDeps(deps: CliDeps): OutboundSendDeps {

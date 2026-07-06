@@ -4,15 +4,15 @@
  * The pure config helpers are re-exported from here because setup and configure
  * flows import this command module as their custom API entrypoint.
  */
-import { modelKey } from "../agents/model-selection.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { SecretInput } from "../config/types.secrets.js";
-import { ensureApiKeyFromEnvOrPrompt } from "../plugins/provider-auth-input.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { fetchWithTimeout } from "../utils/fetch-timeout.js";
-import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+import { modelKey } from "../agents/model-selection.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { SecretInput } from "../config/types.secrets.ts";
+import { ensureApiKeyFromEnvOrPrompt } from "../plugins/provider-auth-input.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { fetchWithTimeout } from "../utils/fetch-timeout.ts";
+import { normalizeSecretInput } from "../utils/normalize-secret-input.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 import {
   applyCustomApiConfig,
   buildAnthropicVerificationProbeRequest,
@@ -25,7 +25,7 @@ import {
   resolveCustomProviderId,
   type CustomApiCompatibility,
   type CustomApiResult,
-} from "./onboard-custom-config.js";
+} from "./onboard-custom-config.ts";
 export {
   applyCustomApiConfig,
   buildAnthropicVerificationProbeRequest,
@@ -35,8 +35,8 @@ export {
   parseNonInteractiveCustomApiFlags,
   resolveCustomModelImageInputInference,
   resolveCustomProviderId,
-} from "./onboard-custom-config.js";
-import type { SecretInputMode } from "./onboard-types.js";
+} from "./onboard-custom-config.ts";
+import type { SecretInputMode } from "./onboard-types.ts";
 
 const VERIFY_TIMEOUT_MS = 30_000;
 type CustomApiCompatibilityChoice = CustomApiCompatibility | "unknown";

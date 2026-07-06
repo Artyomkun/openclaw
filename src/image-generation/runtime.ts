@@ -1,23 +1,23 @@
 /** Runtime entrypoint for image generation with provider fallback and override normalization. */
-import { describeFailoverError, isFailoverError } from "../agents/failover-error.js";
-import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import { resolveAgentModelTimeoutMsValue } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { describeFailoverError, isFailoverError } from "../agents/failover-error.ts";
+import type { FallbackAttempt } from "../agents/model-fallback.types.ts";
+import { resolveAgentModelTimeoutMsValue } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   buildMediaGenerationNormalizationMetadata,
   buildNoCapabilityModelConfiguredMessage,
   resolveCapabilityModelCandidates,
   resolveMediaProviderRequestTimeoutMs,
   throwCapabilityGenerationFailure,
-} from "../media-generation/runtime-shared.js";
-import { getProviderEnvVars } from "../secrets/provider-env-vars.js";
-import { parseImageGenerationModelRef } from "./model-ref.js";
-import { resolveImageGenerationOverrides } from "./normalization.js";
-import { getImageGenerationProvider, listImageGenerationProviders } from "./provider-registry.js";
-import type { GenerateImageParams, GenerateImageRuntimeResult } from "./runtime-types.js";
-import type { ImageGenerationResult } from "./types.js";
+} from "../media-generation/runtime-shared.ts";
+import { getProviderEnvVars } from "../secrets/provider-env-vars.ts";
+import { parseImageGenerationModelRef } from "./model-ref.ts";
+import { resolveImageGenerationOverrides } from "./normalization.ts";
+import { getImageGenerationProvider, listImageGenerationProviders } from "./provider-registry.ts";
+import type { GenerateImageParams, GenerateImageRuntimeResult } from "./runtime-types.ts";
+import type { ImageGenerationResult } from "./types.ts";
 
 const log = createSubsystemLogger("image-generation");
 
@@ -31,7 +31,7 @@ export type ImageGenerationRuntimeDeps = {
   log?: Pick<typeof log, "warn">;
 };
 
-export type { GenerateImageParams, GenerateImageRuntimeResult } from "./runtime-types.js";
+export type { GenerateImageParams, GenerateImageRuntimeResult } from "./runtime-types.ts";
 
 function buildNoImageGenerationModelConfiguredMessage(
   cfg: OpenClawConfig,

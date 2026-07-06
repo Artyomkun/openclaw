@@ -280,10 +280,6 @@ export function resolveAcpxPluginConfig(params: {
       normalized.strictWindowsCmdWrapper ?? DEFAULT_STRICT_WINDOWS_CMD_WRAPPER,
     timeoutSeconds: normalized.timeoutSeconds ?? DEFAULT_ACPX_TIMEOUT_SECONDS,
     queueOwnerTtlSeconds: normalized.queueOwnerTtlSeconds ?? DEFAULT_QUEUE_OWNER_TTL_SECONDS,
-    legacyCompatibilityConfig: {
-      strictWindowsCmdWrapper: normalized.strictWindowsCmdWrapper,
-      queueOwnerTtlSeconds: normalized.queueOwnerTtlSeconds,
-    },
     mcpServers,
     agents,
   };

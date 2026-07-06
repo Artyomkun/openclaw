@@ -1,31 +1,31 @@
 // Resolves channel presence policy advertised by plugin metadata.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   hasMeaningfulChannelConfig,
   listExplicitlyDisabledChannelIdsForConfig,
   listPotentialConfiguredChannelPresenceSignals,
   type ChannelPresenceSignalSource,
-} from "../channels/config-presence.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isSafeChannelEnvVarTriggerName } from "../secrets/channel-env-var-names.js";
-import { resolveManifestActivationPluginIds } from "./activation-planner.js";
+} from "../channels/config-presence.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isSafeChannelEnvVarTriggerName } from "../secrets/channel-env-var-names.ts";
+import { resolveManifestActivationPluginIds } from "./activation-planner.ts";
 import {
   createPluginActivationSource,
   normalizePluginsConfig,
   resolveEffectivePluginActivationState,
-} from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
+} from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
 import {
   hasExplicitManifestOwnerTrust,
   isActivatedManifestOwner,
   isBundledManifestOwner,
   passesManifestOwnerBasePolicy,
   resolveManifestOwnerBasePolicyBlock,
-} from "./manifest-owner-policy.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry-contributions.js";
+} from "./manifest-owner-policy.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry-contributions.ts";
 
 const IGNORED_CHANNEL_CONFIG_KEYS = new Set(["defaults", "modelByChannel"]);
 

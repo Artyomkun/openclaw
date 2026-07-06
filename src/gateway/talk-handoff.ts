@@ -8,7 +8,7 @@ import {
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { recordTalkObservabilityEvent } from "../talk/observability.js";
+import { recordTalkObservabilityEvent } from "../talk/observability.ts";
 import {
   createTalkSessionController,
   type TalkBrain,
@@ -17,7 +17,7 @@ import {
   type TalkMode,
   type TalkSessionController,
   type TalkTransport,
-} from "../talk/talk-session-controller.js";
+} from "../talk/talk-session-controller.ts";
 
 const DEFAULT_TALK_HANDOFF_TTL_MS = 10 * 60 * 1000;
 const MAX_TALK_HANDOFF_TTL_MS = 60 * 60 * 1000;

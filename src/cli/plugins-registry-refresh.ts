@@ -1,10 +1,10 @@
 // Registry refresh helper shared by plugin config mutations that need post-write discovery repair.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-records.js";
-import type { InstalledPluginIndexRefreshReason } from "../plugins/installed-plugin-index.js";
-import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.js";
-import { refreshPluginRegistry } from "../plugins/plugin-registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-records.ts";
+import type { InstalledPluginIndexRefreshReason } from "../plugins/installed-plugin-index.ts";
+import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.ts";
+import { refreshPluginRegistry } from "../plugins/plugin-registry.ts";
 
 /** Optional warning sink for best-effort registry/cache refresh failures. */
 export type PluginRegistryRefreshLogger = {

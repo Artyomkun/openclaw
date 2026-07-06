@@ -1,4 +1,4 @@
-import type { EmbeddedRunAttemptParams } from "../embedded-agent-runner/run/types.js";
+import type { EmbeddedRunAttemptParams } from "../embedded-agent-runner/run/types.ts";
 
 export type AgentHarnessUserInputOption = {
   label: string;

@@ -7,4 +7,4 @@ export function normalizeInboundTextNewlines(input: string): string {
 }
 
 /** Security facade for stripping inbound system control tags. */
-export { sanitizeInboundSystemTags } from "../../security/system-tags.js";
+export { sanitizeInboundSystemTags } from "../../security/system-tags.ts";

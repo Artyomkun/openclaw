@@ -6,45 +6,45 @@ import type { RawData, WebSocket, WebSocketServer } from "ws";
 import {
   GATEWAY_STARTUP_CLOSE_CODE,
   GATEWAY_STARTUP_PENDING_CLOSE_CAUSE,
-} from "../../../packages/gateway-protocol/src/startup-unavailable.js";
-import { getRuntimeConfig } from "../../config/io.js";
-import { upsertPresence } from "../../infra/system-presence.js";
-import { logRejectedLargePayload } from "../../logging/diagnostic-payload.js";
-import type { createSubsystemLogger } from "../../logging/subsystem.js";
-import { removeRemoteNodeInfo } from "../../skills/runtime/remote.js";
-import { truncateUtf16Safe } from "../../utils.js";
-import { isWebchatClient } from "../../utils/message-channel.js";
-import type { AuthRateLimiter } from "../auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "../auth.js";
-import { resolvePreauthHandshakeTimeoutMs } from "../handshake-timeouts.js";
-import { resolveHostedPluginSurfaceUrl } from "../hosted-plugin-surface-url.js";
-import type { GatewayMethodRegistry } from "../methods/registry.js";
-import { isLoopbackAddress } from "../net.js";
-import type { NodeReapprovalCoordinator } from "../node-reapproval-coordinator.js";
-import type { PluginNodeCapabilitySurface } from "../plugin-node-capability.js";
+} from "../../../packages/gateway-protocol/src/startup-unavailable.ts";
+import { getRuntimeConfig } from "../../config/io.ts";
+import { upsertPresence } from "../../infra/system-presence.ts";
+import { logRejectedLargePayload } from "../../logging/diagnostic-payload.ts";
+import type { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { removeRemoteNodeInfo } from "../../skills/runtime/remote.ts";
+import { truncateUtf16Safe } from "../../utils.ts";
+import { isWebchatClient } from "../../utils/message-channel.ts";
+import type { AuthRateLimiter } from "../auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "../auth.ts";
+import { resolvePreauthHandshakeTimeoutMs } from "../handshake-timeouts.ts";
+import { resolveHostedPluginSurfaceUrl } from "../hosted-plugin-surface-url.ts";
+import type { GatewayMethodRegistry } from "../methods/registry.ts";
+import { isLoopbackAddress } from "../net.ts";
+import type { NodeReapprovalCoordinator } from "../node-reapproval-coordinator.ts";
+import type { PluginNodeCapabilitySurface } from "../plugin-node-capability.ts";
 import {
   MAX_BUFFERED_BYTES,
   MAX_PAYLOAD_BYTES,
   MAX_PREAUTH_PAYLOAD_BYTES,
-} from "../server-constants.js";
-import { clearNodeWakeState } from "../server-methods/nodes-wake-state.js";
-import type { GatewayRequestContext, GatewayRequestHandlers } from "../server-methods/types.js";
-import { formatError } from "../server-utils.js";
-import { logWs } from "../ws-log.js";
-import { getHealthVersion, incrementPresenceVersion } from "./health-state.js";
-import type { PreauthConnectionBudget } from "./preauth-connection-budget.js";
-import { broadcastPresenceSnapshot } from "./presence-events.js";
+} from "../server-constants.ts";
+import { clearNodeWakeState } from "../server-methods/nodes-wake-state.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers } from "../server-methods/types.ts";
+import { formatError } from "../server-utils.ts";
+import { logWs } from "../ws-log.ts";
+import { getHealthVersion, incrementPresenceVersion } from "./health-state.ts";
+import type { PreauthConnectionBudget } from "./preauth-connection-budget.ts";
+import { broadcastPresenceSnapshot } from "./presence-events.ts";
 import {
   buildHandshakeAuthLogKey,
   HandshakeAuthLogLimiter,
   shouldLimitMissingCredentialAuthLog,
-} from "./ws-connection/handshake-auth-log-limiter.js";
+} from "./ws-connection/handshake-auth-log-limiter.ts";
 import type {
   GatewayWsMessageHandlerParams,
   WsOriginCheckMetrics,
-} from "./ws-connection/message-handler.js";
-import { resolveSharedGatewaySessionGeneration } from "./ws-shared-generation.js";
-import type { GatewayWsClient } from "./ws-types.js";
+} from "./ws-connection/message-handler.ts";
+import { resolveSharedGatewaySessionGeneration } from "./ws-shared-generation.ts";
+import type { GatewayWsClient } from "./ws-types.ts";
 
 type SubsystemLogger = ReturnType<typeof createSubsystemLogger>;
 

@@ -2,7 +2,7 @@
 import { resolveAcpSessionIdentifierLinesFromIdentity } from "@openclaw/acp-core/runtime/session-identifiers";
 import { timestampMsToIsoString } from "@openclaw/normalization-core/number-coercion";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { getAcpSessionManager } from "../../../acp/control-plane/manager.js";
+import { getAcpSessionManager } from "../../../acp/control-plane/manager.ts";
 import {
   parseRuntimeTimeoutSecondsInput,
   validateRuntimeConfigOptionInput,
@@ -10,10 +10,10 @@ import {
   validateRuntimeModeInput,
   validateRuntimeModelInput,
   validateRuntimePermissionProfileInput,
-} from "../../../acp/control-plane/runtime-options.js";
-import { findLatestTaskForRelatedSessionKeyForOwner } from "../../../tasks/task-owner-access.js";
-import { sanitizeTaskStatusText } from "../../../tasks/task-status.js";
-import type { CommandHandlerResult, HandleCommandsParams } from "../commands-types.js";
+} from "../../../acp/control-plane/runtime-options.ts";
+import { findLatestTaskForRelatedSessionKeyForOwner } from "../../../tasks/task-owner-access.ts";
+import { sanitizeTaskStatusText } from "../../../tasks/task-status.ts";
+import type { CommandHandlerResult, HandleCommandsParams } from "../commands-types.ts";
 import {
   ACP_CWD_USAGE,
   ACP_MODEL_USAGE,
@@ -29,8 +29,8 @@ import {
   parseSingleValueCommandInput,
   stopWithText,
   withAcpCommandErrorBoundary,
-} from "./shared.js";
-import { resolveAcpTargetSessionKey } from "./targets.js";
+} from "./shared.ts";
+import { resolveAcpTargetSessionKey } from "./targets.ts";
 
 async function resolveTargetSessionKeyOrStop(params: {
   commandParams: HandleCommandsParams;

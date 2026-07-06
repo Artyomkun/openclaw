@@ -1,6 +1,6 @@
 // Shared scanner for forwarding root CLI options while subcommands inspect their own args.
-import { FLAG_TERMINATOR } from "../infra/cli-root-options.js";
-import { forwardConsumedCliRootOption } from "./root-option-forward.js";
+import { FLAG_TERMINATOR } from "../infra/cli-root-options.ts";
+import { forwardConsumedCliRootOption } from "./root-option-forward.ts";
 
 type CliRootOptionScanResult = { ok: true; argv: string[] } | { ok: false; error: string };
 

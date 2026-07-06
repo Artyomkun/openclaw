@@ -1,7 +1,7 @@
 // Exec approval gateway methods create, list, inspect, and resolve command
 // approval requests, including iOS push delivery and requester visibility.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { GATEWAY_CLIENT_IDS } from "../../../packages/gateway-protocol/src/client-info.js";
+import { GATEWAY_CLIENT_IDS } from "../../../packages/gateway-protocol/src/client-info.ts";
 import {
   ErrorCodes,
   errorShape,
@@ -9,29 +9,29 @@ import {
   validateExecApprovalGetParams,
   validateExecApprovalRequestParams,
   validateExecApprovalResolveParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { resolveExecCommandHighlighting } from "../../config/exec-command-highlighting.js";
-import { resolveCommandAnalysisSummaryForDisplay } from "../../infra/command-analysis/explain.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { resolveExecCommandHighlighting } from "../../config/exec-command-highlighting.ts";
+import { resolveCommandAnalysisSummaryForDisplay } from "../../infra/command-analysis/explain.ts";
 import {
   resolveExecApprovalCommandDisplay,
   sanitizeExecApprovalDisplayText,
   sanitizeExecApprovalDisplayTextWithStatus,
   sanitizeExecApprovalWarningText,
-} from "../../infra/exec-approval-command-display.js";
-import type { ExecApprovalForwarder } from "../../infra/exec-approval-forwarder.js";
+} from "../../infra/exec-approval-command-display.ts";
+import type { ExecApprovalForwarder } from "../../infra/exec-approval-forwarder.ts";
 import {
   DEFAULT_EXEC_APPROVAL_TIMEOUT_MS,
   normalizeExecApprovalUnavailableDecisions,
   resolveExecApprovalRequestAllowedDecisions,
   type ExecApprovalRequest,
   type ExecApprovalResolved,
-} from "../../infra/exec-approvals.js";
+} from "../../infra/exec-approvals.ts";
 import {
   buildSystemRunApprovalBinding,
   buildSystemRunApprovalEnvBinding,
-} from "../../infra/system-run-approval-binding.js";
-import { resolveSystemRunApprovalRequestContext } from "../../infra/system-run-approval-context.js";
-import type { ExecApprovalManager } from "../exec-approval-manager.js";
+} from "../../infra/system-run-approval-binding.ts";
+import { resolveSystemRunApprovalRequestContext } from "../../infra/system-run-approval-context.ts";
+import type { ExecApprovalManager } from "../exec-approval-manager.ts";
 import {
   handleApprovalWaitDecision,
   handlePendingApprovalRequest,
@@ -45,8 +45,8 @@ import {
   resolveApprovalDecisionParams,
   respondPendingApprovalLookupError,
   resolvePendingApprovalRecord,
-} from "./approval-shared.js";
-import type { GatewayClient, GatewayRequestHandlers } from "./types.js";
+} from "./approval-shared.ts";
+import type { GatewayClient, GatewayRequestHandlers } from "./types.ts";
 
 const APPROVAL_ALLOW_ALWAYS_UNAVAILABLE_DETAILS = {
   reason: "APPROVAL_ALLOW_ALWAYS_UNAVAILABLE",

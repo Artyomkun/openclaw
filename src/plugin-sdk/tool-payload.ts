@@ -2,7 +2,7 @@
 import {
   parseStandalonePlainTextToolCallBlocks as parseStandaloneRepairToolCallBlocks,
   stripPlainTextToolCallBlocks as stripRepairToolCallBlocks,
-} from "../../packages/tool-call-repair/src/index.js";
+} from "../../packages/tool-call-repair/src/index.ts";
 
 /** Plugin-facing plain-text tool call block with source offsets for repair. */
 export type PlainTextToolCallBlock = {

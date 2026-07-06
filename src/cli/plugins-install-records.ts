@@ -1,7 +1,7 @@
 // Helpers for deriving package names from persisted plugin and hook-pack install records.
-import type { HookInstallRecord } from "../config/types.hooks.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
+import type { HookInstallRecord } from "../config/types.hooks.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
 
 /** Return the installed npm package name for a plugin install record when available. */
 export function extractInstalledNpmPackageName(install: PluginInstallRecord): string | undefined {

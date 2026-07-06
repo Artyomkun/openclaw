@@ -9,8 +9,8 @@ import {
   computeBackoffMs,
   getErrnoCode,
   releaseRecoveryEntry as releaseSharedRecoveryEntry,
-} from "./delivery-recovery.shared.js";
-import { formatErrorMessage } from "./errors.js";
+} from "./delivery-recovery.shared.ts";
+import { formatErrorMessage } from "./errors.ts";
 import {
   ackSessionDelivery,
   failSessionDelivery,
@@ -18,7 +18,7 @@ import {
   loadPendingSessionDeliveries,
   moveSessionDeliveryToFailed,
   type QueuedSessionDelivery,
-} from "./session-delivery-queue-storage.js";
+} from "./session-delivery-queue-storage.ts";
 
 // Session delivery recovery replays persisted messages after crashes while
 // bounding retry count, backoff, and concurrent drain work.

@@ -3,13 +3,13 @@ import type { TSchema } from "typebox";
 import {
   cleanSchemaForGemini,
   GEMINI_UNSUPPORTED_SCHEMA_KEYWORDS,
-} from "../agents/schema/clean-for-gemini.js";
-import { stripUnsupportedSchemaKeywords } from "../shared/schema-keyword-strip.js";
+} from "../agents/schema/clean-for-gemini.ts";
+import { stripUnsupportedSchemaKeywords } from "../shared/schema-keyword-strip.ts";
 import type {
   AnyAgentTool,
   ProviderNormalizeToolSchemasContext,
   ProviderToolSchemaDiagnostic,
-} from "./plugin-entry.js";
+} from "./plugin-entry.ts";
 
 export { cleanSchemaForGemini, GEMINI_UNSUPPORTED_SCHEMA_KEYWORDS, stripUnsupportedSchemaKeywords };
 

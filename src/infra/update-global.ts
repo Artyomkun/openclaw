@@ -4,21 +4,21 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { BUNDLED_RUNTIME_SIDECAR_PATHS } from "../plugins/runtime-sidecar-paths.js";
-import { pathExists } from "../utils.js";
+import { BUNDLED_RUNTIME_SIDECAR_PATHS } from "../plugins/runtime-sidecar-paths.ts";
+import { pathExists } from "../utils.ts";
 import {
   applyNpmFreshnessBypassEnv,
   applyPosixNpmScriptShellEnv,
   createNpmFreshnessBypassArgs,
-} from "./npm-install-env.js";
+} from "./npm-install-env.ts";
 import {
   collectPackageDistInventory,
   PACKAGE_DIST_INVENTORY_RELATIVE_PATH,
   readPackageDistInventoryIfPresent,
-} from "./package-dist-inventory.js";
-import { readPackageVersion } from "./package-json.js";
-import { applyPathPrepend } from "./path-prepend.js";
-import { parseSemver } from "./runtime-guard.js";
+} from "./package-dist-inventory.ts";
+import { readPackageVersion } from "./package-json.ts";
+import { applyPathPrepend } from "./path-prepend.ts";
+import { parseSemver } from "./runtime-guard.ts";
 
 /** Supported package managers for OpenClaw global install and update flows. */
 export type GlobalInstallManager = "npm" | "pnpm" | "bun";
@@ -248,7 +248,6 @@ async function collectInstalledPackageDistErrors(params: {
 
   const criticalErrors = await collectInstalledPathErrors({
     packageRoot: params.packageRoot,
-    expectedFiles: await collectLegacyInstalledPackageDistPaths(params.packageRoot),
     actualFiles: null,
     missingMessage: (relativePath) => `missing bundled runtime sidecar ${relativePath}`,
   });
@@ -265,10 +264,6 @@ async function collectInstalledPackageDistErrors(params: {
     ];
   }
   return criticalErrors;
-}
-
-async function collectLegacyInstalledPackageDistPaths(packageRoot: string): Promise<string[]> {
-  return await collectCriticalInstalledPackageDistPaths(packageRoot);
 }
 
 async function collectCriticalInstalledPackageDistPaths(packageRoot: string): Promise<string[]> {

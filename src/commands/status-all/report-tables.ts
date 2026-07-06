@@ -1,9 +1,9 @@
 // Table row helpers for status report sections.
 // These functions keep terminal styling decisions out of the scan/data layer.
 
-import type { RenderTableOptions } from "../../../packages/terminal-core/src/table.js";
-import { formatTimeAgo } from "./format.js";
-import type { StatusReportSection } from "./text-report.js";
+import type { RenderTableOptions } from "../../../packages/terminal-core/src/table.ts";
+import { formatTimeAgo } from "./format.ts";
+import type { StatusReportSection } from "./text-report.ts";
 
 type AgentStatusLike = {
   agents: Array<{

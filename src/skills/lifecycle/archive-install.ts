@@ -1,17 +1,17 @@
 // Archive install helpers extract and validate skill archives during installation.
 import path from "node:path";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ArchiveLogger } from "../../infra/archive.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { pathExists } from "../../infra/fs-safe.js";
-import { withExtractedArchiveRoot } from "../../infra/install-flow.js";
-import { installPackageDir } from "../../infra/install-package-dir.js";
-import { resolveSafeInstallDir } from "../../infra/install-safe-path.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ArchiveLogger } from "../../infra/archive.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { pathExists } from "../../infra/fs-safe.ts";
+import { withExtractedArchiveRoot } from "../../infra/install-flow.ts";
+import { installPackageDir } from "../../infra/install-package-dir.ts";
+import { resolveSafeInstallDir } from "../../infra/install-safe-path.ts";
 import {
   evaluateSkillInstallPolicy,
   type InstallSecurityScanResult,
-} from "../../plugins/install-security-scan.js";
-import type { InstallPolicyOrigin, InstallPolicySource } from "../../security/install-policy.js";
+} from "../../plugins/install-security-scan.ts";
+import type { InstallPolicyOrigin, InstallPolicySource } from "../../security/install-policy.ts";
 
 const VALID_SLUG_PATTERN = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
 const DEFAULT_SKILL_ARCHIVE_ROOT_MARKERS = ["SKILL.md"] as const;

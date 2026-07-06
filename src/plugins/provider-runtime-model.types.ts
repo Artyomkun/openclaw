@@ -1,6 +1,6 @@
 // Defines runtime model metadata supplied by provider plugins.
 import type { Model } from "openclaw/plugin-sdk/llm";
-import type { ModelCompatConfig, ModelMediaInputConfig } from "../config/types.models.js";
+import type { ModelCompatConfig, ModelMediaInputConfig } from "../config/types.models.ts";
 
 /**
  * Fully-resolved runtime model shape used after provider/plugin-owned

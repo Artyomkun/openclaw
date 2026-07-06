@@ -8,7 +8,7 @@ import type {
   EffectiveToolInventoryEntry,
   EffectiveToolInventoryGroup,
   EffectiveToolSource,
-} from "./tools-effective-inventory.types.js";
+} from "./tools-effective-inventory.types.ts";
 
 function groupLabel(source: EffectiveToolSource): string {
   switch (source) {

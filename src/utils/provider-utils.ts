@@ -3,10 +3,10 @@
  * Keep policy here generic; provider-specific reasoning rules belong in provider runtime hooks.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ProviderRuntimePluginHandle } from "../plugins/provider-hook-runtime.js";
-import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
-import { resolveProviderReasoningOutputModeWithPlugin } from "../plugins/provider-runtime.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ProviderRuntimePluginHandle } from "../plugins/provider-hook-runtime.ts";
+import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
+import { resolveProviderReasoningOutputModeWithPlugin } from "../plugins/provider-runtime.ts";
 
 /**
  * Resolves whether a provider should emit reasoning via native fields or tagged text,

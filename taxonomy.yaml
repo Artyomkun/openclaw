@@ -888,7 +888,7 @@ surfaces:
             description: openclaw doctor supports inspect, repair, non-interactive, and forceful repair postures.
           - name: Config migration
             coverageIds: [cli.config-migration]
-            description: Doctor rewrites legacy or damaged config and state into supported current formats.
+            description: Doctor rewrites deprecated or damaged config and state into supported current formats.
           - name: Auth and SecretRef checks
             coverageIds: [cli.auth-and-secretref-checks]
             description: Doctor audits auth shape, token generation, and supported SecretRef-backed config paths.
@@ -1608,10 +1608,10 @@ surfaces:
         features:
           - name: Context Engine
             coverageIds: [docs.discovery, workspace.artifacts, workspace.long-running-task, workspace.repo-discovery]
-            description: Covers Context Engine across context-engine selection, registry, host compatibility, legacy fallback, assemble/ingest/after-turn/compact lifecycle, runtime context projection, and the boundary between OpenClaw context assembly and native harness history.
+            description: Covers Context Engine across context-engine selection, registry, host compatibility, deprecated fallback, assemble/ingest/after-turn/compact lifecycle, runtime context projection, and the boundary between OpenClaw context assembly and native harness history.
           - name: Runtime Assembly
             coverageIds: [agents.openclaw-harness, models.codex-cli, workspace.planning]
-            description: Covers Runtime Assembly across context-engine selection, registry, host compatibility, legacy fallback, assemble/ingest/after-turn/compact lifecycle, runtime context projection, and the boundary between OpenClaw context assembly and native harness history.
+            description: Covers Runtime Assembly across context-engine selection, registry, host compatibility, deprecated fallback, assemble/ingest/after-turn/compact lifecycle, runtime context projection, and the boundary between OpenClaw context assembly and native harness history.
         docs:
           - docs/concepts/context.md
           - docs/concepts/context-engine.md
@@ -4023,9 +4023,9 @@ surfaces:
           - name: Peer dependency relinking
             coverageIds: [clawhub.peer-dependency-relinking]
             description: Peer dependency relinking for openclaw/plugin-sdk/*
-          - name: Legacy dependency root cleanup
-            coverageIds: [clawhub.legacy-dependency-root-cleanup]
-            description: Legacy dependency root cleanup and doctor repair
+          - name: Dependency root cleanup
+            coverageIds: [clawhub.dependency-root-cleanup]
+            description: Dependency root cleanup and doctor repair
           - name: Plugin inventory commands
             coverageIds: [clawhub.plugins-list]
             description: Plugin list, inspect, runtime inspect, and doctor commands expose operator inventory and diagnostics.
@@ -4046,7 +4046,7 @@ surfaces:
             description: Trusted private archive upload and install through skills upload APIs.
           - name: Skill dependency installers
             coverageIds: [clawhub.skill-dependency-installers]
-            description: Declared Brew, Node, Go, uv, or download installers for skill packages.
+            description: Declared Brew, Node, Go, or download installers for skill packages.
         docs:
           - docs/tools/plugin.md
           - docs/cli/plugins.md
@@ -4389,9 +4389,6 @@ surfaces:
           - name: launchctl bootstrap
             coverageIds: [macos.launchctl-bootstrap]
             description: launchctl bootstrap, bootout, enable, disable, kickstart, runtime parsing, installed-but-unloaded repair, and --disable semantics
-          - name: LaunchAgent labels
-            coverageIds: [macos.launchagent-labels]
-            description: LaunchAgent labels, profile labels, legacy cleanup, service metadata, plist generation, KeepAlive, RunAtLoad, logs, working directory, and temp directory handling
           - name: Gateway token/env handling
             coverageIds: [macos.gateway-token-env-handling]
             description: Gateway token/env handling, owner-only env files/wrappers, managed service env keys, and config audit/status output
@@ -6871,22 +6868,22 @@ surfaces:
         features:
           - name: DM policy modes
             coverageIds: [discord.dm-policy-modes]
-            description: 'Covers DM policy modes across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and legacy `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
+            description: 'Covers DM policy modes across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and deprecated `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
           - name: Allowlist inheritance
             coverageIds: [discord.allowlist-inheritance]
-            description: 'Covers Allowlist inheritance across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and legacy `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
+            description: 'Covers Allowlist inheritance across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and deprecated `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
           - name: Pairing-code approval
             coverageIds: [security.pairing-code-approval]
-            description: 'Covers Pairing-code approval across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and legacy `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
+            description: 'Covers Pairing-code approval across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and deprecated `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
           - name: Sender authorization
             coverageIds: [security.sender-authorization]
-            description: 'Covers Sender authorization across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and legacy `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
+            description: 'Covers Sender authorization across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and deprecated `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
           - name: Access-group authorization
             coverageIds: [discord.access-group-authorization]
-            description: 'Covers Access-group authorization across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and legacy `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
+            description: 'Covers Access-group authorization across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and deprecated `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
           - name: Group DM authorization
             coverageIds: [discord.group-dm-authorization]
-            description: 'Covers Group DM authorization across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and legacy `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
+            description: 'Covers Group DM authorization across Discord direct-message `dmPolicy` modes: `pairing`, `allowlist`, `open`, and `disabled`. Canonical and deprecated `allowFrom` resolution across top-level Discord config, and related dm pairing and sender authorization behavior.'
         docs:
           - docs/channels/discord.md
           - docs/channels/pairing.md
@@ -7540,15 +7537,15 @@ surfaces:
     family: channel
     level: beta
     level_code: M3
-    rationale: Supported iMessage runs through imsg on a signed-in macOS Messages host; legacy BlueBubbles configs require migration. Keep macOS permissions, SSH wrapper, SIP/private API, and migration caveats visible.
+    rationale: Supported iMessage runs through imsg on a signed-in macOS Messages host; deprecated BlueBubbles configs require migration. Keep macOS permissions, SSH wrapper, SIP/private API, and migration caveats visible.
     completeness_instructions: references/completeness/imessage-bluebubbles.md
     categories:
       - name: Channel Setup and Operations
         id: channel-setup-and-operations
         features:
-          - name: Translate legacy config
-            coverageIds: [imessage.translate-legacy-config]
-            description: Covers Translate legacy config across removal announcement, migration guide, config reference, old `channels.bluebubbles` key translation, group registry footgun, session caveats, attachment/action parity notes, and operator cutover checklist.
+          - name: Translate deprecated config
+            coverageIds: [imessage.translate-deprecaty-config]
+            description: Covers Translate deprecated config across removal announcement, migration guide, config reference, old `channels.bluebubbles` key translation, group registry footgun, session caveats, attachment/action parity notes, and operator cutover checklist.
           - name: Cut over safely
             coverageIds: [imessage.cut-over-safely]
             description: Covers Cut over safely across removal announcement, migration guide, config reference, old `channels.bluebubbles` key translation, group registry footgun, session caveats, attachment/action parity notes, and operator cutover checklist.
@@ -7585,7 +7582,6 @@ surfaces:
           - docs/gateway/config-channels.md
           - docs/channels/imessage.md
         search_anchors:
-          - Translate legacy config
           - Cut over safely
           - Handle migration caveats
           - Run local imsg
@@ -8311,9 +8307,9 @@ surfaces:
           - name: Encrypted media upload/download
             coverageIds: [matrix.encrypted-media-upload-download]
             description: Encrypted media upload/download and startup verification notices
-          - name: Legacy state
-            coverageIds: [matrix.legacy-state]
-            description: Legacy state and crypto migration, migration snapshots, and gateway startup repair.
+          - name: Deprecaty state
+            coverageIds: [matrix.deprecaty-state]
+            description: Deprecaty state and crypto migration, migration snapshots, and gateway startup repair.
         docs:
           - docs/channels/matrix.md
           - docs/channels/matrix-migration.md
@@ -8782,10 +8778,10 @@ surfaces:
         features:
           - name: Canonical OpenAI Model Routing
             coverageIds: [models.openai, tools.web-search]
-            description: 'Covers Canonical OpenAI Model Routing across user/operator-facing model route contract: canonical `openai/gpt-*` refs, legacy `openai-codex/*` model refs, model catalog rows, context limits, and related canonical openai model routing and catalog behavior.'
+            description: 'Covers Canonical OpenAI Model Routing across user/operator-facing model route contract: canonical `openai/gpt-*` refs, deprecated `openai-codex/*` model refs, model catalog rows, context limits, and related canonical openai model routing and catalog behavior.'
           - name: Catalog
             coverageIds: [codex.catalog]
-            description: 'Covers Catalog across user/operator-facing model route contract: canonical `openai/gpt-*` refs, legacy `openai-codex/*` model refs, model catalog rows, context limits, and related canonical openai model routing and catalog behavior.'
+            description: 'Covers Catalog across user/operator-facing model route contract: canonical `openai/gpt-*` refs, deprecated `openai-codex/*` model refs, model catalog rows, context limits, and related canonical openai model routing and catalog behavior.'
           - name: Codex OAuth Profiles
             coverageIds: [auth-profiles.provider-selection, runtime.codex-plugin.auth, runtime.doctor-repair]
             description: Covers Codex OAuth Profiles across `openai-codex` auth profiles, profile ordering, profile metadata repair, token refresh, account-id propagation, usage/cooldown handling, and auth selection for Codex-backed OpenAI agent turns.
@@ -9167,19 +9163,19 @@ surfaces:
             description: Covers Daemon and fallback credentials across direct `GEMINI_API_KEY` and `GOOGLE_API_KEY` auth, setup provider metadata, setup auth choices, provider config fields, and related provider auth and setup behavior.
           - name: CLI runtime selection
             coverageIds: [google.cli-runtime-selection]
-            description: 'Covers CLI runtime selection across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, legacy `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
+            description: 'Covers CLI runtime selection across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, deprecated `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
           - name: OAuth login and refresh
             coverageIds: [google.oauth-login-and-refresh]
-            description: 'Covers OAuth login and refresh across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, legacy `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
+            description: 'Covers OAuth login and refresh across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, deprecated `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
           - name: Canonical Google model refs
             coverageIds: [google.canonical-google-model-refs]
-            description: 'Covers Canonical Google model refs across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, legacy `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
+            description: 'Covers Canonical Google model refs across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, deprecated `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
           - name: CLI usage normalization
             coverageIds: [google.cli-usage-normalization]
-            description: 'Covers CLI usage normalization across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, legacy `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
+            description: 'Covers CLI usage normalization across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, deprecated `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
           - name: OAuth diagnostics
             coverageIds: [google.oauth-diagnostics]
-            description: 'Covers OAuth diagnostics across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, legacy `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
+            description: 'Covers OAuth diagnostics across `google-gemini-cli` provider, canonical `google/*` model refs using `agentRuntime.id: "google-gemini-cli"`, deprecated `google-gemini-cli/*` refs, Gemini CLI command invocation, and related gemini cli oauth behavior.'
         docs:
           - docs/providers/google.md
           - docs/concepts/model-providers.md

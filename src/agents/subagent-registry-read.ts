@@ -3,8 +3,8 @@
  *
  * Combines persisted snapshots with in-memory live runs for UI, announce, control, and recovery paths.
  */
-import { getAgentRunContext } from "../infra/agent-events.js";
-import { subagentRuns } from "./subagent-registry-memory.js";
+import { getAgentRunContext } from "../infra/agent-events.ts";
+import { subagentRuns } from "./subagent-registry-memory.ts";
 import {
   buildSubagentRunReadIndexFromRuns,
   countActiveDescendantRunsFromRuns,
@@ -12,15 +12,15 @@ import {
   listDescendantRunsForRequesterFromRuns,
   listRunsForControllerFromRuns,
   type SubagentRunReadIndex,
-} from "./subagent-registry-queries.js";
-import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "./subagent-registry-queries.ts";
+import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 export {
   getSubagentSessionRuntimeMs,
   getSubagentSessionStartedAt,
   resolveSubagentSessionStatus,
-} from "./subagent-session-metrics.js";
+} from "./subagent-session-metrics.ts";
 
 /** Builds a reusable read index from the current persisted and in-memory run state. */
 export function buildSubagentRunReadIndex(now = Date.now()): SubagentRunReadIndex {

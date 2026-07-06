@@ -1,29 +1,29 @@
 // Sub-CLI registry that lazily wires gateway, models, devices, plugins, and plugin commands.
 import type { Command } from "commander";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveCliArgvInvocation } from "../argv-invocation.js";
-import { resolveCliCommandPathPolicy } from "../command-path-policy.js";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveCliArgvInvocation } from "../argv-invocation.ts";
+import { resolveCliCommandPathPolicy } from "../command-path-policy.ts";
 import {
   shouldEagerRegisterSubcommands,
   shouldRegisterPrimarySubcommandOnly,
-} from "../command-registration-policy.js";
+} from "../command-registration-policy.ts";
 import {
   buildCommandGroupEntries,
   defineImportedProgramCommandGroupSpecs,
   type CommandGroupDescriptorSpec,
-} from "./command-group-descriptors.js";
-import { removeCommandByName } from "./command-tree.js";
-import { loadPrivateQaCliModule } from "./private-qa-cli.js";
+} from "./command-group-descriptors.ts";
+import { removeCommandByName } from "./command-tree.ts";
+import { loadPrivateQaCliModule } from "./private-qa-cli.ts";
 import {
   registerCommandGroupByName,
   registerCommandGroups,
   type CommandGroupEntry,
-} from "./register-command-groups.js";
+} from "./register-command-groups.ts";
 import {
   getSubCliCommandsWithSubcommands,
   getSubCliEntries as getSubCliEntryDescriptors,
   type SubCliDescriptor,
-} from "./subcli-descriptors.js";
+} from "./subcli-descriptors.ts";
 
 export { getSubCliCommandsWithSubcommands };
 

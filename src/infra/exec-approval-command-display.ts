@@ -3,8 +3,8 @@ import {
   computeSensitiveRedactionBitmap,
   redactSensitiveText,
   resolveRedactOptions,
-} from "../logging/redact.js";
-import type { ExecApprovalRequestPayload } from "./exec-approvals.js";
+} from "../logging/redact.ts";
+import type { ExecApprovalRequestPayload } from "./exec-approvals.ts";
 
 // Escape control characters, Unicode format/line/paragraph separators, and non-ASCII space
 // separators that can spoof approval prompts in common UIs. Ordinary ASCII space (U+0020) is

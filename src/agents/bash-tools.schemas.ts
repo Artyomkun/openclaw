@@ -5,7 +5,7 @@
  * descriptions that match runtime validation.
  */
 import { Type } from "typebox";
-import { optionalStringEnum } from "./schema/typebox.js";
+import { optionalStringEnum } from "./schema/typebox.ts";
 
 const EXEC_TOOL_HOST_VALUES = ["auto", "sandbox", "gateway", "node"] as const;
 

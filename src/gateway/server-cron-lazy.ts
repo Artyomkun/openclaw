@@ -1,10 +1,10 @@
 // Gateway cron lazy loader.
 // Defers scheduler startup until cron is touched by runtime or API handlers.
-import type { CliDeps } from "../cli/deps.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { CronServiceContract } from "../cron/service-contract.js";
-import { resolveCronJobsStorePath } from "../cron/store.js";
-import type { GatewayCronState } from "./server-cron.js";
+import type { CliDeps } from "../cli/deps.types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { CronServiceContract } from "../cron/service-contract.ts";
+import { resolveCronJobsStorePath } from "../cron/store.ts";
+import type { GatewayCronState } from "./server-cron.ts";
 
 type LazyGatewayCronParams = {
   cfg: OpenClawConfig;

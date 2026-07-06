@@ -3,12 +3,12 @@ import { createHash } from "node:crypto";
 import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   type ClawHubTrustErrorCode,
   ensureClawHubPackageTrustAcknowledged,
   type ClawHubRiskAcknowledgementRequest,
-} from "../../infra/clawhub-install-trust.js";
+} from "../../infra/clawhub-install-trust.ts";
 import {
   downloadClawHubGitHubSkillArchive,
   downloadClawHubSkillArchive,
@@ -25,21 +25,20 @@ import {
   type ClawHubSkillInstallResolutionResponse,
   type ClawHubSkillSearchResult,
   type ClawHubSkillVerificationResponse,
-} from "../../infra/clawhub.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { pathExists } from "../../infra/fs-safe.js";
-import { withExtractedArchiveRoot } from "../../infra/install-flow.js";
-import { readJsonIfExists, tryReadJson, writeJson } from "../../infra/json-files.js";
+} from "../../infra/clawhub.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { pathExists } from "../../infra/fs-safe.ts";
+import { withExtractedArchiveRoot } from "../../infra/install-flow.ts";
+import { readJsonIfExists, tryReadJson, writeJson } from "../../infra/json-files.ts";
 import {
   CLAWHUB_SKILL_ARCHIVE_ROOT_MARKERS,
   installExtractedSkillRoot,
   normalizeTrackedSkillSlug,
   resolveWorkspaceSkillInstallDir,
   validateRequestedSkillSlug,
-} from "./archive-install.js";
+} from "./archive-install.ts";
 
 const DOT_DIR = ".clawhub";
-const LEGACY_DOT_DIR = ".clawdhub";
 const SKILL_ORIGIN_RELATIVE_PATH = path.join(DOT_DIR, "origin.json");
 const LOCAL_SKILL_CARD_FILENAME = "skill-card.md";
 const LOCAL_SKILL_CARD_MAX_BYTES = 256 * 1024;
@@ -332,10 +331,7 @@ type ClawHubSkillVerificationTargetResult =
     };
 
 async function readClawHubSkillsLockfile(workspaceDir: string): Promise<ClawHubSkillsLockfile> {
-  const candidates = [
-    path.join(workspaceDir, DOT_DIR, "lock.json"),
-    path.join(workspaceDir, LEGACY_DOT_DIR, "lock.json"),
-  ];
+  const candidates = [path.join(workspaceDir, DOT_DIR, "lock.json")];
   for (const candidate of candidates) {
     try {
       const raw = await tryReadJson<Partial<ClawHubSkillsLockfile>>(candidate);
@@ -537,10 +533,7 @@ async function readInstalledSkillFileLock(
 export function readClawHubSkillsLockfileStatusSync(
   workspaceDir: string,
 ): ClawHubSkillsLockfileStatusRead {
-  const candidates = [
-    path.join(workspaceDir, DOT_DIR, "lock.json"),
-    path.join(workspaceDir, LEGACY_DOT_DIR, "lock.json"),
-  ];
+  const candidates = [path.join(workspaceDir, DOT_DIR, "lock.json")];
   for (const candidate of candidates) {
     let raw: Partial<ClawHubSkillsLockfile> | null;
     try {
@@ -659,10 +652,7 @@ function normalizeClawHubSkillOrigin(
 }
 
 async function readClawHubSkillOrigin(skillDir: string): Promise<ClawHubSkillOrigin | null> {
-  const candidates = [
-    path.join(skillDir, DOT_DIR, "origin.json"),
-    path.join(skillDir, LEGACY_DOT_DIR, "origin.json"),
-  ];
+  const candidates = [path.join(skillDir, DOT_DIR, "origin.json")];
   for (const candidate of candidates) {
     try {
       const raw = await tryReadJson<Partial<ClawHubSkillOrigin>>(candidate);
@@ -678,10 +668,7 @@ async function readClawHubSkillOrigin(skillDir: string): Promise<ClawHubSkillOri
 }
 
 function readClawHubSkillOriginStatusSync(skillDir: string): StrictOriginReadResult {
-  const candidates = [
-    path.join(skillDir, DOT_DIR, "origin.json"),
-    path.join(skillDir, LEGACY_DOT_DIR, "origin.json"),
-  ];
+  const candidates = [path.join(skillDir, DOT_DIR, "origin.json")];
   for (const candidate of candidates) {
     let raw: Partial<ClawHubSkillOrigin> | null;
     try {
@@ -716,10 +703,7 @@ type StrictOriginReadResult =
   | { kind: "malformed"; path: string; error: string };
 
 async function readClawHubSkillOriginStrict(skillDir: string): Promise<StrictOriginReadResult> {
-  const candidates = [
-    path.join(skillDir, DOT_DIR, "origin.json"),
-    path.join(skillDir, LEGACY_DOT_DIR, "origin.json"),
-  ];
+  const candidates = [path.join(skillDir, DOT_DIR, "origin.json")];
   for (const candidate of candidates) {
     let raw: Partial<ClawHubSkillOrigin> | null;
     try {

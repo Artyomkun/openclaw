@@ -3,8 +3,8 @@ import type { Dirent } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import type { Command } from "commander";
-import { resolveStateDir } from "../../config/paths.js";
-import type { TranscriptSessionDescriptor } from "../../transcripts/provider-types.js";
+import { resolveStateDir } from "../../config/paths.ts";
+import type { TranscriptSessionDescriptor } from "../../transcripts/provider-types.ts";
 
 type TranscriptsCliOptions = {
   json?: boolean;

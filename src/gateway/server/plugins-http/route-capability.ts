@@ -1,11 +1,11 @@
 // Plugin HTTP route capability helpers discover node-authorized route surfaces from plugin registrations.
-import type { PluginRegistry } from "../../../plugins/registry.js";
+import type { PluginRegistry } from "../../../plugins/registry.ts";
 import {
   resolvePluginNodeCapabilityTtlMs,
   type PluginNodeCapabilitySurface,
-} from "../../plugin-node-capability.js";
-import type { PluginRoutePathContext } from "./path-context.js";
-import { findMatchingPluginHttpRoutes } from "./route-match.js";
+} from "../../plugin-node-capability.ts";
+import type { PluginRoutePathContext } from "./path-context.ts";
+import { findMatchingPluginHttpRoutes } from "./route-match.ts";
 
 /**
  * Node-capability route discovery for plugin HTTP routes.

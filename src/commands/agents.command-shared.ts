@@ -1,10 +1,10 @@
 // Shared config-loading helpers for agent management commands.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RuntimeEnv } from "../runtime.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import {
   requireValidConfigFileSnapshot as requireValidConfigFileSnapshotBase,
   requireValidConfigSnapshot,
-} from "./config-validation.js";
+} from "./config-validation.ts";
 
 /** Wrap a runtime so helper setup work stays silent in JSON output paths. */
 export function createQuietRuntime(runtime: RuntimeEnv): RuntimeEnv {

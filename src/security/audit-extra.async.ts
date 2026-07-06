@@ -15,17 +15,15 @@ import {
   normalizeTrimmedStringList,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { resolveAuthProfileDatabaseFilePaths } from "../agents/auth-profiles/sqlite.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { MANIFEST_KEY } from "../compat/legacy-names.js";
-import type { OpenClawConfig, ConfigFileSnapshot } from "../config/config.js";
-import { collectIncludePathsRecursive } from "../config/includes-scan.js";
-import { resolveOAuthDir } from "../config/paths.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import type { SkillScanFinding } from "../skills/security/scanner.js";
-import { shouldIgnoreInstalledPluginDirName } from "./installed-plugin-dirs.js";
-import { extensionUsesSkippedScannerPath, isPathInside } from "./scan-paths.js";
-import type { ExecFn } from "./windows-acl.js";
+import { resolveAuthProfileDatabaseFilePaths } from "../agents/auth-profiles/oracle.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig, ConfigFileSnapshot } from "../config/config.ts";
+import { collectIncludePathsRecursive } from "../config/includes-scan.ts";
+import { resolveOAuthDir } from "../config/paths.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import type { SkillScanFinding } from "../skills/security/scanner.ts";
+import { shouldIgnoreInstalledPluginDirName } from "./installed-plugin-dirs.ts";
+import { extensionUsesSkippedScannerPath, isPathInside } from "./scan-paths.ts";
 
 export type SecurityAuditFinding = {
   checkId: string;
@@ -710,7 +708,7 @@ export async function collectStateDeepFilesystemFindings(params: {
   for (const agentId of ids) {
     const agentDir = path.join(params.stateDir, "agents", agentId, "agent");
     const authTargets = [
-      { path: path.join(agentDir, "auth-profiles.json"), label: "legacy auth-profiles.json" },
+      { path: path.join(agentDir, "auth-profiles.json")},
       ...resolveAuthProfileDatabaseFilePaths(agentDir).map((targetPath) => ({
         path: targetPath,
         label: "auth profile SQLite store",

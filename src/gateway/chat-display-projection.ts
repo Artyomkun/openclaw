@@ -4,25 +4,25 @@ import { createHash } from "node:crypto";
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { asOptionalRecord as readRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { OPENCLAW_RUNTIME_CONTEXT_CUSTOM_TYPE } from "../agents/internal-runtime-context.js";
-import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.js";
-import { isHeartbeatOkResponse, isHeartbeatUserMessage } from "../auto-reply/heartbeat-filter.js";
-import { HEARTBEAT_PROMPT } from "../auto-reply/heartbeat.js";
-import { extractCanvasFromText } from "../chat/canvas-render.js";
+import { OPENCLAW_RUNTIME_CONTEXT_CUSTOM_TYPE } from "../agents/internal-runtime-context.ts";
+import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.ts";
+import { isHeartbeatOkResponse, isHeartbeatUserMessage } from "../auto-reply/heartbeat-filter.ts";
+import { HEARTBEAT_PROMPT } from "../auto-reply/heartbeat.ts";
+import { extractCanvasFromText } from "../chat/canvas-render.ts";
 import {
   INTER_SESSION_PROMPT_PREFIX_BASE,
   normalizeInputProvenance,
   stripInterSessionPromptPrefixForDisplay,
-} from "../sessions/input-provenance.js";
-import { parseAgentSessionKey } from "../sessions/session-key-utils.js";
+} from "../sessions/input-provenance.ts";
+import { parseAgentSessionKey } from "../sessions/session-key-utils.ts";
 import {
   parseAssistantTextSignature,
   resolveAssistantMessagePhase,
-} from "../shared/chat-message-content.js";
-import { isOpenClawDeliveryMirrorAssistantMessage } from "../shared/transcript-only-openclaw-assistant.js";
-import { stripInlineDirectiveTagsForDisplay } from "../utils/directive-tags.js";
-import { stripEnvelopeFromMessages } from "./chat-sanitize.js";
-import { isSuppressedControlReplyText } from "./control-reply-text.js";
+} from "../shared/chat-message-content.ts";
+import { isOpenClawDeliveryMirrorAssistantMessage } from "../shared/transcript-only-openclaw-assistant.ts";
+import { stripInlineDirectiveTagsForDisplay } from "../utils/directive-tags.ts";
+import { stripEnvelopeFromMessages } from "./chat-sanitize.ts";
+import { isSuppressedControlReplyText } from "./control-reply-text.ts";
 
 export const DEFAULT_CHAT_HISTORY_TEXT_MAX_CHARS = 8_000;
 

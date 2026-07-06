@@ -5,26 +5,26 @@ import {
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveSandboxConfigForAgent } from "../agents/sandbox/config.js";
-import { isDangerousNetworkMode, normalizeNetworkMode } from "../agents/sandbox/network-mode.js";
-import { resolveSandboxToolPolicyForAgent } from "../agents/sandbox/tool-policy.js";
-import type { SandboxToolPolicy } from "../agents/sandbox/types.js";
-import { getBlockedBindReason } from "../agents/sandbox/validate-sandbox-security.js";
-import { isToolAllowedByPolicies } from "../agents/tool-policy-match.js";
-import { resolveToolProfilePolicy } from "../agents/tool-policy.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { GatewayAuthConfig } from "../config/types.gateway.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { AgentToolsConfig } from "../config/types.tools.js";
-import { resolveGatewayAuth, type ResolvedGatewayAuth } from "../gateway/auth.js";
-import { resolveAllowedAgentIds } from "../gateway/hooks-policy.js";
+import { resolveSandboxConfigForAgent } from "../agents/sandbox/config.ts";
+import { isDangerousNetworkMode, normalizeNetworkMode } from "../agents/sandbox/network-mode.ts";
+import { resolveSandboxToolPolicyForAgent } from "../agents/sandbox/tool-policy.ts";
+import type { SandboxToolPolicy } from "../agents/sandbox/types.ts";
+import { getBlockedBindReason } from "../agents/sandbox/validate-sandbox-security.ts";
+import { isToolAllowedByPolicies } from "../agents/tool-policy-match.ts";
+import { resolveToolProfilePolicy } from "../agents/tool-policy.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { GatewayAuthConfig } from "../config/types.gateway.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { AgentToolsConfig } from "../config/types.tools.ts";
+import { resolveGatewayAuth, type ResolvedGatewayAuth } from "../gateway/auth.ts";
+import { resolveAllowedAgentIds } from "../gateway/hooks-policy.ts";
 import {
   DEFAULT_DANGEROUS_NODE_COMMANDS,
   listDangerousPluginNodeCommands,
   resolveNodeCommandAllowlist,
-} from "../gateway/node-command-policy.js";
-import { collectAuditModelRefs } from "./audit-model-refs.js";
-import { pickSandboxToolPolicy } from "../agents/sandbox-tool-policy.js";
+} from "../gateway/node-command-policy.ts";
+import { collectAuditModelRefs } from "./audit-model-refs.ts";
+import { pickSandboxToolPolicy } from "../agents/sandbox-tool-policy.ts";
 
 /**
  * Synchronous security audit collector functions.
@@ -164,12 +164,6 @@ function hasResolvedGatewayHttpAuth(auth: ResolvedGatewayAuth): boolean {
   }
   return false;
 }
-
-const LEGACY_MODEL_PATTERNS: Array<{ id: string; re: RegExp; label: string }> = [
-  { id: "openai.gpt35", re: /\bgpt-3\.5\b/i, label: "GPT-3.5 family" },
-  { id: "anthropic.claude2", re: /\bclaude-(instant|2)\b/i, label: "Claude 2/Instant family" },
-  { id: "openai.gpt4_legacy", re: /\bgpt-4-(0314|0613)\b/i, label: "Legacy GPT-4 snapshots" },
-];
 
 const WEAK_TIER_MODEL_PATTERNS: Array<{ id: string; re: RegExp; label: string }> = [
   { id: "anthropic.haiku", re: /\bhaiku\b/i, label: "Haiku tier (smaller model)" },
@@ -394,9 +388,7 @@ function listOpenInboundPolicies(cfg: OpenClawConfig): string[] {
       out.push(`${basePath}.groupPolicy`);
     }
     const dm = section.dm;
-    const legacyDmPolicy =
-      dm && typeof dm === "object" ? (dm as Record<string, unknown>).policy : undefined;
-    const dmPolicy = section.dmPolicy ?? legacyDmPolicy;
+    const dmPolicy = section.dmPolicy;
     if (dmPolicy === "open") {
       out.push(`${basePath}.${section.dmPolicy == null ? "dm.policy" : "dmPolicy"}`);
     }
@@ -465,10 +457,6 @@ function listPotentialMultiUserSignals(cfg: OpenClawConfig): string[] {
     const dm = section.dm;
     if (dm && typeof dm === "object") {
       const dmSection = dm as Record<string, unknown>;
-      const dmLegacyPolicy = typeof dmSection.policy === "string" ? dmSection.policy : null;
-      if (dmLegacyPolicy === "open") {
-        out.add(`${basePath}.dm.policy="open"`);
-      }
       const dmAllowFrom = Array.isArray(dmSection.allowFrom) ? dmSection.allowFrom : [];
       if (dmAllowFrom.some((entry) => isWildcardEntry(entry))) {
         out.add(`${basePath}.dm.allowFrom includes "*"`);
@@ -1119,34 +1107,6 @@ export function collectModelHygieneFindings(cfg: OpenClawConfig): SecurityAuditF
     if (isClaudeModel(entry.id) && !isClaude45OrHigher(entry.id)) {
       addWeakMatch(entry.id, entry.source, "Below Claude 4.5");
     }
-  }
-
-  const matches: Array<{ model: string; source: string; reason: string }> = [];
-  for (const entry of models) {
-    for (const pat of LEGACY_MODEL_PATTERNS) {
-      if (pat.re.test(entry.id)) {
-        matches.push({ model: entry.id, source: entry.source, reason: pat.label });
-        break;
-      }
-    }
-  }
-
-  if (matches.length > 0) {
-    const lines = matches
-      .slice(0, 12)
-      .map((m) => `- ${m.model} (${m.reason}) @ ${m.source}`)
-      .join("\n");
-    const more = matches.length > 12 ? `\n…${matches.length - 12} more` : "";
-    findings.push({
-      checkId: "models.legacy",
-      severity: "warn",
-      title: "Some configured models look legacy",
-      detail:
-        "Older/legacy models can be less robust against prompt injection and tool misuse.\n" +
-        lines +
-        more,
-      remediation: "Prefer modern, instruction-hardened models for any bot that can run tools.",
-    });
   }
 
   if (weakMatches.size > 0) {

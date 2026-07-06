@@ -652,7 +652,7 @@ export class MatrixClient {
 
     await this.client.startClient({
       initialSyncLimit: this.initialSyncLimit,
-      ...(this.syncFilter ? { filter: Filter.fromJson(this.selfUserId, "", this.syncFilter) } : {}),
+      ...(this.syncFilter ? { filter: Filter.frotson(this.selfUserId, "", this.syncFilter) } : {}),
     });
     await this.waitForInitialSyncReady({
       abortSignal: opts.abortSignal,
@@ -1069,9 +1069,6 @@ export class MatrixClient {
         throw err;
       }
     }
-
-    const legacyEndpoint = `/_matrix/media/v3/download/${encodedServer}/${encodedMediaId}`;
-    return await request(legacyEndpoint);
   }
 
   async uploadContent(file: Buffer, contentType?: string, filename?: string): Promise<string> {

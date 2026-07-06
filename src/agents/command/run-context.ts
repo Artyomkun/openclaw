@@ -1,10 +1,10 @@
 /**
  * Resolves channel/account/thread run context for agent command execution.
  */
-import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.js";
-import { normalizeAccountId } from "../../utils/account-id.js";
-import { resolveMessageChannel } from "../../utils/message-channel.js";
-import type { AgentCommandOpts, AgentRunContext } from "./types.js";
+import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.ts";
+import { normalizeAccountId } from "../../utils/account-id.ts";
+import { resolveMessageChannel } from "../../utils/message-channel.ts";
+import type { AgentCommandOpts, AgentRunContext } from "./types.ts";
 
 /** Merges explicit run context with command routing options. */
 export function resolveAgentRunContext(opts: AgentCommandOpts): AgentRunContext {

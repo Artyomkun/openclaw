@@ -4,32 +4,32 @@
  * This entrypoint applies config changes, optionally installs the gateway
  * daemon, verifies health, and emits machine-readable setup output.
  */
-import { formatCliCommand } from "../../cli/command-format.js";
-import { resolveGatewayPort } from "../../config/config.js";
-import { logConfigUpdated } from "../../config/logging.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveGatewayAuthToken } from "../../gateway/auth-token-resolution.js";
-import { resolveConfiguredSecretInputString } from "../../gateway/resolve-configured-secret-input-string.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { DEFAULT_GATEWAY_DAEMON_RUNTIME } from "../daemon-runtime.js";
-import { applyLocalSetupWorkspaceConfig, applySkipBootstrapConfig } from "../onboard-config.js";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { resolveGatewayPort } from "../../config/config.ts";
+import { logConfigUpdated } from "../../config/logging.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveGatewayAuthToken } from "../../gateway/auth-token-resolution.ts";
+import { resolveConfiguredSecretInputString } from "../../gateway/resolve-configured-secret-input-string.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { DEFAULT_GATEWAY_DAEMON_RUNTIME } from "../daemon-runtime.ts";
+import { applyLocalSetupWorkspaceConfig, applySkipBootstrapConfig } from "../onboard-config.ts";
 import {
   applyWizardMetadata,
   DEFAULT_WORKSPACE,
   ensureWorkspaceAndSessions,
   resolveControlUiLinks,
   waitForGatewayReachable,
-} from "../onboard-helpers.js";
-import type { OnboardOptions } from "../onboard-types.js";
-import { commitNonInteractiveOnboardConfig } from "./config-write.js";
-import { applyNonInteractiveGatewayConfig } from "./local/gateway-config.js";
+} from "../onboard-helpers.ts";
+import type { OnboardOptions } from "../onboard-types.ts";
+import { commitNonInteractiveOnboardConfig } from "./config-write.ts";
+import { applyNonInteractiveGatewayConfig } from "./local/gateway-config.ts";
 import {
   type GatewayHealthFailureDiagnostics,
   logNonInteractiveOnboardingFailure,
   logNonInteractiveOnboardingJson,
-} from "./local/output.js";
-import { applyNonInteractiveSkillsConfig } from "./local/skills-config.js";
-import { resolveNonInteractiveWorkspaceDir } from "./local/workspace.js";
+} from "./local/output.ts";
+import { applyNonInteractiveSkillsConfig } from "./local/skills-config.ts";
+import { resolveNonInteractiveWorkspaceDir } from "./local/workspace.ts";
 
 const INSTALL_DAEMON_HEALTH_DEADLINE_MS = 45_000;
 const ATTACH_EXISTING_GATEWAY_HEALTH_DEADLINE_MS = 15_000;

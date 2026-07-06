@@ -1,58 +1,58 @@
 // Implements the embedded backend used by local TUI sessions.
 import { randomUUID } from "node:crypto";
-import type { SessionsPatchResult } from "../../packages/gateway-protocol/src/index.js";
-import { agentCommandFromIngress } from "../agents/agent-command.js";
+import type { SessionsPatchResult } from "../../packages/gateway-protocol/src/index.ts";
+import { agentCommandFromIngress } from "../agents/agent-command.ts";
 import {
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
   resolveSessionAgentId,
-} from "../agents/agent-scope.js";
-import { ensureContextWindowCacheLoaded } from "../agents/context.js";
-import { DEFAULT_PROVIDER } from "../agents/defaults.js";
+} from "../agents/agent-scope.ts";
+import { ensureContextWindowCacheLoaded } from "../agents/context.ts";
+import { DEFAULT_PROVIDER } from "../agents/defaults.ts";
 import {
   buildAllowedModelSet,
   buildConfiguredModelCatalog,
   resolveThinkingDefault,
-} from "../agents/model-selection.js";
-import { ensureRuntimePluginsLoaded } from "../agents/runtime-plugins.js";
-import { parseGoalCommand } from "../auto-reply/reply/commands-goal.js";
-import { createDefaultDeps } from "../cli/deps.js";
-import { getRuntimeConfig } from "../config/config.js";
+} from "../agents/model-selection.ts";
+import { ensureRuntimePluginsLoaded } from "../agents/runtime-plugins.ts";
+import { parseGoalCommand } from "../auto-reply/reply/commands-goal.ts";
+import { createDefaultDeps } from "../cli/deps.ts";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   clearSessionGoal,
   createSessionGoal,
   formatSessionGoalStatus,
   getSessionGoal,
   updateSessionGoalStatus,
-} from "../config/sessions.js";
-import { applySessionPatchProjection } from "../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isChatStopCommandText } from "../gateway/chat-abort.js";
+} from "../config/sessions.ts";
+import { applySessionPatchProjection } from "../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isChatStopCommandText } from "../gateway/chat-abort.ts";
 import {
   projectRecentChatDisplayMessages,
   resolveEffectiveChatHistoryMaxChars,
-} from "../gateway/chat-display-projection.js";
-import { augmentChatHistoryWithCliSessionImports } from "../gateway/cli-session-history.js";
+} from "../gateway/chat-display-projection.ts";
+import { augmentChatHistoryWithCliSessionImports } from "../gateway/cli-session-history.ts";
 import {
   normalizeLiveAssistantEventText,
   projectLiveAssistantBufferedText,
   resolveMergedAssistantText,
   shouldSuppressAssistantEventForLiveChat,
-} from "../gateway/live-chat-projector.js";
-import { getMaxChatHistoryMessagesBytes } from "../gateway/server-constants.js";
+} from "../gateway/live-chat-projector.ts";
+import { getMaxChatHistoryMessagesBytes } from "../gateway/server-constants.ts";
 import {
   augmentChatHistoryWithCanvasBlocks,
   CHAT_HISTORY_MAX_SINGLE_MESSAGE_BYTES,
   enforceChatHistoryFinalBudget,
   replaceOversizedChatHistoryMessages,
-} from "../gateway/server-methods/chat.js";
-import { loadGatewayModelCatalog } from "../gateway/server-model-catalog.js";
-import { performGatewaySessionReset } from "../gateway/session-reset-service.js";
+} from "../gateway/server-methods/chat.ts";
+import { loadGatewayModelCatalog } from "../gateway/server-model-catalog.ts";
+import { performGatewaySessionReset } from "../gateway/session-reset-service.ts";
 import {
   capArrayByJsonBytes,
   readSessionMessagesAsync,
-} from "../gateway/session-transcript-readers.js";
+} from "../gateway/session-transcript-readers.ts";
 import {
   buildGatewaySessionInfo,
   getSessionDefaults,
@@ -63,15 +63,15 @@ import {
   migrateAndPruneGatewaySessionStoreKey,
   resolveGatewaySessionStoreTarget,
   resolveSessionModelRef,
-} from "../gateway/session-utils.js";
-import { projectSessionsPatchEntry } from "../gateway/sessions-patch.js";
-import { type AgentEventPayload, onAgentEvent } from "../infra/agent-events.js";
-import { setEmbeddedMode } from "../infra/embedded-mode.js";
-import { logInfo, logWarn } from "../logger.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { defaultRuntime } from "../runtime.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.js";
-import { resolveLocalRunShutdownGraceMs } from "./local-run-shutdown.js";
+} from "../gateway/session-utils.ts";
+import { projectSessionsPatchEntry } from "../gateway/sessions-patch.ts";
+import { type AgentEventPayload, onAgentEvent } from "../infra/agent-events.ts";
+import { setEmbeddedMode } from "../infra/embedded-mode.ts";
+import { logInfo, logWarn } from "../logger.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.ts";
+import { resolveLocalRunShutdownGraceMs } from "./local-run-shutdown.ts";
 import type {
   ChatSendOptions,
   TuiAgentsList,
@@ -80,7 +80,7 @@ import type {
   TuiEvent,
   TuiModelChoice,
   TuiSessionList,
-} from "./tui-backend.js";
+} from "./tui-backend.ts";
 
 type LocalRunState = {
   sessionKey: string;

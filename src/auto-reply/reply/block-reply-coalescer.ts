@@ -1,8 +1,8 @@
 // Coalesces buffered block-streaming payloads into sendable reply parts.
 import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
-import { copyReplyPayloadMetadata, isReplyPayloadStatusNotice } from "../reply-payload.js";
-import type { ReplyPayload } from "../types.js";
-import type { BlockStreamingCoalescing } from "./block-streaming.js";
+import { copyReplyPayloadMetadata, isReplyPayloadStatusNotice } from "../reply-payload.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { BlockStreamingCoalescing } from "./block-streaming.ts";
 
 /** Coalesces many streaming reply fragments into fewer outbound payloads. */
 type BlockReplyCoalescer = {

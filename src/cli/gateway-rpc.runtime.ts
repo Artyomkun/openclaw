@@ -2,11 +2,11 @@
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { callGateway } from "../gateway/call.js";
-import type { GatewayRpcOpts } from "./gateway-rpc.types.js";
-import { parseTimeoutMsWithFallback } from "./parse-timeout.js";
-import { withProgress } from "./progress.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { callGateway } from "../gateway/call.ts";
+import type { GatewayRpcOpts } from "./gateway-rpc.types.ts";
+import { parseTimeoutMsWithFallback } from "./parse-timeout.ts";
+import { withProgress } from "./progress.ts";
 
 type CallGatewayFromCliRuntimeExtra = {
   clientName?: Parameters<typeof callGateway>[0]["clientName"];

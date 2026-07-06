@@ -1,43 +1,14 @@
 /** Doctor repair for HEARTBEAT.md files that accidentally contain docs template wrappers. */
 import fs from "node:fs/promises";
 import path from "node:path";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { resolveWorkspaceTemplateDir } from "../agents/workspace-templates.js";
-import { DEFAULT_HEARTBEAT_FILENAME } from "../agents/workspace.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { writeTextAtomic } from "../infra/json-files.js";
-import { shortenHomePath } from "../utils.js";
-
-const LEGACY_HEARTBEAT_PROSE_TEMPLATE = [
-  "# HEARTBEAT.md",
-  "Keep this file empty unless you want a tiny checklist. Keep it small.",
-] as const;
-
-const LEGACY_HEARTBEAT_HEADING_FENCED_TEMPLATE = [
-  "# HEARTBEAT.md Template",
-  "```markdown",
-  "# Keep this file empty (or with only comments) to skip heartbeat API calls.",
-  "# Add tasks below when you want the agent to check something periodically.",
-  "```",
-] as const;
-
-const LEGACY_HEARTBEAT_FENCED_TEMPLATE = [
-  "```markdown",
-  "# Keep this file empty (or with only comments) to skip heartbeat API calls.",
-  "# Add tasks below when you want the agent to check something periodically.",
-  "```",
-] as const;
-
-const LEGACY_HEARTBEAT_FENCED_RELATED_TEMPLATE = [
-  "```markdown",
-  "# Keep this file empty (or with only comments) to skip heartbeat API calls.",
-  "# Add tasks below when you want the agent to check something periodically.",
-  "```",
-  "## Related",
-  "- [Heartbeat config](/gateway/config-agents)",
-] as const;
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { resolveWorkspaceTemplateDir } from "../agents/workspace-templates.ts";
+import { DEFAULT_HEARTBEAT_FILENAME } from "../agents/workspace.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { writeTextAtomic } from "../infra/json-files.ts";
+import { shortenHomePath } from "../utils.ts";
 
 const DOCS_HEARTBEAT_TEMPLATE_PAGE_AS_TEMPLATE = [
   "# HEARTBEAT.md template",
@@ -72,7 +43,6 @@ const KNOWN_DIRTY_HEARTBEAT_TEMPLATE_LINES = new Set([
   "`HEARTBEAT.md` lives in the agent workspace. Keep the file empty, or with only Markdown comments and headings, when you want OpenClaw to skip heartbeat model calls.",
   "The default runtime template is:",
   "Add short tasks below the comments only when you want the agent to check something periodically. Keep heartbeat instructions small because they are read during recurring wakes.",
-  ...LEGACY_HEARTBEAT_PROSE_TEMPLATE,
   "# Keep this file empty (or with only comments) to skip heartbeat API calls.",
   "# Add tasks below when you want the agent to check something periodically.",
   "## Related",
@@ -80,10 +50,6 @@ const KNOWN_DIRTY_HEARTBEAT_TEMPLATE_LINES = new Set([
 ]);
 
 const KNOWN_REPAIRABLE_DIRTY_HEARTBEAT_TEMPLATES = [
-  LEGACY_HEARTBEAT_PROSE_TEMPLATE,
-  LEGACY_HEARTBEAT_HEADING_FENCED_TEMPLATE,
-  LEGACY_HEARTBEAT_FENCED_TEMPLATE,
-  LEGACY_HEARTBEAT_FENCED_RELATED_TEMPLATE,
   DOCS_HEARTBEAT_TEMPLATE_PAGE_AS_TEMPLATE,
 ] as const;
 
@@ -110,10 +76,7 @@ export function analyzeHeartbeatTemplateForRepair(
 
   const hasDefaultTemplateBody = HEARTBEAT_DEFAULT_BODY_LINES.every((line) => lines.includes(line));
   const hasDirtyDocWrapper = lines.some((line) => DIRTY_HEARTBEAT_DOC_WRAPPER_LINES.has(line));
-  const hasLegacyProseTemplate = LEGACY_HEARTBEAT_PROSE_TEMPLATE.every((line) =>
-    lines.includes(line),
-  );
-  if ((!hasDefaultTemplateBody || !hasDirtyDocWrapper) && !hasLegacyProseTemplate) {
+  if ((!hasDefaultTemplateBody || !hasDirtyDocWrapper)) {
     return { status: "clean" };
   }
   const customLines = lines.filter((line) => !KNOWN_DIRTY_HEARTBEAT_TEMPLATE_LINES.has(line));

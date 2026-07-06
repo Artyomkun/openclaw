@@ -4,7 +4,7 @@ import type {
   SandboxDockerSettings,
   SandboxPruneSettings,
   SandboxSshSettings,
-} from "./types.sandbox.js";
+} from "./types.sandbox.ts";
 
 /** Agent model selector: a single provider/model ref or primary+fallback chain. */
 export type AgentModelConfig =

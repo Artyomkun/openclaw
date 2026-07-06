@@ -5,4 +5,4 @@ export {
   killControlledSubagentRun,
   sendControlledSubagentMessage,
   steerControlledSubagentRun,
-} from "../../agents/subagent-control.js";
+} from "../../agents/subagent-control.ts";

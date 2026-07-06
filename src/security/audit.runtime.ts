@@ -1,5 +1,5 @@
 // Runtime boundary for invoking the security audit implementation.
-import { runSecurityAudit as runSecurityAuditImpl } from "./audit.js";
+import { runSecurityAudit as runSecurityAuditImpl } from "./audit.ts";
 
 type RunSecurityAudit = typeof import("./audit.js").runSecurityAudit;
 

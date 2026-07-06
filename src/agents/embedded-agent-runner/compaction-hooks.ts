@@ -1,16 +1,16 @@
 /**
  * Runs compaction hooks and post-compaction side effects for embedded sessions.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import { getActiveMemorySearchManager } from "../../plugins/memory-runtime.js";
-import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.js";
-import { resolveSessionAgentId } from "../agent-scope.js";
-import { resolveMemorySearchConfig } from "../memory-search.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { log } from "./logger.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import { getActiveMemorySearchManager } from "../../plugins/memory-runtime.ts";
+import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.ts";
+import { resolveSessionAgentId } from "../agent-scope.ts";
+import { resolveMemorySearchConfig } from "../memory-search.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { log } from "./logger.ts";
 
 function resolvePostCompactionIndexSyncMode(config?: OpenClawConfig): "off" | "async" | "await" {
   const mode = config?.agents?.defaults?.compaction?.postIndexSync;

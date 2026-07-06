@@ -3,11 +3,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { getChatChannelMeta, normalizeChatChannelId } from "../channels/registry.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import { isRecord, resolveConfigDir, resolveUserPath } from "../utils.js";
-import type { PluginAutoEnableCandidate } from "./plugin-auto-enable.types.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import { getChatChannelMeta, normalizeChatChannelId } from "../channels/registry.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import { isRecord, resolveConfigDir, resolveUserPath } from "../utils.ts";
+import type { PluginAutoEnableCandidate } from "./plugin-auto-enable.types.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 type ExternalCatalogChannelEntry = {
   id: string;

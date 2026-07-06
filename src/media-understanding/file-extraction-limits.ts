@@ -1,10 +1,10 @@
 // Resolves inbound attachment text-extraction limits for media-understanding.
-import type { OpenClawConfig } from "../config/types.js";
+import type { OpenClawConfig } from "../config/types.ts";
 import {
   type InputFileLimits,
   type InputFileLimitsConfig,
   resolveInputFileLimits,
-} from "../media/input-files.js";
+} from "../media/input-files.ts";
 
 // Inbound channel/UI attachments are managed media already accepted under the
 // agent's media size cap (chat.send's mediaMaxMb / DEFAULT_CHAT_ATTACHMENT_MAX_MB).

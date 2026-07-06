@@ -3,30 +3,30 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveStoredSubagentCapabilities } from "../../../agents/subagent-capabilities.js";
-import type { ResolvedSubagentController } from "../../../agents/subagent-control.js";
-import { subagentRuns } from "../../../agents/subagent-registry-memory.js";
-import { countPendingDescendantRunsFromRuns } from "../../../agents/subagent-registry-queries.js";
-import { getSubagentRunsSnapshotForRead } from "../../../agents/subagent-registry-state.js";
-import type { SubagentRunRecord } from "../../../agents/subagent-registry.types.js";
+import { resolveStoredSubagentCapabilities } from "../../../agents/subagent-capabilities.ts";
+import type { ResolvedSubagentController } from "../../../agents/subagent-control.ts";
+import { subagentRuns } from "../../../agents/subagent-registry-memory.ts";
+import { countPendingDescendantRunsFromRuns } from "../../../agents/subagent-registry-queries.ts";
+import { getSubagentRunsSnapshotForRead } from "../../../agents/subagent-registry-state.ts";
+import type { SubagentRunRecord } from "../../../agents/subagent-registry.types.ts";
 import {
   resolveInternalSessionKey,
   resolveMainSessionAlias,
-} from "../../../agents/tools/sessions-helpers.js";
-import { callGateway } from "../../../gateway/call.js";
-import { parseAgentSessionKey } from "../../../routing/session-key.js";
-import { isSubagentSessionKey } from "../../../routing/session-key.js";
-import { looksLikeSessionId } from "../../../sessions/session-id.js";
-import { isNativeCommandTurn, resolveCommandTurnContext } from "../../command-turn-context.js";
-import { extractMessageText, type ChatMessage } from "../commands-subagents-text.js";
-import type { CommandHandler, CommandHandlerResult } from "../commands-types.js";
+} from "../../../agents/tools/sessions-helpers.ts";
+import { callGateway } from "../../../gateway/call.ts";
+import { parseAgentSessionKey } from "../../../routing/session-key.ts";
+import { isSubagentSessionKey } from "../../../routing/session-key.ts";
+import { looksLikeSessionId } from "../../../sessions/session-id.ts";
+import { isNativeCommandTurn, resolveCommandTurnContext } from "../../command-turn-context.ts";
+import { extractMessageText, type ChatMessage } from "../commands-subagents-text.ts";
+import type { CommandHandler, CommandHandlerResult } from "../commands-types.ts";
 import {
   formatRunLabel,
   resolveSubagentTargetFromRuns,
   type SubagentTargetResolution,
-} from "../subagents-utils.js";
+} from "../subagents-utils.ts";
 
-export type { ChatMessage } from "../commands-subagents-text.js";
+export type { ChatMessage } from "../commands-subagents-text.ts";
 
 export const COMMAND = "/subagents";
 const COMMAND_FOCUS = "/focus";

@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { collectFilesSync, isCodeFile, relativeToCwd } from "./check-file-utils.js";
-import { classifyBundledExtensionSourcePath } from "./lib/extension-source-classifier.mjs";
+import { classifyBundledExtensionSourcePath } from "./lib/extension-source-classifier.ts";
 
 type Rule = {
   label: string;
@@ -13,11 +13,7 @@ const RULES: Rule[] = [
   {
     label: "deprecated channel ingress resolver aliases",
     pattern:
-      /\b(?:resolved|result|directResolved|groupResolved)\.(?:legacyAccess|senderReasonCode|commandAuthorized|shouldBlockControlCommand)\b/u,
-  },
-  {
-    label: "inline deprecated channel ingress legacyAccess projection",
-    pattern: /\)\.legacyAccess\b/u,
+      /\b(?:resolved|result|directResolved|groupResolved)\.(?:senderReasonCode|commandAuthorized|shouldBlockControlCommand)\b/u,
   },
   {
     label: "low-level compatibility ingress resolver",

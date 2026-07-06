@@ -4,8 +4,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId } from "../routing/session-key.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
 import {
   AVATAR_MAX_BYTES,
   hasAvatarUriScheme,
@@ -14,11 +14,11 @@ import {
   isWindowsAbsolutePath,
   isPathWithinRoot,
   isSupportedLocalAvatarExtension,
-} from "../shared/avatar-policy.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "./agent-scope.js";
-import { loadAgentIdentityFromWorkspace } from "./identity-file.js";
-import { resolveAgentIdentity } from "./identity.js";
+} from "../shared/avatar-policy.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "./agent-scope.ts";
+import { loadAgentIdentityFromWorkspace } from "./identity-file.ts";
+import { resolveAgentIdentity } from "./identity.ts";
 
 // Agent avatar resolution for UI/public surfaces. Remote/data sources are
 // allowed directly; local files must stay inside the agent workspace and satisfy

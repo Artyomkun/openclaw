@@ -4,7 +4,6 @@ import { createDangerousNameMatchingMutableAllowlistWarningCollector } from "ope
 import type { GroupPolicy, OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { listSlackAccountIds, mergeSlackAccountConfig } from "./accounts.js";
 import {
-  legacyConfigRules as SLACK_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig as normalizeSlackCompatibilityConfig,
 } from "./doctor-contract.js";
 import { isSlackMutableAllowEntry } from "./security-doctor.js";
@@ -183,7 +182,6 @@ export const slackDoctor: ChannelDoctorAdapter = {
   groupModel: "route",
   groupAllowFromFallbackToAllowFrom: false,
   warnOnEmptyGroupSenderAllowlist: false,
-  legacyConfigRules: SLACK_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig: normalizeSlackCompatibilityConfig,
   collectMutableAllowlistWarnings: ({ cfg }) => [
     ...collectSlackMutableAllowlistWarnings({ cfg }),

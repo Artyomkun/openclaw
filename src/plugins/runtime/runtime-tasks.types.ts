@@ -1,8 +1,8 @@
 // Runtime task types describe plugin task runtime config and invocation options.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { TaskDeliveryState } from "../../tasks/task-registry.types.js";
-import type { OpenClawPluginToolContext } from "../tool-types.js";
-import type { PluginRuntimeTaskFlow } from "./runtime-taskflow.types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { TaskDeliveryState } from "../../tasks/task-registry.types.ts";
+import type { OpenClawPluginToolContext } from "../tool-types.ts";
+import type { PluginRuntimeTaskFlow } from "./runtime-taskflow.types.ts";
 import type {
   TaskFlowDetail,
   TaskFlowView,
@@ -10,7 +10,7 @@ import type {
   TaskRunCancelResult,
   TaskRunDetail,
   TaskRunView,
-} from "./task-domain-types.js";
+} from "./task-domain-types.ts";
 export type {
   TaskFlowDetail,
   TaskFlowView,
@@ -18,8 +18,8 @@ export type {
   TaskRunCancelResult,
   TaskRunDetail,
   TaskRunView,
-} from "./task-domain-types.js";
-export type { DetachedTaskLifecycleRuntime } from "../../tasks/detached-task-runtime-contract.js";
+} from "./task-domain-types.ts";
+export type { DetachedTaskLifecycleRuntime } from "../../tasks/detached-task-runtime-contract.ts";
 
 export type BoundTaskRunsRuntime = {
   readonly sessionKey: string;
@@ -65,6 +65,4 @@ export type PluginRuntimeTasks = {
   runs: PluginRuntimeTaskRuns;
   flows: PluginRuntimeTaskFlows;
   managedFlows: PluginRuntimeTaskFlow;
-  /** @deprecated Use runtime.tasks.flows for DTO-based TaskFlow access. */
-  flow: PluginRuntimeTaskFlow;
 };

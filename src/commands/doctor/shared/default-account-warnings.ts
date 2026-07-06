@@ -3,20 +3,20 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatChannelId } from "../../../channels/ids.js";
-import { listRouteBindings } from "../../../config/bindings.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import { normalizeChatChannelId } from "../../../channels/ids.ts";
+import { listRouteBindings } from "../../../config/bindings.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 import {
   formatChannelAccountsDefaultPath,
   formatSetExplicitDefaultInstruction,
   formatSetExplicitDefaultToConfiguredInstruction,
-} from "../../../routing/default-account-warnings.js";
+} from "../../../routing/default-account-warnings.ts";
 import {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   normalizeOptionalAccountId,
-} from "../../../routing/session-key.js";
-import { asObjectRecord } from "./object.js";
+} from "../../../routing/session-key.ts";
+import { asObjectRecord } from "./object.ts";
 
 type ChannelMissingDefaultAccountContext = {
   channelKey: string;

@@ -8,10 +8,10 @@ export {
   CODEX_NATIVE_SUBAGENT_RUNTIME,
   CODEX_NATIVE_SUBAGENT_STALE_ERROR,
   CODEX_NATIVE_SUBAGENT_TASK_KIND,
-} from "../tasks/codex-native-subagent-task.js";
+} from "../tasks/codex-native-subagent-task.ts";
 
 export {
   createRunningTaskRun,
   finalizeTaskRunByRunId,
   recordTaskRunProgressByRunId,
-} from "../tasks/detached-task-runtime.js";
+} from "../tasks/detached-task-runtime.ts";

@@ -1,6 +1,6 @@
 // OpenResponses output item factories.
 // Keeps assistant/function-call output assembly in schema-compatible shapes.
-import type { OutputItem } from "./open-responses.schema.js";
+import type { OutputItem } from "./open-responses.schema.ts";
 
 // Small OpenResponses output factories keep streamed assistant/function-call
 // items in the exact schema shape expected by response assembly and tests.

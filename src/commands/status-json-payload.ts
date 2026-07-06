@@ -1,7 +1,7 @@
 // Builds the stable JSON payload for `openclaw status --json`.
 // Optional deep fields are included only when their upstream probes actually ran.
 
-import { resolveStatusUpdateChannelInfo } from "./status-all/format.js";
+import { resolveStatusUpdateChannelInfo } from "./status-all/format.ts";
 import {
   buildStatusGatewayJsonPayloadFromSurface,
   type StatusOverviewSurface,

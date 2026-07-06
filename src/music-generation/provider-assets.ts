@@ -4,8 +4,8 @@ import { extensionForMime } from "@openclaw/media-core/mime";
 import { readResponseWithLimit } from "@openclaw/media-core/read-response-with-limit";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { fetchProviderDownloadResponse } from "../media-understanding/shared.js";
-import type { GeneratedMusicAsset } from "./types.js";
+import { fetchProviderDownloadResponse } from "../media-understanding/shared.ts";
+import type { GeneratedMusicAsset } from "./types.ts";
 
 /**
  * Asset extraction and download helpers for music generation providers.

@@ -14,13 +14,13 @@ RUN --mount=type=cache,id=openclaw-cleanup-smoke-apt-cache,target=/var/cache/apt
 
 WORKDIR /repo
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
-COPY openclaw.mjs ./
+COPY openclaw.ts ./
 COPY ui/package.json ./ui/package.json
 COPY packages ./packages
 COPY extensions ./extensions
 COPY patches ./patches
-COPY scripts/postinstall-bundled-plugins.mjs scripts/preinstall-package-manager-warning.mjs scripts/prepare-git-hooks.mjs scripts/npm-runner.mjs scripts/windows-cmd-helpers.mjs ./scripts/
-COPY scripts/lib/package-dist-imports.mjs ./scripts/lib/package-dist-imports.mjs
+COPY scripts/postinstall-bundled-plugins.ts scripts/preinstall-package-manager-warning.ts scripts/prepare-git-hooks.ts scripts/npm-runner.ts scripts/windows-cmd-helpers.ts ./scripts/
+COPY scripts/lib/package-dist-imports.ts ./scripts/lib/package-dist-imports.ts
 RUN --mount=type=cache,id=openclaw-pnpm-store,target=/root/.local/share/pnpm/store,sharing=locked \
   corepack enable \
   && if ! pnpm install --frozen-lockfile >/tmp/openclaw-cleanup-pnpm-install.log 2>&1; then \

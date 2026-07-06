@@ -3,7 +3,7 @@
  * Reuses unchanged bootstrap file arrays while refreshing each turn so edits
  * become visible to long-lived agent sessions.
  */
-import { loadWorkspaceBootstrapFiles, type WorkspaceBootstrapFile } from "./workspace.js";
+import { loadWorkspaceBootstrapFiles, type WorkspaceBootstrapFile } from "./workspace.ts";
 
 type BootstrapSnapshot = {
   workspaceDir: string;

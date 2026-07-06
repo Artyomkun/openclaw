@@ -1,6 +1,6 @@
 // Defines IRC channel configuration types.
-import type { CommonChannelMessagingConfig } from "./types.channel-messaging-common.js";
-import type { GroupToolPolicyBySenderConfig, GroupToolPolicyConfig } from "./types.tools.js";
+import type { CommonChannelMessagingConfig } from "./types.channel-messaging-common.ts";
+import type { GroupToolPolicyBySenderConfig, GroupToolPolicyConfig } from "./types.tools.ts";
 
 export type IrcAccountConfig = CommonChannelMessagingConfig & {
   /** IRC server hostname (example: irc.example.com). */

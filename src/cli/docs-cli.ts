@@ -1,10 +1,10 @@
 // Commander registration for live OpenClaw docs search.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { docsSearchCommand } from "../commands/docs.js";
-import { defaultRuntime } from "../runtime.js";
-import { runCommandWithRuntime } from "./cli-utils.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { docsSearchCommand } from "../commands/docs.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { runCommandWithRuntime } from "./cli-utils.ts";
 
 export function registerDocsCli(program: Command) {
   program

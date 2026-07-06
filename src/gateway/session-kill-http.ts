@@ -1,22 +1,22 @@
 // Gateway HTTP session kill handler.
 // Stops subagent runs through the admin-scoped HTTP control surface.
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { killSubagentRunAdmin } from "../agents/subagent-control.js";
-import { getRuntimeConfig } from "../config/io.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth.js";
+import { killSubagentRunAdmin } from "../agents/subagent-control.ts";
+import { getRuntimeConfig } from "../config/io.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth.ts";
 import {
   sendInvalidRequest,
   sendJson,
   sendMethodNotAllowed,
   sendMissingScopeForbidden,
-} from "./http-common.js";
+} from "./http-common.ts";
 import {
   authorizeGatewayHttpRequestOrReply,
   resolveTrustedHttpOperatorScopes,
-} from "./http-utils.js";
-import { authorizeOperatorScopesForMethod } from "./method-scopes.js";
-import { loadSessionEntry } from "./session-utils.js";
+} from "./http-utils.ts";
+import { authorizeOperatorScopesForMethod } from "./method-scopes.ts";
+import { loadSessionEntry } from "./session-utils.ts";
 
 type SessionKeyPathResolution =
   | { matched: false }

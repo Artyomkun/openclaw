@@ -1,46 +1,46 @@
 // Channel turn kernel for normalized inbound event dispatch, history, and delivery.
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
 import {
   clearHistoryEntriesIfEnabled,
   recordPendingHistoryEntryWithMedia,
-} from "../../auto-reply/reply/history.js";
+} from "../../auto-reply/reply/history.ts";
 import {
   createDiagnosticTraceContextFromActiveScope,
   runWithDiagnosticTraceContext,
-} from "../../infra/diagnostic-trace-context.js";
-import { toHistoryMediaEntries } from "../inbound-event/media.js";
-import { createChannelReplyPipeline } from "../message/reply-pipeline.js";
-import type { CreateChannelReplyPipelineParams } from "../message/reply-pipeline.js";
-import { recordChannelBotPairLoopAndCheckSuppression } from "./bot-loop-protection.js";
-import { EMPTY_CHANNEL_TURN_DISPATCH_COUNTS } from "./dispatch-result.js";
+} from "../../infra/diagnostic-trace-context.ts";
+import { toHistoryMediaEntries } from "../inbound-event/media.ts";
+import { createChannelReplyPipeline } from "../message/reply-pipeline.ts";
+import type { CreateChannelReplyPipelineParams } from "../message/reply-pipeline.ts";
+import { recordChannelBotPairLoopAndCheckSuppression } from "./bot-loop-protection.ts";
+import { EMPTY_CHANNEL_TURN_DISPATCH_COUNTS } from "./dispatch-result.ts";
 import {
   deliverInboundReplyWithMessageSendContext,
   isDurableInboundReplyDeliveryHandled,
   throwIfDurableInboundReplyDeliveryFailed,
-} from "./durable-delivery.js";
+} from "./durable-delivery.ts";
 export {
   buildChannelInboundEventContext,
   filterChannelInboundSupplementalContext,
-} from "../inbound-event/context.js";
-export type { BuildChannelInboundEventContextParams } from "../inbound-event/context.js";
+} from "../inbound-event/context.ts";
+export type { BuildChannelInboundEventContextParams } from "../inbound-event/context.ts";
 export {
   clearChannelBotPairLoopGuardForTests,
   recordChannelBotPairLoopAndCheckSuppression,
-} from "./bot-loop-protection.js";
-export { createChannelHistoryWindow } from "./history-window.js";
-export type { ChannelHistoryWindow } from "./history-window.js";
-export type { ChannelBotLoopProtectionFacts } from "./bot-loop-protection.js";
+} from "./bot-loop-protection.ts";
+export { createChannelHistoryWindow } from "./history-window.ts";
+export type { ChannelHistoryWindow } from "./history-window.ts";
+export type { ChannelBotLoopProtectionFacts } from "./bot-loop-protection.ts";
 export {
   deliverDurableInboundReplyPayload,
   deliverInboundReplyWithMessageSendContext,
   isDurableInboundReplyDeliveryHandled,
   throwIfDurableInboundReplyDeliveryFailed,
-} from "./durable-delivery.js";
+} from "./durable-delivery.ts";
 export type {
   DurableInboundReplyDeliveryOptions,
   DurableInboundReplyDeliveryParams,
   DurableInboundReplyDeliveryResult,
-} from "./durable-delivery.js";
+} from "./durable-delivery.ts";
 import type {
   AssembledChannelTurn,
   ChannelEventClass,
@@ -55,8 +55,8 @@ import type {
   PreparedChannelTurn,
   PreflightFacts,
   RunChannelTurnParams,
-} from "./types.js";
-export { createChannelDeliveryResultFromReceipt } from "./delivery-result.js";
+} from "./types.ts";
+export { createChannelDeliveryResultFromReceipt } from "./delivery-result.ts";
 export {
   EMPTY_CHANNEL_TURN_DISPATCH_COUNTS,
   hasFinalChannelTurnDispatch,
@@ -64,7 +64,7 @@ export {
   resolveChannelTurnDispatchCounts,
   type ChannelTurnDispatchResultLike,
   type ChannelTurnVisibleDeliverySignals,
-} from "./dispatch-result.js";
+} from "./dispatch-result.ts";
 export type {
   AccessFacts,
   AssembledChannelTurn,
@@ -93,25 +93,13 @@ export type {
   RunChannelTurnParams,
   SenderFacts,
   SupplementalContextFacts,
-} from "./types.js";
-export type { InboundMediaFacts } from "./types.js";
+} from "./types.ts";
+export type { InboundMediaFacts } from "./types.ts";
 
 const DEFAULT_EVENT_CLASS: ChannelEventClass = {
   kind: "message",
   canStartAgentTurn: true,
 };
-
-/**
- * @deprecated Compatibility assembly for legacy buffered reply dispatchers.
- * New channel plugins should expose `defineChannelMessageAdapter(...)` from
- * `openclaw/plugin-sdk/channel-outbound` and route send/receive behavior through
- * the message lifecycle helpers.
- */
-export function createChannelTurnReplyPipeline(
-  params: CreateChannelReplyPipelineParams,
-): ReturnType<typeof createChannelReplyPipeline> {
-  return createChannelReplyPipeline(params);
-}
 
 function isAdmission(value: unknown): value is ChannelTurnAdmission {
   if (!value || typeof value !== "object") {

@@ -5,10 +5,10 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { isPathInside } from "../../infra/path-guards.js";
-import { SANDBOX_AGENT_WORKSPACE_MOUNT } from "./constants.js";
-import { resolveSandboxHostPathViaExistingAncestor } from "./host-paths.js";
-import type { SandboxWorkspaceAccess } from "./types.js";
+import { isPathInside } from "../../infra/path-guards.ts";
+import { SANDBOX_AGENT_WORKSPACE_MOUNT } from "./constants.ts";
+import { resolveSandboxHostPathViaExistingAncestor } from "./host-paths.ts";
+import type { SandboxWorkspaceAccess } from "./types.ts";
 
 export const SANDBOX_MOUNT_FORMAT_VERSION = 3;
 const MATERIALIZED_SANDBOX_SKILLS_WORKSPACE_PARTS = [".openclaw", "sandbox-skills"] as const;

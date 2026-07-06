@@ -10,7 +10,7 @@ import {
   type SessionBindingCapabilities,
   type SessionBindingRecord,
   type SessionBindingUnbindInput,
-} from "../infra/outbound/session-binding-service.js";
+} from "../infra/outbound/session-binding-service.ts";
 
 export async function createConversationBindingRecord(
   input: SessionBindingBindInput,

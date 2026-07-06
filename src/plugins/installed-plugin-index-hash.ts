@@ -1,7 +1,7 @@
 // Hashes installed plugin index records for change detection.
 import crypto from "node:crypto";
 import fs from "node:fs";
-import type { PluginDiagnostic } from "./manifest-types.js";
+import type { PluginDiagnostic } from "./manifest-types.ts";
 
 /** File metadata signature used to skip unchanged installed plugin files. */
 export type InstalledPluginFileSignature = {

@@ -1,10 +1,10 @@
 // User turn transcript helpers extract user-turn text from session transcripts.
 import path from "node:path";
 import { mimeTypeFromFilePath } from "@openclaw/media-core/mime";
-import type { AgentMessage } from "../../packages/agent-core/src/types.js";
-import { persistSessionTranscriptTurn } from "../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { applyInputProvenanceToUserMessage, normalizeInputProvenance } from "./input-provenance.js";
+import type { AgentMessage } from "../../packages/agent-core/src/types.ts";
+import { persistSessionTranscriptTurn } from "../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { applyInputProvenanceToUserMessage, normalizeInputProvenance } from "./input-provenance.ts";
 import type {
   PersistedUserTurnMediaInput,
   PersistedUserTurnMessage,
@@ -17,13 +17,13 @@ import type {
   UserTurnTranscriptTarget,
   UserTurnTranscriptTargetResolver,
   UserTurnTranscriptUpdateMode,
-} from "./user-turn-transcript.types.js";
+} from "./user-turn-transcript.types.ts";
 
 export type {
   PersistedUserTurnMessage,
   UserTurnInput,
   UserTurnTranscriptRecorder,
-} from "./user-turn-transcript.types.js";
+} from "./user-turn-transcript.types.ts";
 
 type PersistedUserTurnMediaFields = {
   MediaPath?: string;

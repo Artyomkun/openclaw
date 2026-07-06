@@ -1,12 +1,12 @@
 // Executes task records through configured runtimes and updates registry state.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import type {
   DetachedRunningTaskCreateParams,
   DetachedTaskCreateParams,
   DetachedTaskFinalizeParams,
-} from "./detached-task-runtime-contract.js";
-import { getRegisteredDetachedTaskLifecycleRuntime } from "./detached-task-runtime-state.js";
+} from "./detached-task-runtime-contract.ts";
+import { getRegisteredDetachedTaskLifecycleRuntime } from "./detached-task-runtime-state.ts";
 import {
   cancelTaskById,
   createTaskRecord,
@@ -18,17 +18,17 @@ import {
   finalizeTaskRunByRunId as finalizeTaskRunByRunIdInRegistry,
   recordTaskProgressByRunId,
   setTaskRunDeliveryStatusByRunId,
-} from "./runtime-internal.js";
-import { getTaskFlowByIdForOwner } from "./task-flow-owner-access.js";
-import type { TaskFlowRecord } from "./task-flow-registry.types.js";
+} from "./runtime-internal.ts";
+import { getTaskFlowByIdForOwner } from "./task-flow-owner-access.ts";
+import type { TaskFlowRecord } from "./task-flow-registry.types.ts";
 import {
   createTaskFlowForTask,
   deleteTaskFlowRecordById,
   getTaskFlowById,
   requestFlowCancel,
   updateFlowRecordByIdExpectedRevision,
-} from "./task-flow-runtime-internal.js";
-import { summarizeTaskRecords } from "./task-registry.summary.js";
+} from "./task-flow-runtime-internal.ts";
+import { summarizeTaskRecords } from "./task-registry.summary.ts";
 import type {
   TaskDeliveryState,
   TaskDeliveryStatus,
@@ -38,7 +38,7 @@ import type {
   TaskRuntime,
   TaskStatus,
   TaskTerminalOutcome,
-} from "./task-registry.types.js";
+} from "./task-registry.types.ts";
 
 const log = createSubsystemLogger("tasks/executor");
 

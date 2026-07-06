@@ -1,21 +1,21 @@
 // Configure wizard service install/restart helper for the Gateway daemon.
-import { note } from "../../packages/terminal-core/src/note.js";
-import { withProgress } from "../cli/progress.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { describeGatewayServiceRestart, resolveGatewayService } from "../daemon/service.js";
-import { isNonFatalSystemdInstallProbeError } from "../daemon/systemd.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { confirm, select } from "./configure.shared.js";
-import { buildGatewayInstallPlan, gatewayInstallErrorHint } from "./daemon-install-helpers.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { withProgress } from "../cli/progress.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { describeGatewayServiceRestart, resolveGatewayService } from "../daemon/service.ts";
+import { isNonFatalSystemdInstallProbeError } from "../daemon/systemd.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { confirm, select } from "./configure.shared.ts";
+import { buildGatewayInstallPlan, gatewayInstallErrorHint } from "./daemon-install-helpers.ts";
 import {
   DEFAULT_GATEWAY_DAEMON_RUNTIME,
   GATEWAY_DAEMON_RUNTIME_OPTIONS,
   type GatewayDaemonRuntime,
-} from "./daemon-runtime.js";
-import { resolveGatewayInstallToken } from "./gateway-install-token.js";
-import { guardCancel } from "./onboard-helpers.js";
-import { ensureSystemdUserLingerInteractive } from "./systemd-linger.js";
+} from "./daemon-runtime.ts";
+import { resolveGatewayInstallToken } from "./gateway-install-token.ts";
+import { guardCancel } from "./onboard-helpers.ts";
+import { ensureSystemdUserLingerInteractive } from "./systemd-linger.ts";
 
 /** Prompt to install, reinstall, restart, or skip the local Gateway service. */
 export async function maybeInstallDaemon(params: {

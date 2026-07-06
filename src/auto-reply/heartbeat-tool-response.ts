@@ -1,8 +1,8 @@
 // Structured heartbeat response tool payload helpers.
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString as readString } from "@openclaw/normalization-core/string-coerce";
-import type { ReplyPayload } from "./reply-payload.js";
-import { HEARTBEAT_TOKEN } from "./tokens.js";
+import type { ReplyPayload } from "./reply-payload.ts";
+import { HEARTBEAT_TOKEN } from "./tokens.ts";
 
 /** Tool name used by heartbeat runs to report visible or silent progress. */
 export const HEARTBEAT_RESPONSE_TOOL_NAME = "heartbeat_respond";

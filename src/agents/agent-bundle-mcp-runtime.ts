@@ -1,30 +1,30 @@
 /** Session-scoped MCP runtime manager, catalog loader, and transport lifecycle. */
 import crypto from "node:crypto";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
-import { ErrorCode, type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import type { ServerCapabilities } from "@modelcontextprotocol/sdk/types.js";
-import { AjvJsonSchemaValidator } from "@modelcontextprotocol/sdk/validation/ajv-provider.js";
+import { Client } from "@modelcontextprotocol/sdk/client/index.ts";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.ts";
+import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.ts";
+import { ErrorCode, type CallToolResult } from "@modelcontextprotocol/sdk/types.ts";
+import type { ServerCapabilities } from "@modelcontextprotocol/sdk/types.ts";
+import { AjvJsonSchemaValidator } from "@modelcontextprotocol/sdk/validation/ajv-provider.ts";
 import type {
   JsonSchemaType,
   JsonSchemaValidator,
   jsonSchemaValidator,
-} from "@modelcontextprotocol/sdk/validation/types.js";
+} from "@modelcontextprotocol/sdk/validation/types.ts";
 import { redactSensitiveUrlLikeString } from "@openclaw/net-policy/redact-sensitive-url";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { Compile } from "typebox/compile";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { toErrorObject } from "../infra/errors.js";
-import { logWarn } from "../logger.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { toErrorObject } from "../infra/errors.ts";
+import { logWarn } from "../logger.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
 import {
   findJsonSchemaShapeError,
   normalizeJsonSchemaForTypeBox,
-} from "../shared/json-schema-defaults.js";
-import { runTasksWithConcurrency } from "../utils/run-with-concurrency.js";
-import { sanitizeServerName } from "./agent-bundle-mcp-names.js";
+} from "../shared/json-schema-defaults.ts";
+import { runTasksWithConcurrency } from "../utils/run-with-concurrency.ts";
+import { sanitizeServerName } from "./agent-bundle-mcp-names.ts";
 import type {
   McpCatalogTool,
   McpServerCatalog,
@@ -32,10 +32,10 @@ import type {
   McpToolCatalogDiagnostic,
   SessionMcpRuntime,
   SessionMcpRuntimeManager,
-} from "./agent-bundle-mcp-types.js";
-import { loadEmbeddedAgentMcpConfig } from "./embedded-agent-mcp.js";
-import { isMcpConfigRecord } from "./mcp-config-shared.js";
-import { resolveMcpTransport } from "./mcp-transport.js";
+} from "./agent-bundle-mcp-types.ts";
+import { loadEmbeddedAgentMcpConfig } from "./embedded-agent-mcp.ts";
+import { isMcpConfigRecord } from "./mcp-config-shared.ts";
+import { resolveMcpTransport } from "./mcp-transport.ts";
 
 type BundleMcpSession = {
   serverName: string;

@@ -1,5 +1,5 @@
 // Reusable recovery strings for config/startup failures surfaced by CLI commands.
-import { formatCliCommand } from "./command-format.js";
+import { formatCliCommand } from "./command-format.ts";
 
 /** Hint shown when doctor can migrate or repair an invalid config file. */
 export function formatInvalidConfigRecoveryHint(): string {

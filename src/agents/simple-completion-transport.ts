@@ -3,21 +3,21 @@
  *
  * Registers provider-specific stream functions and rewrites models that need OpenClaw-managed transport semantics.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getApiProvider } from "../llm/api-registry.js";
-import type { Api, Model } from "../llm/types.js";
-import { wrapProviderSimpleCompletionStreamFn } from "../plugins/provider-runtime.js";
-import { createAnthropicVertexStreamFnForModel } from "./anthropic-vertex-stream.js";
-import { ensureCustomApiRegistered } from "./custom-api-registry.js";
-import { prepareGoogleSimpleCompletionModel } from "./google-simple-completion-stream.js";
-import { registerProviderStreamForModel } from "./provider-stream.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getApiProvider } from "../llm/api-registry.ts";
+import type { Api, Model } from "../llm/types.ts";
+import { wrapProviderSimpleCompletionStreamFn } from "../plugins/provider-runtime.ts";
+import { createAnthropicVertexStreamFnForModel } from "./anthropic-vertex-stream.ts";
+import { ensureCustomApiRegistered } from "./custom-api-registry.ts";
+import { prepareGoogleSimpleCompletionModel } from "./google-simple-completion-stream.ts";
+import { registerProviderStreamForModel } from "./provider-stream.ts";
 import {
   buildTransportAwareSimpleStreamFn,
   createOpenClawTransportStreamFnForModel,
   prepareTransportAwareSimpleModel,
   resolveTransportAwareSimpleApi,
-} from "./provider-transport-stream.js";
-import type { StreamFn } from "./runtime/index.js";
+} from "./provider-transport-stream.ts";
+import type { StreamFn } from "./runtime/index.ts";
 
 const PROVIDER_SIMPLE_COMPLETION_API_PREFIX = "openclaw-provider-simple:";
 

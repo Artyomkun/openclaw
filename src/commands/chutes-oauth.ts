@@ -2,16 +2,16 @@
 import { randomBytes } from "node:crypto";
 import { createServer } from "node:http";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ChutesOAuthAppConfig } from "../agents/chutes-oauth.js";
+import type { ChutesOAuthAppConfig } from "../agents/chutes-oauth.ts";
 import {
   CHUTES_AUTHORIZE_ENDPOINT,
   exchangeChutesCodeForTokens,
   generateChutesPkce,
   parseOAuthCallbackInput,
-} from "../agents/chutes-oauth.js";
-import { isLoopbackHost } from "../gateway/net.js";
-import { toErrorObject } from "../infra/errors.js";
-import type { OAuthCredentials } from "../llm/oauth.js";
+} from "../agents/chutes-oauth.ts";
+import { isLoopbackHost } from "../gateway/net.ts";
+import { toErrorObject } from "../infra/errors.ts";
+import type { OAuthCredentials } from "../llm/oauth.ts";
 
 type OAuthPrompt = {
   message: string;
@@ -29,7 +29,7 @@ function parseManualOAuthInput(
 
   // Support pasting either:
   // - Full redirect URL (preferred; validates state)
-  // - Raw authorization code (legacy/manual copy flows)
+  // - Raw authorization code (manual copy flows)
   const looksLikeRedirect =
     /^https?:\/\//i.test(trimmed) || trimmed.includes("://") || trimmed.includes("?");
   if (!looksLikeRedirect) {

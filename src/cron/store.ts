@@ -3,34 +3,34 @@ import fs from "node:fs";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { expandHomePrefix } from "../infra/home-dir.js";
-import { replaceFileAtomic } from "../infra/replace-file.js";
+import { expandHomePrefix } from "../infra/home-dir.ts";
+import { replaceFileAtomic } from "../infra/replace-file.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../state/openclaw-state-db.js";
-import { resolveConfigDir } from "../utils.js";
-import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.js";
-import { cronStoreKey } from "./store/key.js";
+} from "../state/openclaw-state-db.ts";
+import { resolveConfigDir } from "../utils.ts";
+import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.ts";
+import { cronStoreKey } from "./store/key.ts";
 import {
   assertCronStoreCanPersist,
   loadedCronStoreFromRows,
   loadCronRows,
   replaceCronRows,
   updateCronRuntimeRows,
-} from "./store/row-codec.js";
+} from "./store/row-codec.ts";
 import type {
   CronQuarantineFile,
   LoadedCronStore,
   QuarantinedCronConfigJob,
-} from "./store/types.js";
+} from "./store/types.ts";
 export type {
   CronConfigJobRuntimeEntry,
   CronQuarantineFile,
   LoadedCronStore,
   QuarantinedCronConfigJob,
-} from "./store/types.js";
-import type { CronStoreFile } from "./types.js";
+} from "./store/types.ts";
+import type { CronStoreFile } from "./types.ts";
 
 function resolveDefaultCronDir(): string {
   return path.join(resolveConfigDir(), "cron");

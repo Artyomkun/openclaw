@@ -1,8 +1,8 @@
 // Session store caches share parsed stores, immutable snapshots, and serialized JSON.
-import { parseStrictNonNegativeInteger } from "../../infra/parse-finite-number.js";
-import { createExpiringMapCache, isCacheEnabled, resolveCacheTtlMs } from "../cache-utils.js";
-import { clearSessionSkillPromptRefCache } from "./skill-prompt-blobs.js";
-import type { SessionEntry, SessionSkillPromptRef } from "./types.js";
+import { parseStrictNonNegativeInteger } from "../../infra/parse-finite-number.ts";
+import { createExpiringMapCache, isCacheEnabled, resolveCacheTtlMs } from "../cache-utils.ts";
+import { clearSessionSkillPromptRefCache } from "./skill-prompt-blobs.ts";
+import type { SessionEntry, SessionSkillPromptRef } from "./types.ts";
 
 export type DeepReadonly<T> = T extends (...args: never[]) => unknown
   ? T

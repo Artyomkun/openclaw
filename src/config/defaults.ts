@@ -5,22 +5,22 @@ import {
   normalizeConfiguredProviderCatalogModelId,
 } from "@openclaw/model-catalog-core/provider-model-id-normalization";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { DEFAULT_CONTEXT_TOKENS } from "../agents/defaults.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
+import { DEFAULT_CONTEXT_TOKENS } from "../agents/defaults.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
 import {
   DEFAULT_AGENT_MAX_CONCURRENT,
   DEFAULT_SUBAGENT_ARCHIVE_AFTER_MINUTES,
   DEFAULT_SUBAGENT_MAX_CONCURRENT,
-} from "./agent-limits.js";
-import { DEFAULT_CRON_MAX_CONCURRENT_RUNS } from "./cron-limits.js";
-import { normalizeAgentModelMapForConfig, normalizeAgentModelRefForConfig } from "./model-input.js";
+} from "./agent-limits.ts";
+import { DEFAULT_CRON_MAX_CONCURRENT_RUNS } from "./cron-limits.ts";
+import { normalizeAgentModelMapForConfig, normalizeAgentModelRefForConfig } from "./model-input.ts";
 import {
   applyProviderConfigDefaultsForConfig,
   normalizeProviderConfigForConfigDefaults,
-} from "./provider-policy.js";
-import { normalizeTalkConfig } from "./talk.js";
-import type { ModelDefinitionConfig } from "./types.models.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+} from "./provider-policy.ts";
+import { normalizeTalkConfig } from "./talk.ts";
+import type { ModelDefinitionConfig } from "./types.models.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 type WarnState = { warned: boolean };
 type ProviderPolicyDefaultsOptions = {

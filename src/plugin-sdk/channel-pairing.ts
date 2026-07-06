@@ -1,18 +1,18 @@
 // Channel pairing contracts describe account/device pairing state shared by channel plugins.
-import type { ChannelId } from "../channels/plugins/types.public.js";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
 export {
   createLoggedPairingApprovalNotifier,
   createPairingPrefixStripper,
   createTextPairingAdapter,
-} from "../channels/plugins/pairing-adapters.js";
+} from "../channels/plugins/pairing-adapters.ts";
 export {
   readChannelAllowFromStore,
   readChannelAllowFromStoreSync,
-} from "../pairing/pairing-store.js";
-export { resolveChannelAllowFromPath } from "../pairing/pairing-store.js";
-import { issuePairingChallenge } from "../pairing/pairing-challenge.js";
-import type { PluginRuntime } from "../plugins/runtime/types.js";
-import { createScopedPairingAccess } from "./pairing-access.js";
+} from "../pairing/pairing-store.ts";
+export { resolveChannelAllowFromPath } from "../pairing/pairing-store.ts";
+import { issuePairingChallenge } from "../pairing/pairing-challenge.ts";
+import type { PluginRuntime } from "../plugins/runtime/types.ts";
+import { createScopedPairingAccess } from "./pairing-access.ts";
 
 type ScopedPairingAccess = ReturnType<typeof createScopedPairingAccess>;
 

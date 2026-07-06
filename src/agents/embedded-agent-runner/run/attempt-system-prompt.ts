@@ -1,9 +1,9 @@
 /**
  * Builds the system prompt inputs for a single embedded-agent attempt.
  */
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import type { ProviderTransformSystemPromptContext } from "../../../plugins/types.js";
-import { buildEmbeddedSystemPrompt } from "../system-prompt.js";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import type { ProviderTransformSystemPromptContext } from "../../../plugins/types.ts";
+import { buildEmbeddedSystemPrompt } from "../system-prompt.ts";
 
 type EmbeddedSystemPromptParams = Parameters<typeof buildEmbeddedSystemPrompt>[0];
 type ProviderSystemPromptTransform = (params: {

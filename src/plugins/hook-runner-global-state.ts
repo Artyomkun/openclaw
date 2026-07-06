@@ -1,13 +1,13 @@
 // Internal state and composed-registry view for the global hook runner.
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import type { GlobalHookRunnerRegistry } from "./hook-registry.types.js";
-import type { HookRunner } from "./hooks.js";
-import { isPluginRegistryRetired } from "./registry-lifecycle.js";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import type { GlobalHookRunnerRegistry } from "./hook-registry.types.ts";
+import type { HookRunner } from "./hooks.ts";
+import { isPluginRegistryRetired } from "./registry-lifecycle.ts";
 import type {
   PluginRegistry,
   PluginTrustedToolPolicyRegistryRegistration,
-} from "./registry-types.js";
-import { collectLivePluginRegistries } from "./runtime.js";
+} from "./registry-types.ts";
+import { collectLivePluginRegistries } from "./runtime.ts";
 
 type TrustedPolicyHookRunnerRegistry = GlobalHookRunnerRegistry & {
   trustedToolPolicies?: PluginTrustedToolPolicyRegistryRegistration[];

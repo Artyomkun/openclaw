@@ -5,27 +5,27 @@
  */
 import { readStringValue } from "@openclaw/normalization-core/string-coerce";
 import { Type } from "typebox";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { callGateway } from "../../gateway/call.js";
-import { capArrayByJsonBytes } from "../../gateway/session-transcript-readers.js";
-import { jsonUtf8Bytes } from "../../infra/json-utf8-bytes.js";
-import { redactToolPayloadText } from "../../logging/redact.js";
-import { truncateUtf16Safe } from "../../utils.js";
-import { optionalPositiveIntegerSchema } from "../schema/typebox.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { capArrayByJsonBytes } from "../../gateway/session-transcript-readers.ts";
+import { jsonUtf8Bytes } from "../../infra/json-utf8-bytes.ts";
+import { redactToolPayloadText } from "../../logging/redact.ts";
+import { truncateUtf16Safe } from "../../utils.ts";
+import { optionalPositiveIntegerSchema } from "../schema/typebox.ts";
 import {
   describeSessionsHistoryTool,
   SESSIONS_HISTORY_TOOL_DISPLAY_SUMMARY,
-} from "../tool-description-presets.js";
-import { stripToolMessages } from "./chat-history-text.js";
-import type { AnyAgentTool } from "./common.js";
+} from "../tool-description-presets.ts";
+import { stripToolMessages } from "./chat-history-text.ts";
+import type { AnyAgentTool } from "./common.ts";
 import {
   jsonResult,
   readNumberParam,
   readPositiveIntegerParam,
   readStringParam,
   ToolInputError,
-} from "./common.js";
+} from "./common.ts";
 import {
   createSessionVisibilityGuard,
   createAgentToAgentPolicy,
@@ -33,7 +33,7 @@ import {
   resolveSessionReference,
   resolveSandboxedSessionToolContext,
   resolveVisibleSessionReference,
-} from "./sessions-helpers.js";
+} from "./sessions-helpers.ts";
 
 const SessionsHistoryToolSchema = Type.Object({
   sessionKey: Type.String(),

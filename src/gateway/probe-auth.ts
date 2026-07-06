@@ -1,15 +1,15 @@
 // Gateway probe auth resolver.
 // Adapts gateway credential precedence for local/remote reachability checks.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveGatewayCredentialsWithSecretInputs } from "./credentials-secret-inputs.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveGatewayCredentialsWithSecretInputs } from "./credentials-secret-inputs.ts";
 import {
   type ExplicitGatewayAuth,
   isGatewaySecretRefUnavailableError,
   resolveGatewayProbeCredentialsFromConfig,
-} from "./credentials.js";
-export { resolveGatewayProbeTarget } from "./probe-target.js";
-export type { GatewayProbeTargetResolution } from "./probe-target.js";
+} from "./credentials.ts";
+export { resolveGatewayProbeTarget } from "./probe-target.ts";
+export type { GatewayProbeTargetResolution } from "./probe-target.ts";
 
 // Probe auth adapts normal gateway credential precedence for reachability
 // checks. Local probes must not accidentally consume remote gateway credentials

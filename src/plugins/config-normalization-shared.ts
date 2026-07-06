@@ -4,9 +4,9 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeArrayBackedTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { normalizeChatChannelId } from "../channels/ids.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { defaultSlotIdForKey } from "./slots.js";
+import { normalizeChatChannelId } from "../channels/ids.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { defaultSlotIdForKey } from "./slots.ts";
 
 /** Canonical plugin config shape consumed by runtime policy and loaders. */
 export type NormalizedPluginsConfig = {

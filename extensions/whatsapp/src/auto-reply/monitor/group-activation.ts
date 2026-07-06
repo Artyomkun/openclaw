@@ -7,7 +7,6 @@ import {
   resolveStorePath,
   type SessionEntry,
 } from "openclaw/plugin-sdk/session-store-runtime";
-import { resolveWhatsAppLegacyGroupSessionKey } from "../../group-session-key.js";
 import { resolveWhatsAppInboundPolicy } from "../../inbound-policy.js";
 import { normalizeGroupActivation } from "./group-activation.runtime.js";
 
@@ -44,13 +43,6 @@ export async function resolveGroupActivationFor(params: {
     agentId: params.agentId,
   });
   const sessionScope = { storePath, agentId: params.agentId };
-  const legacySessionKey = resolveWhatsAppLegacyGroupSessionKey({
-    sessionKey: params.sessionKey,
-    accountId: params.accountId,
-  });
-  const legacyEntry = legacySessionKey
-    ? getSessionEntry({ ...sessionScope, sessionKey: legacySessionKey })
-    : undefined;
   const scopedEntry = getSessionEntry({ ...sessionScope, sessionKey: params.sessionKey });
   const normalizedAccountId = normalizeAccountId(params.accountId);
   const ignoreScopedActivation =
@@ -58,8 +50,7 @@ export async function resolveGroupActivationFor(params: {
     hasNamedWhatsAppAccounts(params.cfg) &&
     isActivationOnlyEntry(scopedEntry);
   const activation =
-    (ignoreScopedActivation ? undefined : scopedEntry?.groupActivation) ??
-    legacyEntry?.groupActivation;
+    (ignoreScopedActivation ? undefined : scopedEntry?.groupActivation);
   if (activation !== undefined && scopedEntry?.groupActivation === undefined) {
     // Activation-only backfills must not synthesize session ids or activity.
     // replaceEntry preserves existing scoped metadata while keeping fallback writes sparse.

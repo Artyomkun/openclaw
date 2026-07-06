@@ -5,4 +5,4 @@
 export {
   listPluginOriginsFromMetadataSnapshot,
   loadPluginMetadataSnapshot,
-} from "../plugins/plugin-metadata-snapshot.js";
+} from "../plugins/plugin-metadata-snapshot.ts";

@@ -2,7 +2,7 @@
  * Exponential backoff helpers for command-output polling. Session diagnostics
  * use this state to slow no-output polls while resetting promptly on output.
  */
-import type { SessionState } from "../logging/diagnostic-session-state.js";
+import type { SessionState } from "../logging/diagnostic-session-state.ts";
 
 const BACKOFF_SCHEDULE_MS = [5000, 10000, 30000, 60000];
 

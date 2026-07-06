@@ -6,7 +6,7 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ModelCatalogEntry, ModelInputType } from "./model-catalog.types.js";
+import type { ModelCatalogEntry, ModelInputType } from "./model-catalog.types.ts";
 
 /** Returns whether a catalog entry declares support for an input modality. */
 export function modelSupportsInput(

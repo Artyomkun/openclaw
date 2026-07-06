@@ -1,20 +1,20 @@
 // Normalized full status scan result shape.
 // Builders flatten the gateway snapshot so downstream text/JSON code reads one stable object.
 
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { collectChannelStatusIssues as collectChannelStatusIssuesFn } from "../infra/channels-status-issues.js";
-import { resolveOsSummary } from "../infra/os-summary.js";
-import type { UpdateCheckResult } from "../infra/update-check.js";
-import type { PluginCompatibilityNotice } from "../plugins/status.js";
-import type { pickGatewaySelfPresence } from "./gateway-presence.js";
-import type { buildChannelsTable as buildChannelsTableFn } from "./status-all/channels.js";
-import type { getAgentLocalStatuses as getAgentLocalStatusesFn } from "./status.agent-local.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { collectChannelStatusIssues as collectChannelStatusIssuesFn } from "../infra/channels-status-issues.ts";
+import { resolveOsSummary } from "../infra/os-summary.ts";
+import type { UpdateCheckResult } from "../infra/update-check.ts";
+import type { PluginCompatibilityNotice } from "../plugins/status.ts";
+import type { pickGatewaySelfPresence } from "./gateway-presence.ts";
+import type { buildChannelsTable as buildChannelsTableFn } from "./status-all/channels.ts";
+import type { getAgentLocalStatuses as getAgentLocalStatusesFn } from "./status.agent-local.ts";
 import type {
   GatewayProbeSnapshot,
   MemoryPluginStatus,
   MemoryStatusSnapshot,
-} from "./status.scan.shared.js";
-import type { getStatusSummary as getStatusSummaryFn } from "./status.summary.js";
+} from "./status.scan.shared.ts";
+import type { getStatusSummary as getStatusSummaryFn } from "./status.summary.ts";
 
 export type StatusScanResult = {
   cfg: OpenClawConfig;

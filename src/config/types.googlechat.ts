@@ -4,11 +4,11 @@ import type {
   DmPolicy,
   GroupPolicy,
   ReplyToMode,
-} from "./types.base.js";
-import type { ChannelBotLoopProtectionConfig } from "./types.bot-loop-protection.js";
-import type { ChannelHealthMonitorConfig } from "./types.channel-health.js";
-import type { DmConfig } from "./types.messages.js";
-import type { SecretRef } from "./types.secrets.js";
+} from "./types.base.ts";
+import type { ChannelBotLoopProtectionConfig } from "./types.bot-loop-protection.ts";
+import type { ChannelHealthMonitorConfig } from "./types.channel-health.ts";
+import type { DmConfig } from "./types.messages.ts";
+import type { SecretRef } from "./types.secrets.ts";
 
 export type GoogleChatDmConfig = {
   /** If false, ignore all incoming Google Chat DMs. Default: true. */

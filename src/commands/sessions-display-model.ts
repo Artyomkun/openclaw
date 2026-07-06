@@ -4,13 +4,13 @@
  * Session rows may carry persisted model/provider overrides or CLI-runtime
  * model strings; this module normalizes them into display-ready model refs.
  */
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
 import {
   inferUniqueProviderFromConfiguredModels,
   isCliProvider,
-} from "../agents/model-selection.js";
-import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../agents/model-selection.ts";
+import { resolveAgentModelPrimaryValue } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 type SessionDisplayModelRow = {
   key: string;

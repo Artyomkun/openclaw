@@ -1,8 +1,8 @@
 /**
  * Dispatches embedded attempts to native harness or OpenClaw backend execution.
  */
-import { runAgentHarnessAttempt } from "../../harness/selection.js";
-import type { EmbeddedRunAttemptParams, EmbeddedRunAttemptResult } from "./types.js";
+import { runAgentHarnessAttempt } from "../../harness/selection.ts";
+import type { EmbeddedRunAttemptParams, EmbeddedRunAttemptResult } from "./types.ts";
 
 /**
  * Backend bridge for executing one embedded-agent attempt through the selected harness.

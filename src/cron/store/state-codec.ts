@@ -1,12 +1,12 @@
 /** SQLite column codec for mutable cron runtime state. */
-import type { CronJobState } from "../types.js";
+import type { CronJobState } from "../types.ts";
 import {
   booleanToInteger,
   integerToBoolean,
   normalizeNumber,
   parseJsonObject,
-} from "./scalar-codec.js";
-import type { CronJobInsert, CronJobRow } from "./schema.js";
+} from "./scalar-codec.ts";
+import type { CronJobInsert, CronJobRow } from "./schema.ts";
 
 /** Maps mutable cron runtime state into normalized SQLite columns. */
 export function bindStateColumns(

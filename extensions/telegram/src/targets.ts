@@ -19,7 +19,6 @@ export function stripTelegramInternalPrefixes(to: string): string {
         strippedTelegramPrefix = true;
         return trimmed.replace(/^(telegram|tg):/i, "").trim();
       }
-      // Legacy internal form: `telegram:group:<id>` (still emitted by session keys).
       if (strippedTelegramPrefix && /^group:/i.test(trimmed)) {
         return trimmed.replace(/^group:/i, "").trim();
       }
@@ -45,15 +44,6 @@ export function normalizeTelegramChatId(raw: string): string | undefined {
 
 export function isNumericTelegramChatId(raw: string): boolean {
   return TELEGRAM_NUMERIC_CHAT_ID_REGEX.test(raw.trim());
-}
-
-export function normalizeTelegramOutboundTarget(raw: string): string {
-  const trimmed = raw.trim();
-  const legacyGroupMatch = /^group:(-?\d+(?::topic:\d+|:\d+)?)$/i.exec(trimmed);
-  if (legacyGroupMatch?.[1]) {
-    return legacyGroupMatch[1];
-  }
-  return raw;
 }
 
 export function normalizeTelegramLookupTarget(raw: string): string | undefined {

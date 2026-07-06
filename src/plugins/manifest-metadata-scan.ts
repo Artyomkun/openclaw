@@ -4,9 +4,9 @@ import os from "node:os";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString as normalizeTrimmedString } from "@openclaw/normalization-core/string-coerce";
-import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.js";
-import { resolveBundledPluginsDir } from "./bundled-dir.js";
-import { readPersistedInstalledPluginIndexSync } from "./installed-plugin-index-store.js";
+import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.ts";
+import { resolveBundledPluginsDir } from "./bundled-dir.ts";
+import { readPersistedInstalledPluginIndexSync } from "./installed-plugin-index-store.ts";
 
 type PluginManifestMetadataRecord = {
   pluginDir: string;

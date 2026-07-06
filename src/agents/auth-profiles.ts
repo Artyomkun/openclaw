@@ -3,14 +3,14 @@
  * Keep external callers on these exported contracts instead of deep
  * auth-profile implementation files.
  */
-export { CLAUDE_CLI_PROFILE_ID, CODEX_CLI_PROFILE_ID } from "./auth-profiles/constants.js";
+export { CLAUDE_CLI_PROFILE_ID, CODEX_CLI_PROFILE_ID } from "./auth-profiles/constants.ts";
 export type {
   AuthCredentialReasonCode,
   TokenExpiryState,
-} from "./auth-profiles/credential-state.js";
-export type { AuthProfileEligibilityReasonCode } from "./auth-profiles/order.js";
-export { resolveAuthProfileDisplayLabel } from "./auth-profiles/display.js";
-export { formatAuthDoctorHint } from "./auth-profiles/doctor.js";
+} from "./auth-profiles/credential-state.ts";
+export type { AuthProfileEligibilityReasonCode } from "./auth-profiles/order.ts";
+export { resolveAuthProfileDisplayLabel } from "./auth-profiles/display.ts";
+export { formatAuthDoctorHint } from "./auth-profiles/doctor.ts";
 export {
   externalCliDiscoveryForConfigStatus,
   externalCliDiscoveryForProviderAuth,
@@ -18,21 +18,21 @@ export {
   externalCliDiscoveryNone,
   externalCliDiscoveryScoped,
   type ExternalCliAuthDiscovery,
-} from "./auth-profiles/external-cli-discovery.js";
+} from "./auth-profiles/external-cli-discovery.ts";
 export {
   refreshOAuthCredentialForRuntime,
   resolveApiKeyForProfile,
-} from "./auth-profiles/oauth.js";
+} from "./auth-profiles/oauth.ts";
 export {
   isConfiguredAwsSdkAuthProfileForProvider,
   isStoredCredentialCompatibleWithAuthProvider,
   resolveAuthProfileEligibility,
   resolveAuthProfileOrder,
-} from "./auth-profiles/order.js";
+} from "./auth-profiles/order.ts";
 export {
   resolveAuthStatePathForDisplay,
   resolveAuthStorePathForDisplay,
-} from "./auth-profiles/paths.js";
+} from "./auth-profiles/paths.ts";
 export {
   dedupeProfileIds,
   listProfilesForProvider,
@@ -42,18 +42,17 @@ export {
   setAuthProfileOrder,
   upsertAuthProfile,
   upsertAuthProfileWithLock,
-} from "./auth-profiles/profiles.js";
+} from "./auth-profiles/profiles.ts";
 export {
-  repairOAuthProfileIdMismatch,
-  suggestOAuthProfileIdForLegacyDefault,
-} from "./auth-profiles/repair.js";
+  repairOAuthProfileIdMismatch
+} from "./auth-profiles/repair.ts";
 export {
   buildPortableAuthProfileSecretsStoreForAgentCopy,
   isAuthProfileCredentialPortableForAgentCopy,
   resolveAuthProfilePortability,
   type AuthProfilePortability,
   type AuthProfilePortabilityReason,
-} from "./auth-profiles/portability.js";
+} from "./auth-profiles/portability.ts";
 export {
   clearRuntimeAuthProfileStoreSnapshots,
   ensureAuthProfileStore,
@@ -69,7 +68,7 @@ export {
   saveAuthProfileStore,
   findPersistedAuthProfileCredential,
   resolvePersistedAuthProfileOwnerAgentDir,
-} from "./auth-profiles/store.js";
+} from "./auth-profiles/store.ts";
 export type {
   ApiKeyCredential,
   AuthProfileBlockedReason,
@@ -82,7 +81,7 @@ export type {
   OAuthCredential,
   ProfileUsageStats,
   TokenCredential,
-} from "./auth-profiles/types.js";
+} from "./auth-profiles/types.ts";
 export {
   calculateAuthProfileCooldownMs,
   clearAuthProfileCooldown,
@@ -95,4 +94,4 @@ export {
   resolveProfilesUnavailableReason,
   resolveProfileUnusableUntilForDisplay,
   setAuthProfileFailureHook,
-} from "./auth-profiles/usage.js";
+} from "./auth-profiles/usage.ts";

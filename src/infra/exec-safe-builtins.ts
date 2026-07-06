@@ -1,5 +1,5 @@
 // Classifies closed POSIX shell builtins for exec allowlist checks.
-import { isWindowsPlatform, type ExecCommandSegment } from "./exec-approvals-analysis.js";
+import { isWindowsPlatform, type ExecCommandSegment } from "./exec-approvals-analysis.ts";
 
 // POSIX shell builtins that cannot execute external code or mutate environment state on their
 // own. Shell allowlist evaluation handles them as a closed internal set instead of path-based

@@ -211,7 +211,7 @@ Actually create the test files.
 let test_results = session "Run test suite"
   prompt: """
 Run all tests:
-1. npm test / pytest / cargo test (whatever this project uses)
+1. npm test
 2. Report results
 3. If failures, identify which tests failed and why
 """

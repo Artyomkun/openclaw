@@ -3,17 +3,17 @@ import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/s
 import {
   getBundledChannelPlugin,
   getBundledChannelSetupPlugin,
-} from "../../../channels/plugins/bundled.js";
-import { resolveReadOnlyChannelPluginsForConfig } from "../../../channels/plugins/read-only.js";
-import { getLoadedChannelPlugin } from "../../../channels/plugins/registry.js";
+} from "../../../channels/plugins/bundled.ts";
+import { resolveReadOnlyChannelPluginsForConfig } from "../../../channels/plugins/read-only.ts";
+import { getLoadedChannelPlugin } from "../../../channels/plugins/registry.ts";
 import type {
   ChannelDoctorAdapter,
   ChannelDoctorConfigMutation,
   ChannelDoctorEmptyAllowlistAccountContext,
   ChannelDoctorSequenceResult,
-} from "../../../channels/plugins/types.adapters.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { isUnresolvedSecretInputError } from "../../../config/types.secrets.js";
+} from "../../../channels/plugins/types.adapters.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { isUnresolvedSecretInputError } from "../../../config/types.secrets.ts";
 
 type ChannelDoctorEntry = {
   id: string;
@@ -192,9 +192,6 @@ function isValidChannelDoctorAdapterValue(
   const enumValues = channelDoctorEnumValues[key];
   if (enumValues) {
     return typeof value === "string" && enumValues.has(value);
-  }
-  if (key === "legacyConfigRules") {
-    return Array.isArray(value);
   }
   return false;
 }

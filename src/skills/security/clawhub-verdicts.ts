@@ -3,8 +3,8 @@ import {
   fetchClawHubSkillSecurityVerdicts,
   resolveClawHubBaseUrl,
   type ClawHubSkillSecurityVerdictItem,
-} from "../../infra/clawhub.js";
-import type { buildWorkspaceSkillStatus } from "../discovery/status.js";
+} from "../../infra/clawhub.ts";
+import type { buildWorkspaceSkillStatus } from "../discovery/status.ts";
 
 /** ClawHub verdict item shape projected into local security scan verdicts. */
 type OpenClawSkillSecurityVerdictItem = Omit<

@@ -1,13 +1,13 @@
 /** Type contract for the generated installed plugin index persisted on disk. */
-import type { OpenClawConfig } from "../config/types.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import type { PluginCompatCode } from "./compat/registry.js";
-import type { PluginCandidate, PluginDiscoveryResult } from "./discovery.js";
-import type { PluginInstallSourceInfo } from "./install-source-info.js";
-import type { InstalledPluginFileSignature } from "./installed-plugin-index-hash.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { PluginDiagnostic } from "./manifest-types.js";
-import type { PluginPackageChannel } from "./manifest.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import type { PluginCompatCode } from "./compat/registry.ts";
+import type { PluginCandidate, PluginDiscoveryResult } from "./discovery.ts";
+import type { PluginInstallSourceInfo } from "./install-source-info.ts";
+import type { InstalledPluginFileSignature } from "./installed-plugin-index-hash.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import type { PluginDiagnostic } from "./manifest-types.ts";
+import type { PluginPackageChannel } from "./manifest.ts";
 
 /** Schema version for installed plugin index files. */
 export const INSTALLED_PLUGIN_INDEX_VERSION = 1;
@@ -101,7 +101,6 @@ export type InstalledPluginIndexRecord = {
   packageName?: string;
   packageVersion?: string;
   /**
-   * Legacy embedded install record accepted when reading earlier index files.
    * New index writes keep install records in InstalledPluginIndex.installRecords.
    */
   installRecord?: InstalledPluginInstallRecordInfo;

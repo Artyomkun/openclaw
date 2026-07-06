@@ -88,14 +88,6 @@ export type AgentHarnessResultClassification =
   | "ok"
   | NonNullable<AgentHarnessAttemptResult["agentHarnessResultClassification"]>;
 
-export type AgentHarnessDeliveryDefaults = {
-  /**
-   * @deprecated Prefer `messages.visibleReplies` / `messages.groupChat.visibleReplies`
-   * config. Kept for existing harness plugins.
-   */
-  sourceVisibleReplies?: "automatic" | "message_tool";
-};
-
 type AgentHarnessRunCapability = {
   id: string;
   label: string;
@@ -106,7 +98,6 @@ type AgentHarnessRunCapability = {
    * host requirements.
    */
   contextEngineHostCapabilities?: readonly import("../../context-engine/types.js").ContextEngineHostCapability[];
-  deliveryDefaults?: AgentHarnessDeliveryDefaults;
   supports(ctx: AgentHarnessSupportContext): AgentHarnessSupport;
   runAttempt(params: AgentHarnessAttemptParams): Promise<AgentHarnessAttemptResult>;
 };

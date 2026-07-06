@@ -1,7 +1,6 @@
 [
   "agent-config-primitives",
   "agent-runtime-test-contracts",
-  "channel-config-schema-legacy",
   "channel-contract-testing",
   "channel-envelope",
   "channel-inbound-roots",

@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { GatewayClient } from "../gateway/client.js";
+import { GatewayClient } from "../gateway/client.ts";
 import {
   analyzeArgvCommand,
   ensureExecApprovals,
@@ -17,39 +17,39 @@ import {
   type ExecApprovalsFile,
   type ExecApprovalsResolved,
   type ExecSecurity,
-} from "../infra/exec-approvals.js";
-import { planShellAuthorization } from "../infra/exec-authorization-plan.js";
+} from "../infra/exec-approvals.ts";
+import { planShellAuthorization } from "../infra/exec-authorization-plan.ts";
 import {
   requestExecHostViaSocket,
   type ExecHostRequest,
   type ExecHostResponse,
-} from "../infra/exec-host.js";
+} from "../infra/exec-host.ts";
 import {
   extractShellWrapperCommand,
   isShellWrapperInvocation,
-} from "../infra/exec-wrapper-resolution.js";
+} from "../infra/exec-wrapper-resolution.ts";
 import {
   inspectHostExecEnvOverrides,
   sanitizeHostExecEnv,
   sanitizeSystemRunEnvOverrides,
-} from "../infra/host-env-security.js";
+} from "../infra/host-env-security.ts";
 import {
   decodeWindowsOutputBuffer,
   resolveWindowsConsoleEncoding,
-} from "../infra/windows-encoding.js";
+} from "../infra/windows-encoding.ts";
 import {
   buildSystemRunApprovalPlan,
   handleSystemRunInvoke,
   resolveEffectiveSystemRunExecPolicy,
-} from "./invoke-system-run.js";
+} from "./invoke-system-run.ts";
 import type {
   ExecEventPayload,
   ExecFinishedEventParams,
   RunResult,
   SkillBinsProvider,
   SystemRunParams,
-} from "./invoke-types.js";
-import { invokeRegisteredNodeHostCommand } from "./plugin-node-host.js";
+} from "./invoke-types.ts";
+import { invokeRegisteredNodeHostCommand } from "./plugin-node-host.ts";
 
 const OUTPUT_CAP = 200_000;
 const OUTPUT_EVENT_TAIL = 20_000;
@@ -202,7 +202,7 @@ type NodeInvokeRequestPayload = {
   idempotencyKey?: string | null;
 };
 
-export type { SkillBinsProvider } from "./invoke-types.js";
+export type { SkillBinsProvider } from "./invoke-types.ts";
 
 function resolveExecSecurity(value?: string): ExecSecurity {
   return value === "deny" || value === "allowlist" || value === "full" ? value : "allowlist";
@@ -659,13 +659,12 @@ export async function handleInvoke(
   });
 }
 
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- CLI JSON params are typed by the invoked method.
-function decodeParams<T>(raw?: string | null): T {
+function decodeParams(raw?: string | null): Record<string, unknown> {
   if (!raw) {
     throw new Error("INVALID_REQUEST: paramsJSON required");
   }
   try {
-    return JSON.parse(raw) as T;
+    return JSON.parse(raw) as Record<string, unknown>;
   } catch {
     throw new Error("INVALID_REQUEST: paramsJSON malformed JSON");
   }

@@ -3,10 +3,10 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { expandHomePrefix, resolveRequiredHomeDir } from "../../infra/home-dir.js";
-import { DEFAULT_AGENT_ID, normalizeAgentId } from "../../routing/session-key.js";
-import { resolveStateDir } from "../paths.js";
-import { isCompactionCheckpointTranscriptFileName } from "./artifacts.js";
+import { expandHomePrefix, resolveRequiredHomeDir } from "../../infra/home-dir.ts";
+import { DEFAULT_AGENT_ID, normalizeAgentId } from "../../routing/session-key.ts";
+import { resolveStateDir } from "../paths.ts";
+import { isCompactionCheckpointTranscriptFileName } from "./artifacts.ts";
 
 function resolveAgentSessionsDir(
   agentId?: string,

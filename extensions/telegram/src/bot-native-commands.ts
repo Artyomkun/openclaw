@@ -43,7 +43,6 @@ import {
   resolveStorePath,
   type SessionEntry,
 } from "openclaw/plugin-sdk/session-store-runtime";
-import { resolveSessionTranscriptLegacyFileTarget } from "openclaw/plugin-sdk/session-transcript-runtime";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
@@ -217,16 +216,8 @@ async function resolveTelegramCommandTranscriptContext(params: {
     });
     const sessionId = entry?.sessionId?.trim() || randomUUID();
     const authProfileId = normalizeOptionalString(entry?.authProfileOverride);
-    const target = await resolveSessionTranscriptLegacyFileTarget({
-      agentId: params.agentId,
-      sessionId,
-      sessionKey,
-      storePath,
-      ...(params.threadId !== undefined ? { threadId: params.threadId } : {}),
-    });
     return {
       sessionId,
-      sessionFile: target.sessionFile,
       ...(authProfileId ? { authProfileId } : {}),
     };
   } catch {

@@ -7,7 +7,7 @@ export type MediaPayloadInput = {
 };
 
 /**
- * Legacy-compatible media payload shape consumed by plugin send helpers.
+ * Compatible media payload shape consumed by plugin send helpers.
  */
 export type MediaPayload = {
   MediaPath?: string;
@@ -29,7 +29,7 @@ export function buildMediaPayload(
   const mediaPaths = mediaList.map((media) => media.path);
   const rawMediaTypes = mediaList.map((media) => media.contentType ?? "");
   // Some callers need MediaTypes to stay aligned with MediaPaths, including
-  // blank entries. Others use the compact legacy list of present content types.
+  // blank entries. Others use the compact older list of present content types.
   const mediaTypes = opts?.preserveMediaTypeCardinality
     ? rawMediaTypes
     : rawMediaTypes.filter((value): value is string => Boolean(value));

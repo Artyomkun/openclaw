@@ -3,20 +3,20 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import v8 from "node:v8";
-import { resolveStateDir } from "../config/paths.js";
+import { resolveStateDir } from "../config/paths.ts";
 import type {
   DiagnosticMemoryPressureEvent,
   DiagnosticMemoryUsage,
-} from "../infra/diagnostic-events.js";
-import { registerFatalErrorHook } from "../infra/fatal-error-hooks.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
-import { replaceFileAtomicSync } from "../infra/replace-file.js";
+} from "../infra/diagnostic-events.ts";
+import { registerFatalErrorHook } from "../infra/fatal-error-hooks.ts";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
+import { replaceFileAtomicSync } from "../infra/replace-file.ts";
 import {
   getDiagnosticStabilitySnapshot,
   MAX_DIAGNOSTIC_STABILITY_LIMIT,
   type DiagnosticStabilitySnapshot,
-} from "./diagnostic-stability.js";
-import { redactSensitiveText } from "./redact.js";
+} from "./diagnostic-stability.ts";
+import { redactSensitiveText } from "./redact.ts";
 
 export const DIAGNOSTIC_STABILITY_BUNDLE_VERSION = 1;
 export const DEFAULT_DIAGNOSTIC_STABILITY_BUNDLE_LIMIT = MAX_DIAGNOSTIC_STABILITY_LIMIT;

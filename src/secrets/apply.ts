@@ -3,51 +3,50 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
-import { registerResolvedAgentDir } from "../agents/agent-dir-registry.js";
-import { resolveAgentConfig } from "../agents/agent-scope.js";
-import { loadAuthProfileStoreForSecretsRuntime } from "../agents/auth-profiles.js";
-import { AUTH_STORE_VERSION } from "../agents/auth-profiles/constants.js";
+import { registerResolvedAgentDir } from "../agents/agent-dir-registry.ts";
+import { resolveAgentConfig } from "../agents/agent-scope.ts";
+import { loadAuthProfileStoreForSecretsRuntime } from "../agents/auth-profiles.ts";
+import { AUTH_STORE_VERSION } from "../agents/auth-profiles/constants.ts";
 import {
   coercePersistedAuthProfileStore,
   loadPersistedAuthProfileStore,
-} from "../agents/auth-profiles/persisted.js";
+} from "../agents/auth-profiles/persisted.ts";
 import {
   deletePersistedAuthProfileStoreRaw,
   resolveAuthProfileDatabasePath,
-} from "../agents/auth-profiles/sqlite.js";
-import { saveAuthProfileStore } from "../agents/auth-profiles/store.js";
-import { normalizeProviderId } from "../agents/model-selection.js";
+} from "../agents/auth-profiles/sqlite.ts";
+import { saveAuthProfileStore } from "../agents/auth-profiles/store.ts";
+import { normalizeProviderId } from "../agents/model-selection.ts";
 import {
   replaceConfigFile,
   resolveStateDir,
   type ConfigFileSnapshot,
   type OpenClawConfig,
-} from "../config/config.js";
-import type { ConfigWriteOptions } from "../config/io.js";
-import { coerceSecretRef, type SecretProviderConfig } from "../config/types.secrets.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { resolveConfigDir, resolveUserPath } from "../utils.js";
-import { iterateAuthProfileCredentials } from "./auth-profiles-scan.js";
-import { createSecretsConfigIO } from "./config-io.js";
-import { getSkippedExecRefStaticError } from "./exec-resolution-policy.js";
-import { deletePathStrict, getPath, setPathCreateStrict } from "./path-utils.js";
+} from "../config/config.ts";
+import type { ConfigWriteOptions } from "../config/io.ts";
+import { coerceSecretRef, type SecretProviderConfig } from "../config/types.secrets.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { resolveConfigDir, resolveUserPath } from "../utils.ts";
+import { iterateAuthProfileCredentials } from "./auth-profiles-scan.ts";
+import { createSecretsConfigIO } from "./config-io.ts";
+import { getSkippedExecRefStaticError } from "./exec-resolution-policy.ts";
+import { deletePathStrict, getPath, setPathCreateStrict } from "./path-utils.ts";
 import {
   type SecretsApplyPlan,
   type SecretsPlanTarget,
   normalizeSecretsPlanOptions,
   resolveValidatedPlanTarget,
-} from "./plan.js";
-import { listKnownSecretEnvVarNames } from "./provider-env-vars.js";
-import { resolveSecretRefValue } from "./resolve.js";
-import { prepareSecretsRuntimeSnapshot } from "./runtime.js";
-import { assertExpectedResolvedSecretValue } from "./secret-value.js";
-import { isNonEmptyString, isRecord, writeTextFileAtomic } from "./shared.js";
+} from "./plan.ts";
+import { listKnownSecretEnvVarNames } from "./provider-env-vars.ts";
+import { resolveSecretRefValue } from "./resolve.ts";
+import { prepareSecretsRuntimeSnapshot } from "./runtime.ts";
+import { assertExpectedResolvedSecretValue } from "./secret-value.ts";
+import { isNonEmptyString, isRecord, writeTextFileAtomic } from "./shared.ts";
 import {
   listAuthProfileStoreAgentDirs,
-  listLegacyAuthJsonPaths,
   parseEnvAssignmentValue,
   readJsonObjectIfExists,
-} from "./storage-scan.js";
+} from "./storage-scan.ts";
 
 type FileSnapshot = {
   existed: boolean;
@@ -269,12 +268,6 @@ async function projectPlanState(params: {
     enabled: options.scrubAuthProfilesForProviderTargets,
   });
 
-  const authJsonByPath = scrubLegacyAuthJsonStores({
-    stateDir,
-    changedFiles,
-    enabled: options.scrubLegacyAuthJson,
-  });
-
   const envRawByPath = scrubEnvFiles({
     env: params.env,
     scrubbedValues: targetMutations.scrubbedValues,
@@ -300,7 +293,6 @@ async function projectPlanState(params: {
     configWriteOptions: writeOptions,
     authStoreByPath,
     authStoreAgentDirByPath: targetMutations.authStoreAgentDirByPath,
-    authJsonByPath,
     envRawByPath,
     changedFiles,
     warnings,
@@ -365,8 +357,7 @@ function applyConfigTargetMutations(params: {
         throw new Error(`Missing sibling ref path for target ${target.type}.`);
       }
       const wroteRef = setPathCreateStrict(params.nextConfig, refPathSegments, target.ref);
-      const deletedLegacy = deletePathStrict(params.nextConfig, targetPathSegments);
-      if (wroteRef || deletedLegacy) {
+      if (wroteRef) {
         configChanged = true;
       }
       continue;
@@ -633,40 +624,6 @@ function applyAuthProfileTargetMutation(params: {
   const wroteRef = setPathCreateStrict(store, targetPathSegments, params.target.ref);
   changed = changed || wroteRef;
   return changed;
-}
-
-function scrubLegacyAuthJsonStores(params: {
-  stateDir: string;
-  changedFiles: Set<string>;
-  enabled: boolean;
-}): Map<string, Record<string, unknown>> {
-  const authJsonByPath = new Map<string, Record<string, unknown>>();
-  if (!params.enabled) {
-    return authJsonByPath;
-  }
-  for (const authJsonPath of listLegacyAuthJsonPaths(params.stateDir)) {
-    const parsedResult = readJsonObjectIfExists(authJsonPath);
-    const parsed = parsedResult.value;
-    if (!parsed) {
-      continue;
-    }
-    let mutated = false;
-    const nextParsed = structuredClone(parsed);
-    for (const [providerId, value] of Object.entries(nextParsed)) {
-      if (!isRecord(value)) {
-        continue;
-      }
-      if (value.type === "api_key" && isNonEmptyString(value.key)) {
-        delete nextParsed[providerId];
-        mutated = true;
-      }
-    }
-    if (mutated) {
-      authJsonByPath.set(authJsonPath, nextParsed);
-      params.changedFiles.add(authJsonPath);
-    }
-  }
-  return authJsonByPath;
 }
 
 function scrubEnvFiles(params: {

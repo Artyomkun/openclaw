@@ -4,16 +4,16 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import type { CronJob } from "../../cron/types.js";
-import { danger } from "../../globals.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
-import { sanitizeAgentId } from "../../routing/session-key.js";
-import { defaultRuntime } from "../../runtime.js";
-import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.js";
+import type { CronJob } from "../../cron/types.ts";
+import { danger } from "../../globals.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
+import { sanitizeAgentId } from "../../routing/session-key.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.ts";
 import {
   applyExistingCronSchedulePatch,
   resolveCronEditScheduleRequest,
-} from "./schedule-options.js";
+} from "./schedule-options.ts";
 import {
   getCronChannelOptions,
   parseCronCommandArgv,
@@ -22,8 +22,8 @@ import {
   parseCronToolsAllow,
   parseDurationMs,
   warnIfCronSchedulerDisabled,
-} from "./shared.js";
-import { normalizeCronSessionTargetOption, parseCronThreadIdOption } from "./thread-id-shared.js";
+} from "./shared.ts";
+import { normalizeCronSessionTargetOption, parseCronThreadIdOption } from "./thread-id-shared.ts";
 
 const CRON_EDIT_LOOKUP_PAGE_SIZE = 200;
 const CRON_EDIT_LOOKUP_MAX_PAGES = 50;

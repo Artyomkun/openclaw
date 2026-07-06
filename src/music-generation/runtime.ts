@@ -1,21 +1,21 @@
 // Runs music generation requests through provider runtimes and fallbacks.
-import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import { resolveAgentModelTimeoutMsValue } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import type { FallbackAttempt } from "../agents/model-fallback.types.ts";
+import { resolveAgentModelTimeoutMsValue } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   buildMediaGenerationNormalizationMetadata,
   buildNoCapabilityModelConfiguredMessage,
   recordCapabilityCandidateFailure,
   resolveCapabilityModelCandidates,
   throwCapabilityGenerationFailure,
-} from "../media-generation/runtime-shared.js";
-import { getProviderEnvVars } from "../secrets/provider-env-vars.js";
-import { parseMusicGenerationModelRef } from "./model-ref.js";
-import { resolveMusicGenerationOverrides } from "./normalization.js";
-import { getMusicGenerationProvider, listMusicGenerationProviders } from "./provider-registry.js";
-import type { GenerateMusicParams, GenerateMusicRuntimeResult } from "./runtime-types.js";
-import type { MusicGenerationResult } from "./types.js";
+} from "../media-generation/runtime-shared.ts";
+import { getProviderEnvVars } from "../secrets/provider-env-vars.ts";
+import { parseMusicGenerationModelRef } from "./model-ref.ts";
+import { resolveMusicGenerationOverrides } from "./normalization.ts";
+import { getMusicGenerationProvider, listMusicGenerationProviders } from "./provider-registry.ts";
+import type { GenerateMusicParams, GenerateMusicRuntimeResult } from "./runtime-types.ts";
+import type { MusicGenerationResult } from "./types.ts";
 
 /**
  * Music generation runtime orchestration.
@@ -34,7 +34,7 @@ export type MusicGenerationRuntimeDeps = {
   log?: Pick<typeof log, "debug">;
 };
 
-export type { GenerateMusicParams, GenerateMusicRuntimeResult } from "./runtime-types.js";
+export type { GenerateMusicParams, GenerateMusicRuntimeResult } from "./runtime-types.ts";
 
 /** List runtime-visible music generation providers for a config snapshot. */
 export function listRuntimeMusicGenerationProviders(

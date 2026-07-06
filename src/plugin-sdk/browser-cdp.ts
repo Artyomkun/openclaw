@@ -1,5 +1,5 @@
 // Browser CDP helpers connect plugin browser automation to Chrome DevTools Protocol sessions.
-import { redactSensitiveText } from "../logging/redact.js";
+import { redactSensitiveText } from "../logging/redact.ts";
 
 /** Detect an operator-supplied port before WHATWG URL normalization drops default ports. */
 function hasRawExplicitPort(raw: string): boolean {

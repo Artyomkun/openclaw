@@ -6,37 +6,37 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./ip": {
-      "types": "./dist/ip.d.mts",
-      "import": "./dist/ip.mjs",
-      "default": "./dist/ip.mjs"
+      "types": "./dist/ip.d.ts",
+      "import": "./dist/ip.ts",
+      "default": "./dist/ip.ts"
     },
     "./ipv4": {
-      "types": "./dist/ipv4.d.mts",
-      "import": "./dist/ipv4.mjs",
-      "default": "./dist/ipv4.mjs"
+      "types": "./dist/ipv4.d.ts",
+      "import": "./dist/ipv4.ts",
+      "default": "./dist/ipv4.ts"
     },
     "./redact-sensitive-url": {
-      "types": "./dist/redact-sensitive-url.d.mts",
-      "import": "./dist/redact-sensitive-url.mjs",
-      "default": "./dist/redact-sensitive-url.mjs"
+      "types": "./dist/redact-sensitive-url.d.ts",
+      "import": "./dist/redact-sensitive-url.ts",
+      "default": "./dist/redact-sensitive-url.ts"
     },
     "./url-userinfo": {
-      "types": "./dist/url-userinfo.d.mts",
-      "import": "./dist/url-userinfo.mjs",
-      "default": "./dist/url-userinfo.mjs"
+      "types": "./dist/url-userinfo.d.ts",
+      "import": "./dist/url-userinfo.ts",
+      "default": "./dist/url-userinfo.ts"
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts src/ip.ts src/ipv4.ts src/redact-sensitive-url.ts src/url-userinfo.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
+    "build": "tsc src/index.ts src/ip.ts src/ipv4.ts src/redact-sensitive-url.ts src/url-userinfo.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
   },
   "dependencies": {
     "ipaddr.js": "2.4.0"

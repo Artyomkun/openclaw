@@ -9,8 +9,6 @@
 # Manage the running container from the host CLI:
 #   openclaw --container openclaw dashboard --no-open
 #   openclaw --container openclaw channels login
-#
-# Legacy: "setup-host" delegates to the Podman setup script
 
 set -euo pipefail
 
@@ -205,18 +203,6 @@ if [[ -z "$EFFECTIVE_HOME" ]]; then
 fi
 if [[ "$(id -u)" -eq 0 ]]; then
   fail "Run run-openclaw-podman.sh as your normal user so Podman stays rootless."
-fi
-
-# Legacy: setup-host -> run the Podman setup script
-if [[ "${1:-}" == "setup-host" ]]; then
-  shift
-  REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-  SETUP_PODMAN="$REPO_ROOT/scripts/podman/setup.sh"
-  if [[ -f "$SETUP_PODMAN" ]]; then
-    exec "$SETUP_PODMAN" "$@"
-  fi
-  echo "Podman setup script not found. Run from repo root: ./scripts/podman/setup.sh" >&2
-  exit 1
 fi
 
 if [[ "${1:-}" == "launch" ]]; then

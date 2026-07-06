@@ -773,7 +773,7 @@ function writePluginFixtures(
     const pluginDir = path.join(pluginsDir, id);
     mkdirSync(pluginDir, { recursive: true });
     writeFileSync(
-      path.join(pluginDir, "index.cjs"),
+      path.join(pluginDir, "index.ts"),
       `module.exports = { id: ${JSON.stringify(id)}, register() {} };\n`,
     );
     writeFileSync(

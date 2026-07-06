@@ -1,10 +1,10 @@
 // Delivery queue storage persists replayable outbound send intents and tracks
 // platform-send recovery state in the shared SQLite queue.
-import type { ReplyDispatchKind } from "../../auto-reply/reply/reply-dispatcher.types.js";
-import type { ReplyPayload } from "../../auto-reply/types.js";
-import type { RenderedMessageBatchPlanItem } from "../../channels/message/types.js";
-import type { ReplyToMode } from "../../config/types.js";
-import type { PluginHookReplyPayloadSendingContext } from "../../plugins/hook-types.js";
+import type { ReplyDispatchKind } from "../../auto-reply/reply/reply-dispatcher.types.ts";
+import type { ReplyPayload } from "../../auto-reply/types.ts";
+import type { RenderedMessageBatchPlanItem } from "../../channels/message/types.ts";
+import type { ReplyToMode } from "../../config/types.ts";
+import type { PluginHookReplyPayloadSendingContext } from "../../plugins/hook-types.ts";
 import {
   deleteDeliveryQueueEntry,
   loadDeliveryQueueEntries,
@@ -13,13 +13,13 @@ import {
   updateDeliveryQueueEntry,
   upsertDeliveryQueueEntry,
   type DeliveryQueueRowMetadata,
-} from "../delivery-queue-sqlite.js";
-import { generateSecureUuid } from "../secure-random.js";
-import type { OutboundDeliveryFormattingOptions } from "./formatting.js";
-import type { OutboundIdentity } from "./identity.js";
-import type { OutboundMirror } from "./mirror.js";
-import type { OutboundSessionContext } from "./session-context.js";
-import type { OutboundChannel } from "./targets.js";
+} from "../delivery-queue-sqlite.ts";
+import { generateSecureUuid } from "../secure-random.ts";
+import type { OutboundDeliveryFormattingOptions } from "./formatting.ts";
+import type { OutboundIdentity } from "./identity.ts";
+import type { OutboundMirror } from "./mirror.ts";
+import type { OutboundSessionContext } from "./session-context.ts";
+import type { OutboundChannel } from "./targets.ts";
 
 const QUEUE_NAME = "outbound";
 

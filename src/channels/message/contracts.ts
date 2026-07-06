@@ -11,13 +11,13 @@ import type {
   DurableFinalDeliveryRequirementMap,
   LivePreviewFinalizerCapability,
   LivePreviewFinalizerCapabilityMap,
-} from "./types.js";
+} from "./types.ts";
 import {
   channelMessageLiveCapabilities,
   channelMessageReceiveAckPolicies,
   durableFinalDeliveryCapabilities,
   livePreviewFinalizerCapabilities,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Proof callback used to verify one declared durable-final delivery capability.

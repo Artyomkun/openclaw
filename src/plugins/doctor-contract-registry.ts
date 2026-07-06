@@ -4,30 +4,28 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { asNullableRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import type { LegacyConfigRule } from "../config/legacy.shared.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { OpenClawConfig } from "../config/types.ts";
 import type {
   OpenKeyedStoreOptions,
   PluginStateKeyedStore,
-} from "../plugin-state/plugin-state-store.js";
-import type { DoctorSessionRouteStateOwner } from "./doctor-session-route-state-owner-types.js";
-import type { PluginManifestRegistry } from "./manifest-registry.js";
+} from "../plugin-state/plugin-state-store.ts";
+import type { DoctorSessionRouteStateOwner } from "./doctor-session-route-state-owner-types.ts";
+import type { PluginManifestRegistry } from "./manifest-registry.ts";
 import {
   createPluginModuleLoaderCache,
   getCachedPluginModuleLoader,
   type PluginModuleLoaderFactory,
   type PluginModuleLoaderCache,
-} from "./plugin-module-loader-cache.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.js";
+} from "./plugin-module-loader-cache.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.ts";
 
-const CONTRACT_API_EXTENSIONS = [".js", ".mjs", ".cjs", ".ts", ".mts", ".cts"] as const;
+const CONTRACT_API_EXTENSIONS = [".js", ".ts", ".ts", ".ts"] as const;
 const CURRENT_MODULE_PATH = fileURLToPath(import.meta.url);
 const RUNNING_FROM_BUILT_ARTIFACT =
   CURRENT_MODULE_PATH.includes(`${path.sep}dist${path.sep}`) ||
   CURRENT_MODULE_PATH.includes(`${path.sep}dist-runtime${path.sep}`);
 
 type PluginDoctorContractModule = {
-  legacyConfigRules?: unknown;
   normalizeCompatibilityConfig?: unknown;
   resolveSessionStoreAgentIds?: unknown;
   sessionRouteStateOwners?: unknown;
@@ -49,7 +47,6 @@ type PluginDoctorSessionStoreAgentIdsResolver = (params: {
 
 type PluginDoctorContractEntry = {
   pluginId: string;
-  rules: LegacyConfigRule[];
   normalizeCompatibilityConfig?: PluginDoctorCompatibilityNormalizer;
   resolveSessionStoreAgentIds?: PluginDoctorSessionStoreAgentIdsResolver;
   sessionRouteStateOwners: DoctorSessionRouteStateOwner[];
@@ -67,25 +64,6 @@ export type PluginDoctorStateMigrationContext = {
 export type PluginDoctorStateMigration = {
   id: string;
   label: string;
-  detectLegacyState: (params: {
-    config: OpenClawConfig;
-    env: NodeJS.ProcessEnv;
-    stateDir: string;
-    oauthDir: string;
-    context: PluginDoctorStateMigrationContext;
-  }) =>
-    | Promise<PluginDoctorStateMigrationDetection | null>
-    | PluginDoctorStateMigrationDetection
-    | null;
-  migrateLegacyState: (params: {
-    config: OpenClawConfig;
-    env: NodeJS.ProcessEnv;
-    stateDir: string;
-    oauthDir: string;
-    context: PluginDoctorStateMigrationContext;
-  }) =>
-    | Promise<{ changes: string[]; warnings: string[] }>
-    | { changes: string[]; warnings: string[] };
 };
 
 export type PluginDoctorStateMigrationEntry = {
@@ -122,19 +100,6 @@ function resolveContractApiPath(rootDir: string): string | null {
     }
   }
   return null;
-}
-
-function coerceLegacyConfigRules(value: unknown): LegacyConfigRule[] {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-  return value.filter((entry) => {
-    if (!entry || typeof entry !== "object") {
-      return false;
-    }
-    const candidate = entry as { path?: unknown; message?: unknown };
-    return Array.isArray(candidate.path) && typeof candidate.message === "string";
-  }) as LegacyConfigRule[];
 }
 
 function coerceNormalizeCompatibilityConfig(
@@ -200,16 +165,12 @@ function isPluginDoctorStateMigration(value: unknown): value is PluginDoctorStat
   const candidate = value as {
     id?: unknown;
     label?: unknown;
-    detectLegacyState?: unknown;
-    migrateLegacyState?: unknown;
   };
   return (
     typeof candidate.id === "string" &&
     candidate.id.trim().length > 0 &&
     typeof candidate.label === "string" &&
     candidate.label.trim().length > 0 &&
-    typeof candidate.detectLegacyState === "function" &&
-    typeof candidate.migrateLegacyState === "function"
   );
 }
 
@@ -219,20 +180,8 @@ function coercePluginDoctorStateMigrations(value: unknown): PluginDoctorStateMig
   }
   return value.filter(isPluginDoctorStateMigration).map((migration) => ({
     id: migration.id.trim(),
-    label: migration.label.trim(),
-    detectLegacyState: migration.detectLegacyState,
-    migrateLegacyState: migration.migrateLegacyState,
+    label: migration.label.trim()
   }));
-}
-
-function hasLegacyElevenLabsTalkFields(raw: unknown): boolean {
-  const talk = asNullableRecord(asNullableRecord(raw)?.talk);
-  if (!talk) {
-    return false;
-  }
-  return ["voiceId", "voiceAliases", "modelId", "outputFormat", "apiKey"].some((key) =>
-    Object.hasOwn(talk, key),
-  );
 }
 
 export function collectRelevantDoctorPluginIds(raw: unknown): string[] {
@@ -264,11 +213,6 @@ export function collectRelevantDoctorPluginIds(raw: unknown): string[] {
       ids.add(providerId);
     }
   }
-
-  if (hasLegacyElevenLabsTalkFields(root)) {
-    ids.add("elevenlabs");
-  }
-
   return [...ids].toSorted();
 }
 
@@ -307,7 +251,7 @@ export function collectRelevantDoctorPluginIdsForTouchedPaths(params: {
       ids.add(third);
       continue;
     }
-    if (first === "talk" && hasLegacyElevenLabsTalkFields(root)) {
+    if (first === "talk") {
       ids.add("elevenlabs");
     }
   }
@@ -328,10 +272,6 @@ function loadPluginDoctorContractEntry(
   } catch {
     return null;
   }
-  const rules = coerceLegacyConfigRules(
-    (mod as { default?: PluginDoctorContractModule }).default?.legacyConfigRules ??
-      mod.legacyConfigRules,
-  );
   const normalizeCompatibilityConfig = coerceNormalizeCompatibilityConfig(
     mod.normalizeCompatibilityConfig ??
       (mod as { default?: PluginDoctorContractModule }).default?.normalizeCompatibilityConfig,
@@ -349,7 +289,6 @@ function loadPluginDoctorContractEntry(
       (mod as { default?: PluginDoctorContractModule }).default?.stateMigrations,
   );
   if (
-    rules.length === 0 &&
     !normalizeCompatibilityConfig &&
     !resolveSessionStoreAgentIds &&
     sessionRouteStateOwners.length === 0 &&
@@ -359,7 +298,6 @@ function loadPluginDoctorContractEntry(
   }
   return {
     pluginId: record.id,
-    rules,
     normalizeCompatibilityConfig,
     resolveSessionStoreAgentIds,
     sessionRouteStateOwners,
@@ -392,7 +330,6 @@ function resolvePluginDoctorContracts(params?: {
       scopedPluginIds &&
       !scopedPluginIds.has(record.id) &&
       !(record.packageName && scopedPluginIds.has(record.packageName)) &&
-      !record.legacyPluginIds?.some((pluginId) => scopedPluginIds.has(pluginId)) &&
       !record.channels.some((channelId) => scopedPluginIds.has(channelId)) &&
       !record.providers.some((providerId) => scopedPluginIds.has(providerId))
     ) {
@@ -416,15 +353,6 @@ export function setPluginDoctorContractRegistryModuleLoaderFactoryForTest(
 ): void {
   moduleLoaderFactoryForTest = factory;
   moduleLoaders.clear();
-}
-
-export function listPluginDoctorLegacyConfigRules(params?: {
-  config?: OpenClawConfig;
-  workspaceDir?: string;
-  env?: NodeJS.ProcessEnv;
-  pluginIds?: readonly string[];
-}): LegacyConfigRule[] {
-  return resolvePluginDoctorContracts(params).flatMap((entry) => entry.rules);
 }
 
 export function listPluginDoctorSessionRouteStateOwners(params?: {

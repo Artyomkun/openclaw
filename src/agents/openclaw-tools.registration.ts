@@ -4,10 +4,10 @@
  * Keeps optional tool gating separate from tool construction so config and execution contracts decide exposure.
  */
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isStrictAgenticExecutionContractActive } from "./execution-contract.js";
-import { isToolAllowedByPolicyName } from "./tool-policy-match.js";
-import type { AnyAgentTool } from "./tools/common.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isStrictAgenticExecutionContractActive } from "./execution-contract.ts";
+import { isToolAllowedByPolicyName } from "./tool-policy-match.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 /**
  * Registration helpers for optional OpenClaw-owned tools.

@@ -55,4 +55,4 @@ jobs:
             args+=(--apply)
           fi
 
-          node scripts/close-duplicate-prs-after-merge.mjs "${args[@]}"
+          node scripts/close-duplicate-prs-after-merge.ts "${args[@]}"

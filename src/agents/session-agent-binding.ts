@@ -7,13 +7,13 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   parseAgentSessionKey,
   normalizeAgentId,
   normalizeMainKey,
-} from "../routing/session-key.js";
-import { resolveDefaultAgentId } from "./agent-scope.js";
+} from "../routing/session-key.ts";
+import { resolveDefaultAgentId } from "./agent-scope.ts";
 
 /**
  * Resolve the trusted active agent bound to a host-owned session reference.

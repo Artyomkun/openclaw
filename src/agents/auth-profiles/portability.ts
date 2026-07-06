@@ -3,8 +3,8 @@
  * Decides which credentials can be copied to spawned agents without leaking or
  * duplicating unsafe OAuth refresh material.
  */
-import { AUTH_STORE_VERSION } from "./constants.js";
-import type { AuthProfileCredential, AuthProfileSecretsStore, AuthProfileStore } from "./types.js";
+import { AUTH_STORE_VERSION } from "./constants.ts";
+import type { AuthProfileCredential, AuthProfileSecretsStore, AuthProfileStore } from "./types.ts";
 
 /** Reason a credential is or is not portable into an agent copy. */
 export type AuthProfilePortabilityReason =

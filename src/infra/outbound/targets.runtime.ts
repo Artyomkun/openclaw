@@ -1,2 +1,2 @@
 // Runtime facade for outbound target resolution.
-export { resolveOutboundTarget } from "./targets.js";
+export { resolveOutboundTarget } from "./targets.ts";

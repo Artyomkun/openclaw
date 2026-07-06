@@ -5,18 +5,18 @@ import { normalizeNullableString } from "@openclaw/normalization-core/string-coe
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { resolveSystemRunApprovalRuntimeContext } from "../infra/system-run-approval-context.js";
-import { resolveSystemRunCommandRequest } from "../infra/system-run-command.js";
-import type { ExecApprovalRecord } from "./exec-approval-manager.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { resolveSystemRunApprovalRuntimeContext } from "../infra/system-run-approval-context.ts";
+import { resolveSystemRunCommandRequest } from "../infra/system-run-command.ts";
+import type { ExecApprovalRecord } from "./exec-approval-manager.ts";
 import {
   systemRunApprovalGuardError,
   systemRunApprovalRequired,
-} from "./node-invoke-system-run-approval-errors.js";
+} from "./node-invoke-system-run-approval-errors.ts";
 import {
   evaluateSystemRunApprovalMatch,
   toSystemRunApprovalMismatchError,
-} from "./node-invoke-system-run-approval-match.js";
+} from "./node-invoke-system-run-approval-match.ts";
 
 type SystemRunParamsLike = {
   command?: unknown;

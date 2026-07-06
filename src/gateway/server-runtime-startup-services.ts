@@ -1,12 +1,12 @@
 // Gateway startup-time runtime services.
 // Starts mode-dependent background monitors with inert handles for disabled paths.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ChannelHealthMonitor } from "./channel-health-monitor.js";
-import { startChannelHealthMonitor } from "./channel-health-monitor.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ChannelHealthMonitor } from "./channel-health-monitor.ts";
+import { startChannelHealthMonitor } from "./channel-health-monitor.ts";
 import {
   createNoopHeartbeatRunner,
   type GatewayRuntimeServiceLogger,
-} from "./server-runtime-service-shared.js";
+} from "./server-runtime-service-shared.ts";
 
 // Runtime startup services start only the background services needed by the
 // current gateway mode. Channel health is configurable; heartbeat/model pricing

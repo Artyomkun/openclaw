@@ -24,7 +24,6 @@ export const SCOPES = [
 ];
 
 export const TIER_FREE = "free-tier";
-export const TIER_LEGACY = "legacy-tier";
 export const TIER_STANDARD = "standard-tier";
 
 export type GeminiCliOAuthCredentials = {

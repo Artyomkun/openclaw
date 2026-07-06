@@ -1,7 +1,7 @@
 // Outbound attachment helpers prepare media attachments for channel delivery.
-import { buildOutboundMediaLoadOptions, type OutboundMediaAccess } from "./load-options.js";
-import { saveMediaBuffer } from "./store.js";
-import { loadWebMedia } from "./web-media.js";
+import { buildOutboundMediaLoadOptions, type OutboundMediaAccess } from "./load-options.ts";
+import { saveMediaBuffer } from "./store.ts";
+import { loadWebMedia } from "./web-media.ts";
 
 /** Loads a remote/local media URL and stages it into the outbound media store. */
 export async function resolveOutboundAttachmentFromUrl(

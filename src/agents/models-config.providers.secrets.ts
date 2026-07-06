@@ -4,17 +4,17 @@
  * auth availability without writing secret material into generated config.
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { resolveProviderSyntheticAuthWithPlugin } from "../plugins/provider-runtime.js";
-import type { ProviderAuthEvidence } from "../secrets/provider-env-vars.js";
-import type { AuthProfileStore } from "./auth-profiles/types.js";
-import { resolveProviderEnvAuthLookupMaps } from "./model-auth-env-vars.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { resolveProviderSyntheticAuthWithPlugin } from "../plugins/provider-runtime.ts";
+import type { ProviderAuthEvidence } from "../secrets/provider-env-vars.ts";
+import type { AuthProfileStore } from "./auth-profiles/types.ts";
+import { resolveProviderEnvAuthLookupMaps } from "./model-auth-env-vars.ts";
 import {
   isKnownEnvApiKeyMarker,
   isNonSecretApiKeyMarker,
   resolveNonEnvSecretRefApiKeyMarker,
-} from "./model-auth-markers.js";
+} from "./model-auth-markers.ts";
 import {
   listAuthProfilesForProvider,
   normalizeApiKeyConfig,
@@ -24,20 +24,20 @@ import {
   toDiscoveryApiKey,
   type ProviderApiKeyResolver,
   type ProviderAuthResolver,
-} from "./models-config.providers.secret-helpers.js";
-import { resolveProviderIdForAuth } from "./provider-auth-aliases.js";
+} from "./models-config.providers.secret-helpers.ts";
+import { resolveProviderIdForAuth } from "./provider-auth-aliases.ts";
 
 export type {
   ProviderApiKeyResolver,
   ProviderAuthResolver,
   ProviderConfig,
   SecretDefaults,
-} from "./models-config.providers.secret-helpers.js";
+} from "./models-config.providers.secret-helpers.ts";
 
 export {
   normalizeApiKeyConfig,
   resolveMissingProviderApiKey,
-} from "./models-config.providers.secret-helpers.js";
+} from "./models-config.providers.secret-helpers.ts";
 
 type AuthProfileStoreInput = AuthProfileStore | (() => AuthProfileStore);
 type ProviderAuthLookupCaches = {

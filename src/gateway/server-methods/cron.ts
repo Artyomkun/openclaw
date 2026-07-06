@@ -12,41 +12,41 @@ import {
   validateCronStatusParams,
   validateCronUpdateParams,
   validateWakeParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveCronDeliveryPreviews } from "../../cron/delivery-preview.js";
-import { assertCronDeliveryInputNonBlankFields } from "../../cron/delivery-target-validation.js";
-import { normalizeCronJobCreate, normalizeCronJobPatch } from "../../cron/normalize.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveCronDeliveryPreviews } from "../../cron/delivery-preview.ts";
+import { assertCronDeliveryInputNonBlankFields } from "../../cron/delivery-target-validation.ts";
+import { normalizeCronJobCreate, normalizeCronJobPatch } from "../../cron/normalize.ts";
 import {
   isInvalidCronRunLogJobIdError,
   readCronRunLogEntriesPage,
   readCronRunLogEntriesPageAll,
-} from "../../cron/run-log.js";
-import { applyJobPatch } from "../../cron/service/jobs.js";
+} from "../../cron/run-log.ts";
+import { applyJobPatch } from "../../cron/service/jobs.ts";
 import type {
   CronListPageOptions,
   CronListPageResult,
-} from "../../cron/service/list-page-types.js";
-import { isInvalidCronSessionTargetIdError } from "../../cron/session-target.js";
-import type { CronDelivery, CronJob, CronJobCreate, CronJobPatch } from "../../cron/types.js";
-import { validateScheduleTimestamp } from "../../cron/validate-timestamp.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { listConfiguredMessageChannels } from "../../infra/outbound/channel-selection.js";
+} from "../../cron/service/list-page-types.ts";
+import { isInvalidCronSessionTargetIdError } from "../../cron/session-target.ts";
+import type { CronDelivery, CronJob, CronJobCreate, CronJobPatch } from "../../cron/types.ts";
+import { validateScheduleTimestamp } from "../../cron/validate-timestamp.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { listConfiguredMessageChannels } from "../../infra/outbound/channel-selection.ts";
 import {
   resolveTargetPrefixedChannel,
   validateTargetProviderPrefix,
-} from "../../infra/outbound/channel-target-prefix.js";
+} from "../../infra/outbound/channel-target-prefix.ts";
 import {
   DEFAULT_AGENT_ID,
   isSubagentSessionKey,
   normalizeAgentId,
-} from "../../routing/session-key.js";
-import { parseAgentSessionKey } from "../../sessions/session-key-utils.js";
+} from "../../routing/session-key.ts";
+import { parseAgentSessionKey } from "../../sessions/session-key-utils.ts";
 import {
   isDeliverableMessageChannel,
   normalizeMessageChannel,
-} from "../../utils/message-channel.js";
-import type { GatewayClient, GatewayRequestHandlers, RespondFn } from "./types.js";
+} from "../../utils/message-channel.ts";
+import type { GatewayClient, GatewayRequestHandlers, RespondFn } from "./types.ts";
 
 type CronCallerScope = {
   kind: "agentTool";

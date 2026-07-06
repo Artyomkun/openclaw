@@ -8,7 +8,7 @@ import type {
   PluginHookBeforeInstallSkill,
   PluginInstallSourcePathKind,
   PluginInstallTargetType,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Centralized builder for the public before_install hook contract.

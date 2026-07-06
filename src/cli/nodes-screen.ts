@@ -1,7 +1,7 @@
 // Screen-recording payload helpers for node media commands.
 import * as path from "node:path";
-import { writeBase64ToFile } from "./nodes-camera.js";
-import { asRecord, asString, resolveTempPathParts } from "./nodes-media-utils.js";
+import { writeBase64ToFile } from "./nodes-camera.ts";
+import { asRecord, asString, resolveTempPathParts } from "./nodes-media-utils.ts";
 
 /** Validated payload returned by `nodes screen record` RPC calls. */
 export type ScreenRecordPayload = {

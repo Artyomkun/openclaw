@@ -4,22 +4,22 @@
  * This module builds runtime plugin tools from config/options, delivery context,
  * auth profiles, and the current runtime config snapshot.
  */
-import { selectApplicableRuntimeConfig } from "../config/config.js";
+import { selectApplicableRuntimeConfig } from "../config/config.ts";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
-} from "../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolvePluginTools } from "../plugins/tools.js";
-import { normalizeDeliveryContext } from "../utils/delivery-context.js";
-import { resolveApiKeyForProfile, resolveAuthProfileOrder } from "./auth-profiles.js";
-import type { AuthProfileStore } from "./auth-profiles/types.js";
+} from "../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolvePluginTools } from "../plugins/tools.ts";
+import { normalizeDeliveryContext } from "../utils/delivery-context.ts";
+import { resolveApiKeyForProfile, resolveAuthProfileOrder } from "./auth-profiles.ts";
+import type { AuthProfileStore } from "./auth-profiles/types.ts";
 import {
   resolveOpenClawPluginToolInputs,
   type OpenClawPluginToolOptions,
-} from "./openclaw-tools.plugin-context.js";
-import { applyPluginToolDeliveryDefaults } from "./plugin-tool-delivery-defaults.js";
-import type { AnyAgentTool } from "./tools/common.js";
+} from "./openclaw-tools.plugin-context.ts";
+import { applyPluginToolDeliveryDefaults } from "./plugin-tool-delivery-defaults.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 type ResolveOpenClawPluginToolsOptions = OpenClawPluginToolOptions & {
   pluginToolAllowlist?: string[];

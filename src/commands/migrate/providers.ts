@@ -1,14 +1,14 @@
 /** Migration provider lookup, option shaping, and plan creation helpers. */
-import { getRuntimeConfig } from "../../config/config.js";
+import { getRuntimeConfig } from "../../config/config.ts";
 import {
   ensureStandaloneMigrationProviderRegistryLoaded,
   resolvePluginMigrationProvider,
   resolvePluginMigrationProviders,
-} from "../../plugins/migration-provider-runtime.js";
-import type { MigrationPlan, MigrationProviderPlugin } from "../../plugins/types.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { buildMigrationContext } from "./context.js";
-import type { MigrateCommonOptions } from "./types.js";
+} from "../../plugins/migration-provider-runtime.ts";
+import type { MigrationPlan, MigrationProviderPlugin } from "../../plugins/types.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { buildMigrationContext } from "./context.ts";
+import type { MigrateCommonOptions } from "./types.ts";
 
 /** Resolves a migration provider from the loaded plugin migration registry. */
 export function resolveMigrationProvider(

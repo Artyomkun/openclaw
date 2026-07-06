@@ -1,55 +1,55 @@
 /** Doctor gateway daemon repair flow for service install, bootstrap, restart, and port hints. */
-import { note } from "../../packages/terminal-core/src/note.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { resolveGatewayPort } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { resolveGatewayPort } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveGatewayLaunchAgentLabel,
   resolveNodeLaunchAgentLabel,
-} from "../daemon/constants.js";
-import { readLastGatewayErrorLine } from "../daemon/diagnostics.js";
-import { findSystemGatewayServices, type ExtraGatewayService } from "../daemon/inspect.js";
+} from "../daemon/constants.ts";
+import { readLastGatewayErrorLine } from "../daemon/diagnostics.ts";
+import { findSystemGatewayServices, type ExtraGatewayService } from "../daemon/inspect.ts";
 import {
   isLaunchAgentLoaded,
   launchAgentPlistExists,
   repairLaunchAgentBootstrap,
-} from "../daemon/launchd.js";
-import type { GatewayServiceRuntime } from "../daemon/service-runtime.js";
-import { describeGatewayServiceRestart, resolveGatewayService } from "../daemon/service.js";
-import { renderSystemdUnavailableHints } from "../daemon/systemd-hints.js";
-import { isSystemdUserServiceAvailable } from "../daemon/systemd.js";
+} from "../daemon/launchd.ts";
+import type { GatewayServiceRuntime } from "../daemon/service-runtime.ts";
+import { describeGatewayServiceRestart, resolveGatewayService } from "../daemon/service.ts";
+import { renderSystemdUnavailableHints } from "../daemon/systemd-hints.ts";
+import { isSystemdUserServiceAvailable } from "../daemon/systemd.ts";
 import {
   formatPortDiagnostics,
   inspectPortConnections,
   inspectPortUsage,
   isExpectedGatewayListeners,
   type PortConnection,
-} from "../infra/ports.js";
+} from "../infra/ports.ts";
 import {
   formatGatewayRestartHandoffDiagnostic,
   readGatewayRestartHandoffSync,
-} from "../infra/restart-handoff.js";
-import { isWSL } from "../infra/wsl.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { sleep } from "../utils.js";
-import { buildGatewayInstallPlan, gatewayInstallErrorHint } from "./daemon-install-helpers.js";
+} from "../infra/restart-handoff.ts";
+import { isWSL } from "../infra/wsl.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { sleep } from "../utils.ts";
+import { buildGatewayInstallPlan, gatewayInstallErrorHint } from "./daemon-install-helpers.ts";
 import {
   DEFAULT_GATEWAY_DAEMON_RUNTIME,
   GATEWAY_DAEMON_RUNTIME_OPTIONS,
   type GatewayDaemonRuntime,
-} from "./daemon-runtime.js";
-import { buildGatewayRuntimeHints, formatGatewayRuntimeSummary } from "./doctor-format.js";
-import type { DoctorOptions, DoctorPrompter } from "./doctor-prompter.js";
+} from "./daemon-runtime.ts";
+import { buildGatewayRuntimeHints, formatGatewayRuntimeSummary } from "./doctor-format.ts";
+import type { DoctorOptions, DoctorPrompter } from "./doctor-prompter.ts";
 import {
   confirmDoctorServiceRepair,
   EXTERNAL_SERVICE_REPAIR_NOTE,
   isServiceRepairExternallyManaged,
   resolveServiceRepairPolicy,
   SERVICE_REPAIR_POLICY_ENV,
-} from "./doctor-service-repair-policy.js";
-import { resolveGatewayInstallToken } from "./gateway-install-token.js";
-import { formatGatewayClosedDiagnostic, formatHealthCheckFailure } from "./health-format.js";
-import { healthCommand } from "./health.js";
+} from "./doctor-service-repair-policy.ts";
+import { resolveGatewayInstallToken } from "./gateway-install-token.ts";
+import { formatGatewayClosedDiagnostic, formatHealthCheckFailure } from "./health-format.ts";
+import { healthCommand } from "./health.ts";
 
 type LaunchAgentBootstrapDoctorOutcome =
   | { status: "skipped" }

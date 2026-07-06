@@ -1,13 +1,13 @@
 /**
  * Hardens manual compaction transcript boundaries after explicit `/compact`.
  */
-import type { AgentMessage } from "../runtime/index.js";
-import type { SessionEntry } from "../sessions/index.js";
+import type { AgentMessage } from "../runtime/index.ts";
+import type { SessionEntry } from "../sessions/index.ts";
 import {
   readTranscriptFileState,
   TranscriptFileState,
   writeTranscriptFileAtomic,
-} from "./transcript-file-state.js";
+} from "./transcript-file-state.ts";
 
 type CompactionEntry = Extract<SessionEntry, { type: "compaction" }>;
 

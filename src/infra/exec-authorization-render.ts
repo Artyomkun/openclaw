@@ -1,10 +1,10 @@
-import type { SourceSpan } from "./command-explainer/types.js";
-import type { ExecSegmentSatisfiedBy } from "./exec-approvals-allowlist.js";
-import { resolvePlannedSegmentArgv } from "./exec-approvals-analysis.js";
+import type { SourceSpan } from "./command-explainer/types.ts";
+import type { ExecSegmentSatisfiedBy } from "./exec-approvals-allowlist.ts";
+import { resolvePlannedSegmentArgv } from "./exec-approvals-analysis.ts";
 import type {
   ExecAuthorizationCandidate,
   ExecAuthorizationPlan,
-} from "./exec-authorization-plan.js";
+} from "./exec-authorization-plan.ts";
 
 export type AuthorizedShellRenderMode = "safeBins" | "enforced";
 

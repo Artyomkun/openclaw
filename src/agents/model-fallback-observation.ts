@@ -3,11 +3,11 @@
  * sanitized error observations plus step fields that make fallback chains
  * auditable.
  */
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { buildTextObservationFields } from "./embedded-agent-error-observation.js";
-import type { FailoverReason } from "./embedded-agent-helpers.js";
-import type { FallbackAttempt, ModelCandidate } from "./model-fallback.types.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { buildTextObservationFields } from "./embedded-agent-error-observation.ts";
+import type { FailoverReason } from "./embedded-agent-helpers.ts";
+import type { FallbackAttempt, ModelCandidate } from "./model-fallback.types.ts";
 
 const decisionLog = createSubsystemLogger("model-fallback").child("decision");
 const AUTH_DECISION_LOG_COALESCE_WINDOW_MS = 30_000;

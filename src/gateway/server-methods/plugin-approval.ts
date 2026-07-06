@@ -7,14 +7,14 @@ import {
   formatValidationErrors,
   validatePluginApprovalRequestParams,
   validatePluginApprovalResolveParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import type { ExecApprovalForwarder } from "../../infra/exec-approval-forwarder.js";
-import type { PluginApprovalRequestPayload } from "../../infra/plugin-approvals.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import type { ExecApprovalForwarder } from "../../infra/exec-approval-forwarder.ts";
+import type { PluginApprovalRequestPayload } from "../../infra/plugin-approvals.ts";
 import {
   resolvePluginApprovalRequestAllowedDecisions,
   resolvePluginApprovalTimeoutMs,
-} from "../../infra/plugin-approvals.js";
-import type { ExecApprovalManager } from "../exec-approval-manager.js";
+} from "../../infra/plugin-approvals.ts";
+import type { ExecApprovalManager } from "../exec-approval-manager.ts";
 import {
   bindApprovalRequesterMetadata,
   buildRequestedApprovalEvent,
@@ -24,8 +24,8 @@ import {
   listVisiblePendingApprovalRequests,
   registerPendingApprovalRecord,
   resolveApprovalDecisionParams,
-} from "./approval-shared.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "./approval-shared.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /** Create plugin approval handlers backed by the shared approval manager. */
 export function createPluginApprovalHandlers(

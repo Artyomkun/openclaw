@@ -20,18 +20,18 @@ export type {
   StructuredExtractionTextInput,
   VideoDescriptionRequest,
   VideoDescriptionResult,
-} from "../media-understanding/types.js";
+} from "../media-understanding/types.ts";
 
 export {
   describeImageWithModel,
   describeImageWithModelPayloadTransform,
   describeImagesWithModel,
   describeImagesWithModelPayloadTransform,
-} from "../media-understanding/image-runtime.js";
+} from "../media-understanding/image-runtime.ts";
 export {
   buildOpenAiCompatibleVideoRequestBody,
   coerceOpenAiCompatibleVideoText,
   resolveMediaUnderstandingString,
   type OpenAiCompatibleVideoPayload,
 } from "../media-understanding/openai-compatible-video.ts";
-export { transcribeOpenAiCompatibleAudio } from "../media-understanding/openai-compatible-audio.js";
+export { transcribeOpenAiCompatibleAudio } from "../media-understanding/openai-compatible-audio.ts";

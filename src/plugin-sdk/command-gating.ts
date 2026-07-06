@@ -4,9 +4,9 @@
 export type {
   CommandAuthorizer,
   CommandGatingModeWhenAccessGroupsOff,
-} from "../channels/command-gating.js";
+} from "../channels/command-gating.ts";
 export {
   resolveCommandAuthorizedFromAuthorizers,
   resolveControlCommandGate,
   resolveDualTextControlCommandGate,
-} from "../channels/command-gating.js";
+} from "../channels/command-gating.ts";

@@ -1,38 +1,38 @@
 /**
  * Handles lifecycle and compaction events from subscribed embedded-agent sessions.
  */
-import { createInlineCodeState } from "../../packages/markdown-core/src/code-spans.js";
-import { emitAgentEvent } from "../infra/agent-events.js";
-import { hasAcceptedSessionSpawn } from "./accepted-session-spawn.js";
-import { sanitizeForConsole } from "./console-sanitize.js";
+import { createInlineCodeState } from "../../packages/markdown-core/src/code-spans.ts";
+import { emitAgentEvent } from "../infra/agent-events.ts";
+import { hasAcceptedSessionSpawn } from "./accepted-session-spawn.ts";
+import { sanitizeForConsole } from "./console-sanitize.ts";
 import {
   buildApiErrorObservationFields,
   buildTextObservationFields,
   shouldSuppressRawErrorConsoleSuffix,
-} from "./embedded-agent-error-observation.js";
+} from "./embedded-agent-error-observation.ts";
 import {
   classifyFailoverReason,
   formatUserFacingAssistantErrorText,
   GENERIC_ASSISTANT_ERROR_TEXT,
-} from "./embedded-agent-helpers.js";
-import { hasCommittedMessagingToolDeliveryEvidence } from "./embedded-agent-runner/delivery-evidence.js";
+} from "./embedded-agent-helpers.ts";
+import { hasCommittedMessagingToolDeliveryEvidence } from "./embedded-agent-runner/delivery-evidence.ts";
 import {
   hasAttemptTerminalState,
   isIncompleteTerminalAssistantTurn,
-} from "./embedded-agent-runner/run/incomplete-turn.js";
+} from "./embedded-agent-runner/run/incomplete-turn.ts";
 import {
   consumePendingToolMediaReply,
   hasAssistantVisibleReply,
-} from "./embedded-agent-subscribe.handlers.messages.js";
-import type { EmbeddedAgentSubscribeContext } from "./embedded-agent-subscribe.handlers.types.js";
-import { isPromiseLike } from "./embedded-agent-subscribe.promise.js";
-import { isAssistantMessage } from "./embedded-agent-utils.js";
-import type { AgentSessionEvent } from "./sessions/index.js";
+} from "./embedded-agent-subscribe.handlers.messages.ts";
+import type { EmbeddedAgentSubscribeContext } from "./embedded-agent-subscribe.handlers.types.ts";
+import { isPromiseLike } from "./embedded-agent-subscribe.promise.ts";
+import { isAssistantMessage } from "./embedded-agent-utils.ts";
+import type { AgentSessionEvent } from "./sessions/index.ts";
 
 export {
   handleCompactionEnd,
   handleCompactionStart,
-} from "./embedded-agent-subscribe.handlers.compaction.js";
+} from "./embedded-agent-subscribe.handlers.compaction.ts";
 
 export function handleAgentStart(ctx: EmbeddedAgentSubscribeContext) {
   ctx.log.debug(`embedded run agent start: runId=${ctx.params.runId}`);

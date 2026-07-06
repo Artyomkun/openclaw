@@ -1,7 +1,7 @@
 // Resolves plugin install override paths and package specs.
 import path from "node:path";
-import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
-import { isRecord, resolveUserPath } from "../utils.js";
+import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
+import { isRecord, resolveUserPath } from "../utils.ts";
 
 /** Env var containing JSON plugin install override specs. */
 export const PLUGIN_INSTALL_OVERRIDES_ENV = "OPENCLAW_PLUGIN_INSTALL_OVERRIDES";

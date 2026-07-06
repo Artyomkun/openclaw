@@ -1,6 +1,6 @@
 // Collects bundled package channel metadata from plugin catalogs.
-import { listChannelCatalogEntries } from "./channel-catalog-registry.js";
-import type { PluginPackageChannel } from "./manifest.js";
+import { listChannelCatalogEntries } from "./channel-catalog-registry.ts";
+import type { PluginPackageChannel } from "./manifest.ts";
 
 /** Lists channel metadata contributed by bundled package manifests. */
 export function listBundledPackageChannelMetadata(): readonly PluginPackageChannel[] {

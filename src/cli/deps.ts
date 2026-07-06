@@ -1,18 +1,18 @@
 // Default CLI dependency surface with lazy outbound channel send adapters.
-import { normalizeChannelId } from "../channels/registry.js";
-import type { OutboundSendDeps } from "../infra/outbound/send-deps.js";
-import { createLazyRuntimeSurface } from "../shared/lazy-runtime.js";
-import type { CliDeps } from "./deps.types.js";
+import { normalizeChannelId } from "../channels/registry.ts";
+import type { OutboundSendDeps } from "../infra/outbound/send-deps.ts";
+import { createLazyRuntimeSurface } from "../shared/lazy-runtime.ts";
+import type { CliDeps } from "./deps.types.ts";
 import {
   CLI_OUTBOUND_SEND_FACTORY,
   createOutboundSendDepsFromCliSource,
-} from "./outbound-send-mapping.js";
+} from "./outbound-send-mapping.ts";
 
 /**
  * Lazy-loaded per-channel send functions, keyed by channel ID.
  * Values are proxy functions that dynamically import the real module on first use.
  */
-export type { CliDeps } from "./deps.types.js";
+export type { CliDeps } from "./deps.types.ts";
 type RuntimeSend = {
   sendMessage: (...args: unknown[]) => Promise<unknown>;
 };

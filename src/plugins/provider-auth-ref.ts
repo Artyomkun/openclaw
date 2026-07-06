@@ -3,19 +3,19 @@ import {
   normalizeOptionalString,
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.js";
-import { isValidEnvSecretRefId, type SecretRef } from "../config/types.secrets.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { encodeJsonPointerToken } from "../secrets/json-pointer.js";
-import { getProviderEnvVars } from "../secrets/provider-env-vars.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { isValidEnvSecretRefId, type SecretRef } from "../config/types.secrets.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { encodeJsonPointerToken } from "../secrets/json-pointer.ts";
+import { getProviderEnvVars } from "../secrets/provider-env-vars.ts";
 import {
   formatExecSecretRefIdValidationMessage,
   isValidExecSecretRefId,
   isValidFileSecretRefId,
   resolveDefaultSecretProviderAlias,
-} from "../secrets/ref-contract.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+} from "../secrets/ref-contract.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 
 const secretResolveLoader = createLazyImportLoader(() => import("../secrets/resolve.js"));
 

@@ -3,8 +3,8 @@
  *
  * Bounds cleanup steps so run completion cannot hang forever while preserving late-failure diagnostics.
  */
-import { formatErrorMessage } from "../infra/errors.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
 
 // Cleanup steps must not block run completion forever. This module bounds each
 // cleanup step and logs enough context to debug late failures.

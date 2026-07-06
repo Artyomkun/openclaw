@@ -10,8 +10,6 @@ const XAI_LARGE_CONTEXT_WINDOW = 2_000_000;
 const XAI_GROK_4_CONTEXT_WINDOW = 256_000;
 const XAI_CODE_CONTEXT_WINDOW = 256_000;
 export const XAI_DEFAULT_MAX_TOKENS = 64_000;
-const XAI_LEGACY_CONTEXT_WINDOW = 131_072;
-const XAI_LEGACY_MAX_TOKENS = 8_192;
 export const XAI_DEFAULT_MODEL_ID = "grok-4.3";
 
 type XaiCost = ModelDefinitionConfig["cost"];
@@ -76,42 +74,6 @@ const XAI_MODEL_CATALOG = [
     input: ["text", "image"],
     contextWindow: XAI_CODE_CONTEXT_WINDOW,
     cost: XAI_GROK_BUILD_COST,
-  },
-  {
-    id: "grok-3",
-    name: "Grok 3",
-    reasoning: false,
-    input: ["text"],
-    contextWindow: XAI_LEGACY_CONTEXT_WINDOW,
-    maxTokens: XAI_LEGACY_MAX_TOKENS,
-    cost: XAI_GROK_4_COST,
-  },
-  {
-    id: "grok-3-fast",
-    name: "Grok 3 Fast",
-    reasoning: false,
-    input: ["text"],
-    contextWindow: XAI_LEGACY_CONTEXT_WINDOW,
-    maxTokens: XAI_LEGACY_MAX_TOKENS,
-    cost: { input: 5, output: 25, cacheRead: 1.25, cacheWrite: 0 },
-  },
-  {
-    id: "grok-3-mini",
-    name: "Grok 3 Mini",
-    reasoning: true,
-    input: ["text"],
-    contextWindow: XAI_LEGACY_CONTEXT_WINDOW,
-    maxTokens: XAI_LEGACY_MAX_TOKENS,
-    cost: { input: 0.3, output: 0.5, cacheRead: 0.075, cacheWrite: 0 },
-  },
-  {
-    id: "grok-3-mini-fast",
-    name: "Grok 3 Mini Fast",
-    reasoning: true,
-    input: ["text"],
-    contextWindow: XAI_LEGACY_CONTEXT_WINDOW,
-    maxTokens: XAI_LEGACY_MAX_TOKENS,
-    cost: { input: 0.6, output: 4, cacheRead: 0.15, cacheWrite: 0 },
   },
   {
     id: "grok-4.3",
@@ -284,29 +246,6 @@ export function resolveXaiCatalogEntry(modelId: string) {
       contextWindow: XAI_CODE_CONTEXT_WINDOW,
       maxTokens: 10_000,
       cost: XAI_CODE_FAST_COST,
-    });
-  }
-  if (
-    lower.startsWith("grok-3-mini-fast") ||
-    lower.startsWith("grok-3-mini") ||
-    lower.startsWith("grok-3-fast") ||
-    lower.startsWith("grok-3")
-  ) {
-    const legacyCost = lower.startsWith("grok-3-mini-fast")
-      ? { input: 0.6, output: 4, cacheRead: 0.15, cacheWrite: 0 }
-      : lower.startsWith("grok-3-mini")
-        ? { input: 0.3, output: 0.5, cacheRead: 0.075, cacheWrite: 0 }
-        : lower.startsWith("grok-3-fast")
-          ? { input: 5, output: 25, cacheRead: 1.25, cacheWrite: 0 }
-          : XAI_GROK_4_COST;
-    return toModelDefinition({
-      id: trimmed,
-      name: trimmed,
-      reasoning: lower.includes("mini"),
-      input: ["text"],
-      contextWindow: XAI_LEGACY_CONTEXT_WINDOW,
-      maxTokens: XAI_LEGACY_MAX_TOKENS,
-      cost: legacyCost,
     });
   }
   if (

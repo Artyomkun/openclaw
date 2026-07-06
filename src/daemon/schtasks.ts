@@ -5,29 +5,29 @@ import os from "node:os";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { isGatewayArgv } from "../infra/gateway-process-argv.js";
-import { findVerifiedGatewayListenerPidsOnPortSync } from "../infra/gateway-processes.js";
-import { inspectPortUsage } from "../infra/ports.js";
-import { parseTcpPort } from "../infra/tcp-port.js";
+import { isGatewayArgv } from "../infra/gateway-process-argv.ts";
+import { findVerifiedGatewayListenerPidsOnPortSync } from "../infra/gateway-processes.ts";
+import { inspectPortUsage } from "../infra/ports.ts";
+import { parseTcpPort } from "../infra/tcp-port.ts";
 import {
   getWindowsCmdExePath,
   getWindowsPowerShellExePath,
   getWindowsSystem32ExePath,
-} from "../infra/windows-install-roots.js";
-import { killProcessTree } from "../process/kill-tree.js";
-import { sleep } from "../utils.js";
-import { parseCmdScriptCommandLine, quoteCmdScriptArg } from "./cmd-argv.js";
-import { assertNoCmdLineBreak, parseCmdSetAssignment, renderCmdSetAssignment } from "./cmd-set.js";
+} from "../infra/windows-install-roots.ts";
+import { killProcessTree } from "../process/kill-tree.ts";
+import { sleep } from "../utils.ts";
+import { parseCmdScriptCommandLine, quoteCmdScriptArg } from "./cmd-argv.ts";
+import { assertNoCmdLineBreak, parseCmdSetAssignment, renderCmdSetAssignment } from "./cmd-set.ts";
 import {
   NODE_SERVICE_KIND,
   resolveGatewayServiceDescription,
   resolveGatewayWindowsTaskName,
-} from "./constants.js";
-import { formatLine, writeFormattedLines } from "./output.js";
-import { resolveGatewayTaskScriptPath } from "./paths.js";
-import { parseKeyValueOutput } from "./runtime-parse.js";
-import { execSchtasks } from "./schtasks-exec.js";
-import type { GatewayServiceRuntime } from "./service-runtime.js";
+} from "./constants.ts";
+import { formatLine, writeFormattedLines } from "./output.ts";
+import { resolveGatewayTaskScriptPath } from "./paths.ts";
+import { parseKeyValueOutput } from "./runtime-parse.ts";
+import { execSchtasks } from "./schtasks-exec.ts";
+import type { GatewayServiceRuntime } from "./service-runtime.ts";
 import type {
   GatewayServiceCommandConfig,
   GatewayServiceControlArgs,
@@ -37,7 +37,7 @@ import type {
   GatewayServiceManageArgs,
   GatewayServiceRenderArgs,
   GatewayServiceRestartResult,
-} from "./service-types.js";
+} from "./service-types.ts";
 
 function resolveTaskName(env: GatewayServiceEnv): string {
   const override = env.OPENCLAW_WINDOWS_TASK_NAME?.trim();
@@ -99,11 +99,10 @@ function resolveStartupEntryPath(env: GatewayServiceEnv, extension?: "cmd" | "vb
 
 function resolveStartupEntryPaths(env: GatewayServiceEnv): string[] {
   const primaryPath = resolveStartupEntryPath(env);
-  const legacyCmdPath = resolveStartupEntryPath(env, "cmd");
   const hiddenLauncherPath = resolveStartupEntryPath(env, "vbs");
   // Hidden VBS launchers supersede cmd launchers, but lifecycle operations must
   // discover both variants even when the caller env lacks the persisted marker.
-  return uniqueStrings([primaryPath, legacyCmdPath, hiddenLauncherPath]);
+  return uniqueStrings([primaryPath, hiddenLauncherPath]);
 }
 
 // `/TR` is parsed by schtasks itself, while the generated `gateway.cmd` line is parsed by cmd.exe.

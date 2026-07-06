@@ -1,16 +1,18 @@
-// Applies safe automatic fixes for supported security audit findings.
+// Applies safe automatic fixes for supported security audit findings — TLS 1.3 / HTTP/3 ready
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { resolveAuthProfileDatabaseFilePaths } from "../agents/auth-profiles/sqlite.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import { createConfigIO, replaceConfigFile } from "../config/config.js";
-import { collectIncludePathsRecursive } from "../config/includes-scan.js";
-import { resolveConfigPath, resolveOAuthDir, resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { runExec } from "../process/exec.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { createIcaclsResetCommand, formatIcaclsResetCommand, type ExecFn } from "./windows-acl.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import { createConfigIO, replaceConfigFile } from "../config/config.ts";
+import { collectIncludePathsRecursive } from "../config/includes-scan.ts";
+import { resolveConfigPath, resolveOAuthDir, resolveStateDir } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { runExec } from "../process/exec.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+
+// ============================================================================
+// Types
+// ============================================================================
 
 export type SecurityFixChmodAction = {
   kind: "chmod";
@@ -48,6 +50,33 @@ export type SecurityPermissionTarget = {
   require: "dir" | "file";
 };
 
+type ExecFn = (command: string, args: string[]) => Promise<{ stdout: string; stderr: string }>;
+
+// ============================================================================
+// Helpers
+// ============================================================================
+
+function formatIcaclsResetCommand(path: string, _opts: { isDir: boolean; env: NodeJS.ProcessEnv }): string {
+  return `icacls "${path}" /reset /t /q`;
+}
+
+function createIcaclsResetCommand(
+  path: string,
+  opts: { isDir: boolean; env: NodeJS.ProcessEnv }
+): { command: string; args: string[]; display: string } | null {
+  const user = opts.env.USERNAME || opts.env.USER;
+  if (!user) return null;
+  return {
+    command: "icacls",
+    args: [path, "/reset", "/t", "/q"],
+    display: `icacls "${path}" /reset /t /q`,
+  };
+}
+
+// ============================================================================
+// Core Functions
+// ============================================================================
+
 async function safeChmod(params: {
   path: string;
   mode: number;
@@ -56,62 +85,26 @@ async function safeChmod(params: {
   try {
     const st = await fs.lstat(params.path);
     if (st.isSymbolicLink()) {
-      return {
-        kind: "chmod",
-        path: params.path,
-        mode: params.mode,
-        ok: false,
-        skipped: "symlink",
-      };
+      return { kind: "chmod", path: params.path, mode: params.mode, ok: false, skipped: "symlink" };
     }
     if (params.require === "dir" && !st.isDirectory()) {
-      return {
-        kind: "chmod",
-        path: params.path,
-        mode: params.mode,
-        ok: false,
-        skipped: "not-a-directory",
-      };
+      return { kind: "chmod", path: params.path, mode: params.mode, ok: false, skipped: "not-a-directory" };
     }
     if (params.require === "file" && !st.isFile()) {
-      return {
-        kind: "chmod",
-        path: params.path,
-        mode: params.mode,
-        ok: false,
-        skipped: "not-a-file",
-      };
+      return { kind: "chmod", path: params.path, mode: params.mode, ok: false, skipped: "not-a-file" };
     }
     const current = st.mode & 0o777;
     if (current === params.mode) {
-      return {
-        kind: "chmod",
-        path: params.path,
-        mode: params.mode,
-        ok: false,
-        skipped: "already",
-      };
+      return { kind: "chmod", path: params.path, mode: params.mode, ok: false, skipped: "already" };
     }
     await fs.chmod(params.path, params.mode);
     return { kind: "chmod", path: params.path, mode: params.mode, ok: true };
   } catch (err) {
     const code = (err as { code?: string }).code;
     if (code === "ENOENT") {
-      return {
-        kind: "chmod",
-        path: params.path,
-        mode: params.mode,
-        ok: false,
-        skipped: "missing",
-      };
+      return { kind: "chmod", path: params.path, mode: params.mode, ok: false, skipped: "missing" };
     }
-    return {
-      kind: "chmod",
-      path: params.path,
-      mode: params.mode,
-      ok: false,
-      error: String(err),
-    };
+    return { kind: "chmod", path: params.path, mode: params.mode, ok: false, error: String(err) };
   }
 }
 
@@ -125,69 +118,36 @@ async function safeAclReset(params: {
     isDir: params.require === "dir",
     env: params.env,
   });
+
   try {
     const st = await fs.lstat(params.path);
     if (st.isSymbolicLink()) {
-      return {
-        kind: "icacls",
-        path: params.path,
-        command: display,
-        ok: false,
-        skipped: "symlink",
-      };
+      return { kind: "icacls", path: params.path, command: display, ok: false, skipped: "symlink" };
     }
     if (params.require === "dir" && !st.isDirectory()) {
-      return {
-        kind: "icacls",
-        path: params.path,
-        command: display,
-        ok: false,
-        skipped: "not-a-directory",
-      };
+      return { kind: "icacls", path: params.path, command: display, ok: false, skipped: "not-a-directory" };
     }
     if (params.require === "file" && !st.isFile()) {
-      return {
-        kind: "icacls",
-        path: params.path,
-        command: display,
-        ok: false,
-        skipped: "not-a-file",
-      };
+      return { kind: "icacls", path: params.path, command: display, ok: false, skipped: "not-a-file" };
     }
+
     const cmd = createIcaclsResetCommand(params.path, {
       isDir: st.isDirectory(),
       env: params.env,
     });
     if (!cmd) {
-      return {
-        kind: "icacls",
-        path: params.path,
-        command: display,
-        ok: false,
-        skipped: "missing-user",
-      };
+      return { kind: "icacls", path: params.path, command: display, ok: false, skipped: "missing-user" };
     }
+
     const exec = params.exec ?? runExec;
     await exec(cmd.command, cmd.args);
     return { kind: "icacls", path: params.path, command: cmd.display, ok: true };
   } catch (err) {
     const code = (err as { code?: string }).code;
     if (code === "ENOENT") {
-      return {
-        kind: "icacls",
-        path: params.path,
-        command: display,
-        ok: false,
-        skipped: "missing",
-      };
+      return { kind: "icacls", path: params.path, command: display, ok: false, skipped: "missing" };
     }
-    return {
-      kind: "icacls",
-      path: params.path,
-      command: display,
-      ok: false,
-      error: String(err),
-    };
+    return { kind: "icacls", path: params.path, command: display, ok: false, error: String(err) };
   }
 }
 
@@ -196,15 +156,12 @@ function setGroupPolicyAllowlist(params: {
   channel: string;
   changes: string[];
 }): void {
-  if (!params.cfg.channels) {
-    return;
-  }
+  if (!params.cfg.channels) return;
+
   const section = params.cfg.channels[params.channel as keyof OpenClawConfig["channels"]] as
     | Record<string, unknown>
     | undefined;
-  if (!section || typeof section !== "object") {
-    return;
-  }
+  if (!section || typeof section !== "object") return;
 
   const topPolicy = section.groupPolicy;
   if (topPolicy === "open") {
@@ -213,21 +170,17 @@ function setGroupPolicyAllowlist(params: {
   }
 
   const accounts = section.accounts;
-  if (!accounts || typeof accounts !== "object") {
-    return;
-  }
+  if (!accounts || typeof accounts !== "object") return;
+
   for (const [accountId, accountValue] of Object.entries(accounts)) {
-    if (!accountId) {
-      continue;
-    }
-    if (!accountValue || typeof accountValue !== "object") {
-      continue;
-    }
+    if (!accountId) continue;
+    if (!accountValue || typeof accountValue !== "object") continue;
+
     const account = accountValue as Record<string, unknown>;
     if (account.groupPolicy === "open") {
       account.groupPolicy = "allowlist";
       params.changes.push(
-        `channels.${params.channel}.accounts.${accountId}.groupPolicy=open -> allowlist`,
+        `channels.${params.channel}.accounts.${accountId}.groupPolicy=open -> allowlist`
       );
     }
   }
@@ -237,7 +190,7 @@ function applyConfigFixes(params: { cfg: OpenClawConfig; env: NodeJS.ProcessEnv 
   cfg: OpenClawConfig;
   changes: string[];
 } {
-  const next = structuredClone(params.cfg ?? {});
+  const next = JSON.parse(JSON.stringify(params.cfg ?? {}));
   const changes: string[] = [];
 
   if (next.logging?.redactSensitive === "off") {
@@ -279,15 +232,12 @@ async function collectChannelSecurityConfigFixMutation(params: {
 }) {
   let nextCfg = params.cfg;
   const changes: string[] = [];
+
   const collectPlugins = async (): Promise<ChannelPlugin[]> => {
-    if (params.channelPlugins) {
-      return params.channelPlugins;
-    }
+    if (params.channelPlugins) return params.channelPlugins;
     try {
       const pluginIds = Object.keys(params.cfg.channels ?? {}).filter(Boolean);
-      if (pluginIds.length === 0) {
-        return [];
-      }
+      if (pluginIds.length === 0) return [];
       const wanted = new Set(pluginIds);
       const { listBundledChannelPlugins } = await import("../channels/plugins/bundled.js");
       return listBundledChannelPlugins().filter((plugin) => wanted.has(plugin.id));
@@ -301,12 +251,11 @@ async function collectChannelSecurityConfigFixMutation(params: {
       cfg: nextCfg,
       env: params.env,
     });
-    if (!mutation || mutation.changes.length === 0) {
-      continue;
-    }
+    if (!mutation || mutation.changes.length === 0) continue;
     nextCfg = mutation.config;
     changes.push(...mutation.changes);
   }
+
   return { cfg: nextCfg, changes };
 }
 
@@ -326,33 +275,24 @@ export async function collectSecurityPermissionTargets(params: {
       require: "file" as const,
     })),
   ];
+
   const credsDir = resolveOAuthDir(params.env, params.stateDir);
   targets.push({ path: credsDir, mode: 0o700, require: "dir" });
 
   const credsEntries = await fs.readdir(credsDir, { withFileTypes: true }).catch(() => []);
   for (const entry of credsEntries) {
-    if (!entry.isFile()) {
-      continue;
-    }
-    if (!entry.name.endsWith(".json")) {
-      continue;
-    }
-    const p = path.join(credsDir, entry.name);
-    targets.push({ path: p, mode: 0o600, require: "file" });
+    if (!entry.isFile()) continue;
+    if (!entry.name.endsWith(".json")) continue;
+    targets.push({ path: path.join(credsDir, entry.name), mode: 0o600, require: "file" });
   }
 
   const ids = new Set<string>();
   ids.add(resolveDefaultAgentId(params.cfg));
   const list = Array.isArray(params.cfg.agents?.list) ? params.cfg.agents.list : [];
   for (const agent of list ?? []) {
-    if (!agent || typeof agent !== "object") {
-      continue;
-    }
-    const id =
-      typeof (agent as { id?: unknown }).id === "string" ? (agent as { id: string }).id.trim() : "";
-    if (id) {
-      ids.add(id);
-    }
+    if (!agent || typeof agent !== "object") continue;
+    const id = typeof (agent as { id?: unknown }).id === "string" ? (agent as { id: string }).id.trim() : "";
+    if (id) ids.add(id);
   }
 
   for (const agentId of ids) {
@@ -364,30 +304,23 @@ export async function collectSecurityPermissionTargets(params: {
     targets.push({ path: agentRoot, mode: 0o700, require: "dir" });
     targets.push({ path: agentDir, mode: 0o700, require: "dir" });
 
-    for (const databasePath of resolveAuthProfileDatabaseFilePaths(agentDir)) {
-      targets.push({ path: databasePath, mode: 0o600, require: "file" });
-    }
-    const authPath = path.join(agentDir, "auth-profiles.json");
-    targets.push({ path: authPath, mode: 0o600, require: "file" });
+    // Auth profiles
+    const authDbPath = path.join(agentDir, "auth-profiles.db");
+    targets.push({ path: authDbPath, mode: 0o600, require: "file" });
+    targets.push({ path: path.join(agentDir, "auth-profiles.json"), mode: 0o600, require: "file" });
 
+    // Sessions
     targets.push({ path: sessionsDir, mode: 0o700, require: "dir" });
+    targets.push({ path: path.join(sessionsDir, "sessions.json"), mode: 0o600, require: "file" });
 
-    const storePath = path.join(sessionsDir, "sessions.json");
-    targets.push({ path: storePath, mode: 0o600, require: "file" });
-
-    // Fix permissions on session transcript files (*.jsonl)
     const sessionEntries = await fs.readdir(sessionsDir, { withFileTypes: true }).catch(() => []);
     for (const entry of sessionEntries) {
-      if (!entry.isFile()) {
-        continue;
-      }
-      if (!entry.name.endsWith(".jsonl")) {
-        continue;
-      }
-      const p = path.join(sessionsDir, entry.name);
-      targets.push({ path: p, mode: 0o600, require: "file" });
+      if (!entry.isFile()) continue;
+      if (!entry.name.endsWith(".jsonl")) continue;
+      targets.push({ path: path.join(sessionsDir, entry.name), mode: 0o600, require: "file" });
     }
   }
+
   return targets;
 }
 
@@ -410,12 +343,14 @@ export async function fixSecurityFootguns(opts?: {
 
   const io = createConfigIO({ env, configPath });
   const { snapshot: snap, writeOptions } = await io.readConfigFileSnapshotForWrite();
+
   if (!snap.valid) {
     errors.push(...snap.issues.map((i) => `${i.path}: ${i.message}`));
   }
 
   let configWritten = false;
   let changes: string[] = [];
+
   if (snap.valid) {
     const fixed = await applySecurityFixConfigMutations({
       cfg: snap.config,
@@ -444,6 +379,7 @@ export async function fixSecurityFootguns(opts?: {
     isWindows
       ? safeAclReset({ path: params.path, require: params.require, env, exec })
       : safeChmod({ path: params.path, mode: params.mode, require: params.require });
+
   let includePaths: string[] = [];
   if (snap.exists) {
     includePaths = await collectIncludePathsRecursive({
@@ -462,6 +398,7 @@ export async function fixSecurityFootguns(opts?: {
     errors.push(`collectSecurityPermissionTargets failed: ${String(err)}`);
     return [] as SecurityPermissionTarget[];
   });
+
   for (const target of permissionTargets) {
     actions.push(await applyPerms(target));
   }

@@ -15,11 +15,11 @@ export {
   type ExecApprovalPendingReplyParams,
   type ExecApprovalReplyDecision,
   type ExecApprovalReplyMetadata,
-} from "../infra/exec-approval-reply.js";
-export { resolveExecApprovalCommandDisplay } from "../infra/exec-approval-command-display.js";
+} from "../infra/exec-approval-reply.ts";
+export { resolveExecApprovalCommandDisplay } from "../infra/exec-approval-command-display.ts";
 export {
   resolveExecApprovalAllowedDecisions,
   resolveExecApprovalRequestAllowedDecisions,
   type ExecApprovalDecision,
-} from "../infra/exec-approvals.js";
-export { buildPluginApprovalPendingReplyPayload } from "./approval-renderers.js";
+} from "../infra/exec-approvals.ts";
+export { buildPluginApprovalPendingReplyPayload } from "./approval-renderers.ts";

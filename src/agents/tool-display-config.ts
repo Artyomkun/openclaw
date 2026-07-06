@@ -4,7 +4,7 @@
  * Agent UIs use this config to map tool names/actions to stable titles,
  * icons, and detail keys without embedding presentation data in tool handlers.
  */
-import type { ToolDisplaySpec as ToolDisplaySpecBase } from "./tool-display-common.js";
+import type { ToolDisplaySpec as ToolDisplaySpecBase } from "./tool-display-common.ts";
 
 type ToolDisplaySpec = ToolDisplaySpecBase & {
   emoji?: string;

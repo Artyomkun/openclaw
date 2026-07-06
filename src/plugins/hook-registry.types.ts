@@ -1,19 +1,8 @@
 // Defines plugin hook registry entry and dispatch types.
-import type { HookEntry } from "../hooks/types.js";
-import type { PluginHookRegistration as TypedPluginHookRegistration } from "./hook-types.js";
+import type { PluginHookRegistration as TypedPluginHookRegistration } from "./hook-types.ts";
 
-/** Legacy hook registration stored by the global hook runner registry. */
-export type PluginLegacyHookRegistration = {
-  pluginId: string;
-  entry: HookEntry;
-  events: string[];
-  source: string;
-  rootDir?: string;
-};
-
-/** Hook runner registry state for legacy and typed plugin hooks. */
+/** Hook runner registry state for typed plugin hooks. */
 export type HookRunnerRegistry = {
-  hooks: PluginLegacyHookRegistration[];
   typedHooks: TypedPluginHookRegistration[];
 };
 

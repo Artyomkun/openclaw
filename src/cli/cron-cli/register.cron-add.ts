@@ -4,14 +4,14 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import type { CronJob } from "../../cron/types.js";
-import { sanitizeAgentId } from "../../routing/session-key.js";
-import { defaultRuntime } from "../../runtime.js";
-import type { GatewayRpcOpts } from "../gateway-rpc.js";
-import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.js";
-import { parseStrictPositiveIntOrUndefined } from "../program/helpers.js";
-import { resolveCronCreateScheduleFromArgs } from "./schedule-options.js";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import type { CronJob } from "../../cron/types.ts";
+import { sanitizeAgentId } from "../../routing/session-key.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import type { GatewayRpcOpts } from "../gateway-rpc.ts";
+import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.ts";
+import { parseStrictPositiveIntOrUndefined } from "../program/helpers.ts";
+import { resolveCronCreateScheduleFromArgs } from "./schedule-options.ts";
 import {
   getCronChannelOptions,
   coerceCronDeliveryPreviews,
@@ -24,8 +24,8 @@ import {
   printCronJson,
   printCronList,
   warnIfCronSchedulerDisabled,
-} from "./shared.js";
-import { normalizeCronSessionTargetOption, parseCronThreadIdOption } from "./thread-id-shared.js";
+} from "./shared.ts";
+import { normalizeCronSessionTargetOption, parseCronThreadIdOption } from "./thread-id-shared.ts";
 
 export function registerCronStatusCommand(cron: Command) {
   addGatewayClientOptions(

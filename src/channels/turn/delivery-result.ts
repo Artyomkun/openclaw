@@ -1,7 +1,7 @@
 // Delivery-result adapters for channel turn receipts.
-import { listMessageReceiptPlatformIds } from "../message/receipt.js";
-import type { MessageReceipt } from "../message/types.js";
-import type { ChannelDeliveryIntent, ChannelDeliveryResult } from "./types.js";
+import { listMessageReceiptPlatformIds } from "../message/receipt.ts";
+import type { MessageReceipt } from "../message/types.ts";
+import type { ChannelDeliveryIntent, ChannelDeliveryResult } from "./types.ts";
 
 /** Converts a normalized message receipt into the delivery result shape used by channel turns. */
 export function createChannelDeliveryResultFromReceipt(params: {

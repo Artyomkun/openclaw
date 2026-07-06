@@ -15,47 +15,47 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { isMinimaxVlmModel, isMinimaxVlmProvider } from "../agents/minimax-vlm.js";
+import { isMinimaxVlmModel, isMinimaxVlmProvider } from "../agents/minimax-vlm.ts";
 import {
   buildModelAliasIndex,
   inferUniqueProviderFromConfiguredModels,
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
-} from "../agents/model-selection.js";
-import type { MsgContext } from "../auto-reply/templating.js";
+} from "../agents/model-selection.ts";
+import type { MsgContext } from "../auto-reply/templating.ts";
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.js";
+} from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.ts";
 import type {
   MediaUnderstandingConfig,
   MediaUnderstandingModelConfig,
-} from "../config/types.tools.js";
-import { logVerbose, shouldLogVerbose } from "../globals.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
-import { logWarn } from "../logger.js";
-import { resolveChannelInboundAttachmentRoots } from "../media/channel-inbound-roots.js";
-import { getDefaultMediaLocalRoots } from "../media/local-roots.js";
-import { runExec } from "../process/exec.js";
-import type { ActiveMediaModel } from "../../packages/media-understanding-common/src/active-model.js";
-import { isMediaUnderstandingSkipError } from "../../packages/media-understanding-common/src/errors.js";
-import { providerSupportsCapability } from "../../packages/media-understanding-common/src/provider-supports.js";
-import { MediaAttachmentCache, selectAttachments } from "./attachments.js";
-import { fileExists } from "./fs.js";
-import { resolveOpenAiAudioAuthModelApi } from "./openai-audio-api.js";
-import { normalizeMediaExecutionProviderId, normalizeMediaProviderId } from "./provider-id.js";
+} from "../config/types.tools.ts";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
+import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.ts";
+import { logWarn } from "../logger.ts";
+import { resolveChannelInboundAttachmentRoots } from "../media/channel-inbound-roots.ts";
+import { getDefaultMediaLocalRoots } from "../media/local-roots.ts";
+import { runExec } from "../process/exec.ts";
+import type { ActiveMediaModel } from "../../packages/media-understanding-common/src/active-model.ts";
+import { isMediaUnderstandingSkipError } from "../../packages/media-understanding-common/src/errors.ts";
+import { providerSupportsCapability } from "../../packages/media-understanding-common/src/provider-supports.ts";
+import { MediaAttachmentCache, selectAttachments } from "./attachments.ts";
+import { fileExists } from "./fs.ts";
+import { resolveOpenAiAudioAuthModelApi } from "./openai-audio-api.ts";
+import { normalizeMediaExecutionProviderId, normalizeMediaProviderId } from "./provider-id.ts";
 import {
   buildMediaUnderstandingRegistry,
   getMediaUnderstandingProvider,
-} from "./provider-registry.js";
-import { resolveModelEntries, resolveScopeDecision } from "./resolve.js";
+} from "./provider-registry.ts";
+import { resolveModelEntries, resolveScopeDecision } from "./resolve.ts";
 import {
   buildModelDecision,
   formatDecisionSummary,
   runCliEntry,
   runProviderEntry,
-} from "./runner.entries.js";
+} from "./runner.entries.ts";
 import type {
   MediaAttachment,
   MediaUnderstandingCapability,
@@ -63,9 +63,9 @@ import type {
   MediaUnderstandingModelDecision,
   MediaUnderstandingOutput,
   MediaUnderstandingProvider,
-} from "./types.js";
-export { createMediaAttachmentCache, normalizeMediaAttachments } from "./runner.attachments.js";
-export type { ActiveMediaModel } from "../../packages/media-understanding-common/src/active-model.js";
+} from "./types.ts";
+export { createMediaAttachmentCache, normalizeMediaAttachments } from "./runner.attachments.ts";
+export type { ActiveMediaModel } from "../../packages/media-understanding-common/src/active-model.ts";
 
 type ProviderRegistry = Map<string, MediaUnderstandingProvider>;
 type HasAvailableAuthForProvider =

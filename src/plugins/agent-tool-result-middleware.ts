@@ -3,8 +3,8 @@ import type {
   AgentToolResultMiddleware,
   AgentToolResultMiddlewareOptions,
   AgentToolResultMiddlewareRuntime,
-} from "./agent-tool-result-middleware-types.js";
-import { getActivePluginRegistry } from "./runtime.js";
+} from "./agent-tool-result-middleware-types.ts";
+import { getActivePluginRegistry } from "./runtime.ts";
 
 export const AGENT_TOOL_RESULT_MIDDLEWARE_RUNTIMES = [
   "openclaw",
@@ -15,21 +15,10 @@ const AGENT_TOOL_RESULT_MIDDLEWARE_RUNTIME_SET = new Set<string>(
   AGENT_TOOL_RESULT_MIDDLEWARE_RUNTIMES,
 );
 
-const LEGACY_AGENT_TOOL_RESULT_MIDDLEWARE_RUNTIMES = {
-  "codex-app-server": "codex",
-} as const satisfies Record<string, AgentToolResultMiddlewareRuntime>;
-
 function normalizeAgentToolResultMiddlewareRuntime(
   runtime: string,
 ): AgentToolResultMiddlewareRuntime | undefined {
   const normalized = runtime.trim().toLowerCase();
-  const legacyRuntime =
-    LEGACY_AGENT_TOOL_RESULT_MIDDLEWARE_RUNTIMES[
-      normalized as keyof typeof LEGACY_AGENT_TOOL_RESULT_MIDDLEWARE_RUNTIMES
-    ];
-  if (legacyRuntime) {
-    return legacyRuntime;
-  }
   return AGENT_TOOL_RESULT_MIDDLEWARE_RUNTIME_SET.has(normalized)
     ? (normalized as AgentToolResultMiddlewareRuntime)
     : undefined;
@@ -54,10 +43,6 @@ export function normalizeAgentToolResultMiddlewareRuntimes(
   }
   return normalized;
 }
-
-/** @deprecated Use normalizeAgentToolResultMiddlewareRuntimes. */
-export const normalizeAgentToolResultMiddlewareHarnesses =
-  normalizeAgentToolResultMiddlewareRuntimes;
 
 export function normalizeAgentToolResultMiddlewareRuntimeIds(
   runtimes: readonly string[] | undefined,

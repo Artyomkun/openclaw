@@ -1,14 +1,14 @@
 /** Prunes expired per-run cron sessions and archives unreferenced transcripts. */
-import { parseDurationMs } from "../cli/parse-duration.js";
+import { parseDurationMs } from "../cli/parse-duration.ts";
 import {
   applySessionEntryLifecycleMutation,
   listSessionEntries,
   type SessionEntryLifecycleRemoval,
-} from "../config/sessions/session-accessor.js";
-import type { CronConfig } from "../config/types.cron.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { isCronRunSessionKey } from "../sessions/session-key-utils.js";
-import type { Logger } from "./service/state.js";
+} from "../config/sessions/session-accessor.ts";
+import type { CronConfig } from "../config/types.cron.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { isCronRunSessionKey } from "../sessions/session-key-utils.ts";
+import type { Logger } from "./service/state.ts";
 
 const DEFAULT_RETENTION_MS = 24 * 3_600_000; // 24 hours
 

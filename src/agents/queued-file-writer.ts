@@ -5,7 +5,7 @@
  */
 import fs from "node:fs/promises";
 import path from "node:path";
-import { appendRegularFile } from "../infra/fs-safe.js";
+import { appendRegularFile } from "../infra/fs-safe.ts";
 
 /**
  * Serializes append-only writes per file path.

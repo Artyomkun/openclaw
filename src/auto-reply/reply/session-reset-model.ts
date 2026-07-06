@@ -1,24 +1,24 @@
 /** Applies model override tokens embedded in reset/new command text. */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ModelCatalogEntry } from "../../agents/model-catalog.types.js";
+import type { ModelCatalogEntry } from "../../agents/model-catalog.types.ts";
 import {
   buildAllowedModelSetWithFallbacks,
   isModelKeyAllowedBySet,
-} from "../../agents/model-selection-shared.js";
-import { resolveAgentModelFallbackValues } from "../../config/model-input.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.js";
-import type { MsgContext, TemplateContext } from "../templating.js";
+} from "../../agents/model-selection-shared.ts";
+import { resolveAgentModelFallbackValues } from "../../config/model-input.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.ts";
+import type { MsgContext, TemplateContext } from "../templating.ts";
 import {
   modelKey,
   resolveModelDirectiveSelection,
   resolveModelRefFromDirectiveString,
   type ModelAliasIndex,
   type ModelDirectiveSelection,
-} from "./model-selection-directive.js";
-import type { ReplySessionEntryHandle } from "./session-entry-handle.js";
+} from "./model-selection-directive.ts";
+import type { ReplySessionEntryHandle } from "./session-entry-handle.ts";
 
 /** Result of applying a reset-message model override. */
 type ResetModelResult = {

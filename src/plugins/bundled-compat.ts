@@ -1,8 +1,8 @@
-/** Compatibility helpers that auto-enable bundled plugins for legacy and Vitest flows. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginEntryConfig } from "../config/types.plugins.js";
-import { hasExplicitPluginConfig } from "./config-policy.js";
-import { normalizePluginId } from "./config-state.js";
+/** Compatibility helpers that auto-enable bundled plugins for olders and Vitest flows. */
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginEntryConfig } from "../config/types.plugins.ts";
+import { hasExplicitPluginConfig } from "./config-policy.ts";
+import { normalizePluginId } from "./config-state.ts";
 
 /** Returns config with selected bundled plugins explicitly enabled when compat rules require it. */
 export function withBundledPluginEnablementCompat(params: {

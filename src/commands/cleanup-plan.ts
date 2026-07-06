@@ -4,9 +4,9 @@ import {
   resolveConfigPath,
   resolveOAuthDir,
   resolveStateDir,
-} from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { buildCleanupPlan } from "./cleanup-utils.js";
+} from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { buildCleanupPlan } from "./cleanup-utils.ts";
 
 /** Build the cleanup plan for the current runtime config/state/credential paths on disk. */
 export function resolveCleanupPlanFromDisk(): {

@@ -1,32 +1,37 @@
-// Memory Core plugin module implements manager search behavior.
-import type { DatabaseSync } from "node:sqlite";
+/**
+ * Memory Core Plugin - Oracle Search Module
+ * 
+ * Oracle-only search functionality for memory index.
+ * 
+ * RESPONSIBILITIES:
+ * - Vector similarity search (Oracle AI Vector Search)
+ * - Full-text search (Oracle Text)
+ * - Hybrid search (vector + FTS)
+ * - Search result ranking and scoring
+ * - Snippet generation
+ * 
+ * ORACLE ONLY - No SQLite compatibility.
+ * 
+ * ORACLE ADAPTATIONS:
+ * - Uses Oracle AI Vector Search for vector similarity
+ * - Uses Oracle Text for full-text search
+ * - Oracle-specific SQL syntax
+ * - Async/await for all operations
+ */
+
 import { truncateUtf16Safe } from "openclaw/plugin-sdk/memory-core-host-engine-foundation";
-import {
-  cosineSimilarity,
-  parseEmbedding,
-} from "openclaw/plugin-sdk/memory-core-host-engine-storage";
-import {
-  normalizeStringEntries,
-  normalizeStringEntriesLower,
-  uniqueStrings,
-} from "openclaw/plugin-sdk/string-coerce-runtime";
-import { vectorToBlob } from "./vector-blob.js";
+import { parseEmbedding } from "openclaw/plugin-sdk/memory-core-host-engine-storage";
+import { normalizeStringEntriesLower } from "openclaw/plugin-sdk/string-coerce-runtime";
+
+// ========================================================================
+// Constants
+// ========================================================================
 
 const FTS_QUERY_TOKEN_RE = /[\p{L}\p{N}_]+/gu;
-const SHORT_CJK_TRIGRAM_RE = /[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af\u3131-\u3163]/u;
-const VECTOR_KNN_OVERSAMPLE_FACTOR = 8;
 
-// Scan fallback vector rows in bounded batches so large chunk tables (no usable
-// vec0 index) cannot pin the main thread for multi-second windows and starve
-// channel I/O / liveness signals. Matches the session-indexing yield pattern
-// introduced in #76978 for the same class of bug. Issue #81172.
-const FALLBACK_VECTOR_BATCH_SIZE = 256;
-
-function yieldToEventLoop(): Promise<void> {
-  return new Promise<void>((resolve) => {
-    setImmediate(resolve);
-  });
-}
+// ========================================================================
+// Types
+// ========================================================================
 
 type SearchSource = string;
 
@@ -40,57 +45,34 @@ type SearchRowResult = {
   source: SearchSource;
 };
 
+export interface OracleSearchConfig {
+  /** Use Oracle AI Vector Search if available */
+  useAIVector?: boolean;
+  /** Use Oracle Text if available */
+  useText?: boolean;
+  /** Vector distance metric: 'COSINE', 'DOT', 'EUCLIDEAN' */
+  vectorMetric?: 'COSINE' | 'DOT' | 'EUCLIDEAN';
+  /** Oracle Text search options */
+  textOptions?: {
+    /** Use fuzzy search */
+    fuzzy?: boolean;
+    /** Use stemming */
+    stemming?: boolean;
+    /** Use synonyms */
+    synonyms?: boolean;
+  };
+}
+
+// ========================================================================
+// Utility Functions
+// ========================================================================
+
 function normalizeSearchTokens(raw: string): string[] {
   return normalizeStringEntriesLower(raw.match(FTS_QUERY_TOKEN_RE) ?? []);
 }
 
-function scoreFallbackKeywordResult(params: {
-  query: string;
-  path: string;
-  text: string;
-  ftsScore: number;
-}): number {
-  const queryTokens = uniqueStrings(normalizeSearchTokens(params.query));
-  if (queryTokens.length === 0) {
-    return params.ftsScore;
-  }
-
-  const textTokens = normalizeSearchTokens(params.text);
-  const textTokenSet = new Set(textTokens);
-  const pathLower = params.path.toLowerCase();
-  const overlap = queryTokens.filter((token) => textTokenSet.has(token)).length;
-  const uniqueQueryOverlap = overlap / Math.max(new Set(queryTokens).size, 1);
-  const density = overlap / Math.max(textTokenSet.size, 1);
-  const pathBoost = queryTokens.reduce(
-    (score, token) => score + (pathLower.includes(token) ? 0.18 : 0),
-    0,
-  );
-  const textLengthBoost = Math.min(params.text.length / 160, 0.18);
-
-  const lexicalBoost = uniqueQueryOverlap * 0.45 + density * 0.2 + pathBoost + textLengthBoost;
-  return Math.min(1, params.ftsScore + lexicalBoost);
-}
-
 function escapeLikePattern(term: string): string {
   return term.replaceAll("\\", "\\\\").replaceAll("%", "\\%").replaceAll("_", "\\_");
-}
-
-function buildMatchQueryFromTerms(terms: string[]): string | null {
-  if (terms.length === 0) {
-    return null;
-  }
-  const quoted = terms.map((term) => `"${term.replaceAll('"', "")}"`);
-  return quoted.join(" AND ");
-}
-
-function readCount(row: { count?: number | bigint } | undefined): number {
-  if (typeof row?.count === "bigint") {
-    return Number(row.count);
-  }
-  if (typeof row?.count === "number") {
-    return row.count;
-  }
-  return 0;
 }
 
 function resolveProviderModels(primary: string, aliases: string[] | undefined): string[] {
@@ -99,133 +81,113 @@ function resolveProviderModels(primary: string, aliases: string[] | undefined): 
 
 function buildModelFilter(column: string, models: string[]): string {
   return models.length === 1
-    ? `${column} = ?`
-    : `${column} IN (${models.map(() => "?").join(", ")})`;
+    ? `${column} = :model`
+    : `${column} IN (${models.map((_, i) => `:model${i}`).join(', ')})`;
 }
 
-function planKeywordSearch(params: {
-  query: string;
-  ftsTokenizer?: "unicode61" | "trigram";
-  buildFtsQuery: (raw: string) => string | null;
-}): { matchQuery: string | null; substringTerms: string[] } {
-  if (params.ftsTokenizer !== "trigram") {
-    return {
-      matchQuery: params.buildFtsQuery(params.query),
-      substringTerms: [],
-    };
-  }
+// ========================================================================
+// Vector Search - Oracle AI Vector Search
+// ========================================================================
 
-  const tokens = normalizeStringEntries(params.query.match(FTS_QUERY_TOKEN_RE) ?? []);
-  if (tokens.length === 0) {
-    return { matchQuery: null, substringTerms: [] };
-  }
-
-  const matchTerms: string[] = [];
-  const substringTerms: string[] = [];
-  for (const token of tokens) {
-    if (SHORT_CJK_TRIGRAM_RE.test(token) && Array.from(token).length < 3) {
-      substringTerms.push(token);
-      continue;
-    }
-    matchTerms.push(token);
-  }
-
-  return {
-    matchQuery: buildMatchQueryFromTerms(matchTerms),
-    substringTerms,
-  };
-}
-
+/**
+ * Search using Oracle AI Vector Search.
+ * 
+ * @param params - Vector search parameters
+ * @param params.db - Oracle connection
+ * @param params.providerModel - Embedding model name
+ * @param params.providerModelAliases - Optional model aliases
+ * @param params.queryVec - Query vector
+ * @param params.limit - Max results
+ * @param params.snippetMaxChars - Max snippet length
+ * @param params.sourceFilterVec - Source filter
+ * @param params.config - Oracle search config
+ * @returns Search results
+ * 
+ * @example
+ * ```typescript
+ * const results = await searchVector({
+ *   db: oracleConnection,
+ *   providerModel: 'text-embedding-3-small',
+ *   queryVec: [0.1, 0.2, 0.3],
+ *   limit: 10,
+ *   snippetMaxChars: 700,
+ *   sourceFilterVec: { sql: ' AND source IN (:source1, :source2)', params: ['memory', 'sessions'] },
+ *   config: { useAIVector: true, vectorMetric: 'COSINE' }
+ * });
+ * ```
+ */
 export async function searchVector(params: {
-  db: DatabaseSync;
-  vectorTable: string;
+  db: any;
   providerModel: string;
   providerModelAliases?: string[];
   queryVec: number[];
   limit: number;
   snippetMaxChars: number;
-  ensureVectorReady: (dimensions: number) => Promise<boolean>;
   sourceFilterVec: { sql: string; params: SearchSource[] };
   sourceFilterChunks: { sql: string; params: SearchSource[] };
+  config?: OracleSearchConfig;
 }): Promise<SearchRowResult[]> {
   if (params.queryVec.length === 0 || params.limit <= 0) {
     return [];
   }
+
+  const config = params.config ?? { useAIVector: true };
   const providerModels = resolveProviderModels(params.providerModel, params.providerModelAliases);
-  const vectorModelFilter = buildModelFilter("c.model", providerModels);
-  if (await params.ensureVectorReady(params.queryVec.length)) {
-    // Use sqlite-vec's native KNN (MATCH ? AND k = ?) for candidate selection,
-    // which runs in ~O(log N + k) via the vec0 index, instead of the previous
-    // full-table scan over vec_distance_cosine(). Keep vec_distance_cosine() in
-    // the SELECT so `score = 1 - dist` stays in the cosine [0, 1] range the
-    // downstream merge/minScore pipeline expects. (memory_index_chunks_vec is created with
-    // sqlite-vec's default L2 distance, so v.distance cannot be used directly
-    // for scoring.)
-    const qBlob = vectorToBlob(params.queryVec);
-    const runVectorQuery = (candidateLimit: number) =>
-      params.db
-        .prepare(
-          `SELECT c.id, c.path, c.start_line, c.end_line, c.text,\n` +
-            `       c.source,\n` +
-            `       vec_distance_cosine(v.embedding, ?) AS dist\n` +
-            `  FROM ${params.vectorTable} v\n` +
-            `  JOIN memory_index_chunks c ON c.id = v.id\n` +
-            ` WHERE v.embedding MATCH ? AND k = ? AND ${vectorModelFilter}${params.sourceFilterVec.sql}\n` +
-            ` ORDER BY dist ASC\n` +
-            ` LIMIT ?`,
-        )
-        .all(
-          qBlob,
-          qBlob,
-          candidateLimit,
-          ...providerModels,
-          ...params.sourceFilterVec.params,
-          params.limit,
-        ) as Array<{
-        id: string;
-        path: string;
-        start_line: number;
-        end_line: number;
-        text: string;
-        source: SearchSource;
-        dist: number;
-      }>;
+  const vectorMetric = config.vectorMetric ?? 'COSINE';
+  
+  // Build model filter
+  const modelFilter = buildModelFilter('c.model', providerModels);
+  const modelBinds: Record<string, string> = {};
+  providerModels.forEach((model, i) => {
+    modelBinds[`model${i}`] = model;
+  });
 
-    const candidateLimit = params.limit * VECTOR_KNN_OVERSAMPLE_FACTOR;
-    let rows = runVectorQuery(candidateLimit);
-    if (rows.length < params.limit) {
-      const matchingChunkCount = readCount(
-        params.db
-          .prepare(
-            `SELECT COUNT(*) AS count FROM memory_index_chunks c WHERE ${vectorModelFilter}${params.sourceFilterVec.sql}`,
-          )
-          .get(...providerModels, ...params.sourceFilterVec.params) as
-          | { count?: number | bigint }
-          | undefined,
-      );
-      if (matchingChunkCount > rows.length) {
-        const vectorCount = readCount(
-          params.db.prepare(`SELECT COUNT(*) AS count FROM ${params.vectorTable}`).get() as
-            | { count?: number | bigint }
-            | undefined,
-        );
-        if (vectorCount > candidateLimit) {
-          rows = runVectorQuery(vectorCount);
-        }
-      }
+  // Build source filter binds
+  const sourceBinds: Record<string, SearchSource> = {};
+  params.sourceFilterVec.params.forEach((source, i) => {
+    sourceBinds[`src${i}`] = source;
+  });
+
+  // Vector to JSON string for Oracle
+  const vectorJson = JSON.stringify(params.queryVec);
+
+  try {
+    // Try Oracle AI Vector Search first
+    const sql = `
+      SELECT 
+        c.id, c.path, c.start_line, c.end_line, c.text, c.source,
+        1 - VECTOR_DISTANCE(v.embedding, :vec, ${vectorMetric}) AS score
+      FROM memory_index_chunks_vec v
+      JOIN memory_index_chunks c ON c.id = v.id
+      WHERE ${modelFilter}
+        ${params.sourceFilterVec.sql.replace(/\?/g, (_, i) => `:src${i}`)}
+      ORDER BY score DESC
+      FETCH FIRST :limit ROWS ONLY
+    `;
+
+    const result = await params.db.execute(sql, {
+      vec: vectorJson,
+      limit: params.limit,
+      ...modelBinds,
+      ...sourceBinds,
+    });
+
+    if (result.rows && result.rows.length > 0) {
+      return result.rows.map((row: any) => ({
+        id: row[0],
+        path: row[1],
+        startLine: row[2],
+        endLine: row[3],
+        score: row[5] ?? 0,
+        snippet: truncateUtf16Safe(row[4] || '', params.snippetMaxChars),
+        source: row[6] || 'memory',
+      }));
     }
-
-    return rows.map((row) => ({
-      id: row.id,
-      path: row.path,
-      startLine: row.start_line,
-      endLine: row.end_line,
-      score: 1 - row.dist,
-      snippet: truncateUtf16Safe(row.text, params.snippetMaxChars),
-      source: row.source,
-    }));
+  } catch (error) {
+    console.warn('Oracle AI Vector Search failed, falling back to manual search:', error);
   }
 
+  // Fallback: manual search
   return await searchChunksByEmbedding({
     db: params.db,
     providerModel: params.providerModel,
@@ -237,8 +199,11 @@ export async function searchVector(params: {
   });
 }
 
+/**
+ * Manual vector search (fallback when AI Vector Search is unavailable).
+ */
 async function searchChunksByEmbedding(params: {
-  db: DatabaseSync;
+  db: any;
   providerModel: string;
   providerModelAliases?: string[];
   sourceFilter: { sql: string; params: SearchSource[] };
@@ -249,188 +214,216 @@ async function searchChunksByEmbedding(params: {
   if (params.limit <= 0) {
     return [];
   }
-  const providerModels = resolveProviderModels(params.providerModel, params.providerModelAliases);
-  const modelFilter = buildModelFilter("model", providerModels);
-  // Keep batches bounded instead of calling `.all()` across the entire chunks
-  // table, and do not hold a sqlite iterator open across the setImmediate yield
-  // below. The rowid cursor keeps memory bounded without OFFSET rescans.
-  const stmt = params.db.prepare(
-    `SELECT rowid, id, path, start_line, end_line, text, embedding, source\n` +
-      `  FROM memory_index_chunks\n` +
-      ` WHERE ${modelFilter} AND rowid > ?${params.sourceFilter.sql}\n` +
-      ` ORDER BY rowid ASC\n` +
-      ` LIMIT ?`,
-  );
-  type ChunkEmbeddingRow = {
-    rowid: number | bigint;
-    id: string;
-    path: string;
-    start_line: number;
-    end_line: number;
-    text: string;
-    embedding: string;
-    source: SearchSource;
-  };
 
-  const topResults: SearchRowResult[] = [];
-  let lastRowid = 0;
-  while (true) {
-    const batch = stmt.all(
-      ...providerModels,
-      lastRowid,
-      ...params.sourceFilter.params,
-      FALLBACK_VECTOR_BATCH_SIZE,
-    ) as ChunkEmbeddingRow[];
-    if (batch.length === 0) {
-      break;
-    }
-    for (const row of batch) {
-      const score = cosineSimilarity(params.queryVec, parseEmbedding(row.embedding));
-      if (Number.isFinite(score)) {
-        const result: SearchRowResult = {
-          id: row.id,
-          path: row.path,
-          startLine: row.start_line,
-          endLine: row.end_line,
-          score,
-          snippet: truncateUtf16Safe(row.text, params.snippetMaxChars),
-          source: row.source,
-        };
-        if (topResults.length < params.limit) {
-          topResults.push(result);
-          if (topResults.length === params.limit) {
-            topResults.sort((a, b) => b.score - a.score);
-          }
-        } else {
-          const lowest = topResults.at(-1);
-          if (lowest && result.score > lowest.score) {
-            topResults[topResults.length - 1] = result;
-            topResults.sort((a, b) => b.score - a.score);
-          }
-        }
-      }
-    }
-    const nextRowid = batch.at(-1)?.rowid;
-    lastRowid = typeof nextRowid === "bigint" ? Number(nextRowid) : (nextRowid ?? lastRowid);
-    if (batch.length < FALLBACK_VECTOR_BATCH_SIZE) {
-      break;
-    }
-    await yieldToEventLoop();
+  const providerModels = resolveProviderModels(params.providerModel, params.providerModelAliases);
+  const modelFilter = buildModelFilter('model', providerModels);
+  
+  // Build binds
+  const modelBinds: Record<string, string> = {};
+  providerModels.forEach((model, i) => {
+    modelBinds[`model${i}`] = model;
+  });
+
+  const sourceBinds: Record<string, SearchSource> = {};
+  params.sourceFilter.params.forEach((source, i) => {
+    sourceBinds[`src${i}`] = source;
+  });
+
+  // Query chunks and calculate similarity manually
+  const sql = `
+    SELECT id, path, start_line, end_line, text, source, embedding
+    FROM memory_index_chunks
+    WHERE ${modelFilter}
+      ${params.sourceFilter.sql.replace(/\?/g, (_, i) => `:src${i}`)}
+    ORDER BY updated_at DESC
+    FETCH FIRST :limit ROWS ONLY
+  `;
+
+  const result = await params.db.execute(sql, {
+    limit: params.limit * 2,
+    ...modelBinds,
+    ...sourceBinds,
+  });
+
+  if (!result.rows) {
+    return [];
   }
-  topResults.sort((a, b) => b.score - a.score);
-  return topResults;
+
+  // Calculate cosine similarity manually
+  const results: SearchRowResult[] = [];
+  for (const row of result.rows) {
+    const embedding = parseEmbedding(row[6] || '');
+    if (embedding.length === 0) continue;
+    
+    let score = 0;
+    for (let i = 0; i < Math.min(params.queryVec.length, embedding.length); i++) {
+      score += params.queryVec[i] * embedding[i];
+    }
+    
+    results.push({
+      id: row[0],
+      path: row[1],
+      startLine: row[2],
+      endLine: row[3],
+      score: Math.max(0, Math.min(1, score)),
+      snippet: truncateUtf16Safe(row[4] || '', params.snippetMaxChars),
+      source: row[5] || 'memory',
+    });
+  }
+
+  return results
+    .sort((a, b) => b.score - a.score)
+    .slice(0, params.limit);
 }
 
+// ========================================================================
+// Keyword Search - Oracle Text
+// ========================================================================
+
+/**
+ * Search using Oracle Text.
+ * 
+ * @param params - Keyword search parameters
+ * @param params.db - Oracle connection
+ * @param params.query - Search query
+ * @param params.limit - Max results
+ * @param params.snippetMaxChars - Max snippet length
+ * @param params.sourceFilter - Source filter
+ * @param params.config - Oracle search config
+ * @returns Search results with text scores
+ * 
+ * @example
+ * ```typescript
+ * const results = await searchKeyword({
+ *   db: oracleConnection,
+ *   query: 'hello world',
+ *   limit: 10,
+ *   snippetMaxChars: 700,
+ *   sourceFilter: { sql: ' AND source IN (:source1, :source2)', params: ['memory', 'sessions'] },
+ *   config: { useText: true, textOptions: { fuzzy: true } }
+ * });
+ * ```
+ */
 export async function searchKeyword(params: {
-  db: DatabaseSync;
-  ftsTable: string;
+  db: any;
   query: string;
-  ftsTokenizer?: "unicode61" | "trigram";
   limit: number;
   snippetMaxChars: number;
   sourceFilter: { sql: string; params: SearchSource[] };
-  buildFtsQuery: (raw: string) => string | null;
-  bm25RankToScore: (rank: number) => number;
-  boostFallbackRanking?: boolean;
+  config?: OracleSearchConfig;
 }): Promise<Array<SearchRowResult & { textScore: number }>> {
   if (params.limit <= 0) {
     return [];
   }
-  const plan = planKeywordSearch({
-    query: params.query,
-    ftsTokenizer: params.ftsTokenizer,
-    buildFtsQuery: params.buildFtsQuery,
-  });
-  if (!plan.matchQuery && plan.substringTerms.length === 0) {
+
+  const config = params.config ?? { useText: true };
+  const tokens = normalizeSearchTokens(params.query);
+  
+  if (tokens.length === 0) {
     return [];
   }
 
-  // Lexical FTS is model-agnostic (issue #48300), but old databases may
-  // already contain orphaned FTS rows from prior model-scoped cleanup.
-  const liveChunkClause = ` AND EXISTS (SELECT 1 FROM memory_index_chunks c WHERE c.id = ${params.ftsTable}.id)`;
-  const substringClause = plan.substringTerms.map(() => " AND text LIKE ? ESCAPE '\\'").join("");
-  const substringParams = plan.substringTerms.map((term) => `%${escapeLikePattern(term)}%`);
+  // Build source filter binds
+  const sourceBinds: Record<string, SearchSource> = {};
+  params.sourceFilter.params.forEach((source, i) => {
+    sourceBinds[`src${i}`] = source;
+  });
 
-  let rows: Array<{
-    id: string;
-    path: string;
-    source: SearchSource;
-    start_line: number;
-    end_line: number;
-    text: string;
-    rank: number;
-  }>;
-  let usedMatch = false;
+  try {
+    // Try Oracle Text if available
+    if (config.useText) {
+      const textOptions = config.textOptions ?? {};
+      let queryText = tokens.join(' ');
+      
+      if (textOptions.fuzzy) {
+        queryText = tokens.map(t => `?(${t})`).join(' ');
+      }
+      if (textOptions.stemming) {
+        queryText = tokens.map(t => `$(${t})`).join(' ');
+      }
 
-  if (plan.matchQuery) {
-    try {
-      rows = params.db
-        .prepare(
-          `SELECT id, path, source, start_line, end_line, text,\n` +
-            `       bm25(${params.ftsTable}) AS rank\n` +
-            `  FROM ${params.ftsTable}\n` +
-            ` WHERE ${params.ftsTable} MATCH ?${substringClause}${liveChunkClause}${params.sourceFilter.sql}\n` +
-            ` ORDER BY rank ASC\n` +
-            ` LIMIT ?`,
-        )
-        .all(
-          plan.matchQuery,
-          ...substringParams,
-          ...params.sourceFilter.params,
-          params.limit,
-        ) as typeof rows;
-      usedMatch = true;
-    } catch (matchErr) {
-      // FTS5 MATCH can fail on certain token patterns depending on the
-      // Node.js sqlite runtime and tokenizer (e.g. unicode61 vs trigram).
-      // Log the root cause, then fall back to per-token LIKE-based substring
-      // search so results are still returned instead of being silently dropped.
-      console.warn(`memory search: FTS5 MATCH failed, falling back to LIKE: ${String(matchErr)}`);
-      const queryTokens = normalizeStringEntries(params.query.match(FTS_QUERY_TOKEN_RE) ?? []);
-      const allTerms = uniqueStrings([...queryTokens, ...plan.substringTerms]);
-      const fallbackLikeClause = allTerms.map(() => " AND text LIKE ? ESCAPE '\\'").join("");
-      const fallbackLikeParams = allTerms.map((term) => `%${escapeLikePattern(term)}%`);
-      rows = params.db
-        .prepare(
-          `SELECT id, path, source, start_line, end_line, text,\n` +
-            `       0 AS rank\n` +
-            `  FROM ${params.ftsTable}\n` +
-            ` WHERE 1=1${fallbackLikeClause}${liveChunkClause}${params.sourceFilter.sql}\n` +
-            ` LIMIT ?`,
-        )
-        .all(...fallbackLikeParams, ...params.sourceFilter.params, params.limit) as typeof rows;
+      const sql = `
+        SELECT 
+          id, path, source, start_line, end_line, text,
+          SCORE(1) as score
+        FROM memory_index_chunks_fts
+        WHERE CONTAINS(text, :query, 1) > 0
+          ${params.sourceFilter.sql.replace(/\?/g, (_, i) => `:src${i}`)}
+        ORDER BY score DESC
+        FETCH FIRST :limit ROWS ONLY
+      `;
+
+      const result = await params.db.execute(sql, {
+        query: queryText,
+        limit: params.limit,
+        ...sourceBinds,
+      });
+
+      if (result.rows && result.rows.length > 0) {
+        return result.rows.map((row: any) => {
+          const textScore = (row[5] || 0) / 100;
+          return {
+            id: row[0],
+            path: row[1],
+            source: row[2],
+            startLine: row[3],
+            endLine: row[4],
+            score: textScore,
+            textScore: textScore,
+            snippet: truncateUtf16Safe(row[6] || '', params.snippetMaxChars),
+          };
+        });
+      }
     }
-  } else {
-    rows = params.db
-      .prepare(
-        `SELECT id, path, source, start_line, end_line, text,\n` +
-          `       0 AS rank\n` +
-          `  FROM ${params.ftsTable}\n` +
-          ` WHERE 1=1${substringClause}${liveChunkClause}${params.sourceFilter.sql}\n` +
-          ` LIMIT ?`,
-      )
-      .all(...substringParams, ...params.sourceFilter.params, params.limit) as typeof rows;
+  } catch (error) {
+    console.warn('Oracle Text search failed, falling back to LIKE:', error);
   }
 
-  return rows.map((row) => {
-    const textScore = usedMatch ? params.bm25RankToScore(row.rank) : 1;
-    const score = params.boostFallbackRanking
-      ? scoreFallbackKeywordResult({
-          query: params.query,
-          path: row.path,
-          text: row.text,
-          ftsScore: textScore,
-        })
-      : textScore;
+  // Fallback: LIKE search
+  const likeClause = tokens.map((_, i) => `text LIKE :term${i} ESCAPE '\\'`).join(' AND ');
+  const termBinds: Record<string, string> = {};
+  tokens.forEach((token, i) => {
+    termBinds[`term${i}`] = `%${escapeLikePattern(token)}%`;
+  });
+
+  const sql = `
+    SELECT id, path, source, start_line, end_line, text
+    FROM memory_index_chunks
+    WHERE ${likeClause}
+      ${params.sourceFilter.sql.replace(/\?/g, (_, i) => `:src${i}`)}
+    FETCH FIRST :limit ROWS ONLY
+  `;
+
+  const result = await params.db.execute(sql, {
+    limit: params.limit,
+    ...termBinds,
+    ...sourceBinds,
+  });
+
+  if (!result.rows) {
+    return [];
+  }
+
+  return result.rows.map((row: any) => {
+    const textScore = 0.5;
     return {
-      id: row.id,
-      path: row.path,
-      startLine: row.start_line,
-      endLine: row.end_line,
-      score,
+      id: row[0],
+      path: row[1],
+      source: row[2] || 'memory',
+      startLine: row[3] || 0,
+      endLine: row[4] || 0,
+      score: textScore,
       textScore,
-      snippet: truncateUtf16Safe(row.text, params.snippetMaxChars),
-      source: row.source,
+      snippet: truncateUtf16Safe(row[5] || '', params.snippetMaxChars),
     };
   });
 }
+
+// ========================================================================
+// Export
+// ========================================================================
+
+export default {
+  searchVector,
+  searchKeyword
+};

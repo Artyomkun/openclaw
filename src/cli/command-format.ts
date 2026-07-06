@@ -1,6 +1,6 @@
 // Formats CLI command examples with active container/profile hints when they apply.
-import { replaceCliName, resolveCliName } from "./cli-name.js";
-import { normalizeProfileName } from "./profile-utils.js";
+import { replaceCliName, resolveCliName } from "./cli-name.ts";
+import { normalizeProfileName } from "./profile-utils.ts";
 
 const CLI_PREFIX_RE = /^(?:pnpm|npm|bunx|npx)\s+openclaw\b|^openclaw\b/;
 const CONTAINER_FLAG_RE = /(?:^|\s)--container(?:\s|=|$)/;

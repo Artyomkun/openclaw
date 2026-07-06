@@ -3,13 +3,13 @@ import { execFileSync } from "node:child_process";
 import { constants as fsConstants } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { getWindowsSystem32ExePath } from "../infra/windows-install-roots.js";
+import { getWindowsSystem32ExePath } from "../infra/windows-install-roots.ts";
 import {
   buildGatewayDistEntrypointCandidates,
   findFirstAccessibleGatewayEntrypoint,
   isGatewayDistEntrypointPath,
-} from "./gateway-entrypoint.js";
-import { isBunRuntime, isNodeRuntime } from "./runtime-binary.js";
+} from "./gateway-entrypoint.ts";
+import { isBunRuntime, isNodeRuntime } from "./runtime-binary.ts";
 
 type GatewayProgramArgs = {
   programArguments: string[];
@@ -108,9 +108,9 @@ function appendDistCandidates(candidates: string[], seen: Set<string>, baseDir: 
   const distDir = path.resolve(baseDir, "dist");
   const distEntries = [
     path.join(distDir, "index.js"),
-    path.join(distDir, "index.mjs"),
+    path.join(distDir, "index.ts"),
     path.join(distDir, "entry.js"),
-    path.join(distDir, "entry.mjs"),
+    path.join(distDir, "entry.ts"),
   ];
   for (const entry of distEntries) {
     if (seen.has(entry)) {

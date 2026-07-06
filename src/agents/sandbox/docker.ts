@@ -4,16 +4,16 @@
  * Wraps Docker spawn, environment sanitization, container inspection, creation, and exec behavior.
  */
 import { spawn } from "node:child_process";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import {
   materializeWindowsSpawnProgram,
   resolveWindowsSpawnProgram,
-} from "../../plugin-sdk/windows-spawn.js";
+} from "../../plugin-sdk/windows-spawn.ts";
 import {
   sanitizeEnvVars,
   sanitizeExplicitSandboxEnvVars,
   type EnvSanitizationOptions,
-} from "./sanitize-env-vars.js";
+} from "./sanitize-env-vars.ts";
 
 type ExecDockerRawOptions = {
   allowFailure?: boolean;
@@ -170,18 +170,18 @@ export function execDockerRaw(
   });
 }
 
-import { formatCliCommand } from "../../cli/command-format.js";
-import { markOpenClawExecEnv } from "../../infra/openclaw-exec-env.js";
-import { defaultRuntime } from "../../runtime.js";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { markOpenClawExecEnv } from "../../infra/openclaw-exec-env.ts";
+import { defaultRuntime } from "../../runtime.ts";
 import {
   computeSandboxConfigHash,
   SANDBOX_DOCKER_EXPLICIT_ENV_POLICY_EPOCH,
-} from "./config-hash.js";
-import { DEFAULT_SANDBOX_IMAGE } from "./constants.js";
-import { readRegistryEntry, updateRegistry } from "./registry.js";
-import { resolveSandboxAgentId, resolveSandboxScopeKey, slugifySessionKey } from "./shared.js";
-import type { SandboxConfig, SandboxDockerConfig, SandboxWorkspaceAccess } from "./types.js";
-import { validateSandboxSecurity } from "./validate-sandbox-security.js";
+} from "./config-hash.ts";
+import { DEFAULT_SANDBOX_IMAGE } from "./constants.ts";
+import { readRegistryEntry, updateRegistry } from "./registry.ts";
+import { resolveSandboxAgentId, resolveSandboxScopeKey, slugifySessionKey } from "./shared.ts";
+import type { SandboxConfig, SandboxDockerConfig, SandboxWorkspaceAccess } from "./types.ts";
+import { validateSandboxSecurity } from "./validate-sandbox-security.ts";
 import {
   appendReadOnlyWorkspaceSkillMountArgs,
   appendWorkspaceMountArgs,
@@ -189,7 +189,7 @@ import {
   resolveReadOnlyWorkspaceSkillMounts,
   SANDBOX_MOUNT_FORMAT_VERSION,
   type ReadOnlyWorkspaceSkillMount,
-} from "./workspace-mounts.js";
+} from "./workspace-mounts.ts";
 
 const log = createSubsystemLogger("docker");
 
@@ -402,12 +402,6 @@ export function buildSandboxCreateArgs(params: {
   allowSourcesOutsideAllowedRoots?: boolean;
   allowReservedContainerTargets?: boolean;
   allowContainerNamespaceJoin?: boolean;
-  /**
-   * @deprecated Docker container creation now treats cfg.env as explicit sandbox
-   * configuration and ignores host-env name filters. This field is kept so SDK
-   * callers with existing object literals do not hit excess-property failures.
-   */
-  envSanitizationOptions?: EnvSanitizationOptions;
 }) {
   // Runtime security validation: blocks dangerous bind mounts, network modes, and profiles.
   validateSandboxSecurity({

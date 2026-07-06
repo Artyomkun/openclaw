@@ -8,16 +8,16 @@
 import os from "node:os";
 import path from "node:path";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveRequiredHomeDir, resolveRequiredOsHomeDir } from "../../infra/home-dir.js";
-import { splitSandboxBindSpec } from "./bind-spec.js";
-import { SANDBOX_AGENT_WORKSPACE_MOUNT } from "./constants.js";
+import { resolveRequiredHomeDir, resolveRequiredOsHomeDir } from "../../infra/home-dir.ts";
+import { splitSandboxBindSpec } from "./bind-spec.ts";
+import { SANDBOX_AGENT_WORKSPACE_MOUNT } from "./constants.ts";
 import {
   getSandboxHostPathPolicyKey,
   isSandboxHostPathAbsolute,
   normalizeSandboxHostPath,
   resolveSandboxHostPathViaExistingAncestor,
-} from "./host-paths.js";
-import { getBlockedNetworkModeReason } from "./network-mode.js";
+} from "./host-paths.ts";
+import { getBlockedNetworkModeReason } from "./network-mode.ts";
 
 // Targeted denylist: host paths that should never be exposed inside sandbox containers.
 const BLOCKED_HOST_PATHS = [
@@ -39,7 +39,6 @@ const BLOCKED_HOST_PATHS = [
 
 const BLOCKED_HOME_SUBPATHS = [
   ".aws",
-  ".cargo",
   ".config",
   ".docker",
   ".gnupg",

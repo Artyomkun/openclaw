@@ -1,24 +1,24 @@
 // Global Commander pre-action hook: startup presentation, config guard, logging, and plugin preflight.
 import type { Command } from "commander";
-import type { ConfigFileSnapshot } from "../../config/types.js";
-import { setVerbose } from "../../globals.js";
-import type { LogLevel } from "../../logging/levels.js";
-import { defaultRuntime } from "../../runtime.js";
-import { resolveCliArgvInvocation } from "../argv-invocation.js";
-import { getVerboseFlag, isHelpOrVersionInvocation } from "../argv.js";
-import { resolveCliName } from "../cli-name.js";
+import type { ConfigFileSnapshot } from "../../config/types.ts";
+import { setVerbose } from "../../globals.ts";
+import type { LogLevel } from "../../logging/levels.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { resolveCliArgvInvocation } from "../argv-invocation.ts";
+import { getVerboseFlag, isHelpOrVersionInvocation } from "../argv.ts";
+import { resolveCliName } from "../cli-name.ts";
 import {
   applyCliExecutionStartupPresentation,
   ensureCliExecutionBootstrap,
   resolveCliExecutionStartupContext,
-} from "../command-execution-startup.js";
-import { shouldBypassConfigGuardForCommandPath } from "../command-startup-policy.js";
+} from "../command-execution-startup.ts";
+import { shouldBypassConfigGuardForCommandPath } from "../command-startup-policy.ts";
 import {
   resolvePluginInstallInvalidConfigPolicy,
   resolvePluginInstallPreactionRequest,
-} from "../plugin-install-config-policy.js";
-import { isCommandJsonOutputMode } from "./json-mode.js";
-import { isParentDefaultHelpAction } from "./parent-default-help.js";
+} from "../plugin-install-config-policy.ts";
+import { isCommandJsonOutputMode } from "./json-mode.ts";
+import { isParentDefaultHelpAction } from "./parent-default-help.ts";
 
 function setProcessTitleForCommand(actionCommand: Command) {
   let current: Command = actionCommand;

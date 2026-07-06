@@ -1,7 +1,7 @@
 /**
  * Resolves how long aborted attempts wait for cleanup to settle.
  */
-import { parseStrictPositiveInteger } from "../../../infra/parse-finite-number.js";
+import { parseStrictPositiveInteger } from "../../../infra/parse-finite-number.ts";
 
 type AbortSettleTimeoutEnv = Partial<
   Pick<NodeJS.ProcessEnv, "OPENCLAW_EMBEDDED_ABORT_SETTLE_TIMEOUT_MS" | "OPENCLAW_TEST_FAST">

@@ -1,26 +1,26 @@
 // Session transcript facade resolves transcript files, appends mirror messages, and reads tails.
 import path from "node:path";
-import type { AgentMessage } from "../../agents/runtime/index.js";
-import type { SessionManager } from "../../agents/sessions/session-manager.js";
-import { redactTranscriptMessage } from "../../agents/transcript-redact.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { parseAgentSessionKey, resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
+import type { AgentMessage } from "../../agents/runtime/index.ts";
+import type { SessionManager } from "../../agents/sessions/session-manager.ts";
+import { redactTranscriptMessage } from "../../agents/transcript-redact.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { parseAgentSessionKey, resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
 import {
   extractAssistantVisibleText,
   extractFirstTextBlock,
-} from "../../shared/chat-message-content.js";
-import { isTranscriptOnlyOpenClawAssistantModel } from "../../shared/transcript-only-openclaw-assistant.js";
-import type { OpenClawConfig } from "../types.openclaw.js";
+} from "../../shared/chat-message-content.ts";
+import { isTranscriptOnlyOpenClawAssistantModel } from "../../shared/transcript-only-openclaw-assistant.ts";
+import type { OpenClawConfig } from "../types.openclaw.ts";
 import {
   resolveDefaultSessionStorePath,
   resolveSessionFilePath,
   resolveStorePath,
-} from "./paths.js";
-import { persistSessionTranscriptTurn } from "./session-accessor.js";
-import { resolveAndPersistSessionFile } from "./session-file.js";
-import { loadSessionStore, resolveSessionStoreEntry } from "./store.js";
-import { resolveMirroredTranscriptText } from "./transcript-mirror.js";
-import { streamSessionTranscriptLinesReverse } from "./transcript-stream.js";
+} from "./paths.ts";
+import { persistSessionTranscriptTurn } from "./session-accessor.ts";
+import { resolveAndPersistSessionFile } from "./session-file.ts";
+import { loadSessionStore, resolveSessionStoreEntry } from "./store.ts";
+import { resolveMirroredTranscriptText } from "./transcript-mirror.ts";
+import { streamSessionTranscriptLinesReverse } from "./transcript-stream.ts";
 
 export type SessionTranscriptAppendResult =
   | { ok: true; sessionFile: string; messageId: string }
@@ -99,7 +99,7 @@ export type ReadRecentSessionConversationTextParams = ReadRecentSessionConversat
 export type LatestAssistantTranscriptText = AssistantTranscriptText;
 export type TailAssistantTranscriptText = AssistantTranscriptText;
 
-export { resolveSessionTranscriptFile } from "./transcript-file-resolve.js";
+export { resolveSessionTranscriptFile } from "./transcript-file-resolve.ts";
 
 function parseAssistantTranscriptText(
   line: string,

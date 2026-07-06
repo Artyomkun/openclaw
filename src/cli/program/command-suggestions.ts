@@ -1,7 +1,7 @@
-import { levenshteinDistance } from "../../shared/levenshtein-distance.js";
-import { formatCliCommand } from "../command-format.js";
-import { getCoreCliCommandNames } from "./core-command-descriptors.js";
-import { getSubCliEntries } from "./subcli-descriptors.js";
+import { levenshteinDistance } from "../../shared/levenshtein-distance.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { getCoreCliCommandNames } from "./core-command-descriptors.ts";
+import { getSubCliEntries } from "./subcli-descriptors.ts";
 
 const EXPLICIT_COMMAND_ALIASES = new Map<string, string>([
   ["upgrade", "update"],

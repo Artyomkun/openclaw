@@ -3,12 +3,12 @@
  *
  * Decides whether completed runs can be cleaned up, deferred for descendants, retried, or abandoned.
  */
-import { getDeliveryAttemptCount } from "./subagent-delivery-state.js";
+import { getDeliveryAttemptCount } from "./subagent-delivery-state.ts";
 import {
   SUBAGENT_ENDED_REASON_COMPLETE,
   type SubagentLifecycleEndedReason,
-} from "./subagent-lifecycle-events.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "./subagent-lifecycle-events.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 type DeferredCleanupDecision =
   | {

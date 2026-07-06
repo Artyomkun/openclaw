@@ -2,8 +2,8 @@
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
-} from "../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 /** Resolves the source config used for plugin activation policy decisions. */
 export function resolvePluginActivationSourceConfig(params: {

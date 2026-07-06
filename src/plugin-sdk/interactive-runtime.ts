@@ -6,7 +6,7 @@ export {
   applyPresentationActionLimits,
   presentationPageSize,
   reduceInteractiveReply,
-} from "../channels/plugins/outbound/interactive.js";
+} from "../channels/plugins/outbound/interactive.ts";
 export type {
   InteractiveButtonStyle,
   InteractiveReply,
@@ -30,7 +30,7 @@ export type {
   MessagePresentationTone,
   ReplyPayloadDelivery,
   ReplyPayloadDeliveryPin,
-} from "../interactive/payload.js";
+} from "../interactive/payload.ts";
 export {
   hasInteractiveReplyBlocks,
   hasMessagePresentationBlocks,
@@ -46,4 +46,4 @@ export {
   resolveMessagePresentationActionValue,
   resolveMessagePresentationControlValue,
   resolveInteractiveTextFallback,
-} from "../interactive/payload.js";
+} from "../interactive/payload.ts";

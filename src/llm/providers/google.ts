@@ -1,8 +1,8 @@
 // Google provider adapts Gemini streams and tools to the agent runtime.
 import { type GenerateContentParameters, GoogleGenAI } from "@google/genai";
-import { getEnvApiKey } from "../env-api-keys.js";
-import type { Context, Model, SimpleStreamOptions, StreamFunction } from "../types.js";
-import { AssistantMessageEventStream } from "../utils/event-stream.js";
+import { getEnvApiKey } from "../env-api-keys.ts";
+import type { Context, Model, SimpleStreamOptions, StreamFunction } from "../types.ts";
+import { AssistantMessageEventStream } from "../utils/event-stream.ts";
 import {
   buildGoogleGenerateContentParams,
   buildGoogleSimpleThinking,
@@ -10,8 +10,8 @@ import {
   getDisabledGoogleThinkingConfig,
   type GoogleProviderOptions,
   runGoogleGenerateContentLifecycle,
-} from "./google-shared.js";
-import { buildBaseOptions } from "./simple-options.js";
+} from "./google-shared.ts";
+import { buildBaseOptions } from "./simple-options.ts";
 
 export type GoogleOptions = GoogleProviderOptions;
 

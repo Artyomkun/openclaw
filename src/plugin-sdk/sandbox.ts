@@ -25,8 +25,8 @@ export type {
   SandboxSshConfig,
   SshSandboxSession,
   SshSandboxSettings,
-} from "../agents/sandbox.js";
-export type { OpenClawConfig } from "../config/config.js";
+} from "../agents/sandbox.ts";
+export type { OpenClawConfig } from "../config/config.ts";
 
 export {
   buildExecRemoteCommand,
@@ -52,14 +52,14 @@ export {
   sanitizeEnvVars,
   shellEscape,
   uploadDirectoryToSshTarget,
-} from "../agents/sandbox.js";
+} from "../agents/sandbox.ts";
 
 export {
   runPluginCommandWithTimeout,
   type PluginCommandRunOptions,
   type PluginCommandRunResult,
-} from "./run-command.js";
-export { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+} from "./run-command.ts";
+export { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.ts";
 export {
   tempWorkspace,
   tempWorkspaceSync,
@@ -68,4 +68,4 @@ export {
   type TempWorkspaceSync,
   withTempWorkspace,
   withTempWorkspaceSync,
-} from "../infra/private-temp-workspace.js";
+} from "../infra/private-temp-workspace.ts";

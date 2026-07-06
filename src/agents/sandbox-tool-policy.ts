@@ -3,7 +3,7 @@
  * allow/deny policy object used by tool filtering.
  */
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { SandboxToolPolicy } from "./sandbox/types.js";
+import type { SandboxToolPolicy } from "./sandbox/types.ts";
 
 /** Provenance marker for wildcard allowlists created from `alsoAllow`. */
 export const IMPLICIT_ALLOW_ALL_FROM_ALSO_ALLOW = Symbol.for(

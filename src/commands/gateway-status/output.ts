@@ -1,8 +1,8 @@
 /** Text and JSON rendering for the gateway status command. */
-import { colorize, theme } from "../../../packages/terminal-core/src/theme.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { writeRuntimeJson } from "../../runtime.js";
-import { serializeGatewayDiscoveryBeacon } from "./discovery.js";
+import { colorize, theme } from "../../../packages/terminal-core/src/theme.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { writeRuntimeJson } from "../../runtime.ts";
+import { serializeGatewayDiscoveryBeacon } from "./discovery.ts";
 import {
   isProbeReachable,
   isPostConnectProbeFailure,
@@ -10,8 +10,8 @@ import {
   summarizeGatewayProbeCapability,
   renderProbeSummaryLine,
   renderTargetHeader,
-} from "./helpers.js";
-import type { GatewayStatusProbedTarget } from "./probe-run.js";
+} from "./helpers.ts";
+import type { GatewayStatusProbedTarget } from "./probe-run.ts";
 
 /** Warning emitted when gateway status finds degraded or surprising probe state. */
 type GatewayStatusWarning = {

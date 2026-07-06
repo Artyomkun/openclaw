@@ -3,11 +3,11 @@ import {
   diagnosticLogger as diag,
   logLaneDequeue,
   logLaneEnqueue,
-} from "../logging/diagnostic-runtime.js";
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import { clampPositiveTimerTimeoutMs } from "../shared/number-coercion.js";
-import type { CommandQueueEnqueueOptions } from "./command-queue.types.js";
-import { CommandLane } from "./lanes.js";
+} from "../logging/diagnostic-runtime.ts";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import { clampPositiveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import type { CommandQueueEnqueueOptions } from "./command-queue.types.ts";
+import { CommandLane } from "./lanes.ts";
 /**
  * Dedicated error type thrown when a queued command is rejected because
  * its lane was cleared.  Callers that fire-and-forget enqueued tasks can

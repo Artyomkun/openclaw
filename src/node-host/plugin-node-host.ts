@@ -1,6 +1,6 @@
 /** Plugin node-host bridge for loading plugin registry commands and dispatching node capabilities. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getActivePluginRegistry } from "../plugins/runtime.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getActivePluginRegistry } from "../plugins/runtime.ts";
 
 /**
  * Plugin node-host command registry bridge.

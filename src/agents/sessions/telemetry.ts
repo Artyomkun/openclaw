@@ -3,7 +3,7 @@
  *
  * Environment overrides win over persisted settings for CI and packaged launcher control.
  */
-import type { SettingsManager } from "./settings-manager.js";
+import type { SettingsManager } from "./settings-manager.ts";
 
 function isTruthyEnvFlag(value: string | undefined): boolean {
   if (!value) {

@@ -9,57 +9,57 @@ import {
   asDateTimestampMs,
   resolveTimestampMsToIsoString,
 } from "@openclaw/normalization-core/number-coercion";
-import { resolveAgentAvatar, resolvePublicAgentAvatarSource } from "../agents/identity-avatar.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { matchRootFileOpenFailure, openRootFileSync } from "../infra/boundary-file-read.js";
+import { resolveAgentAvatar, resolvePublicAgentAvatarSource } from "../agents/identity-avatar.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { matchRootFileOpenFailure, openRootFileSync } from "../infra/boundary-file-read.ts";
 import {
   isPackageProvenControlUiRootSync,
   resolveControlUiRootSync,
-} from "../infra/control-ui-assets.js";
-import { listDevicePairing, verifyDeviceToken } from "../infra/device-pairing.js";
-import { openLocalFileSafely, FsSafeError, readSecureFile } from "../infra/fs-safe.js";
-import { safeFileURLToPath } from "../infra/local-file-access.js";
-import { verifyPairingToken } from "../infra/pairing-token.js";
-import { isWithinDir } from "../infra/path-safety.js";
-import { assertLocalMediaAllowed, getDefaultLocalRoots } from "../media/local-media-access.js";
-import { getAgentScopedMediaLocalRoots } from "../media/local-roots.js";
-import { resolveMediaReferenceLocalPath } from "../media/media-reference.js";
-import { AVATAR_MAX_BYTES } from "../shared/avatar-policy.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveRuntimeServiceVersion } from "../version.js";
-import { DEFAULT_ASSISTANT_IDENTITY, resolveAssistantIdentity } from "./assistant-identity.js";
+} from "../infra/control-ui-assets.ts";
+import { listDevicePairing, verifyDeviceToken } from "../infra/device-pairing.ts";
+import { openLocalFileSafely, FsSafeError, readSecureFile } from "../infra/fs-safe.ts";
+import { safeFileURLToPath } from "../infra/local-file-access.ts";
+import { verifyPairingToken } from "../infra/pairing-token.ts";
+import { isWithinDir } from "../infra/path-safety.ts";
+import { assertLocalMediaAllowed, getDefaultLocalRoots } from "../media/local-media-access.ts";
+import { getAgentScopedMediaLocalRoots } from "../media/local-roots.ts";
+import { resolveMediaReferenceLocalPath } from "../media/media-reference.ts";
+import { AVATAR_MAX_BYTES } from "../shared/avatar-policy.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveRuntimeServiceVersion } from "../version.ts";
+import { DEFAULT_ASSISTANT_IDENTITY, resolveAssistantIdentity } from "./assistant-identity.ts";
 import {
   AUTH_RATE_LIMIT_SCOPE_DEVICE_TOKEN,
   AUTH_RATE_LIMIT_SCOPE_SHARED_SECRET,
   type AuthRateLimiter,
-} from "./auth-rate-limit.js";
-import { authorizeHttpGatewayConnect, type ResolvedGatewayAuth } from "./auth.js";
+} from "./auth-rate-limit.ts";
+import { authorizeHttpGatewayConnect, type ResolvedGatewayAuth } from "./auth.ts";
 import {
   CONTROL_UI_BOOTSTRAP_CONFIG_PATH,
   type ControlUiBootstrapConfig,
-} from "./control-ui-contract.js";
-import { buildControlUiCspHeader, computeInlineScriptHashes } from "./control-ui-csp.js";
+} from "./control-ui-contract.ts";
+import { buildControlUiCspHeader, computeInlineScriptHashes } from "./control-ui-csp.ts";
 import {
   isReadHttpMethod,
   respondNotFound as respondControlUiNotFound,
   respondPlainText,
-} from "./control-ui-http-utils.js";
-import { classifyControlUiRequest } from "./control-ui-routing.js";
+} from "./control-ui-http-utils.ts";
+import { classifyControlUiRequest } from "./control-ui-routing.ts";
 import {
   buildControlUiAvatarUrl,
   CONTROL_UI_AVATAR_PREFIX,
   normalizeControlUiBasePath,
   resolveAssistantAvatarUrl,
-} from "./control-ui-shared.js";
-import { buildMissingScopeForbiddenBody, sendGatewayAuthFailure } from "./http-common.js";
+} from "./control-ui-shared.ts";
+import { buildMissingScopeForbiddenBody, sendGatewayAuthFailure } from "./http-common.ts";
 import {
   getBearerToken,
   resolveHttpBrowserOriginPolicy,
   resolveTrustedHttpOperatorScopes,
-} from "./http-utils.js";
-import { authorizeOperatorScopesForMethod } from "./method-scopes.js";
-import { resolveRequestClientIp } from "./net.js";
-import { resolveSharedGatewaySessionGeneration } from "./server/ws-shared-generation.js";
+} from "./http-utils.ts";
+import { authorizeOperatorScopesForMethod } from "./method-scopes.ts";
+import { resolveRequestClientIp } from "./net.ts";
+import { resolveSharedGatewaySessionGeneration } from "./server/ws-shared-generation.ts";
 
 const ROOT_PREFIX = "/";
 const CONTROL_UI_ASSISTANT_MEDIA_PREFIX = "/__openclaw__/assistant-media";
@@ -862,44 +862,13 @@ const CONTROL_UI_DEFAULT_NAMESPACE_BOOTSTRAP_CONFIG_PATH = `${CONTROL_UI_NAMESPA
   "",
 )}${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`;
 
-// Single-underscore `/__openclaw` prefix used by the pre-base-path-relative
-// bootstrap endpoint. Before #66946 made the config path base-path-relative,
-// `CONTROL_UI_BOOTSTRAP_CONFIG_PATH` was hard-coded to
-// `/__openclaw/control-ui-config.json`, so current main and the v2026.6.1
-// release serve and document that exact path under an empty base path.
-const LEGACY_CONTROL_UI_NAMESPACE_PREFIX = "/__openclaw";
-
-// The old documented no-base-path bootstrap endpoint
-// (`/__openclaw/control-ui-config.json`, single underscore). It is derived from
-// the legacy `/__openclaw` namespace joined with the canonical config constant
-// so it tracks any rename of the config filename. Kept as an empty-base-path
-// compatibility alias so older bundles and clients that fetch the previously
-// documented endpoint keep receiving config after upgrading instead of 404ing.
-const LEGACY_BOOTSTRAP_CONFIG_PATH = `${LEGACY_CONTROL_UI_NAMESPACE_PREFIX}${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`;
-
 /**
- * Whether `pathname` should be served the Control UI bootstrap config payload.
- *
- * The canonical endpoint is the configured base path joined with the shared
- * bootstrap constant (or the bare constant when no base path is configured).
- * For every base path (configured or empty) we additionally accept the legacy
- * single-underscore suffix `${basePath}/__openclaw/control-ui-config.json` that
- * current main and v2026.6.1 serve and document, so older bundles and clients
- * that still request the pre-#66946 endpoint keep receiving config after an
- * upgrade instead of 404ing. When no base path is configured we further accept
- * the default-namespace alias `/__openclaw__/control-ui-config.json`, which is
- * what the default `/__openclaw__/` entry requests after inferring its base path
- * from the URL. All compatibility endpoints are preserved; no path is removed.
+ * Returns true when `pathname` matches the Control UI bootstrap config path.
+ * The canonical path is `/${basePath}/__openclaw/control-ui-config.json`.
  */
 function matchesControlUiBootstrapConfigPath(pathname: string, basePath: string): boolean {
-  // Canonical and legacy suffixes apply under both an empty and a configured
-  // base path. `LEGACY_BOOTSTRAP_CONFIG_PATH` already starts with the legacy
-  // `/__openclaw` namespace, so joining it with the base path yields
-  // `${basePath}/__openclaw/control-ui-config.json` (or the bare legacy path
-  // when no base path is configured).
   if (
-    pathname === `${basePath}${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}` ||
-    pathname === `${basePath}${LEGACY_BOOTSTRAP_CONFIG_PATH}`
+    pathname === `${basePath}${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`
   ) {
     return true;
   }

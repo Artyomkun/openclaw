@@ -2,29 +2,27 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { normalizeLowercaseStringOrEmpty } from "../../packages/normalization-core/src/string-coerce.js";
-import { emptyChannelConfigSchema } from "../channels/plugins/config-schema.js";
-import type { ChannelOutboundAdapter } from "../channels/plugins/types.adapters.js";
-import type { ChannelConfigSchema } from "../channels/plugins/types.config.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import { openRootFileSync } from "../infra/boundary-file-read.js";
-import { tryNativeRequireJavaScriptModule } from "../plugins/native-module-require.js";
+import { normalizeLowercaseStringOrEmpty } from "../../packages/normalization-core/src/string-coerce.ts";
+import { emptyChannelConfigSchema } from "../channels/plugins/config-schema.ts";
+import type { ChannelOutboundAdapter } from "../channels/plugins/types.adapters.ts";
+import type { ChannelConfigSchema } from "../channels/plugins/types.config.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import { openRootFileSync } from "../infra/boundary-file-read.ts";
+import { tryNativeRequireJavaScriptModule } from "../plugins/native-module-require.ts";
 import {
   createProfiler,
   formatPluginLoadProfileLine,
   shouldProfilePluginLoader,
-} from "../plugins/plugin-load-profile.js";
+} from "../plugins/plugin-load-profile.ts";
 import {
   getCachedPluginSourceModuleLoader,
   type PluginModuleLoaderCache,
-} from "../plugins/plugin-module-loader-cache.js";
-import { buildPluginLoaderAliasMap, resolveLoaderPackageRoot } from "../plugins/sdk-alias.js";
-import { toSafeImportPath } from "../shared/import-specifier.js";
+} from "../plugins/plugin-module-loader-cache.ts";
+import { buildPluginLoaderAliasMap, resolveLoaderPackageRoot } from "../plugins/sdk-alias.ts";
+import { toSafeImportPath } from "../shared/import-specifier.ts";
 import type {
-  BundledChannelLegacySessionSurface,
-  BundledChannelLegacyStateMigrationDetector,
   BundledEntryModuleLoadOptions,
-} from "./channel-entry-contract.types.js";
+} from "./channel-entry-contract.types.ts";
 
 export type AnyAgentTool = import("../plugins/types.js").AnyAgentTool;
 export type OpenClawPluginApi = import("../plugins/types.js").OpenClawPluginApi;
@@ -33,10 +31,8 @@ export type OpenClawPluginCommandDefinition =
 export type PluginCommandContext = import("../plugins/types.js").PluginCommandContext;
 
 export type {
-  BundledChannelLegacySessionSurface,
-  BundledChannelLegacyStateMigrationDetector,
   BundledEntryModuleLoadOptions,
-} from "./channel-entry-contract.types.js";
+} from "./channel-entry-contract.types.ts";
 
 type BundledChannelRuntime = unknown;
 
@@ -71,16 +67,7 @@ type DefineBundledChannelSetupEntryOptions = {
   plugin: BundledEntryModuleRef;
   secrets?: BundledEntryModuleRef;
   runtime?: BundledEntryModuleRef;
-  legacyStateMigrations?: BundledEntryModuleRef;
-  legacySessionSurface?: BundledEntryModuleRef;
   registerSetupRuntime?: (api: OpenClawPluginApi) => void;
-  features?: BundledChannelSetupEntryFeatures;
-};
-
-/** Feature flags exposed by bundled setup entries for optional migration/session surfaces. */
-export type BundledChannelSetupEntryFeatures = {
-  legacyStateMigrations?: boolean;
-  legacySessionSurfaces?: boolean;
 };
 
 /** Feature flags exposed by full bundled channel entries. */
@@ -117,15 +104,8 @@ export type BundledChannelSetupEntryContract<TPlugin = ChannelPlugin> = {
   loadSetupSecrets?: (
     options?: BundledEntryModuleLoadOptions,
   ) => ChannelPlugin["secrets"] | undefined;
-  loadLegacyStateMigrationDetector?: (
-    options?: BundledEntryModuleLoadOptions,
-  ) => BundledChannelLegacyStateMigrationDetector;
-  loadLegacySessionSurface?: (
-    options?: BundledEntryModuleLoadOptions,
-  ) => BundledChannelLegacySessionSurface;
   setChannelRuntime?: (runtime: BundledChannelRuntime) => void;
   registerSetupRuntime?: (api: OpenClawPluginApi) => void;
-  features?: BundledChannelSetupEntryFeatures;
 };
 
 const moduleLoaders: PluginModuleLoaderCache = new Map();
@@ -143,11 +123,11 @@ function resolveSpecifierCandidates(modulePath: string): string[] {
   if (ext === ".js") {
     return [modulePath, modulePath.slice(0, -3) + ".ts"];
   }
-  if (ext === ".mjs") {
-    return [modulePath, modulePath.slice(0, -4) + ".mts"];
+  if (ext === ".ts") {
+    return [modulePath, modulePath.slice(0, -4) + ".ts"];
   }
-  if (ext === ".cjs") {
-    return [modulePath, modulePath.slice(0, -4) + ".cts"];
+  if (ext === ".ts") {
+    return [modulePath, modulePath.slice(0, -4) + ".ts"];
   }
   return [modulePath];
 }
@@ -379,7 +359,7 @@ function canTryNodeRequireBuiltModule(modulePath: string): boolean {
     modulePath.includes(`${path.sep}dist-runtime${path.sep}`);
   return (
     isBuiltBundledArtifact &&
-    [".js", ".mjs", ".cjs"].includes(normalizeLowercaseStringOrEmpty(path.extname(modulePath)))
+    [".js", ".ts"].includes(normalizeLowercaseStringOrEmpty(path.extname(modulePath)))
   );
 }
 
@@ -443,19 +423,18 @@ function loadBundledEntryModuleSync(
 }
 
 /** Loads one export from a bundled channel sidecar module through the guarded entry boundary. */
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Dynamic entry export loaders use caller-supplied export types.
-export function loadBundledEntryExportSync<T>(
+export function loadBundledEntryExportSync(
   importMetaUrl: string,
   reference: BundledEntryModuleRef,
   options?: BundledEntryModuleLoadOptions,
-): T {
+): unknown {
   const loaded = loadBundledEntryModuleSync(importMetaUrl, reference.specifier, options);
   const resolved =
     loaded && typeof loaded === "object" && "default" in (loaded as Record<string, unknown>)
       ? (loaded as { default: unknown }).default
       : loaded;
   if (!reference.exportName) {
-    return resolved as T;
+    return resolved;
   }
   const record = (resolved ?? loaded) as Record<string, unknown> | undefined;
   if (!record || !(reference.exportName in record)) {
@@ -463,7 +442,7 @@ export function loadBundledEntryExportSync<T>(
       `missing export "${reference.exportName}" from bundled entry module ${reference.specifier}`,
     );
   }
-  return record[reference.exportName] as T;
+  return record[reference.exportName];
 }
 
 /** Defines the full bundled channel entry contract used by core plugin registration. */
@@ -571,10 +550,7 @@ export function defineBundledChannelSetupEntry<TPlugin = ChannelPlugin>({
   plugin,
   secrets,
   runtime,
-  legacyStateMigrations,
-  legacySessionSurface,
   registerSetupRuntime,
-  features,
 }: DefineBundledChannelSetupEntryOptions): BundledChannelSetupEntryContract<TPlugin> {
   // Bundled setup entries stay on a light path during setup-only/setup-runtime loads.
   // When runtime wiring is needed, expose only the setter so the loader can hand
@@ -587,22 +563,6 @@ export function defineBundledChannelSetupEntry<TPlugin = ChannelPlugin>({
         );
         setter(pluginRuntime);
       }
-    : undefined;
-  const loadLegacyStateMigrationDetector = legacyStateMigrations
-    ? (options?: BundledEntryModuleLoadOptions) =>
-        loadBundledEntryExportSync<BundledChannelLegacyStateMigrationDetector>(
-          importMetaUrl,
-          legacyStateMigrations,
-          options,
-        )
-    : undefined;
-  const loadLegacySessionSurface = legacySessionSurface
-    ? (options?: BundledEntryModuleLoadOptions) =>
-        loadBundledEntryExportSync<BundledChannelLegacySessionSurface>(
-          importMetaUrl,
-          legacySessionSurface,
-          options,
-        )
     : undefined;
   return {
     kind: "bundled-channel-setup-entry",
@@ -618,10 +578,7 @@ export function defineBundledChannelSetupEntry<TPlugin = ChannelPlugin>({
             ),
         }
       : {}),
-    ...(loadLegacyStateMigrationDetector ? { loadLegacyStateMigrationDetector } : {}),
-    ...(loadLegacySessionSurface ? { loadLegacySessionSurface } : {}),
     ...(setChannelRuntime ? { setChannelRuntime } : {}),
     ...(registerSetupRuntime ? { registerSetupRuntime } : {}),
-    ...(features ? { features } : {}),
   };
 }

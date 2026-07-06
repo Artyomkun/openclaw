@@ -1,5 +1,5 @@
 /** Shared daemon service argument, state, and command config contracts. */
-import type { GatewayServiceRuntime } from "./service-runtime.js";
+import type { GatewayServiceRuntime } from "./service-runtime.ts";
 
 /** Environment map passed to service renderers and platform supervisors. */
 export type GatewayServiceEnv = Record<string, string | undefined>;

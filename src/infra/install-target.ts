@@ -1,8 +1,8 @@
 // Resolves canonical plugin install target directories.
 import fs from "node:fs/promises";
-import { formatErrorMessage } from "./errors.js";
-import { pathExists } from "./fs-safe.js";
-import { assertCanonicalPathWithinBase, resolveSafeInstallDir } from "./install-safe-path.js";
+import { formatErrorMessage } from "./errors.ts";
+import { pathExists } from "./fs-safe.ts";
+import { assertCanonicalPathWithinBase, resolveSafeInstallDir } from "./install-safe-path.ts";
 
 /** Resolves and verifies an install target directory under a canonical base directory. */
 export async function resolveCanonicalInstallTarget(params: {

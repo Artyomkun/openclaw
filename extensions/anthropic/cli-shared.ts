@@ -63,7 +63,6 @@ export const CLAUDE_CLI_CLEAR_ENV = [
   "OTEL_TRACES_EXPORTER",
 ] as const;
 
-const CLAUDE_LEGACY_SKIP_PERMISSIONS_ARG = "--dangerously-skip-permissions";
 const CLAUDE_PERMISSION_MODE_ARG = "--permission-mode";
 const CLAUDE_SETTING_SOURCES_ARG = "--setting-sources";
 const CLAUDE_EFFORT_ARG = "--effort";
@@ -121,7 +120,6 @@ export function resolveClaudePermissionMode(context?: CliBackendNormalizeConfigC
     : { overrideExisting: false };
 }
 
-/** Normalize Claude permission arguments, removing legacy skip-permissions flags. */
 export function normalizeClaudePermissionArgs(
   args?: string[],
   options?: { mode?: string; overrideExisting?: boolean },
@@ -133,9 +131,6 @@ export function normalizeClaudePermissionArgs(
   let hasPermissionMode = false;
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
-    if (arg === CLAUDE_LEGACY_SKIP_PERMISSIONS_ARG) {
-      continue;
-    }
     if (arg === CLAUDE_PERMISSION_MODE_ARG) {
       const maybeValue = args[i + 1];
       if (

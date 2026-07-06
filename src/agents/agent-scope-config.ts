@@ -1,16 +1,16 @@
 /** Resolves configured agent ids, directories, workspaces, and merged agent defaults. */
 import path from "node:path";
 import { readStringValue } from "@openclaw/normalization-core/string-coerce";
-import { resolveStateDir } from "../config/paths.js";
+import { resolveStateDir } from "../config/paths.ts";
 import type {
   AgentContextLimitsConfig,
   AgentDefaultsConfig,
-} from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.js";
-import { resolveUserPath } from "../utils.js";
-import { registerResolvedAgentDir } from "./agent-dir-registry.js";
-import { resolveDefaultAgentWorkspaceDir } from "./workspace-default.js";
+} from "../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.ts";
+import { resolveUserPath } from "../utils.ts";
+import { registerResolvedAgentDir } from "./agent-dir-registry.ts";
+import { resolveDefaultAgentWorkspaceDir } from "./workspace-default.ts";
 
 type AgentEntry = NonNullable<NonNullable<OpenClawConfig["agents"]>["list"]>[number];
 

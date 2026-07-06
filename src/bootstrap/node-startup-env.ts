@@ -1,5 +1,5 @@
 // Builds Node startup environment variables for subprocess launches.
-import { type EnvMap, resolveAutoNodeExtraCaCerts } from "./node-extra-ca-certs.js";
+import { type EnvMap, resolveAutoNodeExtraCaCerts } from "./node-extra-ca-certs.ts";
 
 // Startup TLS environment defaults for child Node processes. macOS needs
 // explicit system-CA env in launch-style contexts; Linux uses version-manager heuristics.

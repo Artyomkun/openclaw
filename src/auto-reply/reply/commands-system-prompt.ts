@@ -1,33 +1,33 @@
 // Implements system prompt inspection commands for agent runtime sessions.
-import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.js";
-import { resolveSessionAgentIds } from "../../agents/agent-scope.js";
-import { createOpenClawCodingTools } from "../../agents/agent-tools.js";
-import { resolveBootstrapContextForRun } from "../../agents/bootstrap-files.js";
-import type { EmbeddedContextFile } from "../../agents/embedded-agent-helpers.js";
-import { resolveEmbeddedFullAccessState } from "../../agents/embedded-agent-runner/sandbox-info.js";
+import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.ts";
+import { resolveSessionAgentIds } from "../../agents/agent-scope.ts";
+import { createOpenClawCodingTools } from "../../agents/agent-tools.ts";
+import { resolveBootstrapContextForRun } from "../../agents/bootstrap-files.ts";
+import type { EmbeddedContextFile } from "../../agents/embedded-agent-helpers.ts";
+import { resolveEmbeddedFullAccessState } from "../../agents/embedded-agent-runner/sandbox-info.ts";
 import {
   mapSandboxSkillEntriesForPrompt,
   resolveSandboxSkillRuntimeInputs,
-} from "../../agents/embedded-agent-runner/sandbox-skills.js";
-import { canExecRequestNode } from "../../agents/exec-defaults.js";
-import { resolveDefaultModelForAgent } from "../../agents/model-selection.js";
-import { resolveAgentPromptSurfaceForSessionKey } from "../../agents/prompt-surface.js";
-import type { AgentTool } from "../../agents/runtime/index.js";
+} from "../../agents/embedded-agent-runner/sandbox-skills.ts";
+import { canExecRequestNode } from "../../agents/exec-defaults.ts";
+import { resolveDefaultModelForAgent } from "../../agents/model-selection.ts";
+import { resolveAgentPromptSurfaceForSessionKey } from "../../agents/prompt-surface.ts";
+import type { AgentTool } from "../../agents/runtime/index.ts";
 import {
   ensureSandboxWorkspaceForSession,
   resolveSandboxRuntimeStatus,
-} from "../../agents/sandbox.js";
-import { buildConfiguredAgentSystemPrompt } from "../../agents/system-prompt-config.js";
-import { buildSystemPromptParams } from "../../agents/system-prompt-params.js";
-import type { WorkspaceBootstrapFile } from "../../agents/workspace.js";
-import { listRegisteredPluginAgentPromptGuidance } from "../../plugins/command-registry-state.js";
-import { resolveSkillsPromptForRun } from "../../skills/loading/workspace.js";
-import { resolveEmbeddedRunSkillEntries } from "../../skills/runtime/embedded-run-entries.js";
-import { getRemoteSkillEligibility } from "../../skills/runtime/remote.js";
-import { resolveReusableWorkspaceSkillSnapshot } from "../../skills/runtime/session-snapshot.js";
-import type { SkillEligibilityContext } from "../../skills/types.js";
-import type { HandleCommandsParams } from "./commands-types.js";
-import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.js";
+} from "../../agents/sandbox.ts";
+import { buildConfiguredAgentSystemPrompt } from "../../agents/system-prompt-config.ts";
+import { buildSystemPromptParams } from "../../agents/system-prompt-params.ts";
+import type { WorkspaceBootstrapFile } from "../../agents/workspace.ts";
+import { listRegisteredPluginAgentPromptGuidance } from "../../plugins/command-registry-state.ts";
+import { resolveSkillsPromptForRun } from "../../skills/loading/workspace.ts";
+import { resolveEmbeddedRunSkillEntries } from "../../skills/runtime/embedded-run-entries.ts";
+import { getRemoteSkillEligibility } from "../../skills/runtime/remote.ts";
+import { resolveReusableWorkspaceSkillSnapshot } from "../../skills/runtime/session-snapshot.ts";
+import type { SkillEligibilityContext } from "../../skills/types.ts";
+import type { HandleCommandsParams } from "./commands-types.ts";
+import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.ts";
 
 export type CommandsSystemPromptBundle = {
   systemPrompt: string;

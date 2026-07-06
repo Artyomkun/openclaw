@@ -49,4 +49,4 @@ jobs:
         env:
           GH_APP_TOKEN: ${{ steps.app-token.outputs.token || steps.app-token-fallback.outputs.token }}
           GITHUB_TOKEN: ${{ github.token }}
-        run: node scripts/github/real-behavior-proof-check.mjs
+        run: node scripts/github/real-behavior-proof-check.ts

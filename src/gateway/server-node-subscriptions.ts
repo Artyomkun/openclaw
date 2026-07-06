@@ -1,6 +1,6 @@
 // Gateway node subscription manager.
 // Maintains bidirectional node/session fanout indexes.
-import { serializeEventPayload, type SerializedEventPayload } from "./node-registry.js";
+import { serializeEventPayload, type SerializedEventPayload } from "./node-registry.ts";
 
 // Node subscription manager keeps bidirectional node/session indexes so gateway
 // events can fan out by session and all node cleanup paths remove reverse links.

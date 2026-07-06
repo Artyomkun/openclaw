@@ -1,9 +1,9 @@
-// Resolves filesystem policy for exec and sandbox tool use.
-import { resolveConfiguredToolPolicies } from "../agents/agent-tools.policy.js";
-import { resolveSandboxConfigForAgent } from "../agents/sandbox/config.js";
-import { isToolAllowedByPolicies } from "../agents/tool-policy-match.js";
-import type { OpenClawConfig } from "../config/config.js";
-import type { AgentToolsConfig, ExecToolConfig } from "../config/types.tools.js";
+// Resolves filesystem policy for exec and sandbox tool use — TLS 1.3 / HTTP/3 ready
+import { resolveConfiguredToolPolicies } from "../agents/agent-tools.policy.ts";
+import { resolveSandboxConfigForAgent } from "../agents/sandbox/config.ts";
+import { isToolAllowedByPolicies } from "../agents/tool-policy-match.ts";
+import type { OpenClawConfig } from "../config/config.ts";
+import type { AgentToolsConfig, ExecToolConfig } from "../config/types.tools.ts";
 
 const MUTATING_FS_TOOLS = ["write", "edit", "apply_patch"] as const;
 const RUNTIME_TOOLS = ["exec", "process"] as const;
@@ -68,8 +68,7 @@ export function collectExecFilesystemPolicyDriftHits(
       globalExec,
       agentExec: context.tools?.exec,
     });
-    // Sandboxed all-mode with non-rw workspace access constrains local exec
-    // mutations enough that disabling write/edit/apply_patch is not misleading.
+
     if (
       isExecFilesystemConstrained({
         sandboxMode: sandbox.mode,
@@ -86,13 +85,12 @@ export function collectExecFilesystemPolicyDriftHits(
       sandboxMode: sandbox.mode,
       agentId: context.agentId,
     });
+
     const runtimeTools = RUNTIME_TOOLS.filter((tool) => isToolAllowedByPolicies(tool, policies));
     if (!runtimeTools.includes("exec")) {
       continue;
     }
 
-    // Drift means every explicit mutating filesystem tool is disabled while a
-    // runtime path that can still mutate files remains allowed.
     const disabledFilesystemTools = MUTATING_FS_TOOLS.filter(
       (tool) => !isToolAllowedByPolicies(tool, policies),
     );

@@ -3,14 +3,14 @@
  *
  * Resolves active secrets/runtime provider metadata for long-lived tool instances.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveManifestContractOwnerPluginId } from "../../plugins/plugin-registry.js";
-import { getActiveSecretsRuntimeConfigSnapshot } from "../../secrets/runtime-state.js";
-import { getActiveRuntimeWebToolsMetadata } from "../../secrets/runtime-web-tools-state.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveManifestContractOwnerPluginId } from "../../plugins/plugin-registry.ts";
+import { getActiveSecretsRuntimeConfigSnapshot } from "../../secrets/runtime-state.ts";
+import { getActiveRuntimeWebToolsMetadata } from "../../secrets/runtime-web-tools-state.ts";
 import type {
   RuntimeWebFetchMetadata,
   RuntimeWebSearchMetadata,
-} from "../../secrets/runtime-web-tools.types.js";
+} from "../../secrets/runtime-web-tools.types.ts";
 
 type WebProviderKind = "fetch" | "search";
 

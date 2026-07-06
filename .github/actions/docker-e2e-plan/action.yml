@@ -107,8 +107,8 @@ runs:
         esac
 
         export OPENCLAW_DOCKER_ALL_INCLUDE_OPENWEBUI="$INCLUDE_OPENWEBUI"
-        node scripts/test-docker-all.mjs --plan-json > "$plan_path"
-        node scripts/docker-e2e.mjs github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
+        node scripts/test-docker-all.ts --plan-json > "$plan_path"
+        node scripts/docker-e2e.ts github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
         echo "plan_json=$plan_path" >> "$GITHUB_OUTPUT"
 
     - name: Download OpenClaw Docker E2E package

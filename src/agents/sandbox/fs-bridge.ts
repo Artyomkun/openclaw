@@ -8,24 +8,24 @@ import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/s
 import type {
   SandboxBackendCommandResult,
   SandboxFsBridgeContext,
-} from "./backend-handle.types.js";
-import { runDockerSandboxShellCommand } from "./docker-backend.js";
+} from "./backend-handle.types.ts";
+import { runDockerSandboxShellCommand } from "./docker-backend.ts";
 import {
   buildPinnedMkdirpPlan,
   buildPinnedRemovePlan,
   buildPinnedRenamePlan,
   buildPinnedWritePlan,
-} from "./fs-bridge-mutation-helper.js";
-import { SandboxFsPathGuard } from "./fs-bridge-path-safety.js";
-import { buildStatPlan, type SandboxFsCommandPlan } from "./fs-bridge-shell-command-plans.js";
-import { parseSandboxStatMtimeMs, parseSandboxStatSize } from "./fs-bridge-stat-parse.js";
-import type { SandboxFsBridge, SandboxFsStat, SandboxResolvedPath } from "./fs-bridge.types.js";
+} from "./fs-bridge-mutation-helper.ts";
+import { SandboxFsPathGuard } from "./fs-bridge-path-safety.ts";
+import { buildStatPlan, type SandboxFsCommandPlan } from "./fs-bridge-shell-command-plans.ts";
+import { parseSandboxStatMtimeMs, parseSandboxStatSize } from "./fs-bridge-stat-parse.ts";
+import type { SandboxFsBridge, SandboxFsStat, SandboxResolvedPath } from "./fs-bridge.types.ts";
 import {
   buildSandboxFsMounts,
   resolveSandboxFsPathWithMounts,
   type SandboxResolvedFsPath,
-} from "./fs-paths.js";
-import type { SandboxWorkspaceAccess } from "./types.js";
+} from "./fs-paths.ts";
+import type { SandboxWorkspaceAccess } from "./types.ts";
 
 type RunCommandOptions = {
   args?: string[];
@@ -34,7 +34,7 @@ type RunCommandOptions = {
   signal?: AbortSignal;
 };
 
-export type { SandboxFsBridge, SandboxFsStat, SandboxResolvedPath } from "./fs-bridge.types.js";
+export type { SandboxFsBridge, SandboxFsStat, SandboxResolvedPath } from "./fs-bridge.types.ts";
 
 /** Create the filesystem bridge for local Docker-style mounted sandboxes. */
 export function createSandboxFsBridge(params: {

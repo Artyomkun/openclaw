@@ -1,13 +1,13 @@
 // Defines web provider plugin schema and runtime types.
 import type { TSchema } from "typebox";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RuntimeEnv } from "../runtime.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import type {
   RuntimeWebFetchMetadata,
   RuntimeWebSearchMetadata,
-} from "../secrets/runtime-web-tools.types.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import type { SecretInputMode } from "./provider-auth-types.js";
+} from "../secrets/runtime-web-tools.types.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import type { SecretInputMode } from "./provider-auth-types.ts";
 
 export type WebSearchProviderId = string;
 export type WebFetchProviderId = string;

@@ -1,25 +1,25 @@
 // Bundles MCP metadata exposed by plugins for package output.
 import fs from "node:fs";
 import path from "node:path";
-import { applyMergePatch } from "../config/merge-patch.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { readRootJsonObjectSync } from "../infra/json-files.js";
-import { isRecord } from "../utils.js";
+import { applyMergePatch } from "../config/merge-patch.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { readRootJsonObjectSync } from "../infra/json-files.ts";
+import { isRecord } from "../utils.ts";
 import {
   inspectBundleServerRuntimeSupport,
   loadEnabledBundleConfig,
   readBundleJsonObject,
   resolveBundleJsonOpenFailure,
-} from "./bundle-config-shared.js";
+} from "./bundle-config-shared.ts";
 import {
   CLAUDE_BUNDLE_MANIFEST_RELATIVE_PATH,
   CODEX_BUNDLE_MANIFEST_RELATIVE_PATH,
   CURSOR_BUNDLE_MANIFEST_RELATIVE_PATH,
   mergeBundlePathLists,
   normalizeBundlePathList,
-} from "./bundle-manifest.js";
-import type { PluginManifestRegistry } from "./manifest-registry.js";
-import type { PluginBundleFormat } from "./manifest-types.js";
+} from "./bundle-manifest.ts";
+import type { PluginManifestRegistry } from "./manifest-registry.ts";
+import type { PluginBundleFormat } from "./manifest-types.ts";
 
 export type BundleMcpServerConfig = Record<string, unknown>;
 

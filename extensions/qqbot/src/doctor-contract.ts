@@ -1,7 +1,6 @@
 // Qqbot plugin module implements doctor contract behavior.
 import type {
-  ChannelDoctorConfigMutation,
-  ChannelDoctorLegacyConfigRule,
+  ChannelDoctorConfigMutation
 } from "openclaw/plugin-sdk/channel-contract";
 import type { GroupToolPolicyConfig } from "openclaw/plugin-sdk/channel-policy";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
@@ -10,24 +9,6 @@ import { asObjectRecord } from "openclaw/plugin-sdk/runtime-doctor";
 const RESTRICTED_GROUP_TOOLS: GroupToolPolicyConfig = {
   deny: ["exec", "read", "write"],
 };
-
-function hasLegacyGroupToolPolicy(value: unknown): boolean {
-  const groups = asObjectRecord(value);
-  if (!groups) {
-    return false;
-  }
-  return Object.values(groups).some((group) => asObjectRecord(group)?.toolPolicy !== undefined);
-}
-
-function hasLegacyAccountGroupToolPolicy(value: unknown): boolean {
-  const accounts = asObjectRecord(value);
-  if (!accounts) {
-    return false;
-  }
-  return Object.values(accounts).some((account) =>
-    hasLegacyGroupToolPolicy(asObjectRecord(account)?.groups),
-  );
-}
 
 function migrateToolPolicy(value: unknown): GroupToolPolicyConfig | undefined {
   if (value === "none") {
@@ -79,21 +60,6 @@ function migrateGroups(params: {
   }
   return { groups: nextGroups, changed };
 }
-
-export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
-  {
-    path: ["channels", "qqbot", "groups"],
-    message:
-      'channels.qqbot.groups.<id>.toolPolicy is legacy and was ignored by QQBot group tool enforcement; use channels.qqbot.groups.<id>.tools instead. Run "openclaw doctor --fix".',
-    match: hasLegacyGroupToolPolicy,
-  },
-  {
-    path: ["channels", "qqbot", "accounts"],
-    message:
-      'channels.qqbot.accounts.<id>.groups.<groupId>.toolPolicy is legacy and was ignored by QQBot group tool enforcement; use channels.qqbot.accounts.<id>.groups.<groupId>.tools instead. Run "openclaw doctor --fix".',
-    match: hasLegacyAccountGroupToolPolicy,
-  },
-];
 
 export function normalizeCompatibilityConfig({
   cfg,

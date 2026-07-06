@@ -4,4 +4,4 @@
 export {
   buildUnresolvedTargetResults,
   resolveTargetsWithOptionalToken,
-} from "../channels/plugins/target-resolvers.js";
+} from "../channels/plugins/target-resolvers.ts";

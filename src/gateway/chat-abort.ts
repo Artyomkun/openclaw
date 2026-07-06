@@ -5,14 +5,14 @@ import {
   resolveDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { resolveDefaultAgentId } from "../agents/agent-scope-config.js";
-import { createAgentRunRestartAbortError } from "../agents/run-termination.js";
-import { isAbortRequestText } from "../auto-reply/reply/abort-primitives.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { emitAgentEvent, getAgentEventLifecycleGeneration } from "../infra/agent-events.js";
-import { jsonUtf8Bytes } from "../infra/json-utf8-bytes.js";
-import { projectLiveAssistantBufferedText } from "./live-chat-projector.js";
-import { createChatAbortMarker, type ChatAbortMarker } from "./server-chat-state.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope-config.ts";
+import { createAgentRunRestartAbortError } from "../agents/run-termination.ts";
+import { isAbortRequestText } from "../auto-reply/reply/abort-primitives.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { emitAgentEvent, getAgentEventLifecycleGeneration } from "../infra/agent-events.ts";
+import { jsonUtf8Bytes } from "../infra/json-utf8-bytes.ts";
+import { projectLiveAssistantBufferedText } from "./live-chat-projector.ts";
+import { createChatAbortMarker, type ChatAbortMarker } from "./server-chat-state.ts";
 
 const DEFAULT_CHAT_RUN_ABORT_GRACE_MS = 60_000;
 

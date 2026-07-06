@@ -1,7 +1,7 @@
 /** Detects and logs long private finals when message-tool-only delivery was expected. */
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { SourceReplyDeliveryMode } from "../get-reply-options.types.js";
-import { isSilentReplyText } from "../tokens.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { SourceReplyDeliveryMode } from "../get-reply-options.types.ts";
+import { isSilentReplyText } from "../tokens.ts";
 
 const privateFinalReplyLogger = createSubsystemLogger("source-reply/private-final");
 

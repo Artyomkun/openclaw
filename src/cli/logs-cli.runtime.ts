@@ -1,9 +1,9 @@
 // Runtime helpers for bounded subprocess log tails and service runtime lookups.
 import { spawn } from "node:child_process";
 
-export { buildGatewayConnectionDetails } from "../gateway/call.js";
-export { resolveGatewaySystemdServiceName } from "../daemon/constants.js";
-export { readSystemdServiceRuntime } from "../daemon/systemd.js";
+export { buildGatewayConnectionDetails } from "../gateway/call.ts";
+export { resolveGatewaySystemdServiceName } from "../daemon/constants.ts";
+export { readSystemdServiceRuntime } from "../daemon/systemd.ts";
 
 type ExecFileTailResult = { stdout: string; stderr: string; code: number; truncated: boolean };
 

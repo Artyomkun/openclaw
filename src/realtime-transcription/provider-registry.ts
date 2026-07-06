@@ -1,15 +1,15 @@
 // Realtime transcription provider registry stores transcription provider factories.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolvePluginCapabilityProvider,
   resolvePluginCapabilityProviders,
-} from "../plugins/capability-provider-runtime.js";
+} from "../plugins/capability-provider-runtime.ts";
 import {
   buildCapabilityProviderMaps,
   normalizeCapabilityProviderId,
-} from "../plugins/provider-registry-shared.js";
-import type { RealtimeTranscriptionProviderPlugin } from "../plugins/types.js";
-import type { RealtimeTranscriptionProviderId } from "./provider-types.js";
+} from "../plugins/provider-registry-shared.ts";
+import type { RealtimeTranscriptionProviderPlugin } from "../plugins/types.ts";
+import type { RealtimeTranscriptionProviderId } from "./provider-types.ts";
 
 // Provider registry helpers for realtime transcription. Plugin ids and aliases
 // share the generic capability-provider registry machinery.

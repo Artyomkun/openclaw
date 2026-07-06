@@ -1,16 +1,16 @@
 // CLI banner formatter and one-shot emitter.
-import { visibleWidth } from "../../packages/terminal-core/src/ansi.js";
+import { visibleWidth } from "../../packages/terminal-core/src/ansi.ts";
 import {
   decorativeEmoji,
   decorativePrefix,
   stripDecorativeEmojiForTerminal,
   type DecorativeEmojiOptions,
-} from "../../packages/terminal-core/src/decorative-emoji.js";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { resolveCommitHash } from "../infra/git-commit.js";
-import { hasRootVersionAlias } from "./argv.js";
-import { parseTaglineMode, readCliBannerTaglineMode } from "./banner-config-lite.js";
-import { pickTagline, type TaglineMode, type TaglineOptions } from "./tagline.js";
+} from "../../packages/terminal-core/src/decorative-emoji.ts";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { resolveCommitHash } from "../infra/git-commit.ts";
+import { hasRootVersionAlias } from "./argv.ts";
+import { parseTaglineMode, readCliBannerTaglineMode } from "./banner-config-lite.ts";
+import { pickTagline, type TaglineMode, type TaglineOptions } from "./tagline.ts";
 
 type BannerOptions = TaglineOptions & {
   argv?: string[];

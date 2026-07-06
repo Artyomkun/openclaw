@@ -75,12 +75,9 @@ export async function sendTelegramWithThreadFallback<T>(params: {
     return await runLoggedSend(params.operation, params.requestParams, mergedShouldLog);
   } catch (err) {
     if (hasNativeQuote && isTelegramQuoteParamError(err)) {
-      params.runtime.log?.(
-        `telegram ${params.operation}: native quote rejected; retrying with legacy reply_to_message_id`,
-      );
       return await sendTelegramWithThreadFallback({
         ...params,
-        operation: `${params.operation} (legacy reply retry)`,
+        operation: `${params.operation}`,
         requestParams: (params.removeNativeQuoteParam ?? removeTelegramNativeQuoteParam)(
           params.requestParams,
         ),

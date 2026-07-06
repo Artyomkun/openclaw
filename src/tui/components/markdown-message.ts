@@ -1,7 +1,7 @@
 // Markdown message component renders markdown chat content in the TUI.
 import { Container, Spacer } from "@earendil-works/pi-tui";
-import { markdownTheme } from "../theme/theme.js";
-import { HyperlinkMarkdown } from "./hyperlink-markdown.js";
+import { markdownTheme } from "../theme/theme.ts";
+import { HyperlinkMarkdown } from "./hyperlink-markdown.ts";
 
 // Shared markdown message wrapper with a leading spacer for chat-log rows.
 type MarkdownOptions = ConstructorParameters<typeof HyperlinkMarkdown>[4];

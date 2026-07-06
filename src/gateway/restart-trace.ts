@@ -1,8 +1,8 @@
 // Gateway restart timing trace helpers.
 // Emits opt-in restart handoff diagnostics with bounded metric formatting.
 import { performance } from "node:perf_hooks";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 
 const restartTraceLog = createSubsystemLogger("gateway");
 const RESTART_TRACE_HANDOFF_STARTED_AT_ENV = "OPENCLAW_GATEWAY_RESTART_TRACE_STARTED_AT_MS";

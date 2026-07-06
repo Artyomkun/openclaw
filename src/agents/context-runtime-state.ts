@@ -3,13 +3,13 @@
  * Keeps discovery loads, config backoff, and token cache reset behavior
  * shared across module reloads and runtime seams.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createLazyImportLoader, type LazyPromiseLoader } from "../shared/lazy-promise.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createLazyImportLoader, type LazyPromiseLoader } from "../shared/lazy-promise.ts";
 import {
   MODEL_CONFIGURED_CONTEXT_TOKEN_CACHE,
   MODEL_CONTEXT_TOKEN_CACHE,
   MODEL_CONTEXT_WINDOW_CACHE,
-} from "./context-cache.js";
+} from "./context-cache.ts";
 
 const CONTEXT_WINDOW_RUNTIME_STATE_KEY = Symbol.for("openclaw.contextWindowRuntimeState");
 
@@ -53,8 +53,6 @@ export const CONTEXT_WINDOW_RUNTIME_STATE = (() => {
       state.generation = 0;
     }
     if (state.loadGeneration === undefined) {
-      // A legacy promise populated the previous module's cache maps. Force the
-      // newly loaded module to warm its own maps once after an in-place rebuild.
       state.loadGeneration = null;
     }
     state.modelsConfigRuntimeLoader ??= createLazyImportLoader(

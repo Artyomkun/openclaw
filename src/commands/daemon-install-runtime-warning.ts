@@ -1,5 +1,5 @@
 // Runtime warning helpers for daemon install plans that depend on Node.
-import { renderSystemNodeWarning, resolveSystemNodeInfo } from "../daemon/runtime-paths.js";
+import { renderSystemNodeWarning, resolveSystemNodeInfo } from "../daemon/runtime-paths.ts";
 
 export type DaemonInstallWarnFn = (message: string, title?: string) => void;
 

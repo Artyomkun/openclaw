@@ -347,7 +347,7 @@ export function mergeSessionTranscriptVisiblePathWithOpaqueAppendPath<T>(params:
 /**
  * Select the effective branch only when the transcript contains leaf controls.
  *
- * Legacy flat readers can keep their existing behavior when this returns
+ * Older flat readers can keep their existing behavior when this returns
  * undefined. Once navigation controls exist, returning the selected path keeps
  * side branches out of prompts and hooks even after later active-branch appends.
  */

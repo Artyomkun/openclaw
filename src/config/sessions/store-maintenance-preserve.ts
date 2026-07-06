@@ -1,5 +1,5 @@
 // Maintenance preserve providers protect runtime-owned sessions from pruning/capping.
-import { normalizeStoreSessionKey } from "./store-entry.js";
+import { normalizeStoreSessionKey } from "./store-entry.ts";
 
 /** Provider hook for session keys that maintenance/pruning should preserve. */
 export type SessionMaintenancePreserveKeysProvider = () => Iterable<string> | undefined;

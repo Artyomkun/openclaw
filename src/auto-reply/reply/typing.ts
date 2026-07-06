@@ -4,9 +4,9 @@ import {
   resolveTimerTimeoutMs,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { createTypingKeepaliveLoop } from "../../channels/typing-lifecycle.js";
-import { createTypingStartGuard } from "../../channels/typing-start-guard.js";
-import { isSilentReplyPrefixText, isSilentReplyText, SILENT_REPLY_TOKEN } from "../tokens.js";
+import { createTypingKeepaliveLoop } from "../../channels/typing-lifecycle.ts";
+import { createTypingStartGuard } from "../../channels/typing-start-guard.ts";
+import { isSilentReplyPrefixText, isSilentReplyText, SILENT_REPLY_TOKEN } from "../tokens.ts";
 
 const DEFAULT_TYPING_INTERVAL_SECONDS = 6;
 const DEFAULT_TYPING_TTL_MS = 2 * 60_000;

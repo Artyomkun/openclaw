@@ -1,7 +1,7 @@
 /** Cross-platform daemon service names, labels, and profile-aware descriptions. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 
-// Default service labels (canonical + legacy compatibility)
+// Default service labels (canonical)
 export const GATEWAY_LAUNCH_AGENT_LABEL = "ai.openclaw.gateway";
 export const GATEWAY_SYSTEMD_SERVICE_NAME = "openclaw-gateway";
 export const GATEWAY_WINDOWS_TASK_NAME = "OpenClaw Gateway";
@@ -14,7 +14,6 @@ const NODE_WINDOWS_TASK_NAME = "OpenClaw Node";
 export const NODE_SERVICE_MARKER = "openclaw";
 export const NODE_SERVICE_KIND = "node";
 export const NODE_WINDOWS_TASK_SCRIPT_NAME = "node.cmd";
-export const LEGACY_GATEWAY_SYSTEMD_SERVICE_NAMES: string[] = ["clawdbot-gateway"];
 
 export function normalizeGatewayProfile(profile?: string): string | null {
   const trimmed = profile?.trim();
@@ -36,11 +35,6 @@ export function resolveGatewayLaunchAgentLabel(profile?: string): string {
     return GATEWAY_LAUNCH_AGENT_LABEL;
   }
   return `ai.openclaw.${normalized}`;
-}
-
-export function resolveLegacyGatewayLaunchAgentLabels(profile?: string): string[] {
-  void profile;
-  return [];
 }
 
 export function resolveGatewaySystemdServiceName(profile?: string): string {

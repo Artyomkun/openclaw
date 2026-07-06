@@ -6,7 +6,7 @@ export type HookExternalContentSource = "gmail" | "webhook";
 
 /**
  * Resolve a hook session key into its external content source.
- * Unknown `hook:*` sessions are treated as webhooks so legacy/custom hooks stay wrapped.
+ * Unknown `hook:*` sessions are treated as webhooks so custom hooks stay wrapped.
  */
 export function resolveHookExternalContentSource(
   sessionKey: string,

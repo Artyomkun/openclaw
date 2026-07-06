@@ -29,7 +29,7 @@ type BridgeableApprovalElicitation = {
   description: string;
   requestedSchema: JsonObject;
   meta: JsonObject;
-  persistHintsMode?: "legacy" | "explicit";
+  persistHintsMode?: "explicit";
   allowedDecisions?: ExecApprovalDecision[];
 };
 
@@ -719,7 +719,7 @@ function buildElicitationResponse(
       return {
         action: "accept",
         content: null,
-        _meta: buildAcceptedMeta(meta, outcome, approvalPrompt.persistHintsMode ?? "legacy"),
+        _meta: buildAcceptedMeta(meta, outcome, approvalPrompt.persistHintsMode),
       };
     }
     embeddedAgentLog.warn("codex MCP approval elicitation approved without a mappable response", {
@@ -732,7 +732,7 @@ function buildElicitationResponse(
   return {
     action: "accept",
     content,
-    _meta: buildAcceptedMeta(meta, outcome, approvalPrompt.persistHintsMode ?? "legacy"),
+    _meta: buildAcceptedMeta(meta, outcome, approvalPrompt.persistHintsMode),
   };
 }
 
@@ -766,7 +766,7 @@ function buildAcceptedContent(
     const property = { name, schema, required: required.has(name) };
     const next =
       readApprovalFieldValue(property, outcome) ??
-      readPersistFieldValue(property, meta, outcome, approvalPrompt.persistHintsMode ?? "legacy") ??
+      readPersistFieldValue(property, meta, outcome, approvalPrompt.persistHintsMode) ??
       readFallbackFieldValue(property, outcome);
 
     if (next === undefined) {
@@ -816,7 +816,7 @@ function readPersistFieldValue(
   property: ApprovalPropertyContext,
   meta: JsonObject,
   outcome: AppServerApprovalOutcome,
-  persistHintsMode: "legacy" | "explicit",
+  persistHintsMode: "explicit",
 ): JsonValue | undefined {
   if (!isPersistField(property) || outcome !== "approved-session") {
     return undefined;
@@ -873,7 +873,7 @@ function propertyText(property: ApprovalPropertyContext): string {
     .join(" ");
 }
 
-function readPersistHints(meta: JsonObject, mode: "legacy" | "explicit" = "legacy"): string[] {
+function readPersistHints(meta: JsonObject): string[] {
   const raw = meta.persist;
   if (typeof raw === "string") {
     return [raw];
@@ -881,18 +881,17 @@ function readPersistHints(meta: JsonObject, mode: "legacy" | "explicit" = "legac
   if (Array.isArray(raw)) {
     return raw.filter((entry): entry is string => typeof entry === "string");
   }
-  return mode === "legacy" ? ["session", "always"] : [];
+  return [];
 }
 
 function buildAcceptedMeta(
   meta: JsonObject,
   outcome: AppServerApprovalOutcome,
-  persistHintsMode: "legacy" | "explicit",
 ): JsonObject | null {
   if (outcome !== "approved-session") {
     return null;
   }
-  const persist = choosePersistHint(readPersistHints(meta, persistHintsMode));
+  const persist = choosePersistHint(readPersistHints(meta));
   return persist ? { persist } : null;
 }
 

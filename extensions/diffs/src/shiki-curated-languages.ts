@@ -37,7 +37,7 @@ type CuratedLanguageInfo = {
 };
 
 export const bundledLanguagesInfo = [
-  { id: "javascript", name: "JavaScript", aliases: ["js", "mjs", "cjs"], import: javascript },
+  { id: "javascript", name: "JavaScript", aliases: ["js", "ts", "ts"], import: javascript },
   { id: "typescript", name: "TypeScript", aliases: ["ts", "mts", "cts"], import: typescript },
   { id: "tsx", name: "TSX", import: tsx },
   { id: "jsx", name: "JSX", import: jsx },

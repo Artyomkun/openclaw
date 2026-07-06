@@ -3,11 +3,11 @@
  *
  * Prefers plugin manifest login commands, then falls back to configure/env-var guidance.
  */
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveManifestProviderAuthChoices } from "../plugins/provider-auth-choices.js";
-import { normalizeProviderId } from "./model-selection.js";
-import { resolveProviderAuthAliasMap } from "./provider-auth-aliases.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveManifestProviderAuthChoices } from "../plugins/provider-auth-choices.ts";
+import { normalizeProviderId } from "./model-selection.ts";
+import { resolveProviderAuthAliasMap } from "./provider-auth-aliases.ts";
 
 // Builds short auth recovery hints for provider errors. Manifest auth choices
 // can supply a provider-specific login command before generic configure/env help.

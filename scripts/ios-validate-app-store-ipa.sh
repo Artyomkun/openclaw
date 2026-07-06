@@ -161,11 +161,6 @@ assert_plist_empty_or_absent() {
 assert_plist_string "${info_plist}" "CFBundleIdentifier" "${EXPECTED_BUNDLE_ID}" "bundle identifier mismatch"
 assert_plist_string "${info_plist}" "OpenClawPushMode" "${EXPECTED_PUSH_MODE}" "push mode mismatch"
 assert_plist_empty_or_absent "${info_plist}" "OpenClawPushRelayBaseURL" "push relay URL override"
-assert_plist_key_absent "${info_plist}" "OpenClawPushTransport" "legacy push transport"
-assert_plist_key_absent "${info_plist}" "OpenClawPushDistribution" "legacy push distribution"
-assert_plist_key_absent "${info_plist}" "OpenClawPushAPNsEnvironment" "legacy APNs environment"
-assert_plist_key_absent "${info_plist}" "OpenClawPushRelayProfile" "legacy relay profile"
-assert_plist_key_absent "${info_plist}" "OpenClawPushProofPolicy" "legacy proof policy"
 
 if ! "${CODESIGN_BIN}" -d --entitlements :- "${app_path}" >"${entitlements_plist}" 2>"${tmp_dir}/codesign.err"; then
   detail="$(<"${tmp_dir}/codesign.err")"

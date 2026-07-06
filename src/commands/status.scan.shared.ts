@@ -11,24 +11,24 @@ import {
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { buildGatewayConnectionDetailsWithResolvers } from "../gateway/connection-details.js";
-import { normalizeControlUiBasePath } from "../gateway/control-ui-shared.js";
-import { resolveGatewayProbeTarget } from "../gateway/probe-target.js";
-import type { GatewayProbeResult, probeGateway as probeGatewayFn } from "../gateway/probe.js";
-import { requireNodeSqlite } from "../infra/node-sqlite.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { buildGatewayConnectionDetailsWithResolvers } from "../gateway/connection-details.ts";
+import { normalizeControlUiBasePath } from "../gateway/control-ui-shared.ts";
+import { resolveGatewayProbeTarget } from "../gateway/probe-target.ts";
+import type { GatewayProbeResult, probeGateway as probeGatewayFn } from "../gateway/probe.ts";
+import { requireNodeSqlite } from "../infra/node-sqlite.ts";
 import {
   MEMORY_INDEX_CHUNKS_TABLE,
   MEMORY_INDEX_META_TABLE,
   MEMORY_INDEX_SOURCES_TABLE,
   type MemoryProviderStatus,
-} from "../memory-host-sdk/engine-storage.js";
-import { defaultSlotIdForKey } from "../plugins/slots.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { resolveTailscalePublishedHost } from "../shared/tailscale-status.js";
-import { pickGatewaySelfPresence } from "./gateway-presence.js";
-import { isProbeReachable } from "./gateway-status/helpers.js";
+} from "../memory-host-sdk/engine-storage.ts";
+import { defaultSlotIdForKey } from "../plugins/slots.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { resolveTailscalePublishedHost } from "../shared/tailscale-status.ts";
+import { pickGatewaySelfPresence } from "./gateway-presence.ts";
+import { isProbeReachable } from "./gateway-status/helpers.ts";
 
 const gatewayProbeModuleLoader = createLazyImportLoader(() => import("./status.gateway-probe.js"));
 const probeGatewayModuleLoader = createLazyImportLoader(() => import("../gateway/probe.js"));

@@ -2,62 +2,62 @@
  * Subscribes to embedded-agent sessions and streams formatted replies/events.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { InlineCodeState } from "../../packages/markdown-core/src/code-spans.js";
+import type { InlineCodeState } from "../../packages/markdown-core/src/code-spans.ts";
 import {
   buildCodeSpanIndex,
   createInlineCodeState,
-} from "../../packages/markdown-core/src/code-spans.js";
-import type { FenceScanState } from "../../packages/markdown-core/src/fences.js";
-import { setReplyPayloadMetadata } from "../auto-reply/reply-payload.js";
-import { createStreamingDirectiveAccumulator } from "../auto-reply/reply/streaming-directives.js";
-import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import { formatToolAggregate } from "../auto-reply/tool-meta.js";
-import { emitAgentEvent } from "../infra/agent-events.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { findFinalTagMatches } from "../shared/text/final-tags.js";
-import { hasOrphanReasoningCloseBoundary } from "../shared/text/reasoning-tags.js";
-import { parseInlineDirectives } from "../utils/directive-tags.js";
-import { isDeliverableMessageChannel, normalizeMessageChannel } from "../utils/message-channel.js";
-import { EmbeddedBlockChunker } from "./embedded-agent-block-chunker.js";
+} from "../../packages/markdown-core/src/code-spans.ts";
+import type { FenceScanState } from "../../packages/markdown-core/src/fences.ts";
+import { setReplyPayloadMetadata } from "../auto-reply/reply-payload.ts";
+import { createStreamingDirectiveAccumulator } from "../auto-reply/reply/streaming-directives.ts";
+import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import { formatToolAggregate } from "../auto-reply/tool-meta.ts";
+import { emitAgentEvent } from "../infra/agent-events.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { findFinalTagMatches } from "../shared/text/final-tags.ts";
+import { hasOrphanReasoningCloseBoundary } from "../shared/text/reasoning-tags.ts";
+import { parseInlineDirectives } from "../utils/directive-tags.ts";
+import { isDeliverableMessageChannel, normalizeMessageChannel } from "../utils/message-channel.ts";
+import { EmbeddedBlockChunker } from "./embedded-agent-block-chunker.ts";
 import {
   isMessagingToolDuplicateNormalized,
   normalizeTextForComparison,
-} from "./embedded-agent-helpers.js";
-import type { BlockReplyPayload } from "./embedded-agent-payloads.js";
-import { hasCommittedMessagingToolDeliveryEvidence } from "./embedded-agent-runner/delivery-evidence.js";
+} from "./embedded-agent-helpers.ts";
+import type { BlockReplyPayload } from "./embedded-agent-payloads.ts";
+import { hasCommittedMessagingToolDeliveryEvidence } from "./embedded-agent-runner/delivery-evidence.ts";
 import {
   createEmbeddedRunReplayState,
   mergeEmbeddedRunReplayState,
-} from "./embedded-agent-runner/replay-state.js";
-import { consumeEmbeddedToolSendReceipt } from "./embedded-agent-runner/tool-send-receipts.js";
-import type { EmbeddedRunLivenessState } from "./embedded-agent-runner/types.js";
-import { createEmbeddedAgentSessionEventHandler } from "./embedded-agent-subscribe.handlers.js";
+} from "./embedded-agent-runner/replay-state.ts";
+import { consumeEmbeddedToolSendReceipt } from "./embedded-agent-runner/tool-send-receipts.ts";
+import type { EmbeddedRunLivenessState } from "./embedded-agent-runner/types.ts";
+import { createEmbeddedAgentSessionEventHandler } from "./embedded-agent-subscribe.handlers.ts";
 import {
   consumePendingAssistantReplyDirectivesIntoReply,
   consumePendingToolMediaIntoReply,
   hasAssistantVisibleReply,
   readPendingToolMediaReply,
-} from "./embedded-agent-subscribe.handlers.messages.js";
+} from "./embedded-agent-subscribe.handlers.messages.ts";
 import {
   handleToolExecutionEnd,
   handleToolExecutionStart,
-} from "./embedded-agent-subscribe.handlers.tools.js";
+} from "./embedded-agent-subscribe.handlers.tools.ts";
 import type {
   EmbeddedAgentSubscribeContext,
   EmbeddedAgentSubscribeState,
-} from "./embedded-agent-subscribe.handlers.types.js";
-import { isPromiseLike } from "./embedded-agent-subscribe.promise.js";
+} from "./embedded-agent-subscribe.handlers.types.ts";
+import { isPromiseLike } from "./embedded-agent-subscribe.promise.ts";
 import {
   buildToolLifecycleErrorResult,
   extractToolResultMediaArtifact,
   filterToolResultMediaUrls,
-} from "./embedded-agent-subscribe.tools.js";
-import type { SubscribeEmbeddedAgentSessionParams } from "./embedded-agent-subscribe.types.js";
-import { stripDowngradedToolCallText, THINKING_TAG_SCAN_RE } from "./embedded-agent-utils.js";
-import { mediaUrlsFromGeneratedAttachments } from "./generated-attachments.js";
-import type { AgentRunTimeoutPhase } from "./run-timeout-attribution.js";
-import type { AgentMessage } from "./runtime/index.js";
-import { hasNonzeroUsage, normalizeUsage, type UsageLike } from "./usage.js";
+} from "./embedded-agent-subscribe.tools.ts";
+import type { SubscribeEmbeddedAgentSessionParams } from "./embedded-agent-subscribe.types.ts";
+import { stripDowngradedToolCallText, THINKING_TAG_SCAN_RE } from "./embedded-agent-utils.ts";
+import { mediaUrlsFromGeneratedAttachments } from "./generated-attachments.ts";
+import type { AgentRunTimeoutPhase } from "./run-timeout-attribution.ts";
+import type { AgentMessage } from "./runtime/index.ts";
+import { hasNonzeroUsage, normalizeUsage, type UsageLike } from "./usage.ts";
 
 const STREAM_STRIPPED_BLOCK_TAG_NAMES = [
   "final",
@@ -157,7 +157,7 @@ function collectPendingMediaFromInternalEvents(
   return pending;
 }
 
-export type { SubscribeEmbeddedAgentSessionParams } from "./embedded-agent-subscribe.types.js";
+export type { SubscribeEmbeddedAgentSessionParams } from "./embedded-agent-subscribe.types.ts";
 
 export function subscribeEmbeddedAgentSession(params: SubscribeEmbeddedAgentSessionParams) {
   const log = resolveEmbeddedAgentSessionLogger(params.messageChannel);

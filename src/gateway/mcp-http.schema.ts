@@ -2,8 +2,8 @@
 // Converts gateway-scoped tools into MCP tools/list-compatible schemas.
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { uniqueValues } from "@openclaw/normalization-core/string-normalization";
-import { logWarn } from "../logger.js";
-import { resolveGatewayScopedTools } from "./tool-resolution.js";
+import { logWarn } from "../logger.ts";
+import { resolveGatewayScopedTools } from "./tool-resolution.ts";
 
 // MCP loopback schema projection adapts gateway tool definitions into MCP
 // tools/list entries. It flattens provider-hostile union schemas into object

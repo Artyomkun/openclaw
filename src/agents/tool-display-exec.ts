@@ -4,8 +4,8 @@
  * Turns common shell commands into short redacted labels for tool timelines and transcripts.
  */
 import { asOptionalObjectRecord as asRecord } from "@openclaw/normalization-core/record-coerce";
-import { redactToolPayloadText } from "../logging/redact.js";
-import { sliceUtf16Safe } from "../shared/utf16-slice.js";
+import { redactToolPayloadText } from "../logging/redact.ts";
+import { sliceUtf16Safe } from "../shared/utf16-slice.ts";
 import {
   binaryName,
   firstPositional,
@@ -18,7 +18,7 @@ import {
   stripShellPreamble,
   trimLeadingEnv,
   unwrapShellWrapper,
-} from "./tool-display-exec-shell.js";
+} from "./tool-display-exec-shell.ts";
 
 function summarizeKnownExec(words: string[]): string {
   if (words.length === 0) {

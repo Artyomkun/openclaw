@@ -1,16 +1,9 @@
-// Gateway service command registration shared by `gateway` and legacy `daemon` CLIs.
+// Gateway service command registration shared by `gateway` and `daemon` CLIs.
 import type { Command } from "commander";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { inheritOptionFromParent } from "../command-options.js";
-import type { DaemonInstallOptions, DaemonLifecycleOptions, GatewayRpcOpts } from "./types.js";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 
-const daemonInstallModuleLoader = createLazyImportLoader(() => import("./install.runtime.js"));
 const daemonLifecycleModuleLoader = createLazyImportLoader(() => import("./lifecycle.runtime.js"));
 const daemonStatusModuleLoader = createLazyImportLoader(() => import("./status.runtime.js"));
-
-function loadDaemonInstallModule() {
-  return daemonInstallModuleLoader.load();
-}
 
 function loadDaemonLifecycleModule() {
   return daemonLifecycleModuleLoader.load();
@@ -18,40 +11,6 @@ function loadDaemonLifecycleModule() {
 
 function loadDaemonStatusModule() {
   return daemonStatusModuleLoader.load();
-}
-
-function resolveInstallOptions(
-  cmdOpts: DaemonInstallOptions,
-  command?: Command,
-): DaemonInstallOptions {
-  const parentForce = inheritOptionFromParent<boolean>(command, "force");
-  const parentPort = inheritOptionFromParent<string>(command, "port");
-  const parentToken = inheritOptionFromParent<string>(command, "token");
-  return {
-    ...cmdOpts,
-    force: Boolean(cmdOpts.force || parentForce),
-    port: cmdOpts.port ?? parentPort,
-    token: cmdOpts.token ?? parentToken,
-  };
-}
-
-function resolveRpcOptions(cmdOpts: GatewayRpcOpts, command?: Command): GatewayRpcOpts {
-  const parentToken = inheritOptionFromParent<string>(command, "token");
-  const parentPassword = inheritOptionFromParent<string>(command, "password");
-  return {
-    ...cmdOpts,
-    token: cmdOpts.token ?? parentToken,
-    password: cmdOpts.password ?? parentPassword,
-  };
-}
-
-function resolveRestartOptions(cmdOpts: DaemonLifecycleOptions, command?: Command) {
-  const parentForce = inheritOptionFromParent<boolean>(command, "force");
-  return {
-    ...cmdOpts,
-    force: Boolean(cmdOpts.force || parentForce),
-    safe: Boolean(cmdOpts.safe),
-  };
 }
 
 /** Attach Gateway service status/install/lifecycle subcommands to a parent command. */
@@ -69,10 +28,9 @@ export function addGatewayServiceCommands(parent: Command, opts?: { statusDescri
     .option("--require-rpc", "Exit non-zero when the RPC probe fails", false)
     .option("--deep", "Scan system-level services", false)
     .option("--json", "Output JSON", false)
-    .action(async (cmdOpts, command) => {
+    .action(async (cmdOpts) => {
       const { runDaemonStatus } = await loadDaemonStatusModule();
       await runDaemonStatus({
-        rpc: resolveRpcOptions(cmdOpts, command),
         probe: Boolean(cmdOpts.probe),
         requireRpc: Boolean(cmdOpts.requireRpc),
         deep: Boolean(cmdOpts.deep),
@@ -89,10 +47,6 @@ export function addGatewayServiceCommands(parent: Command, opts?: { statusDescri
     .option("--wrapper <path>", "Executable wrapper for generated service ProgramArguments")
     .option("--force", "Reinstall/overwrite if already installed", false)
     .option("--json", "Output JSON", false)
-    .action(async (cmdOpts, command) => {
-      const { runDaemonInstall } = await loadDaemonInstallModule();
-      await runDaemonInstall(resolveInstallOptions(cmdOpts, command));
-    });
 
   parent
     .command("uninstall")
@@ -137,8 +91,4 @@ export function addGatewayServiceCommands(parent: Command, opts?: { statusDescri
       "Wait duration before forcing restart (ms, 10s, 5m; 0 waits indefinitely)",
     )
     .option("--json", "Output JSON", false)
-    .action(async (cmdOpts, command) => {
-      const { runDaemonRestart } = await loadDaemonLifecycleModule();
-      await runDaemonRestart(resolveRestartOptions(cmdOpts, command));
-    });
 }

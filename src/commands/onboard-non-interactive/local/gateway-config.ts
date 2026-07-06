@@ -5,14 +5,14 @@
  * the final config write happens.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { formatCliCommand } from "../../../cli/command-format.js";
-import { formatInvalidPortOption } from "../../../cli/error-format.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { isValidEnvSecretRefId, resolveSecretInputRef } from "../../../config/types.secrets.js";
-import type { RuntimeEnv } from "../../../runtime.js";
-import { resolveDefaultSecretProviderAlias } from "../../../secrets/ref-contract.js";
-import { normalizeGatewayTokenInput, randomToken } from "../../onboard-helpers.js";
-import type { OnboardOptions } from "../../onboard-types.js";
+import { formatCliCommand } from "../../../cli/command-format.ts";
+import { formatInvalidPortOption } from "../../../cli/error-format.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { isValidEnvSecretRefId, resolveSecretInputRef } from "../../../config/types.secrets.ts";
+import type { RuntimeEnv } from "../../../runtime.ts";
+import { resolveDefaultSecretProviderAlias } from "../../../secrets/ref-contract.ts";
+import { normalizeGatewayTokenInput, randomToken } from "../../onboard-helpers.ts";
+import type { OnboardOptions } from "../../onboard-types.ts";
 
 /** Applies gateway CLI options to the pending config and returns normalized runtime settings. */
 export function applyNonInteractiveGatewayConfig(params: {

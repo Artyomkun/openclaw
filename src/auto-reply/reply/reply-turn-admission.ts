@@ -7,7 +7,7 @@ import {
   ReplyRunFollowupAdmissionBlockedError,
   type ReplyOperation,
   waitForReplyRunFollowupAdmission,
-} from "./reply-run-registry.js";
+} from "./reply-run-registry.ts";
 
 /** Kinds of turns that compete for one reply run slot per session. */
 export type ReplyTurnKind = "visible" | "heartbeat" | "queued_followup" | "control_abort";

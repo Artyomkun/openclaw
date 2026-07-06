@@ -1,13 +1,13 @@
 // Shared provider dispatch type contracts for reply runtime execution.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { GetReplyOptions } from "../get-reply-options.types.js";
-import type { FinalizedMsgContext, MsgContext } from "../templating.js";
-import type { DispatchFromConfigResult } from "./dispatch-from-config.types.js";
-import type { GetReplyFromConfig } from "./get-reply.types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { GetReplyOptions } from "../get-reply-options.types.ts";
+import type { FinalizedMsgContext, MsgContext } from "../templating.ts";
+import type { DispatchFromConfigResult } from "./dispatch-from-config.types.ts";
+import type { GetReplyFromConfig } from "./get-reply.types.ts";
 import type {
   ReplyDispatcherOptions,
   ReplyDispatcherWithTypingOptions,
-} from "./reply-dispatcher.js";
+} from "./reply-dispatcher.ts";
 
 type DispatchReplyContext = MsgContext | FinalizedMsgContext;
 type DispatchReplyOptions = Omit<GetReplyOptions, "onBlockReply">;

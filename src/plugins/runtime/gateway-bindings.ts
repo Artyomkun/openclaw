@@ -1,6 +1,6 @@
 // Gateway binding helpers expose plugin runtime bindings through gateway-safe singletons.
-import { resolveGlobalSingleton } from "../../shared/global-singleton.js";
-import type { PluginRuntime } from "./types.js";
+import { resolveGlobalSingleton } from "../../shared/global-singleton.ts";
+import type { PluginRuntime } from "./types.ts";
 
 const GATEWAY_SUBAGENT_SYMBOL: unique symbol = Symbol.for(
   "openclaw.plugin.gatewaySubagentRuntime",

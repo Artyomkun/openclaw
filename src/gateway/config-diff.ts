@@ -1,6 +1,6 @@
 // Config path diff helper used by gateway mutation diagnostics.
 import { isDeepStrictEqual } from "node:util";
-import { isPlainObject } from "../utils.js";
+import { isPlainObject } from "../utils.ts";
 
 /** Return dotted config paths whose values differ between two config snapshots. */
 export function diffConfigPaths(prev: unknown, next: unknown, prefix = ""): string[] {

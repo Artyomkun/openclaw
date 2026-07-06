@@ -1,10 +1,10 @@
 // Runtime dependency adapters for status scans.
 // Keeps plugin/runtime modules outside the core scan files until a caller needs them.
 
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getTailnetHostname } from "../infra/tailscale.js";
-import type { MemoryProviderStatus } from "../memory-host-sdk/engine-storage.js";
-import { getActiveMemorySearchManager } from "../plugins/memory-runtime.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getTailnetHostname } from "../infra/tailscale.ts";
+import type { MemoryProviderStatus } from "../memory-host-sdk/engine-storage.ts";
+import { getActiveMemorySearchManager } from "../plugins/memory-runtime.ts";
 
 export { getTailnetHostname };
 

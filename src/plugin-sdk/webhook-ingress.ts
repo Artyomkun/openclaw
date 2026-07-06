@@ -11,7 +11,7 @@ export {
   type BoundedCounter,
   type FixedWindowRateLimiter,
   type WebhookAnomalyTracker,
-} from "./webhook-memory-guards.js";
+} from "./webhook-memory-guards.ts";
 export {
   applyBasicWebhookRequestGuards,
   beginWebhookRequestPipelineOrReject,
@@ -26,7 +26,7 @@ export {
   WEBHOOK_IN_FLIGHT_DEFAULTS,
   type WebhookBodyReadProfile,
   type WebhookInFlightLimiter,
-} from "./webhook-request-guards.js";
+} from "./webhook-request-guards.ts";
 export {
   registerPluginHttpRoute,
   registerWebhookTarget,
@@ -41,11 +41,11 @@ export {
   type RegisterWebhookTargetOptions,
   type RegisteredWebhookTarget,
   type WebhookTargetMatchResult,
-} from "./webhook-targets.js";
-export { normalizeWebhookPath, resolveWebhookPath } from "./webhook-path.js";
-export { resolveRequestClientIp } from "../gateway/net.js";
-export { createAuthRateLimiter } from "../gateway/auth-rate-limit.js";
-export type { AuthRateLimiter, RateLimitConfig } from "../gateway/auth-rate-limit.js";
-export { rawDataToString } from "../infra/ws.js";
-export { normalizePluginHttpPath } from "../plugins/http-path.js";
-export { DEFAULT_WEBHOOK_MAX_BODY_BYTES } from "../infra/http-body.js";
+} from "./webhook-targets.ts";
+export { normalizeWebhookPath, resolveWebhookPath } from "./webhook-path.ts";
+export { resolveRequestClientIp } from "../gateway/net.ts";
+export { createAuthRateLimiter } from "../gateway/auth-rate-limit.ts";
+export type { AuthRateLimiter, RateLimitConfig } from "../gateway/auth-rate-limit.ts";
+export { rawDataToString } from "../infra/ws.ts";
+export { normalizePluginHttpPath } from "../plugins/http-path.ts";
+export { DEFAULT_WEBHOOK_MAX_BODY_BYTES } from "../infra/http-body.ts";

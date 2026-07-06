@@ -1,6 +1,6 @@
 // Talk session runtime manages realtime voice session lifecycle and provider wiring.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RealtimeVoiceProviderPlugin } from "../plugins/types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RealtimeVoiceProviderPlugin } from "../plugins/types.ts";
 import type {
   RealtimeVoiceBridge,
   RealtimeVoiceAudioFormat,
@@ -12,7 +12,7 @@ import type {
   RealtimeVoiceTool,
   RealtimeVoiceToolCallEvent,
   RealtimeVoiceToolResultOptions,
-} from "./provider-types.js";
+} from "./provider-types.ts";
 
 /**
  * Transport-facing audio target used by realtime voice bridge sessions.

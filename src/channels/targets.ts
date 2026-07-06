@@ -4,8 +4,8 @@
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 
-export type { DirectoryConfigParams } from "./plugins/directory-types.js";
-export type { ChannelDirectoryEntry } from "./plugins/types.public.js";
+export type { DirectoryConfigParams } from "./plugins/directory-types.ts";
+export type { ChannelDirectoryEntry } from "./plugins/types.public.ts";
 
 /** Canonical route target families shared by channel-owned parsers. */
 export type MessagingTargetKind = "user" | "channel";

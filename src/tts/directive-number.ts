@@ -4,7 +4,7 @@ import type {
   SpeechDirectiveTokenParseContext,
   SpeechDirectiveTokenParseResult,
   SpeechProviderOverrides,
-} from "./provider-types.js";
+} from "./provider-types.ts";
 
 /** Numeric directive parsing shared by speech providers with bounded knobs. */
 type DirectiveNumberRange = {

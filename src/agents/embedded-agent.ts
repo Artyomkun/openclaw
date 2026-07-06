@@ -5,7 +5,7 @@ export type {
   EmbeddedAgentMeta,
   EmbeddedAgentRunMeta,
   EmbeddedAgentRunResult,
-} from "./embedded-agent-runner.js";
+} from "./embedded-agent-runner.ts";
 export {
   abortAndDrainEmbeddedAgentRun,
   abortEmbeddedAgentRun,
@@ -22,4 +22,4 @@ export {
   resolveEmbeddedSessionLane,
   runEmbeddedAgent,
   waitForEmbeddedAgentRunEnd,
-} from "./embedded-agent-runner.js";
+} from "./embedded-agent-runner.ts";

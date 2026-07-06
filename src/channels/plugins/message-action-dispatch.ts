@@ -3,9 +3,9 @@
  *
  * Runs plugin-owned message actions from the shared agent tool with sender trust checks.
  */
-import type { AgentToolResult } from "../../agents/runtime/index.js";
-import { getChannelPlugin } from "./index.js";
-import type { ChannelMessageActionContext } from "./types.public.js";
+import type { AgentToolResult } from "../../agents/runtime/index.ts";
+import { getChannelPlugin } from "./index.ts";
+import type { ChannelMessageActionContext } from "./types.public.ts";
 
 function requiresTrustedRequesterSender(ctx: ChannelMessageActionContext): boolean {
   const plugin = getChannelPlugin(ctx.channel);

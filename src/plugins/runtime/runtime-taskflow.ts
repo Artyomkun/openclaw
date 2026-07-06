@@ -3,14 +3,14 @@ import {
   cancelFlowByIdForOwner,
   getFlowTaskSummary,
   runTaskInFlowForOwner,
-} from "../../tasks/task-executor.js";
+} from "../../tasks/task-executor.ts";
 import {
   findLatestTaskFlowForOwner,
   getTaskFlowByIdForOwner,
   listTaskFlowsForOwner,
   resolveTaskFlowForLookupTokenForOwner,
-} from "../../tasks/task-flow-owner-access.js";
-import type { TaskFlowRecord } from "../../tasks/task-flow-registry.types.js";
+} from "../../tasks/task-flow-owner-access.ts";
+import type { TaskFlowRecord } from "../../tasks/task-flow-registry.types.ts";
 import {
   createManagedTaskFlow,
   failFlow,
@@ -19,15 +19,15 @@ import {
   requestFlowCancel,
   resumeFlow,
   setFlowWaiting,
-} from "../../tasks/task-flow-runtime-internal.js";
-import type { TaskDeliveryState } from "../../tasks/task-registry.types.js";
-import { normalizeDeliveryContext } from "../../utils/delivery-context.shared.js";
+} from "../../tasks/task-flow-runtime-internal.ts";
+import type { TaskDeliveryState } from "../../tasks/task-registry.types.ts";
+import { normalizeDeliveryContext } from "../../utils/delivery-context.shared.ts";
 import type {
   BoundTaskFlowRuntime,
   ManagedTaskFlowMutationResult,
   ManagedTaskFlowRecord,
   PluginRuntimeTaskFlow,
-} from "./runtime-taskflow.types.js";
+} from "./runtime-taskflow.types.ts";
 
 function assertSessionKey(sessionKey: string | undefined, errorMessage: string): string {
   const normalized = sessionKey?.trim();

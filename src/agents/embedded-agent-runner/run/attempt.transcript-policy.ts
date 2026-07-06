@@ -1,19 +1,15 @@
 /**
  * Resolves transcript persistence policy for a single embedded-agent attempt.
  */
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import type { ProviderRuntimeModel } from "../../../plugins/provider-runtime-model.types.js";
-import type { AgentRuntimePlan } from "../../runtime-plan/types.js";
-import { resolveTranscriptPolicy, type TranscriptPolicy } from "../../transcript-policy.js";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import type { ProviderRuntimeModel } from "../../../plugins/provider-runtime-model.types.ts";
+import type { AgentRuntimePlan } from "../../runtime-plan/types.ts";
+import { resolveTranscriptPolicy, type TranscriptPolicy } from "../../transcript-policy.ts";
 
 type AttemptRuntimeModelContext = NonNullable<
   Parameters<AgentRuntimePlan["transcript"]["resolvePolicy"]>[0]
 >;
 
-/**
- * Adapts the RuntimePlan model context to the legacy provider-runtime model
- * shape used by transcript-policy fallbacks.
- */
 function asProviderRuntimeModel(
   model: AttemptRuntimeModelContext["model"],
 ): ProviderRuntimeModel | undefined {

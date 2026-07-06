@@ -1,6 +1,6 @@
 import type OpenAI from "openai";
-import type { ResponseCreateParamsStreaming } from "openai/resources/responses/responses.js";
-import { projectRuntimeToolInputSchema } from "./tool-schema-json-projection.js";
+import type { ResponseCreateParamsStreaming } from "openai/resources/responses/responses.ts";
+import { projectRuntimeToolInputSchema } from "./tool-schema-json-projection.ts";
 
 type OpenAIToolDescriptor = {
   readonly name?: unknown;

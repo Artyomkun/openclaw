@@ -14,14 +14,12 @@ export {
   type ResolvedMemorySearchSyncConfig,
 } from "./host/openclaw-runtime-agent.js";
 export { parseDurationMs } from "./host/openclaw-runtime-config.js";
-export { loadConfig } from "./host/openclaw-runtime-config.js";
 export { resolveStateDir } from "./host/openclaw-runtime-config.js";
 export { resolveSessionTranscriptsDirForAgent } from "./host/openclaw-runtime-config.js";
 export {
   hasConfiguredSecretInput,
   normalizeResolvedSecretInputString,
 } from "./host/openclaw-runtime-config.js";
-export { root } from "./host/openclaw-runtime-io.js";
 export { isPathInside } from "./host/fs-utils.js";
 export { createSubsystemLogger } from "./host/openclaw-runtime-io.js";
 export { detectMime } from "./host/openclaw-runtime-io.js";

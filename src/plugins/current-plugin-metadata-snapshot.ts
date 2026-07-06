@@ -1,22 +1,22 @@
 /** Tracks the current plugin metadata snapshot for control-plane lookups. */
 import { setCurrentManifestModelIdNormalizationRecords } from "@openclaw/model-catalog-core/provider-model-id-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   clearCurrentPluginMetadataSnapshotState,
   getCurrentPluginMetadataSnapshotState,
   setCurrentPluginMetadataSnapshotState,
-} from "./current-plugin-metadata-state.js";
-import { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.js";
+} from "./current-plugin-metadata-state.ts";
+import { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.ts";
 import {
   resolvePluginControlPlaneFingerprint,
   type ResolvePluginControlPlaneContextParams,
-} from "./plugin-control-plane-context.js";
-import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.js";
+} from "./plugin-control-plane-context.ts";
+import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.ts";
 import type {
   PluginMetadataSnapshot,
   PluginMetadataSnapshotPluginIdScope,
-} from "./plugin-metadata-snapshot.types.js";
-import { normalizePluginIdScope, serializePluginIdScope } from "./plugin-scope.js";
+} from "./plugin-metadata-snapshot.types.ts";
+import { normalizePluginIdScope, serializePluginIdScope } from "./plugin-scope.ts";
 
 type CurrentPluginMetadataSnapshotState = ReturnType<typeof getCurrentPluginMetadataSnapshotState>;
 let currentPluginMetadataConfigIdentityCache = new WeakSet<OpenClawConfig>();

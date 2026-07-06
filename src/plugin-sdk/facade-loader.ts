@@ -2,15 +2,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { openRootFileSync } from "../infra/boundary-file-read.js";
-import { resolveBundledPluginsDir } from "../plugins/bundled-dir.js";
+import { openRootFileSync } from "../infra/boundary-file-read.ts";
+import { resolveBundledPluginsDir } from "../plugins/bundled-dir.ts";
 import {
   getCachedPluginModuleLoader,
   type PluginModuleLoaderCache,
   type PluginModuleLoaderFactory,
-} from "../plugins/plugin-module-loader-cache.js";
-import { resolveLoaderPackageRoot } from "../plugins/sdk-alias.js";
-import { resolveBundledFacadeModuleLocation } from "./facade-resolution-shared.js";
+} from "../plugins/plugin-module-loader-cache.ts";
+import { resolveLoaderPackageRoot } from "../plugins/sdk-alias.ts";
+import { resolveBundledFacadeModuleLocation } from "./facade-resolution-shared.ts";
 
 const CURRENT_MODULE_PATH = fileURLToPath(import.meta.url);
 
@@ -185,13 +185,12 @@ export function loadFacadeModuleAtLocationSync<T extends object>(params: {
 }
 
 /** Resolve and synchronously load a bundled plugin public surface by plugin dir and artifact name. */
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Dynamic facade loaders use caller-supplied module surface types.
-export function loadBundledPluginPublicSurfaceModuleSync<T extends object>(params: {
+export function loadBundledPluginPublicSurfaceModuleSync(params: {
   dirName: string;
   artifactBasename: string;
   trackedPluginId?: string | (() => string);
   env?: NodeJS.ProcessEnv;
-}): T {
+}): unknown {
   const location = resolveFacadeModuleLocation(params);
   if (!location) {
     throw new Error(

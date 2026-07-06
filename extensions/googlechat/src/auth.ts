@@ -50,7 +50,7 @@ async function getVerifyClient(): Promise<OAuth2ClientInstance> {
     verifyClientPromise = (async () => {
       try {
         const { OAuth2Client } = await loadGoogleAuthRuntime();
-        // google-auth-library types its transporter through gaxios' CJS surface,
+        // google-auth-library types its transporter through gaxios' ts surface,
         // while the plugin imports the ESM entrypoint directly.
         const transporter = (await getGoogleAuthTransport()) as unknown as GoogleAuthTransport;
         return new OAuth2Client({ transporter });

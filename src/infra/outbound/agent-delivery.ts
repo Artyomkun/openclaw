@@ -1,28 +1,28 @@
 // Agent delivery planning resolves final reply destinations from explicit
 // options, session history, turn source, bindings, and channel route hooks.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeAccountId } from "../../utils/account-id.js";
+import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeAccountId } from "../../utils/account-id.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
   isGatewayMessageChannel,
   normalizeMessageChannel,
   type GatewayMessageChannel,
-} from "../../utils/message-channel.js";
-import { resolveOutboundChannelPlugin } from "./channel-resolution.js";
-import { resolveOutboundSessionRoute } from "./outbound-session.js";
-import { isReservedTargetLiteralError } from "./target-errors.js";
-import { resolveChannelTarget, type ResolvedMessagingTarget } from "./target-resolver.js";
-import type { OutboundTargetResolution } from "./targets.js";
+} from "../../utils/message-channel.ts";
+import { resolveOutboundChannelPlugin } from "./channel-resolution.ts";
+import { resolveOutboundSessionRoute } from "./outbound-session.ts";
+import { isReservedTargetLiteralError } from "./target-errors.ts";
+import { resolveChannelTarget, type ResolvedMessagingTarget } from "./target-resolver.ts";
+import type { OutboundTargetResolution } from "./targets.ts";
 import {
   resolveOutboundTarget,
   resolveSessionDeliveryTarget,
   type SessionDeliveryTarget,
-} from "./targets.js";
+} from "./targets.ts";
 
 export type AgentDeliveryPlan = {
   baseDelivery: SessionDeliveryTarget;

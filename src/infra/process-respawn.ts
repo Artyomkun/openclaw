@@ -1,10 +1,10 @@
 // Respawns the gateway process when no supervisor handles restart.
 import { spawn, type ChildProcess } from "node:child_process";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { isContainerEnvironment } from "./container-environment.js";
-import { formatErrorMessage } from "./errors.js";
-import { triggerOpenClawRestart } from "./restart.js";
-import { detectRespawnSupervisor } from "./supervisor-markers.js";
+import { isContainerEnvironment } from "./container-environment.ts";
+import { formatErrorMessage } from "./errors.ts";
+import { triggerOpenClawRestart } from "./restart.ts";
+import { detectRespawnSupervisor } from "./supervisor-markers.ts";
 
 type RespawnMode = "spawned" | "supervised" | "disabled" | "failed";
 
@@ -34,7 +34,7 @@ function rewritePnpmVersionedOpenClawEntryPath(entryPath: string): string {
   // Respawn through the stable OpenClaw package wrapper instead.
   return entryPath.replace(
     PNPM_VERSIONED_OPENCLAW_ENTRY_PATTERN,
-    "$1$2node_modules$2openclaw$2openclaw.mjs",
+    "$1$2node_modules$2openclaw$2openclaw.ts",
   );
 }
 

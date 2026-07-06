@@ -3,8 +3,8 @@
 // Keep these public type declarations local to the plugin-sdk entrypoint so the
 // emitted declaration surface stays stable for package-boundary consumers.
 
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   GeneratedVideoAsset as CoreGeneratedVideoAsset,
   VideoGenerationAssetRole as CoreVideoGenerationAssetRole,
@@ -20,7 +20,7 @@ import type {
   VideoGenerationResult as CoreVideoGenerationResult,
   VideoGenerationSourceAsset as CoreVideoGenerationSourceAsset,
   VideoGenerationTransformCapabilities as CoreVideoGenerationTransformCapabilities,
-} from "../video-generation/types.js";
+} from "../video-generation/types.ts";
 
 /** Video asset returned by a provider after generation or transformation. */
 export type GeneratedVideoAsset = {
@@ -250,6 +250,6 @@ export {
   pollDashscopeVideoTaskUntilComplete,
   resolveVideoGenerationReferenceUrls,
   runDashscopeVideoGenerationTask,
-} from "../video-generation/dashscope-compatible.js";
+} from "../video-generation/dashscope-compatible.ts";
 
-export type { DashscopeVideoGenerationResponse } from "../video-generation/dashscope-compatible.js";
+export type { DashscopeVideoGenerationResponse } from "../video-generation/dashscope-compatible.ts";

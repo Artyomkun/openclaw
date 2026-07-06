@@ -1,23 +1,23 @@
 /** Executes isolated cron prompts with model fallbacks and interim-ack retries. */
 import { createHash } from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { BootstrapContextMode } from "../../agents/bootstrap-files.js";
-import type { FastModeAutoProgressState } from "../../agents/fast-mode.js";
-import { resolveCliRuntimeExecutionProvider } from "../../agents/model-runtime-aliases.js";
-import { wrapUntrustedPromptDataBlock } from "../../agents/sanitize-for-prompt.js";
-import { normalizeToolName } from "../../agents/tool-policy.js";
-import type { ThinkLevel, VerboseLevel } from "../../auto-reply/thinking.js";
-import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SourceDeliveryPlan } from "../../infra/outbound/source-delivery-plan.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { SkillSnapshot } from "../../skills/types.js";
-import type { CronAgentExecutionPhaseUpdate, CronJob } from "../types.js";
+import type { BootstrapContextMode } from "../../agents/bootstrap-files.ts";
+import type { FastModeAutoProgressState } from "../../agents/fast-mode.ts";
+import { resolveCliRuntimeExecutionProvider } from "../../agents/model-runtime-aliases.ts";
+import { wrapUntrustedPromptDataBlock } from "../../agents/sanitize-for-prompt.ts";
+import { normalizeToolName } from "../../agents/tool-policy.ts";
+import type { ThinkLevel, VerboseLevel } from "../../auto-reply/thinking.ts";
+import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SourceDeliveryPlan } from "../../infra/outbound/source-delivery-plan.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { SkillSnapshot } from "../../skills/types.ts";
+import type { CronAgentExecutionPhaseUpdate, CronJob } from "../types.ts";
 import {
   resolveCronChannelOutputPolicy,
   resolveCurrentChannelTarget,
-} from "./channel-output-policy.js";
-import { resolveCronPayloadOutcome } from "./helpers.js";
+} from "./channel-output-policy.ts";
+import { resolveCronPayloadOutcome } from "./helpers.ts";
 import {
   getCliSessionId,
   ensureSelectedAgentHarnessPlugin,
@@ -31,15 +31,15 @@ import {
   resolveSessionTranscriptPath,
   runCliAgent,
   runWithModelFallback,
-} from "./run-execution.runtime.js";
-import { resolveCronFallbacksOverride } from "./run-fallback-policy.js";
+} from "./run-execution.runtime.ts";
+import { resolveCronFallbacksOverride } from "./run-fallback-policy.ts";
 import type {
   CronLiveSelection,
   MutableCronSession,
   PersistCronSessionEntry,
-} from "./run-session-state.js";
-import { syncCronSessionLiveSelection } from "./run-session-state.js";
-import { isLikelyInterimCronMessage } from "./subagent-followup-hints.js";
+} from "./run-session-state.ts";
+import { syncCronSessionLiveSelection } from "./run-session-state.ts";
+import { isLikelyInterimCronMessage } from "./subagent-followup-hints.ts";
 
 type AgentTurnPayload = Extract<CronJob["payload"], { kind: "agentTurn" }> | null;
 type CronPromptRunResult = Awaited<ReturnType<typeof runCliAgent>>;
@@ -62,7 +62,7 @@ async function loadCronSubagentRegistryRuntime() {
 }
 
 const COMMAND_STYLE_CRON_PREFIX =
-  /^(?:(?:[A-Z_][A-Z0-9_]*=\S+\s+)+)?(?:cd\s+\S+|(?:\.{1,2}|~)?\/\S+|[A-Za-z]:[\\/]\S+|(?:bash|bun|cargo|deno|docker|gh|git|go|make|node|npm|npx|pnpm|python|python3|ruby|sh|tsx|uv|zsh)\b)/u;
+  /^(?:(?:[A-Z_][A-Z0-9_]*=\S+\s+)+)?(?:cd\s+\S+|(?:\.{1,2}|~)?\/\S+|[A-Za-z]:[\\/]\S+|(?:bash|bun|deno|docker|gh|git|go|make|node|npm|npx|pnpm|sh|tsx|zsh)\b)/u;
 const MAX_CRON_DELIVERY_TARGET_CONTEXT_CHARS = 1000;
 
 function resolveIsolatedCronPromptCacheKey(params: {

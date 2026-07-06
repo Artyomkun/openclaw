@@ -1,15 +1,15 @@
 // Parses inline reply directives into typed execution and routing options.
-import type { ExecAsk, ExecSecurity, ExecTarget } from "../../infra/exec-approvals.js";
+import type { ExecAsk, ExecSecurity, ExecTarget } from "../../infra/exec-approvals.ts";
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
-import { extractModelDirective } from "../model.js";
-import { isSessionDefaultDirectiveValue } from "../thinking.js";
+import { extractModelDirective } from "../model.ts";
+import { isSessionDefaultDirectiveValue } from "../thinking.ts";
 import type {
   ElevatedLevel,
   ReasoningLevel,
   ThinkLevel,
   TraceLevel,
   VerboseLevel,
-} from "./directives.js";
+} from "./directives.ts";
 import {
   extractElevatedDirective,
   extractExecDirective,
@@ -19,9 +19,9 @@ import {
   extractTraceDirective,
   extractThinkDirective,
   extractVerboseDirective,
-} from "./directives.js";
-import { extractQueueDirective } from "./queue/directive.js";
-import type { QueueDropPolicy, QueueMode } from "./queue/types.js";
+} from "./directives.ts";
+import { extractQueueDirective } from "./queue/directive.ts";
+import type { QueueDropPolicy, QueueMode } from "./queue/types.ts";
 
 /** Parsed inline directives removed from a user message before agent execution. */
 export type InlineDirectives = {

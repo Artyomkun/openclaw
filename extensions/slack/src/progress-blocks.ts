@@ -69,15 +69,6 @@ function lineDetailParts(line: ChannelProgressDraftLine): string[] {
     .filter((part): part is string => Boolean(part));
 }
 
-function legacyLineTitle(line: ChannelProgressDraftLine): string {
-  return `${line.icon ?? "•"} *${escapeSlackMrkdwn(line.label)}*`;
-}
-
-function legacyLineDetail(line: ChannelProgressDraftLine, maxChars: number): string {
-  const detail = lineDetailParts(line).join(" · ");
-  return detail ? escapeSlackMrkdwn(compactDetail(detail, maxChars)) : "—";
-}
-
 function lineTaskTitle(line: ChannelProgressDraftLine, maxLineChars: number): string {
   const label = line.label.replace(/\s+/g, " ").trim() || line.toolName || line.kind || "Update";
   const detail = lineDetailParts(line).join(" · ") || line.status?.trim();
@@ -201,10 +192,6 @@ export function buildSlackProgressDraftBlocks(params: {
   maxLineChars?: number;
 }): (Block | KnownBlock)[] | undefined {
   const label = params.label?.trim() || params.title?.trim();
-  const maxLineChars = resolveMaxLineChars(
-    params.maxLineChars,
-    DEFAULT_SLACK_PROGRESS_DETAIL_MAX_CHARS,
-  );
   const renderedBlocks: (Block | KnownBlock)[] = [
     ...(label
       ? [
@@ -214,10 +201,6 @@ export function buildSlackProgressDraftBlocks(params: {
           },
         ]
       : []),
-    ...params.lines.map((line) => ({
-      type: "section" as const,
-      fields: [field(legacyLineTitle(line)), field(legacyLineDetail(line, maxLineChars))],
-    })),
   ].slice(-SLACK_MAX_BLOCKS);
   return renderedBlocks.length ? renderedBlocks : undefined;
 }

@@ -1,19 +1,19 @@
 /** Doctor status summary for workspace skills, plugins, and task-flow recovery hints. */
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolvePluginVersionDriftUpdateCommand,
   type PluginVersionDriftReport,
-} from "../plugins/plugin-version-drift.js";
+} from "../plugins/plugin-version-drift.ts";
 import {
   buildPluginCompatibilityWarnings,
   buildPluginRegistrySnapshotReport,
-} from "../plugins/status.js";
-import { buildWorkspaceSkillStatus } from "../skills/discovery/status.js";
-import { listTasksForFlowId } from "../tasks/runtime-internal.js";
-import { listTaskFlowRecords } from "../tasks/task-flow-runtime-internal.js";
+} from "../plugins/status.ts";
+import { buildWorkspaceSkillStatus } from "../skills/discovery/status.ts";
+import { listTasksForFlowId } from "../tasks/runtime-internal.ts";
+import { listTaskFlowRecords } from "../tasks/task-flow-runtime-internal.ts";
 
 type NoteWorkspaceStatusOptions = {
   pluginVersionDrift?: PluginVersionDriftReport;

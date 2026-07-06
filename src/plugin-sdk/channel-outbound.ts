@@ -3,7 +3,7 @@ import type {
   DurableMessageBatchSendResult,
   DurableMessageSendContext,
   DurableMessageSendContextParams,
-} from "../channels/message/runtime.js";
+} from "../channels/message/runtime.ts";
 type ChannelInboundKernelModule = typeof import("../channels/turn/kernel.js");
 type ChannelMessageRuntimeModule = typeof import("../channels/message/runtime.js");
 
@@ -20,20 +20,20 @@ export type {
   DurableInboundReplyDeliveryOptions,
   DurableInboundReplyDeliveryParams,
   DurableInboundReplyDeliveryResult,
-} from "../channels/turn/kernel.js";
+} from "../channels/turn/kernel.ts";
 export type {
   DurableMessageBatchSendParams,
   DurableMessageBatchSendResult,
   DurableMessageSendContext,
   DurableMessageSendContextParams,
-} from "../channels/message/runtime.js";
+} from "../channels/message/runtime.ts";
 export {
   createReplyPrefixContext,
   createReplyPrefixOptions,
   createTypingCallbacks,
   createChannelReplyPipeline as createChannelMessageReplyPipeline,
   resolveChannelSourceReplyDeliveryMode as resolveChannelMessageSourceReplyDeliveryMode,
-} from "../channels/message/index.js";
+} from "../channels/message/index.ts";
 
 export {
   createFinalizableDraftLifecycle,
@@ -41,50 +41,50 @@ export {
   createFinalizableDraftStreamControlsForState,
   clearFinalizableDraftMessage,
   takeMessageIdAfterStop,
-} from "../channels/draft-stream-controls.js";
-export type { FinalizableDraftStreamState } from "../channels/draft-stream-controls.js";
-export { createDraftStreamLoop } from "../channels/draft-stream-loop.js";
-export type { DraftStreamLoop } from "../channels/draft-stream-loop.js";
-export { resolveChannelDraftStreamingChunking } from "../channels/draft-streaming-chunking.js";
-export type { ChannelDraftStreamingChunking } from "../channels/draft-streaming-chunking.js";
-export { createRuntimeOutboundDelegates } from "../channels/plugins/runtime-forwarders.js";
-export { createChannelRunQueue } from "./channel-lifecycle.core.js";
+} from "../channels/draft-stream-controls.ts";
+export type { FinalizableDraftStreamState } from "../channels/draft-stream-controls.ts";
+export { createDraftStreamLoop } from "../channels/draft-stream-loop.ts";
+export type { DraftStreamLoop } from "../channels/draft-stream-loop.ts";
+export { resolveChannelDraftStreamingChunking } from "../channels/draft-streaming-chunking.ts";
+export type { ChannelDraftStreamingChunking } from "../channels/draft-streaming-chunking.ts";
+export { createRuntimeOutboundDelegates } from "../channels/plugins/runtime-forwarders.ts";
+export { createChannelRunQueue } from "./channel-lifecycle.core.ts";
 export type {
   ChannelRunQueue,
   ChannelRunQueueParams,
   ChannelRunQueueTaskContext,
-} from "./channel-lifecycle.core.js";
+} from "./channel-lifecycle.core.ts";
 export {
   createAccountStatusSink,
   keepHttpServerTaskAlive,
   runPassiveAccountLifecycle,
   waitUntilAbort,
-} from "./channel-lifecycle.core.js";
+} from "./channel-lifecycle.core.ts";
 export {
   createOutboundPayloadPlan,
   projectOutboundPayloadPlanForDelivery,
-} from "../infra/outbound/payloads.js";
+} from "../infra/outbound/payloads.ts";
 export {
   buildOutboundSessionContext,
   type OutboundSessionContext,
-} from "../infra/outbound/session-context.js";
-export type { OutboundDeliveryFormattingOptions } from "../infra/outbound/formatting.js";
-export { resolveAgentOutboundIdentity } from "../infra/outbound/identity.js";
-export type { OutboundIdentity } from "../infra/outbound/identity.js";
-export { createReplyToFanout } from "../infra/outbound/reply-policy.js";
-export type { ReplyToResolution } from "../infra/outbound/reply-policy.js";
-export { resolveOutboundSendDep } from "../infra/outbound/send-deps.js";
-export type { OutboundSendDeps } from "../infra/outbound/send-deps.js";
-export { sanitizeForPlainText } from "../infra/outbound/sanitize-text.js";
-export { logAckFailure, logTypingFailure } from "../channels/logging.js";
-export * from "../channels/streaming.js";
+} from "../infra/outbound/session-context.ts";
+export type { OutboundDeliveryFormattingOptions } from "../infra/outbound/formatting.ts";
+export { resolveAgentOutboundIdentity } from "../infra/outbound/identity.ts";
+export type { OutboundIdentity } from "../infra/outbound/identity.ts";
+export { createReplyToFanout } from "../infra/outbound/reply-policy.ts";
+export type { ReplyToResolution } from "../infra/outbound/reply-policy.ts";
+export { resolveOutboundSendDep } from "../infra/outbound/send-deps.ts";
+export type { OutboundSendDeps } from "../infra/outbound/send-deps.ts";
+export { sanitizeForPlainText } from "../infra/outbound/sanitize-text.ts";
+export { logAckFailure, logTypingFailure } from "../channels/logging.ts";
+export * from "../channels/streaming.ts";
 export {
   createChannelProgressDraftCompositor,
   type ChannelProgressDraftCompositor,
   type ChannelProgressDraftCompositorLine,
   type ChannelProgressDraftMode,
   type ChannelProgressDraftUpdateOptions,
-} from "../channels/progress-draft-compositor.js";
+} from "../channels/progress-draft-compositor.ts";
 export {
   classifyDurableSendRecoveryState,
   createChannelMessageAdapterFromOutbound,
@@ -118,7 +118,7 @@ export {
   verifyChannelMessageReceiveAckPolicyProofs,
   verifyDurableFinalCapabilityProofs,
   verifyLivePreviewFinalizerCapabilityProofs,
-} from "../channels/message/index.js";
+} from "../channels/message/index.ts";
 export type {
   ChannelMessageAdapter,
   ChannelMessageAdapterShape,
@@ -205,7 +205,7 @@ export type {
   RenderedMessageBatchPlan,
   RenderedMessageBatchPlanItem,
   RenderedMessageBatchPlanKind,
-} from "../channels/message/index.js";
+} from "../channels/message/index.ts";
 
 /** Lazily forwards inbound reply delivery through the channel turn kernel. */
 export const deliverInboundReplyWithMessageSendContext: ChannelInboundKernelModule["deliverInboundReplyWithMessageSendContext"] =

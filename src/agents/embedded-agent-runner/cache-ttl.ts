@@ -8,9 +8,9 @@ import {
 import {
   isAnthropicFamilyCacheTtlEligible,
   isAnthropicModelRef,
-} from "../../llm/providers/stream-wrappers/anthropic-family-cache-semantics.js";
-import { resolveProviderCacheTtlEligibility } from "../../plugins/provider-runtime.js";
-import { isGooglePromptCacheEligible } from "./prompt-cache-retention.js";
+} from "../../llm/providers/stream-wrappers/anthropic-family-cache-semantics.ts";
+import { resolveProviderCacheTtlEligibility } from "../../plugins/provider-runtime.ts";
+import { isGooglePromptCacheEligible } from "./prompt-cache-retention.ts";
 
 type CustomEntryLike = { type?: unknown; customType?: unknown; data?: unknown };
 

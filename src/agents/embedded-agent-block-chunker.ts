@@ -1,12 +1,12 @@
 /**
  * Splits streamed embedded-agent replies into Markdown-safe message chunks.
  */
-import type { FenceSpan } from "../../packages/markdown-core/src/fences.js";
+import type { FenceSpan } from "../../packages/markdown-core/src/fences.ts";
 import {
   findFenceSpanAt,
   isSafeFenceBreak,
   parseFenceSpans,
-} from "../../packages/markdown-core/src/fences.js";
+} from "../../packages/markdown-core/src/fences.ts";
 
 export type BlockReplyChunking = {
   minChars: number;

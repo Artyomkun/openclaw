@@ -1,7 +1,7 @@
 // Startup policy helpers for config guards, plugin loading, banners, and CLI path checks.
-import { isTruthyEnvValue } from "../infra/env.js";
-import type { CliCommandPluginLoadPolicy } from "./command-catalog.js";
-import { resolveCliCommandPathPolicy } from "./command-path-policy.js";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import type { CliCommandPluginLoadPolicy } from "./command-catalog.ts";
+import { resolveCliCommandPathPolicy } from "./command-path-policy.ts";
 
 export function shouldBypassConfigGuardForCommandPath(commandPath: string[]): boolean {
   return resolveCliCommandPathPolicy(commandPath).bypassConfigGuard;

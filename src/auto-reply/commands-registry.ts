@@ -1,16 +1,16 @@
 /** Command-registry facade for native specs, text aliases, argument parsing, and menus. */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
 import {
   buildConfiguredModelCatalog,
   resolveConfiguredModelRef,
-} from "../agents/model-selection.js";
-import { getChannelPlugin, getLoadedChannelPlugin } from "../channels/plugins/index.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { SkillCommandSpec } from "../skills/types.js";
-import { listChatCommands, listChatCommandsForConfig } from "./commands-registry-list.js";
-import { normalizeCommandBody } from "./commands-registry-normalize.js";
-import { getChatCommands } from "./commands-registry.data.js";
+} from "../agents/model-selection.ts";
+import { getChannelPlugin, getLoadedChannelPlugin } from "../channels/plugins/index.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { SkillCommandSpec } from "../skills/types.ts";
+import { listChatCommands, listChatCommandsForConfig } from "./commands-registry-list.ts";
+import { normalizeCommandBody } from "./commands-registry-normalize.ts";
+import { getChatCommands } from "./commands-registry.data.ts";
 import type {
   ChatCommandDefinition,
   CommandArgChoiceContext,
@@ -18,23 +18,23 @@ import type {
   CommandArgValues,
   CommandArgs,
   NativeCommandSpec,
-} from "./commands-registry.types.js";
-import type { ThinkingCatalogEntry } from "./thinking.shared.js";
+} from "./commands-registry.types.ts";
+import type { ThinkingCatalogEntry } from "./thinking.shared.ts";
 
 export {
   isCommandEnabled,
   listChatCommands,
   listChatCommandsForConfig,
-} from "./commands-registry-list.js";
+} from "./commands-registry-list.ts";
 
 export {
   getCommandDetection,
   maybeResolveTextAlias,
   normalizeCommandBody,
   resolveTextCommand,
-} from "./commands-registry-normalize.js";
+} from "./commands-registry-normalize.ts";
 
-export { isNativeCommandSurface, shouldHandleTextCommands } from "./commands-text-routing.js";
+export { isNativeCommandSurface, shouldHandleTextCommands } from "./commands-text-routing.ts";
 
 export type {
   ChatCommandDefinition,
@@ -48,7 +48,7 @@ export type {
   CommandScope,
   NativeCommandSpec,
   ShouldHandleTextCommandsParams,
-} from "./commands-registry.types.js";
+} from "./commands-registry.types.ts";
 
 type NativeCommandProviderLookupOptions = {
   includeBundledChannelFallback?: boolean;

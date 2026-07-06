@@ -1,25 +1,25 @@
 // TTS core coordinates text preparation, provider selection, and speech output.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { requireApiKey } from "../agents/model-auth.js";
+import { requireApiKey } from "../agents/model-auth.ts";
 import {
   buildModelAliasIndex,
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
   type ModelRef,
-} from "../agents/model-selection.js";
-import { prepareSimpleCompletionModel } from "../agents/simple-completion-runtime.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { completeSimple } from "../llm/stream.js";
-import type { TextContent } from "../llm/types.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
-import type { ResolvedTtsConfig } from "./tts-types.js";
+} from "../agents/model-selection.ts";
+import { prepareSimpleCompletionModel } from "../agents/simple-completion-runtime.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { completeSimple } from "../llm/stream.ts";
+import type { TextContent } from "../llm/types.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import type { ResolvedTtsConfig } from "./tts-types.ts";
 export {
   normalizeApplyTextNormalization,
   normalizeLanguageCode,
   normalizeSeed,
   requireInRange,
   scheduleCleanup,
-} from "./tts-provider-helpers.js";
+} from "./tts-provider-helpers.ts";
 
 type SummarizeTextDeps = {
   completeSimple: typeof completeSimple;

@@ -1,13 +1,13 @@
 // Extracts explicit public artifacts from web provider plugin manifests.
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { loadBundledPluginPublicArtifactModuleFromCandidatesSync } from "./public-surface-loader.js";
+import { loadBundledPluginPublicArtifactModuleFromCandidatesSync } from "./public-surface-loader.ts";
 import type {
   PluginWebFetchProviderEntry,
   PluginWebSearchProviderEntry,
   WebFetchProviderPlugin,
   WebSearchProviderPlugin,
-} from "./types.js";
+} from "./types.ts";
 
 const WEB_SEARCH_ARTIFACT_CANDIDATES = [
   "web-search-contract-api.js",

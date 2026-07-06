@@ -1,6 +1,6 @@
 /** Lightweight reply-stage profiler for slow-turn diagnostics. */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { isDiagnosticFlagEnabled } from "../../infra/diagnostic-flags.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { isDiagnosticFlagEnabled } from "../../infra/diagnostic-flags.ts";
 
 type ReplyTimingSpan = {
   name: string;

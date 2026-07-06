@@ -1,11 +1,11 @@
 // Validates safe-bin policy profiles against command argv semantics.
-import { parseExecArgvToken } from "./exec-command-resolution.js";
+import { parseExecArgvToken } from "./exec-command-resolution.ts";
 import {
   buildLongFlagPrefixMap,
   collectKnownLongFlags,
   type SafeBinProfile,
-} from "./exec-safe-bin-policy-profiles.js";
-import { validateSafeBinSemantics } from "./exec-safe-bin-semantics.js";
+} from "./exec-safe-bin-policy-profiles.ts";
+import { validateSafeBinSemantics } from "./exec-safe-bin-semantics.ts";
 
 function isPathLikeToken(value: string): boolean {
   const trimmed = value.trim();

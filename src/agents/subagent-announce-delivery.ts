@@ -9,34 +9,34 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { completionRequiresMessageToolDelivery } from "../auto-reply/reply/completion-delivery-policy.js";
-import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import { getLoadedChannelPluginForRead } from "../channels/plugins/registry-loaded-read.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import { routeFromConversationRef, routeToDeliveryFields } from "../channels/route-projection.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isOutboundDeliveryError } from "../infra/outbound/deliver-types.js";
-import type { ConversationRef } from "../infra/outbound/session-binding-service.js";
-import { sourceDeliveryTargetsMatch } from "../infra/outbound/source-delivery-plan.js";
-import { stringifyRouteThreadId } from "../plugin-sdk/channel-route.js";
-import { normalizeAccountId } from "../routing/session-key.js";
-import { defaultRuntime } from "../runtime.js";
+import { completionRequiresMessageToolDelivery } from "../auto-reply/reply/completion-delivery-policy.ts";
+import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import { getLoadedChannelPluginForRead } from "../channels/plugins/registry-loaded-read.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import { routeFromConversationRef, routeToDeliveryFields } from "../channels/route-projection.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isOutboundDeliveryError } from "../infra/outbound/deliver-types.ts";
+import type { ConversationRef } from "../infra/outbound/session-binding-service.ts";
+import { sourceDeliveryTargetsMatch } from "../infra/outbound/source-delivery-plan.ts";
+import { stringifyRouteThreadId } from "../plugin-sdk/channel-route.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
+import { defaultRuntime } from "../runtime.ts";
 import {
   isAgentMediatedCompletionSourceTool,
   shouldPreserveUserFacingSessionStateForInputProvenance,
-} from "../sessions/input-provenance.js";
-import { deriveSessionChatTypeFromKey } from "../sessions/session-chat-type-shared.js";
-import { isCronRunSessionKey, isCronSessionKey } from "../sessions/session-key-utils.js";
-import { isNonTerminalAgentRunStatus } from "../shared/agent-run-status.js";
-import { mergeDeliveryContext, normalizeDeliveryContext } from "../utils/delivery-context.js";
+} from "../sessions/input-provenance.ts";
+import { deriveSessionChatTypeFromKey } from "../sessions/session-chat-type-shared.ts";
+import { isCronRunSessionKey, isCronSessionKey } from "../sessions/session-key-utils.ts";
+import { isNonTerminalAgentRunStatus } from "../shared/agent-run-status.ts";
+import { mergeDeliveryContext, normalizeDeliveryContext } from "../utils/delivery-context.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
   isGatewayMessageChannel,
   isInternalMessageChannel,
   normalizeMessageChannel,
-} from "../utils/message-channel.js";
-import { hasAcceptedSessionSpawn } from "./accepted-session-spawn.js";
+} from "../utils/message-channel.ts";
+import { hasAcceptedSessionSpawn } from "./accepted-session-spawn.ts";
 import {
   collectDeliveredMediaUrls,
   collectMessagingToolDeliveredMediaUrls,
@@ -44,12 +44,12 @@ import {
   getGatewayAgentResult,
   hasMessagingToolDeliveryEvidence,
   hasVisibleAgentPayload,
-} from "./embedded-agent-runner/delivery-evidence.js";
-import type { EmbeddedAgentQueueMessageOptions } from "./embedded-agent-runner/run-state.js";
-import type { EmbeddedAgentQueueMessageOutcome } from "./embedded-agent-runner/runs.js";
-import { mediaUrlsFromGeneratedAttachments } from "./generated-attachments.js";
-import type { AgentInternalEvent } from "./internal-events.js";
-import { isSessionWriteLockAcquireError } from "./session-write-lock-error.js";
+} from "./embedded-agent-runner/delivery-evidence.ts";
+import type { EmbeddedAgentQueueMessageOptions } from "./embedded-agent-runner/run-state.ts";
+import type { EmbeddedAgentQueueMessageOutcome } from "./embedded-agent-runner/runs.ts";
+import { mediaUrlsFromGeneratedAttachments } from "./generated-attachments.ts";
+import type { AgentInternalEvent } from "./internal-events.ts";
+import { isSessionWriteLockAcquireError } from "./session-write-lock-error.ts";
 import {
   callGateway,
   createBoundDeliveryRouter,
@@ -68,15 +68,15 @@ import {
   resolveQueueSettings,
   resolveStorePath,
   sendMessage,
-} from "./subagent-announce-delivery.runtime.js";
+} from "./subagent-announce-delivery.runtime.ts";
 import {
   runSubagentAnnounceDispatch,
   type SubagentAnnounceDeliveryResult,
-} from "./subagent-announce-dispatch.js";
-import type { DeliveryContext } from "./subagent-announce-origin.js";
-import { getSubagentDepthFromSessionStore } from "./subagent-depth.js";
-import { resolveRequesterStoreKey } from "./subagent-requester-store-key.js";
-import type { SpawnSubagentMode } from "./subagent-spawn.types.js";
+} from "./subagent-announce-dispatch.ts";
+import type { DeliveryContext } from "./subagent-announce-origin.ts";
+import { getSubagentDepthFromSessionStore } from "./subagent-depth.ts";
+import { resolveRequesterStoreKey } from "./subagent-requester-store-key.ts";
+import type { SpawnSubagentMode } from "./subagent-spawn.types.ts";
 
 const DEFAULT_SUBAGENT_ANNOUNCE_TIMEOUT_MS = 120_000;
 type SubagentAnnounceDeliveryDeps = {

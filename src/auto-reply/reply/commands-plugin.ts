@@ -6,8 +6,8 @@
  */
 
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { matchPluginCommand, executePluginCommand } from "../../plugins/commands.js";
-import type { CommandHandler, CommandHandlerResult } from "./commands-types.js";
+import { matchPluginCommand, executePluginCommand } from "../../plugins/commands.ts";
+import type { CommandHandler, CommandHandlerResult } from "./commands-types.ts";
 
 /**
  * Handle plugin-registered commands.

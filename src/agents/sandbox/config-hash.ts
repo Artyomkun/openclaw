@@ -3,8 +3,8 @@
  *
  * Normalizes hash inputs so container reuse changes only when security, mount, workspace, or image policy changes.
  */
-import { hashTextSha256 } from "./hash.js";
-import type { SandboxBrowserConfig, SandboxDockerConfig, SandboxWorkspaceAccess } from "./types.js";
+import { hashTextSha256 } from "./hash.ts";
+import type { SandboxBrowserConfig, SandboxDockerConfig, SandboxWorkspaceAccess } from "./types.ts";
 
 /**
  * Stable sandbox config hashing for container reuse decisions.

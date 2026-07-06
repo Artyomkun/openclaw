@@ -1,7 +1,7 @@
 /**
  * Detects Codex app-server failures that should retry with recovery.
  */
-import type { EmbeddedRunAttemptResult } from "./types.js";
+import type { EmbeddedRunAttemptResult } from "./types.ts";
 
 /**
  * Decides whether a Codex app-server failure can be retried by replaying the

@@ -18,9 +18,9 @@ security/
 
 The related scripts are:
 
-- `security/opengrep/compile-rules.mjs` — gathers source OpenGrep rule YAMLs from
+- `security/opengrep/compile-rules.ts` — gathers source OpenGrep rule YAMLs from
   a folder and appends new compiled rule IDs to `security/opengrep/precise.yml`.
-- `security/opengrep/check-rule-metadata.mjs` — enforces that every committed
+- `security/opengrep/check-rule-metadata.ts` — enforces that every committed
   rule carries durable source/provenance metadata.
 - `scripts/run-opengrep.sh` — runs the compiled precise rulepack locally or in
   CI with consistent paths and exclusions.
@@ -32,7 +32,7 @@ Once a candidate rule has been validated and reviewed, put the shippable source
 rule YAML in any local folder and compile it into this repo:
 
 ```bash
-node security/opengrep/compile-rules.mjs \
+node security/opengrep/compile-rules.ts \
   --rules-dir <folder-with-source-rule-yaml>
 ```
 
@@ -118,7 +118,7 @@ rebuilding the rulepack from a complete source folder.
 To drop a noisy rule:
 
 1. Delete the offending source rule from the local source-rule folder.
-2. Re-run `node security/opengrep/compile-rules.mjs --rules-dir <folder-with-source-rule-yaml>`.
+2. Re-run `node security/opengrep/compile-rules.ts --rules-dir <folder-with-source-rule-yaml>`.
 3. Commit the resulting `security/opengrep/precise.yml` diff.
 
 To narrow a rule's path scope, edit the source rule's `paths.include` /

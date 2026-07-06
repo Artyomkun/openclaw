@@ -46,12 +46,12 @@ function readGeminiCliOutputFormat(args: readonly string[] | undefined): GeminiC
 function normalizeGeminiCliBackendConfig(config: GeminiCliBackendConfig): GeminiCliBackendConfig {
   const output = readGeminiCliOutputFormat(config.args);
   const resumeOutput = readGeminiCliOutputFormat(config.resumeArgs ?? config.args);
-  const usesStreamJson = output === "jsonl" || resumeOutput === "jsonl";
+  const usesStreatson = output === "jsonl" || resumeOutput === "jsonl";
   return {
     ...config,
     output,
     resumeOutput,
-    jsonlDialect: usesStreamJson ? "gemini-stream-json" : undefined,
+    jsonlDialect: usesStreatson ? "gemini-stream-json" : undefined,
   };
 }
 

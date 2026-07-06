@@ -2,8 +2,8 @@
 import {
   resolveProviderIdForAuth,
   type ProviderAuthAliasLookupParams,
-} from "../../agents/provider-auth-aliases.js";
-import type { FollowupRun } from "./queue.js";
+} from "../../agents/provider-auth-aliases.ts";
+import type { FollowupRun } from "./queue.ts";
 
 /** Keeps an auth profile only when the current provider shares the primary auth scope. */
 export function resolveProviderScopedAuthProfile(params: {

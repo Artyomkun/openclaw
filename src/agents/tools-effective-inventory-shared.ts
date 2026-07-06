@@ -2,10 +2,10 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { summarizeToolDescriptionText } from "./tool-description-summary.js";
-import { resolveToolDisplay } from "./tool-display.js";
-import type { EffectiveToolInventoryEntry } from "./tools-effective-inventory.types.js";
-import type { AnyAgentTool } from "./tools/common.js";
+import { summarizeToolDescriptionText } from "./tool-description-summary.ts";
+import { resolveToolDisplay } from "./tool-display.ts";
+import type { EffectiveToolInventoryEntry } from "./tools-effective-inventory.types.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 export function resolveEffectiveToolLabel(tool: AnyAgentTool): string {
   const rawLabel = normalizeOptionalString(tool.label) ?? "";

@@ -1,6 +1,6 @@
 // Implements maintenance commands for Crestodian-backed session cleanup.
-import { logVerbose } from "../../globals.js";
-import type { CommandHandler } from "./commands-types.js";
+import { logVerbose } from "../../globals.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 export const handleCrestodianCommand: CommandHandler = async (params, allowTextCommands) => {
   if (!allowTextCommands) {

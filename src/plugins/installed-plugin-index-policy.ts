@@ -1,8 +1,8 @@
 // Applies policy checks to installed plugin index records.
-import type { OpenClawConfig } from "../config/types.js";
-import { listPluginCompatRecords } from "./compat/registry.js";
-import { normalizePluginsConfig } from "./config-state.js";
-import { hashJson } from "./installed-plugin-index-hash.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { listPluginCompatRecords } from "./compat/registry.ts";
+import { normalizePluginsConfig } from "./config-state.ts";
+import { hashJson } from "./installed-plugin-index-hash.ts";
 
 /** Hashes plugin compat registry state that can affect installed index validity. */
 export function resolveCompatRegistryVersion(): string {

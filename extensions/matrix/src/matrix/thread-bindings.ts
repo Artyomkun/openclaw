@@ -99,18 +99,6 @@ function buildThreadBindingStoreKey(record: {
   return `${record.accountId}:${digest}`;
 }
 
-function buildLegacyThreadBindingsImportKey(params: {
-  accountId: string;
-  legacyFilePath: string;
-}): string {
-  const digest = createHash("sha256")
-    .update(params.accountId)
-    .update("\0")
-    .update(params.legacyFilePath)
-    .digest("hex");
-  return `${params.accountId}:${digest}`;
-}
-
 function normalizeBindingRecord(
   entry: unknown,
   accountId: string,
@@ -156,24 +144,6 @@ function normalizeBindingRecord(
         ? Math.max(0, Math.floor(record.maxAgeMs))
         : undefined,
   };
-}
-
-async function loadBindingsFromLegacyDisk(filePath: string, accountId: string) {
-  const { value } = await readJsonFileWithFallback<StoredMatrixThreadBindingState | null>(
-    filePath,
-    null,
-  );
-  if (value?.version !== STORE_VERSION || !Array.isArray(value.bindings)) {
-    return [];
-  }
-  const loaded: MatrixThreadBindingRecord[] = [];
-  for (const entry of value.bindings) {
-    const record = normalizeBindingRecord(entry, accountId);
-    if (record) {
-      loaded.push(record);
-    }
-  }
-  return loaded;
 }
 
 async function loadBindingsFromPluginState(params: {
@@ -305,13 +275,6 @@ export async function createMatrixThreadBindingManager(params: {
       `Matrix thread binding account mismatch: requested ${params.accountId}, auth resolved ${params.auth.accountId}`,
     );
   }
-  const legacyFilePath = resolveBindingsPath({
-    auth: params.auth,
-    accountId: params.accountId,
-    env: params.env,
-    stateDir: params.stateDir,
-  });
-  const sqliteStateDir = path.dirname(legacyFilePath);
   const storageKey = resolveMatrixSqliteStateKey({ env: params.env, stateDir: sqliteStateDir });
   const existingEntry = getMatrixThreadBindingManagerEntry(params.accountId);
   if (existingEntry) {
@@ -320,36 +283,6 @@ export async function createMatrixThreadBindingManager(params: {
     }
     existingEntry.manager.stop();
   }
-  const pluginLoaded = await loadBindingsFromPluginState({
-    accountId: params.accountId,
-    env: params.env,
-    stateDir: sqliteStateDir,
-  });
-  const migrationStore = createThreadBindingMigrationStore({
-    env: params.env,
-    stateDir: sqliteStateDir,
-  });
-  const legacyImportKey = buildLegacyThreadBindingsImportKey({
-    accountId: params.accountId,
-    legacyFilePath,
-  });
-  const pluginLoadedKeys = new Set(
-    pluginLoaded.map((record) => buildThreadBindingStoreKey(record)),
-  );
-  let legacyHadRows = false;
-  let legacyLoaded: MatrixThreadBindingRecord[] = [];
-  if (!(await migrationStore.lookup(legacyImportKey))) {
-    const legacyCandidates = await loadBindingsFromLegacyDisk(legacyFilePath, params.accountId);
-    legacyHadRows = legacyCandidates.length > 0;
-    legacyLoaded = legacyCandidates.filter(
-      (record) => !pluginLoadedKeys.has(buildThreadBindingStoreKey(record)),
-    );
-  }
-  const loaded = [...pluginLoaded, ...legacyLoaded];
-  for (const record of loaded) {
-    setBindingRecord(record);
-  }
-
   let persistQueue: Promise<void> = Promise.resolve();
   const enqueuePersist = (bindings?: MatrixThreadBindingRecord[]) => {
     const snapshot = bindings ?? listBindingsForAccount(params.accountId);
@@ -379,17 +312,6 @@ export async function createMatrixThreadBindingManager(params: {
     idleTimeoutMs: params.idleTimeoutMs,
     maxAgeMs: params.maxAgeMs,
   };
-  if (legacyHadRows) {
-    if (legacyLoaded.length > 0) {
-      await persist();
-    }
-    await migrationStore.register(legacyImportKey, { importedAt: Date.now() });
-    await fs.rm(legacyFilePath, { force: true }).catch((err: unknown) => {
-      params.logVerboseMessage?.(
-        `matrix: failed removing migrated legacy thread bindings account=${params.accountId}: ${String(err)}`,
-      );
-    });
-  }
   let persistTimer: NodeJS.Timeout | null = null;
   const schedulePersist = (delayMs: number) => {
     if (persistTimer) {

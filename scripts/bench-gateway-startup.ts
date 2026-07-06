@@ -622,7 +622,7 @@ function writePluginFixtures(
     pluginIds.push(id);
     const pluginDir = path.join(pluginsDir, id);
     mkdirSync(pluginDir, { recursive: true });
-    const entry = path.join(pluginDir, "index.cjs");
+    const entry = path.join(pluginDir, "index.ts");
     writeFileSync(entry, `module.exports = { id: ${JSON.stringify(id)}, register() {} };\n`);
     writeFileSync(
       path.join(pluginDir, "openclaw.plugin.json"),

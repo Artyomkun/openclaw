@@ -31,10 +31,8 @@ import { resolveCodexAppServerSpawnEnv } from "./transport-stdio.js";
 
 const CODEX_APP_SERVER_AUTH_PROVIDER = "openai";
 const OPENAI_CODEX_APP_SERVER_AUTH_PROVIDER = "openai-codex";
-const LEGACY_CODEX_APP_SERVER_AUTH_PROVIDER = "codex-cli";
 const CODEX_APP_SERVER_EXTERNAL_CLI_PROVIDER_IDS = [
-  CODEX_APP_SERVER_AUTH_PROVIDER,
-  LEGACY_CODEX_APP_SERVER_AUTH_PROVIDER,
+  CODEX_APP_SERVER_AUTH_PROVIDER
 ];
 const OPENAI_PROVIDER = "openai";
 const OPENAI_CODEX_DEFAULT_PROFILE_ID = "openai:default";
@@ -786,10 +784,7 @@ function isCodexAppServerAuthProvider(provider: string, config?: AuthProfileOrde
   const resolvedProvider = resolveProviderIdForAuth(provider, { config });
   return (
     resolvedProvider === CODEX_APP_SERVER_AUTH_PROVIDER ||
-    resolvedProvider === OPENAI_CODEX_APP_SERVER_AUTH_PROVIDER ||
-    // Older Codex auth profiles stored the CLI runtime id here. The app-server
-    // login protocol still receives the same externally managed ChatGPT token.
-    resolvedProvider === LEGACY_CODEX_APP_SERVER_AUTH_PROVIDER
+    resolvedProvider === OPENAI_CODEX_APP_SERVER_AUTH_PROVIDER
   );
 }
 

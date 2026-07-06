@@ -85,7 +85,7 @@ jobs:
 
           try {
             const { assertPluginPrereleaseTestPlanComplete } = await import(
-              "./scripts/lib/plugin-prerelease-test-plan.mjs"
+              "./scripts/lib/plugin-prerelease-test-plan.ts"
             );
             pluginPrereleasePlan = assertPluginPrereleaseTestPlanComplete();
           } catch (error) {
@@ -95,7 +95,7 @@ jobs:
               error && typeof error === "object" && "url" in error ? String(error.url) : "";
             if (
               errorCode === "ERR_MODULE_NOT_FOUND" &&
-              moduleUrl.endsWith("/scripts/lib/plugin-prerelease-test-plan.mjs")
+              moduleUrl.endsWith("/scripts/lib/plugin-prerelease-test-plan.ts")
             ) {
               console.warn(
                 "Plugin prerelease plan unavailable in target ref; skipping static and Docker plugin prerelease lanes.",
@@ -107,7 +107,7 @@ jobs:
 
           try {
             const { createExtensionTestShards, DEFAULT_EXTENSION_TEST_SHARD_COUNT } = await import(
-              "./scripts/lib/extension-test-plan.mjs"
+              "./scripts/lib/extension-test-plan.ts"
             );
             extensionShards = createExtensionTestShards({
               shardCount: DEFAULT_EXTENSION_TEST_SHARD_COUNT,
@@ -127,7 +127,7 @@ jobs:
               error && typeof error === "object" && "url" in error ? String(error.url) : "";
             if (
               errorCode === "ERR_MODULE_NOT_FOUND" &&
-              moduleUrl.endsWith("/scripts/lib/extension-test-plan.mjs")
+              moduleUrl.endsWith("/scripts/lib/extension-test-plan.ts")
             ) {
               console.warn(
                 "Extension test plan unavailable in target ref; skipping extension prerelease shards.",
@@ -138,7 +138,7 @@ jobs:
           }
 
           try {
-            const { createNodeTestShards } = await import("./scripts/lib/ci-node-test-plan.mjs");
+            const { createNodeTestShards } = await import("./scripts/lib/ci-node-test-plan.ts");
             nodeShards = createNodeTestShards({
               includeReleaseOnlyPluginShards: true,
             })
@@ -159,7 +159,7 @@ jobs:
               error && typeof error === "object" && "url" in error ? String(error.url) : "";
             if (
               errorCode === "ERR_MODULE_NOT_FOUND" &&
-              moduleUrl.endsWith("/scripts/lib/ci-node-test-plan.mjs")
+              moduleUrl.endsWith("/scripts/lib/ci-node-test-plan.ts")
             ) {
               console.warn(
                 "Node test plan unavailable in target ref; skipping release-only plugin Node shard.",
@@ -213,7 +213,7 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.preflight.outputs.plugin_prerelease_static_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.plugin_prerelease_static_matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
@@ -249,7 +249,7 @@ jobs:
     timeout-minutes: 60
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.preflight.outputs.plugin_prerelease_node_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.plugin_prerelease_node_matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
@@ -303,7 +303,7 @@ jobs:
 
           const result = spawnSync(
             "pnpm",
-            ["exec", "node", "scripts/test-projects.mjs", ...configs],
+            ["exec", "node", "scripts/test-projects.ts", ...configs],
             {
               env: childEnv,
               stdio: "inherit",
@@ -322,7 +322,7 @@ jobs:
     timeout-minutes: 60
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.preflight.outputs.plugin_prerelease_extension_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.plugin_prerelease_extension_matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6

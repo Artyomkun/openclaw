@@ -1,15 +1,15 @@
 /**
  * Logs redacted failover decisions for embedded-agent attempts.
  */
-import { redactIdentifier } from "../../../logging/redact-identifier.js";
-import type { AuthProfileFailureReason } from "../../auth-profiles.js";
-import { sanitizeForConsole } from "../../console-sanitize.js";
+import { redactIdentifier } from "../../../logging/redact-identifier.ts";
+import type { AuthProfileFailureReason } from "../../auth-profiles.ts";
+import { sanitizeForConsole } from "../../console-sanitize.ts";
 import {
   buildApiErrorObservationFields,
   shouldSuppressRawErrorConsoleSuffix,
-} from "../../embedded-agent-error-observation.js";
-import type { FailoverReason } from "../../embedded-agent-helpers.js";
-import { log } from "../logger.js";
+} from "../../embedded-agent-error-observation.ts";
+import type { FailoverReason } from "../../embedded-agent-helpers.ts";
+import { log } from "../logger.ts";
 
 /** Structured fields emitted whenever embedded run failover chooses an action. */
 type FailoverDecisionLoggerInput = {

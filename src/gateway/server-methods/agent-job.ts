@@ -4,10 +4,10 @@ import {
   buildAgentRunTerminalOutcome,
   mergeAgentRunTerminalOutcome,
   type AgentRunTerminalOutcome,
-} from "../../agents/agent-run-terminal-outcome.js";
-import { onAgentEvent } from "../../infra/agent-events.js";
-import { setSafeTimeout } from "../../utils/timer-delay.js";
-import type { AgentWaitTerminalSnapshot } from "./agent-wait-dedupe.js";
+} from "../../agents/agent-run-terminal-outcome.ts";
+import { onAgentEvent } from "../../infra/agent-events.ts";
+import { setSafeTimeout } from "../../utils/timer-delay.ts";
+import type { AgentWaitTerminalSnapshot } from "./agent-wait-dedupe.ts";
 
 const AGENT_RUN_CACHE_TTL_MS = 10 * 60_000;
 /**

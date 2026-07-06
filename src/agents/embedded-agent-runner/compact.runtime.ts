@@ -1,8 +1,8 @@
 /**
  * Lazy-loads the embedded-agent compaction runtime.
  */
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { CompactEmbeddedAgentSessionDirect } from "./compact.runtime.types.js";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { CompactEmbeddedAgentSessionDirect } from "./compact.runtime.types.ts";
 
 const compactRuntimeLoader = createLazyImportLoader(() => import("./compact.js"));
 

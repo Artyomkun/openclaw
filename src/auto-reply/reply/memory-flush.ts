@@ -1,10 +1,10 @@
 // Builds memory flush prompts when conversation context exceeds model budget.
-import { resolveContextTokensForModel } from "../../agents/context.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.js";
-import { legacyModelKey, modelKey } from "../../agents/model-selection-normalize.js";
-import { parseNonNegativeByteSize } from "../../config/byte-size.js";
-import { resolveFreshSessionTotalTokens, type SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { resolveContextTokensForModel } from "../../agents/context.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.ts";
+import { modelKey } from "../../agents/model-selection-normalize.ts";
+import { parseNonNegativeByteSize } from "../../config/byte-size.ts";
+import { resolveFreshSessionTotalTokens, type SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
 export function resolveMemoryFlushContextWindowTokens(params: {
   modelId?: string;
@@ -77,11 +77,8 @@ export function resolveResponsesServerCompactionThreshold(params: {
   if (!provider || !modelId) {
     return undefined;
   }
-  const legacyKey = legacyModelKey(provider, modelId);
   const providerConfig = params.cfg?.models?.providers?.[provider];
-  const modelConfig =
-    params.cfg?.agents?.defaults?.models?.[modelKey(provider, modelId)] ??
-    (legacyKey ? params.cfg?.agents?.defaults?.models?.[legacyKey] : undefined);
+  const modelConfig = params.cfg?.agents?.defaults?.models?.[modelKey(provider, modelId)];
   const providerModelConfig = providerConfig?.models?.find((entry) => entry.id === modelId);
   const sources = [
     asRecord(providerConfig?.params),

@@ -25,7 +25,7 @@ export interface SequentialQueueOptions {
   /**
    * Maximum time (ms) to block subsequent same-key tasks behind a single
    * in-flight task. Pass 0 (or a non-finite value) to disable the cap and
-   * restore unbounded legacy behavior.
+   * restore unbounded olders behavior.
    *
    * Default: 5 minutes.
    */

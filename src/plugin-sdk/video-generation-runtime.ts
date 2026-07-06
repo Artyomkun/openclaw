@@ -6,4 +6,4 @@ export {
   listRuntimeVideoGenerationProviders,
   type GenerateVideoParams,
   type GenerateVideoRuntimeResult,
-} from "../video-generation/runtime.js";
+} from "../video-generation/runtime.ts";

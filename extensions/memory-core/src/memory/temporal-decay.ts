@@ -1,168 +1,111 @@
-// Memory Core plugin module implements temporal decay behavior.
+/**
+ * Memory Core - Temporal Decay
+ */
+
 import fs from "node:fs/promises";
 import path from "node:path";
 
-export type TemporalDecayConfig = {
-  enabled: boolean;
-  halfLifeDays: number;
-};
-
-export const DEFAULT_TEMPORAL_DECAY_CONFIG: TemporalDecayConfig = {
-  enabled: false,
-  halfLifeDays: 30,
-};
+// ========================================================================
+// Constants
+// ========================================================================
 
 const DAY_MS = 24 * 60 * 60 * 1000;
-const DATED_MEMORY_PATH_RE = /(?:^|\/)memory\/(\d{4})-(\d{2})-(\d{2})\.md$/;
 
-function toDecayLambda(halfLifeDays: number): number {
-  if (!Number.isFinite(halfLifeDays) || halfLifeDays <= 0) {
-    return 0;
-  }
-  return Math.LN2 / halfLifeDays;
-}
+// ========================================================================
+// Types
+// ========================================================================
 
-export function calculateTemporalDecayMultiplier(params: {
-  ageInDays: number;
+export interface TemporalDecayConfig {
+  enabled: boolean;
   halfLifeDays: number;
-}): number {
-  const lambda = toDecayLambda(params.halfLifeDays);
-  const clampedAge = Math.max(0, params.ageInDays);
-  if (lambda <= 0 || !Number.isFinite(clampedAge)) {
-    return 1;
-  }
-  return Math.exp(-lambda * clampedAge);
 }
 
-export function applyTemporalDecayToScore(params: {
-  score: number;
-  ageInDays: number;
-  halfLifeDays: number;
-}): number {
-  return params.score * calculateTemporalDecayMultiplier(params);
+// ========================================================================
+// Core
+// ========================================================================
+
+function getDateFromPath(filePath: string): Date | null {
+  const match = filePath.match(/memory\/(\d{4})-(\d{2})-(\d{2})\.md$/);
+  if (!match) return null;
+
+  const year = parseInt(match[1], 10);
+  const month = parseInt(match[2], 10) - 1;
+  const day = parseInt(match[3], 10);
+
+  const date = new Date(Date.UTC(year, month, day));
+  
+  if (isNaN(date.getTime())) return null;
+  
+  return date;
 }
 
-function parseMemoryDateFromPath(filePath: string): Date | null {
-  const normalized = filePath.replaceAll("\\", "/").replace(/^\.\//, "");
-  const match = DATED_MEMORY_PATH_RE.exec(normalized);
-  if (!match) {
-    return null;
-  }
+async function getFileTimestamp(
+  filePath: string,
+  workspaceDir?: string
+): Promise<Date | null> {
+  const fromPath = getDateFromPath(filePath);
+  if (fromPath) return fromPath;
+  if (!workspaceDir) return null;
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
-    return null;
-  }
-
-  const timestamp = Date.UTC(year, month - 1, day);
-  const parsed = new Date(timestamp);
-  if (
-    parsed.getUTCFullYear() !== year ||
-    parsed.getUTCMonth() !== month - 1 ||
-    parsed.getUTCDate() !== day
-  ) {
-    return null;
-  }
-
-  return parsed;
-}
-
-function isEvergreenMemoryPath(filePath: string): boolean {
-  const normalized = filePath.replaceAll("\\", "/").replace(/^\.\//, "");
-  if (normalized === "MEMORY.md") {
-    return true;
-  }
-  if (!normalized.startsWith("memory/")) {
-    return false;
-  }
-  return !DATED_MEMORY_PATH_RE.test(normalized);
-}
-
-async function extractTimestamp(params: {
-  filePath: string;
-  source?: string;
-  workspaceDir?: string;
-}): Promise<Date | null> {
-  const fromPath = parseMemoryDateFromPath(params.filePath);
-  if (fromPath) {
-    return fromPath;
-  }
-
-  // Memory root/topic files are evergreen knowledge and should not decay.
-  if (params.source === "memory" && isEvergreenMemoryPath(params.filePath)) {
-    return null;
-  }
-
-  if (!params.workspaceDir) {
-    return null;
-  }
-
-  const absolutePath = path.isAbsolute(params.filePath)
-    ? params.filePath
-    : path.resolve(params.workspaceDir, params.filePath);
+  const fullPath = path.isAbsolute(filePath)
+    ? filePath
+    : path.join(workspaceDir, filePath);
 
   try {
-    const stat = await fs.stat(absolutePath);
-    if (!Number.isFinite(stat.mtimeMs)) {
-      return null;
-    }
+    const stat = await fs.stat(fullPath);
     return new Date(stat.mtimeMs);
   } catch {
     return null;
   }
 }
 
-function ageInDaysFromTimestamp(timestamp: Date, nowMs: number): number {
-  const ageMs = Math.max(0, nowMs - timestamp.getTime());
-  return ageMs / DAY_MS;
+function getDecayMultiplier(ageDays: number, halfLifeDays: number): number {
+  if (halfLifeDays <= 0 || ageDays <= 0) return 1;
+  
+  const lambda = Math.LN2 / halfLifeDays;
+  return Math.exp(-lambda * ageDays);
 }
 
-export async function applyTemporalDecayToHybridResults<
-  T extends { path: string; score: number; source: string },
->(params: {
-  results: T[];
-  temporalDecay?: Partial<TemporalDecayConfig>;
-  workspaceDir?: string;
-  nowMs?: number;
-}): Promise<T[]> {
-  const config = { ...DEFAULT_TEMPORAL_DECAY_CONFIG, ...params.temporalDecay };
-  if (!config.enabled) {
-    return [...params.results];
+export async function applyTemporalDecay<T extends { path: string; score: number }>(
+  results: T[],
+  config: TemporalDecayConfig,
+  workspaceDir?: string
+): Promise<T[]> {
+  if (!config.enabled || results.length === 0) {
+    return results;
   }
 
-  const nowMs = params.nowMs ?? Date.now();
-  const timestampPromiseCache = new Map<string, Promise<Date | null>>();
+  const now = Date.now();
+  const cache = new Map<string, Date | null>();
 
-  return Promise.all(
-    params.results.map(async (entry) => {
-      const cacheKey = `${entry.source}:${entry.path}`;
-      let timestampPromise = timestampPromiseCache.get(cacheKey);
-      if (!timestampPromise) {
-        timestampPromise = extractTimestamp({
-          filePath: entry.path,
-          source: entry.source,
-          workspaceDir: params.workspaceDir,
-        });
-        timestampPromiseCache.set(cacheKey, timestampPromise);
+  const decayed = await Promise.all(
+    results.map(async (result) => {
+      let date = cache.get(result.path);
+      if (date === undefined) {
+        date = await getFileTimestamp(result.path, workspaceDir);
+        cache.set(result.path, date);
       }
-
-      const timestamp = await timestampPromise;
-      if (!timestamp) {
-        return entry;
-      }
-
-      const decayedScore = applyTemporalDecayToScore({
-        score: entry.score,
-        ageInDays: ageInDaysFromTimestamp(timestamp, nowMs),
-        halfLifeDays: config.halfLifeDays,
-      });
+      if (!date) return result;
+      const ageDays = (now - date.getTime()) / DAY_MS;
+      const multiplier = getDecayMultiplier(ageDays, config.halfLifeDays);
 
       return {
-        ...entry,
-        score: decayedScore,
+        ...result,
+        score: result.score * multiplier,
       };
-    }),
+    })
   );
+
+  return decayed;
 }
+
+// ========================================================================
+// Export
+// ========================================================================
+
+export default {
+  applyTemporalDecay,
+  getDateFromPath,
+  getFileTimestamp,
+  getDecayMultiplier,
+};

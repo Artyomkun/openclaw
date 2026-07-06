@@ -1,7 +1,7 @@
 /** Compiles, matches, and expands secret target registry path patterns. */
-import { parseConfigPathArrayIndex } from "../shared/path-array-index.js";
-import { isRecord, parseDotPath } from "./shared.js";
-import type { SecretTargetRegistryEntry } from "./target-registry-types.js";
+import { parseConfigPathArrayIndex } from "../shared/path-array-index.ts";
+import { isRecord, parseDotPath } from "./shared.ts";
+import type { SecretTargetRegistryEntry } from "./target-registry-types.ts";
 
 /** Tokenized segment in a secret target path pattern. */
 export type PathPatternToken =

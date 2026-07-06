@@ -24,7 +24,6 @@ export const XAI_OAUTH_CLIENT_ID = "b1a00492-073a-47ea-816f-4c329264a828";
 export const XAI_OAUTH_SCOPE = "openid profile email offline_access grok-cli:access api:access";
 export const XAI_OAUTH_ISSUER = "https://auth.x.ai";
 export const XAI_OAUTH_DISCOVERY_URL = `${XAI_OAUTH_ISSUER}/.well-known/openid-configuration`;
-const XAI_LEGACY_OAUTH_TOKEN_ENDPOINT = `${XAI_OAUTH_ISSUER}/oauth/token`;
 
 const XAI_OAUTH_TIMEOUT_MS = 5 * 60 * 1000;
 const XAI_OAUTH_FETCH_TIMEOUT_MS = 30 * 1000;
@@ -527,15 +526,6 @@ function readCredentialString<TKey extends string>(
   return typeof value === "string" && value.trim().length > 0 ? value : undefined;
 }
 
-function isLegacyXaiOAuthTokenEndpoint(endpoint: string): boolean {
-  try {
-    const url = new URL(endpoint);
-    return `${url.origin}${url.pathname}` === XAI_LEGACY_OAUTH_TOKEN_ENDPOINT;
-  } catch {
-    return false;
-  }
-}
-
 async function resolveXaiOAuthRefreshTokenEndpoint(
   credential: OAuthCredential,
   options: XaiOAuthFetchOptions,
@@ -544,7 +534,7 @@ async function resolveXaiOAuthRefreshTokenEndpoint(
   // Rediscover when there is no cached endpoint, or when an older persisted
   // credential still points at the retired endpoint, so refresh writes back the
   // current OAuth token endpoint.
-  if (!cachedEndpoint || isLegacyXaiOAuthTokenEndpoint(cachedEndpoint)) {
+  if (!cachedEndpoint) {
     return (await fetchXaiOAuthDiscovery(options)).tokenEndpoint;
   }
   return cachedEndpoint;

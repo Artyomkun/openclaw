@@ -1,12 +1,12 @@
 // Gateway RPC handlers for voice wake routing configuration.
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
 import {
   loadVoiceWakeRoutingConfig,
   normalizeVoiceWakeRoutingConfig,
   setVoiceWakeRoutingConfig,
   validateVoiceWakeRoutingConfigInput,
-} from "../../infra/voicewake-routing.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../infra/voicewake-routing.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /** Gateway request handlers for reading and updating voice wake routing. */
 export const voicewakeRoutingHandlers: GatewayRequestHandlers = {

@@ -1,16 +1,16 @@
 /** Applies migration plans with backup, filtering, reporting, and progress output. */
 import fs from "node:fs/promises";
-import { withProgress } from "../../cli/progress.js";
-import type { ProgressReporter } from "../../cli/progress.js";
-import { resolveStateDir } from "../../config/paths.js";
-import type { MigrationApplyResult, MigrationProviderPlugin } from "../../plugins/types.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { backupCreateCommand } from "../backup.js";
-import { buildMigrationContext, buildMigrationReportDir } from "./context.js";
-import { assertApplySucceeded, assertConflictFreePlan, writeApplyResult } from "./output.js";
-import { buildMigrationProviderOptions } from "./providers.js";
-import { applyMigrationPluginSelection, applyMigrationSkillSelection } from "./selection.js";
-import type { MigrateApplyOptions } from "./types.js";
+import { withProgress } from "../../cli/progress.ts";
+import type { ProgressReporter } from "../../cli/progress.ts";
+import { resolveStateDir } from "../../config/paths.ts";
+import type { MigrationApplyResult, MigrationProviderPlugin } from "../../plugins/types.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { backupCreateCommand } from "../backup.ts";
+import { buildMigrationContext, buildMigrationReportDir } from "./context.ts";
+import { assertApplySucceeded, assertConflictFreePlan, writeApplyResult } from "./output.ts";
+import { buildMigrationProviderOptions } from "./providers.ts";
+import { applyMigrationPluginSelection, applyMigrationSkillSelection } from "./selection.ts";
+import type { MigrateApplyOptions } from "./types.ts";
 
 function shouldTreatMissingBackupAsEmptyState(error: unknown): boolean {
   const message = error instanceof Error ? error.message : String(error);

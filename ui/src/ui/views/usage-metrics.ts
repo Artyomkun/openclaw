@@ -114,7 +114,7 @@ function buildPeakErrorHours(sessions: UsageSessionEntry[], timeZone: "local" | 
       continue;
     }
 
-    // Fallback: time-based proportional allocation (legacy algorithm)
+    // Fallback: time-based proportional allocation
     forEachSessionHourSlice(session, timeZone, ({ hour, share }) => {
       hourErrors[hour] += usage.messageCounts!.errors * share;
       hourMsgs[hour] += usage.messageCounts!.total * share;

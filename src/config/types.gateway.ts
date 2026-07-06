@@ -1,5 +1,5 @@
 // Defines gateway runtime and networking configuration types.
-import type { SecretInput } from "./types.secrets.js";
+import type { SecretInput } from "./types.secrets.ts";
 
 /** Gateway bind-address policy for local server startup. */
 export type GatewayBindMode = "auto" | "lan" | "loopback" | "custom" | "tailnet";
@@ -62,8 +62,6 @@ export type TalkRealtimeConfig = {
   speakerVoice?: string;
   /** Provider speaker voice id override for realtime sessions. */
   speakerVoiceId?: string;
-  /** @deprecated Use speakerVoice. */
-  voice?: string;
   /** Additional system instructions appended to realtime Talk sessions. */
   instructions?: string;
   /** Realtime execution mode. */

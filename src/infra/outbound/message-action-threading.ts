@@ -1,17 +1,17 @@
 // Message-action threading helpers inherit reply/thread metadata only for
 // same-conversation sends and prepare outbound session mirroring.
-import { readStringParam } from "../../agents/tools/common.js";
+import { readStringParam } from "../../agents/tools/common.ts";
 import type {
   ChannelId,
   ChannelThreadingAdapter,
   ChannelThreadingToolContext,
-} from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import type {
   OutboundSessionRoute,
   ResolveOutboundSessionRouteParams,
-} from "./outbound-session.js";
-import type { ResolvedMessagingTarget } from "./target-resolver.js";
+} from "./outbound-session.ts";
+import type { ResolvedMessagingTarget } from "./target-resolver.ts";
 
 type ResolveAutoThreadId = NonNullable<ChannelThreadingAdapter["resolveAutoThreadId"]>;
 type ResolveReplyTransport = NonNullable<ChannelThreadingAdapter["resolveReplyTransport"]>;

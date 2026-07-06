@@ -1,12 +1,12 @@
 // Defines normalized provider catalog results from plugin metadata.
-import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.js";
+import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.ts";
 import {
   copyArrayEntries,
   copyRecordEntries,
   isRecord,
   readRecordValue,
-} from "../shared/safe-record.js";
-import type { ProviderCatalogResult } from "./types.js";
+} from "../shared/safe-record.ts";
+import type { ProviderCatalogResult } from "./types.ts";
 
 const MODEL_PROVIDER_CONFIG_KEYS = [
   "baseUrl",

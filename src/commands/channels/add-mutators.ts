@@ -1,9 +1,9 @@
 // Small channel config mutators used by guided and non-interactive channel add flows.
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelId, ChannelSetupInput } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeAccountId } from "../../routing/session-key.js";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelId, ChannelSetupInput } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeAccountId } from "../../routing/session-key.ts";
 
 type ChatChannel = ChannelId;
 

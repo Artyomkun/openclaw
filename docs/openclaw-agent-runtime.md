@@ -67,7 +67,7 @@ To reset everything:
 - `credentials/` for provider/channel state that still lives outside the auth profile store
 - `agents/<agentId>/sessions/` for agent session history
 - `agents/<agentId>/sessions/sessions.json` for the session index
-- `sessions/` if legacy paths exist
+- `sessions/` if old paths exist
 - `workspace/` if you want a blank workspace
 
 If you only want to reset sessions, delete `agents/<agentId>/sessions/` for that agent. If you want to keep auth, leave `agents/<agentId>/agent/auth-profiles.json` and any provider state under `credentials/` in place.

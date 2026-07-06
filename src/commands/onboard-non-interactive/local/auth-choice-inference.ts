@@ -5,10 +5,10 @@
  * passing `--auth`, including plugin-defined provider auth flags.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { resolveProviderOnboardAuthFlags } from "../../../plugins/provider-auth-choices.js";
-import { CORE_ONBOARD_AUTH_FLAGS } from "../../onboard-core-auth-flags.js";
-import type { AuthChoice, OnboardOptions } from "../../onboard-types.js";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { resolveProviderOnboardAuthFlags } from "../../../plugins/provider-auth-choices.ts";
+import { CORE_ONBOARD_AUTH_FLAGS } from "../../onboard-core-auth-flags.ts";
+import type { AuthChoice, OnboardOptions } from "../../onboard-types.ts";
 
 type AuthChoiceFlag = {
   optionKey: string;

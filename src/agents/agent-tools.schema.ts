@@ -3,15 +3,15 @@
  * Applies provider-compatible parameter schema cleanup while preserving plugin
  * and channel metadata on normalized tools.
  */
-import { copyPluginToolMeta } from "../plugins/tools.js";
+import { copyPluginToolMeta } from "../plugins/tools.ts";
 import {
   normalizeToolParameterSchema,
   type ToolParameterSchemaOptions,
-} from "./agent-tools-parameter-schema.js";
-import type { AnyAgentTool } from "./agent-tools.types.js";
-import { copyBeforeToolCallHookMarker } from "./before-tool-call-metadata.js";
-import { copyChannelAgentToolMeta } from "./channel-tools.js";
-import { copyToolTerminalPresentation } from "./tool-terminal-presentation.js";
+} from "./agent-tools-parameter-schema.ts";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
+import { copyBeforeToolCallHookMarker } from "./before-tool-call-metadata.ts";
+import { copyChannelAgentToolMeta } from "./channel-tools.ts";
+import { copyToolTerminalPresentation } from "./tool-terminal-presentation.ts";
 
 function isObjectSchemaWithNoRequiredParams(schema: unknown): boolean {
   if (!schema || typeof schema !== "object" || Array.isArray(schema)) {

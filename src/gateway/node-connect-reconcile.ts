@@ -1,22 +1,22 @@
 // Gateway node connect reconciliation.
 // Computes approved runtime surfaces and pending pairing upgrades on reconnect.
-import type { ConnectParams } from "../../packages/gateway-protocol/src/index.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { ConnectParams } from "../../packages/gateway-protocol/src/index.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   normalizeNodeApprovalSurfaceList,
   sameNodeApprovalSurfaceSet,
   sameNodePermissionSurface,
-} from "../infra/node-pairing-surface.js";
+} from "../infra/node-pairing-surface.ts";
 import type {
   NodePairingPairedNode,
   NodePairingRequestInput,
   RequestNodePairingResult,
-} from "../infra/node-pairing.js";
+} from "../infra/node-pairing.ts";
 import {
   normalizeDeclaredNodeCommands,
   resolveNodeCommandAllowlist,
   resolveNodePairingCommandAllowlist,
-} from "./node-command-policy.js";
+} from "./node-command-policy.ts";
 
 // Node connect reconciliation turns declared caps/commands/permissions into the
 // effective runtime surface. New or upgraded surfaces create a pending pairing

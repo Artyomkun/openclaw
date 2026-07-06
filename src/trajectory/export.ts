@@ -2,14 +2,14 @@
 import fsp from "node:fs/promises";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { sanitizeDiagnosticPayload } from "../agents/payload-redaction.js";
-import type { AgentMessage } from "../agents/runtime/index.js";
-import type { FileEntry, SessionEntry, SessionHeader } from "../agents/sessions/session-manager.js";
-import { resolveStateDir } from "../config/paths.js";
+import { sanitizeDiagnosticPayload } from "../agents/payload-redaction.ts";
+import type { AgentMessage } from "../agents/runtime/index.ts";
+import type { FileEntry, SessionEntry, SessionHeader } from "../agents/sessions/session-manager.ts";
+import { resolveStateDir } from "../config/paths.ts";
 import {
   isCanonicalSessionTranscriptEntry,
   scanSessionTranscriptTree,
-} from "../config/sessions/transcript-tree.js";
+} from "../config/sessions/transcript-tree.ts";
 import {
   jsonSupportBundleFile,
   jsonlSupportBundleFile,
@@ -18,21 +18,21 @@ import {
   writeSupportBundleDirectory,
   type DiagnosticSupportBundleContent,
   type DiagnosticSupportBundleFile,
-} from "../logging/diagnostic-support-bundle.js";
+} from "../logging/diagnostic-support-bundle.ts";
 import {
   redactSupportString,
   type SupportRedactionContext,
-} from "../logging/diagnostic-support-redaction.js";
-import { redactSecrets, redactToolPayloadText } from "../logging/redact.js";
-import { safeJsonStringify } from "../utils/safe-json.js";
-import { TRAJECTORY_RUNTIME_FILE_MAX_BYTES, safeTrajectorySessionFileName } from "./paths.js";
-import { isRegularNonSymlinkFile, resolveTrajectoryRuntimeFile } from "./runtime-file.js";
+} from "../logging/diagnostic-support-redaction.ts";
+import { redactSecrets, redactToolPayloadText } from "../logging/redact.ts";
+import { safeJsonStringify } from "../utils/safe-json.ts";
+import { TRAJECTORY_RUNTIME_FILE_MAX_BYTES, safeTrajectorySessionFileName } from "./paths.ts";
+import { isRegularNonSymlinkFile, resolveTrajectoryRuntimeFile } from "./runtime-file.ts";
 import type {
   TrajectoryBundleManifest,
   TrajectoryBundleWarning,
   TrajectoryEvent,
   TrajectoryToolDefinition,
-} from "./types.js";
+} from "./types.ts";
 
 // Trajectory bundle exporter: joins persisted session JSONL with runtime
 // trace JSONL, redacts local/support-sensitive data, and writes a portable
@@ -122,51 +122,6 @@ function parseSessionEntries(content: string): {
   return { entries, warnings, rowByEntry };
 }
 
-function migrateLegacySessionEntries(entries: FileEntry[]): void {
-  const header = entries.find((entry): entry is SessionHeader => entry.type === "session");
-  const version = header?.version ?? 1;
-  if (version < 2) {
-    // Older session logs predate entry ids. Synthetic ids preserve branch order
-    // long enough to export the reachable suffix without mutating source files.
-    let previousId: string | null = null;
-    let index = 0;
-    for (const entry of entries) {
-      if (entry.type === "session") {
-        entry.version = 2;
-        continue;
-      }
-      const mutable = entry as unknown as Record<string, unknown>;
-      if (typeof mutable.id !== "string") {
-        mutable.id = `legacy-${index++}`;
-      }
-      mutable.parentId = previousId;
-      const entryId = mutable.id;
-      previousId = typeof entryId === "string" ? entryId : null;
-      if (entry.type === "compaction" && typeof mutable.firstKeptEntryIndex === "number") {
-        const target = entries[mutable.firstKeptEntryIndex];
-        if (target && target.type !== "session") {
-          mutable.firstKeptEntryId = (target as unknown as Record<string, unknown>).id;
-        }
-        delete mutable.firstKeptEntryIndex;
-      }
-    }
-  }
-  if (version < 3) {
-    for (const entry of entries) {
-      if (entry.type === "session") {
-        entry.version = 3;
-        continue;
-      }
-      if (entry.type === "message") {
-        const message = (entry as { message?: { role?: string } }).message;
-        if (message?.role === "hookMessage") {
-          message.role = "custom";
-        }
-      }
-    }
-  }
-}
-
 async function readSessionBranch(filePath: string): Promise<{
   header: SessionHeader | null;
   leafId: string | null;
@@ -178,7 +133,6 @@ async function readSessionBranch(filePath: string): Promise<{
     warnings,
     rowByEntry,
   } = parseSessionEntries(await fsp.readFile(filePath, "utf8"));
-  migrateLegacySessionEntries(fileEntries);
   const header =
     fileEntries.find((entry): entry is SessionHeader => entry.type === "session") ?? null;
   const entries = fileEntries.filter(

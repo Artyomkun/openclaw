@@ -2,23 +2,23 @@
 import { realpathSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   readOpenClawManagedNpmRootOverrides,
   syncManagedNpmRootPeerDependencies,
-} from "../infra/npm-managed-root.js";
-import { createSafeNpmInstallEnv } from "../infra/safe-package-install.js";
-import { runCommandWithTimeout } from "../process/exec.js";
+} from "../infra/npm-managed-root.ts";
+import { createSafeNpmInstallEnv } from "../infra/safe-package-install.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
 import {
   resolveDefaultPluginGitDir,
   resolveDefaultPluginNpmDir,
   resolvePluginInstallDir,
   resolvePluginNpmProjectsDir,
-} from "./install-paths.js";
-import { relinkOpenClawPeerDependenciesInManagedNpmRoot } from "./plugin-peer-link.js";
-import { defaultSlotIdForKey } from "./slots.js";
+} from "./install-paths.ts";
+import { relinkOpenClawPeerDependenciesInManagedNpmRoot } from "./plugin-peer-link.ts";
+import { defaultSlotIdForKey } from "./slots.ts";
 
 export type UninstallActions = {
   entry: boolean;
@@ -647,7 +647,6 @@ export async function applyPluginUninstallDirectoryRemoval(
         "npm",
         "uninstall",
         "--loglevel=error",
-        "--legacy-peer-deps",
         "--ignore-scripts",
         "--no-audit",
         "--no-fund",
@@ -657,7 +656,6 @@ export async function applyPluginUninstallDirectoryRemoval(
         cwd: removal.cleanup.npmRoot,
         timeoutMs: 300_000,
         env: createSafeNpmInstallEnv(process.env, {
-          legacyPeerDeps: true,
           npmConfigCwd: removal.cleanup.npmRoot,
           packageLock: true,
           quiet: true,
@@ -687,7 +685,6 @@ export async function applyPluginUninstallDirectoryRemoval(
             "--omit=dev",
             "--omit=peer",
             "--loglevel=error",
-            "--legacy-peer-deps",
             "--ignore-scripts",
             "--no-audit",
             "--no-fund",
@@ -696,7 +693,6 @@ export async function applyPluginUninstallDirectoryRemoval(
             cwd: removal.cleanup.npmRoot,
             timeoutMs: 300_000,
             env: createSafeNpmInstallEnv(process.env, {
-              legacyPeerDeps: true,
               npmConfigCwd: removal.cleanup.npmRoot,
               packageLock: true,
               quiet: true,

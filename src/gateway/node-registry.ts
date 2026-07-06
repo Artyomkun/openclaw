@@ -7,9 +7,9 @@ import {
   resolveExpiresAtMsFromDurationMs,
   resolveTimerTimeoutMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { logRejectedLargePayload } from "../logging/diagnostic-payload.js";
-import { MAX_BUFFERED_BYTES } from "./server-constants.js";
-import type { GatewayWsClient } from "./server/ws-types.js";
+import { logRejectedLargePayload } from "../logging/diagnostic-payload.ts";
+import { MAX_BUFFERED_BYTES } from "./server-constants.ts";
+import type { GatewayWsClient } from "./server/ws-types.ts";
 
 /** Connected node session advertised over Gateway websocket. */
 export type NodeSession = {
@@ -506,7 +506,7 @@ export class NodeRegistry {
         runId: params.runId,
         sessionKey: params.sessionKey,
       });
-      if (!match && this.allowsLegacyMacRunIdFallback({ nodeId: params.nodeId, connId })) {
+      if (!match) {
         match = this.matchSingleAuthorizedSystemRunEvent({
           nodeId: params.nodeId,
           connId,
@@ -514,9 +514,6 @@ export class NodeRegistry {
         });
       }
     } else {
-      if (!this.allowsLegacyMacRunIdFallback({ nodeId: params.nodeId, connId })) {
-        return false;
-      }
       match = this.matchSingleAuthorizedSystemRunEvent({
         nodeId: params.nodeId,
         connId,
@@ -603,15 +600,6 @@ export class NodeRegistry {
     sessionKey: string,
   ): boolean {
     return !event.sessionKey || event.sessionKey === sessionKey;
-  }
-
-  private allowsLegacyMacRunIdFallback(params: { nodeId: string; connId: string }): boolean {
-    const node = this.nodesById.get(params.nodeId);
-    return (
-      node?.connId === params.connId &&
-      node.clientId === "openclaw-macos" &&
-      node.platform === "darwin"
-    );
   }
 
   private pruneAuthorizedSystemRunEvents(now = Date.now()): void {

@@ -1,2 +1,2 @@
 /** Runtime barrel for provider reply dispatch implementation. */
-export * from "./provider-dispatcher.js";
+export * from "./provider-dispatcher.ts";

@@ -1,20 +1,20 @@
 // Runtime boundary for resolving provider plugins from metadata and config.
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { withActivatedPluginIds } from "./activation-context.js";
-import { resolveBundledPluginCompatibleActivationInputs } from "./activation-context.js";
-import { resolveManifestActivationPluginIds } from "./activation-planner.js";
-import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
-import { extractPluginInstallRecordsFromInstalledPluginIndex } from "./installed-plugin-index-install-records.js";
+import { withActivatedPluginIds } from "./activation-context.ts";
+import { resolveBundledPluginCompatibleActivationInputs } from "./activation-context.ts";
+import { resolveManifestActivationPluginIds } from "./activation-planner.ts";
+import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.ts";
+import { extractPluginInstallRecordsFromInstalledPluginIndex } from "./installed-plugin-index-install-records.ts";
 import {
   getRuntimePluginRegistryForLoadOptions,
   isPluginRegistryLoadInFlight,
   loadOpenClawPlugins,
   type PluginLoadOptions,
-} from "./loader.js";
-import { resolvePluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
-import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.js";
-import { hasExplicitPluginIdScope } from "./plugin-scope.js";
-import { resolveProviderConfigApiOwnerHint } from "./provider-config-owner.js";
+} from "./loader.ts";
+import { resolvePluginMetadataSnapshot } from "./plugin-metadata-snapshot.ts";
+import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.ts";
+import { hasExplicitPluginIdScope } from "./plugin-scope.ts";
+import { resolveProviderConfigApiOwnerHint } from "./provider-config-owner.ts";
 import {
   resolveActivatableProviderOwnerPluginIds,
   resolveDiscoverableProviderOwnerPluginIds,
@@ -24,13 +24,13 @@ import {
   resolveOwningPluginIdsForModelRefs,
   resolveOwningPluginIdsForProviderRef,
   withBundledProviderVitestCompat,
-} from "./providers.js";
-import { getActivePluginRegistryWorkspaceDir } from "./runtime.js";
+} from "./providers.ts";
+import { getActivePluginRegistryWorkspaceDir } from "./runtime.ts";
 import {
   buildPluginRuntimeLoadOptionsFromValues,
   createPluginRuntimeLoaderLogger,
-} from "./runtime/load-context.js";
-import type { ProviderPlugin } from "./types.js";
+} from "./runtime/load-context.ts";
+import type { ProviderPlugin } from "./types.ts";
 
 function dedupeSortedPluginIds(values: Iterable<string>): string[] {
   return sortUniqueStrings(values);

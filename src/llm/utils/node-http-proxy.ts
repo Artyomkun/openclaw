@@ -5,7 +5,7 @@ import {
   createFixedNodeProxyAgentPair,
   resolveEnvNodeProxyUrlForTarget,
   UNSUPPORTED_PROXY_PROTOCOL_MESSAGE,
-} from "../../infra/net/node-proxy-agent.js";
+} from "../../infra/net/node-proxy-agent.ts";
 
 /** HTTP(S) agent pair for Node fetch/client integrations that accept explicit agents. */
 export interface NodeHttpProxyAgents {

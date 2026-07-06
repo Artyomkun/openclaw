@@ -3,7 +3,7 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   createEffectiveEnableStateResolver,
   createPluginEnableStateResolver,
@@ -13,16 +13,16 @@ import {
   type PluginActivationConfigSourceLike,
   type PluginActivationSource,
   type PluginActivationStateLike,
-} from "./config-activation-shared.js";
+} from "./config-activation-shared.ts";
 import {
   hasExplicitPluginConfig as hasExplicitPluginConfigShared,
   isBundledChannelEnabledByChannelConfig as isBundledChannelEnabledByChannelConfigShared,
   normalizePluginsConfigWithResolver,
   type NormalizePluginId,
   type NormalizedPluginsConfig as SharedNormalizedPluginsConfig,
-} from "./config-normalization-shared.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
-import { defaultSlotIdForKey } from "./slots.js";
+} from "./config-normalization-shared.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
+import { defaultSlotIdForKey } from "./slots.ts";
 
 export type { PluginActivationSource };
 export type PluginActivationState = PluginActivationStateLike;

@@ -6,27 +6,27 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./readiness": {
-      "types": "./dist/readiness.d.mts",
-      "import": "./dist/readiness.mjs",
-      "default": "./dist/readiness.mjs"
+      "types": "./dist/readiness.d.ts",
+      "import": "./dist/readiness.ts",
+      "default": "./dist/readiness.ts"
     },
     "./timeouts": {
-      "types": "./dist/timeouts.d.mts",
-      "import": "./dist/timeouts.mjs",
-      "default": "./dist/timeouts.mjs"
+      "types": "./dist/timeouts.d.ts",
+      "import": "./dist/timeouts.ts",
+      "default": "./dist/timeouts.ts"
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts src/readiness.ts src/timeouts.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
+    "build": "tsc src/index.ts src/readiness.ts src/timeouts.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
   },
   "dependencies": {
     "@openclaw/gateway-protocol": "workspace:*",

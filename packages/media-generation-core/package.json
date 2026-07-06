@@ -6,36 +6,36 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./capability-model-ref": {
-      "types": "./dist/capability-model-ref.d.mts",
-      "import": "./dist/capability-model-ref.mjs",
-      "default": "./dist/capability-model-ref.mjs"
+      "types": "./dist/capability-model-ref.d.ts",
+      "import": "./dist/capability-model-ref.ts",
+      "default": "./dist/capability-model-ref.ts"
     },
     "./catalog": {
-      "types": "./dist/catalog.d.mts",
-      "import": "./dist/catalog.mjs",
-      "default": "./dist/catalog.mjs"
+      "types": "./dist/catalog.d.ts",
+      "import": "./dist/catalog.ts",
+      "default": "./dist/catalog.ts"
     },
     "./model-ref": {
-      "types": "./dist/model-ref.d.mts",
-      "import": "./dist/model-ref.mjs",
-      "default": "./dist/model-ref.mjs"
+      "types": "./dist/model-ref.d.ts",
+      "import": "./dist/model-ref.ts",
+      "default": "./dist/model-ref.ts"
     },
     "./normalization": {
-      "types": "./dist/normalization.d.mts",
-      "import": "./dist/normalization.mjs",
-      "default": "./dist/normalization.mjs"
+      "types": "./dist/normalization.d.ts",
+      "import": "./dist/normalization.ts",
+      "default": "./dist/normalization.ts"
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts src/capability-model-ref.ts src/catalog.ts src/model-ref.ts src/normalization.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
+    "build": "tsc src/index.ts src/capability-model-ref.ts src/catalog.ts src/model-ref.ts src/normalization.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
   }
 }

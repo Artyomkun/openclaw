@@ -58,11 +58,11 @@ RUN corepack enable
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
-COPY openclaw.mjs ./
+COPY openclaw.ts ./
 COPY ui/package.json ./ui/package.json
 COPY patches ./patches
-COPY scripts/postinstall-bundled-plugins.mjs scripts/preinstall-package-manager-warning.mjs scripts/npm-runner.mjs scripts/windows-cmd-helpers.mjs scripts/prepare-git-hooks.mjs ./scripts/
-COPY scripts/lib/package-dist-imports.mjs ./scripts/lib/package-dist-imports.mjs
+COPY scripts/postinstall-bundled-plugins.ts scripts/preinstall-package-manager-warning.ts scripts/npm-runner.ts scripts/windows-cmd-helpers.ts scripts/prepare-git-hooks.ts ./scripts/
+COPY scripts/lib/package-dist-imports.ts ./scripts/lib/package-dist-imports.ts
 
 COPY --from=workspace-deps /out/packages/ ./packages/
 COPY --from=workspace-deps /out/${OPENCLAW_BUNDLED_PLUGIN_DIR}/ ./${OPENCLAW_BUNDLED_PLUGIN_DIR}/
@@ -138,20 +138,20 @@ ARG OPENCLAW_BUNDLED_PLUGIN_DIR
 # BuildKit cache mounts are not part of cached layers; seed tarballs for the
 # installed prod graph in the same step that runs offline prune.
 RUN --mount=type=cache,id=openclaw-pnpm-store,target=/root/.local/share/pnpm/store,sharing=locked \
-    node scripts/list-prod-store-packages.mjs | xargs -r pnpm store add && \
+    node scripts/list-prod-store-packages.ts | xargs -r pnpm store add && \
     CI=true pnpm prune --prod \
       --config.offline=true \
       --config.supportedArchitectures.os=linux \
       --config.supportedArchitectures.cpu="$(node -p 'process.arch')" \
       --config.supportedArchitectures.libc=glibc && \
-    OPENCLAW_EXTENSIONS="$OPENCLAW_EXTENSIONS" OPENCLAW_BUNDLED_PLUGIN_DIR="$OPENCLAW_BUNDLED_PLUGIN_DIR" node scripts/prune-docker-plugin-dist.mjs && \
-    node scripts/postinstall-bundled-plugins.mjs && \
-    find dist -type f \( -name '*.d.ts' -o -name '*.d.mts' -o -name '*.d.cts' -o -name '*.map' \) -delete && \
+    OPENCLAW_EXTENSIONS="$OPENCLAW_EXTENSIONS" OPENCLAW_BUNDLED_PLUGIN_DIR="$OPENCLAW_BUNDLED_PLUGIN_DIR" node scripts/prune-docker-plugin-dist.ts && \
+    node scripts/postinstall-bundled-plugins.ts && \
+    find dist -type f \( -name '*.d.ts' -o -name '*.d.ts' -o -name '*.d.ts' -o -name '*.map' \) -delete && \
     rm -rf \
       /app/node_modules/openclaw \
       /app/node_modules/.bin/openclaw \
       /app/node_modules/.pnpm/openclaw@*/node_modules/openclaw && \
-    node scripts/check-package-dist-imports.mjs /app
+    node scripts/check-package-dist-imports.ts /app
 
 # ── Runtime base image ──────────────────────────────────────────
 FROM ${OPENCLAW_NODE_BOOKWORM_SLIM_IMAGE} AS base-runtime
@@ -195,7 +195,7 @@ COPY --from=runtime-assets --chown=node:node /app/node_modules ./node_modules
 COPY --from=runtime-assets --chown=node:node /app/package.json .
 COPY --from=runtime-assets --chown=node:node /app/pnpm-workspace.yaml .
 COPY --from=runtime-assets --chown=node:node /app/patches ./patches
-COPY --from=runtime-assets --chown=node:node /app/openclaw.mjs .
+COPY --from=runtime-assets --chown=node:node /app/openclaw.ts .
 COPY --from=runtime-assets --chown=node:node /app/src/agents/templates ./src/agents/templates
 COPY --from=runtime-assets --chown=node:node /app/${OPENCLAW_BUNDLED_PLUGIN_DIR} ./${OPENCLAW_BUNDLED_PLUGIN_DIR}
 COPY --from=runtime-assets --chown=node:node /app/skills ./skills
@@ -221,7 +221,7 @@ RUN install -d -m 0755 "$COREPACK_HOME" && \
 
 # Install additional system packages needed by your skills or extensions.
 # Example: docker build --build-arg OPENCLAW_IMAGE_APT_PACKAGES="python3 wget" .
-# Legacy alias: OPENCLAW_DOCKER_APT_PACKAGES is still accepted as a fallback.
+# Alias: OPENCLAW_DOCKER_APT_PACKAGES is still accepted as a fallback.
 ARG OPENCLAW_IMAGE_APT_PACKAGES
 ARG OPENCLAW_DOCKER_APT_PACKAGES=""
 RUN --mount=type=cache,id=openclaw-bookworm-apt-cache,target=/var/cache/apt,sharing=locked \
@@ -301,8 +301,8 @@ RUN --mount=type=cache,id=openclaw-bookworm-apt-cache,target=/var/cache/apt,shar
     fi
 
 # Expose the CLI binary without requiring npm global writes as non-root.
-RUN ln -sf /app/openclaw.mjs /usr/local/bin/openclaw \
- && chmod 755 /app/openclaw.mjs
+RUN ln -sf /app/openclaw.ts /usr/local/bin/openclaw \
+ && chmod 755 /app/openclaw.ts
 
 # Pre-create default named-volume mount points so first-run Docker volumes copy
 # node ownership from the image instead of starting as root-owned directories.
@@ -341,4 +341,4 @@ USER node
 HEALTHCHECK --interval=3m --timeout=10s --start-period=15s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:18789/healthz').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 ENTRYPOINT ["tini", "-s", "--"]
-CMD ["node", "openclaw.mjs", "gateway"]
+CMD ["node", "openclaw.ts", "gateway"]

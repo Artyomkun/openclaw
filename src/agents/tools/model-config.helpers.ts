@@ -8,9 +8,9 @@ import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
   resolveAgentModelTimeoutMsValue,
-} from "../../config/model-input.js";
-import type { AgentToolModelConfig } from "../../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/model-input.ts";
+import type { AgentToolModelConfig } from "../../config/types.agents-shared.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   externalCliDiscoveryForProviderAuth,
   ensureAuthProfileStore,
@@ -18,19 +18,19 @@ import {
   hasAnyAuthProfileStoreSource,
   listProfilesForProvider,
   resolveAuthProfileOrder,
-} from "../auth-profiles.js";
-import { evaluateStoredCredentialEligibility } from "../auth-profiles/credential-state.js";
-import { resolveExternalCliAuthProfiles } from "../auth-profiles/external-cli-sync.js";
-import { overlayRuntimeExternalOAuthProfiles } from "../auth-profiles/oauth-shared.js";
-import type { AuthProfileCredential, AuthProfileStore } from "../auth-profiles/types.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.js";
+} from "../auth-profiles.ts";
+import { evaluateStoredCredentialEligibility } from "../auth-profiles/credential-state.ts";
+import { resolveExternalCliAuthProfiles } from "../auth-profiles/external-cli-sync.ts";
+import { overlayRuntimeExternalOAuthProfiles } from "../auth-profiles/oauth-shared.ts";
+import type { AuthProfileCredential, AuthProfileStore } from "../auth-profiles/types.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.ts";
 import {
   hasRuntimeAvailableProviderAuth,
   hasUsableCustomProviderApiKey,
   resolveProviderEntryApiKeyProfileReference,
   resolveEnvApiKey,
-} from "../model-auth.js";
-import { resolveConfiguredModelRef } from "../model-selection.js";
+} from "../model-auth.ts";
+import { resolveConfiguredModelRef } from "../model-selection.ts";
 
 export type ToolModelConfig = { primary?: string; fallbacks?: string[]; timeoutMs?: number };
 

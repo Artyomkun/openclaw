@@ -276,7 +276,7 @@ jobs:
             AWS_EC2_METADATA_DISABLED=true \
             AWS_SHARED_CREDENTIALS_FILE="${temp_root}/home/.aws/credentials" \
             AWS_CONFIG_FILE="${temp_root}/home/.aws/config" \
-              node /app/openclaw.mjs agent --message "workspace bootstrap smoke" --session-id "workspace-bootstrap-smoke" --local --timeout 1 --json \
+              node /app/openclaw.ts agent --message "workspace bootstrap smoke" --session-id "workspace-bootstrap-smoke" --local --timeout 1 --json \
               >"${temp_root}/out.log" 2>&1
             status="$?"
             set -e
@@ -497,7 +497,7 @@ jobs:
             AWS_EC2_METADATA_DISABLED=true \
             AWS_SHARED_CREDENTIALS_FILE="${temp_root}/home/.aws/credentials" \
             AWS_CONFIG_FILE="${temp_root}/home/.aws/config" \
-              node /app/openclaw.mjs agent --message "workspace bootstrap smoke" --session-id "workspace-bootstrap-smoke" --local --timeout 1 --json \
+              node /app/openclaw.ts agent --message "workspace bootstrap smoke" --session-id "workspace-bootstrap-smoke" --local --timeout 1 --json \
               >"${temp_root}/out.log" 2>&1
             status="$?"
             set -e
@@ -833,23 +833,23 @@ jobs:
           mapfile -t dockerhub_amd64_refs <<< "${DOCKERHUB_AMD64_REFS}"
           mapfile -t dockerhub_arm64_refs <<< "${DOCKERHUB_ARM64_REFS}"
 
-          node scripts/verify-docker-attestations.mjs \
+          node scripts/verify-docker-attestations.ts \
             --platform linux/amd64 \
             --platform linux/arm64 \
             "${multi_refs[@]}"
-          node scripts/verify-docker-attestations.mjs \
+          node scripts/verify-docker-attestations.ts \
             --platform linux/amd64 \
             "${amd64_refs[@]}"
-          node scripts/verify-docker-attestations.mjs \
+          node scripts/verify-docker-attestations.ts \
             --platform linux/arm64 \
             "${arm64_refs[@]}"
-          node scripts/verify-docker-attestations.mjs \
+          node scripts/verify-docker-attestations.ts \
             --platform linux/amd64 \
             --platform linux/arm64 \
             "${dockerhub_multi_refs[@]}"
-          node scripts/verify-docker-attestations.mjs \
+          node scripts/verify-docker-attestations.ts \
             --platform linux/amd64 \
             "${dockerhub_amd64_refs[@]}"
-          node scripts/verify-docker-attestations.mjs \
+          node scripts/verify-docker-attestations.ts \
             --platform linux/arm64 \
             "${dockerhub_arm64_refs[@]}"

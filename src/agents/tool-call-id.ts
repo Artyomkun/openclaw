@@ -4,9 +4,9 @@
  * Keeps provider-specific id formats replay-safe while preserving allowed native ids.
  */
 import { createHash } from "node:crypto";
-import type { AgentMessage } from "./runtime/index.js";
-import { isThinkingLikeBlock } from "./thinking-block.js";
-import { isAllowedToolCallName, normalizeAllowedToolNames } from "./tool-call-shared.js";
+import type { AgentMessage } from "./runtime/index.ts";
+import { isThinkingLikeBlock } from "./thinking-block.ts";
+import { isAllowedToolCallName, normalizeAllowedToolNames } from "./tool-call-shared.ts";
 
 export type ToolCallIdMode = "strict" | "strict9";
 const NATIVE_ANTHROPIC_TOOL_USE_ID_RE = /^toolu_[A-Za-z0-9_]+$/;

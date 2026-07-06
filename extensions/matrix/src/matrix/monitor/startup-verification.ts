@@ -1,12 +1,8 @@
 // Matrix plugin module implements startup verification behavior.
-import { createHash } from "node:crypto";
-import fs from "node:fs/promises";
 import path from "node:path";
-import { readJsonFileWithFallback } from "openclaw/plugin-sdk/json-store";
 import { timestampMsToIsoString } from "openclaw/plugin-sdk/number-runtime";
 import { getMatrixRuntime } from "../../runtime.js";
 import type { MatrixConfig } from "../../types.js";
-import { recordCurrentStorageMetaDeviceId, resolveMatrixStoragePaths } from "../client/storage.js";
 import type { MatrixAuth } from "../client/types.js";
 import { formatMatrixErrorMessage } from "../errors.js";
 import type { MatrixClient, MatrixOwnDeviceVerificationStatus } from "../sdk.js";
@@ -93,118 +89,6 @@ function createStartupVerificationMigrationStore(params: {
     maxEntries: STARTUP_VERIFICATION_MAX_ENTRIES,
     env: resolveMatrixSqliteStateEnv(params),
   });
-}
-
-function buildStartupVerificationImportKey(params: {
-  auth: MatrixAuth;
-  legacyFilePath: string;
-}): string {
-  const accountId = params.auth.accountId.trim() || "default";
-  const digest = createHash("sha256")
-    .update(accountId)
-    .update("\0")
-    .update(params.legacyFilePath)
-    .digest("hex");
-  return `${accountId}:${digest}`;
-}
-
-async function readLegacyStartupVerificationState(
-  filePath: string,
-): Promise<MatrixStartupVerificationState | null> {
-  const { value } = await readJsonFileWithFallback<MatrixStartupVerificationState | null>(
-    filePath,
-    null,
-  );
-  return value && typeof value === "object" ? value : null;
-}
-
-async function readStartupVerificationState(params: {
-  auth: MatrixAuth;
-  env?: NodeJS.ProcessEnv;
-  stateDir?: string;
-  legacyFilePath: string;
-}): Promise<MatrixStartupVerificationState | null> {
-  const store = createStartupVerificationStore(params);
-  const key = buildStartupVerificationKey(params.auth);
-  const value = await store.lookup(key);
-  if (value && typeof value === "object") {
-    return value;
-  }
-  const migrationStore = createStartupVerificationMigrationStore(params);
-  const legacyImportKey = buildStartupVerificationImportKey({
-    auth: params.auth,
-    legacyFilePath: params.legacyFilePath,
-  });
-  if (await migrationStore.lookup(legacyImportKey)) {
-    return null;
-  }
-  const legacy = await readLegacyStartupVerificationState(params.legacyFilePath);
-  if (legacy) {
-    await store
-      .register(key, legacy)
-      .then(async () => {
-        if (typeof legacy.deviceId === "string" && legacy.deviceId.trim()) {
-          recordCurrentStorageMetaDeviceId({
-            rootDir: path.dirname(params.legacyFilePath),
-            deviceId: legacy.deviceId,
-          });
-        }
-        await migrationStore.register(legacyImportKey, { importedAt: Date.now() });
-        await fs.rm(params.legacyFilePath, { force: true }).catch(() => {});
-      })
-      .catch(() => {});
-  }
-  return legacy;
-}
-
-async function writeStartupVerificationState(params: {
-  auth: MatrixAuth;
-  env?: NodeJS.ProcessEnv;
-  stateDir?: string;
-  legacyFilePath: string;
-  state: MatrixStartupVerificationState;
-}): Promise<void> {
-  await createStartupVerificationStore(params).register(
-    buildStartupVerificationKey(params.auth),
-    params.state,
-  );
-  await createStartupVerificationMigrationStore(params)
-    .register(
-      buildStartupVerificationImportKey({
-        auth: params.auth,
-        legacyFilePath: params.legacyFilePath,
-      }),
-      { importedAt: Date.now() },
-    )
-    .catch(() => {});
-  if (typeof params.state.deviceId === "string" && params.state.deviceId.trim()) {
-    recordCurrentStorageMetaDeviceId({
-      rootDir: path.dirname(params.legacyFilePath),
-      deviceId: params.state.deviceId,
-    });
-  }
-  await fs.rm(params.legacyFilePath, { force: true }).catch(() => {});
-}
-
-async function clearStartupVerificationState(params: {
-  auth: MatrixAuth;
-  env?: NodeJS.ProcessEnv;
-  stateDir?: string;
-  legacyFilePath: string;
-}): Promise<void> {
-  await createStartupVerificationStore(params)
-    .delete(buildStartupVerificationKey(params.auth))
-    .catch(() => {});
-  await createStartupVerificationMigrationStore(params)
-    .register(
-      buildStartupVerificationImportKey({
-        auth: params.auth,
-        legacyFilePath: params.legacyFilePath,
-      }),
-      { importedAt: Date.now() },
-    )
-    .catch(() => {});
-  await fs.rm(params.legacyFilePath, { force: true }).catch(() => {});
 }
 
 function resolveStateCooldownMs(
@@ -306,12 +190,6 @@ export async function ensureMatrixStartupVerification(params: {
   const stateDir = params.stateDir ?? path.dirname(statePath);
 
   if (verification.verified) {
-    await clearStartupVerificationState({
-      auth: params.auth,
-      env: params.env,
-      stateDir,
-      legacyFilePath: statePath,
-    });
     return {
       kind: "verified",
       verification,
@@ -320,12 +198,6 @@ export async function ensureMatrixStartupVerification(params: {
 
   const mode = params.accountConfig.startupVerification ?? DEFAULT_STARTUP_VERIFICATION_MODE;
   if (mode === "off") {
-    await clearStartupVerificationState({
-      auth: params.auth,
-      env: params.env,
-      stateDir,
-      legacyFilePath: statePath,
-    });
     return {
       kind: "disabled",
       verification,
@@ -345,20 +217,12 @@ export async function ensureMatrixStartupVerification(params: {
   );
   const cooldownMs = cooldownHours * 60 * 60 * 1000;
   const nowMs = params.nowMs ?? Date.now();
-  const attemptedAt = resolveStartupVerificationTimestamp(nowMs);
-  const state = await readStartupVerificationState({
-    auth: params.auth,
-    env: params.env,
-    stateDir,
-    legacyFilePath: statePath,
-  });
-  const stateCooldownMs = resolveStateCooldownMs(state, cooldownMs);
-  if (shouldHonorCooldown({ state, verification, stateCooldownMs, nowMs })) {
+  const stateCooldownMs = resolveStateCooldownMs(cooldownMs);
+  if (shouldHonorCooldown({verification, stateCooldownMs, nowMs })) {
     return {
       kind: "cooldown",
       verification,
       retryAfterMs: resolveRetryAfterMs({
-        attemptedAt: state?.attemptedAt,
         cooldownMs: stateCooldownMs,
         nowMs,
       }),
@@ -367,20 +231,6 @@ export async function ensureMatrixStartupVerification(params: {
 
   try {
     const request = await params.client.crypto.requestVerification({ ownUser: true });
-    await writeStartupVerificationState({
-      auth: params.auth,
-      env: params.env,
-      stateDir,
-      legacyFilePath: statePath,
-      state: {
-        userId: verification.userId,
-        deviceId: verification.deviceId,
-        attemptedAt,
-        outcome: "requested",
-        requestId: request.id,
-        transactionId: request.transactionId,
-      },
-    });
     return {
       kind: "requested",
       verification,
@@ -389,19 +239,6 @@ export async function ensureMatrixStartupVerification(params: {
     };
   } catch (err) {
     const error = formatMatrixErrorMessage(err);
-    await writeStartupVerificationState({
-      auth: params.auth,
-      env: params.env,
-      stateDir,
-      legacyFilePath: statePath,
-      state: {
-        userId: verification.userId,
-        deviceId: verification.deviceId,
-        attemptedAt,
-        outcome: "failed",
-        error,
-      },
-    }).catch(() => {});
     return {
       kind: "request-failed",
       verification,

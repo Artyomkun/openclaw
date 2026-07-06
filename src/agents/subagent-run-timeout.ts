@@ -6,8 +6,8 @@
 import {
   asDateTimestampMs,
   finiteSecondsToTimerSafeMilliseconds,
-} from "../shared/number-coercion.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "../shared/number-coercion.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 /** Convert subagent timeout seconds to a timer-safe delay. */
 export function resolveSubagentRunTimerDelayMs(timeoutSeconds: unknown): number | undefined {

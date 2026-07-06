@@ -4,7 +4,7 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeAtHashSlug } from "@openclaw/normalization-core/string-normalization";
-import { CHAT_CHANNEL_ORDER } from "../../channels/registry.js";
+import { CHAT_CHANNEL_ORDER } from "../../channels/registry.ts";
 
 /** Explicit allowFrom fields supported by elevated sender matching. */
 export type ExplicitElevatedAllowField = "id" | "from" | "e164" | "name" | "username" | "tag";

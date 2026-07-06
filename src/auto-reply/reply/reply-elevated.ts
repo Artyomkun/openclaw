@@ -1,11 +1,11 @@
 // Resolves whether a reply turn may use elevated command capabilities.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveAgentConfig } from "../../agents/agent-scope.js";
-import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
-import type { AgentElevatedAllowFromConfig, OpenClawConfig } from "../../config/config.js";
-import { shouldUseFromAsSenderFallback } from "../sender-identity.js";
-import type { MsgContext } from "../templating.js";
+import { resolveAgentConfig } from "../../agents/agent-scope.ts";
+import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.ts";
+import type { AgentElevatedAllowFromConfig, OpenClawConfig } from "../../config/config.ts";
+import { shouldUseFromAsSenderFallback } from "../sender-identity.ts";
+import type { MsgContext } from "../templating.ts";
 import {
   type AllowFromFormatter,
   type ExplicitElevatedAllowField,
@@ -15,8 +15,8 @@ import {
   matchesMutableTokens,
   parseExplicitElevatedAllowEntry,
   stripSenderPrefix,
-} from "./elevated-allowlist-matcher.js";
-export { formatElevatedUnavailableMessage } from "./elevated-unavailable.js";
+} from "./elevated-allowlist-matcher.ts";
+export { formatElevatedUnavailableMessage } from "./elevated-unavailable.ts";
 
 /** Resolves provider-specific elevated allowlist entries with fallback defaults. */
 function resolveElevatedAllowList(

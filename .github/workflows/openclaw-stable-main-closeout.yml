@@ -144,7 +144,7 @@ jobs:
             fallback_correction=true
             evidence_source_tag="v$fallback_package_version"
           elif [[ "$tag_package_version" != "$release_package_version" ]]; then
-            echo "Stable closeout requires $tag package.json to match $release_package_version, or the legacy fallback package version $fallback_package_version." >&2
+            echo "Stable closeout requires $tag package.json to match $release_package_version, or the deprecaty fallback package version $fallback_package_version." >&2
             exit 1
           fi
           evidence_version="${evidence_source_tag#v}"
@@ -410,7 +410,7 @@ jobs:
           gh_with_retry release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" \
             --json tagName,isDraft,isPrerelease,assets \
             > "$CLOSEOUT_DIR/github-release.json"
-          node scripts/verify-stable-main-closeout.mjs \
+          node scripts/verify-stable-main-closeout.ts \
             --tag "$RELEASE_TAG" \
             --main-dir "$GITHUB_WORKSPACE" \
             --tag-dir "$GITHUB_WORKSPACE/release-tag" \

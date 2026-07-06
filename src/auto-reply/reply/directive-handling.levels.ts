@@ -1,6 +1,6 @@
 // Parses directive level values for reasoning, verbosity, and elevated mode.
-import type { ElevatedLevel, ReasoningLevel, ThinkLevel, VerboseLevel } from "../thinking.js";
-import { normalizeFastMode, type FastMode } from "../thinking.js";
+import type { ElevatedLevel, ReasoningLevel, ThinkLevel, VerboseLevel } from "../thinking.ts";
+import { normalizeFastMode, type FastMode } from "../thinking.ts";
 
 /** Resolves current directive levels from session, agent, and config defaults. */
 export async function resolveCurrentDirectiveLevels(params: {

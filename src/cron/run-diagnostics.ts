@@ -1,13 +1,13 @@
 /** Builds bounded, redacted diagnostics for cron run logs and UI surfaces. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { getReplyPayloadMetadata } from "../auto-reply/reply-payload.js";
-import { redactSensitiveText } from "../logging/redact.js";
+import { getReplyPayloadMetadata } from "../auto-reply/reply-payload.ts";
+import { redactSensitiveText } from "../logging/redact.ts";
 import type {
   CronRunDiagnostic,
   CronRunDiagnostics,
   CronRunDiagnosticSeverity,
   CronRunDiagnosticSource,
-} from "./types.js";
+} from "./types.ts";
 
 const MAX_ENTRIES = 10;
 const MAX_ENTRY_CHARS = 1_000;

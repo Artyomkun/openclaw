@@ -141,16 +141,6 @@ load_teams_from_xcode_preferences() {
   load_teams_from_xcode_team_key IDEProvisioningTeams
 }
 
-load_teams_from_legacy_defaults_key() {
-  while IFS= read -r team; do
-    [[ -z "$team" ]] && continue
-    append_team "$team" "0" ""
-  done < <(
-    defaults read com.apple.dt.Xcode IDEProvisioningTeamIdentifiers 2>/dev/null \
-      | grep -Eo '[A-Z0-9]{10}' || true
-  )
-}
-
 load_teams_from_xcode_managed_profiles() {
   local profiles_dir="${HOME}/Library/MobileDevice/Provisioning Profiles"
   [[ -d "$profiles_dir" ]] || return 0
@@ -188,7 +178,6 @@ has_xcode_account() {
 }
 
 load_teams_from_xcode_preferences
-load_teams_from_legacy_defaults_key
 
 if [[ ${#team_ids[@]} -eq 0 ]]; then
   load_teams_from_xcode_managed_profiles

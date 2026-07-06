@@ -1,11 +1,11 @@
 // Plugin HTTP route matching orders registered exact and prefix routes against canonical path candidates.
-import type { PluginRegistry } from "../../../plugins/registry.js";
-import { canonicalizePathVariant } from "../../security-path.js";
+import type { PluginRegistry } from "../../../plugins/registry.ts";
+import { canonicalizePathVariant } from "../../security-path.ts";
 import {
   prefixMatchPath,
   resolvePluginRoutePathContext,
   type PluginRoutePathContext,
-} from "./path-context.js";
+} from "./path-context.ts";
 
 /**
  * Plugin HTTP route matching against canonicalized request paths.

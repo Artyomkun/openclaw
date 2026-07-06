@@ -1,10 +1,10 @@
 // Fast `openclaw status --json` scan policy.
 // Skips channel tables and most network/update work unless `--all` asks for fuller evidence.
 
-import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "../config/bundled-channel-config-metadata.generated.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { isRecord } from "../utils.js";
+import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "../config/bundled-channel-config-metadata.generated.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { isRecord } from "../utils.ts";
 import { executeStatusScanFromOverview } from "./status.scan-execute.ts";
 import {
   resolveDefaultMemoryDatabasePath,

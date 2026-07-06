@@ -5,26 +5,26 @@
  */
 import { readResponseTextSnippet } from "@openclaw/media-core/read-response-with-limit";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { toErrorObject } from "../infra/errors.js";
-import { getEnvApiKey } from "../llm/env-api-keys.js";
-import { calculateCost, clampThinkingLevel } from "../llm/model-utils.js";
+import { toErrorObject } from "../infra/errors.ts";
+import { getEnvApiKey } from "../llm/env-api-keys.ts";
+import { calculateCost, clampThinkingLevel } from "../llm/model-utils.ts";
 import {
   ANTHROPIC_OMITTED_REASONING_TEXT,
   findActiveAnthropicToolTurnAssistantIndex,
-} from "../llm/providers/anthropic-thinking-replay.js";
-import type { AnthropicOptions } from "../llm/providers/anthropic.js";
+} from "../llm/providers/anthropic-thinking-replay.ts";
+import type { AnthropicOptions } from "../llm/providers/anthropic.ts";
 import type {
   AssistantMessageDiagnostic,
   Context,
   Model,
   SimpleStreamOptions,
   ThinkingLevel,
-} from "../llm/types.js";
-import { parseStreamingJson } from "../llm/utils/json-parse.js";
+} from "../llm/types.ts";
+import { parseStreamingJson } from "../llm/utils/json-parse.ts";
 import {
   omitFoundryBearerCredentialHeaders,
   usesFoundryBearerAuth,
-} from "../shared/anthropic-auth-headers.js";
+} from "../shared/anthropic-auth-headers.ts";
 import {
   resolveClaudeNativeThinkingLevelMap,
   requiresClaudeAdaptiveThinking,
@@ -32,28 +32,28 @@ import {
   supportsClaudeNativeMaxEffort,
   supportsClaudeNativeXhighEffort,
   usesClaudeFable5MessagesContract,
-} from "../shared/anthropic-model-contract.js";
-import { applyAnthropicRefusal } from "../shared/anthropic-refusal.js";
-import { MALFORMED_STREAMING_FRAGMENT_ERROR_MESSAGE } from "../shared/assistant-error-format.js";
-import { createDeferredEventBuffer } from "../shared/deferred-event-buffer.js";
-import { notifyLlmRequestActivity } from "../shared/llm-request-activity.js";
+} from "../shared/anthropic-model-contract.ts";
+import { applyAnthropicRefusal } from "../shared/anthropic-refusal.ts";
+import { MALFORMED_STREAMING_FRAGMENT_ERROR_MESSAGE } from "../shared/assistant-error-format.ts";
+import { createDeferredEventBuffer } from "../shared/deferred-event-buffer.ts";
+import { notifyLlmRequestActivity } from "../shared/llm-request-activity.ts";
 import {
   applyAnthropicPayloadPolicyToParams,
   resolveAnthropicPayloadPolicy,
-} from "./anthropic-payload-policy.js";
+} from "./anthropic-payload-policy.ts";
 import {
   projectAnthropicTools,
   reconcileAnthropicToolChoice,
   resolveOriginalAnthropicToolName,
   type AnthropicProjectedToolChoice,
   type AnthropicToolProjection,
-} from "./anthropic-tool-projection.js";
-import { buildCopilotDynamicHeaders, hasCopilotVisionInput } from "./copilot-dynamic-headers.js";
-import { parseJsonObjectPreservingUnsafeIntegers } from "./json-unsafe-integers.js";
-import { resolveProviderEndpoint } from "./provider-attribution.js";
-import { buildGuardedModelFetch } from "./provider-transport-fetch.js";
-import type { StreamFn } from "./runtime/index.js";
-import { transformTransportMessages } from "./transport-message-transform.js";
+} from "./anthropic-tool-projection.ts";
+import { buildCopilotDynamicHeaders, hasCopilotVisionInput } from "./copilot-dynamic-headers.ts";
+import { parseJsonObjectPreservingUnsafeIntegers } from "./json-unsafe-integers.ts";
+import { resolveProviderEndpoint } from "./provider-attribution.ts";
+import { buildGuardedModelFetch } from "./provider-transport-fetch.ts";
+import type { StreamFn } from "./runtime/index.ts";
+import { transformTransportMessages } from "./transport-message-transform.ts";
 import {
   coerceTransportToolCallArguments,
   createEmptyTransportUsage,
@@ -63,7 +63,7 @@ import {
   mergeTransportHeaders,
   sanitizeNonEmptyTransportPayloadText,
   sanitizeTransportPayloadText,
-} from "./transport-stream-shared.js";
+} from "./transport-stream-shared.ts";
 
 const CLAUDE_CODE_VERSION = "2.1.75";
 const ANTHROPIC_MESSAGES_ERROR_BODY_MAX_BYTES = 8 * 1024;

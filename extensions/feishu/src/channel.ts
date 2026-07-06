@@ -100,39 +100,6 @@ function readBooleanParam(params: Record<string, unknown>, keys: string[]): bool
   return undefined;
 }
 
-function hasLegacyFeishuCardCommandValue(actionValue: unknown): boolean {
-  return (
-    isRecord(actionValue) &&
-    actionValue.oc !== FEISHU_CARD_INTERACTION_VERSION &&
-    (Boolean(typeof actionValue.command === "string" && actionValue.command.trim()) ||
-      Boolean(typeof actionValue.text === "string" && actionValue.text.trim()))
-  );
-}
-
-function containsLegacyFeishuCardCommandValue(node: unknown): boolean {
-  if (Array.isArray(node)) {
-    return node.some((item) => containsLegacyFeishuCardCommandValue(item));
-  }
-  if (!isRecord(node)) {
-    return false;
-  }
-
-  if (node.tag === "button" && hasLegacyFeishuCardCommandValue(node.value)) {
-    return true;
-  }
-  if (
-    node.tag === "button" &&
-    Array.isArray(node.behaviors) &&
-    node.behaviors.some(
-      (behavior) => isRecord(behavior) && hasLegacyFeishuCardCommandValue(behavior.value),
-    )
-  ) {
-    return true;
-  }
-
-  return Object.values(node).some((value) => containsLegacyFeishuCardCommandValue(value));
-}
-
 const meta: ChannelMeta = {
   id: "feishu",
   label: "Feishu",
@@ -798,11 +765,6 @@ export const feishuPlugin: ChannelPlugin<ResolvedFeishuAccount, FeishuProbeResul
             const sendMedia = maybeSendMedia;
             let result;
             if (card) {
-              if (containsLegacyFeishuCardCommandValue(card)) {
-                throw new Error(
-                  "Feishu card buttons that trigger text or commands must use structured interaction envelopes.",
-                );
-              }
               result = await runtime.sendCardFeishu({
                 cfg: ctx.cfg,
                 to,

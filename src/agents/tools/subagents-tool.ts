@@ -4,17 +4,17 @@
  * Lists active and recent subagents controlled by the caller's session tree.
  */
 import { Type } from "typebox";
-import { getRuntimeConfig } from "../../config/config.js";
-import { optionalPositiveIntegerSchema, optionalStringEnum } from "../schema/typebox.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import { optionalPositiveIntegerSchema, optionalStringEnum } from "../schema/typebox.ts";
 import {
   DEFAULT_RECENT_MINUTES,
   listControlledSubagentRuns,
   MAX_RECENT_MINUTES,
   resolveSubagentController,
-} from "../subagent-control.js";
-import { buildSubagentList } from "../subagent-list.js";
-import type { AnyAgentTool } from "./common.js";
-import { jsonResult, readPositiveIntegerParam, readStringParam } from "./common.js";
+} from "../subagent-control.ts";
+import { buildSubagentList } from "../subagent-list.ts";
+import type { AnyAgentTool } from "./common.ts";
+import { jsonResult, readPositiveIntegerParam, readStringParam } from "./common.ts";
 
 const SUBAGENT_ACTIONS = ["list"] as const;
 type SubagentAction = (typeof SUBAGENT_ACTIONS)[number];

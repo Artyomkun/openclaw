@@ -1,2 +1,2 @@
 // Runtime facade for transcript file path resolution.
-export { resolveSessionTranscriptFile } from "./transcript.js";
+export { resolveSessionTranscriptFile } from "./transcript.ts";

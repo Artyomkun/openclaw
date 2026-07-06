@@ -4,10 +4,10 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { defaultRuntime } from "../../runtime.js";
-import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
-import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
-import type { NodesRpcOpts } from "./types.js";
+import { defaultRuntime } from "../../runtime.ts";
+import { getNodesTheme, runNodesCommand } from "./cli-utils.ts";
+import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.ts";
+import type { NodesRpcOpts } from "./types.ts";
 
 type NodesPushOpts = NodesRpcOpts & {
   node?: string;

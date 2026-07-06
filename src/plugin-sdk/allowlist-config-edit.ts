@@ -1,10 +1,10 @@
 // Allowlist config edit helpers build safe config mutations for channel allowlists.
-import type { ConfigWriteTarget } from "../channels/plugins/config-writes.js";
-import type { ChannelAllowlistAdapter } from "../channels/plugins/types.adapters.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
+import type { ConfigWriteTarget } from "../channels/plugins/config-writes.ts";
+import type { ChannelAllowlistAdapter } from "../channels/plugins/types.adapters.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.ts";
 
 type AllowlistConfigPaths = {
   readPaths: string[][];
@@ -41,20 +41,9 @@ const GROUP_ALLOWLIST_CONFIG_PATHS: AllowlistConfigPaths = {
   writePath: ["groupAllowFrom"],
 };
 
-const LEGACY_DM_ALLOWLIST_CONFIG_PATHS: AllowlistConfigPaths = {
-  readPaths: [["allowFrom"], ["dm", "allowFrom"]],
-  writePath: ["allowFrom"],
-  cleanupPaths: [["dm", "allowFrom"]],
-};
-
 /** Resolve modern DM/group allowlist paths for account-scoped channel config writes. */
 export function resolveDmGroupAllowlistConfigPaths(scope: "dm" | "group") {
   return scope === "dm" ? DM_ALLOWLIST_CONFIG_PATHS : GROUP_ALLOWLIST_CONFIG_PATHS;
-}
-
-/** Resolve DM-only paths that still read and clean up the old nested dm.allowFrom location. */
-export function resolveLegacyDmAllowlistConfigPaths(scope: "dm" | "group") {
-  return scope === "dm" ? LEGACY_DM_ALLOWLIST_CONFIG_PATHS : null;
 }
 
 /** Coerce stored allowlist entries into presentable non-empty strings. */
@@ -324,7 +313,7 @@ function applyAccountScopedAllowlistConfigEdit(params: {
     } else {
       setNestedValue(resolvedTarget.target, params.paths.writePath, next);
     }
-    // Legacy readers can observe multiple paths, but writes must leave one canonical path.
+    // Older readers can observe multiple paths, but writes must leave one canonical path.
     for (const path of params.paths.cleanupPaths ?? []) {
       deleteNestedValue(resolvedTarget.target, path);
     }
@@ -408,32 +397,6 @@ export function buildDmGroupAccountAllowlistAdapter<ResolvedAccount>(params: {
       dmAllowFrom: readConfiguredAllowlistEntries(params.resolveDmAllowFrom(account, context)),
       groupAllowFrom: readConfiguredAllowlistEntries(params.resolveGroupAllowFrom(account)),
       dmPolicy: params.resolveDmPolicy?.(account) ?? undefined,
-      groupPolicy: params.resolveGroupPolicy?.(account) ?? undefined,
-      groupOverrides: params.resolveGroupOverrides?.(account),
-    }),
-  });
-}
-
-/** Build the common DM-only allowlist adapter for channels with legacy dm.allowFrom fallback paths. */
-export function buildLegacyDmAccountAllowlistAdapter<ResolvedAccount>(params: {
-  channelId: ChannelId;
-  resolveAccount: AllowlistAccountResolver<ResolvedAccount>;
-  normalize: AllowlistNormalizer;
-  resolveDmAllowFrom: (
-    account: ResolvedAccount,
-    context: { cfg: OpenClawConfig; accountId?: string | null },
-  ) => Array<string | number> | null | undefined;
-  resolveGroupPolicy?: (account: ResolvedAccount) => string | null | undefined;
-  resolveGroupOverrides?: (account: ResolvedAccount) => AllowlistGroupOverride[] | undefined;
-}): Pick<ChannelAllowlistAdapter, "supportsScope" | "readConfig" | "applyConfigEdit"> {
-  return buildAccountAllowlistAdapter({
-    channelId: params.channelId,
-    resolveAccount: params.resolveAccount,
-    normalize: params.normalize,
-    supportsScope: ({ scope }) => scope === "dm",
-    resolvePaths: resolveLegacyDmAllowlistConfigPaths,
-    readConfig: (account, context) => ({
-      dmAllowFrom: readConfiguredAllowlistEntries(params.resolveDmAllowFrom(account, context)),
       groupPolicy: params.resolveGroupPolicy?.(account) ?? undefined,
       groupOverrides: params.resolveGroupOverrides?.(account),
     }),

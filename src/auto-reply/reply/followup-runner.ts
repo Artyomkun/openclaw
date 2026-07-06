@@ -6,96 +6,96 @@ import {
   clearAutoFallbackPrimaryProbeSelection,
   entryMatchesAutoFallbackPrimaryProbe,
   markAutoFallbackPrimaryProbe,
-} from "../../agents/agent-scope.js";
-import { resolveBootstrapWarningSignaturesSeen } from "../../agents/bootstrap-budget.js";
-import { getCliSessionBinding } from "../../agents/cli-session.js";
-import { resolveContextTokensForModel } from "../../agents/context.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.js";
-import { mergeEmbeddedAgentRunResultForModelFallbackExhaustion } from "../../agents/embedded-agent-runner/result-fallback-classifier.js";
-import { runEmbeddedAgent } from "../../agents/embedded-agent.js";
-import type { FastModeAutoProgressState } from "../../agents/fast-mode.js";
-import { ensureSelectedAgentHarnessPlugin } from "../../agents/harness/runtime-plugin.js";
-import { runWithModelFallback } from "../../agents/model-fallback.js";
-import { resolveCliRuntimeExecutionProvider } from "../../agents/model-runtime-aliases.js";
-import { isCliProvider } from "../../agents/model-selection-cli.js";
+} from "../../agents/agent-scope.ts";
+import { resolveBootstrapWarningSignaturesSeen } from "../../agents/bootstrap-budget.ts";
+import { getCliSessionBinding } from "../../agents/cli-session.ts";
+import { resolveContextTokensForModel } from "../../agents/context.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.ts";
+import { mergeEmbeddedAgentRunResultForModelFallbackExhaustion } from "../../agents/embedded-agent-runner/result-fallback-classifier.ts";
+import { runEmbeddedAgent } from "../../agents/embedded-agent.ts";
+import type { FastModeAutoProgressState } from "../../agents/fast-mode.ts";
+import { ensureSelectedAgentHarnessPlugin } from "../../agents/harness/runtime-plugin.ts";
+import { runWithModelFallback } from "../../agents/model-fallback.ts";
+import { resolveCliRuntimeExecutionProvider } from "../../agents/model-runtime-aliases.ts";
+import { isCliProvider } from "../../agents/model-selection-cli.ts";
 import {
   isAgentRunRestartAbortReason,
   resolveAgentRunAbortLifecycleFields,
-} from "../../agents/run-termination.js";
+} from "../../agents/run-termination.ts";
 import {
   buildAgentRuntimeDeliveryPlan,
   buildAgentRuntimeOutcomePlan,
-} from "../../agents/runtime-plan/build.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import { loadSessionEntry, updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { TypingMode } from "../../config/types.js";
-import { logVerbose } from "../../globals.js";
+} from "../../agents/runtime-plan/build.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import { loadSessionEntry, updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { TypingMode } from "../../config/types.ts";
+import { logVerbose } from "../../globals.ts";
 import {
   captureAgentRunLifecycleGeneration,
   clearAgentRunContext,
   emitAgentEvent,
   getAgentEventLifecycleGeneration,
   registerAgentRunContext,
-} from "../../infra/agent-events.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { defaultRuntime } from "../../runtime.js";
-import { shouldPreserveUserFacingSessionStateForInputProvenance } from "../../sessions/input-provenance.js";
-import { isInternalMessageChannel } from "../../utils/message-channel.js";
+} from "../../infra/agent-events.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { shouldPreserveUserFacingSessionStateForInputProvenance } from "../../sessions/input-provenance.ts";
+import { isInternalMessageChannel } from "../../utils/message-channel.ts";
 import {
   getReplyPayloadMetadata,
   markReplyPayloadForSourceSuppressionDelivery,
-} from "../reply-payload.js";
-import type { GetReplyOptions, ReplyPayload } from "../types.js";
+} from "../reply-payload.ts";
+import type { GetReplyOptions, ReplyPayload } from "../types.ts";
 import {
   createAgentLifecycleTerminalBackstop,
   resolveAgentLifecycleTerminalMetadata,
   type AgentLifecycleTerminalBackstop,
-} from "./agent-lifecycle-terminal.js";
+} from "./agent-lifecycle-terminal.ts";
 import {
   clearDroppedCliSessionBinding,
   createCliToolSummaryTracker,
   keepCliSessionBindingOnlyWhenReused,
   runCliAgentWithLifecycle,
-} from "./agent-runner-cli-dispatch.js";
+} from "./agent-runner-cli-dispatch.ts";
 import {
   buildCommandOutputFromToolResultEvent,
   buildPreflightCompactionFailureText,
   resolveRunAfterAutoFallbackPrimaryProbeRecheck,
   resolveSessionRuntimeOverrideForProvider,
-} from "./agent-runner-execution.js";
-import { runPreflightCompactionIfNeeded } from "./agent-runner-memory.js";
-import { appendUsageLine, resolveResponseUsageLine } from "./agent-runner-usage-line.js";
+} from "./agent-runner-execution.ts";
+import { runPreflightCompactionIfNeeded } from "./agent-runner-memory.ts";
+import { appendUsageLine, resolveResponseUsageLine } from "./agent-runner-usage-line.ts";
 import {
   resolveQueuedReplyExecutionConfig,
   resolveQueuedReplyRuntimeConfig,
   resolveModelFallbackOptions,
   resolveRunFastModeForFallbackCandidate,
   resolveRunAuthProfile,
-} from "./agent-runner-utils.js";
+} from "./agent-runner-utils.ts";
 import {
   createCompactionHookNoticePayload,
   createCompactionNoticePayload,
   readCompactionHookMessages,
   shouldNotifyUserAboutCompaction,
   type CompactionNoticePhase,
-} from "./compaction-notice.js";
-import { resolveFollowupDeliveryPayloads } from "./followup-delivery.js";
-import { resolveOriginMessageProvider } from "./origin-routing.js";
+} from "./compaction-notice.ts";
+import { resolveFollowupDeliveryPayloads } from "./followup-delivery.ts";
+import { resolveOriginMessageProvider } from "./origin-routing.ts";
 import {
   completeFollowupRunLifecycle,
   FollowupRunDeferredError,
   isFollowupRunAborted,
   refreshQueuedFollowupSession,
   type FollowupRun,
-} from "./queue.js";
-import type { ReplyDispatchKind } from "./reply-dispatcher.types.js";
-import type { ReplyOperation } from "./reply-run-registry.js";
-import { admitReplyTurn } from "./reply-turn-admission.js";
-import { buildReplyUsageState } from "./reply-usage-state.js";
-import { isRoutableChannel, routeReply } from "./route-reply.js";
-import { incrementRunCompactionCount, persistRunSessionUsage } from "./session-run-accounting.js";
-import { createTypingSignaler } from "./typing-mode.js";
-import type { TypingController } from "./typing.js";
+} from "./queue.ts";
+import type { ReplyDispatchKind } from "./reply-dispatcher.types.ts";
+import type { ReplyOperation } from "./reply-run-registry.ts";
+import { admitReplyTurn } from "./reply-turn-admission.ts";
+import { buildReplyUsageState } from "./reply-usage-state.ts";
+import { isRoutableChannel, routeReply } from "./route-reply.ts";
+import { incrementRunCompactionCount, persistRunSessionUsage } from "./session-run-accounting.ts";
+import { createTypingSignaler } from "./typing-mode.ts";
+import type { TypingController } from "./typing.ts";
 
 type EmbeddedAgentRunResult = Awaited<ReturnType<typeof runEmbeddedAgent>>;
 

@@ -1,14 +1,14 @@
 // Captures plugin registrations for controlled registry assembly.
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   AgentToolResultMiddleware,
   AgentToolResultMiddlewareOptions,
-} from "./agent-tool-result-middleware-types.js";
-import { normalizeAgentToolResultMiddlewareRuntimes } from "./agent-tool-result-middleware.js";
-import { buildPluginApi } from "./api-builder.js";
-import type { CodexAppServerExtensionFactory } from "./codex-app-server-extension-types.js";
-import type { EmbeddingProviderAdapter } from "./embedding-providers.js";
+} from "./agent-tool-result-middleware-types.ts";
+import { normalizeAgentToolResultMiddlewareRuntimes } from "./agent-tool-result-middleware.ts";
+import { buildPluginApi } from "./api-builder.ts";
+import type { CodexAppServerExtensionFactory } from "./codex-app-server-extension-types.ts";
+import type { EmbeddingProviderAdapter } from "./embedding-providers.ts";
 import type {
   PluginAgentEventSubscriptionRegistration,
   PluginControlUiDescriptor,
@@ -18,10 +18,10 @@ import type {
   PluginSessionExtensionRegistration,
   PluginToolMetadataRegistration,
   PluginTrustedToolPolicyRegistration,
-} from "./host-hooks.js";
-import type { MemoryEmbeddingProviderAdapter } from "./memory-embedding-providers.js";
-import type { PluginAgentToolResultMiddlewareRegistration } from "./registry-types.js";
-import type { PluginRuntime } from "./runtime/types.js";
+} from "./host-hooks.ts";
+import type { MemoryEmbeddingProviderAdapter } from "./memory-embedding-providers.ts";
+import type { PluginAgentToolResultMiddlewareRegistration } from "./registry-types.ts";
+import type { PluginRuntime } from "./runtime/types.ts";
 import type {
   AnyAgentTool,
   AgentHarness,
@@ -43,7 +43,7 @@ import type {
   VideoGenerationProviderPlugin,
   WebFetchProviderPlugin,
   WebSearchProviderPlugin,
-} from "./types.js";
+} from "./types.ts";
 
 type CapturedPluginCliRegistration = {
   register: OpenClawPluginCliRegistrar;

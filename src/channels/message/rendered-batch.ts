@@ -3,13 +3,13 @@
  *
  * Summarizes reply payloads so delivery can pick adapter paths and recovery metadata.
  */
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
 import type {
   RenderedMessageBatch,
   RenderedMessageBatchPlan,
   RenderedMessageBatchPlanItem,
   RenderedMessageBatchPlanKind,
-} from "./types.js";
+} from "./types.ts";
 
 function countMedia(payload: ReplyPayload): number {
   return (payload.mediaUrls?.filter(Boolean).length ?? 0) + (payload.mediaUrl ? 1 : 0);

@@ -1,8 +1,8 @@
 /** Main agent command orchestration for sessions, model selection, delivery, and attempts. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { resolveInlineAgentImageAttachments } from "../auto-reply/reply/agent-turn-attachments.js";
-import { sanitizePendingFinalDeliveryText } from "../auto-reply/reply/pending-final-delivery.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { resolveInlineAgentImageAttachments } from "../auto-reply/reply/agent-turn-attachments.ts";
+import { sanitizePendingFinalDeliveryText } from "../auto-reply/reply/pending-final-delivery.ts";
 import {
   formatThinkingLevels,
   isThinkingLevelSupported,
@@ -10,14 +10,14 @@ import {
   normalizeVerboseLevel,
   resolveSupportedThinkingLevel,
   type VerboseLevel,
-} from "../auto-reply/thinking.js";
-import { resolveChannelModelOverride } from "../channels/model-overrides.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import { getRuntimeConfig } from "../config/io.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { withLocalGatewayRequestScope } from "../gateway/local-request-context.js";
+} from "../auto-reply/thinking.ts";
+import { resolveChannelModelOverride } from "../channels/model-overrides.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { getRuntimeConfig } from "../config/io.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { withLocalGatewayRequestScope } from "../gateway/local-request-context.ts";
 import {
   assertAgentRunLifecycleGenerationCurrent,
   captureAgentRunLifecycleGeneration,
@@ -25,55 +25,53 @@ import {
   emitAgentEvent,
   registerAgentRunContext,
   withAgentRunLifecycleGeneration,
-} from "../infra/agent-events.js";
-import { isDiagnosticsEnabled, emitTrustedDiagnosticEvent } from "../infra/diagnostic-events.js";
-import { formatErrorMessage } from "../infra/errors.js";
+} from "../infra/agent-events.ts";
+import { isDiagnosticsEnabled, emitTrustedDiagnosticEvent } from "../infra/diagnostic-events.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   resolveAgentDeliveryPlan,
   resolveAgentOutboundTarget,
-} from "../infra/outbound/agent-delivery.js";
-import { resolveMessageChannelSelection } from "../infra/outbound/channel-selection.js";
-import { buildOutboundSessionContext } from "../infra/outbound/session-context.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.js";
+} from "../infra/outbound/agent-delivery.ts";
+import { resolveMessageChannelSelection } from "../infra/outbound/channel-selection.ts";
+import { buildOutboundSessionContext } from "../infra/outbound/session-context.ts";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.ts";
 import {
   classifySessionKeyShape,
   isUnscopedSessionKeySentinel,
   isSubagentSessionKey,
   normalizeAgentId,
   resolveAgentIdFromSessionKey,
-  scopeLegacySessionKeyToAgent,
-} from "../routing/session-key.js";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
-import { applyVerboseOverride } from "../sessions/level-overrides.js";
+} from "../routing/session-key.ts";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+import { applyVerboseOverride } from "../sessions/level-overrides.ts";
 import {
   applyModelOverrideToSessionEntry,
   repairProviderWrappedModelOverride,
-} from "../sessions/model-overrides.js";
-import { resolveSendPolicy } from "../sessions/send-policy.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { resolveEffectiveAgentSkillFilter } from "../skills/discovery/agent-filter.js";
-import type { getRemoteSkillEligibility } from "../skills/runtime/remote.js";
-import type { resolveReusableWorkspaceSkillSnapshot } from "../skills/runtime/session-snapshot.js";
-import { createTrajectoryRuntimeRecorder } from "../trajectory/runtime.js";
-import { resolveUserPath } from "../utils.js";
+} from "../sessions/model-overrides.ts";
+import { resolveSendPolicy } from "../sessions/send-policy.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { resolveEffectiveAgentSkillFilter } from "../skills/discovery/agent-filter.ts";
+import type { getRemoteSkillEligibility } from "../skills/runtime/remote.ts";
+import type { resolveReusableWorkspaceSkillSnapshot } from "../skills/runtime/session-snapshot.ts";
+import { createTrajectoryRuntimeRecorder } from "../trajectory/runtime.ts";
+import { resolveUserPath } from "../utils.ts";
 import {
   normalizeDeliveryContext,
   type DeliveryContext,
-} from "../utils/delivery-context.shared.js";
+} from "../utils/delivery-context.shared.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
   resolveMessageChannel,
-} from "../utils/message-channel.js";
-import { estimateUsageCost, resolveModelCostConfig } from "../utils/usage-format.js";
-import { resolveAgentRuntimeConfig } from "./agent-runtime-config.js";
+} from "../utils/message-channel.ts";
+import { estimateUsageCost, resolveModelCostConfig } from "../utils/usage-format.ts";
+import { resolveAgentRuntimeConfig } from "./agent-runtime-config.ts";
 import {
   clearAutoFallbackPrimaryProbeSelection,
   entryMatchesAutoFallbackPrimaryProbe,
-  hasLegacyAutoFallbackWithoutOrigin,
   hasSessionAutoModelFallbackProvenance,
   listAgentIds,
   markAutoFallbackPrimaryProbe,
@@ -84,38 +82,38 @@ import {
   resolveEffectiveModelFallbacks,
   resolveSessionAgentId,
   resolveAgentWorkspaceDir,
-} from "./agent-scope.js";
-import { isStoredCredentialCompatibleWithAuthProvider } from "./auth-profiles/order.js";
-import { clearSessionAuthProfileOverride } from "./auth-profiles/session-override.js";
-import { ensureAuthProfileStore } from "./auth-profiles/store.js";
+} from "./agent-scope.ts";
+import { isStoredCredentialCompatibleWithAuthProvider } from "./auth-profiles/order.ts";
+import { clearSessionAuthProfileOverride } from "./auth-profiles/session-override.ts";
+import { ensureAuthProfileStore } from "./auth-profiles/store.ts";
 import {
   createAgentAttemptLifecycleCallbacks,
   type AgentAttemptLifecycleState,
-} from "./command/attempt-callbacks.js";
+} from "./command/attempt-callbacks.ts";
 import {
   persistSessionEntry as persistSessionEntryBase,
   prependInternalEventContext,
   resolveAcpPromptBody,
   resolveInternalEventTranscriptBody,
-} from "./command/attempt-execution.shared.js";
-import { resolveAgentRunContext } from "./command/run-context.js";
-import { resolveSession } from "./command/session.js";
-import type { AgentCommandIngressOpts, AgentCommandOpts } from "./command/types.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "./defaults.js";
+} from "./command/attempt-execution.shared.ts";
+import { resolveAgentRunContext } from "./command/run-context.ts";
+import { resolveSession } from "./command/session.ts";
+import type { AgentCommandIngressOpts, AgentCommandOpts } from "./command/types.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "./defaults.ts";
 import {
   classifyEmbeddedAgentRunResultForModelFallback,
   mergeEmbeddedAgentRunResultForModelFallbackExhaustion,
-} from "./embedded-agent-runner/result-fallback-classifier.js";
-import { resolveFastModeState } from "./fast-mode.js";
-import { ensureSelectedAgentHarnessPlugin } from "./harness/runtime-plugin.js";
-import { resolveAvailableAgentHarnessPolicy } from "./harness/selection.js";
-import { prepareInternalSessionEffectsTranscript } from "./internal-session-effects.js";
-import { AGENT_LANE_SUBAGENT } from "./lanes.js";
-import { LiveSessionModelSwitchError } from "./live-model-switch.js";
-import { loadManifestModelCatalog } from "./model-catalog.js";
-import { runWithModelFallback } from "./model-fallback.js";
-import { normalizeConfiguredProviderCatalogModelId } from "./model-ref-shared.js";
-import type { ModelManifestNormalizationContext } from "./model-selection-normalize.js";
+} from "./embedded-agent-runner/result-fallback-classifier.ts";
+import { resolveFastModeState } from "./fast-mode.ts";
+import { ensureSelectedAgentHarnessPlugin } from "./harness/runtime-plugin.ts";
+import { resolveAvailableAgentHarnessPolicy } from "./harness/selection.ts";
+import { prepareInternalSessionEffectsTranscript } from "./internal-session-effects.ts";
+import { AGENT_LANE_SUBAGENT } from "./lanes.ts";
+import { LiveSessionModelSwitchError } from "./live-model-switch.ts";
+import { loadManifestModelCatalog } from "./model-catalog.ts";
+import { runWithModelFallback } from "./model-fallback.ts";
+import { normalizeConfiguredProviderCatalogModelId } from "./model-ref-shared.ts";
+import type { ModelManifestNormalizationContext } from "./model-selection-normalize.ts";
 import {
   buildConfiguredModelCatalog,
   buildModelAliasIndex,
@@ -126,21 +124,21 @@ import {
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
   resolveThinkingDefault,
-} from "./model-selection.js";
+} from "./model-selection.ts";
 import {
   createModelVisibilityPolicy,
   type ModelVisibilityPolicy,
-} from "./model-visibility-policy.js";
-import { listOpenAIAuthProfileProvidersForAgentRuntime } from "./openai-routing.js";
-import { resolveProviderIdForAuth } from "./provider-auth-aliases.js";
+} from "./model-visibility-policy.ts";
+import { listOpenAIAuthProfileProvidersForAgentRuntime } from "./openai-routing.ts";
+import { resolveProviderIdForAuth } from "./provider-auth-aliases.ts";
 import {
   isAgentRunRestartAbortReason,
   resolveAgentRunAbortLifecycleFields,
-} from "./run-termination.js";
-import { normalizeSpawnedRunMetadata } from "./spawned-context.js";
-import { resolveAgentTimeoutMs } from "./timeout.js";
-import { hasNonzeroUsage } from "./usage.js";
-import { ensureAgentWorkspace } from "./workspace.js";
+} from "./run-termination.ts";
+import { normalizeSpawnedRunMetadata } from "./spawned-context.ts";
+import { resolveAgentTimeoutMs } from "./timeout.ts";
+import { hasNonzeroUsage } from "./usage.ts";
+import { ensureAgentWorkspace } from "./workspace.ts";
 
 const log = createSubsystemLogger("agents/agent-command");
 
@@ -597,24 +595,8 @@ function createAgentCommandSessionWorkingCopy(params: {
 
 function resolveExplicitAgentCommandSessionKey(params: {
   rawExplicitSessionKey?: string;
-  agentIdOverride?: string;
-  shouldScopeDefaultAgentKey?: boolean;
-  cfg: OpenClawConfig;
-}): string | undefined {
-  if (
-    isUnscopedSessionKeySentinel(params.rawExplicitSessionKey) &&
-    !params.agentIdOverride &&
-    !params.shouldScopeDefaultAgentKey
-  ) {
-    return params.rawExplicitSessionKey;
-  }
-  return scopeLegacySessionKeyToAgent({
-    agentId:
-      params.agentIdOverride ??
-      (params.shouldScopeDefaultAgentKey ? resolveDefaultAgentId(params.cfg) : undefined),
-    sessionKey: params.rawExplicitSessionKey,
-    mainKey: params.cfg.session?.mainKey,
-  });
+}): string {
+  return params.rawExplicitSessionKey ?? '';
 }
 
 async function prepareAgentCommandExecution(opts: AgentCommandOpts, runtime: RuntimeEnv) {
@@ -659,7 +641,6 @@ async function prepareAgentCommandExecution(opts: AgentCommandOpts, runtime: Run
   const shouldScopeDefaultAgentKey = Boolean(
     rawExplicitSessionKey &&
     !agentIdOverride &&
-    classifySessionKeyShape(rawExplicitSessionKey) === "legacy_or_alias" &&
     !isUnscopedSessionKeySentinel(rawExplicitSessionKey),
   );
   const explicitSessionKey =
@@ -1296,8 +1277,6 @@ async function agentCommandInternal(
       : undefined;
     const hasStoredAutoFallbackProvenance =
       hasStoredOverride && hasSessionAutoModelFallbackProvenance(sessionEntry);
-    const hasLegacyAutoFallbackOverrideWithoutOrigin =
-      hasStoredOverride && hasLegacyAutoFallbackWithoutOrigin(sessionEntry);
     const explicitProviderOverride =
       typeof opts.provider === "string"
         ? normalizeExplicitOverrideInput(opts.provider, "provider")
@@ -1346,21 +1325,6 @@ async function agentCommandInternal(
       !suppressVisibleSessionEffects
     ) {
       const entry = sessionEntry;
-      if (hasLegacyAutoFallbackOverrideWithoutOrigin) {
-        const { updated } = applyModelOverrideToSessionEntry({
-          entry,
-          selection: { provider: defaultProvider, model: defaultModel, isDefault: true },
-        });
-        if (updated) {
-          storedModelOverrideSource = undefined;
-          await persistSessionEntry({
-            sessionStore,
-            sessionKey,
-            storePath,
-            entry,
-          });
-        }
-      }
       const repaired = repairProviderWrappedModelOverride({
         entry,
         defaultProvider,
@@ -1401,12 +1365,6 @@ async function agentCommandInternal(
       }
     }
 
-    const storedProviderOverride = hasLegacyAutoFallbackOverrideWithoutOrigin
-      ? undefined
-      : sessionEntry?.providerOverride?.trim();
-    let storedModelOverride = hasLegacyAutoFallbackOverrideWithoutOrigin
-      ? undefined
-      : sessionEntry?.modelOverride?.trim();
     const currentRunModelChannel = [
       runContext.messageChannel,
       opts.replyChannel,
@@ -2551,14 +2509,3 @@ export async function agentCommandFromIngress(
     return result;
   });
 }
-
-export const testing = {
-  resolveAgentRuntimeConfig,
-  prepareAgentCommandExecution,
-  resolveExplicitAgentCommandSessionKey,
-  ingressDiagnosticChannel,
-  emitIngressModelUsageDiagnostic,
-};
-
-/** @deprecated Use `testing`. */
-export { testing as __testing };

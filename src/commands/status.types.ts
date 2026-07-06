@@ -1,14 +1,14 @@
 // Shared status output types.
 // These shapes are consumed by scan, summary, text report, and JSON status builders.
 
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { SessionKind } from "../sessions/classify-session-kind.js";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { SessionKind } from "../sessions/classify-session-kind.ts";
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
 import type {
   RetainedLostTaskAuditSummary,
   TaskAuditSummary,
-} from "../tasks/task-registry.audit.js";
-import type { TaskRegistrySummary } from "../tasks/task-registry.types.js";
+} from "../tasks/task-registry.audit.ts";
+import type { TaskRegistrySummary } from "../tasks/task-registry.types.ts";
 
 export type SessionStatus = {
   agentId?: string;

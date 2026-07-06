@@ -1,29 +1,29 @@
 // Doctor checks for context engine host requirements against configured agent runtimes.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { normalizeEmbeddedAgentRuntime } from "../../../agents/agent-runtime-id.js";
-import { resolveDefaultAgentDir } from "../../../agents/agent-scope-config.js";
-import { resolveCliBackendConfig } from "../../../agents/cli-backends.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../../agents/defaults.js";
-import { resolveAgentHarnessPolicy } from "../../../agents/harness/policy.js";
-import { getRegisteredAgentHarness } from "../../../agents/harness/registry.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import { normalizeEmbeddedAgentRuntime } from "../../../agents/agent-runtime-id.ts";
+import { resolveDefaultAgentDir } from "../../../agents/agent-scope-config.ts";
+import { resolveCliBackendConfig } from "../../../agents/cli-backends.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../../agents/defaults.ts";
+import { resolveAgentHarnessPolicy } from "../../../agents/harness/policy.ts";
+import { getRegisteredAgentHarness } from "../../../agents/harness/registry.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 import {
   buildGenericCliContextEngineHostSupport,
   CODEX_APP_SERVER_CONTEXT_ENGINE_HOST,
   evaluateContextEngineHostSupport,
   OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST,
   type ContextEngineHostSupport,
-} from "../../../context-engine/host-compat.js";
-import { ensureContextEnginesInitialized } from "../../../context-engine/init.js";
+} from "../../../context-engine/host-compat.ts";
+import { ensureContextEnginesInitialized } from "../../../context-engine/init.ts";
 import {
   getContextEngineRegistration,
   resolveContextEngine,
-} from "../../../context-engine/registry.js";
-import type { ContextEngineInfo } from "../../../context-engine/types.js";
-import { ensurePluginRegistryLoaded } from "../../../plugins/runtime/runtime-registry-loader.js";
-import { defaultSlotIdForKey } from "../../../plugins/slots.js";
-import { isRecord, resolveUserPath } from "../../../utils.js";
+} from "../../../context-engine/registry.ts";
+import type { ContextEngineInfo } from "../../../context-engine/types.ts";
+import { ensurePluginRegistryLoaded } from "../../../plugins/runtime/runtime-registry-loader.ts";
+import { defaultSlotIdForKey } from "../../../plugins/slots.ts";
+import { isRecord, resolveUserPath } from "../../../utils.ts";
 
 type HostCandidate = {
   /** Runtime or harness id that will host an agent run. */
@@ -359,8 +359,8 @@ function formatCompatibilityWarnings(params: {
   const incompatibleAllHosts = params.issues.length === params.hostCount;
   lines.push(
     incompatibleAllHosts
-      ? `- Run "${params.doctorFixCommand}" to switch plugins.slots.contextEngine to "legacy", or configure a compatible runtime/harness for agent runs.`
-      : `- Some configured runtimes support context engine "${params.info.id}" and others do not; doctor will not rewrite the global contextEngine slot automatically. Configure unsupported models to use a compatible runtime/harness or set plugins.slots.contextEngine to "legacy".`,
+      ? `- Run "${params.doctorFixCommand}" to switch plugins.slots.contextEngine to "older", or configure a compatible runtime/harness for agent runs.`
+      : `- Some configured runtimes support context engine "${params.info.id}" and others do not; doctor will not rewrite the global contextEngine slot automatically. Configure unsupported models to use a compatible runtime/harness or set plugins.slots.contextEngine to "older".`,
   );
   return [lines.join("\n")];
 }
@@ -388,7 +388,7 @@ export async function collectContextEngineHostCompatibilityWarnings(params: {
   ];
 }
 
-/** Repair a globally incompatible context engine by falling back to legacy. */
+/** Repair a globally incompatible context engine by falling back to older. */
 export async function maybeRepairContextEngineHostCompatibility(params: {
   cfg: OpenClawConfig;
   doctorFixCommand: string;
@@ -422,7 +422,7 @@ export async function maybeRepairContextEngineHostCompatibility(params: {
   return {
     config: next,
     changes: [
-      `Set plugins.slots.contextEngine to "legacy" because context engine "${resolved.info.id}" is incompatible with every configured agent-run host.`,
+      `Set plugins.slots.contextEngine to "older" because context engine "${resolved.info.id}" is incompatible with every configured agent-run host.`,
     ],
     warnings: resolved.warnings,
   };

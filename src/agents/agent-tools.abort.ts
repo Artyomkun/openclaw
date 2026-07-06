@@ -3,11 +3,11 @@
  * Combines per-call cancellation with run-level aborts while preserving plugin,
  * channel, and before_tool_call metadata on wrapped tools.
  */
-import { copyPluginToolMeta } from "../plugins/tools.js";
-import { bindAbortRelay } from "../utils/fetch-timeout.js";
-import type { AnyAgentTool } from "./agent-tools.types.js";
-import { copyBeforeToolCallHookMarker } from "./before-tool-call-metadata.js";
-import { copyChannelAgentToolMeta } from "./channel-tools.js";
+import { copyPluginToolMeta } from "../plugins/tools.ts";
+import { bindAbortRelay } from "../utils/fetch-timeout.ts";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
+import { copyBeforeToolCallHookMarker } from "./before-tool-call-metadata.ts";
+import { copyChannelAgentToolMeta } from "./channel-tools.ts";
 
 function throwAbortError(): never {
   const err = new Error("Aborted");

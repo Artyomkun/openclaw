@@ -4,14 +4,14 @@
  * These wrap the generic media task status helpers with video-specific kind,
  * source, labels, duplicate-guard timing, and prompt-context wording.
  */
-import type { TaskRecord } from "../tasks/task-registry.types.js";
+import type { TaskRecord } from "../tasks/task-registry.types.ts";
 import {
   buildActiveMediaGenerationTaskPromptContextForSession,
   buildMediaGenerationTaskStatusDetails,
   buildMediaGenerationTaskStatusText,
   findActiveMediaGenerationTaskForSession,
   findDuplicateGuardMediaGenerationTaskForSession,
-} from "./media-generation-task-status-shared.js";
+} from "./media-generation-task-status-shared.ts";
 
 export const VIDEO_GENERATION_TASK_KIND = "video_generation";
 const VIDEO_GENERATION_SOURCE_PREFIX = "video_generate";

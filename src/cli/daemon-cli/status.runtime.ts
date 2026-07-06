@@ -1,2 +1,2 @@
 // Lazy runtime barrel for Gateway service status command implementation.
-export { runDaemonStatus } from "./status.js";
+export { runDaemonStatus } from "./status.ts";

@@ -4,27 +4,27 @@
 import type {
   PartialReplyPayload,
   SourceReplyDeliveryMode,
-} from "../auto-reply/get-reply-options.types.js";
-import type { HeartbeatToolResponse } from "../auto-reply/heartbeat-tool-response.js";
-import type { ReplyPayload } from "../auto-reply/reply-payload.js";
-import type { ReasoningLevel, ThinkLevel, VerboseLevel } from "../auto-reply/thinking.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { HookRunner } from "../plugins/hooks.js";
-import type { BlockReplyPayload } from "./embedded-agent-payloads.js";
-import type { EmbeddedRunReplayState } from "./embedded-agent-runner/replay-state.js";
+} from "../auto-reply/get-reply-options.types.ts";
+import type { HeartbeatToolResponse } from "../auto-reply/heartbeat-tool-response.ts";
+import type { ReplyPayload } from "../auto-reply/reply-payload.ts";
+import type { ReasoningLevel, ThinkLevel, VerboseLevel } from "../auto-reply/thinking.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { HookRunner } from "../plugins/hooks.ts";
+import type { BlockReplyPayload } from "./embedded-agent-payloads.ts";
+import type { EmbeddedRunReplayState } from "./embedded-agent-runner/replay-state.ts";
 import type {
   BlockReplyChunking,
   ToolProgressDetailMode,
   ToolResultFormat,
-} from "./embedded-agent-subscribe.shared-types.js";
-import type { AgentInternalEvent } from "./internal-events.js";
-import type { AgentMessage } from "./runtime/index.js";
-import type { AgentSession } from "./sessions/index.js";
+} from "./embedded-agent-subscribe.shared-types.ts";
+import type { AgentInternalEvent } from "./internal-events.ts";
+import type { AgentMessage } from "./runtime/index.ts";
+import type { AgentSession } from "./sessions/index.ts";
 export type {
   BlockReplyChunking,
   ToolProgressDetailMode,
   ToolResultFormat,
-} from "./embedded-agent-subscribe.shared-types.js";
+} from "./embedded-agent-subscribe.shared-types.ts";
 
 export type SubscribeEmbeddedAgentSessionParams = {
   session: AgentSession;

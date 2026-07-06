@@ -1,6 +1,6 @@
 /** Manual cron wake helper for queueing system events into sessions. */
-import { isSubagentSessionKey } from "../../routing/session-key.js";
-import type { CronServiceState } from "./state.js";
+import { isSubagentSessionKey } from "../../routing/session-key.ts";
+import type { CronServiceState } from "./state.ts";
 
 /** Enqueues a manual cron wake event and optionally pokes the targeted heartbeat loop. */
 export function wake(

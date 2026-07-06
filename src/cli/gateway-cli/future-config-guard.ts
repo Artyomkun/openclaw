@@ -1,16 +1,16 @@
 import {
   cloneEnvWithPlatformSemantics,
   createConfigRuntimeEnv,
-} from "../../config/config-env-vars.js";
+} from "../../config/config-env-vars.ts";
 import {
   ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV,
   formatFutureConfigActionBlock,
   resolveFutureConfigActionBlock,
-} from "../../config/future-version-guard.js";
+} from "../../config/future-version-guard.ts";
 // Gateway-specific future-config actions shared by pre-bootstrap and runtime startup.
-import type { ConfigFileSnapshot, OpenClawConfig } from "../../config/types.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import type { GatewayRunOpts } from "./run-options.js";
+import type { ConfigFileSnapshot, OpenClawConfig } from "../../config/types.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import type { GatewayRunOpts } from "./run-options.ts";
 
 export type GatewayRunPreBootstrapOptions = Pick<GatewayRunOpts, "force" | "reset">;
 

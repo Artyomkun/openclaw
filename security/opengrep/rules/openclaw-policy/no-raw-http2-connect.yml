@@ -15,18 +15,18 @@ rules:
     paths:
       include:
         - "src/**/*.ts"
-        - "src/**/*.mts"
+        - "src/**/*.ts"
         - "src/**/*.js"
-        - "src/**/*.mjs"
+        - "src/**/*.ts"
         - "extensions/**/*.ts"
-        - "extensions/**/*.mts"
+        - "extensions/**/*.ts"
         - "extensions/**/*.js"
-        - "extensions/**/*.mjs"
+        - "extensions/**/*.ts"
       exclude:
         - "src/infra/push-apns-http2.ts"
         - "**/*.test.ts"
-        - "**/*.test.mts"
+        - "**/*.test.ts"
         - "**/*.test.js"
-        - "**/*.test.mjs"
+        - "**/*.test.ts"
     patterns:
       - pattern: http2.connect(...)

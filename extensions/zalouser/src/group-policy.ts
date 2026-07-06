@@ -79,6 +79,5 @@ export function isZalouserGroupEntryAllowed(entry: ZalouserGroupConfig | undefin
   if (!entry) {
     return false;
   }
-  const legacyAllow = (entry as ZalouserGroupConfig & { allow?: unknown }).allow;
-  return legacyAllow !== false && entry.enabled !== false;
+  return entry.enabled !== false;
 }

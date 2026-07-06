@@ -1,20 +1,20 @@
 // Gateway post-ready runtime services.
 // Starts delayed maintenance, cron, heartbeat, recovery, and pricing refresh work.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isVitestRuntimeEnv } from "../infra/env.js";
-import { startHeartbeatRunner, type HeartbeatRunner } from "../infra/heartbeat-runner.js";
-import type { PluginMetadataRegistryView } from "../plugins/plugin-metadata-snapshot.types.js";
-import { isGatewayModelPricingEnabled } from "./model-pricing-config.js";
-import type { startGatewayMaintenanceTimers } from "./server-maintenance.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isVitestRuntimeEnv } from "../infra/env.ts";
+import { startHeartbeatRunner, type HeartbeatRunner } from "../infra/heartbeat-runner.ts";
+import type { PluginMetadataRegistryView } from "../plugins/plugin-metadata-snapshot.types.ts";
+import { isGatewayModelPricingEnabled } from "./model-pricing-config.ts";
+import type { startGatewayMaintenanceTimers } from "./server-maintenance.ts";
 import {
   createNoopHeartbeatRunner,
   type GatewayRuntimeServiceLogger,
-} from "./server-runtime-service-shared.js";
+} from "./server-runtime-service-shared.ts";
 export {
   startGatewayChannelHealthMonitor,
   startGatewayRuntimeServices,
   type GatewayChannelManager,
-} from "./server-runtime-startup-services.js";
+} from "./server-runtime-startup-services.ts";
 
 type GatewayPostReadyLogger = {
   warn: (message: string) => void;

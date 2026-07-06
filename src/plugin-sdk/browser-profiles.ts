@@ -2,16 +2,16 @@
  * Public SDK facade for browser profile defaults and activated profile resolution.
  */
 import path from "node:path";
-import type { BrowserConfig } from "../config/types.browser.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
-import type { ResolvedBrowserConfig, ResolvedBrowserProfile } from "./browser-types.js";
-import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
+import type { BrowserConfig } from "../config/types.browser.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.ts";
+import type { ResolvedBrowserConfig, ResolvedBrowserProfile } from "./browser-types.ts";
+import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.ts";
 export type {
   ResolvedBrowserConfig,
   ResolvedBrowserProfile,
   ResolvedBrowserTabCleanupConfig,
-} from "./browser-types.js";
+} from "./browser-types.ts";
 
 /** Default global browser plugin enabled state. */
 export const DEFAULT_OPENCLAW_BROWSER_ENABLED = true;

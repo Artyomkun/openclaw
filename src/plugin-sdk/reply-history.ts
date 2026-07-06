@@ -4,11 +4,11 @@
  * Prefer `createChannelHistoryWindow` for message-turn code. The lower-level map helpers are
  * deprecated plugin compatibility exports; core internals still use them behind the facade.
  */
-export type { HistoryEntry, HistoryMediaEntry } from "../auto-reply/reply/history.types.js";
+export type { HistoryEntry, HistoryMediaEntry } from "../auto-reply/reply/history.types.ts";
 export {
   createChannelHistoryWindow,
   type ChannelHistoryWindow,
-} from "../channels/turn/history-window.js";
+} from "../channels/turn/history-window.ts";
 export {
   DEFAULT_GROUP_HISTORY_LIMIT,
   HISTORY_CONTEXT_MARKER,
@@ -25,4 +25,4 @@ export {
   recordPendingHistoryEntry,
   recordPendingHistoryEntryWithMedia,
   recordPendingHistoryEntryIfEnabled,
-} from "../auto-reply/reply/history.js";
+} from "../auto-reply/reply/history.ts";

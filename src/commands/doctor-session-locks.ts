@@ -1,16 +1,16 @@
 /** Doctor diagnostics and cleanup for stale session write lock files. */
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveAgentSessionDirs } from "../agents/session-dirs.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveAgentSessionDirs } from "../agents/session-dirs.ts";
 import {
   cleanStaleLockFiles,
   resolveSessionWriteLockStaleMs,
   type SessionLockInspection,
   type SessionLockOwnerProcessArgsReader,
   type SessionWriteLockAcquireTimeoutConfig,
-} from "../agents/session-write-lock.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
-import { shortenHomePath } from "../utils.js";
+} from "../agents/session-write-lock.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.ts";
+import { shortenHomePath } from "../utils.ts";
 
 const SESSION_LOCKS_CHECK_ID = "core/doctor/session-locks";
 const REPORT_ONLY_STALE_LOCK_REASONS = new Set(["too-old", "hold-exceeded"]);

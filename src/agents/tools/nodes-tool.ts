@@ -5,27 +5,27 @@
  */
 import crypto from "node:crypto";
 import { Type } from "typebox";
-import { readConnectPairingRequiredMessage } from "../../../packages/gateway-protocol/src/connect-error-details.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { OperatorScope } from "../../gateway/method-scopes.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { resolveNodePairApprovalScopes } from "../../infra/node-pairing-authz.js";
-import type { GatewayMessageChannel } from "../../utils/message-channel.js";
-import { resolveSessionAgentId } from "../agent-scope.js";
-import { resolveImageSanitizationLimits } from "../image-sanitization.js";
+import { readConnectPairingRequiredMessage } from "../../../packages/gateway-protocol/src/connect-error-details.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { OperatorScope } from "../../gateway/method-scopes.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { resolveNodePairApprovalScopes } from "../../infra/node-pairing-authz.ts";
+import type { GatewayMessageChannel } from "../../utils/message-channel.ts";
+import { resolveSessionAgentId } from "../agent-scope.ts";
+import { resolveImageSanitizationLimits } from "../image-sanitization.ts";
 import {
   optionalFiniteNumberSchema,
   optionalNonNegativeIntegerSchema,
   optionalPositiveIntegerSchema,
   optionalStringEnum,
   stringEnum,
-} from "../schema/typebox.js";
-import { type AnyAgentTool, jsonResult, readStringParam } from "./common.js";
-import { gatewayCallOptionSchemaProperties } from "./gateway-schema.js";
-import { callGatewayTool, readGatewayCallOptions } from "./gateway.js";
-import { executeNodeCommandAction, type NodeCommandAction } from "./nodes-tool-commands.js";
-import { executeNodeMediaAction, MEDIA_INVOKE_ACTIONS } from "./nodes-tool-media.js";
-import { resolveNodeId } from "./nodes-utils.js";
+} from "../schema/typebox.ts";
+import { type AnyAgentTool, jsonResult, readStringParam } from "./common.ts";
+import { gatewayCallOptionSchemaProperties } from "./gateway-schema.ts";
+import { callGatewayTool, readGatewayCallOptions } from "./gateway.ts";
+import { executeNodeCommandAction, type NodeCommandAction } from "./nodes-tool-commands.ts";
+import { executeNodeMediaAction, MEDIA_INVOKE_ACTIONS } from "./nodes-tool-media.ts";
+import { resolveNodeId } from "./nodes-utils.ts";
 
 const NODES_TOOL_ACTIONS = [
   "status",

@@ -7,11 +7,11 @@ import {
   findNormalizedProviderValue,
   normalizeProviderId,
 } from "@openclaw/model-catalog-core/provider-id";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveCliRuntimeExecutionProvider } from "../model-runtime-aliases.js";
-import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
-import { CLAUDE_CLI_PROFILE_ID } from "./constants.js";
-import type { AuthProfileStore } from "./types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveCliRuntimeExecutionProvider } from "../model-runtime-aliases.ts";
+import { resolveProviderIdForAuth } from "../provider-auth-aliases.ts";
+import { CLAUDE_CLI_PROFILE_ID } from "./constants.ts";
+import type { AuthProfileStore } from "./types.ts";
 
 const CLAUDE_CLI_PROVIDER_ID = "claude-cli";
 

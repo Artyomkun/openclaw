@@ -1,29 +1,29 @@
 /** Handles informational commands such as /help, /commands, /tools, and exports. */
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { resolveEffectiveToolInventory } from "../../agents/tools-effective-inventory.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import { logVerbose } from "../../globals.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { resolveEffectiveToolInventory } from "../../agents/tools-effective-inventory.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import { logVerbose } from "../../globals.ts";
 import {
   listSkillCommandsForAgents,
   resolveSkillCommandInvocation,
-} from "../../skills/discovery/chat-commands.js";
+} from "../../skills/discovery/chat-commands.ts";
 import {
   buildCommandsMessage,
   buildCommandsMessagePaginated,
   buildHelpMessage,
   buildToolsMessage,
-} from "../status.js";
-import { buildThreadingToolContext } from "./agent-runner-utils.js";
-import { resolveChannelAccountId } from "./channel-context.js";
-import { rejectUnauthorizedCommand } from "./command-gates.js";
-import { buildExportSessionReply } from "./commands-export-session.js";
-import { buildExportTrajectoryCommandReply } from "./commands-export-trajectory.js";
-import { buildStatusPluginsReply, buildStatusReply } from "./commands-status.js";
-import type { CommandHandler, HandleCommandsParams } from "./commands-types.js";
-import { extractExplicitGroupId } from "./group-id.js";
-import { resolveReplyToMode } from "./reply-threading.js";
-export { handleContextCommand } from "./commands-context-command.js";
-export { handleWhoamiCommand } from "./commands-whoami.js";
+} from "../status.ts";
+import { buildThreadingToolContext } from "./agent-runner-utils.ts";
+import { resolveChannelAccountId } from "./channel-context.ts";
+import { rejectUnauthorizedCommand } from "./command-gates.ts";
+import { buildExportSessionReply } from "./commands-export-session.ts";
+import { buildExportTrajectoryCommandReply } from "./commands-export-trajectory.ts";
+import { buildStatusPluginsReply, buildStatusReply } from "./commands-status.ts";
+import type { CommandHandler, HandleCommandsParams } from "./commands-types.ts";
+import { extractExplicitGroupId } from "./group-id.ts";
+import { resolveReplyToMode } from "./reply-threading.ts";
+export { handleContextCommand } from "./commands-context-command.ts";
+export { handleWhoamiCommand } from "./commands-whoami.ts";
 
 async function resolveSkillCommands(
   params: HandleCommandsParams,

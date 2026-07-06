@@ -1,15 +1,15 @@
 // Top-level status scan entrypoint.
 // Chooses fast JSON policy or full human scan and returns one normalized scan result.
 
-import { withProgress } from "../cli/progress.js";
-import { hasConfiguredChannelsForReadOnlyScope } from "../plugins/channel-plugin-ids.js";
-import { buildPluginCompatibilitySnapshotNotices } from "../plugins/status.js";
-import type { RuntimeEnv } from "../runtime.js";
+import { withProgress } from "../cli/progress.ts";
+import { hasConfiguredChannelsForReadOnlyScope } from "../plugins/channel-plugin-ids.ts";
+import { buildPluginCompatibilitySnapshotNotices } from "../plugins/status.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import { executeStatusScanFromOverview } from "./status.scan-execute.ts";
 import { resolveStatusMemoryStatusSnapshot } from "./status.scan-memory.ts";
 import { collectStatusScanOverview } from "./status.scan-overview.ts";
 import type { StatusScanResult } from "./status.scan-result.ts";
-import { scanStatusJsonWithPolicy } from "./status.scan.fast-json.js";
+import { scanStatusJsonWithPolicy } from "./status.scan.fast-json.ts";
 
 /** Runs the status scan for text or JSON command modes. */
 export async function scanStatus(

@@ -2,24 +2,24 @@
 // structured extraction calls outside normal channel message handling.
 import path from "node:path";
 import { kindFromMime, mimeTypeFromFilePath } from "@openclaw/media-core/mime";
-import type { OpenClawConfig } from "../config/types.js";
-import { readLocalFileSafely } from "../infra/fs-safe.js";
-import { DEFAULT_MAX_BYTES } from "./defaults.constants.js";
-import { normalizeImageDescriptionInput } from "./image-input-normalize.js";
-import { describeImageWithModel } from "./image-runtime.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { readLocalFileSafely } from "../infra/fs-safe.ts";
+import { DEFAULT_MAX_BYTES } from "./defaults.constants.ts";
+import { normalizeImageDescriptionInput } from "./image-input-normalize.ts";
+import { describeImageWithModel } from "./image-runtime.ts";
 import {
   buildMediaUnderstandingRegistry,
   getMediaUnderstandingProvider,
   normalizeMediaProviderId,
-} from "./provider-registry.js";
-import { resolveMediaRuntimeTimeoutMs } from "./resolve.js";
-import { findDecisionReason, normalizeDecisionReason } from "./runner.entries.js";
+} from "./provider-registry.ts";
+import { resolveMediaRuntimeTimeoutMs } from "./resolve.ts";
+import { findDecisionReason, normalizeDecisionReason } from "./runner.entries.ts";
 import {
   buildProviderRegistry,
   createMediaAttachmentCache,
   normalizeMediaAttachments,
   runCapability,
-} from "./runner.js";
+} from "./runner.ts";
 import type {
   DescribeImageFileParams,
   DescribeImageFileWithModelParams,
@@ -28,7 +28,7 @@ import type {
   RunMediaUnderstandingFileParams,
   RunMediaUnderstandingFileResult,
   TranscribeAudioFileParams,
-} from "./runtime-types.js";
+} from "./runtime-types.ts";
 export type {
   DescribeImageFileParams,
   DescribeImageFileWithModelParams,
@@ -37,7 +37,7 @@ export type {
   RunMediaUnderstandingFileParams,
   RunMediaUnderstandingFileResult,
   TranscribeAudioFileParams,
-} from "./runtime-types.js";
+} from "./runtime-types.ts";
 
 type MediaUnderstandingCapability = "image" | "audio" | "video";
 type MediaUnderstandingOutput = Awaited<ReturnType<typeof runCapability>>["outputs"][number];

@@ -1,23 +1,19 @@
-/** Doctor repair for broken session transcript branches and legacy OpenAI Codex metadata. */
+/** Doctor repair for broken session transcript branches. */
 import type { Dirent } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { note } from "../../packages/terminal-core/src/note.js";
-import {
-  hasInternalRuntimeContext,
-  stripInternalRuntimeContext,
-} from "../agents/internal-runtime-context.js";
-import { resolveAgentSessionDirs } from "../agents/session-dirs.js";
-import { resolveStateDir } from "../config/paths.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveAgentSessionDirs } from "../agents/session-dirs.ts";
+import { resolveStateDir } from "../config/paths.ts";
 import {
   isSessionTranscriptLeafControl,
   mergeSessionTranscriptTreePaths,
   mergeSessionTranscriptVisiblePathWithOpaqueAppendPath,
   scanSessionTranscriptTree,
   selectSessionTranscriptTreePathNodes,
-} from "../config/sessions/transcript-tree.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
-import { shortenHomePath } from "../utils.js";
+} from "../config/sessions/transcript-tree.ts";
+import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.ts";
+import { shortenHomePath } from "../utils.ts";
 
 const SESSION_TRANSCRIPTS_CHECK_ID = "core/doctor/session-transcripts";
 
@@ -34,7 +30,6 @@ type TranscriptRepairResult = {
   repaired: boolean;
   originalEntries: number;
   activeEntries: number;
-  legacyOpenAICodexEntries: number;
   backupPath?: string;
   reason?: string;
 };
@@ -50,9 +45,7 @@ type ActiveTranscriptPath = {
   appendParentId: string | null;
 };
 
-const LEGACY_OPENAI_CODEX_PROVIDER_ID = "openai-codex";
 const OPENAI_PROVIDER_ID = "openai";
-const LEGACY_OPENAI_CODEX_RESPONSES_API = "openai-codex-responses";
 const OPENAI_CHATGPT_RESPONSES_API = "openai-chatgpt-responses";
 
 function parseTranscriptEntries(raw: string): TranscriptEntry[] {
@@ -89,29 +82,6 @@ function getMessage(entry: TranscriptEntry): Record<string, unknown> | null {
 
 function withSelectedParent(entry: TranscriptEntry, parentId: string | null): TranscriptEntry {
   return entry.parentId === parentId ? entry : { ...entry, parentId };
-}
-
-function normalizeLegacyOpenAICodexTranscriptMetadata(entries: TranscriptEntry[]): number {
-  let changed = 0;
-  for (const entry of entries) {
-    const message = getMessage(entry);
-    if (!message) {
-      continue;
-    }
-    let touched = false;
-    if (message.provider === LEGACY_OPENAI_CODEX_PROVIDER_ID) {
-      message.provider = OPENAI_PROVIDER_ID;
-      touched = true;
-    }
-    if (message.api === LEGACY_OPENAI_CODEX_RESPONSES_API) {
-      message.api = OPENAI_CHATGPT_RESPONSES_API;
-      touched = true;
-    }
-    if (touched) {
-      changed += 1;
-    }
-  }
-  return changed;
 }
 
 function textFromContent(content: unknown): string | null {
@@ -218,12 +188,10 @@ function hasBrokenPromptRewriteBranch(entries: TranscriptEntry[], activePath: Tr
       continue;
     }
     const text = textFromContent(message.content);
-    if (!text || !hasInternalRuntimeContext(text)) {
+    if (!text) {
       continue;
     }
-    const visibleText = stripInternalRuntimeContext(text).trim();
     if (
-      visibleText &&
       activeUserByParentAndText.has(`${getParentId(entry) ?? ""}\0${visibleText}`)
     ) {
       return true;
@@ -285,10 +253,9 @@ export async function repairBrokenSessionTranscriptFile(params: {
   try {
     const raw = await fs.readFile(params.filePath, "utf-8");
     const entries = parseTranscriptEntries(raw);
-    const legacyOpenAICodexEntries = normalizeLegacyOpenAICodexTranscriptMetadata(entries);
     const activePath = selectActivePath(entries);
     if (!activePath) {
-      if (legacyOpenAICodexEntries > 0 && params.shouldRepair) {
+      if (params.shouldRepair) {
         const backupPath = await writeTranscriptEntries({ filePath: params.filePath, entries });
         return {
           filePath: params.filePath,
@@ -296,30 +263,26 @@ export async function repairBrokenSessionTranscriptFile(params: {
           repaired: true,
           originalEntries: entries.length,
           activeEntries: 0,
-          legacyOpenAICodexEntries,
           backupPath,
           reason: "no active branch",
         };
       }
       return {
         filePath: params.filePath,
-        broken: legacyOpenAICodexEntries > 0,
         repaired: false,
         originalEntries: entries.length,
         activeEntries: 0,
-        legacyOpenAICodexEntries,
         reason: "no active branch",
       };
     }
     const broken = hasBrokenPromptRewriteBranch(entries, activePath.entries);
-    if (!broken && legacyOpenAICodexEntries === 0) {
+    if (!broken) {
       return {
         filePath: params.filePath,
         broken: false,
         repaired: false,
         originalEntries: entries.length,
         activeEntries: activePath.entries.length,
-        legacyOpenAICodexEntries,
       };
     }
     if (!params.shouldRepair) {
@@ -329,7 +292,6 @@ export async function repairBrokenSessionTranscriptFile(params: {
         repaired: false,
         originalEntries: entries.length,
         activeEntries: activePath.entries.length,
-        legacyOpenAICodexEntries,
       };
     }
     const backupPath = broken
@@ -345,7 +307,6 @@ export async function repairBrokenSessionTranscriptFile(params: {
       repaired: true,
       originalEntries: entries.length,
       activeEntries: activePath.entries.length,
-      legacyOpenAICodexEntries,
       backupPath,
     };
   } catch (err) {
@@ -355,7 +316,6 @@ export async function repairBrokenSessionTranscriptFile(params: {
       repaired: false,
       originalEntries: 0,
       activeEntries: 0,
-      legacyOpenAICodexEntries: 0,
       reason: String(err),
     };
   }
@@ -403,16 +363,11 @@ export async function detectSessionTranscriptHealthIssues(params?: {
 export function sessionTranscriptIssueToHealthFinding(
   issue: SessionTranscriptHealthIssue,
 ): HealthFinding {
-  const metadata =
-    issue.legacyOpenAICodexEntries > 0
-      ? ` ${issue.legacyOpenAICodexEntries} legacy OpenAI Codex metadata entr${
-          issue.legacyOpenAICodexEntries === 1 ? "y" : "ies"
-        }`
-      : "";
+  const metadata = "";
   return {
     checkId: SESSION_TRANSCRIPTS_CHECK_ID,
     severity: "info",
-    message: `Session transcript has legacy branch or provider metadata that can be cleaned up.${metadata}`,
+    message: `Session transcript has older branch or provider metadata that can be cleaned up.${metadata}`,
     path: issue.filePath,
     fixHint:
       "To clean up the advisory artifact, run `openclaw doctor --fix` to rewrite affected transcripts to their active branch.",
@@ -430,7 +385,7 @@ export function sessionTranscriptIssueToRepairEffect(
   };
 }
 
-/** Scans session transcript files and reports or repairs legacy/broken transcript state. */
+/** Scans session transcript files and reports or repairs broken transcript state. */
 export async function noteSessionTranscriptHealth(params?: {
   shouldRepair?: boolean;
   sessionDirs?: string[];
@@ -460,14 +415,10 @@ export async function noteSessionTranscriptHealth(params?: {
 
   const repairedCount = broken.filter((result) => result.repaired).length;
   const lines = [
-    `- Found ${broken.length} transcript file${broken.length === 1 ? "" : "s"} with legacy state.`,
     ...broken.slice(0, 20).map((result) => {
       const backup = result.backupPath ? ` backup=${shortenHomePath(result.backupPath)}` : "";
       const status = result.repaired ? "repaired" : "needs repair";
-      const metadata =
-        result.legacyOpenAICodexEntries > 0
-          ? ` openai-codex=${result.legacyOpenAICodexEntries}`
-          : "";
+      const metadata = "";
       return `- ${shortenHomePath(result.filePath)} ${status} entries=${result.originalEntries}->${result.activeEntries + 1}${metadata}${backup}`;
     }),
   ];

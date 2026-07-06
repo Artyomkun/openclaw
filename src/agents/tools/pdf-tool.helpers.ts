@@ -6,11 +6,11 @@
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../../config/model-input.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { AssistantMessage } from "../../llm/types.js";
-import { providerSupportsNativePdfDocument } from "../../media-understanding/defaults.js";
-import { extractAssistantText } from "../embedded-agent-utils.js";
+} from "../../config/model-input.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { AssistantMessage } from "../../llm/types.ts";
+import { providerSupportsNativePdfDocument } from "../../media-understanding/defaults.ts";
+import { extractAssistantText } from "../embedded-agent-utils.ts";
 
 /** Normalized PDF model preference used by tool registration and execution. */
 type PdfModelConfig = { primary?: string; fallbacks?: string[] };

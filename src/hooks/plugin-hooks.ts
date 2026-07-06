@@ -1,16 +1,16 @@
 // Plugin hook helpers discover hooks contributed by installed plugins.
 import fs from "node:fs";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   normalizePluginsConfigWithResolver,
   resolveEffectivePluginActivationState,
   resolveMemorySlotDecision,
-} from "../plugins/config-policy.js";
-import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { hasKind } from "../plugins/slots.js";
-import { isPathInsideWithRealpath } from "../security/scan-paths.js";
+} from "../plugins/config-policy.ts";
+import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { hasKind } from "../plugins/slots.ts";
+import { isPathInsideWithRealpath } from "../security/scan-paths.ts";
 
 const log = createSubsystemLogger("hooks");
 

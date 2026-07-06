@@ -8,7 +8,7 @@ import type {
   MessageReceipt,
   MessageReceiptPartKind,
   MessageReceiptSourceResult,
-} from "./types.js";
+} from "./types.ts";
 
 type MessageReceiptInputResult = MessageReceiptSourceResult & {
   receipt?: MessageReceipt;

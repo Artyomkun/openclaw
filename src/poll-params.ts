@@ -1,5 +1,5 @@
 // Parses poll command parameters into validated polling options.
-import { readSnakeCaseParamRaw } from "./param-key.js";
+import { readSnakeCaseParamRaw } from "./param-key.ts";
 
 type PollCreationParamKind = "string" | "stringArray" | "positiveInteger" | "boolean";
 

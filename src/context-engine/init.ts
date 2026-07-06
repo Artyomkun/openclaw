@@ -1,11 +1,10 @@
 // Context-engine initialization registers built-in engines before plugin resolution.
-import { registerLegacyContextEngine } from "./legacy.registration.js";
 
 /**
  * Ensures all built-in context engines are registered exactly once.
  *
- * The legacy engine is always registered as a safe fallback so that
- * `resolveContextEngine()` can resolve the default "legacy" slot without
+ * The engine is always registered as a safe fallback so that
+ * `resolveContextEngine()` can resolve the default slot without
  * callers needing to remember manual registration.
  *
  * Additional engines are registered by their own plugins via
@@ -18,7 +17,4 @@ export function ensureContextEnginesInitialized(): void {
     return;
   }
   initialized = true;
-
-  // Always available – safe fallback for the "legacy" slot default.
-  registerLegacyContextEngine();
 }

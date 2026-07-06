@@ -2,7 +2,7 @@
 // Ts Topology script supports OpenClaw repository automation.
 import path from "node:path";
 import { formatErrorMessage } from "../src/infra/errors.ts";
-import { parsePositiveInt } from "./lib/numeric-options.mjs";
+import { parsePositiveInt } from "./lib/numeric-options.ts";
 import { analyzeTopology } from "./lib/ts-topology/analyze.js";
 import { renderTextReport } from "./lib/ts-topology/reports.js";
 import {

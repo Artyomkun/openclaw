@@ -4,23 +4,23 @@
  * and emit provider diagnostics.
  */
 import type { TSchema } from "typebox";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ProviderRuntimePluginHandle } from "../../plugins/provider-hook-runtime.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
-import { copyPluginToolMeta } from "../../plugins/tools.js";
-import { copyBeforeToolCallHookMarker } from "../before-tool-call-metadata.js";
-import { copyChannelAgentToolMeta } from "../channel-tools.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ProviderRuntimePluginHandle } from "../../plugins/provider-hook-runtime.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
+import { copyPluginToolMeta } from "../../plugins/tools.ts";
+import { copyBeforeToolCallHookMarker } from "../before-tool-call-metadata.ts";
+import { copyChannelAgentToolMeta } from "../channel-tools.ts";
 import {
   logProviderToolSchemaDiagnostics,
   normalizeProviderToolSchemas,
-} from "../embedded-agent-runner/tool-schema-runtime.js";
-import type { AgentTool } from "../runtime/index.js";
+} from "../embedded-agent-runner/tool-schema-runtime.ts";
+import type { AgentTool } from "../runtime/index.ts";
 import {
   filterProviderNormalizableTools,
   type RuntimeToolSchemaDiagnostic,
-} from "../tool-schema-projection.js";
-import { copyToolTerminalPresentation } from "../tool-terminal-presentation.js";
-import type { AgentRuntimePlan } from "./types.js";
+} from "../tool-schema-projection.ts";
+import { copyToolTerminalPresentation } from "../tool-terminal-presentation.ts";
+import type { AgentRuntimePlan } from "./types.ts";
 
 type AgentRuntimeToolPolicyParams<TSchemaType extends TSchema = TSchema, TResult = unknown> = {
   runtimePlan?: AgentRuntimePlan;

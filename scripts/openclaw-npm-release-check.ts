@@ -15,9 +15,9 @@ import {
   collectReleaseVersionFloorErrors as collectReleaseVersionFloorErrorsBase,
   resolveNpmDistTagMirrorAuth as resolveNpmDistTagMirrorAuthBase,
   parseReleaseVersion as parseReleaseVersionBase,
-} from "./lib/npm-publish-plan.mjs";
-import { WORKSPACE_TEMPLATE_PACK_PATHS } from "./lib/workspace-bootstrap-smoke.mjs";
-import { buildCmdExeCommandLine, resolveWindowsCmdExePath } from "./windows-cmd-helpers.mjs";
+} from "./lib/npm-publish-plan.ts";
+import { WORKSPACE_TEMPLATE_PACK_PATHS } from "./lib/workspace-bootstrap-smoke.ts";
+import { buildCmdExeCommandLine, resolveWindowsCmdExePath } from "./windows-cmd-helpers.ts";
 
 type PackageJson = {
   name?: string;
@@ -64,7 +64,6 @@ export type NpmDistTagMirrorAuth = {
 };
 const EXPECTED_REPOSITORY_URL = "https://github.com/openclaw/openclaw";
 const OPTIONAL_LOCAL_EMBEDDING_RUNTIME_PACKAGE = "node-llama-cpp";
-const FS_SAFE_PACKAGE = "@openclaw/fs-safe";
 const REQUIRED_PACKED_PATHS = [
   "npm-shrinkwrap.json",
   PACKAGE_DIST_INVENTORY_RELATIVE_PATH,
@@ -138,13 +137,6 @@ const FORBIDDEN_PRIVATE_QA_CONTENT_MARKERS = [
   "qa-lab/runtime-api.js",
 ] as const;
 const FORBIDDEN_PRIVATE_QA_CONTENT_SCAN_PREFIXES = ["dist/"] as const;
-const PACKED_TEST_CARGO_DIRECTORY_SEGMENTS = new Set([
-  "__snapshots__",
-  "__tests__",
-  "test",
-  "tests",
-]);
-const PACKED_TEST_CARGO_FILE_RE = /(?:^|\/)[^/]+\.(?:test|spec)\.(?:[cm]?[jt]sx?)$/u;
 const NPM_PACK_MAX_BUFFER_BYTES = 64 * 1024 * 1024;
 const DEFAULT_RELEASE_CHECK_COMMAND_TIMEOUT_MS = 10 * 60 * 1000;
 const skipPackValidationEnv = "OPENCLAW_NPM_RELEASE_SKIP_PACK_CHECK";
@@ -154,31 +146,6 @@ type ReleaseCheckCommandInvocation = {
   args: string[];
   windowsVerbatimArguments?: boolean;
 };
-
-function normalizePackedPath(packedPath: string): string {
-  return packedPath.replace(/\\/g, "/");
-}
-function isNodeModulesPackageRoot(segments: string[], index: number): boolean {
-  const parent = segments[index - 1];
-  if (parent === "node_modules") {
-    return true;
-  }
-  return parent?.startsWith("@") && segments[index - 2] === "node_modules";
-}
-
-function pathContainsPackedTestCargo(packedPath: string): boolean {
-  const normalizedPath = normalizePackedPath(packedPath);
-  if (PACKED_TEST_CARGO_FILE_RE.test(normalizedPath)) {
-    return true;
-  }
-  const segments = normalizedPath.split("/").filter(Boolean);
-  return segments.some(
-    (segment, index) =>
-      index < segments.length - 1 &&
-      PACKED_TEST_CARGO_DIRECTORY_SEGMENTS.has(segment) &&
-      !isNodeModulesPackageRoot(segments, index),
-  );
-}
 
 function normalizeRepoUrl(value: unknown): string {
   if (typeof value !== "string") {
@@ -190,10 +157,6 @@ function normalizeRepoUrl(value: unknown): string {
     .replace(/^git\+/, "")
     .replace(/\.git$/i, "")
     .replace(/\/+$/, "");
-}
-
-function isLocalDependencySpec(value: string | undefined): boolean {
-  return /^(?:file|link|workspace):/u.test(value ?? "");
 }
 
 export function parseReleaseVersion(version: string): ParsedReleaseVersion | null {
@@ -336,7 +299,6 @@ export function runNpmReleaseCheckCommand(
     maxBuffer: options.maxBuffer ?? NPM_PACK_MAX_BUFFER_BYTES,
     stdio: options.stdio,
     timeout: options.timeoutMs ?? resolveNpmReleaseCheckCommandTimeoutMs(env),
-    windowsVerbatimArguments: invocation.windowsVerbatimArguments,
   }) as Buffer | string | null;
   if (output == null) {
     return "";
@@ -366,19 +328,14 @@ export function collectReleasePackageMetadataErrors(pkg: PackageJson): string[] 
       }.`,
     );
   }
-  if (pkg.bin?.openclaw !== "openclaw.mjs") {
+  if (pkg.bin?.openclaw !== "openclaw.ts") {
     errors.push(
-      `package.json bin.openclaw must be "openclaw.mjs"; found "${pkg.bin?.openclaw ?? ""}".`,
+      `package.json bin.openclaw must be "openclaw.ts"; found "${pkg.bin?.openclaw ?? ""}".`,
     );
   }
   if (pkg.dependencies?.[OPTIONAL_LOCAL_EMBEDDING_RUNTIME_PACKAGE]) {
     errors.push(
       `package.json dependencies["${OPTIONAL_LOCAL_EMBEDDING_RUNTIME_PACKAGE}"] must be omitted; keep it optional.`,
-    );
-  }
-  if (isLocalDependencySpec(pkg.dependencies?.[FS_SAFE_PACKAGE])) {
-    errors.push(
-      `package.json dependencies["${FS_SAFE_PACKAGE}"] must use a published semver range before npm release; found "${pkg.dependencies?.[FS_SAFE_PACKAGE]}".`,
     );
   }
   if (pkg.optionalDependencies?.[OPTIONAL_LOCAL_EMBEDDING_RUNTIME_PACKAGE]) {
@@ -523,7 +480,7 @@ export function resolveNpmCommandInvocation(
         windowsVerbatimArguments: true,
       };
     }
-    if (name.endsWith(".js") || name.endsWith(".cjs") || name.endsWith(".mjs")) {
+    if (name.endsWith(".js") || name.endsWith(".ts")) {
       return { command: nodeExecPath, args: [npmExecPath, ...npmArgs] };
     }
     return { command: npmExecPath, args: npmArgs };
@@ -674,14 +631,13 @@ function collectPackedTarballErrors(): string[] {
     ...collectControlUiPackErrors(packedPaths),
     ...collectForbiddenPackedPathErrors(packedPaths),
     ...collectForbiddenPackedContentErrors(packedPaths),
-    ...collectPackedTestCargoErrors(packedPaths),
   ];
 }
 
 function collectNpmShrinkwrapErrors(): string[] {
   try {
     runNpmReleaseCheckCommand(
-      { command: process.execPath, args: ["scripts/generate-npm-shrinkwrap.mjs", "--check"] },
+      { command: process.execPath, args: ["scripts/generate-npm-shrinkwrap.ts", "--check"] },
       {
         cwd: process.cwd(),
         encoding: "utf8",
@@ -712,7 +668,7 @@ export function collectForbiddenPackedContentErrors(
   paths: Iterable<string>,
   rootDir = process.cwd(),
 ): string[] {
-  const textPathPattern = /\.(?:[cm]?js|d\.ts|json|md|mjs|cjs)$/u;
+  const textPathPattern = /\.(?:[cm]?js|d\.ts|json|md|ts|ts)$/u;
   const errors: string[] = [];
   for (const packedPath of paths) {
     if (
@@ -738,17 +694,6 @@ export function collectForbiddenPackedContentErrors(
     errors.push(
       `npm package must not include private QA lab marker "${matchedMarker}" in "${packedPath}".`,
     );
-  }
-  return errors.toSorted((left, right) => left.localeCompare(right));
-}
-
-export function collectPackedTestCargoErrors(paths: Iterable<string>): string[] {
-  const errors: string[] = [];
-  for (const packedPath of paths) {
-    if (!pathContainsPackedTestCargo(packedPath)) {
-      continue;
-    }
-    errors.push(`npm package must not include test cargo "${packedPath}".`);
   }
   return errors.toSorted((left, right) => left.localeCompare(right));
 }

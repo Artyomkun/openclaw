@@ -28,9 +28,10 @@ export function normalizeTelegramApiRoot(apiRoot?: string): string {
       url.hash = "";
       normalized = url.toString().replace(/\/+$/u, "");
     }
-  } catch {
-    // Config validation catches invalid URLs; keep legacy runtime behavior for
-    // callers that reached this helper with unchecked input.
+  } catch (error) {
+    console.warn('Invalid URL in helper, falling back to older behavior:', 
+      error instanceof Error ? error.message : String(error)
+    );
   }
   return normalized;
 }

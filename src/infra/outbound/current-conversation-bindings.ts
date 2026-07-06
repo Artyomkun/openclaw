@@ -6,24 +6,24 @@ import {
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeConversationText } from "../../acp/conversation-id.js";
-import { normalizeAnyChannelId } from "../../channels/registry.js";
-import { getActivePluginChannelRegistryFromState } from "../../plugins/runtime-channel-state.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import type { DB as OpenClawStateKyselyDatabase } from "../../state/openclaw-state-db.generated.js";
+import { normalizeConversationText } from "../../acp/conversation-id.ts";
+import { normalizeAnyChannelId } from "../../channels/registry.ts";
+import { getActivePluginChannelRegistryFromState } from "../../plugins/runtime-channel-state.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import type { DB as OpenClawStateKyselyDatabase } from "../../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../../state/openclaw-state-db.js";
-import { executeSqliteQuerySync, getNodeSqliteKysely } from "../kysely-sync.js";
-import { normalizeConversationRef } from "./session-binding-normalization.js";
+} from "../../state/openclaw-state-db.ts";
+import { executeSqliteQuerySync, getNodeSqliteKysely } from "../kysely-sync.ts";
+import { normalizeConversationRef } from "./session-binding-normalization.ts";
 import type {
   ConversationRef,
   SessionBindingBindInput,
   SessionBindingCapabilities,
   SessionBindingRecord,
   SessionBindingUnbindInput,
-} from "./session-binding.types.js";
+} from "./session-binding.types.ts";
 
 const CURRENT_BINDINGS_ID_PREFIX = "generic:";
 const CURRENT_BINDING_CONVERSATION_KIND = "current";

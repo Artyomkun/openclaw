@@ -6,29 +6,29 @@ import {
   formatValidationErrors,
   type ToolsCatalogResult,
   validateToolsCatalogParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope.js";
+} from "../../agents/agent-scope.ts";
 import {
   listCoreToolSections,
   PROFILE_OPTIONS,
   resolveCoreToolProfiles,
-} from "../../agents/tool-catalog.js";
-import { summarizeToolDescriptionText } from "../../agents/tool-description-summary.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginRegistry } from "../../plugins/registry-types.js";
-import { getActivePluginRegistry } from "../../plugins/runtime.js";
+} from "../../agents/tool-catalog.ts";
+import { summarizeToolDescriptionText } from "../../agents/tool-description-summary.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginRegistry } from "../../plugins/registry-types.ts";
+import { getActivePluginRegistry } from "../../plugins/runtime.ts";
 import {
   buildPluginToolMetadataKey,
   ensureStandalonePluginToolRegistryLoaded,
   getPluginToolMeta,
   resolvePluginTools,
-} from "../../plugins/tools.js";
-import { resolveAgentIdOrRespondError } from "./agent-id-shared.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../plugins/tools.ts";
+import { resolveAgentIdOrRespondError } from "./agent-id-shared.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 type ToolCatalogEntry = {
   id: string;

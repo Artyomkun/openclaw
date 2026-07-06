@@ -1,7 +1,7 @@
 // Builds the user-facing `openclaw status --all` channel summary table rows.
 // Gateway issues are folded in here so every text/report surface shows the same warning state.
 
-import { groupChannelIssuesByChannel } from "./channel-issues.js";
+import { groupChannelIssuesByChannel } from "./channel-issues.ts";
 
 type ChannelTableRowInput = {
   id: string;

@@ -1,14 +1,14 @@
 // Implements ACP context commands for session metadata and prompt state.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { normalizeConversationText } from "../../../acp/conversation-id.js";
-import { normalizeConversationTargetRef } from "../../../infra/outbound/session-binding-normalization.js";
-import type { HandleCommandsParams } from "../commands-types.js";
+import { normalizeConversationText } from "../../../acp/conversation-id.ts";
+import { normalizeConversationTargetRef } from "../../../infra/outbound/session-binding-normalization.ts";
+import type { HandleCommandsParams } from "../commands-types.ts";
 import {
   resolveConversationBindingAccountIdFromMessage,
   resolveConversationBindingChannelFromMessage,
   resolveConversationBindingContextFromAcpCommand,
   resolveConversationBindingThreadIdFromMessage,
-} from "../conversation-binding-input.js";
+} from "../conversation-binding-input.ts";
 
 export function resolveAcpCommandChannel(params: HandleCommandsParams): string {
   const resolved = resolveConversationBindingChannelFromMessage(params.ctx, params.command.channel);

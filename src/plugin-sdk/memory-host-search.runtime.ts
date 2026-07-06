@@ -6,4 +6,4 @@ export {
   closeActiveMemorySearchManagers,
   getActiveMemorySearchManager,
   resolveActiveMemoryBackendConfig,
-} from "../plugins/memory-runtime.js";
+} from "../plugins/memory-runtime.ts";

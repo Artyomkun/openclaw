@@ -3,26 +3,26 @@
  */
 import type { NormalizedModelCatalogRow } from "@openclaw/model-catalog-core/model-catalog-types";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import type { ModelProviderConfig } from "../../config/types.models.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { planManifestModelCatalogRows } from "../../model-catalog/manifest-planner.js";
-import { listOpenClawPluginManifestMetadata } from "../../plugins/manifest-metadata-scan.js";
-import { loadPluginManifestRegistry } from "../../plugins/manifest-registry.js";
-import type { PluginManifestRecord } from "../../plugins/manifest-registry.js";
-import { loadPluginManifest } from "../../plugins/manifest.js";
+import type { ModelProviderConfig } from "../../config/types.models.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { planManifestModelCatalogRows } from "../../model-catalog/manifest-planner.ts";
+import { listOpenClawPluginManifestMetadata } from "../../plugins/manifest-metadata-scan.ts";
+import { loadPluginManifestRegistry } from "../../plugins/manifest-registry.ts";
+import type { PluginManifestRecord } from "../../plugins/manifest-registry.ts";
+import { loadPluginManifest } from "../../plugins/manifest.ts";
 import {
   normalizePluginDiscoveryResult,
   resolveRuntimePluginDiscoveryProviders,
   runProviderStaticCatalog,
-} from "../../plugins/provider-discovery.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
+} from "../../plugins/provider-discovery.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
 import {
   resolveBundledProviderCompatPluginIds,
   resolveOwningPluginIdsForProviderRef,
-} from "../../plugins/providers.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../defaults.js";
-import { normalizeStaticProviderModelId } from "../model-ref-shared.js";
-import { buildInlineProviderModels } from "./model.inline-provider.js";
+} from "../../plugins/providers.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../defaults.ts";
+import { normalizeStaticProviderModelId } from "../model-ref-shared.ts";
+import { buildInlineProviderModels } from "./model.inline-provider.ts";
 
 /**
  * Resolves bundled plugin static model-catalog rows into runtime model records.

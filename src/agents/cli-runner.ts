@@ -1,59 +1,59 @@
 /**
  * Top-level CLI-backed agent runner orchestration.
  */
-import { setReplyPayloadMetadata, type ReplyPayload } from "../auto-reply/reply-payload.js";
-import { SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import { appendExactAssistantMessageToSessionTranscript } from "../config/sessions/transcript.js";
-import { buildGenericCliContextEngineHostSupport } from "../context-engine/host-compat.js";
+import { setReplyPayloadMetadata, type ReplyPayload } from "../auto-reply/reply-payload.ts";
+import { SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import { appendExactAssistantMessageToSessionTranscript } from "../config/sessions/transcript.ts";
+import { buildGenericCliContextEngineHostSupport } from "../context-engine/host-compat.ts";
 import {
   assertAgentRunLifecycleGenerationCurrent,
   captureAgentRunLifecycleGeneration,
   withAgentRunLifecycleGeneration,
-} from "../infra/agent-events.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../infra/agent-events.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   buildAgentHookContextChannelFields,
   buildAgentHookContextIdentityFields,
-} from "../plugins/hook-agent-context.js";
-import { resolveBlockMessage } from "../plugins/hook-decision-types.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import type { CliOutput } from "./cli-output.js";
+} from "../plugins/hook-agent-context.ts";
+import { resolveBlockMessage } from "../plugins/hook-decision-types.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import type { CliOutput } from "./cli-output.ts";
 import {
   attachCliMessagingDeliveryEvidence,
   getCliMessagingDeliveryEvidence,
-} from "./cli-runner/delivery-evidence.js";
-import { cliBackendLog, formatCliBackendOutputDigest } from "./cli-runner/log.js";
+} from "./cli-runner/delivery-evidence.ts";
+import { cliBackendLog, formatCliBackendOutputDigest } from "./cli-runner/log.ts";
 import {
   loadCliSessionContextEngineMessages,
   loadCliSessionHistoryMessages,
-} from "./cli-runner/session-history.js";
-import type { PreparedCliRunContext, RunCliAgentParams } from "./cli-runner/types.js";
-import { claudeCliSessionTranscriptHasContent as claudeCliSessionTranscriptHasContentImpl } from "./command/attempt-execution.helpers.js";
-import { classifyFailoverReason, isFailoverErrorMessage } from "./embedded-agent-helpers.js";
-import type { EmbeddedAgentRunResult } from "./embedded-agent-runner.js";
-import { waitForDeferredTurnMaintenanceForSession } from "./embedded-agent-runner/context-engine-maintenance.js";
-import { buildEmbeddedRunPayloads } from "./embedded-agent-runner/run/payloads.js";
-import { FailoverError, isFailoverError, resolveFailoverStatus } from "./failover-error.js";
+} from "./cli-runner/session-history.ts";
+import type { PreparedCliRunContext, RunCliAgentParams } from "./cli-runner/types.ts";
+import { claudeCliSessionTranscriptHasContent as claudeCliSessionTranscriptHasContentImpl } from "./command/attempt-execution.helpers.ts";
+import { classifyFailoverReason, isFailoverErrorMessage } from "./embedded-agent-helpers.ts";
+import type { EmbeddedAgentRunResult } from "./embedded-agent-runner.ts";
+import { waitForDeferredTurnMaintenanceForSession } from "./embedded-agent-runner/context-engine-maintenance.ts";
+import { buildEmbeddedRunPayloads } from "./embedded-agent-runner/run/payloads.ts";
+import { FailoverError, isFailoverError, resolveFailoverStatus } from "./failover-error.ts";
 import {
   awaitAgentEndSideEffects,
   runAgentEndSideEffects,
-} from "./harness/agent-end-side-effects.js";
+} from "./harness/agent-end-side-effects.ts";
 import {
   bootstrapHarnessContextEngine,
   finalizeHarnessContextEngineTurn,
   runHarnessContextEngineMaintenance,
-} from "./harness/context-engine-lifecycle.js";
-import { buildAgentHookContext } from "./harness/hook-context.js";
-import { runAgentHarnessBeforeMessageWriteHook } from "./harness/hook-helpers.js";
-import { buildAgentHookConversationMessages } from "./harness/hook-history.js";
+} from "./harness/context-engine-lifecycle.ts";
+import { buildAgentHookContext } from "./harness/hook-context.ts";
+import { runAgentHarnessBeforeMessageWriteHook } from "./harness/hook-helpers.ts";
+import { buildAgentHookConversationMessages } from "./harness/hook-history.ts";
 import {
   runAgentHarnessLlmInputHook,
   runAgentHarnessLlmOutputHook,
-} from "./harness/lifecycle-hook-helpers.js";
-import type { AgentMessage } from "./runtime/index.js";
-import { SessionManager } from "./sessions/session-manager.js";
-import { buildAssistantMessage, buildUsageWithNoCost } from "./stream-message-shared.js";
+} from "./harness/lifecycle-hook-helpers.ts";
+import type { AgentMessage } from "./runtime/index.ts";
+import { SessionManager } from "./sessions/session-manager.ts";
+import { buildAssistantMessage, buildUsageWithNoCost } from "./stream-message-shared.ts";
 
 const log = createSubsystemLogger("agents/cli-runner");
 

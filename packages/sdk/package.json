@@ -6,17 +6,17 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
+    "build": "tsc src/index.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
   },
   "dependencies": {
     "@openclaw/gateway-client": "workspace:*"

@@ -6,8 +6,8 @@ import {
   type SilentReplyConversationType,
   type SilentReplyPolicy,
   type SilentReplyPolicyShape,
-} from "../shared/silent-reply-policy.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+} from "../shared/silent-reply-policy.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 type ResolveSilentReplyParams = {
   cfg?: OpenClawConfig;

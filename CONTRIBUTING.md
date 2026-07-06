@@ -137,9 +137,9 @@ For coordinated change sets that genuinely need more than 20 PRs, join the **#cl
   - These commands also cover the shared seam/smoke files that the default unit lane skips
   - If you changed broader runtime behavior, still run the relevant wider lanes (`pnpm test:extensions`, `pnpm test:channels`, or `pnpm test`) before asking for review
 - If you touched bundled-plugin boundaries in shared code, run the matching inventories:
-  - `node scripts/check-src-extension-import-boundary.mjs --json` for `src/**`
-  - `node scripts/check-sdk-package-extension-import-boundary.mjs --json` for `src/plugin-sdk/**` and `packages/**`
-  - `node scripts/check-test-helper-extension-import-boundary.mjs --json` for `test/helpers/**`
+  - `node scripts/check-src-extension-import-boundary.ts --json` for `src/**`
+  - `node scripts/check-sdk-package-extension-import-boundary.ts --json` for `src/plugin-sdk/**` and `packages/**`
+  - `node scripts/check-test-helper-extension-import-boundary.ts --json` for `test/helpers/**`
 - Shared test helpers must use `src/test-utils/bundled-plugin-public-surface.ts` instead of repo-relative `extensions/**` imports. Keep plugin-local deep mocks inside the owning bundled plugin package.
 - If you have access to Codex, run `codex review --base origin/main` locally before opening or updating your PR. Treat this as the current highest standard of AI review, even if GitHub Codex review also runs.
 - Do not submit refactor-only PRs unless a maintainer explicitly requested that refactor for an active fix or deliverable.
@@ -167,16 +167,16 @@ This applies to both human-authored and AI-assisted PRs.
 
 ## Control UI Decorators
 
-The Control UI uses Lit with **legacy** decorators (current Rollup parsing does not support
+The Control UI uses Lit with **experimental** decorators (current Rollup parsing does not support
 `accessor` fields required for standard decorators). When adding reactive fields, keep the
-legacy style:
+existing style:
 
 ```ts
 @state() foo = "bar";
 @property({ type: Number }) count = 0;
 ```
 
-The root `tsconfig.json` is configured for legacy decorators (`experimentalDecorators: true`)
+The root `tsconfig.json` is configured for experimental decorators (`experimentalDecorators: true`)
 with `useDefineForClassFields: false`. Avoid flipping these unless you are also updating the UI
 build tooling to support standard decorators.
 

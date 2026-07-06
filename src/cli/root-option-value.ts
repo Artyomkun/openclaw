@@ -1,6 +1,6 @@
 // Shared parser for root options that may be passed as `--flag=value` or `--flag value`.
-import { isValueToken } from "../infra/cli-root-options.js";
-import { parseInlineOptionToken } from "../infra/inline-option-token.js";
+import { isValueToken } from "../infra/cli-root-options.ts";
+import { parseInlineOptionToken } from "../infra/inline-option-token.ts";
 
 /** Return the normalized option value and whether the next argv token was consumed. */
 export function takeCliRootOptionValue(

@@ -1,14 +1,14 @@
 // Implements subagent commands for spawn, focus, routing, and status.
-import { logVerbose } from "../../globals.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+import { logVerbose } from "../../globals.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 import {
   resolveHandledPrefix,
   resolveRequesterSessionKey,
   resolveSubagentsAction,
   stopWithText,
   type SubagentsCommandContext,
-} from "./commands-subagents-dispatch.js";
-import type { CommandHandler } from "./commands-types.js";
+} from "./commands-subagents-dispatch.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 const actionAgentsLoader = createLazyImportLoader(
   () => import("./commands-subagents/action-agents.js"),

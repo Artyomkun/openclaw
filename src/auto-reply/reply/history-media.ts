@@ -2,8 +2,8 @@
 import { mimeTypeFromFilePath } from "@openclaw/media-core/mime";
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { MsgContext } from "../templating.js";
-import type { HistoryEntry, HistoryMediaEntry } from "./history.types.js";
+import type { MsgContext } from "../templating.ts";
+import type { HistoryEntry, HistoryMediaEntry } from "./history.types.ts";
 
 const RECENT_HISTORY_IMAGE_TTL_MS = 30 * 60_000;
 const RECENT_HISTORY_IMAGE_LIMIT = 4;

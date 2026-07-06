@@ -1,4 +1,6 @@
-// Memory Core plugin module implements cli metadata behavior.
+/**
+ * Memory Core - CLI Metadata
+ */
 import { definePluginEntry } from "openclaw/plugin-sdk/core";
 
 export default definePluginEntry({
@@ -8,7 +10,7 @@ export default definePluginEntry({
   register(api) {
     api.registerCli(
       async ({ program }) => {
-        const { registerMemoryCli } = await import("./cli.js");
+        const { registerMemoryCli } = await import("./cli.ts");
         registerMemoryCli(program);
       },
       {

@@ -4,23 +4,23 @@
  * It can discover gateways, validate remote WebSocket security, and store
  * remote token/password auth as plaintext or secret references.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { SecretInput } from "../config/types.secrets.js";
-import { isSecureWebSocketUrl } from "../gateway/net.js";
-import { discoverGatewayBeacons, type GatewayBonjourBeacon } from "../infra/bonjour-discovery.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { SecretInput } from "../config/types.secrets.ts";
+import { isSecureWebSocketUrl } from "../gateway/net.ts";
+import { discoverGatewayBeacons, type GatewayBonjourBeacon } from "../infra/bonjour-discovery.ts";
 import {
   buildGatewayDiscoveryLabel,
   buildGatewayDiscoveryTarget,
-} from "../infra/gateway-discovery-targets.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
-import { resolveWideAreaDiscoveryDomain } from "../infra/widearea-dns.js";
-import { resolveSecretInputModeForEnvSelection } from "../plugins/provider-auth-mode.js";
-import { promptSecretRefForSetup } from "../plugins/provider-auth-ref.js";
-import { maskApiKey } from "../utils/mask-api-key.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import { detectBinary } from "./onboard-helpers.js";
-import type { SecretInputMode } from "./onboard-types.js";
+} from "../infra/gateway-discovery-targets.ts";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
+import { resolveWideAreaDiscoveryDomain } from "../infra/widearea-dns.ts";
+import { resolveSecretInputModeForEnvSelection } from "../plugins/provider-auth-mode.ts";
+import { promptSecretRefForSetup } from "../plugins/provider-auth-ref.ts";
+import { maskApiKey } from "../utils/mask-api-key.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import { detectBinary } from "./onboard-helpers.ts";
+import type { SecretInputMode } from "./onboard-types.ts";
 
 const DEFAULT_GATEWAY_URL = "ws://127.0.0.1:18789";
 

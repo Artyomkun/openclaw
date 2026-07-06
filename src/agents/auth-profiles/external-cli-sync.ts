@@ -8,22 +8,22 @@ import {
   readClaudeCliCredentialsCached,
   readCodexCliCredentialsCached,
   readMiniMaxCliCredentialsCached,
-} from "../cli-credentials.js";
+} from "../cli-credentials.ts";
 import {
   CLAUDE_CLI_PROFILE_ID,
   EXTERNAL_CLI_SYNC_TTL_MS,
   MINIMAX_CLI_PROFILE_ID,
   OPENAI_CODEX_DEFAULT_PROFILE_ID,
-} from "./constants.js";
-import { log } from "./constants.js";
-import { isSafeToCopyOAuthIdentity } from "./oauth-identity.js";
+} from "./constants.ts";
+import { log } from "./constants.ts";
+import { isSafeToCopyOAuthIdentity } from "./oauth-identity.ts";
 import {
   areOAuthCredentialsEquivalent,
   hasUsableOAuthCredential,
   isSafeToAdoptBootstrapOAuthIdentity,
   shouldBootstrapFromExternalCliCredential,
-} from "./oauth-shared.js";
-import type { AuthProfileStore, OAuthCredential } from "./types.js";
+} from "./oauth-shared.ts";
+import type { AuthProfileStore, OAuthCredential } from "./types.ts";
 
 export {
   areOAuthCredentialsEquivalent,
@@ -32,7 +32,7 @@ export {
   isSafeToOverwriteStoredOAuthIdentity,
   shouldBootstrapFromExternalCliCredential,
   shouldReplaceStoredOAuthCredential,
-} from "./oauth-shared.js";
+} from "./oauth-shared.ts";
 
 export type ExternalCliResolvedProfile = {
   profileId: string;
@@ -153,13 +153,11 @@ function getAuthProfileProviderPrefix(profileId: string): string {
 function externalCliProfileIdMatches(
   providerConfig: ExternalCliSyncProvider,
   profileId: string,
-  options?: { allowLegacyNamespace?: boolean },
 ): boolean {
   if (listExternalCliProfileIds(providerConfig).includes(profileId)) {
     return true;
   }
   if (
-    !options?.allowLegacyNamespace ||
     providerConfig.profileId !== OPENAI_CODEX_DEFAULT_PROFILE_ID
   ) {
     return false;
@@ -253,15 +251,6 @@ function isExternalCliProviderInScope(params: {
       );
     });
   }
-  if (
-    Array.from(options?.profileIds ?? []).some((profileId) =>
-      externalCliProfileIdMatches(providerConfig, profileId.trim(), {
-        allowLegacyNamespace: true,
-      }),
-    )
-  ) {
-    return true;
-  }
   if (!providerScope || providerScope.size === 0) {
     return false;
   }
@@ -277,18 +266,7 @@ function listScopedExternalCliProfileIds(params: {
   store: AuthProfileStore;
   options?: ExternalCliAuthProfileOptions;
 }): string[] {
-  const { options, providerConfig, store } = params;
-  const requestedProfileIds = Array.from(options?.profileIds ?? [])
-    .map((value) => value.trim())
-    .filter((value) => value.length > 0);
-  if (requestedProfileIds.length > 0) {
-    return requestedProfileIds.filter((profileId) =>
-      externalCliProfileIdMatches(providerConfig, profileId, {
-        allowLegacyNamespace: true,
-      }),
-    );
-  }
-
+  const { options, providerConfig, store } = params;;
   const existingProfileIds = Object.keys(store.profiles).filter((profileId) =>
     externalCliProfileIdMatches(providerConfig, profileId),
   );

@@ -6,8 +6,8 @@ import {
   safeDirName,
   safePathSegmentHashed,
   unscopedPackageName,
-} from "../infra/install-safe-path.js";
-import { resolveConfigDir, resolveUserPath } from "../utils.js";
+} from "../infra/install-safe-path.ts";
+import { resolveConfigDir, resolveUserPath } from "../utils.ts";
 
 /** Encodes arbitrary input as a safe plugin install filename. */
 export function safePluginInstallFileName(input: string): string {

@@ -6,15 +6,15 @@ import {
   buildPairingConnectRecoveryTitle,
   describePairingConnectRequirement,
   type ConnectPairingRequiredReason,
-} from "../../packages/gateway-protocol/src/connect-error-details.js";
-import type { TableColumn } from "../../packages/terminal-core/src/table.js";
-import { areRuntimeModelRefsEquivalent } from "../agents/model-runtime-aliases.js";
-import type { HeartbeatEventPayload } from "../infra/heartbeat-events.js";
-import type { Tone } from "../memory-host-sdk/status.js";
-import type { HealthSummary } from "./health.js";
-import type { AgentLocalStatus } from "./status.agent-local.js";
-import type { MemoryStatusSnapshot, MemoryPluginStatus } from "./status.scan.shared.js";
-import type { SessionStatus, StatusSummary } from "./status.types.js";
+} from "../../packages/gateway-protocol/src/connect-error-details.ts";
+import type { TableColumn } from "../../packages/terminal-core/src/table.ts";
+import { areRuntimeModelRefsEquivalent } from "../agents/model-runtime-aliases.ts";
+import type { HeartbeatEventPayload } from "../infra/heartbeat-events.ts";
+import type { Tone } from "../memory-host-sdk/status.ts";
+import type { HealthSummary } from "./health.ts";
+import type { AgentLocalStatus } from "./status.agent-local.ts";
+import type { MemoryStatusSnapshot, MemoryPluginStatus } from "./status.scan.shared.ts";
+import type { SessionStatus, StatusSummary } from "./status.types.ts";
 
 type AgentStatusLike = {
   defaultId?: string | null;

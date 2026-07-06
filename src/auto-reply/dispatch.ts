@@ -1,46 +1,46 @@
 /** Auto-reply dispatch orchestration, hook composition, and foreground delivery fencing. */
-import { normalizeChatType } from "../channels/chat-type.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { normalizeChatType } from "../channels/chat-type.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   deriveInboundMessageHookContext,
   toPluginMessageContext,
-} from "../hooks/message-hook-mappers.js";
-import { isDiagnosticsEnabled } from "../infra/diagnostic-events.js";
+} from "../hooks/message-hook-mappers.ts";
+import { isDiagnosticsEnabled } from "../infra/diagnostic-events.ts";
 import {
   measureDiagnosticsTimelineSpan,
   measureDiagnosticsTimelineSpanSync,
-} from "../infra/diagnostics-timeline.js";
-import { isOutboundDeliveryError } from "../infra/outbound/deliver-types.js";
-import { logMessageReceived } from "../logging/diagnostic.js";
-import { hasOutboundReplyContent } from "../plugin-sdk/reply-payload.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import type { SilentReplyConversationType } from "../shared/silent-reply-policy.js";
+} from "../infra/diagnostics-timeline.ts";
+import { isOutboundDeliveryError } from "../infra/outbound/deliver-types.ts";
+import { logMessageReceived } from "../logging/diagnostic.ts";
+import { hasOutboundReplyContent } from "../plugin-sdk/reply-payload.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import type { SilentReplyConversationType } from "../shared/silent-reply-policy.ts";
 import {
   resolveCommandTurnContext,
   resolveCommandTurnTargetSessionKey,
-} from "./command-turn-context.js";
-import { withReplyDispatcher } from "./dispatch-dispatcher.js";
-import { copyReplyPayloadMetadata } from "./reply-payload.js";
-import type { CommandSessionMetadataChange } from "./reply/command-session-metadata.js";
-import { dispatchReplyFromConfig } from "./reply/dispatch-from-config.js";
-import type { DispatchFromConfigResult } from "./reply/dispatch-from-config.types.js";
+} from "./command-turn-context.ts";
+import { withReplyDispatcher } from "./dispatch-dispatcher.ts";
+import { copyReplyPayloadMetadata } from "./reply-payload.ts";
+import type { CommandSessionMetadataChange } from "./reply/command-session-metadata.ts";
+import { dispatchReplyFromConfig } from "./reply/dispatch-from-config.ts";
+import type { DispatchFromConfigResult } from "./reply/dispatch-from-config.types.ts";
 import type {
   InternalGetReplyFromConfig,
   InternalGetReplyOptions,
-} from "./reply/get-reply.types.js";
-import { finalizeInboundContext } from "./reply/inbound-context.js";
+} from "./reply/get-reply.types.ts";
+import { finalizeInboundContext } from "./reply/inbound-context.ts";
 import {
   createReplyDispatcher,
   createReplyDispatcherWithTyping,
   type ReplyDispatchBeforeDeliver,
   type ReplyDispatcherOptions,
   type ReplyDispatcherWithTypingOptions,
-} from "./reply/reply-dispatcher.js";
-import type { ReplyDispatcher } from "./reply/reply-dispatcher.types.js";
-import { runReplyPayloadSendingHook } from "./reply/reply-payload-sending-hook.js";
-import { consumeReplyUsageState } from "./reply/reply-usage-state.js";
-import type { FinalizedMsgContext, MsgContext } from "./templating.js";
-import type { ReplyPayload } from "./types.js";
+} from "./reply/reply-dispatcher.ts";
+import type { ReplyDispatcher } from "./reply/reply-dispatcher.types.ts";
+import { runReplyPayloadSendingHook } from "./reply/reply-payload-sending-hook.ts";
+import { consumeReplyUsageState } from "./reply/reply-usage-state.ts";
+import type { FinalizedMsgContext, MsgContext } from "./templating.ts";
+import type { ReplyPayload } from "./types.ts";
 
 type InternalDispatchReplyOptions = Omit<InternalGetReplyOptions, "onBlockReply">;
 
@@ -457,7 +457,7 @@ function buildDispatchTimelineAttributes(ctx: MsgContext | FinalizedMsgContext) 
 }
 
 export type DispatchInboundResult = DispatchFromConfigResult;
-export { settleReplyDispatcher, withReplyDispatcher } from "./dispatch-dispatcher.js";
+export { settleReplyDispatcher, withReplyDispatcher } from "./dispatch-dispatcher.ts";
 
 function finalizeDispatchResult(
   result: DispatchFromConfigResult,

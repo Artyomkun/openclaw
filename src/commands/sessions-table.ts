@@ -4,8 +4,8 @@
  * Cleanup and listing commands use the same row shape and fixed-width cells so
  * terminal output stays aligned across commands.
  */
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import type { SessionEntry } from "../config/sessions.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import type { SessionEntry } from "../config/sessions.ts";
 import { formatTimeAgo } from "../infra/format-time/format-relative.ts";
 
 /** Display row derived from a persisted session entry. */

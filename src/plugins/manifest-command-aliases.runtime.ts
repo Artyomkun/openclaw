@@ -1,20 +1,20 @@
 /** Resolves manifest-declared command and tool ownership at runtime. */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveManifestActivationPluginIds } from "./activation-planner.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveManifestActivationPluginIds } from "./activation-planner.ts";
 import {
   resolveManifestCommandAliasOwnerInRegistry,
   resolveManifestToolOwnerInRegistry,
   type PluginManifestCommandAliasRegistry,
   type PluginManifestCommandAliasRecord,
   type PluginManifestToolOwnerRecord,
-} from "./manifest-command-aliases.js";
+} from "./manifest-command-aliases.ts";
 import {
   isManifestPluginAvailableForControlPlane,
   loadManifestMetadataRegistry,
   loadManifestMetadataSnapshot,
-} from "./manifest-contract-eligibility.js";
-import { hasManifestToolAvailability } from "./manifest-tool-availability.js";
+} from "./manifest-contract-eligibility.ts";
+import { hasManifestToolAvailability } from "./manifest-tool-availability.ts";
 
 /** Resolves the manifest owner for a CLI command alias when one is declared. */
 export function resolveManifestCommandAliasOwner(params: {

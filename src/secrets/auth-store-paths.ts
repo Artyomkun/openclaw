@@ -1,9 +1,9 @@
 /** Discovers auth-profile store paths that may contain secret refs. */
 import fs from "node:fs";
 import path from "node:path";
-import { listAgentIds, resolveAgentDir } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveUserPath } from "../utils.js";
+import { listAgentIds, resolveAgentDir } from "../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveUserPath } from "../utils.ts";
 
 /**
  * Lists deduplicated auth-profile store agent dirs that may contain SecretRefs.

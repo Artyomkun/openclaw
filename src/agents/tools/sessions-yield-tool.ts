@@ -4,8 +4,8 @@
  * Ends the current turn after subagent spawning so completion events can resume the session later.
  */
 import { Type } from "typebox";
-import type { AnyAgentTool } from "./common.js";
-import { jsonResult, readStringParam } from "./common.js";
+import type { AnyAgentTool } from "./common.ts";
+import { jsonResult, readStringParam } from "./common.ts";
 
 const SessionsYieldToolSchema = Type.Object({
   message: Type.Optional(Type.String()),

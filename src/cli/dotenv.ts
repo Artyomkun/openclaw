@@ -1,7 +1,7 @@
 // CLI dotenv loader that preserves workspace overrides before global runtime fallbacks.
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import { loadGlobalRuntimeDotEnvFiles, loadWorkspaceDotEnvFile } from "../infra/dotenv.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { loadGlobalRuntimeDotEnvFiles, loadWorkspaceDotEnvFile } from "../infra/dotenv.ts";
 
 /** Load `.env` files for normal CLI commands without overriding existing process env. */
 export function loadCliDotEnv(opts?: { loadGlobalEnv?: boolean; quiet?: boolean }) {

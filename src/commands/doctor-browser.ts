@@ -1,10 +1,10 @@
 /** Facade-backed doctor checks and cleanup for bundled browser plugin state. */
 import fs from "node:fs";
 import path from "node:path";
-import { note } from "../../packages/terminal-core/src/note.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { loadBundledPluginPublicSurfaceModuleSync } from "../plugin-sdk/facade-loader.js";
-import { resolveConfigDir } from "../utils.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { loadBundledPluginPublicSurfaceModuleSync } from "../plugin-sdk/facade-loader.ts";
+import { resolveConfigDir } from "../utils.ts";
 
 type BrowserDoctorDeps = {
   platform?: NodeJS.Platform;
@@ -28,23 +28,8 @@ type BrowserDoctorRepairDeps = {
   movePathToTrash?: (targetPath: string) => Promise<string>;
 };
 
-/** Legacy browser profile paths detected before cleanup moves them aside. */
-export type LegacyClawdBrowserProfileResidue = {
-  legacyProfileDir: string;
-  legacyUserDataDir: string;
-  canonicalUserDataDir: string;
-};
-
 type BrowserDoctorSurface = {
   noteChromeMcpBrowserReadiness: (cfg: OpenClawConfig, deps?: BrowserDoctorDeps) => Promise<void>;
-  detectLegacyClawdBrowserProfileResidue?: (
-    cfg: OpenClawConfig,
-    deps?: BrowserDoctorRepairDeps,
-  ) => LegacyClawdBrowserProfileResidue | null;
-  maybeArchiveLegacyClawdBrowserProfileResidue?: (
-    cfg: OpenClawConfig,
-    deps?: BrowserDoctorRepairDeps,
-  ) => Promise<{ changes: string[]; warnings: string[] }>;
 };
 
 function loadBrowserDoctorSurface(): BrowserDoctorSurface {
@@ -52,18 +37,6 @@ function loadBrowserDoctorSurface(): BrowserDoctorSurface {
     dirName: "browser",
     artifactBasename: "browser-doctor.js",
   });
-}
-
-function mayHaveLegacyClawdBrowserProfileResidue(deps?: BrowserDoctorRepairDeps): boolean {
-  const configDir = deps?.configDir ?? resolveConfigDir(deps?.env ?? process.env);
-  const legacyProfileDir = path.join(configDir, "browser", "clawd");
-  const legacyUserDataDir = path.join(legacyProfileDir, "user-data");
-  const pathExists = deps?.pathExists ?? fs.existsSync;
-  try {
-    return pathExists(legacyProfileDir) || pathExists(legacyUserDataDir);
-  } catch {
-    return true;
-  }
 }
 
 /** Emits browser readiness notes through the bundled browser plugin doctor surface. */
@@ -74,43 +47,5 @@ export async function noteChromeMcpBrowserReadiness(cfg: OpenClawConfig, deps?: 
     const noteFn = deps?.noteFn ?? note;
     const message = error instanceof Error ? error.message : String(error);
     noteFn(`- Browser health check is unavailable: ${message}`, "Browser");
-  }
-}
-
-/** Detects old clawd browser profile residue without loading plugin cleanup when paths are absent. */
-export async function detectLegacyClawdBrowserProfileResidue(
-  cfg: OpenClawConfig,
-  deps?: BrowserDoctorRepairDeps,
-): Promise<LegacyClawdBrowserProfileResidue | null> {
-  if (!mayHaveLegacyClawdBrowserProfileResidue(deps)) {
-    return null;
-  }
-  const detect = loadBrowserDoctorSurface().detectLegacyClawdBrowserProfileResidue;
-  if (!detect) {
-    return null;
-  }
-  return detect(cfg, deps);
-}
-
-/** Archives legacy clawd browser profile residue through the browser plugin repair hook. */
-export async function maybeArchiveLegacyClawdBrowserProfileResidue(
-  cfg: OpenClawConfig,
-  deps?: BrowserDoctorRepairDeps,
-): Promise<{ changes: string[]; warnings: string[] }> {
-  if (!mayHaveLegacyClawdBrowserProfileResidue(deps)) {
-    return { changes: [], warnings: [] };
-  }
-  try {
-    const repair = loadBrowserDoctorSurface().maybeArchiveLegacyClawdBrowserProfileResidue;
-    if (!repair) {
-      return { changes: [], warnings: [] };
-    }
-    return await repair(cfg, deps);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    return {
-      changes: [],
-      warnings: [`Browser profile cleanup is unavailable: ${message}`],
-    };
   }
 }

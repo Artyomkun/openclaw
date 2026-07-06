@@ -5,9 +5,9 @@ import {
   errorShape,
   formatValidationErrors,
   validateModelsListParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { buildModelsListResult } from "./models-list-result.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { buildModelsListResult } from "./models-list-result.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 export { buildModelsListResult };
 

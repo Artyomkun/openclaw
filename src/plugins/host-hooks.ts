@@ -1,20 +1,20 @@
 /** Public host-hook type contracts exposed to plugin runtimes. */
-import type { OperatorScope } from "../gateway/operator-scopes.js";
-import type { AgentEventPayload, AgentEventStream } from "../infra/agent-events.js";
+import type { OperatorScope } from "../gateway/operator-scopes.ts";
+import type { AgentEventPayload, AgentEventStream } from "../infra/agent-events.ts";
 import type {
   PluginHookBeforeToolCallEvent,
   PluginHookBeforeToolCallResult,
   PluginHookToolContext,
-} from "./hook-types.js";
-import type { PluginJsonValue } from "./host-hook-json.js";
+} from "./hook-types.ts";
+import type { PluginJsonValue } from "./host-hook-json.ts";
 import type {
   PluginAgentTurnPrepareResult,
   PluginNextTurnInjectionPlacement,
   PluginNextTurnInjectionRecord,
-} from "./host-hook-turn-types.js";
+} from "./host-hook-turn-types.ts";
 
-export { isPluginJsonValue } from "./host-hook-json.js";
-export type { PluginJsonPrimitive, PluginJsonValue } from "./host-hook-json.js";
+export { isPluginJsonValue } from "./host-hook-json.ts";
+export type { PluginJsonPrimitive, PluginJsonValue } from "./host-hook-json.ts";
 export type {
   PluginAgentTurnPrepareEvent,
   PluginAgentTurnPrepareResult,
@@ -24,7 +24,7 @@ export type {
   PluginNextTurnInjectionEnqueueResult,
   PluginNextTurnInjectionPlacement,
   PluginNextTurnInjectionRecord,
-} from "./host-hook-turn-types.js";
+} from "./host-hook-turn-types.ts";
 
 /** Reason passed to plugin cleanup callbacks when host-owned state changes. */
 export type PluginHostCleanupReason = "disable" | "reset" | "delete" | "restart";
@@ -152,16 +152,12 @@ export type PluginAgentEventSubscriptionRegistration = {
   handle: (
     event: AgentEventPayload,
     ctx: {
-      // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Run-context JSON reads are caller-typed by namespace.
-      getRunContext: <T extends PluginJsonValue = PluginJsonValue>(
-        namespace: string,
-      ) => T | undefined;
+      getRunContext: (namespace: string) => PluginJsonValue | undefined;
       setRunContext: (namespace: string, value: PluginJsonValue) => void;
       clearRunContext: (namespace?: string) => void;
     },
   ) => void | Promise<void>;
 };
-
 export type PluginAgentEventEmitParams = {
   runId: string;
   stream: AgentEventStream;

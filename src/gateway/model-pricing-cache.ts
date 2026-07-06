@@ -5,8 +5,8 @@ import { readResponseWithLimit } from "@openclaw/media-core/read-response-with-l
 import {
   normalizeOptionalString,
   resolvePrimaryStringValue,
-} from "../../packages/normalization-core/src/string-coerce.js";
-import { DEFAULT_PROVIDER } from "../agents/defaults.js";
+} from "../../packages/normalization-core/src/string-coerce.ts";
+import { DEFAULT_PROVIDER } from "../agents/defaults.ts";
 import {
   buildModelAliasIndex,
   modelKey,
@@ -14,25 +14,25 @@ import {
   parseModelRef,
   resolveModelRefFromString,
   type ModelRef,
-} from "../agents/model-selection.js";
-import { resolvePluginWebSearchConfig } from "../config/plugin-web-search-config.js";
-import type { ModelDefinitionConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { planManifestModelCatalogRows } from "../model-catalog/index.js";
-import { isInstalledPluginEnabled } from "../plugins/installed-plugin-index.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
+} from "../agents/model-selection.ts";
+import { resolvePluginWebSearchConfig } from "../config/plugin-web-search-config.ts";
+import type { ModelDefinitionConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { planManifestModelCatalogRows } from "../model-catalog/index.ts";
+import { isInstalledPluginEnabled } from "../plugins/installed-plugin-index.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
 import type {
   PluginManifestModelPricingModelIdTransform,
   PluginManifestModelPricingProvider,
   PluginManifestModelPricingSource,
-} from "../plugins/manifest.js";
+} from "../plugins/manifest.ts";
 import {
   clearLoadPluginMetadataSnapshotMemo,
   resolvePluginMetadataSnapshot,
-} from "../plugins/plugin-metadata-snapshot.js";
-import type { PluginMetadataRegistryView } from "../plugins/plugin-metadata-snapshot.types.js";
-import type { PluginRegistrySnapshot } from "../plugins/plugin-registry.js";
+} from "../plugins/plugin-metadata-snapshot.ts";
+import type { PluginMetadataRegistryView } from "../plugins/plugin-metadata-snapshot.types.ts";
+import type { PluginRegistrySnapshot } from "../plugins/plugin-registry.ts";
 import {
   clearGatewayModelPricingCacheState,
   clearGatewayModelPricingFailures,
@@ -43,8 +43,8 @@ import {
   replaceGatewayModelPricingCache,
   type CachedModelPricing,
   type CachedPricingTier,
-} from "./model-pricing-cache-state.js";
-import { isGatewayModelPricingEnabled } from "./model-pricing-config.js";
+} from "./model-pricing-cache-state.ts";
+import { isGatewayModelPricingEnabled } from "./model-pricing-config.ts";
 
 type OpenRouterPricingEntry = {
   id: string;

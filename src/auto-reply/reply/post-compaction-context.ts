@@ -2,15 +2,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentContextLimits } from "../../agents/agent-scope.js";
-import { resolveCronStyleNow } from "../../agents/current-time.js";
-import { formatDateStamp, resolveUserTimezone } from "../../agents/date-time.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { openRootFile } from "../../infra/boundary-file-read.js";
+import { resolveAgentContextLimits } from "../../agents/agent-scope.ts";
+import { resolveCronStyleNow } from "../../agents/current-time.ts";
+import { formatDateStamp, resolveUserTimezone } from "../../agents/date-time.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
 const MAX_CONTEXT_CHARS = 1800;
 const DEFAULT_POST_COMPACTION_SECTIONS = ["Session Startup", "Red Lines"];
-const LEGACY_POST_COMPACTION_SECTIONS = ["Every Session", "Safety"];
 
 // Compare configured section names as a case-insensitive set so deployments can
 // pin the documented defaults in any order without changing fallback semantics.
@@ -88,14 +86,14 @@ export async function readPostCompactionContext(
     const foundSectionNames: string[] = [];
     let sections = extractSections(content, sectionNames, foundSectionNames);
 
-    // Legacy "Every Session" / "Safety" fallback is preserved only for users
+    // Older "Every Session" / "Safety" fallback is preserved only for users
     // who explicitly opt in to the documented default section pair.
     const isDefaultSections = matchesSectionSet(
       configuredSections,
       DEFAULT_POST_COMPACTION_SECTIONS,
     );
     if (sections.length === 0 && isDefaultSections) {
-      sections = extractSections(content, LEGACY_POST_COMPACTION_SECTIONS, foundSectionNames);
+      sections = extractSections(content, foundSectionNames);
     }
 
     if (sections.length === 0) {

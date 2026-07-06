@@ -1,7 +1,7 @@
 // Rejects config files written by unsupported future versions.
-import { VERSION } from "../version.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "./types.js";
-import { shouldWarnOnTouchedVersion } from "./version.js";
+import { VERSION } from "../version.ts";
+import type { ConfigFileSnapshot, OpenClawConfig } from "./types.ts";
+import { shouldWarnOnTouchedVersion } from "./version.ts";
 
 /** Override env var for intentional older-binary destructive config actions. */
 export const ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV =

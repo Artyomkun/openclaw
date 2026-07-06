@@ -1,12 +1,12 @@
 // Shared daemon install runtime/path helpers for service plan generation.
 import fs from "node:fs";
 import path from "node:path";
-import { resolvePreferredNodePath } from "../daemon/runtime-paths.js";
+import { resolvePreferredNodePath } from "../daemon/runtime-paths.ts";
 import {
   emitNodeRuntimeWarning,
   type DaemonInstallWarnFn,
-} from "./daemon-install-runtime-warning.js";
-import type { GatewayDaemonRuntime } from "./daemon-runtime.js";
+} from "./daemon-install-runtime-warning.ts";
+import type { GatewayDaemonRuntime } from "./daemon-runtime.ts";
 
 /** Detect source-checkout dev mode from the current CLI entrypoint. */
 export function resolveGatewayDevMode(argv: string[] = process.argv): boolean {

@@ -2,9 +2,9 @@
 // Handles missing-config cold start and secret diagnostics before scan work begins.
 
 import { existsSync } from "node:fs";
-import { resolveConfigPath } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { resolveGatewayAuthTokenSourceConflict } from "../gateway/auth-token-source-conflict.js";
+import { resolveConfigPath } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { resolveGatewayAuthTokenSourceConflict } from "../gateway/auth-token-source-conflict.ts";
 
 /** Returns true when tests should avoid the missing-config cold-start fast path. */
 export function shouldSkipStatusScanMissingConfigFastPath(

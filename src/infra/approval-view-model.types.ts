@@ -1,13 +1,13 @@
 // Defines view-model shapes for approval prompts and resolutions.
-import type { InteractiveReplyButton } from "../interactive/payload.js";
-import type { ChannelApprovalKind } from "./approval-types.js";
-import type { CommandExplanationSummary } from "./command-analysis/explain.js";
+import type { InteractiveReplyButton } from "../interactive/payload.ts";
+import type { ChannelApprovalKind } from "./approval-types.ts";
+import type { CommandExplanationSummary } from "./command-analysis/explain.ts";
 import type {
   ExecApprovalDecision,
   ExecApprovalRequest,
   ExecApprovalResolved,
-} from "./exec-approvals.js";
-import type { PluginApprovalRequest, PluginApprovalResolved } from "./plugin-approvals.js";
+} from "./exec-approvals.ts";
+import type { PluginApprovalRequest, PluginApprovalResolved } from "./plugin-approvals.ts";
 
 type ApprovalPhase = "pending" | "resolved" | "expired";
 

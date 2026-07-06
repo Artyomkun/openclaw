@@ -1,11 +1,11 @@
 /** Shared secrets runtime resolver context, assignments, and warning helpers. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { coerceSecretRef, type SecretRef } from "../config/types.secrets.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import { secretRefKey } from "./ref-contract.js";
-import type { SecretRefResolveCache } from "./resolve-types.js";
-import { assertExpectedResolvedSecretValue } from "./secret-value.js";
-import { isRecord } from "./shared.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { coerceSecretRef, type SecretRef } from "../config/types.secrets.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import { secretRefKey } from "./ref-contract.ts";
+import type { SecretRefResolveCache } from "./resolve-types.ts";
+import { assertExpectedResolvedSecretValue } from "./secret-value.ts";
+import { isRecord } from "./shared.ts";
 
 export type SecretResolverWarningCode =
   | "SECRETS_REF_OVERRIDES_PLAINTEXT"
@@ -43,7 +43,7 @@ export type ResolverContext = {
 };
 
 export type SecretDefaults = NonNullable<OpenClawConfig["secrets"]>["defaults"];
-export type { SecretRefResolveCache } from "./resolve-types.js";
+export type { SecretRefResolveCache } from "./resolve-types.ts";
 
 /**
  * Creates the mutable collection context used while preparing a secrets runtime snapshot.

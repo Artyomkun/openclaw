@@ -1,13 +1,13 @@
 /** Doctor diagnostics for pending, paired, and locally cached device auth state. */
 import path from "node:path";
 import { normalizeUniqueSingleOrTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { quoteCliArg } from "../cli/quote-cli-arg.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway } from "../gateway/call.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { quoteCliArg } from "../cli/quote-cli-arg.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway } from "../gateway/call.ts";
 import {
   listApprovedPairedDeviceRoles,
   listDevicePairing,
@@ -15,11 +15,11 @@ import {
   type DeviceAuthTokenSummary,
   type DevicePairingPendingRequest,
   type PairedDevice,
-} from "../infra/device-pairing.js";
-import { JsonFileReadError, tryReadJsonSync } from "../infra/json-files.js";
-import type { DeviceAuthStore } from "../shared/device-auth.js";
-import { normalizeDeviceAuthScopes } from "../shared/device-auth.js";
-import { roleScopesAllow } from "../shared/operator-scope-compat.js";
+} from "../infra/device-pairing.ts";
+import { JsonFileReadError, tryReadJsonSync } from "../infra/json-files.ts";
+import type { DeviceAuthStore } from "../shared/device-auth.ts";
+import { normalizeDeviceAuthScopes } from "../shared/device-auth.ts";
+import { roleScopesAllow } from "../shared/operator-scope-compat.ts";
 
 type GatewayListedPairedDevice = Omit<PairedDevice, "tokens" | "approvedScopes"> & {
   tokens?: DeviceAuthTokenSummary[];

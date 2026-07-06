@@ -12,14 +12,14 @@ import {
   type SessionsFilesGetParams,
   validateSessionsFilesGetParams,
   validateSessionsFilesListParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import { root as fsSafeRoot, FsSafeError, type ReadResult } from "../../infra/fs-safe.js";
-import { normalizeAgentId, parseAgentSessionKey } from "../../routing/session-key.js";
-import { visitSessionMessagesAsync } from "../session-transcript-readers.js";
-import { loadSessionEntry } from "../session-utils.js";
-import type { GatewayRequestHandlers, RespondFn } from "./types.js";
-import { assertValidParams } from "./validation.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import { root as fsSafeRoot, FsSafeError, type ReadResult } from "../../infra/fs-safe.ts";
+import { normalizeAgentId, parseAgentSessionKey } from "../../routing/session-key.ts";
+import { visitSessionMessagesAsync } from "../session-transcript-readers.ts";
+import { loadSessionEntry } from "../session-utils.ts";
+import type { GatewayRequestHandlers, RespondFn } from "./types.ts";
+import { assertValidParams } from "./validation.ts";
 
 type FileKind = "modified" | "read";
 

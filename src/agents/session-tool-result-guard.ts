@@ -10,32 +10,32 @@ import {
   firstEnumerableOwnKeys,
   jsonUtf8BytesOrInfinity,
   type BoundedJsonUtf8Bytes,
-} from "../infra/json-utf8-bytes.js";
+} from "../infra/json-utf8-bytes.ts";
 import {
   isSensitiveFieldKey,
   redactSensitiveFieldValueWithConfig,
   redactToolPayloadTextWithConfig,
-} from "../logging/redact.js";
+} from "../logging/redact.ts";
 import type {
   PluginHookBeforeMessageWriteEvent,
   PluginHookBeforeMessageWriteResult,
-} from "../plugins/types.js";
-import { emitSessionTranscriptUpdate } from "../sessions/transcript-events.js";
-import { isTranscriptOnlyOpenClawAssistantModel } from "../shared/transcript-only-openclaw-assistant.js";
-import { formatContextLimitTruncationNotice } from "./embedded-agent-runner/context-truncation-notice.js";
+} from "../plugins/types.ts";
+import { emitSessionTranscriptUpdate } from "../sessions/transcript-events.ts";
+import { isTranscriptOnlyOpenClawAssistantModel } from "../shared/transcript-only-openclaw-assistant.ts";
+import { formatContextLimitTruncationNotice } from "./embedded-agent-runner/context-truncation-notice.ts";
 import {
   DEFAULT_MAX_LIVE_TOOL_RESULT_CHARS,
   truncateToolResultMessage,
-} from "./embedded-agent-runner/tool-result-truncation.js";
-import type { AgentMessage } from "./runtime/index.js";
+} from "./embedded-agent-runner/tool-result-truncation.ts";
+import type { AgentMessage } from "./runtime/index.ts";
 import {
   getRawSessionAppendMessage,
   setRawSessionAppendMessage,
-} from "./session-raw-append-message.js";
-import { createPendingToolCallState } from "./session-tool-result-state.js";
-import { makeMissingToolResult, sanitizeToolCallInputs } from "./session-transcript-repair.js";
-import type { SessionManager } from "./sessions/index.js";
-import { extractToolCallsFromAssistant, extractToolResultId } from "./tool-call-id.js";
+} from "./session-raw-append-message.ts";
+import { createPendingToolCallState } from "./session-tool-result-state.ts";
+import { makeMissingToolResult, sanitizeToolCallInputs } from "./session-transcript-repair.ts";
+import type { SessionManager } from "./sessions/index.ts";
+import { extractToolCallsFromAssistant, extractToolResultId } from "./tool-call-id.ts";
 
 /**
  * Truncate oversized text content blocks in a tool result message.

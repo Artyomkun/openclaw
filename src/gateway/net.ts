@@ -10,18 +10,18 @@ import {
   normalizeIpAddress,
 } from "@openclaw/net-policy/ip";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { GatewayBindMode } from "../config/types.gateway.js";
+import type { GatewayBindMode } from "../config/types.gateway.ts";
 import {
   resetContainerEnvironmentCacheForTest,
   isContainerEnvironment,
-} from "../infra/container-environment.js";
+} from "../infra/container-environment.ts";
 import {
   pickMatchingExternalInterfaceAddress,
   readNetworkInterfaces,
   safeNetworkInterfaces,
   type NetworkInterfacesSnapshot,
-} from "../infra/network-interfaces.js";
-import { pickPrimaryTailnetIPv4 } from "../infra/tailnet.js";
+} from "../infra/network-interfaces.ts";
+import { pickPrimaryTailnetIPv4 } from "../infra/tailnet.ts";
 
 /** Pick the primary non-internal IPv4 address, preferring common LAN interface names. */
 export function pickPrimaryLanIPv4(): string | undefined {

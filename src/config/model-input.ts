@@ -9,8 +9,8 @@ import {
   normalizeOptionalString,
   resolvePrimaryStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { modelKey } from "../shared/model-key.js";
-import type { AgentModelConfig, AgentToolModelConfig } from "./types.agents-shared.js";
+import { modelKey } from "../shared/model-key.ts";
+import type { AgentModelConfig, AgentToolModelConfig } from "./types.agents-shared.ts";
 
 type AgentModelListLike = {
   primary?: string;
@@ -44,7 +44,7 @@ export function resolveAgentModelTimeoutMsValue(model?: AgentToolModelConfig): n
     : undefined;
 }
 
-/** Converts legacy string model config into the object shape used by model patch helpers. */
+/** Converts older string model config into the object shape used by model patch helpers. */
 export function toAgentModelListLike(model?: AgentModelConfig): AgentModelListLike | undefined {
   if (typeof model === "string") {
     const primary = normalizeOptionalString(model);

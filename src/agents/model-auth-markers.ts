@@ -7,20 +7,14 @@ import {
   normalizeTrimmedStringList,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import type { SecretRefSource } from "../config/types.secrets.js";
-import { listOpenClawPluginManifestMetadata } from "../plugins/manifest-metadata-scan.js";
-import { listKnownProviderEnvApiKeyNames } from "./model-auth-env-vars.js";
+import type { SecretRefSource } from "../config/types.secrets.ts";
+import { listOpenClawPluginManifestMetadata } from "../plugins/manifest-metadata-scan.ts";
+import { listKnownProviderEnvApiKeyNames } from "./model-auth-env-vars.ts";
 
-/** @deprecated MiniMax provider-owned marker; do not use from third-party plugins. */
-export const MINIMAX_OAUTH_MARKER = "minimax-oauth";
 /** Prefix for persisted OAuth-backed API-key marker values. */
 export const OAUTH_API_KEY_MARKER_PREFIX = "oauth:";
 /** Marker for local Ollama auth that does not use a real API key. */
 export const OLLAMA_LOCAL_AUTH_MARKER = "ollama-local";
-/** @deprecated Bundled local-provider marker; do not use from third-party plugins. */
-export const CUSTOM_LOCAL_AUTH_MARKER = "custom-local";
-/** @deprecated Codex provider-owned marker; do not use from third-party plugins. */
-export const CODEX_APP_SERVER_AUTH_MARKER = "codex-app-server";
 /** Marker for Google Vertex credentials resolved outside plain API-key env vars. */
 export const GCP_VERTEX_CREDENTIALS_MARKER = "gcp-vertex-credentials";
 /** Marker for a secret-ref-managed credential that is not stored as an env var. */
@@ -34,8 +28,6 @@ const AWS_SDK_ENV_MARKERS = new Set([
   "AWS_PROFILE",
 ]);
 const CORE_NON_SECRET_API_KEY_MARKERS = [
-  CUSTOM_LOCAL_AUTH_MARKER,
-  CODEX_APP_SERVER_AUTH_MARKER,
   GCP_VERTEX_CREDENTIALS_MARKER,
   OLLAMA_LOCAL_AUTH_MARKER,
   NON_ENV_SECRETREF_MARKER,
@@ -43,22 +35,9 @@ const CORE_NON_SECRET_API_KEY_MARKERS = [
 let knownEnvApiKeyMarkersCache: Set<string> | undefined;
 let knownNonSecretApiKeyMarkersCache: string[] | undefined;
 
-// Legacy marker names kept for backward compatibility with existing models.json files.
-const LEGACY_ENV_API_KEY_MARKERS = [
-  "GOOGLE_API_KEY",
-  "DEEPSEEK_API_KEY",
-  "PERPLEXITY_API_KEY",
-  "FIREWORKS_API_KEY",
-  "NOVITA_API_KEY",
-  "AZURE_OPENAI_API_KEY",
-  "AZURE_API_KEY",
-  "MINIMAX_CODE_PLAN_KEY",
-];
-
 function listKnownEnvApiKeyMarkers(): Set<string> {
   knownEnvApiKeyMarkersCache ??= new Set([
     ...listKnownProviderEnvApiKeyNames(),
-    ...LEGACY_ENV_API_KEY_MARKERS,
     ...AWS_SDK_ENV_MARKERS,
   ]);
   return knownEnvApiKeyMarkersCache;

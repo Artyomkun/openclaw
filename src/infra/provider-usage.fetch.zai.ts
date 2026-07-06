@@ -4,9 +4,9 @@ import {
   discardUsageResponseBody,
   fetchJson,
   readUsageJson,
-} from "./provider-usage.fetch.shared.js";
-import { clampPercent, PROVIDER_LABELS } from "./provider-usage.shared.js";
-import type { ProviderUsageSnapshot, UsageWindow } from "./provider-usage.types.js";
+} from "./provider-usage.fetch.shared.ts";
+import { clampPercent, PROVIDER_LABELS } from "./provider-usage.shared.ts";
+import type { ProviderUsageSnapshot, UsageWindow } from "./provider-usage.types.ts";
 
 type ZaiUsageResponse = {
   success?: boolean;

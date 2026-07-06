@@ -3,9 +3,9 @@
  *
  * Keeps tree traversal and filtering independent from persistence and mutable process state.
  */
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
-import { hasSubagentRunEnded, isLiveUnendedSubagentRun } from "./subagent-run-liveness.js";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
+import { hasSubagentRunEnded, isLiveUnendedSubagentRun } from "./subagent-run-liveness.ts";
 
 function resolveControllerSessionKey(entry: SubagentRunRecord): string {
   return entry.controllerSessionKey?.trim() || entry.requesterSessionKey;

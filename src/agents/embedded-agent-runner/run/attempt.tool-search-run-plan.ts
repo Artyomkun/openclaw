@@ -1,17 +1,17 @@
 /**
  * Builds tool-search execution plans from allowlists and available controls.
  */
-import { getPluginToolMeta } from "../../../plugins/tools.js";
-import { isToolAllowedByPolicyName } from "../../tool-policy-match.js";
-import { normalizeToolName } from "../../tool-policy.js";
+import { getPluginToolMeta } from "../../../plugins/tools.ts";
+import { isToolAllowedByPolicyName } from "../../tool-policy-match.ts";
+import { normalizeToolName } from "../../tool-policy.ts";
 import {
   collectUniqueCatalogToolNames,
   TOOL_CALL_RAW_TOOL_NAME,
   TOOL_DESCRIBE_RAW_TOOL_NAME,
   TOOL_SEARCH_CODE_MODE_TOOL_NAME,
   TOOL_SEARCH_RAW_TOOL_NAME,
-} from "../../tool-search.js";
-import { collectAllowedToolNames } from "../tool-name-allowlist.js";
+} from "../../tool-search.ts";
+import { collectAllowedToolNames } from "../tool-name-allowlist.ts";
 
 /** Tool-search control tools that may be auto-added when tool search is enabled. */
 export const TOOL_SEARCH_CONTROL_ALLOWLIST_NAMES = [

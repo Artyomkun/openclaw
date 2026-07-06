@@ -1,11 +1,11 @@
 /** Doctor contribution for low disk space around the OpenClaw state directory. */
 import os from "node:os";
-import { note } from "../../packages/terminal-core/src/note.js";
-import type { OpenClawConfig } from "../config/config.js";
-import { resolveStateDir } from "../config/paths.js";
-import { tryReadDiskSpace } from "../infra/disk-space.js";
-import { resolveRequiredHomeDir } from "../infra/home-dir.js";
-import { shortenHomePath } from "../utils.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import type { OpenClawConfig } from "../config/config.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import { tryReadDiskSpace } from "../infra/disk-space.ts";
+import { resolveRequiredHomeDir } from "../infra/home-dir.ts";
+import { shortenHomePath } from "../utils.ts";
 
 // 100 MB — below this, config writes and session transcripts are likely to
 // fail silently, causing data loss.

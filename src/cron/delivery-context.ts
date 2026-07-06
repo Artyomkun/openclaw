@@ -1,11 +1,11 @@
 /** Converts live or stored session routing into cron delivery config. */
-import { extractDeliveryInfo } from "../config/sessions/delivery-info.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { extractDeliveryInfo } from "../config/sessions/delivery-info.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   normalizeDeliveryContext,
   type DeliveryContext,
-} from "../utils/delivery-context.shared.js";
-import type { CronDelivery, CronMessageChannel } from "./types.js";
+} from "../utils/delivery-context.shared.ts";
+import type { CronDelivery, CronMessageChannel } from "./types.ts";
 
 /** Converts an active delivery context into cron announce delivery config. */
 export function cronDeliveryFromContext(context?: DeliveryContext): CronDelivery | null {

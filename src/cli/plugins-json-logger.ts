@@ -1,4 +1,4 @@
-import type { PluginLogger } from "../plugins/types.js";
+import type { PluginLogger } from "../plugins/types.ts";
 
 export const quietPluginJsonLogger: PluginLogger = {
   debug: () => undefined,

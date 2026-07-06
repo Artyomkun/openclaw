@@ -104,7 +104,7 @@ function resolveStepFunCatalog(
     inferRegionFromExplicitBaseUrls(ctx) ??
     inferRegionFromProfileId(auth.profileId) ??
     inferRegionFromEnv(ctx.env);
-  // Keep discovery working for legacy/manual auth profiles that resolved a
+  // Keep discovery working for manual auth profiles that resolved a
   // key but do not encode region in the profile id.
   const baseUrl = explicitBaseUrl ?? resolveDefaultBaseUrl(params.surface, region ?? "intl");
   return {

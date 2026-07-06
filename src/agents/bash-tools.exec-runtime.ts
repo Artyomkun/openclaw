@@ -5,62 +5,62 @@
  */
 import path from "node:path";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { emitDiagnosticEvent } from "../infra/diagnostic-events.js";
+import { emitDiagnosticEvent } from "../infra/diagnostic-events.ts";
 import {
   type EventSessionRoutingPolicy,
   resolveEventSessionKeyForPolicy,
   scopedHeartbeatWakeOptionsForPolicy,
-} from "../infra/event-session-routing.js";
+} from "../infra/event-session-routing.ts";
 import {
   DEFAULT_EXEC_APPROVAL_TIMEOUT_MS,
   resolveExecApprovalAllowedDecisions,
   type ExecHost,
   type ExecApprovalDecision,
   type ExecTarget,
-} from "../infra/exec-approvals.js";
-import { requestHeartbeat } from "../infra/heartbeat-wake.js";
-import { findPathKey, mergePathPrepend, removePathPrepend } from "../infra/path-prepend.js";
-import { enqueueSystemEvent } from "../infra/system-events.js";
-import { isSubagentSessionKey } from "../sessions/session-key-utils.js";
-import type { ProcessSession } from "./bash-process-registry.js";
-import type { ExecToolDetails } from "./bash-tools.exec-types.js";
-import type { BashSandboxConfig } from "./bash-tools.shared.js";
-import type { AgentToolResult } from "./runtime/index.js";
-export { applyPathPrepend, findPathKey, normalizePathPrepend } from "../infra/path-prepend.js";
+} from "../infra/exec-approvals.ts";
+import { requestHeartbeat } from "../infra/heartbeat-wake.ts";
+import { findPathKey, mergePathPrepend, removePathPrepend } from "../infra/path-prepend.ts";
+import { enqueueSystemEvent } from "../infra/system-events.ts";
+import { isSubagentSessionKey } from "../sessions/session-key-utils.ts";
+import type { ProcessSession } from "./bash-process-registry.ts";
+import type { ExecToolDetails } from "./bash-tools.exec-types.ts";
+import type { BashSandboxConfig } from "./bash-tools.shared.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
+export { applyPathPrepend, findPathKey, normalizePathPrepend } from "../infra/path-prepend.ts";
 export {
   normalizeExecAsk,
   normalizeExecHost,
   normalizeExecSecurity,
   normalizeExecTarget,
-} from "../infra/exec-approvals.js";
-import { logWarn } from "../logger.js";
-import type { ManagedRun } from "../process/supervisor/index.js";
-import { getProcessSupervisor } from "../process/supervisor/index.js";
-import type { RunExit, TerminationReason } from "../process/supervisor/types.js";
+} from "../infra/exec-approvals.ts";
+import { logWarn } from "../logger.ts";
+import type { ManagedRun } from "../process/supervisor/index.ts";
+import { getProcessSupervisor } from "../process/supervisor/index.ts";
+import type { RunExit, TerminationReason } from "../process/supervisor/types.ts";
 import {
   normalizeDeliveryContext,
   type DeliveryContext,
-} from "../utils/delivery-context.shared.js";
-import { resolveSafeTimeoutDelayMs } from "../utils/timer-delay.js";
+} from "../utils/delivery-context.shared.ts";
+import { resolveSafeTimeoutDelayMs } from "../utils/timer-delay.ts";
 import {
   addSession,
   appendOutput,
   createSessionSlug,
   markExited,
   tail,
-} from "./bash-process-registry.js";
-import { renderExecUpdateText } from "./bash-tools.exec-output.js";
+} from "./bash-process-registry.ts";
+import { renderExecUpdateText } from "./bash-tools.exec-output.ts";
 import {
   buildDockerExecArgs,
   chunkString,
   clampWithDefault,
   readEnvInt,
-} from "./bash-tools.shared.js";
-import { buildCursorPositionResponse, stripDsrRequests } from "./pty-dsr.js";
-import { maybeWrapCommandWithShellSnapshot } from "./shell-snapshot.js";
-import { getShellConfig, sanitizeBinaryOutput } from "./shell-utils.js";
+} from "./bash-tools.shared.ts";
+import { buildCursorPositionResponse, stripDsrRequests } from "./pty-dsr.ts";
+import { maybeWrapCommandWithShellSnapshot } from "./shell-snapshot.ts";
+import { getShellConfig, sanitizeBinaryOutput } from "./shell-utils.ts";
 
-export { execSchema } from "./bash-tools.schemas.js";
+export { execSchema } from "./bash-tools.schemas.ts";
 
 const SMKX = "\x1b[?1h";
 const RMKX = "\x1b[?1l";
@@ -420,7 +420,7 @@ export function resolveApprovalRunningNoticeMs(value?: number) {
   return Math.floor(value);
 }
 
-export { renderExecUpdateText } from "./bash-tools.exec-output.js";
+export { renderExecUpdateText } from "./bash-tools.exec-output.ts";
 
 function joinExecFailureOutput(aggregated: string, reason: string) {
   return aggregated ? `${aggregated}\n\n${reason}` : reason;

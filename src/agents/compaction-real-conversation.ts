@@ -2,9 +2,9 @@
  * Classifies transcript messages that contain real user-visible conversation
  * for compaction and history pruning.
  */
-import { stripHeartbeatToken } from "../auto-reply/heartbeat.js";
-import { isSilentReplyText } from "../auto-reply/tokens.js";
-import type { AgentMessage } from "./runtime/index.js";
+import { stripHeartbeatToken } from "../auto-reply/heartbeat.ts";
+import { isSilentReplyText } from "../auto-reply/tokens.ts";
+import type { AgentMessage } from "./runtime/index.ts";
 
 const TOOL_RESULT_REAL_CONVERSATION_LOOKBACK = 20;
 const NON_CONVERSATION_BLOCK_TYPES = new Set([

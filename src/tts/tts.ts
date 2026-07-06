@@ -43,4 +43,4 @@ export {
   type TtsSynthesisStreamResult,
   type TtsStreamResult,
   type TtsTelephonyResult,
-} from "../plugin-sdk/tts-runtime.js";
+} from "../plugin-sdk/tts-runtime.ts";

@@ -1,6 +1,6 @@
 // Hook install record helpers read and write installed hook metadata.
-import type { HookInstallRecord } from "../config/types.hooks.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { HookInstallRecord } from "../config/types.hooks.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 /** Install record plus the hook pack id being updated in config. */
 export type HookInstallUpdate = HookInstallRecord & { hookId: string };

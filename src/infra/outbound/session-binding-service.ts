@@ -1,7 +1,7 @@
 // Session binding service multiplexes channel adapters and the generic current
 // conversation store behind one bind/list/resolve/touch/unbind API.
 import { uniqueValues } from "@openclaw/normalization-core/string-normalization";
-import { resolveGlobalMap } from "../../shared/global-singleton.js";
+import { resolveGlobalMap } from "../../shared/global-singleton.ts";
 import {
   testing as genericCurrentConversationBindingTesting,
   bindGenericCurrentConversation,
@@ -10,11 +10,11 @@ import {
   resolveGenericCurrentConversationBinding,
   touchGenericCurrentConversationBinding,
   unbindGenericCurrentConversationBindings,
-} from "./current-conversation-bindings.js";
+} from "./current-conversation-bindings.ts";
 import {
   buildChannelAccountKey,
   normalizeConversationRef,
-} from "./session-binding-normalization.js";
+} from "./session-binding-normalization.ts";
 import type {
   ConversationRef,
   SessionBindingBindInput,
@@ -23,7 +23,7 @@ import type {
   SessionBindingPlacement,
   SessionBindingRecord,
   SessionBindingUnbindInput,
-} from "./session-binding.types.js";
+} from "./session-binding.types.ts";
 
 export type {
   BindingStatus,
@@ -35,7 +35,7 @@ export type {
   SessionBindingPlacement,
   SessionBindingRecord,
   SessionBindingUnbindInput,
-} from "./session-binding.types.js";
+} from "./session-binding.types.ts";
 
 export class SessionBindingError extends Error {
   constructor(

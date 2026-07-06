@@ -14,21 +14,21 @@ import {
   GATEWAY_CLIENT_CAPS,
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { resolveGatewayClientBootstrap } from "../gateway/client-bootstrap.js";
-import { startGatewayClientWhenEventLoopReady } from "../gateway/client-start-readiness.js";
-import { GatewayClient } from "../gateway/client.js";
-import { isMainModule } from "../infra/is-main.js";
-import { routeLogsToStderr } from "../logging/console.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { resolveGatewayClientBootstrap } from "../gateway/client-bootstrap.ts";
+import { startGatewayClientWhenEventLoopReady } from "../gateway/client-start-readiness.ts";
+import { GatewayClient } from "../gateway/client.ts";
+import { isMainModule } from "../infra/is-main.ts";
+import { routeLogsToStderr } from "../logging/console.ts";
 import {
   createSqliteAcpEventLedger,
   migrateFileAcpEventLedgerToSqlite,
   resolveDefaultAcpEventLedgerPath,
-} from "./event-ledger.js";
-import { readSecretFromFile } from "./secret-file.js";
-import { AcpGatewayAgent } from "./translator.js";
-import { normalizeAcpProvenanceMode } from "./types.js";
+} from "./event-ledger.ts";
+import { readSecretFromFile } from "./secret-file.ts";
+import { AcpGatewayAgent } from "./translator.ts";
+import { normalizeAcpProvenanceMode } from "./types.ts";
 
 type AcpStreamMessage =
   ReturnType<typeof ndJsonStream> extends {

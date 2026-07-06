@@ -11,4 +11,4 @@ export {
   type ExtractStructuredWithModelParams,
   type RunMediaUnderstandingFileParams,
   type RunMediaUnderstandingFileResult,
-} from "../media-understanding/runtime.js";
+} from "../media-understanding/runtime.ts";

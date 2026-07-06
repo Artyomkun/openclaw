@@ -7,42 +7,42 @@ import {
   clearAgentHarnesses,
   listRegisteredAgentHarnesses,
   restoreRegisteredAgentHarnesses,
-} from "../agents/harness/registry.js";
-import { resolveConfigEnvVars } from "../config/env-substitution.js";
-import { createConfigRuntimeEnv } from "../config/env-vars.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import type { GatewayRequestHandler } from "../gateway/server-methods/types.js";
-import { openRootFileSync } from "../infra/boundary-file-read.js";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../agents/harness/registry.ts";
+import { resolveConfigEnvVars } from "../config/env-substitution.ts";
+import { createConfigRuntimeEnv } from "../config/env-vars.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import type { GatewayRequestHandler } from "../gateway/server-methods/types.ts";
+import { openRootFileSync } from "../infra/boundary-file-read.ts";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   DEFAULT_MEMORY_DREAMING_PLUGIN_ID,
   resolveMemoryDreamingConfig,
   resolveMemoryDreamingPluginConfig,
-} from "../memory-host-sdk/dreaming.js";
-import { toSafeImportPath } from "../shared/import-specifier.js";
+} from "../memory-host-sdk/dreaming.ts";
+import { toSafeImportPath } from "../shared/import-specifier.ts";
 import {
   clearDetachedTaskLifecycleRuntimeRegistration,
   getDetachedTaskLifecycleRuntimeRegistration,
   restoreDetachedTaskLifecycleRuntimeRegistration,
-} from "../tasks/detached-task-runtime-state.js";
-import { resolveUserPath } from "../utils.js";
-import { resolvePluginActivationSourceConfig } from "./activation-source-config.js";
-import { buildPluginApi } from "./api-builder.js";
-import { attachPluginApiFacades } from "./api-facades.js";
-import { isLateCallablePluginApiMethod } from "./api-lifecycle.js";
-import { inspectBundleMcpRuntimeSupport } from "./bundle-mcp.js";
+} from "../tasks/detached-task-runtime-state.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolvePluginActivationSourceConfig } from "./activation-source-config.ts";
+import { buildPluginApi } from "./api-builder.ts";
+import { attachPluginApiFacades } from "./api-facades.ts";
+import { isLateCallablePluginApiMethod } from "./api-lifecycle.ts";
+import { inspectBundleMcpRuntimeSupport } from "./bundle-mcp.ts";
 import {
   clearPluginCommands,
   listRegisteredPluginCommands,
   restorePluginCommands,
-} from "./command-registry-state.js";
+} from "./command-registry-state.ts";
 import {
   clearCompactionProviders,
   listRegisteredCompactionProviders,
   restoreRegisteredCompactionProviders,
-} from "./compaction-provider.js";
+} from "./compaction-provider.ts";
 import {
   applyTestPluginDefaults,
   createPluginActivationSource,
@@ -52,29 +52,29 @@ import {
   resolveMemorySlotDecision,
   type PluginActivationConfigSource,
   type NormalizedPluginsConfig,
-} from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import { resolveOpenClawDevSourceRoot } from "./dev-source-root.js";
+} from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import { resolveOpenClawDevSourceRoot } from "./dev-source-root.ts";
 import {
   discoverOpenClawPlugins,
   type PluginCandidate,
   type PluginDiscoveryResult,
-} from "./discovery.js";
+} from "./discovery.ts";
 import {
   clearEmbeddingProviders,
   listRegisteredEmbeddingProviders,
   restoreRegisteredEmbeddingProviders,
-} from "./embedding-providers.js";
-import { shouldRejectHardlinkedPluginFiles } from "./hardlink-policy.js";
-import { initializeGlobalHookRunner } from "./hook-runner-global.js";
-import { collectPluginManifestCompatCodes } from "./installed-plugin-index-record-builder.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-records.js";
+} from "./embedding-providers.ts";
+import { shouldRejectHardlinkedPluginFiles } from "./hardlink-policy.ts";
+import { initializeGlobalHookRunner } from "./hook-runner-global.ts";
+import { collectPluginManifestCompatCodes } from "./installed-plugin-index-record-builder.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-records.ts";
 import {
   clearPluginInteractiveHandlers,
   listPluginInteractiveHandlers,
   restorePluginInteractiveHandlers,
-} from "./interactive-registry.js";
-import { PluginLoaderCacheState } from "./loader-cache-state.js";
+} from "./interactive-registry.ts";
+import { PluginLoaderCacheState } from "./loader-cache-state.ts";
 import {
   channelPluginIdBelongsToManifest,
   loadBundledRuntimeChannelPlugin,
@@ -83,13 +83,13 @@ import {
   resolveSetupChannelRegistration,
   shouldDeferConfiguredChannelFullRuntimeMerge,
   shouldLoadChannelPluginInSetupRuntime,
-} from "./loader-channel-setup.js";
+} from "./loader-channel-setup.ts";
 import {
   buildProvenanceIndex,
   compareDuplicateCandidateOrder,
   warnAboutUntrackedLoadedPlugins,
   warnWhenAllowlistIsOpen,
-} from "./loader-provenance.js";
+} from "./loader-provenance.ts";
 import {
   createPluginRecord,
   formatAutoEnabledActivationReason,
@@ -97,62 +97,62 @@ import {
   formatPluginFailureSummary,
   markPluginActivationDisabled,
   recordPluginError,
-} from "./loader-records.js";
+} from "./loader-records.ts";
 import {
   hasExplicitManifestOwnerTrust,
   resolveManifestOwnerBasePolicyBlock,
-} from "./manifest-owner-policy.js";
+} from "./manifest-owner-policy.ts";
 import {
   loadPluginManifestRegistry,
   type PluginManifestRecord,
   type PluginManifestRegistry,
-} from "./manifest-registry.js";
-import type { PluginDiagnostic } from "./manifest-types.js";
+} from "./manifest-registry.ts";
+import type { PluginDiagnostic } from "./manifest-types.ts";
 import {
   clearMemoryEmbeddingProviders,
   listRegisteredMemoryEmbeddingProviders,
   restoreRegisteredMemoryEmbeddingProviders,
-} from "./memory-embedding-providers.js";
+} from "./memory-embedding-providers.ts";
 import {
   clearMemoryPluginState,
   getMemoryCapabilityRegistration,
   listMemoryCorpusSupplements,
   listMemoryPromptSupplements,
   restoreMemoryPluginState,
-} from "./memory-state.js";
-import { unwrapDefaultModuleExport } from "./module-export.js";
+} from "./memory-state.ts";
+import { unwrapDefaultModuleExport } from "./module-export.ts";
 import {
   fingerprintPluginDiscoveryContext,
   resolvePluginDiscoveryContext,
-} from "./plugin-control-plane-context.js";
-import { withProfile } from "./plugin-load-profile.js";
+} from "./plugin-control-plane-context.ts";
+import { withProfile } from "./plugin-load-profile.ts";
 import {
   createPluginModuleLoaderCache,
   getCachedPluginModuleLoader,
   type PluginModuleLoaderCache,
-} from "./plugin-module-loader-cache.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
+} from "./plugin-module-loader-cache.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
 import {
   createPluginIdScopeSet,
   hasExplicitPluginIdScope,
   normalizePluginIdScope,
   serializePluginIdScope,
-} from "./plugin-scope.js";
-import { ensureOpenClawPluginSdkAlias } from "./plugin-sdk-dist-alias.js";
-import { installOpenClawPluginSdkNativeResolver } from "./plugin-sdk-native-resolver.js";
-import { createEmptyPluginRegistry } from "./registry-empty.js";
-import type { PluginRegistryParams } from "./registry-types.js";
-import { createPluginRegistry, type PluginRecord, type PluginRegistry } from "./registry.js";
+} from "./plugin-scope.ts";
+import { ensureOpenClawPluginSdkAlias } from "./plugin-sdk-dist-alias.ts";
+import { installOpenClawPluginSdkNativeResolver } from "./plugin-sdk-native-resolver.ts";
+import { createEmptyPluginRegistry } from "./registry-empty.ts";
+import type { PluginRegistryParams } from "./registry-types.ts";
+import { createPluginRegistry, type PluginRecord, type PluginRegistry } from "./registry.ts";
 import {
   getActivePluginRegistry,
   getActivePluginRegistryKey,
   getActivePluginRuntimeSubagentMode,
   recordImportedPluginId,
   setActivePluginRegistry,
-} from "./runtime.js";
-import type { CreatePluginRuntimeOptions } from "./runtime/types.js";
-import type { PluginRuntime } from "./runtime/types.js";
-import { validateJsonSchemaValue } from "./schema-validator.js";
+} from "./runtime.ts";
+import type { CreatePluginRuntimeOptions } from "./runtime/types.ts";
+import type { PluginRuntime } from "./runtime/types.ts";
+import { validateJsonSchemaValue } from "./schema-validator.ts";
 import {
   buildPluginLoaderAliasMap,
   buildPluginLoaderJitiOptions,
@@ -167,19 +167,19 @@ import {
   resolvePluginRuntimeModulePathWithDiagnostics,
   resolvePluginSdkScopedAliasMap,
   shouldPreferNativeModuleLoad,
-} from "./sdk-alias.js";
-import { hasKind, kindsEqual } from "./slots.js";
-import { encodeStartupTraceSegment } from "./startup-trace-segment.js";
+} from "./sdk-alias.ts";
+import { hasKind, kindsEqual } from "./slots.ts";
+import { encodeStartupTraceSegment } from "./startup-trace-segment.ts";
 import type {
   OpenClawPluginApi,
   OpenClawPluginDefinition,
   OpenClawPluginModule,
   PluginLogger,
   PluginRegistrationMode,
-} from "./types.js";
+} from "./types.ts";
 
 export type PluginLoadResult = PluginRegistry;
-export { PluginLoadReentryError } from "./loader-cache-state.js";
+export { PluginLoadReentryError } from "./loader-cache-state.ts";
 
 export type PluginLoadOptions = {
   config?: OpenClawConfig;
@@ -245,8 +245,8 @@ function detailPluginStartupTrace(
 const CLI_METADATA_ENTRY_BASENAMES = [
   "cli-metadata.ts",
   "cli-metadata.js",
-  "cli-metadata.mjs",
-  "cli-metadata.cjs",
+  "cli-metadata.ts",
+  "cli-metadata.ts",
 ] as const;
 
 function resolveDreamingSidecarEngineId(params: {
@@ -688,14 +688,11 @@ function rewriteBundledRuntimeArtifactRelativePath(relativePath: string): string
 
 function listPackageLocalRuntimeArtifactOutputExtensions(sourceExt: string): string[] {
   switch (sourceExt) {
-    case ".mts":
-    case ".mjs":
-      return [".mjs", ".js", ".cjs"];
-    case ".cts":
-    case ".cjs":
-      return [".cjs", ".js", ".mjs"];
+    case ".ts":
+    case ".ts":
+      return [".ts", ".js"];
     default:
-      return [".js", ".mjs", ".cjs"];
+      return [".js", ".ts"];
   }
 }
 
@@ -723,8 +720,7 @@ function shouldPreferPackageLocalDistRuntimeArtifact(source: string): boolean {
   switch (path.extname(source).toLowerCase()) {
     case ".ts":
     case ".tsx":
-    case ".mts":
-    case ".cts":
+    case ".ts":
       return true;
     default:
       return false;
@@ -2827,7 +2823,7 @@ export function loadOpenClawPlugins(options: PluginLoadOptions = {}): PluginRegi
         const bundledChannelWrongLoaderError = formatBundledChannelWrongLoaderError(record.kind);
         if (bundledChannelWrongLoaderError) {
           logger.error(
-            `[plugins] ${record.id} ${bundledChannelWrongLoaderError}; ensure plugin is loaded via bundled channel discovery, not legacy plugin loader`,
+            `[plugins] ${record.id} ${bundledChannelWrongLoaderError}; ensure plugin is loaded via bundled channel discovery, not older plugin loader`,
           );
           pushPluginLoadError(bundledChannelWrongLoaderError);
         } else {
@@ -3325,7 +3321,7 @@ export async function loadOpenClawPluginCliRegistry(
       const bundledChannelWrongLoaderError = formatBundledChannelWrongLoaderError(record.kind);
       if (bundledChannelWrongLoaderError) {
         logger.error(
-          `[plugins] ${record.id} ${bundledChannelWrongLoaderError}; ensure plugin is loaded via bundled channel discovery, not legacy plugin loader`,
+          `[plugins] ${record.id} ${bundledChannelWrongLoaderError}; ensure plugin is loaded via bundled channel discovery, not older plugin loader`,
         );
         pushPluginLoadError(bundledChannelWrongLoaderError);
       } else {

@@ -2,42 +2,41 @@
 // Every line that can include logs, config, or connection details is redacted before display.
 
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ProgressReporter } from "../../cli/progress.js";
-import { formatConfigIssueLine } from "../../config/issue-format.js";
+import type { ProgressReporter } from "../../cli/progress.ts";
+import { formatConfigIssueLine } from "../../config/issue-format.ts";
 import {
   resolveGatewayLogPaths,
   resolveGatewayRestartLogPath,
   resolveGatewaySupervisorLogPaths,
-} from "../../daemon/restart-logs.js";
+} from "../../daemon/restart-logs.ts";
 import {
   classifyPortListener,
   formatPortDiagnostics,
   isDualStackLoopbackGatewayListeners,
   isExpectedGatewayListeners,
   type PortUsage,
-} from "../../infra/ports.js";
+} from "../../infra/ports.ts";
 import {
   type RestartSentinelPayload,
   summarizeRestartSentinel,
-} from "../../infra/restart-sentinel.js";
+} from "../../infra/restart-sentinel.ts";
 import {
   formatPluginCompatibilityNotice,
   type PluginCompatibilityNotice,
-} from "../../plugins/status.js";
+} from "../../plugins/status.ts";
 import {
   formatUpdateRestartActionLines,
   formatUpdateRestartStatusValue,
 } from "../status-update-restart.ts";
-import type { NodeOnlyGatewayInfo } from "../status.node-mode.js";
-import { formatTimeAgo, redactSecrets } from "./format.js";
-import { readFileTailLines, summarizeLogTail } from "./gateway.js";
+import type { NodeOnlyGatewayInfo } from "../status.node-mode.ts";
+import { formatTimeAgo, redactSecrets } from "./format.ts";
+import { readFileTailLines, summarizeLogTail } from "./gateway.ts";
 
 type ConfigIssueLike = { path: string; message: string };
 type ConfigSnapshotLike = {
   exists: boolean;
   valid: boolean;
   path?: string | null;
-  legacyIssues?: ConfigIssueLike[] | null;
   issues?: ConfigIssueLike[] | null;
 };
 
@@ -182,8 +181,7 @@ export async function appendStatusAllDiagnosis(params: {
   if (params.snap) {
     const status = !params.snap.exists ? "fail" : params.snap.valid ? "ok" : "warn";
     emitCheck(`Config: ${params.snap.path ?? "(unknown)"}`, status);
-    const issues = [...(params.snap.legacyIssues ?? []), ...(params.snap.issues ?? [])];
-    // Legacy and current schema checks can report the same path/message pair.
+    const issues = [ ...(params.snap.issues ?? [])];
     const uniqueIssues = issues.filter(
       (issue, index) =>
         issues.findIndex((x) => x.path === issue.path && x.message === issue.message) === index,

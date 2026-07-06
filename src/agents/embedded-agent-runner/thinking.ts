@@ -1,11 +1,11 @@
 /**
  * Sanitizes reasoning/thinking blocks for replay and recovery.
  */
-import { collectErrorGraphCandidates, formatErrorMessage } from "../../infra/errors.js";
-import type { AssistantMessageEvent } from "../../llm/types.js";
-import { createAssistantMessageEventStream } from "../../llm/utils/event-stream.js";
-import type { AgentMessage, StreamFn } from "../runtime/index.js";
-import { log } from "./logger.js";
+import { collectErrorGraphCandidates, formatErrorMessage } from "../../infra/errors.ts";
+import type { AssistantMessageEvent } from "../../llm/types.ts";
+import { createAssistantMessageEventStream } from "../../llm/utils/event-stream.ts";
+import type { AgentMessage, StreamFn } from "../runtime/index.ts";
+import { log } from "./logger.ts";
 
 type AssistantContentBlock = Extract<AgentMessage, { role: "assistant" }>["content"][number];
 type AssistantMessage = Extract<AgentMessage, { role: "assistant" }>;

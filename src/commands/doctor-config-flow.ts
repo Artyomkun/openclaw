@@ -1,35 +1,27 @@
 /** Main doctor config flow: preflight, migrations, previews, repairs, and final write decision. */
 import path from "node:path";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { CONFIG_PATH } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway } from "../gateway/call.js";
-import type { RuntimeEnv } from "../runtime.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { CONFIG_PATH } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway } from "../gateway/call.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import {
   noteImplicitFallbackClobberWarnings,
   noteOpencodeProviderOverrides,
-} from "./doctor-config-analysis.js";
-import { runDoctorConfigPreflight } from "./doctor-config-preflight.js";
-import { normalizeCompatibilityConfigValues } from "./doctor/shared/legacy-config-core-migrate.js";
-import type { DoctorOptions, DoctorPrompter } from "./doctor-prompter.js";
-import { emitDoctorNotes, sanitizeDoctorNote } from "./doctor/emit-notes.js";
-import { finalizeDoctorConfigFlow } from "./doctor/finalize-config-flow.js";
+} from "./doctor-config-analysis.ts";
+import { runDoctorConfigPreflight } from "./doctor-config-preflight.ts";
+import type { DoctorOptions, DoctorPrompter } from "./doctor-prompter.ts";
+import { emitDoctorNotes, sanitizeDoctorNote } from "./doctor/emit-notes.ts";
+import { finalizeDoctorConfigFlow } from "./doctor/finalize-config-flow.ts";
 import {
-  applyLegacyCompatibilityStep,
   applyUnknownConfigKeyStep,
-} from "./doctor/shared/config-flow-steps.js";
-import { applyDoctorConfigMutation } from "./doctor/shared/config-mutation-state.js";
+} from "./doctor/shared/config-flow-steps.ts";
+import { applyDoctorConfigMutation } from "./doctor/shared/config-mutation-state.ts";
 import {
   collectMissingDefaultAccountBindingWarnings,
   collectMissingExplicitDefaultAccountWarnings,
-} from "./doctor/shared/default-account-warnings.js";
-
-function hasLegacyInternalHookHandlers(raw: unknown): boolean {
-  const handlers = (raw as { hooks?: { internal?: { handlers?: unknown } } })?.hooks?.internal
-    ?.handlers;
-  return Array.isArray(handlers) && handlers.length > 0;
-}
+} from "./doctor/shared/default-account-warnings.ts";
 
 function collectInvalidHookTransformsDirWarnings(
   cfg: OpenClawConfig,
@@ -156,61 +148,6 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
   const sourceMeta = (snapshot.sourceConfig as { meta?: { lastTouchedVersion?: unknown } })?.meta;
   const sourceLastTouchedVersion =
     typeof sourceMeta?.lastTouchedVersion === "string" ? sourceMeta.lastTouchedVersion : undefined;
-
-  const legacyStep = applyLegacyCompatibilityStep({
-    snapshot,
-    state: { cfg, candidate, pendingChanges, fixHints },
-    shouldRepair,
-    doctorFixCommand,
-  });
-  cfg = legacyStep.state.cfg;
-  candidate = legacyStep.state.candidate;
-  pendingChanges = pendingChanges || legacyStep.state.pendingChanges;
-  fixHints = legacyStep.state.fixHints;
-  const legacyMigrationPartiallyValid = legacyStep.partiallyValid === true;
-  const pluginLegacyIssues = await (async () => {
-    if (snapshot.parsed === snapshot.sourceConfig) {
-      return [];
-    }
-    const { findDoctorLegacyConfigIssues } =
-      await import("./doctor/shared/legacy-config-issues.js");
-    return findDoctorLegacyConfigIssues(snapshot.parsed, snapshot.parsed);
-  })();
-  const seenLegacyIssues = new Set(
-    snapshot.legacyIssues.map((issue) => `${issue.path}:${issue.message}`),
-  );
-  const pluginIssueLines = pluginLegacyIssues
-    .filter((issue) => {
-      const key = `${issue.path}:${issue.message}`;
-      if (seenLegacyIssues.has(key)) {
-        return false;
-      }
-      seenLegacyIssues.add(key);
-      return true;
-    })
-    .map((issue) => `- ${issue.path}: ${issue.message}`);
-  const legacyIssueLines = [...legacyStep.issueLines, ...pluginIssueLines];
-  if (
-    pluginIssueLines.length > 0 &&
-    !shouldRepair &&
-    !fixHints.includes(`Run "${doctorFixCommand}" to migrate legacy config keys.`)
-  ) {
-    fixHints.push(`Run "${doctorFixCommand}" to migrate legacy config keys.`);
-  }
-  if (legacyIssueLines.length > 0) {
-    note(legacyIssueLines.join("\n"), "Legacy config keys detected");
-  }
-  emitDoctorChangesPanel(legacyStep.changeLines, shouldRepair);
-  if (hasLegacyInternalHookHandlers(snapshot.parsed)) {
-    note(
-      [
-        "- hooks.internal.handlers: legacy inline hook modules are no longer part of the public config surface.",
-        "- Migrate each entry to a managed or workspace hook directory with HOOK.md + handler.js, then enable it through hooks.internal.entries.<hookKey> as needed.",
-        "- openclaw doctor --fix does not rewrite this shape automatically.",
-      ].join("\n"),
-      "Legacy config keys detected",
-    );
-  }
   const hookTransformsDirWarnings = collectInvalidHookTransformsDirWarnings(cfg, snapshot.path);
   if (hookTransformsDirWarnings.length > 0) {
     note(sanitizeDoctorNote(hookTransformsDirWarnings.join("\n")), "Doctor warnings");
@@ -218,17 +155,6 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
   const unsupportedInternalHookEntryWarnings = collectUnsupportedInternalHookEntryWarnings(cfg);
   if (unsupportedInternalHookEntryWarnings.length > 0) {
     note(sanitizeDoctorNote(unsupportedInternalHookEntryWarnings.join("\n")), "Doctor warnings");
-  }
-
-  const normalized = normalizeCompatibilityConfigValues(candidate);
-  if (normalized.changes.length > 0) {
-    emitDoctorChangesPanel(normalized.changes, shouldRepair);
-    ({ cfg, candidate, pendingChanges, fixHints } = applyDoctorConfigMutation({
-      state: { cfg, candidate, pendingChanges, fixHints },
-      mutation: normalized,
-      shouldRepair,
-      fixHint: `Run "${doctorFixCommand}" to apply these changes.`,
-    }));
   }
 
   const pluginActivationSourceConfig = candidate;
@@ -388,8 +314,6 @@ export async function loadAndMaybeMigrateDoctorConfig(params: {
     path: snapshot.path ?? CONFIG_PATH,
     shouldWriteConfig: finalized.shouldWriteConfig,
     sourceConfigValid: snapshot.valid,
-    preservedLegacyRootKeys: ["defaultModel"],
-    ...(sourceLastTouchedVersion ? { sourceLastTouchedVersion } : {}),
-    ...(legacyMigrationPartiallyValid ? { skipPluginValidationOnWrite: true } : {}),
+    ...(sourceLastTouchedVersion ? { sourceLastTouchedVersion } : {})
   };
 }

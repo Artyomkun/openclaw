@@ -5,22 +5,22 @@ import {
   timestampMsToIsoString,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { CronServiceContract } from "../cron/service-contract.js";
-import type { CronJob, CronJobCreate } from "../cron/types.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import type { CronServiceContract } from "../cron/service-contract.ts";
+import type { CronJob, CronJobCreate } from "../cron/types.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   deletePluginSessionSchedulerJob,
   registerPluginSessionSchedulerJob,
-} from "./host-hook-runtime.js";
+} from "./host-hook-runtime.ts";
 import type {
   PluginSessionSchedulerJobHandle,
   PluginSessionTurnScheduleParams,
   PluginSessionTurnUnscheduleByTagParams,
   PluginSessionTurnUnscheduleByTagResult,
-} from "./host-hooks.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
-import type { PluginRegistry } from "./registry-types.js";
+} from "./host-hooks.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
+import type { PluginRegistry } from "./registry-types.ts";
 
 const log = createSubsystemLogger("plugins/host-scheduled-turns");
 const PLUGIN_CRON_NAME_PREFIX = "plugin:";

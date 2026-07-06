@@ -4,10 +4,10 @@
 version: 2
 
 registries:
-  npm-npmjs:
+  npm-npts:
     type: npm-registry
-    url: https://registry.npmjs.org
-    token: ${{secrets.NPM_NPMJS_TOKEN}}
+    url: https://registry.npts.org
+    token: ${{secrets.NPM_NPts_TOKEN}}
     replaces-base: true
 
 updates:
@@ -31,7 +31,7 @@ updates:
           - patch
     open-pull-requests-limit: 20
     registries:
-      - npm-npmjs
+      - npm-npts
 
   # GitHub Actions
   - package-ecosystem: github-actions

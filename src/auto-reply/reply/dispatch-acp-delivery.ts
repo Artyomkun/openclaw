@@ -4,27 +4,27 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { hasOutboundReplyContent } from "openclaw/plugin-sdk/reply-payload";
-import type { ChatType } from "../../channels/chat-type.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { TtsAutoMode } from "../../config/types.tts.js";
-import { logVerbose } from "../../globals.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { createTtsDirectiveTextStreamCleaner } from "../../tts/directives.js";
-import { resolveStatusTtsSnapshot } from "../../tts/status-config.js";
-import { resolveConfiguredTtsMode, shouldCleanTtsDirectiveText } from "../../tts/tts-config.js";
-import { isReplyPayloadStatusNotice } from "../reply-payload.js";
-import type { FinalizedMsgContext } from "../templating.js";
-import type { ReplyPayload } from "../types.js";
-import { waitForReplyDispatcherIdle } from "./reply-dispatcher.js";
-import type { ReplyDispatchKind, ReplyDispatcher } from "./reply-dispatcher.types.js";
-import { readDispatcherFailedCounts } from "./reply-dispatcher.types.js";
+import type { ChatType } from "../../channels/chat-type.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { TtsAutoMode } from "../../config/types.tts.ts";
+import { logVerbose } from "../../globals.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { createTtsDirectiveTextStreamCleaner } from "../../tts/directives.ts";
+import { resolveStatusTtsSnapshot } from "../../tts/status-config.ts";
+import { resolveConfiguredTtsMode, shouldCleanTtsDirectiveText } from "../../tts/tts-config.ts";
+import { isReplyPayloadStatusNotice } from "../reply-payload.ts";
+import type { FinalizedMsgContext } from "../templating.ts";
+import type { ReplyPayload } from "../types.ts";
+import { waitForReplyDispatcherIdle } from "./reply-dispatcher.ts";
+import type { ReplyDispatchKind, ReplyDispatcher } from "./reply-dispatcher.types.ts";
+import { readDispatcherFailedCounts } from "./reply-dispatcher.types.ts";
 import {
   createReplyDeliveryContext,
   resolveReplyDeliveryAccountId,
   resolveReplyToMode,
-} from "./reply-threading.js";
-import { resolveRoutedDeliveryThreadId } from "./routed-delivery-thread.js";
+} from "./reply-threading.ts";
+import { resolveRoutedDeliveryThreadId } from "./routed-delivery-thread.ts";
 
 const routeReplyRuntimeLoader = createLazyImportLoader(() => import("./route-reply.runtime.js"));
 const dispatchAcpTtsRuntimeLoader = createLazyImportLoader(

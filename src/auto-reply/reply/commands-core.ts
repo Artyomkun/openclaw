@@ -1,12 +1,12 @@
 // Dispatches chat commands to registered handlers and formats their results.
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { shouldHandleTextCommands } from "../commands-registry.js";
-import { maybeHandleResetCommand } from "./commands-reset.js";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { shouldHandleTextCommands } from "../commands-registry.ts";
+import { maybeHandleResetCommand } from "./commands-reset.ts";
 import type {
   CommandHandler,
   CommandHandlerResult,
   HandleCommandsParams,
-} from "./commands-types.js";
+} from "./commands-types.ts";
 const commandHandlersRuntimeLoader = createLazyImportLoader(
   () => import("./commands-handlers.runtime.js"),
 );

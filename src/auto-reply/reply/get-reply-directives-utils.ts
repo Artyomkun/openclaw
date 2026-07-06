@@ -1,5 +1,5 @@
 // Utility helpers for applying parsed directives to get-reply execution state.
-import type { InlineDirectives } from "./directive-handling.js";
+import type { InlineDirectives } from "./directive-handling.ts";
 
 const CLEARED_EXEC_FIELDS = {
   hasExecDirective: false,

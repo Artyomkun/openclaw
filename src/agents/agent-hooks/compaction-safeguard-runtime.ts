@@ -1,7 +1,7 @@
 /** Session-manager scoped runtime state for compaction safeguard configuration. */
-import type { AgentCompactionIdentifierPolicy } from "../../config/types.agent-defaults.js";
-import type { Model } from "../../llm/types.js";
-import { createSessionManagerRuntimeRegistry } from "./session-manager-runtime-registry.js";
+import type { AgentCompactionIdentifierPolicy } from "../../config/types.agent-defaults.ts";
+import type { Model } from "../../llm/types.ts";
+import { createSessionManagerRuntimeRegistry } from "./session-manager-runtime-registry.ts";
 
 /** Runtime knobs consumed by the compaction safeguard extension. */
 type CompactionSafeguardRuntimeValue = {

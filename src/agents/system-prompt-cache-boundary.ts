@@ -3,7 +3,7 @@
  *
  * Keeps stable prompt prefixes separate from dynamic runtime additions for provider prompt caching.
  */
-import { normalizeStructuredPromptSection } from "./prompt-cache-stability.js";
+import { normalizeStructuredPromptSection } from "./prompt-cache-stability.ts";
 
 export const SYSTEM_PROMPT_CACHE_BOUNDARY = "\n<!-- OPENCLAW_CACHE_BOUNDARY -->\n";
 

@@ -1,27 +1,27 @@
 // Dispatches final reply payloads through visible senders and message tools.
-import type { TypingCallbacks } from "../../channels/typing.js";
-import type { HumanDelayConfig } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { generateSecureInt } from "../../infra/secure-random.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.js";
-import { sleep } from "../../utils.js";
-import { copyReplyPayloadMetadata, getReplyPayloadMetadata } from "../reply-payload.js";
-import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../tokens.js";
-import type { GetReplyOptions, ReplyPayload } from "../types.js";
-import { registerDispatcher } from "./dispatcher-registry.js";
-import { normalizeReplyPayload, type NormalizeReplySkipReason } from "./normalize-reply.js";
+import type { TypingCallbacks } from "../../channels/typing.ts";
+import type { HumanDelayConfig } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { generateSecureInt } from "../../infra/secure-random.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.ts";
+import { sleep } from "../../utils.ts";
+import { copyReplyPayloadMetadata, getReplyPayloadMetadata } from "../reply-payload.ts";
+import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../tokens.ts";
+import type { GetReplyOptions, ReplyPayload } from "../types.ts";
+import { registerDispatcher } from "./dispatcher-registry.ts";
+import { normalizeReplyPayload, type NormalizeReplySkipReason } from "./normalize-reply.ts";
 import type {
   ReplyDispatchBeforeDeliver,
   ReplyDispatchKind,
   ReplyDispatchRuntimeInfo,
   ReplyDispatcher,
   ReplyFollowupAdmissionBarrierTimeoutPolicy,
-} from "./reply-dispatcher.types.js";
-import type { ResponsePrefixContext } from "./response-prefix-template.js";
-import type { TypingController } from "./typing.js";
+} from "./reply-dispatcher.types.ts";
+import type { ResponsePrefixContext } from "./response-prefix-template.ts";
+import type { TypingController } from "./typing.ts";
 
-export type { ReplyDispatchKind, ReplyDispatcher } from "./reply-dispatcher.types.js";
+export type { ReplyDispatchKind, ReplyDispatcher } from "./reply-dispatcher.types.ts";
 
 type ReplyDispatchErrorHandler = (
   err: unknown,

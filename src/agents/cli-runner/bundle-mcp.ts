@@ -5,21 +5,21 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { applyMergePatch } from "../../config/merge-patch.js";
-import type { CliBackendConfig } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { tryReadJson } from "../../infra/json-files.js";
-import { extractMcpServerMap, type BundleMcpConfig } from "../../plugins/bundle-mcp.js";
-import type { CliBundleMcpMode } from "../../plugins/types.js";
-import { loadMergedBundleMcpConfig, toCliBundleMcpServerConfig } from "../bundle-mcp-config.js";
-import { isRecord } from "./bundle-mcp-adapter-shared.js";
+import { applyMergePatch } from "../../config/merge-patch.ts";
+import type { CliBackendConfig } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { tryReadJson } from "../../infra/json-files.ts";
+import { extractMcpServerMap, type BundleMcpConfig } from "../../plugins/bundle-mcp.ts";
+import type { CliBundleMcpMode } from "../../plugins/types.ts";
+import { loadMergedBundleMcpConfig, toCliBundleMcpServerConfig } from "../bundle-mcp-config.ts";
+import { isRecord } from "./bundle-mcp-adapter-shared.ts";
 import {
   findClaudeMcpConfigPath,
   injectClaudeMcpConfigArgs,
   writeClaudeMcpCaptureConfig,
-} from "./bundle-mcp-claude.js";
-import { injectCodexMcpConfigArgs } from "./bundle-mcp-codex.js";
-import { writeGeminiMcpCaptureSettings, writeGeminiSystemSettings } from "./bundle-mcp-gemini.js";
+} from "./bundle-mcp-claude.ts";
+import { injectCodexMcpConfigArgs } from "./bundle-mcp-codex.ts";
+import { writeGeminiMcpCaptureSettings, writeGeminiSystemSettings } from "./bundle-mcp-gemini.ts";
 
 type PreparedCliBundleMcpConfig = {
   backend: CliBackendConfig;

@@ -1,9 +1,9 @@
 // Gateway request context factory.
 // Wires live runtime state into method handlers and client management helpers.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { GatewayServerLiveState } from "./server-live-state.js";
-import type { GatewayRequestContext, GatewayClient } from "./server-methods/types.js";
-import { disconnectAllSharedGatewayAuthClients } from "./server-shared-auth-generation.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { GatewayServerLiveState } from "./server-live-state.ts";
+import type { GatewayRequestContext, GatewayClient } from "./server-methods/types.ts";
+import { disconnectAllSharedGatewayAuthClients } from "./server-shared-auth-generation.ts";
 
 type GatewayRequestContextClient = GatewayClient & {
   socket: { close: (code: number, reason: string) => void };

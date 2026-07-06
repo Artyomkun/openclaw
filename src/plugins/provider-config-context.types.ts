@@ -1,6 +1,6 @@
 // Defines provider config context types for plugin-owned providers.
-import type { ModelProviderConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { ModelProviderConfig } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 /**
  * Provider-owned config normalization for `models.providers.<id>` entries.

@@ -4,20 +4,20 @@
 import { randomBytes } from "node:crypto";
 import fs from "node:fs/promises";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
-import { FAST_MODE_AUTO_PROGRESS_KIND, type ReplyPayload } from "../../auto-reply/reply-payload.js";
-import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import { SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
-import { getRuntimeConfigSnapshot } from "../../config/config.js";
-import { resolveStorePath } from "../../config/sessions.js";
-import { updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import { OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST } from "../../context-engine/host-compat.js";
-import { ensureContextEnginesInitialized } from "../../context-engine/init.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
+import { FAST_MODE_AUTO_PROGRESS_KIND, type ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import type { ThinkLevel } from "../../auto-reply/thinking.ts";
+import { SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.ts";
+import { getRuntimeConfigSnapshot } from "../../config/config.ts";
+import { resolveStorePath } from "../../config/sessions.ts";
+import { updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import { OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST } from "../../context-engine/host-compat.ts";
+import { ensureContextEnginesInitialized } from "../../context-engine/init.ts";
 import {
   resolveContextEngine,
   resolveContextEngineOwnerPluginId,
-} from "../../context-engine/registry.js";
-import { buildContextEngineRuntimeSettings } from "../../context-engine/runtime-settings.js";
+} from "../../context-engine/registry.ts";
+import { buildContextEngineRuntimeSettings } from "../../context-engine/runtime-settings.ts";
 import {
   assertAgentRunLifecycleGenerationCurrent,
   captureAgentRunLifecycleGeneration,
@@ -27,29 +27,29 @@ import {
   getAgentRunContext,
   registerAgentRunContext,
   withAgentRunLifecycleGeneration,
-} from "../../infra/agent-events.js";
-import { sleepWithAbort } from "../../infra/backoff.js";
-import { freezeDiagnosticTraceContext } from "../../infra/diagnostic-trace-context.js";
-import { formatErrorMessage, toErrorObject } from "../../infra/errors.js";
-import { buildAgentHookContextChannelFields } from "../../plugins/hook-agent-context.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import { resolveProviderAuthProfileId } from "../../plugins/provider-runtime.js";
-import { enqueueCommandInLane, getCommandLaneSnapshot } from "../../process/command-queue.js";
-import type { CommandQueueEnqueueOptions } from "../../process/command-queue.types.js";
-import { createAgentHarnessTaskRuntimeScope } from "../../tasks/agent-harness-task-runtime-scope.js";
-import { resolveUserPath } from "../../utils.js";
-import { isMarkdownCapableMessageChannel } from "../../utils/message-channel.js";
+} from "../../infra/agent-events.ts";
+import { sleepWithAbort } from "../../infra/backoff.ts";
+import { freezeDiagnosticTraceContext } from "../../infra/diagnostic-trace-context.ts";
+import { formatErrorMessage, toErrorObject } from "../../infra/errors.ts";
+import { buildAgentHookContextChannelFields } from "../../plugins/hook-agent-context.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import { resolveProviderAuthProfileId } from "../../plugins/provider-runtime.ts";
+import { enqueueCommandInLane, getCommandLaneSnapshot } from "../../process/command-queue.ts";
+import type { CommandQueueEnqueueOptions } from "../../process/command-queue.types.ts";
+import { createAgentHarnessTaskRuntimeScope } from "../../tasks/agent-harness-task-runtime-scope.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { isMarkdownCapableMessageChannel } from "../../utils/message-channel.ts";
 import {
   retireSessionMcpRuntime,
   retireSessionMcpRuntimeForSessionKey,
-} from "../agent-bundle-mcp-tools.js";
+} from "../agent-bundle-mcp-tools.ts";
 import {
   resolveAgentDir,
   resolveSessionAgentIds,
   resolveAgentWorkspaceDir,
-} from "../agent-scope.js";
-import type { ToolOutcomeObservation } from "../agent-tools.before-tool-call.js";
-import { resolveProcessToolScopeKey } from "../agent-tools.js";
+} from "../agent-scope.ts";
+import type { ToolOutcomeObservation } from "../agent-tools.before-tool-call.ts";
+import { resolveProcessToolScopeKey } from "../agent-tools.ts";
 import {
   type AuthProfileFailureReason,
   type AuthProfileStore,
@@ -57,14 +57,14 @@ import {
   markAuthProfileFailure,
   markAuthProfileSuccess,
   resolveAuthProfileEligibility,
-} from "../auth-profiles.js";
-import { resolveExternalCliAuthOverlayScopeFromSelection } from "../auth-profiles/external-cli-auth-selection.js";
-import { listActiveProcessSessionReferences } from "../bash-process-references.js";
+} from "../auth-profiles.ts";
+import { resolveExternalCliAuthOverlayScopeFromSelection } from "../auth-profiles/external-cli-auth-selection.ts";
+import { listActiveProcessSessionReferences } from "../bash-process-references.ts";
 import {
   resolveSessionKeyForRequest,
   resolveStoredSessionKeyForSessionId,
-} from "../command/session.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.js";
+} from "../command/session.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.ts";
 import {
   classifyAssistantFailoverReason,
   classifyFailoverReason,
@@ -82,24 +82,24 @@ import {
   parseImageDimensionError,
   parseImageSizeError,
   pickFallbackThinkingLevel,
-} from "../embedded-agent-helpers.js";
-import { isStrictAgenticExecutionContractActive } from "../execution-contract.js";
+} from "../embedded-agent-helpers.ts";
+import { isStrictAgenticExecutionContractActive } from "../execution-contract.ts";
 import {
   coerceToFailoverError,
   describeFailoverError,
   FailoverError,
   resolveFailoverStatus,
-} from "../failover-error.js";
+} from "../failover-error.ts";
 import {
   DEFAULT_FAST_MODE_AUTO_ON_SECONDS,
   type FastModeAutoProgressState,
   formatFastModeAutoProgressText,
   resolveFastModeForElapsed,
-} from "../fast-mode.js";
-import { ensureSelectedAgentHarnessPlugin } from "../harness/runtime-plugin.js";
-import { selectAgentHarness } from "../harness/selection.js";
-import { LiveSessionModelSwitchError } from "../live-model-switch-error.js";
-import { shouldSwitchToLiveModel, clearLiveModelSwitchPending } from "../live-model-switch.js";
+} from "../fast-mode.ts";
+import { ensureSelectedAgentHarnessPlugin } from "../harness/runtime-plugin.ts";
+import { selectAgentHarness } from "../harness/selection.ts";
+import { LiveSessionModelSwitchError } from "../live-model-switch-error.ts";
+import { shouldSwitchToLiveModel, clearLiveModelSwitchPending } from "../live-model-switch.ts";
 import {
   applyAuthHeaderOverride,
   applyLocalNoAuthHeaderOverride,
@@ -108,81 +108,81 @@ import {
   type ResolvedProviderAuth,
   resolveAuthProfileOrder,
   shouldPreferExplicitConfigApiKeyAuth,
-} from "../model-auth.js";
+} from "../model-auth.ts";
 import {
   buildModelAliasIndex,
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
-} from "../model-selection.js";
-import { resolveThinkingDefault } from "../model-thinking-default.js";
-import { ensureOpenClawModelsJson } from "../models-config.js";
+} from "../model-selection.ts";
+import { resolveThinkingDefault } from "../model-thinking-default.ts";
+import { ensureOpenClawModelsJson } from "../models-config.ts";
 import {
   OPENAI_PROVIDER_ID,
   listOpenAIAuthProfileProvidersForAgentRuntime,
   resolveContextConfigProviderForRuntime,
   resolveSelectedOpenAIRuntimeProvider,
-} from "../openai-routing.js";
-import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
-import { hasOnlyAssistantReasoningContent } from "../replay-turn-classification.js";
-import { runAgentCleanupStep } from "../run-cleanup-timeout.js";
+} from "../openai-routing.ts";
+import { resolveProviderIdForAuth } from "../provider-auth-aliases.ts";
+import { hasOnlyAssistantReasoningContent } from "../replay-turn-classification.ts";
+import { runAgentCleanupStep } from "../run-cleanup-timeout.ts";
 import {
   applyAgentRunSessionTargetIdentity,
   resolveAgentRunSessionTarget,
-} from "../run-session-target.js";
-import { buildAgentRuntimeAuthPlan } from "../runtime-plan/auth.js";
-import { buildAgentRuntimePlan } from "../runtime-plan/build.js";
-import { ensureRuntimePluginsLoaded } from "../runtime-plugins.js";
+} from "../run-session-target.ts";
+import { buildAgentRuntimeAuthPlan } from "../runtime-plan/auth.ts";
+import { buildAgentRuntimePlan } from "../runtime-plan/build.ts";
+import { ensureRuntimePluginsLoaded } from "../runtime-plugins.ts";
 import {
   resolveSessionSuspensionReason,
   resolveSessionSuspensionTarget,
   suspendSession,
   type SessionSuspensionParams,
-} from "../session-suspension.js";
-import { resolveToolLoopDetectionConfig } from "../tool-loop-detection-config.js";
-import { derivePromptTokens, normalizeUsage, type UsageLike } from "../usage.js";
-import { redactRunIdentifier, resolveRunWorkspaceDir } from "../workspace-run.js";
-import { runPostCompactionSideEffects } from "./compaction-hooks.js";
-import { buildEmbeddedCompactionRuntimeContext } from "./compaction-runtime-context.js";
+} from "../session-suspension.ts";
+import { resolveToolLoopDetectionConfig } from "../tool-loop-detection-config.ts";
+import { derivePromptTokens, normalizeUsage, type UsageLike } from "../usage.ts";
+import { redactRunIdentifier, resolveRunWorkspaceDir } from "../workspace-run.ts";
+import { runPostCompactionSideEffects } from "./compaction-hooks.ts";
+import { buildEmbeddedCompactionRuntimeContext } from "./compaction-runtime-context.ts";
 import {
   compactContextEngineWithSafetyTimeout,
   resolveCompactionTimeoutMs,
-} from "./compaction-safety-timeout.js";
-import { resolveContextEngineCapabilities } from "./context-engine-capabilities.js";
+} from "./compaction-safety-timeout.ts";
+import { resolveContextEngineCapabilities } from "./context-engine-capabilities.ts";
 import {
   runContextEngineMaintenance,
   waitForDeferredTurnMaintenanceForSession,
-} from "./context-engine-maintenance.js";
+} from "./context-engine-maintenance.ts";
 import {
   hasMessagingToolDeliveryEvidence,
   hasOutboundDeliveryEvidence,
-} from "./delivery-evidence.js";
-import { resolveEmbeddedRunFailureSignal } from "./failure-signal.js";
-import { resolveGlobalLane, resolveSessionLane } from "./lanes.js";
-import { log } from "./logger.js";
-import { resolveModelAsync } from "./model.js";
+} from "./delivery-evidence.ts";
+import { resolveEmbeddedRunFailureSignal } from "./failure-signal.ts";
+import { resolveGlobalLane, resolveSessionLane } from "./lanes.ts";
+import { log } from "./logger.ts";
+import { resolveModelAsync } from "./model.ts";
 import {
   createPostCompactionLoopGuard,
   PostCompactionLoopPersistedError,
-} from "./post-compaction-loop-guard.js";
-import { createEmbeddedRunReplayState, observeReplayMetadata } from "./replay-state.js";
+} from "./post-compaction-loop-guard.ts";
+import { createEmbeddedRunReplayState, observeReplayMetadata } from "./replay-state.ts";
 import {
   handleAssistantFailover,
   isShortWindowRateLimitMessage,
-} from "./run/assistant-failover.js";
+} from "./run/assistant-failover.ts";
 import {
   createEmbeddedRunStageTracker,
   EMBEDDED_RUN_ATTEMPT_DISPATCH_STAGE,
   formatEmbeddedRunStageSummary,
   shouldWarnEmbeddedRunStageSummary,
-} from "./run/attempt-stage-timing.js";
-import { forgetPromptBuildDrainCacheForRun } from "./run/attempt.prompt-helpers.js";
-import { createEmbeddedRunAuthController } from "./run/auth-controller.js";
-import { resolveAuthProfileFailureReason } from "./run/auth-profile-failure-policy.js";
-import { runEmbeddedAttemptWithBackend } from "./run/backend.js";
-import { resolveCodexAppServerRecoveryRetry } from "./run/codex-app-server-recovery.js";
-import { createFailoverDecisionLogger } from "./run/failover-observation.js";
-import { mergeRetryFailoverReason, resolveRunFailoverDecision } from "./run/failover-policy.js";
-import { hasEmbeddedRunConfiguredModelFallbacks } from "./run/fallbacks.js";
+} from "./run/attempt-stage-timing.ts";
+import { forgetPromptBuildDrainCacheForRun } from "./run/attempt.prompt-helpers.ts";
+import { createEmbeddedRunAuthController } from "./run/auth-controller.ts";
+import { resolveAuthProfileFailureReason } from "./run/auth-profile-failure-policy.ts";
+import { runEmbeddedAttemptWithBackend } from "./run/backend.ts";
+import { resolveCodexAppServerRecoveryRetry } from "./run/codex-app-server-recovery.ts";
+import { createFailoverDecisionLogger } from "./run/failover-observation.ts";
+import { mergeRetryFailoverReason, resolveRunFailoverDecision } from "./run/failover-policy.ts";
+import { hasEmbeddedRunConfiguredModelFallbacks } from "./run/fallbacks.ts";
 import {
   buildErrorAgentMeta,
   buildUsageAgentMetaFields,
@@ -201,12 +201,12 @@ import {
   resolveSameModelRateLimitRetryDelayMs,
   type RuntimeAuthState,
   scrubAnthropicRefusalMagic,
-} from "./run/helpers.js";
+} from "./run/helpers.ts";
 import {
   MAX_CONSECUTIVE_IDLE_TIMEOUTS_BEFORE_OUTPUT,
   createIdleTimeoutBreakerState,
   stepIdleTimeoutBreaker,
-} from "./run/idle-timeout-breaker.js";
+} from "./run/idle-timeout-breaker.ts";
 import {
   DEFAULT_EMPTY_RESPONSE_RETRY_LIMIT,
   DEFAULT_REASONING_ONLY_RETRY_LIMIT,
@@ -221,29 +221,29 @@ import {
   shouldRetryMissingAssistantTurn,
   shouldRetrySilentErrorAssistantTurn,
   shouldTreatEmptyAssistantReplyAsSilent,
-} from "./run/incomplete-turn.js";
-import type { RunEmbeddedAgentParams } from "./run/params.js";
-import { buildEmbeddedRunPayloads } from "./run/payloads.js";
-import { handleRetryLimitExhaustion } from "./run/retry-limit.js";
+} from "./run/incomplete-turn.ts";
+import type { RunEmbeddedAgentParams } from "./run/params.ts";
+import { buildEmbeddedRunPayloads } from "./run/payloads.ts";
+import { handleRetryLimitExhaustion } from "./run/retry-limit.ts";
 import {
   buildBeforeModelResolveAttachments,
   resolveEffectiveRuntimeModel,
   resolveHookModelSelection,
-} from "./run/setup.js";
-import { mergeAttemptToolMediaPayloads } from "./run/tool-media-payloads.js";
-import type { EmbeddedRunFastModeParam } from "./run/types.js";
+} from "./run/setup.ts";
+import { mergeAttemptToolMediaPayloads } from "./run/tool-media-payloads.ts";
+import type { EmbeddedRunFastModeParam } from "./run/types.ts";
 import {
   resolveLiveToolResultMaxChars,
   sessionLikelyHasOversizedToolResults,
   truncateOversizedToolResultsInSession,
-} from "./tool-result-truncation.js";
+} from "./tool-result-truncation.ts";
 import type {
   EmbeddedAgentMeta,
   EmbeddedAgentRunResult,
   TraceAttempt,
   ToolSummaryTrace,
-} from "./types.js";
-import { createUsageAccumulator, mergeUsageIntoAccumulator } from "./usage-accumulator.js";
+} from "./types.ts";
+import { createUsageAccumulator, mergeUsageIntoAccumulator } from "./usage-accumulator.ts";
 
 type ApiKeyInfo = ResolvedProviderAuth;
 
@@ -1418,7 +1418,7 @@ async function runEmbeddedAgentInternal(
           resolvedModel: modelId,
           selectedContextEngineId: contextEngine.info.id,
           contextEngineSelectionSource:
-            contextEngine.info.id === "legacy" ? "default" : "configured",
+            contextEngine.info.id === "configured",
           promptTokenBudget: settingsParams.tokenBudget,
           maxOutputTokens: settingsParams.maxOutputTokens,
           fallbackReason,

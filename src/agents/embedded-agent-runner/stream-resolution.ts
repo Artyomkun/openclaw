@@ -1,13 +1,13 @@
 /**
  * Resolves provider stream functions and API keys for embedded agents.
  */
-import { getApiProvider } from "../../llm/api-registry.js";
-import { streamSimple } from "../../llm/stream.js";
-import { createAnthropicVertexStreamFnForModel } from "../anthropic-vertex-stream.js";
-import { createBoundaryAwareStreamFnForModel } from "../provider-transport-stream.js";
-import type { StreamFn } from "../runtime/index.js";
-import { stripSystemPromptCacheBoundary } from "../system-prompt-cache-boundary.js";
-import type { EmbeddedRunAttemptParams } from "./run/types.js";
+import { getApiProvider } from "../../llm/api-registry.ts";
+import { streamSimple } from "../../llm/stream.ts";
+import { createAnthropicVertexStreamFnForModel } from "../anthropic-vertex-stream.ts";
+import { createBoundaryAwareStreamFnForModel } from "../provider-transport-stream.ts";
+import type { StreamFn } from "../runtime/index.ts";
+import { stripSystemPromptCacheBoundary } from "../system-prompt-cache-boundary.ts";
+import type { EmbeddedRunAttemptParams } from "./run/types.ts";
 
 let embeddedAgentBaseStreamFnCache = new WeakMap<object, StreamFn | undefined>();
 let openClawNativeCodexResponsesStreamFnForTest: StreamFn | undefined;

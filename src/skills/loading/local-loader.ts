@@ -1,11 +1,11 @@
 // Local skill loader reads skill definitions from local filesystem roots.
 import fs from "node:fs";
 import path from "node:path";
-import { openRootFileSync } from "../../infra/boundary-file-read.js";
-import type { ParsedSkillFrontmatter } from "../types.js";
-import { parseFrontmatter, resolveSkillInvocationPolicy } from "./frontmatter.js";
-import { createSyntheticSourceInfo, type Skill } from "./skill-contract.js";
-import { computeSkillPromptVersion } from "./skill-version.js";
+import { openRootFileSync } from "../../infra/boundary-file-read.ts";
+import type { ParsedSkillFrontmatter } from "../types.ts";
+import { parseFrontmatter, resolveSkillInvocationPolicy } from "./frontmatter.ts";
+import { createSyntheticSourceInfo, type Skill } from "./skill-contract.ts";
+import { computeSkillPromptVersion } from "./skill-version.ts";
 
 type LoadedLocalSkill = {
   skill: Skill;

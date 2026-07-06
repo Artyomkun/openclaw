@@ -8,8 +8,8 @@ import { normalizeNullableString } from "@openclaw/normalization-core/string-coe
 import {
   describeInterpreterInlineEval,
   type InterpreterInlineEvalHit,
-} from "../infra/command-analysis/inline-eval.js";
-import { detectPolicyInlineEval } from "../infra/command-analysis/policy.js";
+} from "../infra/command-analysis/inline-eval.ts";
+import { detectPolicyInlineEval } from "../infra/command-analysis/policy.ts";
 import {
   type ExecApprovalsFile,
   type ExecAllowlistEntry,
@@ -26,24 +26,24 @@ import {
   resolveAllowAlwaysPersistenceDecision,
   resolveAllowAlwaysPatternCoverage,
   type AllowAlwaysPattern,
-} from "../infra/exec-approvals.js";
-import { buildNodeShellCommand } from "../infra/node-shell.js";
+} from "../infra/exec-approvals.ts";
+import { buildNodeShellCommand } from "../infra/node-shell.ts";
 import {
   parsePreparedSystemRunPayload,
   type PreparedRunExecPolicy,
-} from "../infra/system-run-approval-context.js";
+} from "../infra/system-run-approval-context.ts";
 import {
   extractShellCommandFromArgv,
   formatExecCommand,
   resolveSystemRunCommandRequest,
-} from "../infra/system-run-command.js";
-import { addSafeTimeoutDelayGraceMs } from "../utils/timer-delay.js";
-import type { ExecuteNodeHostCommandParams } from "./bash-tools.exec-host-node.types.js";
-import { renderExecOutputText } from "./bash-tools.exec-output.js";
-import type { ExecToolDetails } from "./bash-tools.exec-types.js";
-import type { AgentToolResult } from "./runtime/index.js";
-import { callGatewayTool } from "./tools/gateway.js";
-import { listNodes, resolveNodeIdFromList } from "./tools/nodes-utils.js";
+} from "../infra/system-run-command.ts";
+import { addSafeTimeoutDelayGraceMs } from "../utils/timer-delay.ts";
+import type { ExecuteNodeHostCommandParams } from "./bash-tools.exec-host-node.types.ts";
+import { renderExecOutputText } from "./bash-tools.exec-output.ts";
+import type { ExecToolDetails } from "./bash-tools.exec-types.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
+import { callGatewayTool } from "./tools/gateway.ts";
+import { listNodes, resolveNodeIdFromList } from "./tools/nodes-utils.ts";
 
 type NodeExecutionTarget = {
   nodeId: string;

@@ -6,12 +6,12 @@
 import {
   listKnownProviderAuthEnvVarNames,
   resolveProviderAuthLookupMaps,
-} from "../secrets/provider-env-vars.js";
+} from "../secrets/provider-env-vars.ts";
 import type {
   ProviderAuthEvidence,
   ProviderAuthLookupMaps,
   ProviderEnvVarLookupParams,
-} from "../secrets/provider-env-vars.js";
+} from "../secrets/provider-env-vars.ts";
 
 /** Resolves both env-var candidates and richer auth evidence from one manifest snapshot. */
 export function resolveProviderEnvAuthLookupMaps(

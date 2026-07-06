@@ -1,24 +1,24 @@
 /**
  * Ensures runtime plugins required by selected native harnesses are installed.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { withActivatedPluginIds } from "../../plugins/activation-context.js";
-import { resolveManifestActivationPlan } from "../../plugins/activation-planner.js";
-import { resolveEffectivePluginActivationState } from "../../plugins/config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "../../plugins/default-enablement.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { withActivatedPluginIds } from "../../plugins/activation-context.ts";
+import { resolveManifestActivationPlan } from "../../plugins/activation-planner.ts";
+import { resolveEffectivePluginActivationState } from "../../plugins/config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "../../plugins/default-enablement.ts";
 import {
   loadPluginRegistrySnapshot,
   normalizePluginsConfigWithRegistry,
-} from "../../plugins/plugin-registry.js";
+} from "../../plugins/plugin-registry.ts";
 import {
   resolveActivatableProviderOwnerPluginIds,
   resolveBundledProviderCompatPluginIds,
   resolveOwningPluginIdsForProviderRef,
-} from "../../plugins/providers.js";
-import { isDefaultAgentRuntimeId, OPENCLAW_AGENT_RUNTIME_ID } from "../agent-runtime-id.js";
-import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.js";
-import { isCliRuntimeAliasForProvider } from "../model-runtime-aliases.js";
-import { resolveAgentHarnessPolicy } from "./policy.js";
+} from "../../plugins/providers.ts";
+import { isDefaultAgentRuntimeId, OPENCLAW_AGENT_RUNTIME_ID } from "../agent-runtime-id.ts";
+import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.ts";
+import { isCliRuntimeAliasForProvider } from "../model-runtime-aliases.ts";
+import { resolveAgentHarnessPolicy } from "./policy.ts";
 
 function dedupePluginIds(values: readonly string[]): string[] {
   const seen = new Set<string>();

@@ -1,11 +1,11 @@
 /** Registry for image-generation providers contributed by plugin capabilities. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import * as capabilityProviderRuntime from "../plugins/capability-provider-runtime.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import * as capabilityProviderRuntime from "../plugins/capability-provider-runtime.ts";
 import {
   buildCapabilityProviderMaps,
   normalizeCapabilityProviderId,
-} from "../plugins/provider-registry-shared.js";
-import type { ImageGenerationProviderPlugin } from "../plugins/types.js";
+} from "../plugins/provider-registry-shared.ts";
+import type { ImageGenerationProviderPlugin } from "../plugins/types.ts";
 
 // Image-generation providers come from plugin capability registration. The
 // registry keeps aliases separate from canonical ids for user config lookups.

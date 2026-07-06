@@ -4,16 +4,16 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { randomIdempotencyKey } from "../../gateway/call.js";
-import { defaultRuntime } from "../../runtime.js";
-import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
+import { randomIdempotencyKey } from "../../gateway/call.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { getNodesTheme, runNodesCommand } from "./cli-utils.ts";
 import {
   callGatewayCli,
   nodesCallOpts,
   parseOptionalNodePositiveInteger,
   resolveNodeId,
-} from "./rpc.js";
-import type { NodesRpcOpts } from "./types.js";
+} from "./rpc.ts";
+import type { NodesRpcOpts } from "./types.ts";
 
 const BLOCKED_NODE_INVOKE_COMMANDS = new Set(["system.run", "system.run.prepare"]);
 

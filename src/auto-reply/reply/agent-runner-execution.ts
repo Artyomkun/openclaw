@@ -10,23 +10,23 @@ import {
   hasOutboundReplyContent,
   resolveSendableOutboundReplyParts,
 } from "openclaw/plugin-sdk/reply-payload";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
 import {
   clearAutoFallbackPrimaryProbeSelection,
   entryMatchesAutoFallbackPrimaryProbe,
   hasSessionAutoModelFallbackProvenance,
   markAutoFallbackPrimaryProbe,
   resolveAutoFallbackPrimaryProbe,
-} from "../../agents/agent-scope.js";
-import { formatAuthProfileFailureMessage } from "../../agents/auth-profiles/failure-copy.js";
+} from "../../agents/agent-scope.ts";
+import { formatAuthProfileFailureMessage } from "../../agents/auth-profiles/failure-copy.ts";
 import {
   buildOAuthRefreshFailureLoginCommand,
   classifyOAuthRefreshFailure,
   classifyOAuthRefreshFailureError,
-} from "../../agents/auth-profiles/oauth-refresh-failure.js";
-import { resolveBootstrapWarningSignaturesSeen } from "../../agents/bootstrap-budget.js";
-import { getCliSessionBinding } from "../../agents/cli-session.js";
-import { resolveContextTokensForModel } from "../../agents/context.js";
+} from "../../agents/auth-profiles/oauth-refresh-failure.ts";
+import { resolveBootstrapWarningSignaturesSeen } from "../../agents/bootstrap-budget.ts";
+import { getCliSessionBinding } from "../../agents/cli-session.ts";
+import { resolveContextTokensForModel } from "../../agents/context.ts";
 import {
   BILLING_ERROR_USER_MESSAGE,
   formatBillingErrorMessage,
@@ -38,65 +38,65 @@ import {
   isOverloadedErrorMessage,
   isRateLimitErrorMessage,
   isTransientHttpError,
-} from "../../agents/embedded-agent-helpers.js";
-import { sanitizeUserFacingText } from "../../agents/embedded-agent-helpers/sanitize-user-facing-text.js";
-import { isMessagingToolSendAction } from "../../agents/embedded-agent-messaging.js";
-import { mergeEmbeddedAgentRunResultForModelFallbackExhaustion } from "../../agents/embedded-agent-runner/result-fallback-classifier.js";
-import type { RunEmbeddedAgentParams } from "../../agents/embedded-agent-runner/run/params.js";
-import { runEmbeddedAgent } from "../../agents/embedded-agent.js";
-import { isFailoverError } from "../../agents/failover-error.js";
-import type { FastModeAutoProgressState } from "../../agents/fast-mode.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
-import { ensureSelectedAgentHarnessPlugin } from "../../agents/harness/runtime-plugin.js";
-import { LiveSessionModelSwitchError } from "../../agents/live-model-switch-error.js";
-import { isMissingProviderAuthError } from "../../agents/model-auth.js";
-import { runWithModelFallback, isFallbackSummaryError } from "../../agents/model-fallback.js";
+} from "../../agents/embedded-agent-helpers.ts";
+import { sanitizeUserFacingText } from "../../agents/embedded-agent-helpers/sanitize-user-facing-text.ts";
+import { isMessagingToolSendAction } from "../../agents/embedded-agent-messaging.ts";
+import { mergeEmbeddedAgentRunResultForModelFallbackExhaustion } from "../../agents/embedded-agent-runner/result-fallback-classifier.ts";
+import type { RunEmbeddedAgentParams } from "../../agents/embedded-agent-runner/run/params.ts";
+import { runEmbeddedAgent } from "../../agents/embedded-agent.ts";
+import { isFailoverError } from "../../agents/failover-error.ts";
+import type { FastModeAutoProgressState } from "../../agents/fast-mode.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
+import { ensureSelectedAgentHarnessPlugin } from "../../agents/harness/runtime-plugin.ts";
+import { LiveSessionModelSwitchError } from "../../agents/live-model-switch-error.ts";
+import { isMissingProviderAuthError } from "../../agents/model-auth.ts";
+import { runWithModelFallback, isFallbackSummaryError } from "../../agents/model-fallback.ts";
 import {
   isCliRuntimeAliasForProvider,
   resolveCliRuntimeExecutionProvider,
-} from "../../agents/model-runtime-aliases.js";
+} from "../../agents/model-runtime-aliases.ts";
 import {
   isCliProvider,
   resolveModelRefFromString,
   resolvePersistedOverrideModelRef,
-} from "../../agents/model-selection.js";
-import { resolveOpenAIRuntimeProvider } from "../../agents/openai-routing.js";
+} from "../../agents/model-selection.ts";
+import { resolveOpenAIRuntimeProvider } from "../../agents/openai-routing.ts";
 import {
   AGENT_RUN_RESTART_ABORT_STOP_REASON,
   createAgentRunRestartAbortError,
   isAgentRunRestartAbortReason,
   resolveAgentRunAbortLifecycleFields,
-} from "../../agents/run-termination.js";
-import { buildAgentRuntimeOutcomePlan } from "../../agents/runtime-plan/build.js";
-import { resolveGroupSessionKey, type SessionEntry } from "../../config/sessions.js";
-import { updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import { resolveSilentReplyPolicy } from "../../config/silent-reply.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
+} from "../../agents/run-termination.ts";
+import { buildAgentRuntimeOutcomePlan } from "../../agents/runtime-plan/build.ts";
+import { resolveGroupSessionKey, type SessionEntry } from "../../config/sessions.ts";
+import { updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import { resolveSilentReplyPolicy } from "../../config/silent-reply.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
 import {
   captureAgentRunLifecycleGeneration,
   clearAgentRunContext,
   emitAgentEvent,
   registerAgentRunContext,
-} from "../../infra/agent-events.js";
-import { isDiagnosticsEnabled } from "../../infra/diagnostic-events.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { logSessionTurnCreated } from "../../logging/diagnostic.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { CommandLaneClearedError, GatewayDrainingError } from "../../process/command-queue.js";
-import { CommandLane } from "../../process/lanes.js";
-import { defaultRuntime } from "../../runtime.js";
-import { shouldPreserveUserFacingSessionStateForInputProvenance } from "../../sessions/input-provenance.js";
-import { truncateUtf16Safe } from "../../shared/utf16-slice.js";
+} from "../../infra/agent-events.ts";
+import { isDiagnosticsEnabled } from "../../infra/diagnostic-events.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { logSessionTurnCreated } from "../../logging/diagnostic.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { CommandLaneClearedError, GatewayDrainingError } from "../../process/command-queue.ts";
+import { CommandLane } from "../../process/lanes.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { shouldPreserveUserFacingSessionStateForInputProvenance } from "../../sessions/input-provenance.ts";
+import { truncateUtf16Safe } from "../../shared/utf16-slice.ts";
 import {
   isMarkdownCapableMessageChannel,
   resolveMessageChannel,
-} from "../../utils/message-channel.js";
-import { isInternalMessageChannel } from "../../utils/message-channel.js";
-import { stripHeartbeatToken } from "../heartbeat.js";
-import { markReplyPayloadForSourceSuppressionDelivery } from "../reply-payload.js";
-import type { TemplateContext } from "../templating.js";
-import type { VerboseLevel } from "../thinking.js";
+} from "../../utils/message-channel.ts";
+import { isInternalMessageChannel } from "../../utils/message-channel.ts";
+import { stripHeartbeatToken } from "../heartbeat.ts";
+import { markReplyPayloadForSourceSuppressionDelivery } from "../reply-payload.ts";
+import type { TemplateContext } from "../templating.ts";
+import type { VerboseLevel } from "../thinking.ts";
 import {
   HEARTBEAT_TOKEN,
   isSilentReplyPrefixText,
@@ -104,51 +104,51 @@ import {
   SILENT_REPLY_TOKEN,
   startsWithSilentToken,
   stripLeadingSilentToken,
-} from "../tokens.js";
-import type { GetReplyOptions, ReplyPayload } from "../types.js";
+} from "../tokens.ts";
+import type { GetReplyOptions, ReplyPayload } from "../types.ts";
 import {
   createAgentLifecycleTerminalBackstop,
   resolveAgentLifecycleTerminalMetadata,
   type AgentLifecycleTerminalBackstop,
-} from "./agent-lifecycle-terminal.js";
-import { resolveRunAuthProfile } from "./agent-runner-auth-profile.js";
+} from "./agent-lifecycle-terminal.ts";
+import { resolveRunAuthProfile } from "./agent-runner-auth-profile.ts";
 import {
   clearDroppedCliSessionBinding,
   createCliToolSummaryTracker,
   keepCliSessionBindingOnlyWhenReused,
   runCliAgentWithLifecycle,
-} from "./agent-runner-cli-dispatch.js";
+} from "./agent-runner-cli-dispatch.ts";
 import {
   GENERIC_EXTERNAL_RUN_FAILURE_TEXT,
   HEARTBEAT_EXTERNAL_RUN_FAILURE_TEXT,
-} from "./agent-runner-failure-copy.js";
+} from "./agent-runner-failure-copy.ts";
 import {
   buildEmbeddedRunExecutionParams,
   resolveQueuedReplyRuntimeConfig,
   resolveModelFallbackOptions,
   resolveRunFastModeForFallbackCandidate,
-} from "./agent-runner-utils.js";
-import type { BlockReplyPipeline } from "./block-reply-pipeline.js";
+} from "./agent-runner-utils.ts";
+import type { BlockReplyPipeline } from "./block-reply-pipeline.ts";
 import {
   createCompactionHookNoticePayload,
   createCompactionNoticePayload,
   readCompactionHookMessages,
   shouldNotifyUserAboutCompaction,
-} from "./compaction-notice.js";
-import { resolveCurrentTurnImages } from "./current-turn-images.js";
-import { hasInboundAudio } from "./inbound-media.js";
-import { resolveOriginMessageProvider } from "./origin-routing.js";
+} from "./compaction-notice.ts";
+import { resolveCurrentTurnImages } from "./current-turn-images.ts";
+import { hasInboundAudio } from "./inbound-media.ts";
+import { resolveOriginMessageProvider } from "./origin-routing.ts";
 import {
   classifyProviderRequestError,
   PROVIDER_CONVERSATION_STATE_ERROR_USER_MESSAGE,
-} from "./provider-request-error-classifier.js";
-import type { FollowupRun } from "./queue.js";
-import { createBlockReplyDeliveryHandler } from "./reply-delivery.js";
-import type { ReplyMediaContext } from "./reply-media-paths.js";
-import { createReplyMediaContext } from "./reply-media-paths.runtime.js";
-import type { ReplyOperation } from "./reply-run-registry.js";
-import { isReplyProfilerEnabled } from "./reply-timing-tracker.js";
-import type { TypingSignaler } from "./typing-mode.js";
+} from "./provider-request-error-classifier.ts";
+import type { FollowupRun } from "./queue.ts";
+import { createBlockReplyDeliveryHandler } from "./reply-delivery.ts";
+import type { ReplyMediaContext } from "./reply-media-paths.ts";
+import { createReplyMediaContext } from "./reply-media-paths.runtime.ts";
+import type { ReplyOperation } from "./reply-run-registry.ts";
+import { isReplyProfilerEnabled } from "./reply-timing-tracker.ts";
+import type { TypingSignaler } from "./typing-mode.ts";
 
 // Maximum number of LiveSessionModelSwitchError retries before surfacing a
 // user-visible error. Prevents infinite ping-pong when the persisted session
@@ -1868,7 +1868,7 @@ export async function runAgentTurnWithFallback(params: {
     //
     // `modelOverrideSource` was added later, so older persisted sessions can
     // carry a user-selected override without the source field.  Treat any
-    // entry with a `modelOverride` but missing `modelOverrideSource` as legacy
+    // entry with a `modelOverride` but missing `modelOverrideSource` as older
     // user state, matching the backward-compat treatment in
     // session-reset-service.
     const isUserModelOverride =

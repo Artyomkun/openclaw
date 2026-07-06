@@ -2,8 +2,8 @@ import { createHash } from "node:crypto";
 import {
   emitTrustedSecurityEvent,
   type DiagnosticSecurityEventInput,
-} from "../../infra/diagnostic-events.js";
-import type { DeviceSessionAuthz } from "./device-management-authz.js";
+} from "../../infra/diagnostic-events.ts";
+import type { DeviceSessionAuthz } from "./device-management-authz.ts";
 
 type DeviceSecurityDecision = NonNullable<DiagnosticSecurityEventInput["policy"]>["decision"];
 

@@ -1,22 +1,22 @@
 // Gateway restart sentinel recovery.
 // Resumes pending restart continuations and outbound delivery after process restart.
-import { resolveSessionAgentId } from "../agents/agent-scope.js";
-import { REPLY_RUN_STILL_SHUTTING_DOWN_TEXT } from "../auto-reply/reply/get-reply-run-queue.js";
-import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.js";
-import { dispatchReplyWithBufferedBlockDispatcher } from "../auto-reply/reply/provider-dispatcher.js";
-import type { ChatType } from "../channels/chat-type.js";
-import { sendDurableMessageBatch } from "../channels/message/runtime.js";
-import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.js";
-import { recordInboundSession } from "../channels/session.js";
-import { dispatchAssembledChannelTurn } from "../channels/turn/kernel.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import { resolveMainSessionKeyFromConfig } from "../config/sessions.js";
-import { parseSessionThreadInfo } from "../config/sessions/thread-info.js";
-import { formatErrorMessage, toErrorObject } from "../infra/errors.js";
-import { requestHeartbeat } from "../infra/heartbeat-wake.js";
-import { ackDelivery, enqueueDelivery, failDelivery } from "../infra/outbound/delivery-queue.js";
-import { buildOutboundSessionContext } from "../infra/outbound/session-context.js";
-import { resolveOutboundTarget } from "../infra/outbound/targets.js";
+import { resolveSessionAgentId } from "../agents/agent-scope.ts";
+import { REPLY_RUN_STILL_SHUTTING_DOWN_TEXT } from "../auto-reply/reply/get-reply-run-queue.ts";
+import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.ts";
+import { dispatchReplyWithBufferedBlockDispatcher } from "../auto-reply/reply/provider-dispatcher.ts";
+import type { ChatType } from "../channels/chat-type.ts";
+import { sendDurableMessageBatch } from "../channels/message/runtime.ts";
+import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.ts";
+import { recordInboundSession } from "../channels/session.ts";
+import { dispatchAssembledChannelTurn } from "../channels/turn/kernel.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { resolveMainSessionKeyFromConfig } from "../config/sessions.ts";
+import { parseSessionThreadInfo } from "../config/sessions/thread-info.ts";
+import { formatErrorMessage, toErrorObject } from "../infra/errors.ts";
+import { requestHeartbeat } from "../infra/heartbeat-wake.ts";
+import { ackDelivery, enqueueDelivery, failDelivery } from "../infra/outbound/delivery-queue.ts";
+import { buildOutboundSessionContext } from "../infra/outbound/session-context.ts";
+import { resolveOutboundTarget } from "../infra/outbound/targets.ts";
 import {
   clearRestartSentinel,
   finalizeUpdateRestartSentinelRunningVersion,
@@ -25,7 +25,7 @@ import {
   type RestartSentinelContinuation,
   type RestartSentinelPayload,
   summarizeRestartSentinel,
-} from "../infra/restart-sentinel.js";
+} from "../infra/restart-sentinel.ts";
 import {
   drainPendingSessionDeliveries,
   enqueueSessionDelivery,
@@ -35,19 +35,19 @@ import {
   type QueuedSessionDeliveryPayload,
   type SessionDeliveryRecoveryLogger,
   type SessionDeliveryRoute,
-} from "../infra/session-delivery-queue.js";
-import { enqueueSystemEvent } from "../infra/system-events.js";
-import { isPendingControlPlaneUpdateRestartSentinel } from "../infra/update-control-plane-sentinel.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { stringifyRouteThreadId } from "../plugin-sdk/channel-route.js";
-import type { OutboundReplyPayload } from "../plugin-sdk/reply-payload.js";
+} from "../infra/session-delivery-queue.ts";
+import { enqueueSystemEvent } from "../infra/system-events.ts";
+import { isPendingControlPlaneUpdateRestartSentinel } from "../infra/update-control-plane-sentinel.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { stringifyRouteThreadId } from "../plugin-sdk/channel-route.ts";
+import type { OutboundReplyPayload } from "../plugin-sdk/reply-payload.ts";
 import {
   deliveryContextFromSession,
   mergeDeliveryContext,
-} from "../utils/delivery-context.shared.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.js";
-import { loadSessionEntry } from "./session-utils.js";
-import { runStartupTasks, type StartupTask } from "./startup-tasks.js";
+} from "../utils/delivery-context.shared.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.ts";
+import { loadSessionEntry } from "./session-utils.ts";
+import { runStartupTasks, type StartupTask } from "./startup-tasks.ts";
 
 const log = createSubsystemLogger("gateway/restart-sentinel");
 const OUTBOUND_RETRY_DELAY_MS = 1_000;

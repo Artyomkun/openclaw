@@ -204,7 +204,7 @@ export function buildVolcengineSpeechProvider(): SpeechProviderPlugin {
       if (!apiKey && (!appId || !token)) {
         throw new Error(
           "Volcengine TTS credentials missing. Set VOLCENGINE_TTS_API_KEY, " +
-            "BYTEPLUS_SEED_SPEECH_API_KEY, or legacy VOLCENGINE_TTS_APPID and VOLCENGINE_TTS_TOKEN.",
+            "BYTEPLUS_SEED_SPEECH_API_KEY, or VOLCENGINE_TTS_APPID and VOLCENGINE_TTS_TOKEN.",
         );
       }
 

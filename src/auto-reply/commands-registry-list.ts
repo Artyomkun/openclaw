@@ -1,9 +1,9 @@
 /** Command-list assembly and config filtering for chat command registries. */
-import { isCommandFlagEnabled } from "../config/commands.flags.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { SkillCommandSpec } from "../skills/types.js";
-import { getChatCommands } from "./commands-registry.data.js";
-import type { ChatCommandDefinition } from "./commands-registry.types.js";
+import { isCommandFlagEnabled } from "../config/commands.flags.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { SkillCommandSpec } from "../skills/types.ts";
+import { getChatCommands } from "./commands-registry.data.ts";
+import type { ChatCommandDefinition } from "./commands-registry.types.ts";
 
 /** Builds dynamic command definitions exported by installed skills. */
 function buildSkillCommandDefinitions(skillCommands?: SkillCommandSpec[]): ChatCommandDefinition[] {

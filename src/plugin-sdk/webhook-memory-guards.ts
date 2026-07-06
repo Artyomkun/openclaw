@@ -1,6 +1,6 @@
 // Webhook memory guards keep in-process webhook dedupe and replay state bounded.
-import { pruneMapToMaxSize } from "../infra/map-size.js";
-import { resolveWebhookIntegerOption } from "./webhook-numeric-options.js";
+import { pruneMapToMaxSize } from "../infra/map-size.ts";
+import { resolveWebhookIntegerOption } from "./webhook-numeric-options.ts";
 
 type FixedWindowState = {
   count: number;

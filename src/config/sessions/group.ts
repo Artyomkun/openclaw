@@ -5,31 +5,12 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeHyphenSlug } from "@openclaw/normalization-core/string-normalization";
-import type { MsgContext } from "../../auto-reply/templating.js";
-import { listChannelPlugins } from "../../channels/plugins/registry.js";
-import { normalizeSessionPeerId } from "../../sessions/session-key-utils.js";
-import { listDeliverableMessageChannels } from "../../utils/message-channel.js";
-import type { GroupKeyResolution } from "./types.js";
+import type { MsgContext } from "../../auto-reply/templating.ts";
+import { normalizeSessionPeerId } from "../../sessions/session-key-utils.ts";
+import { listDeliverableMessageChannels } from "../../utils/message-channel.ts";
+import type { GroupKeyResolution } from "./types.ts";
 
 const getGroupSurfaces = () => new Set<string>([...listDeliverableMessageChannels(), "webchat"]);
-
-type LegacyGroupSessionSurface = {
-  resolveLegacyGroupSessionKey?: (ctx: MsgContext) => GroupKeyResolution | null;
-};
-
-function resolveLegacyGroupSessionKey(ctx: MsgContext): GroupKeyResolution | null {
-  // Legacy plugin resolvers stay first-class because some channels still expose native group ids
-  // only through channel-owned context parsing.
-  for (const plugin of listChannelPlugins()) {
-    const resolved = (
-      plugin.messaging as LegacyGroupSessionSurface | undefined
-    )?.resolveLegacyGroupSessionKey?.(ctx);
-    if (resolved) {
-      return resolved;
-    }
-  }
-  return null;
-}
 
 function normalizeGroupLabel(raw?: string) {
   return normalizeHyphenSlug(raw);
@@ -115,9 +96,6 @@ export function buildGroupDisplayName(params: {
 
 /**
  * Resolves channel/group chat context into the persisted group session key.
- *
- * Provider-prefixed ids use channel-owned normalization, while legacy plugin resolvers remain a
- * fallback for older channel surfaces that cannot yet express the generic route shape.
  */
 export function resolveGroupSessionKey(ctx: MsgContext): GroupKeyResolution | null {
   const from = normalizeOptionalString(ctx.From) ?? "";
@@ -125,13 +103,11 @@ export function resolveGroupSessionKey(ctx: MsgContext): GroupKeyResolution | nu
   const normalizedChatType =
     chatType === "channel" ? "channel" : chatType === "group" ? "group" : undefined;
 
-  const legacyResolution = resolveLegacyGroupSessionKey(ctx);
   const looksLikeGroup =
     normalizedChatType === "group" ||
     normalizedChatType === "channel" ||
     from.includes(":group:") ||
-    from.includes(":channel:") ||
-    legacyResolution !== null;
+    from.includes(":channel:")
   if (!looksLikeGroup) {
     return null;
   }
@@ -142,13 +118,7 @@ export function resolveGroupSessionKey(ctx: MsgContext): GroupKeyResolution | nu
   const head = normalizeLowercaseStringOrEmpty(parts[0]);
   const headIsSurface = head ? getGroupSurfaces().has(head) : false;
 
-  if (!headIsSurface && !providerHint && legacyResolution) {
-    // Without a provider hint, trust the plugin-owned legacy resolver; guessing from `From`
-    // would merge unrelated channel/group keys.
-    return legacyResolution;
-  }
-
-  const provider = headIsSurface ? head : (providerHint ?? legacyResolution?.channel);
+  const provider = headIsSurface ? head : (providerHint);
   if (!provider) {
     return null;
   }

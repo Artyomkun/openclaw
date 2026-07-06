@@ -8,4 +8,4 @@ export {
   type QmdBinaryAvailability,
   type QmdBinaryUnavailable,
   type QmdBinaryUnavailableReason,
-} from "../../packages/memory-host-sdk/src/engine-qmd.js";
+} from "../../packages/memory-host-sdk/src/engine-qmd.ts";

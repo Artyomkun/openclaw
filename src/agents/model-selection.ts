@@ -9,33 +9,32 @@ import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
   toAgentModelListLike,
-} from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveAgentConfig,
   resolveAgentEffectiveModelPrimary,
   resolveAgentModelFallbacksOverride,
-} from "./agent-scope.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "./defaults.js";
-import { findModelInCatalog } from "./model-catalog-lookup.js";
-import type { ModelCatalogEntry } from "./model-catalog.types.js";
-import { splitTrailingAuthProfile } from "./model-ref-profile.js";
+} from "./agent-scope.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "./defaults.ts";
+import { findModelInCatalog } from "./model-catalog-lookup.ts";
+import type { ModelCatalogEntry } from "./model-catalog.types.ts";
+import { splitTrailingAuthProfile } from "./model-ref-profile.ts";
 export {
   resolveThinkingDefault,
   resolveThinkingDefaultWithRuntimeCatalog,
-} from "./model-thinking-default.js";
+} from "./model-thinking-default.ts";
 import {
   type ModelManifestNormalizationContext,
   type ModelRef,
   findNormalizedProviderKey,
   findNormalizedProviderValue,
-  legacyModelKey,
   modelKey,
   normalizeModelRef,
   normalizeProviderId,
   normalizeProviderIdForAuth,
   parseModelRef,
-} from "./model-selection-normalize.js";
+} from "./model-selection-normalize.ts";
 import {
   buildAllowedModelSetWithFallbacks,
   buildConfiguredAllowlistKeys,
@@ -54,7 +53,7 @@ import {
   resolveModelRefFromString,
   type ModelAliasIndex,
   type ModelRefStatus,
-} from "./model-selection-shared.js";
+} from "./model-selection-shared.ts";
 
 export type { ModelAliasIndex, ModelManifestNormalizationContext, ModelRef, ModelRefStatus };
 
@@ -76,7 +75,6 @@ export {
   findNormalizedProviderValue,
   inferUniqueProviderFromConfiguredModels,
   inferUniqueProviderFromCatalog,
-  legacyModelKey,
   modelKey,
   normalizeModelRef,
   normalizeModelSelection,
@@ -88,7 +86,7 @@ export {
   resolveHooksGmailModel,
   resolveModelRefFromString,
 };
-export { isCliProvider } from "./model-selection-cli.js";
+export { isCliProvider } from "./model-selection-cli.ts";
 
 function normalizePersistedDefaultProvider(value: unknown): string {
   return normalizeOptionalString(value) ?? DEFAULT_PROVIDER;

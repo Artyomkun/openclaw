@@ -1,11 +1,11 @@
 // Shares web-search provider loading helpers across runtime paths.
-import type { PluginLoadOptions } from "./loader.js";
-import type { PluginWebSearchProviderEntry } from "./types.js";
+import type { PluginLoadOptions } from "./loader.ts";
+import type { PluginWebSearchProviderEntry } from "./types.ts";
 import {
   resolveBundledWebProviderResolutionConfig,
   sortPluginProviders,
   sortPluginProvidersForAutoDetect,
-} from "./web-provider-resolution-shared.js";
+} from "./web-provider-resolution-shared.ts";
 
 export function sortWebSearchProviders(
   providers: PluginWebSearchProviderEntry[],

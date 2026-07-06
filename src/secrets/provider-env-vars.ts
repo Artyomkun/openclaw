@@ -1,23 +1,23 @@
 /** Resolves provider environment variable candidates and auth evidence from core/plugin metadata. */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveProviderAuthAliasMap } from "../agents/provider-auth-aliases.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
-import { isInstalledPluginEnabled } from "../plugins/installed-plugin-index.js";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
+import { resolveProviderAuthAliasMap } from "../agents/provider-auth-aliases.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
+import { isInstalledPluginEnabled } from "../plugins/installed-plugin-index.ts";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
 import {
   isWorkspacePluginAllowedByConfig,
   normalizePluginConfigId,
-} from "../plugins/plugin-config-trust.js";
+} from "../plugins/plugin-config-trust.ts";
 import {
   loadPluginMetadataSnapshot,
   type PluginMetadataSnapshot,
-} from "../plugins/plugin-metadata-snapshot.js";
-import { listSetupProviderIds } from "../plugins/setup-descriptors.js";
-import { hasKind } from "../plugins/slots.js";
-import { appendUniqueEnvVarCandidates } from "../shared/env-var-candidates.js";
+} from "../plugins/plugin-metadata-snapshot.ts";
+import { listSetupProviderIds } from "../plugins/setup-descriptors.ts";
+import { hasKind } from "../plugins/slots.ts";
+import { appendUniqueEnvVarCandidates } from "../shared/env-var-candidates.ts";
 
 const CORE_PROVIDER_AUTH_ENV_VAR_CANDIDATES = {
   anthropic: ["ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY"],

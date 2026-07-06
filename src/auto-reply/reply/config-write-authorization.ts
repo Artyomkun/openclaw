@@ -3,9 +3,9 @@ import {
   authorizeConfigWrite,
   canBypassConfigWritePolicy,
   formatConfigWriteDeniedMessage,
-} from "../../channels/plugins/config-writes.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../channels/plugins/config-writes.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
 /** Resolves the denial message for config writes attempted from a channel. */
 export function resolveConfigWriteDeniedText(params: {

@@ -10,8 +10,8 @@ export {
   createBashTool,
   createBashToolDefinition,
   createLocalBashOperations,
-} from "./bash.js";
-export type { BashOperations } from "./bash-operations.js";
+} from "./bash.ts";
+export type { BashOperations } from "./bash-operations.ts";
 export type {
   BashToolDetails,
   BashToolInput,
@@ -26,38 +26,38 @@ export type {
   ReadToolDetails,
   ReadToolInput,
   WriteToolInput,
-} from "./tool-contracts.js";
+} from "./tool-contracts.ts";
 export {
   createEditTool,
   createEditToolDefinition,
   type EditOperations,
   type EditToolOptions,
-} from "./edit.js";
-export { withFileMutationQueue } from "./file-mutation-queue.js";
+} from "./edit.ts";
+export { withFileMutationQueue } from "./file-mutation-queue.ts";
 export {
   createFindTool,
   createFindToolDefinition,
   type FindOperations,
   type FindToolOptions,
-} from "./find.js";
+} from "./find.ts";
 export {
   createGrepTool,
   createGrepToolDefinition,
   type GrepOperations,
   type GrepToolOptions,
-} from "./grep.js";
+} from "./grep.ts";
 export {
   createLsTool,
   createLsToolDefinition,
   type LsOperations,
   type LsToolOptions,
-} from "./ls.js";
+} from "./ls.ts";
 export {
   createReadTool,
   createReadToolDefinition,
   type ReadOperations,
   type ReadToolOptions,
-} from "./read.js";
+} from "./read.ts";
 export {
   DEFAULT_MAX_BYTES,
   DEFAULT_MAX_LINES,
@@ -67,23 +67,23 @@ export {
   truncateHead,
   truncateLine,
   truncateTail,
-} from "./truncate.js";
+} from "./truncate.ts";
 export {
   createWriteTool,
   createWriteToolDefinition,
   type WriteOperations,
   type WriteToolOptions,
-} from "./write.js";
+} from "./write.ts";
 
-import type { AgentTool } from "../../runtime/index.js";
-import type { ToolDefinition } from "../extensions/types.js";
-import { type BashToolOptions, createBashTool, createBashToolDefinition } from "./bash.js";
-import { createEditTool, createEditToolDefinition, type EditToolOptions } from "./edit.js";
-import { createFindTool, createFindToolDefinition, type FindToolOptions } from "./find.js";
-import { createGrepTool, createGrepToolDefinition, type GrepToolOptions } from "./grep.js";
-import { createLsTool, createLsToolDefinition, type LsToolOptions } from "./ls.js";
-import { createReadTool, createReadToolDefinition, type ReadToolOptions } from "./read.js";
-import { createWriteTool, createWriteToolDefinition, type WriteToolOptions } from "./write.js";
+import type { AgentTool } from "../../runtime/index.ts";
+import type { ToolDefinition } from "../extensions/types.ts";
+import { type BashToolOptions, createBashTool, createBashToolDefinition } from "./bash.ts";
+import { createEditTool, createEditToolDefinition, type EditToolOptions } from "./edit.ts";
+import { createFindTool, createFindToolDefinition, type FindToolOptions } from "./find.ts";
+import { createGrepTool, createGrepToolDefinition, type GrepToolOptions } from "./grep.ts";
+import { createLsTool, createLsToolDefinition, type LsToolOptions } from "./ls.ts";
+import { createReadTool, createReadToolDefinition, type ReadToolOptions } from "./read.ts";
+import { createWriteTool, createWriteToolDefinition, type WriteToolOptions } from "./write.ts";
 
 /**
  * Public factory barrel for the built-in coding and read-only session tools.

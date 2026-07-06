@@ -1,5 +1,5 @@
 /** Channel-level policy for which inbound messages should receive an ack reaction. */
-import { toErrorObject } from "../infra/errors.js";
+import { toErrorObject } from "../infra/errors.ts";
 
 export type AckReactionScope = "all" | "direct" | "group-all" | "group-mentions" | "off" | "none";
 

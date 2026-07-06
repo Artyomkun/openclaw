@@ -4,9 +4,9 @@ import type {
   GatewayAuthConfig,
   GatewayTailscaleMode,
   GatewayTrustedProxyConfig,
-} from "../config/types.gateway.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { resolveGatewayCredentialsFromValues } from "./credentials.js";
+} from "../config/types.gateway.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { resolveGatewayCredentialsFromValues } from "./credentials.ts";
 
 /** Authentication modes after config, override, and credential inputs are combined. */
 export type ResolvedGatewayAuthMode = "none" | "token" | "password" | "trusted-proxy";

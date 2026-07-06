@@ -7,7 +7,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { formatErrorMessage } from "../src/infra/errors.ts";
 import { runNpmVerifyCommand } from "./lib/npm-verify-exec.ts";
-import { runInstalledWorkspaceBootstrapSmoke } from "./lib/workspace-bootstrap-smoke.mjs";
+import { runInstalledWorkspaceBootstrapSmoke } from "./lib/workspace-bootstrap-smoke.ts";
 import {
   collectInstalledPackageErrors,
   normalizeInstalledBinaryVersion,

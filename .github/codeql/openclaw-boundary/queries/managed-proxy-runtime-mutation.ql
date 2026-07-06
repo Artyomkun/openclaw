@@ -35,8 +35,8 @@ predicate forbiddenGlobalAgentKey(string key) { key = ["HTTP_PROXY", "HTTPS_PROX
 predicate relevantSourceFile(File file) {
   exists(string path |
     path = file.getRelativePath() and
-    path.regexpMatch("^(src|extensions)/.*\\.(ts|mts|js|mjs)$") and
-    not path.regexpMatch(".*\\.(test|spec)\\.(ts|mts|js|mjs)$") and
+    path.regexpMatch("^(src|extensions)/.*\\.(ts|mts|js|ts)$") and
+    not path.regexpMatch(".*\\.(test|spec)\\.(ts|mts|js|ts)$") and
     not path.regexpMatch(".*\\.(test-utils|test-harness|e2e-harness)\\.ts$") and
     not path.regexpMatch(".*/test-support/.*") and
     not path.regexpMatch(".*/vendor/.*") and

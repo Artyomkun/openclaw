@@ -13,8 +13,8 @@ import { OPENCLAW_ACPX_LEASE_ID_ARG, OPENCLAW_GATEWAY_INSTANCE_ID_ARG } from "./
 const execFileAsync = promisify(execFile);
 const requireFromHere = createRequire(import.meta.url);
 const GENERATED_WRAPPER_BASENAMES = new Set([
-  "codex-acp-wrapper.mjs",
-  "claude-agent-acp-wrapper.mjs",
+  "codex-acp-wrapper.ts,
+  "claude-agent-acp-wrapper.ts,
 ]);
 const OPENCLAW_PLUGIN_DEPS_MARKER = "/plugin-runtime-deps/";
 const OWNED_ACP_PACKAGE_NAMES = [

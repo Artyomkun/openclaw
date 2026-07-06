@@ -3,20 +3,11 @@
  * Applies service-tier and cache-control markers only when provider endpoint
  * capabilities allow them.
  */
-import { resolveProviderRequestCapabilities } from "./provider-attribution.js";
+import { resolveProviderRequestCapabilities } from "./provider-attribution.ts";
 import {
   splitSystemPromptCacheBoundary,
   stripSystemPromptCacheBoundary,
-} from "./system-prompt-cache-boundary.js";
-
-/** @deprecated Anthropic-family provider payload helper; do not use from third-party plugins. */
-type AnthropicServiceTier = "auto" | "standard_only";
-
-/** @deprecated Anthropic-family provider payload helper; do not use from third-party plugins. */
-type AnthropicEphemeralCacheControl = {
-  type: "ephemeral";
-  ttl?: "1h";
-};
+} from "./system-prompt-cache-boundary.ts";
 
 type AnthropicPayloadPolicyInput = {
   api?: string;
@@ -24,17 +15,9 @@ type AnthropicPayloadPolicyInput = {
   cacheRetention?: "short" | "long" | "none";
   enableCacheControl?: boolean;
   provider?: string;
-  serviceTier?: AnthropicServiceTier;
 };
 
 const ANTHROPIC_CACHE_CONTROL_LIMIT = 4;
-
-/** @deprecated Anthropic-family provider payload helper; do not use from third-party plugins. */
-type AnthropicPayloadPolicy = {
-  allowsServiceTier: boolean;
-  cacheControl: AnthropicEphemeralCacheControl | undefined;
-  serviceTier: AnthropicServiceTier | undefined;
-};
 
 function resolveBaseUrlHostname(baseUrl: string): string | undefined {
   try {
@@ -227,104 +210,4 @@ function countAnthropicCacheControlMarkers(blocks: unknown): number {
     }
   }
   return count;
-}
-
-/** @deprecated Anthropic-family provider payload helper; do not use from third-party plugins. */
-export function resolveAnthropicPayloadPolicy(
-  input: AnthropicPayloadPolicyInput,
-): AnthropicPayloadPolicy {
-  const capabilities = resolveProviderRequestCapabilities({
-    provider: input.provider,
-    api: input.api,
-    baseUrl: input.baseUrl,
-    capability: "llm",
-    transport: "stream",
-  });
-
-  return {
-    allowsServiceTier: capabilities.allowsAnthropicServiceTier,
-    cacheControl:
-      input.enableCacheControl === true
-        ? resolveAnthropicEphemeralCacheControl(input.baseUrl, input.cacheRetention)
-        : undefined,
-    serviceTier: input.serviceTier,
-  };
-}
-
-/** @deprecated Anthropic-family provider payload helper; do not use from third-party plugins. */
-export function applyAnthropicPayloadPolicyToParams(
-  payloadObj: Record<string, unknown>,
-  policy: AnthropicPayloadPolicy,
-): void {
-  if (
-    policy.allowsServiceTier &&
-    policy.serviceTier !== undefined &&
-    payloadObj.service_tier === undefined
-  ) {
-    payloadObj.service_tier = policy.serviceTier;
-  }
-
-  if (policy.cacheControl) {
-    applyAnthropicCacheControlToSystem(payloadObj.system, policy.cacheControl);
-  } else {
-    stripAnthropicSystemPromptBoundary(payloadObj.system);
-  }
-
-  if (!policy.cacheControl) {
-    return;
-  }
-
-  const usedMarkers =
-    countAnthropicCacheControlMarkers(payloadObj.system) +
-    countAnthropicCacheControlMarkers(payloadObj.tools);
-  applyAnthropicCacheControlToMessages(
-    payloadObj.messages,
-    policy.cacheControl,
-    ANTHROPIC_CACHE_CONTROL_LIMIT - usedMarkers,
-  );
-}
-
-/** @deprecated Anthropic-family provider payload helper; do not use from third-party plugins. */
-export function applyAnthropicEphemeralCacheControlMarkers(
-  payloadObj: Record<string, unknown>,
-  cacheControl: AnthropicEphemeralCacheControl | null = { type: "ephemeral" },
-): void {
-  const messages = payloadObj.messages;
-  if (!Array.isArray(messages)) {
-    return;
-  }
-
-  for (const message of messages as Array<{ role?: string; content?: unknown }>) {
-    if (message.role === "system" || message.role === "developer") {
-      if (!cacheControl) {
-        continue;
-      }
-      if (typeof message.content === "string") {
-        message.content = [{ type: "text", text: message.content, cache_control: cacheControl }];
-        continue;
-      }
-      if (Array.isArray(message.content) && message.content.length > 0) {
-        const last = message.content[message.content.length - 1];
-        if (last && typeof last === "object") {
-          const record = last as Record<string, unknown>;
-          if (record.type !== "thinking" && record.type !== "redacted_thinking") {
-            record.cache_control = cacheControl;
-          }
-        }
-      }
-      continue;
-    }
-
-    if (message.role === "assistant" && Array.isArray(message.content)) {
-      for (const block of message.content) {
-        if (!block || typeof block !== "object") {
-          continue;
-        }
-        const record = block as Record<string, unknown>;
-        if (record.type === "thinking" || record.type === "redacted_thinking") {
-          delete record.cache_control;
-        }
-      }
-    }
-  }
 }

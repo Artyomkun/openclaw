@@ -1,22 +1,22 @@
 // Implements `openclaw channels status` with gateway status and config-only fallback.
 import { redactSensitiveUrlLikeString } from "@openclaw/net-policy/redact-sensitive-url";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { normalizeChannelId } from "../../channels/plugins/index.js";
-import { resolveCommandConfigWithSecrets } from "../../cli/command-config-resolution.js";
-import { formatCliCommand } from "../../cli/command-format.js";
-import { getConfiguredChannelsCommandSecretTargetIds } from "../../cli/command-secret-targets.js";
-import { parseTimeoutMsWithFallback } from "../../cli/parse-timeout.js";
-import { withProgress } from "../../cli/progress.js";
-import { readConfigFileSnapshot } from "../../config/config.js";
-import { callGateway } from "../../gateway/call.js";
-import { isGatewaySecretRefUnavailableError } from "../../gateway/credentials.js";
-import { collectChannelStatusIssues } from "../../infra/channels-status-issues.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { normalizeChannelId } from "../../channels/plugins/index.ts";
+import { resolveCommandConfigWithSecrets } from "../../cli/command-config-resolution.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { getConfiguredChannelsCommandSecretTargetIds } from "../../cli/command-secret-targets.ts";
+import { parseTimeoutMsWithFallback } from "../../cli/parse-timeout.ts";
+import { withProgress } from "../../cli/progress.ts";
+import { readConfigFileSnapshot } from "../../config/config.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { isGatewaySecretRefUnavailableError } from "../../gateway/credentials.ts";
+import { collectChannelStatusIssues } from "../../infra/channels-status-issues.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import { formatTimeAgo } from "../../infra/format-time/format-relative.ts";
-import { listConfiguredAnnounceChannelIdsForConfig } from "../../plugins/channel-plugin-ids.js";
-import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
+import { listConfiguredAnnounceChannelIdsForConfig } from "../../plugins/channel-plugin-ids.ts";
+import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
 import {
   appendBaseUrlBit,
   appendEnabledConfiguredLinkedBits,
@@ -25,8 +25,8 @@ import {
   buildChannelAccountLine,
   type ChatChannel,
   requireValidConfigSnapshot,
-} from "./shared.js";
-import { formatConfigChannelsStatusLines } from "./status-config-format.js";
+} from "./shared.ts";
+import { formatConfigChannelsStatusLines } from "./status-config-format.ts";
 
 export type ChannelsStatusOptions = {
   channel?: string;

@@ -8,4 +8,4 @@ export {
   MEMORY_INDEX_SOURCES_TABLE,
   resolveMemoryBackendConfig,
   type MemoryProviderStatus,
-} from "../../packages/memory-host-sdk/src/engine-storage.js";
+} from "../../packages/memory-host-sdk/src/engine-storage.ts";

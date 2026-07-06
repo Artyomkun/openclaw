@@ -3,7 +3,7 @@
  *
  * Lets steer/recovery code depend on a small module while the full registry installs concrete mutation hooks.
  */
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 type ReplaceSubagentRunAfterSteerParams = {
   previousRunId: string;

@@ -1,15 +1,15 @@
 /**
  * Public SDK facade for LM Studio provider config, discovery, and auth helpers.
  */
-import type { OpenClawConfig } from "../config/types.js";
+import type { OpenClawConfig } from "../config/types.ts";
 import type {
   ProviderAuthMethodNonInteractiveContext,
   ProviderAuthResult,
   ProviderCatalogContext,
   ProviderPrepareDynamicModelContext,
   ProviderRuntimeModel,
-} from "../plugins/types.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+} from "../plugins/types.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 
 export type {
   OpenClawPluginApi,
@@ -20,8 +20,8 @@ export type {
   ProviderDiscoveryContext,
   ProviderPrepareDynamicModelContext,
   ProviderRuntimeModel,
-} from "../plugins/types.js";
-export type { LmstudioModelBase, LmstudioModelWire } from "./lmstudio-runtime.js";
+} from "../plugins/types.ts";
+export type { LmstudioModelBase, LmstudioModelWire } from "./lmstudio-runtime.ts";
 export {
   LMSTUDIO_DEFAULT_API_KEY_ENV_VAR,
   LMSTUDIO_DEFAULT_BASE_URL,
@@ -46,9 +46,9 @@ export {
   resolveLmstudioReasoningCapability,
   resolveLmstudioRuntimeApiKey,
   resolveLmstudioServerBase,
-} from "./lmstudio-runtime.js";
+} from "./lmstudio-runtime.ts";
 
-import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-runtime.js";
+import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-runtime.ts";
 
 type LmstudioInteractiveParams = {
   config: OpenClawConfig;

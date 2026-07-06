@@ -8,85 +8,85 @@ import { Writable } from "node:stream";
 import { confirm, isCancel, text } from "@clack/prompts";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { stripAnsi } from "../../../packages/terminal-core/src/ansi.js";
-import { stylePromptMessage } from "../../../packages/terminal-core/src/prompt-style.js";
-import { sanitizeTerminalText } from "../../../packages/terminal-core/src/safe-text.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
+import { stripAnsi } from "../../../packages/terminal-core/src/ansi.ts";
+import { stylePromptMessage } from "../../../packages/terminal-core/src/prompt-style.ts";
+import { sanitizeTerminalText } from "../../../packages/terminal-core/src/safe-text.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
 import {
   checkShellCompletionStatus,
   ensureCompletionCacheExists,
-} from "../../commands/doctor-completion.js";
-import { doctorCommand } from "../../commands/doctor.js";
+} from "../../commands/doctor-completion.ts";
+import { doctorCommand } from "../../commands/doctor.ts";
 import {
   UPDATE_DEFER_CONFIGURED_PLUGIN_INSTALL_REPAIR_ENV,
   UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE_ENV,
-} from "../../commands/doctor/shared/update-phase.js";
-import { createPreUpdateConfigSnapshot } from "../../config/backup-rotation.js";
+} from "../../commands/doctor/shared/update-phase.ts";
+import { createPreUpdateConfigSnapshot } from "../../config/backup-rotation.ts";
 import {
   assertConfigWriteAllowedInCurrentMode,
   mutateConfigFileWithRetry,
   parseConfigJson5,
   readConfigFileSnapshot,
   resolveGatewayPort,
-} from "../../config/config.js";
-import { resolveConfigEnvVars } from "../../config/env-substitution.js";
-import { resolveConfigIncludes } from "../../config/includes.js";
-import { formatConfigIssueLines } from "../../config/issue-format.js";
-import { asResolvedSourceConfig, asRuntimeConfig } from "../../config/materialize.js";
-import { CONFIG_PATH, resolveIncludeRoots } from "../../config/paths.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../../config/types.plugins.js";
+} from "../../config/config.ts";
+import { resolveConfigEnvVars } from "../../config/env-substitution.ts";
+import { resolveConfigIncludes } from "../../config/includes.ts";
+import { formatConfigIssueLines } from "../../config/issue-format.ts";
+import { asResolvedSourceConfig, asRuntimeConfig } from "../../config/materialize.ts";
+import { CONFIG_PATH, resolveIncludeRoots } from "../../config/paths.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../../config/types.plugins.ts";
 import {
   GATEWAY_SERVICE_KIND,
   GATEWAY_SERVICE_MARKER,
   GATEWAY_SERVICE_RUNTIME_PID_ENV,
-} from "../../daemon/constants.js";
-import { resolveGatewayInstallEntrypoint } from "../../daemon/gateway-entrypoint.js";
-import { disableCurrentOpenClawUpdateLaunchdJob } from "../../daemon/launchd.js";
-import { resolveGatewayRestartLogPath } from "../../daemon/restart-logs.js";
-import { summarizeGatewayServiceLayout } from "../../daemon/service-layout.js";
-import type { GatewayServiceCommandConfig } from "../../daemon/service-types.js";
+} from "../../daemon/constants.ts";
+import { resolveGatewayInstallEntrypoint } from "../../daemon/gateway-entrypoint.ts";
+import { disableCurrentOpenClawUpdateLaunchdJob } from "../../daemon/launchd.ts";
+import { resolveGatewayRestartLogPath } from "../../daemon/restart-logs.ts";
+import { summarizeGatewayServiceLayout } from "../../daemon/service-layout.ts";
+import type { GatewayServiceCommandConfig } from "../../daemon/service-types.ts";
 import {
   readGatewayServiceState,
   resolveGatewayService,
   type GatewayService,
-} from "../../daemon/service.js";
-import type { ClawHubRiskAcknowledgementRequest } from "../../infra/clawhub-install-trust.js";
-import { createLowDiskSpaceWarning } from "../../infra/disk-space.js";
-import { pathExists } from "../../infra/fs-safe.js";
-import { readJsonIfExists, writeJson } from "../../infra/json-files.js";
+} from "../../daemon/service.ts";
+import type { ClawHubRiskAcknowledgementRequest } from "../../infra/clawhub-install-trust.ts";
+import { createLowDiskSpaceWarning } from "../../infra/disk-space.ts";
+import { pathExists } from "../../infra/fs-safe.ts";
+import { readJsonIfExists, writeJson } from "../../infra/json-files.ts";
 import {
   markPackagePostInstallDoctorAdvisory,
   runGlobalPackageUpdateSteps,
-} from "../../infra/package-update-steps.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
-import { getSelfAndAncestorPidsSync } from "../../infra/restart-stale-pids.js";
-import { nodeVersionSatisfiesEngine } from "../../infra/runtime-guard.js";
+} from "../../infra/package-update-steps.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
+import { getSelfAndAncestorPidsSync } from "../../infra/restart-stale-pids.ts";
+import { nodeVersionSatisfiesEngine } from "../../infra/runtime-guard.ts";
 import {
   channelToNpmTag,
   DEFAULT_GIT_CHANNEL,
   DEFAULT_PACKAGE_CHANNEL,
   normalizeUpdateChannel,
   UPDATE_EFFECTIVE_CHANNEL_ENV,
-} from "../../infra/update-channels.js";
+} from "../../infra/update-channels.ts";
 import {
   compareSemverStrings,
   fetchNpmPackageTargetStatus,
   resolveNpmChannelTag,
   checkUpdateStatus,
-} from "../../infra/update-check.js";
+} from "../../infra/update-check.ts";
 import {
   buildControlPlaneUpdateRestartHealthPendingResult,
   markControlPlaneUpdateRestartSentinelFailure,
   readControlPlaneUpdateSentinelMeta,
   writeControlPlaneUpdateRestartSentinel,
   type ControlPlaneUpdateSentinelMetaFile,
-} from "../../infra/update-control-plane-sentinel.js";
+} from "../../infra/update-control-plane-sentinel.ts";
 import {
   consumeUpdatePostInstallDoctorResult,
   createUpdatePostInstallDoctorResultPath,
   UPDATE_POST_INSTALL_DOCTOR_RESULT_PATH_ENV,
-} from "../../infra/update-doctor-result.js";
+} from "../../infra/update-doctor-result.ts";
 import {
   canResolveRegistryVersionForPackageTarget,
   createGlobalInstallEnv,
@@ -96,56 +96,56 @@ import {
   resolveGlobalInstallSpec,
   resolvePnpmGlobalDirFromGlobalRoot,
   type ResolvedGlobalInstallTarget,
-} from "../../infra/update-global.js";
-import { cleanupStaleManagedServiceUpdateHandoffs } from "../../infra/update-managed-service-handoff-cleanup.js";
+} from "../../infra/update-global.ts";
+import { cleanupStaleManagedServiceUpdateHandoffs } from "../../infra/update-managed-service-handoff-cleanup.ts";
 import {
   POST_CORE_UPDATE_SOURCE_CONFIG_PATH_ENV,
   type PreUpdateConfigRestoreInput,
-} from "../../infra/update-post-core-context.js";
-import { runGatewayUpdate, type UpdateRunResult } from "../../infra/update-runner.js";
-import { getWindowsSystem32ExePath } from "../../infra/windows-install-roots.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "../../plugins/config-state.js";
+} from "../../infra/update-post-core-context.ts";
+import { runGatewayUpdate, type UpdateRunResult } from "../../infra/update-runner.ts";
+import { getWindowsSystem32ExePath } from "../../infra/windows-install-roots.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "../../plugins/config-state.ts";
 import {
   loadInstalledPluginIndexInstallRecords,
   writePersistedInstalledPluginIndexInstallRecords,
   withoutPluginInstallRecords,
   withPluginInstallRecords,
-} from "../../plugins/installed-plugin-index-records.js";
+} from "../../plugins/installed-plugin-index-records.ts";
 import {
   resolveTrustedSourceLinkedOfficialClawHubSpec,
   resolveTrustedSourceLinkedOfficialNpmSpec,
-} from "../../plugins/official-external-install-records.js";
+} from "../../plugins/official-external-install-records.ts";
 import {
   isClawHubTrustSkippedOutcome,
   syncPluginsForUpdateChannel,
   updateNpmInstalledPlugins,
   type PluginUpdateIntegrityDriftParams,
   type PluginUpdateOutcome,
-} from "../../plugins/update.js";
-import { runCommandWithTimeout } from "../../process/exec.js";
-import { defaultRuntime } from "../../runtime.js";
-import { resolveUserPath } from "../../utils.js";
-import { VERSION } from "../../version.js";
-import { replaceCliName, resolveCliName } from "../cli-name.js";
-import { formatCliCommand } from "../command-format.js";
-import { installCompletion } from "../completion-runtime.js";
-import { runDaemonInstall, runDaemonRestart } from "../daemon-cli.js";
-import { recoverInstalledLaunchAgent } from "../daemon-cli/launchd-recovery.js";
+} from "../../plugins/update.ts";
+import { runCommandWithTimeout } from "../../process/exec.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { VERSION } from "../../version.ts";
+import { replaceCliName, resolveCliName } from "../cli-name.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { installCompletion } from "../completion-runtime.ts";
+import { runDaemonInstall, runDaemonRestart } from "../daemon-cli.ts";
+import { recoverInstalledLaunchAgent } from "../daemon-cli/launchd-recovery.ts";
 import {
   renderRestartDiagnostics,
   terminateStaleGatewayPids,
   waitForGatewayHealthyRestart,
   type GatewayRestartSnapshot,
-} from "../daemon-cli/restart-health.js";
-import { commitPluginInstallRecordsWithConfig } from "../plugins-install-record-commit.js";
-import { listPersistedBundledPluginLocationBridges } from "../plugins-location-bridges.js";
-import { refreshPluginRegistryAfterConfigMutation } from "../plugins-registry-refresh.js";
+} from "../daemon-cli/restart-health.ts";
+import { commitPluginInstallRecordsWithConfig } from "../plugins-install-record-commit.ts";
+import { listPersistedBundledPluginLocationBridges } from "../plugins-location-bridges.ts";
+import { refreshPluginRegistryAfterConfigMutation } from "../plugins-registry-refresh.ts";
 import {
   convergenceWarningsToOutcomes,
   runPostCorePluginConvergence,
-} from "./post-core-plugin-convergence.js";
-import { createUpdateProgress, printResult } from "./progress.js";
-import { prepareRestartScript, runRestartScript } from "./restart-helper.js";
+} from "./post-core-plugin-convergence.ts";
+import { createUpdateProgress, printResult } from "./progress.ts";
+import { prepareRestartScript, runRestartScript } from "./restart-helper.ts";
 import {
   DEFAULT_PACKAGE_NAME,
   createGlobalCommandRunner,
@@ -163,8 +163,8 @@ import {
   tryWriteCompletionCache,
   type UpdateCommandOptions,
   type UpdateFinalizeOptions,
-} from "./shared.js";
-import { suppressDeprecations } from "./suppress-deprecations.js";
+} from "./shared.ts";
+import { suppressDeprecations } from "./suppress-deprecations.ts";
 
 const CLI_NAME = resolveCliName();
 const SERVICE_REFRESH_TIMEOUT_MS = 60_000;
@@ -727,12 +727,6 @@ export function shouldPrepareUpdatedInstallRestart(params: {
     return params.serviceLoaded && params.serviceMatchesUpdateRoot === true;
   }
   return params.serviceLoaded;
-}
-
-export function shouldUseLegacyProcessRestartAfterUpdate(params: {
-  updateMode: UpdateRunResult["mode"];
-}): boolean {
-  return !isPackageManagerUpdateMode(params.updateMode);
 }
 
 type PostUpdateLaunchAgentRecoveryResult =
@@ -2234,7 +2228,6 @@ async function maybeRestartService(params: {
   restartScriptPath?: string | null;
   invocationCwd?: string;
   nodeRunner?: string;
-  skipLegacyServiceRestart?: boolean;
   requireRunningServiceAfterRestart?: boolean;
 }): Promise<boolean> {
   const verifyRestartedGateway = async (
@@ -2251,9 +2244,6 @@ async function maybeRestartService(params: {
           nodeRunner: params.nodeRunner,
         });
         return;
-      }
-      if (shouldUseLegacyProcessRestartAfterUpdate({ updateMode: params.result.mode })) {
-        await runDaemonRestart();
       }
     };
     const service = resolveGatewayService();
@@ -2441,9 +2431,7 @@ async function maybeRestartService(params: {
           return false;
         }
       } else if (
-        !refreshedGatewayAlreadyHealthy &&
-        shouldUseLegacyProcessRestartAfterUpdate({ updateMode: params.result.mode }) &&
-        !params.skipLegacyServiceRestart
+        !refreshedGatewayAlreadyHealthy
       ) {
         await createUpdateConfigSnapshot();
         restarted = await runDaemonRestart();
@@ -2764,23 +2752,6 @@ function createUpdatedConfigSnapshot(
     runtimeConfig: asRuntimeConfig(next),
     config: asRuntimeConfig(next),
   };
-}
-
-async function maybeRepairLegacyConfigForUpdateChannel(params: {
-  configSnapshot: Awaited<ReturnType<typeof readConfigFileSnapshot>>;
-  jsonMode: boolean;
-}): Promise<Awaited<ReturnType<typeof readConfigFileSnapshot>>> {
-  if (params.configSnapshot.valid || params.configSnapshot.legacyIssues.length === 0) {
-    return params.configSnapshot;
-  }
-
-  const { repairLegacyConfigForUpdateChannel } =
-    await import("../../commands/doctor/legacy-config-repair.js");
-  const { snapshot, repaired } = await repairLegacyConfigForUpdateChannel(params);
-  if (!params.jsonMode && repaired) {
-    defaultRuntime.log(theme.muted("Migrated legacy config before changing update channel."));
-  }
-  return snapshot;
 }
 
 async function writePostCorePluginUpdateResultFile(
@@ -3429,24 +3400,6 @@ async function updateCommandInternal(opts: UpdateCommandOptions): Promise<void> 
     return;
   }
 
-  let configSnapshot = await readConfigFileSnapshot({ skipPluginValidation: true });
-  if (opts.channel && !opts.dryRun && !configSnapshot.valid) {
-    configSnapshot = await maybeRepairLegacyConfigForUpdateChannel({
-      configSnapshot,
-      jsonMode: Boolean(opts.json),
-    });
-  }
-  const storedChannel = configSnapshot.valid
-    ? normalizeUpdateChannel(configSnapshot.config.update?.channel)
-    : null;
-
-  if (opts.channel && !configSnapshot.valid) {
-    const issues = formatConfigIssueLines(configSnapshot.issues, "-");
-    defaultRuntime.error(["Config is invalid; cannot set update channel.", ...issues].join("\n"));
-    defaultRuntime.exit(1);
-    return;
-  }
-
   const installKind = updateStatus.installKind;
   const switchToGit = requestedChannel === "dev" && installKind !== "git";
   const switchToPackage =
@@ -3454,7 +3407,7 @@ async function updateCommandInternal(opts: UpdateCommandOptions): Promise<void> 
   const updateInstallKind = switchToGit ? "git" : switchToPackage ? "package" : installKind;
   const defaultChannel =
     updateInstallKind === "git" ? DEFAULT_GIT_CHANNEL : DEFAULT_PACKAGE_CHANNEL;
-  const channel = requestedChannel ?? storedChannel ?? defaultChannel;
+  const channel = requestedChannel ?? defaultChannel;
   const devTargetRef =
     channel === "dev" ? process.env.OPENCLAW_UPDATE_DEV_TARGET_REF?.trim() || undefined : undefined;
 
@@ -4048,55 +4001,10 @@ async function updateCommandInternal(opts: UpdateCommandOptions): Promise<void> 
   let restartScriptPath: string | null = null;
   let refreshGatewayServiceEnvLocal = false;
   let gatewayServiceEnv: NodeJS.ProcessEnv | undefined;
-  let skipLegacyServiceRestart = false;
   let gatewayPort = resolveUpdatedGatewayRestartPort({
     config: postUpdateConfigSnapshot.valid ? postUpdateConfigSnapshot.config : undefined,
     processEnv: process.env,
   });
-  if (shouldRestart) {
-    try {
-      const serviceState = await readGatewayServiceState(resolveGatewayService(), {
-        env: resolvePostUpdateServiceStateReadEnv({
-          updateMode: resultWithPostUpdate.mode,
-          processEnv: process.env,
-          preManagedServiceEnv: preManagedServiceStop?.serviceEnv,
-        }),
-      });
-      const serviceMatchesUpdateRoot =
-        resultWithPostUpdate.mode === "git"
-          ? ((await gatewayServiceCommandUsesRoot({
-              root: postUpdateRoot,
-              command: serviceState.command,
-            })) ?? undefined)
-          : undefined;
-      skipLegacyServiceRestart =
-        resultWithPostUpdate.mode === "git" &&
-        serviceState.installed &&
-        serviceState.loaded &&
-        preManagedServiceStop?.stopped !== true &&
-        serviceMatchesUpdateRoot === false;
-      if (
-        shouldPrepareUpdatedInstallRestart({
-          updateMode: resultWithPostUpdate.mode,
-          serviceInstalled: serviceState.installed,
-          serviceLoaded: serviceState.loaded,
-          serviceStoppedForUpdate: preManagedServiceStop?.stopped,
-          serviceMatchesUpdateRoot,
-        })
-      ) {
-        gatewayServiceEnv = serviceState.env;
-        gatewayPort = resolveUpdatedGatewayRestartPort({
-          config: postUpdateConfigSnapshot.valid ? postUpdateConfigSnapshot.config : undefined,
-          processEnv: process.env,
-          serviceEnv: gatewayServiceEnv,
-        });
-        restartScriptPath = await prepareRestartScript(serviceState.env, gatewayPort);
-        refreshGatewayServiceEnvLocal = true;
-      }
-    } catch {
-      // Ignore errors during pre-check; fallback to standard restart
-    }
-  }
 
   await tryWriteCompletionCache(postUpdateRoot, Boolean(opts.json));
   await tryInstallShellCompletion({
@@ -4120,7 +4028,6 @@ async function updateCommandInternal(opts: UpdateCommandOptions): Promise<void> 
     restartScriptPath,
     invocationCwd,
     nodeRunner: managedServiceNodeRunner,
-    skipLegacyServiceRestart,
     requireRunningServiceAfterRestart:
       resultWithPostUpdate.mode === "git" && preManagedServiceStop?.stopped === true,
   });

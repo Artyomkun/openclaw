@@ -3,7 +3,7 @@
  *
  * Builds unresolved rows and token-gated resolution flows for setup/allowlist targets.
  */
-import type { ChannelResolveResult } from "./types.adapters.js";
+import type { ChannelResolveResult } from "./types.adapters.ts";
 
 /**
  * Builds unresolved target results with one common note.

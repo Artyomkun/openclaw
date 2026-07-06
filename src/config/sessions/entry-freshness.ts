@@ -1,19 +1,19 @@
 // Session entry reset freshness resolves the same lifecycle rule used by reply setup.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import type { SessionConfig, SessionResetConfig } from "../types.base.js";
-import { getCliSessionBinding } from "./cli-session-binding.js";
-import { resolveSessionLifecycleTimestamps } from "./lifecycle.js";
-import { resolveStorePath as resolveSessionStorePath } from "./paths.js";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import type { SessionConfig, SessionResetConfig } from "../types.base.ts";
+import { getCliSessionBinding } from "./cli-session-binding.ts";
+import { resolveSessionLifecycleTimestamps } from "./lifecycle.ts";
+import { resolveStorePath as resolveSessionStorePath } from "./paths.ts";
 import {
   evaluateSessionFreshness,
   resolveSessionResetPolicy,
   type SessionFreshness,
   type SessionResetPolicy,
   type SessionResetType,
-} from "./reset.js";
-import { loadSessionEntry, type SessionAccessScope } from "./session-accessor.js";
-import type { SessionEntry } from "./types.js";
+} from "./reset.ts";
+import { loadSessionEntry, type SessionAccessScope } from "./session-accessor.ts";
+import type { SessionEntry } from "./types.ts";
 
 export type ResolveSessionEntryResetFreshnessParams = SessionAccessScope & {
   now?: number;

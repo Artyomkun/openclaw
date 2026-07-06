@@ -12,7 +12,7 @@ import {
   resolveMSTeamsSqliteStateEnv,
   toPluginJsonValue,
   withMSTeamsSqliteMutationLock,
-} from "./sqlite-state.js";
+} from "./oracle-state.ts";
 
 type MSTeamsPollVote = {
   pollId: string;
@@ -63,8 +63,6 @@ export type StoredMSTeamsPollVoteBucket = {
   votes: Record<string, string[]>;
   updatedAt: string;
 };
-
-export const MSTEAMS_POLLS_LEGACY_FILENAME = "msteams-polls.json";
 export const MSTEAMS_POLLS_NAMESPACE = "polls";
 export const MSTEAMS_POLL_VOTE_BUCKETS_NAMESPACE = "poll-vote-buckets";
 export const MSTEAMS_MAX_POLLS = 1000;

@@ -7,9 +7,9 @@ import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../../config/model-input.js";
-import type { AgentModelConfig } from "../../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/model-input.ts";
+import type { AgentModelConfig } from "../../config/types.agents-shared.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
 /** Provider/profile ids that may need external CLI auth discovery. */
 export type ExternalCliAuthScope = {

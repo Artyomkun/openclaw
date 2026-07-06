@@ -3,10 +3,10 @@ import {
   normalizeStringEntries,
   sortUniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveEnabledBundledManifestContractPlugins } from "./bundled-manifest-contract-plugins.js";
-import { loadBundledDocumentExtractorEntriesFromDir } from "./document-extractor-public-artifacts.js";
-import type { PluginDocumentExtractorEntry } from "./document-extractor-types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveEnabledBundledManifestContractPlugins } from "./bundled-manifest-contract-plugins.ts";
+import { loadBundledDocumentExtractorEntriesFromDir } from "./document-extractor-public-artifacts.ts";
+import type { PluginDocumentExtractorEntry } from "./document-extractor-types.ts";
 
 function compareExtractors(
   left: PluginDocumentExtractorEntry,

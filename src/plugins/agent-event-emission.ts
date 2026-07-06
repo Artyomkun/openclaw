@@ -1,13 +1,13 @@
 // Emits agent events requested by plugin hook contracts.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { emitAgentEvent } from "../infra/agent-events.js";
+import { emitAgentEvent } from "../infra/agent-events.ts";
 import {
   isPluginJsonValue,
   type PluginAgentEventEmitParams,
   type PluginAgentEventEmitResult,
   type PluginJsonValue,
-} from "./host-hooks.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
+} from "./host-hooks.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
 
 const HOST_OWNED_AGENT_EVENT_STREAMS = new Set<string>([
   "lifecycle",

@@ -8,7 +8,7 @@ import type {
   ToolAvailabilityExpression,
   ToolAvailabilitySignal,
   ToolDescriptor,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Tool availability evaluator for descriptor-driven tool planning.

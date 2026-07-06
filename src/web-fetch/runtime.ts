@@ -6,20 +6,20 @@ import {
   readWebProviderEnvValue,
   resolveWebProviderConfig,
   resolveWebProviderDefinition,
-} from "../../packages/web-content-core/src/provider-runtime-shared.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { logVerbose } from "../globals.js";
+} from "../../packages/web-content-core/src/provider-runtime-shared.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { logVerbose } from "../globals.ts";
 import type {
   PluginWebFetchProviderEntry,
   WebFetchProviderToolDefinition,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 import {
   resolvePluginWebFetchProviders,
   resolveRuntimeWebFetchProviders,
-} from "../plugins/web-fetch-providers.runtime.js";
-import { sortWebFetchProvidersForAutoDetect } from "../plugins/web-fetch-providers.shared.js";
-import { getActiveRuntimeWebToolsMetadata } from "../secrets/runtime-web-tools-state.js";
-import type { RuntimeWebFetchMetadata } from "../secrets/runtime-web-tools.types.js";
+} from "../plugins/web-fetch-providers.runtime.ts";
+import { sortWebFetchProvidersForAutoDetect } from "../plugins/web-fetch-providers.shared.ts";
+import { getActiveRuntimeWebToolsMetadata } from "../secrets/runtime-web-tools-state.ts";
+import type { RuntimeWebFetchMetadata } from "../secrets/runtime-web-tools.types.ts";
 
 // Runtime provider selection for the web_fetch tool. It resolves config,
 // credentials, runtime metadata, and sandbox-safe bundled provider scopes.

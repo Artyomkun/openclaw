@@ -36,10 +36,6 @@ export type CommitmentRecord = CommitmentScope & {
   dueWindow: CommitmentDueWindow;
   sourceMessageId?: string;
   sourceRunId?: string;
-  /** @deprecated Legacy-only field from early stores. Do not replay this into delivery prompts. */
-  sourceUserText?: string;
-  /** @deprecated Legacy-only field from early stores. Do not replay this into delivery prompts. */
-  sourceAssistantText?: string;
   createdAtMs: number;
   updatedAtMs: number;
   attempts: number;

@@ -7,31 +7,31 @@ import {
   describeGatewayCloseCode as baseDescribeGatewayCloseCode,
   isGatewayConnectAssemblyError as baseIsGatewayConnectAssemblyError,
   resolveGatewayClientConnectChallengeTimeoutMs as baseResolveGatewayClientConnectChallengeTimeoutMs,
-} from "../../packages/gateway-client/src/index.js";
+} from "../../packages/gateway-client/src/index.ts";
 import type {
   GatewayClientMode,
   GatewayClientName,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import type { EventFrame, HelloOk } from "../../packages/gateway-protocol/src/index.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import type { EventFrame, HelloOk } from "../../packages/gateway-protocol/src/index.ts";
 import {
   clearDeviceAuthToken,
   loadDeviceAuthToken,
   storeDeviceAuthToken,
-} from "../infra/device-auth-store.js";
-import type { DeviceIdentity } from "../infra/device-identity.js";
+} from "../infra/device-auth-store.ts";
+import type { DeviceIdentity } from "../infra/device-identity.ts";
 import {
   loadOrCreateDeviceIdentity,
   publicKeyRawBase64UrlFromPem,
   signDevicePayload,
-} from "../infra/device-identity.js";
+} from "../infra/device-identity.ts";
 import {
   ensureInheritedManagedProxyRoutingActive,
   registerManagedProxyGatewayLoopbackBypass,
-} from "../infra/net/proxy/proxy-lifecycle.js";
-import { normalizeFingerprint } from "../infra/tls/fingerprint.js";
-import { logDebug, logError } from "../logger.js";
-import { redactToolPayloadText } from "../logging/redact.js";
-import { VERSION } from "../version.js";
+} from "../infra/net/proxy/proxy-lifecycle.ts";
+import { normalizeFingerprint } from "../infra/tls/fingerprint.ts";
+import { logDebug, logError } from "../logger.ts";
+import { redactToolPayloadText } from "../logging/redact.ts";
+import { VERSION } from "../version.ts";
 
 export type DeviceAuthTokenRecord = {
   token?: string;
@@ -120,8 +120,6 @@ export function isGatewayConnectAssemblyError(value: unknown): value is Error {
 export type GatewayClientOptions = {
   url?: string;
   connectChallengeTimeoutMs?: number;
-  /** @deprecated Use connectChallengeTimeoutMs. */
-  connectDelayMs?: number;
   preauthHandshakeTimeoutMs?: number;
   tickWatchMinIntervalMs?: number;
   tickWatchTimeoutMs?: number;

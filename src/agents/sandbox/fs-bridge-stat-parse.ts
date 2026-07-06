@@ -3,8 +3,8 @@
  *
  * Handles GNU/BSD size and mtime formats returned through backend shell commands.
  */
-import { parseStrictNonNegativeInteger } from "../../infra/parse-finite-number.js";
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
+import { parseStrictNonNegativeInteger } from "../../infra/parse-finite-number.ts";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
 
 /** Parses file sizes, capping huge integer strings at the largest safe JS integer. */
 export function parseSandboxStatSize(value: string | undefined): number {

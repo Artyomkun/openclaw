@@ -7,7 +7,7 @@ import {
   createExpiringMapCache,
   isCacheEnabled,
   resolveCacheTtlMs,
-} from "../../config/cache-utils.js";
+} from "../../config/cache-utils.ts";
 
 const DEFAULT_SESSION_MANAGER_TTL_MS = 45_000; // 45 seconds
 const MIN_SESSION_MANAGER_CACHE_PRUNE_INTERVAL_MS = 1_000;

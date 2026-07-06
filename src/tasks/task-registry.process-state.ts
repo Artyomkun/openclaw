@@ -1,5 +1,5 @@
 // Tracks task process state transitions used to reconcile running work.
-import type { TaskDeliveryState, TaskRecord } from "./task-registry.types.js";
+import type { TaskDeliveryState, TaskRecord } from "./task-registry.types.ts";
 
 /** Process-local indexes backing task lookup, owner access, and pending delivery scans. */
 type TaskRegistryProcessState = {

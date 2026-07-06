@@ -6,9 +6,9 @@
 import syncFs from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OptionalBootstrapFileName } from "../../config/types.agent-defaults.js";
-import { openRootFile } from "../../infra/boundary-file-read.js";
-import { resolveUserPath } from "../../utils.js";
+import type { OptionalBootstrapFileName } from "../../config/types.agent-defaults.ts";
+import { openRootFile } from "../../infra/boundary-file-read.ts";
+import { resolveUserPath } from "../../utils.ts";
 import {
   DEFAULT_AGENTS_FILENAME,
   DEFAULT_BOOTSTRAP_FILENAME,
@@ -18,7 +18,7 @@ import {
   DEFAULT_TOOLS_FILENAME,
   DEFAULT_USER_FILENAME,
   ensureAgentWorkspace,
-} from "../workspace.js";
+} from "../workspace.ts";
 
 export async function ensureSandboxWorkspace(
   workspaceDir: string,

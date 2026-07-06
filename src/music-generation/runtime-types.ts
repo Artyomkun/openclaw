@@ -1,7 +1,7 @@
 // Runtime dependency contracts for music generation provider execution.
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { FallbackAttempt } from "../agents/model-fallback.types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   GeneratedMusicAsset,
   MusicGenerationIgnoredOverride,
@@ -9,7 +9,7 @@ import type {
   MusicGenerationOutputFormat,
   MusicGenerationProvider,
   MusicGenerationSourceImage,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Runtime input/output contracts for music generation.

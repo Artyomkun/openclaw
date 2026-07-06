@@ -1,8 +1,8 @@
 // Message channel core helpers normalize channel families and internal ids.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatChannelId } from "../channels/ids.js";
-import { normalizeAnyChannelId } from "../channels/registry-normalize.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "./message-channel-constants.js";
+import { normalizeChatChannelId } from "../channels/ids.ts";
+import { normalizeAnyChannelId } from "../channels/registry-normalize.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "./message-channel-constants.ts";
 
 /**
  * Shared message-channel normalization for delivery, routing, config, and gateway headers.

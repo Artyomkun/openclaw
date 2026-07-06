@@ -9,21 +9,21 @@ import {
   type ErrorShape,
   errorShape,
   type SessionsPatchParams,
-} from "../../packages/gateway-protocol/src/index.js";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
+} from "../../packages/gateway-protocol/src/index.ts";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   normalizeInheritedToolAllowlist,
   normalizeInheritedToolDenylist,
-} from "../agents/inherited-tool-deny.js";
-import type { ModelCatalogEntry } from "../agents/model-catalog.js";
-import { splitTrailingAuthProfile } from "../agents/model-ref-profile.js";
+} from "../agents/inherited-tool-deny.ts";
+import type { ModelCatalogEntry } from "../agents/model-catalog.ts";
+import { splitTrailingAuthProfile } from "../agents/model-ref-profile.ts";
 import {
   resolveAllowedModelRef,
   resolveDefaultModelForAgent,
   resolveSubagentConfiguredModelSelection,
-} from "../agents/model-selection.js";
-import { resolveProviderIdForAuth } from "../agents/provider-auth-aliases.js";
-import { normalizeGroupActivation } from "../auto-reply/group-activation.js";
+} from "../agents/model-selection.ts";
+import { resolveProviderIdForAuth } from "../agents/provider-auth-aliases.ts";
+import { normalizeGroupActivation } from "../auto-reply/group-activation.ts";
 import {
   formatThinkingLevels,
   isThinkingLevelSupported,
@@ -33,25 +33,25 @@ import {
   normalizeThinkLevel,
   normalizeUsageDisplay,
   resolveSupportedThinkingLevel,
-} from "../auto-reply/thinking.js";
-import type { SessionEntry } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeExecTarget } from "../infra/exec-approvals.js";
+} from "../auto-reply/thinking.ts";
+import type { SessionEntry } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeExecTarget } from "../infra/exec-approvals.ts";
 import {
   isAcpSessionKey,
   isSubagentSessionKey,
   normalizeAgentId,
   parseAgentSessionKey,
-} from "../routing/session-key.js";
+} from "../routing/session-key.ts";
 import {
   applyTraceOverride,
   applyVerboseOverride,
   parseTraceOverride,
   parseVerboseOverride,
-} from "../sessions/level-overrides.js";
-import { applyModelOverrideToSessionEntry } from "../sessions/model-overrides.js";
-import { normalizeSendPolicy } from "../sessions/send-policy.js";
-import { parseSessionLabel } from "../sessions/session-label.js";
+} from "../sessions/level-overrides.ts";
+import { applyModelOverrideToSessionEntry } from "../sessions/model-overrides.ts";
+import { normalizeSendPolicy } from "../sessions/send-policy.ts";
+import { parseSessionLabel } from "../sessions/session-label.ts";
 
 function invalid(message: string): { ok: false; error: ErrorShape } {
   return { ok: false, error: errorShape(ErrorCodes.INVALID_REQUEST, message) };

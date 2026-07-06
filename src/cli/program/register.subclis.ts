@@ -1,30 +1,30 @@
 // Sub-CLI registration: core subcommands plus lazily imported command groups.
 import type { Command } from "commander";
-import { resolveCliArgvInvocation } from "../argv-invocation.js";
+import { resolveCliArgvInvocation } from "../argv-invocation.ts";
 import {
   shouldEagerRegisterSubcommands,
   shouldRegisterPrimarySubcommandOnly,
-} from "../command-registration-policy.js";
+} from "../command-registration-policy.ts";
 import {
   buildCommandGroupEntries,
   defineImportedProgramCommandGroupSpecs,
   type CommandGroupDescriptorSpec,
-} from "./command-group-descriptors.js";
+} from "./command-group-descriptors.ts";
 import {
   registerCommandGroupByName,
   registerCommandGroups,
   type CommandGroupEntry,
-} from "./register-command-groups.js";
+} from "./register-command-groups.ts";
 import {
   registerSubCliByName as registerSubCliByNameCore,
   registerSubCliCommands as registerSubCliCommandsCore,
   type SubCliRegistrationContext,
-} from "./register.subclis-core.js";
+} from "./register.subclis-core.ts";
 import {
   getSubCliCommandsWithSubcommands,
   getSubCliEntries as getSubCliEntryDescriptors,
   type SubCliDescriptor,
-} from "./subcli-descriptors.js";
+} from "./subcli-descriptors.ts";
 
 export { getSubCliCommandsWithSubcommands };
 

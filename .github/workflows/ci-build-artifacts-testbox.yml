@@ -170,8 +170,8 @@ jobs:
 
           test -d dist
           test -d dist-runtime
-          if [[ ! -f dist/index.js && ! -f dist/index.mjs ]]; then
-            echo "Missing dist/index.js or dist/index.mjs" >&2
+          if [[ ! -f dist/index.js && ! -f dist/index.ts ]]; then
+            echo "Missing dist/index.js or dist/index.ts" >&2
             exit 1
           fi
           test -f dist/build-info.json

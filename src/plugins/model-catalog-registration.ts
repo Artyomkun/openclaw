@@ -7,22 +7,22 @@ import {
   synthesizeMediaGenerationCatalogEntries,
   type MediaGenerationCatalogKind,
   type MediaGenerationCatalogProvider,
-} from "../../packages/media-generation-core/src/catalog.js";
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
-import { uniqueValues } from "../../packages/normalization-core/src/string-normalization.js";
+} from "../../packages/media-generation-core/src/catalog.ts";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
+import { uniqueValues } from "../../packages/normalization-core/src/string-normalization.ts";
 import {
   synthesizeVoiceModelCatalogEntries,
   type VoiceModelCapabilities,
   type VoiceModelProvider,
-} from "../../packages/speech-core/voice-models.js";
-import type { PluginDiagnostic } from "./manifest-types.js";
-import { projectProviderCatalogResultToUnifiedTextRows } from "./provider-catalog-unified-text.js";
-import type { PluginRecord, PluginRegistry } from "./registry-types.js";
+} from "../../packages/speech-core/voice-models.ts";
+import type { PluginDiagnostic } from "./manifest-types.ts";
+import { projectProviderCatalogResultToUnifiedTextRows } from "./provider-catalog-unified-text.ts";
+import type { PluginRecord, PluginRegistry } from "./registry-types.ts";
 import type {
   ProviderPlugin,
   UnifiedModelCatalogProviderContext,
   UnifiedModelCatalogProviderPlugin,
-} from "./types.js";
+} from "./types.ts";
 
 type UnifiedModelCatalogHook = NonNullable<UnifiedModelCatalogProviderPlugin["staticCatalog"]>;
 

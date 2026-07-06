@@ -1,14 +1,14 @@
 // Determines which manifest contracts are eligible for plugin activation.
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isInstalledPluginEnabled } from "./installed-plugin-index.js";
-import type { PluginManifestContractListKey, PluginManifestRecord } from "./manifest-registry.js";
-import { resolvePluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isInstalledPluginEnabled } from "./installed-plugin-index.ts";
+import type { PluginManifestContractListKey, PluginManifestRecord } from "./manifest-registry.ts";
+import { resolvePluginMetadataSnapshot } from "./plugin-metadata-snapshot.ts";
 import type {
   PluginMetadataManifestView,
   PluginMetadataRegistryView,
   PluginMetadataSnapshot,
-} from "./plugin-metadata-snapshot.types.js";
+} from "./plugin-metadata-snapshot.types.ts";
 
 export function isManifestPluginAvailableForControlPlane(params: {
   snapshot: Pick<PluginMetadataSnapshot, "index">;

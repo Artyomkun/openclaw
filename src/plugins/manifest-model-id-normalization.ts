@@ -3,12 +3,12 @@ import {
   collectManifestModelIdNormalizationPolicies,
   normalizeProviderModelIdWithPolicies,
 } from "@openclaw/model-catalog-core/provider-model-id-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { PluginManifestModelIdNormalizationProvider } from "./manifest.js";
-import { resolvePluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
-import { getActivePluginRegistryWorkspaceDirFromState } from "./runtime-workspace-state.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import type { PluginManifestModelIdNormalizationProvider } from "./manifest.ts";
+import { resolvePluginMetadataSnapshot } from "./plugin-metadata-snapshot.ts";
+import { getActivePluginRegistryWorkspaceDirFromState } from "./runtime-workspace-state.ts";
 
 type ManifestModelIdNormalizationLookupParams = {
   config?: OpenClawConfig;

@@ -4,18 +4,18 @@
  * Runs bounded ping-pong delivery, waits for target replies, and suppresses control-token messages.
  */
 import crypto from "node:crypto";
-import type { CallGatewayOptions } from "../../gateway/call.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { GatewayMessageChannel } from "../../utils/message-channel.js";
-import { resolveNestedAgentLaneForSession } from "../lanes.js";
+import type { CallGatewayOptions } from "../../gateway/call.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { GatewayMessageChannel } from "../../utils/message-channel.ts";
+import { resolveNestedAgentLaneForSession } from "../lanes.ts";
 import {
   type AssistantReplySnapshot,
   readLatestAssistantReplySnapshot,
   waitForAgentRun,
-} from "../run-wait.js";
-import { runAgentStep } from "./agent-step.js";
-import { resolveAnnounceTarget } from "./sessions-announce-target.js";
+} from "../run-wait.ts";
+import { runAgentStep } from "./agent-step.ts";
+import { resolveAnnounceTarget } from "./sessions-announce-target.ts";
 import {
   type AnnounceTarget,
   buildAgentToAgentAnnounceContext,
@@ -23,7 +23,7 @@ import {
   isAnnounceSkip,
   isNonDeliverableSessionsReply,
   isReplySkip,
-} from "./sessions-send-helpers.js";
+} from "./sessions-send-helpers.ts";
 
 const log = createSubsystemLogger("agents/sessions-send");
 

@@ -2,17 +2,17 @@
  * Shared session persistence and prompt-body helpers for agent attempt
  * execution paths.
  */
-import { patchSessionEntry } from "../../config/sessions/session-accessor.js";
-import { mergeSessionEntry, type SessionEntry } from "../../config/sessions/types.js";
+import { patchSessionEntry } from "../../config/sessions/session-accessor.ts";
+import { mergeSessionEntry, type SessionEntry } from "../../config/sessions/types.ts";
 import {
   formatAgentInternalEventsForPlainPrompt,
   formatAgentInternalEventsForPrompt,
-} from "../internal-events.js";
+} from "../internal-events.ts";
 import {
   hasInternalRuntimeContext,
   stripInternalRuntimeContext,
-} from "../internal-runtime-context.js";
-import type { AgentCommandOpts } from "./types.js";
+} from "../internal-runtime-context.ts";
+import type { AgentCommandOpts } from "./types.ts";
 
 /** Parameters for merging and persisting a session entry update. */
 type PersistSessionEntryParams = {

@@ -214,14 +214,6 @@ async function queryOllamaModelShowInfoCached(
   return await pending;
 }
 
-/** @deprecated Use queryOllamaModelShowInfo instead. */
-export async function queryOllamaContextWindow(
-  apiBase: string,
-  modelName: string,
-): Promise<number | undefined> {
-  return (await queryOllamaModelShowInfo(apiBase, modelName)).contextWindow;
-}
-
 export async function enrichOllamaModelsWithContext(
   apiBase: string,
   models: OllamaTagModel[],

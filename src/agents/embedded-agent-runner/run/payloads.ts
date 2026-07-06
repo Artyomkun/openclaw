@@ -5,27 +5,27 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { SourceReplyDeliveryMode } from "../../../auto-reply/get-reply-options.types.js";
+import type { SourceReplyDeliveryMode } from "../../../auto-reply/get-reply-options.types.ts";
 import {
   createHeartbeatToolResponsePayload,
   type HeartbeatToolResponse,
-} from "../../../auto-reply/heartbeat-tool-response.js";
+} from "../../../auto-reply/heartbeat-tool-response.ts";
 import {
   markReplyPayloadForSourceSuppressionDelivery,
   setReplyPayloadMetadata,
   type ReplyPayload,
   type ReplyPayloadMetadata,
-} from "../../../auto-reply/reply-payload.js";
-import { parseReplyDirectives } from "../../../auto-reply/reply/reply-directives.js";
-import type { ReasoningLevel, ThinkLevel, VerboseLevel } from "../../../auto-reply/thinking.js";
-import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../../../auto-reply/tokens.js";
-import { formatToolAggregate } from "../../../auto-reply/tool-meta.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { hasReplyPayloadContent } from "../../../interactive/payload.js";
-import type { AssistantMessage } from "../../../llm/types.js";
-import { isCronSessionKey } from "../../../routing/session-key.js";
-import { extractAssistantTextForPhase } from "../../../shared/chat-message-content.js";
-import { parseInlineDirectives } from "../../../utils/directive-tags.js";
+} from "../../../auto-reply/reply-payload.ts";
+import { parseReplyDirectives } from "../../../auto-reply/reply/reply-directives.ts";
+import type { ReasoningLevel, ThinkLevel, VerboseLevel } from "../../../auto-reply/thinking.ts";
+import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../../../auto-reply/tokens.ts";
+import { formatToolAggregate } from "../../../auto-reply/tool-meta.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { hasReplyPayloadContent } from "../../../interactive/payload.ts";
+import type { AssistantMessage } from "../../../llm/types.ts";
+import { isCronSessionKey } from "../../../routing/session-key.ts";
+import { extractAssistantTextForPhase } from "../../../shared/chat-message-content.ts";
+import { parseInlineDirectives } from "../../../utils/directive-tags.ts";
 import {
   BILLING_ERROR_USER_MESSAGE,
   formatAssistantErrorText,
@@ -34,15 +34,15 @@ import {
   getApiErrorPayloadFingerprint,
   isRawApiErrorPayload,
   normalizeTextForComparison,
-} from "../../embedded-agent-helpers.js";
-import type { MessagingToolSourceReplyPayload } from "../../embedded-agent-messaging.types.js";
-import type { ToolResultFormat } from "../../embedded-agent-subscribe.shared-types.js";
+} from "../../embedded-agent-helpers.ts";
+import type { MessagingToolSourceReplyPayload } from "../../embedded-agent-messaging.types.ts";
+import type { ToolResultFormat } from "../../embedded-agent-subscribe.shared-types.ts";
 import {
   extractAssistantThinking,
   extractAssistantVisibleText,
-} from "../../embedded-agent-utils.js";
-import { isExecLikeToolName, type ToolErrorSummary } from "../../tool-error-summary.js";
-import { isLikelyMutatingToolName } from "../../tool-mutation.js";
+} from "../../embedded-agent-utils.ts";
+import { isExecLikeToolName, type ToolErrorSummary } from "../../tool-error-summary.ts";
+import { isLikelyMutatingToolName } from "../../tool-mutation.ts";
 
 type ToolMetaEntry = { toolName: string; meta?: string };
 type ToolErrorWarningPolicy = {
@@ -221,8 +221,6 @@ function splitExecLikeFailureMeta(meta: string): { flags: string[]; body: string
 
 const SEMANTIC_RUN_SUMMARIES = new Set(["tests", "build", "lint", "script", "command"]);
 const LITERAL_RUN_SUMMARY_PREFIXES = new Set([
-  "python",
-  "python3",
   "ruby",
   "php",
   "git",
@@ -232,13 +230,9 @@ const LITERAL_RUN_SUMMARY_PREFIXES = new Set([
   "bun",
   "openclaw",
   "make",
-  "cargo",
   "go",
   "docker",
   "npx",
-  "uv",
-  "poetry",
-  "pytest",
   "vitest",
   "jest",
   "deno",

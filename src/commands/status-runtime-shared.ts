@@ -2,21 +2,21 @@
 // Heavy modules stay lazily loaded so fast status output avoids security/provider/gateway costs.
 
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveDefaultAgentDir } from "../agents/agent-scope.js";
-import { resolveAgentHarnessPolicy } from "../agents/harness/policy.js";
-import { resolveModelAuthLabel } from "../agents/model-auth-label.js";
-import { resolveDefaultModelForAgent } from "../agents/model-selection.js";
-import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../agents/openai-routing.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { HeartbeatEventPayload } from "../infra/heartbeat-events.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
+import { resolveDefaultAgentDir } from "../agents/agent-scope.ts";
+import { resolveAgentHarnessPolicy } from "../agents/harness/policy.ts";
+import { resolveModelAuthLabel } from "../agents/model-auth-label.ts";
+import { resolveDefaultModelForAgent } from "../agents/model-selection.ts";
+import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../agents/openai-routing.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { HeartbeatEventPayload } from "../infra/heartbeat-events.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
 import {
   buildCodexSyntheticUsageAuth,
   mergeUsageSummaries,
   shouldUseCodexSyntheticUsageForRuntime,
-} from "../status/codex-synthetic-usage.js";
-import type { HealthSummary } from "./health.js";
-import { getDaemonStatusSummary, getNodeDaemonStatusSummary } from "./status.daemon.js";
+} from "../status/codex-synthetic-usage.ts";
+import type { HealthSummary } from "./health.ts";
+import { getDaemonStatusSummary, getNodeDaemonStatusSummary } from "./status.daemon.ts";
 
 const providerUsageLoader = createLazyImportLoader(() => import("../infra/provider-usage.js"));
 const securityAuditModuleLoader = createLazyImportLoader(

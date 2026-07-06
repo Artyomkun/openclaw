@@ -1,25 +1,25 @@
 /** Session update helpers for skill snapshots, compaction, and lifecycle hooks. */
 import crypto from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { canExecRequestNode } from "../../agents/exec-defaults.js";
-import { resolveCompactionSessionFile, type SessionEntry } from "../../config/sessions.js";
-import { patchSessionEntry, upsertSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { canExecRequestNode } from "../../agents/exec-defaults.ts";
+import { resolveCompactionSessionFile, type SessionEntry } from "../../config/sessions.ts";
+import { patchSessionEntry, upsertSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   forgetActiveSessionForShutdown,
   noteActiveSessionForShutdown,
-} from "../../gateway/active-sessions-shutdown-tracker.js";
-import { resolveStableSessionEndTranscript } from "../../gateway/session-transcript-files.fs.js";
-import { logVerbose } from "../../globals.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { getRemoteSkillEligibility } from "../../skills/runtime/remote.js";
-import { resolveReusableWorkspaceSkillSnapshot } from "../../skills/runtime/session-snapshot.js";
-import type { ReplySessionEntryHandle } from "./session-entry-handle.js";
-import { buildSessionEndHookPayload, buildSessionStartHookPayload } from "./session-hooks.js";
-export { drainFormattedSystemEvents } from "./session-system-events.js";
-export { resetResolvedSkillsCacheForTests } from "../../skills/runtime/session-snapshot.js";
+} from "../../gateway/active-sessions-shutdown-tracker.ts";
+import { resolveStableSessionEndTranscript } from "../../gateway/session-transcript-files.fs.ts";
+import { logVerbose } from "../../globals.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { getRemoteSkillEligibility } from "../../skills/runtime/remote.ts";
+import { resolveReusableWorkspaceSkillSnapshot } from "../../skills/runtime/session-snapshot.ts";
+import type { ReplySessionEntryHandle } from "./session-entry-handle.ts";
+import { buildSessionEndHookPayload, buildSessionStartHookPayload } from "./session-hooks.ts";
+export { drainFormattedSystemEvents } from "./session-system-events.ts";
+export { resetResolvedSkillsCacheForTests } from "../../skills/runtime/session-snapshot.ts";
 
 async function persistSessionEntryUpdate(params: {
   sessionEntryHandle?: ReplySessionEntryHandle;

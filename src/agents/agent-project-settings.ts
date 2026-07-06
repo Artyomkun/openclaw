@@ -1,13 +1,13 @@
 /** Prepares embedded-agent SettingsManager instances from project and plugin settings. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
 import {
   buildEmbeddedAgentSettingsSnapshot,
   loadEnabledBundleAgentSettingsSnapshot,
   resolveEmbeddedAgentProjectSettingsPolicy,
-} from "./agent-project-settings-snapshot.js";
-import { applyAgentCompactionSettingsFromConfig } from "./agent-settings.js";
-import { SettingsManager } from "./sessions/index.js";
+} from "./agent-project-settings-snapshot.ts";
+import { applyAgentCompactionSettingsFromConfig } from "./agent-settings.ts";
+import { SettingsManager } from "./sessions/index.ts";
 
 function createEmbeddedAgentSettingsManager(params: {
   cwd: string;

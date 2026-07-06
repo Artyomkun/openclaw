@@ -1,7 +1,7 @@
 /**
  * Public SDK subpath for realtime voice provider types, runtime helpers, and talk events.
  */
-export type { RealtimeVoiceProviderPlugin } from "../plugins/types.js";
+export type { RealtimeVoiceProviderPlugin } from "../plugins/types.ts";
 export type {
   RealtimeVoiceAudioFormat,
   RealtimeVoiceBargeInOptions,
@@ -21,11 +21,11 @@ export type {
   RealtimeVoiceTool,
   RealtimeVoiceToolCallEvent,
   RealtimeVoiceToolResultOptions,
-} from "../talk/provider-types.js";
+} from "../talk/provider-types.ts";
 export {
   REALTIME_VOICE_AUDIO_FORMAT_G711_ULAW_8KHZ,
   REALTIME_VOICE_AUDIO_FORMAT_PCM16_24KHZ,
-} from "../talk/provider-types.js";
+} from "../talk/provider-types.ts";
 export {
   createTalkEventSequencer,
   TALK_EVENT_TYPES,
@@ -37,10 +37,10 @@ export {
   type TalkEventType,
   type TalkMode,
   type TalkTransport,
-} from "../talk/talk-events.js";
-export { createTalkDiagnosticEvent, recordTalkDiagnosticEvent } from "../talk/diagnostics.js";
-export { createTalkLogRecord, recordTalkLogEvent } from "../talk/logging.js";
-export { recordTalkObservabilityEvent } from "../talk/observability.js";
+} from "../talk/talk-events.ts";
+export { createTalkDiagnosticEvent, recordTalkDiagnosticEvent } from "../talk/diagnostics.ts";
+export { createTalkLogRecord, recordTalkLogEvent } from "../talk/logging.ts";
+export { recordTalkObservabilityEvent } from "../talk/observability.ts";
 export {
   createTalkSessionController,
   normalizeTalkTransport,
@@ -52,7 +52,7 @@ export {
   type TalkTurnFailureReason,
   type TalkTurnResult,
   type TalkTurnSuccess,
-} from "../talk/talk-session-controller.js";
+} from "../talk/talk-session-controller.ts";
 export {
   REALTIME_VOICE_ACTIVATION_NAME_MAX_WORDS,
   isSupportedRealtimeVoiceActivationName,
@@ -65,11 +65,11 @@ export {
   type RealtimeVoiceActivationNameEdge,
   type RealtimeVoiceActivationNameMatchKind,
   type RealtimeVoiceActivationNameTranscriptResult,
-} from "../talk/activation-name.js";
+} from "../talk/activation-name.ts";
 export {
   classifySkippableRealtimeVoiceConsultTranscript,
   type SkippableRealtimeVoiceConsultTranscriptReason,
-} from "../talk/consult-transcript.js";
+} from "../talk/consult-transcript.ts";
 export {
   matchRealtimeVoiceConsultQuestions,
   normalizeRealtimeVoiceConsultQuestion,
@@ -77,7 +77,7 @@ export {
   readSpeakableRealtimeVoiceToolResult,
   type RealtimeVoiceConsultQuestionMatchOptions,
   type RealtimeVoiceSpeakableToolResultOptions,
-} from "../talk/consult-question.js";
+} from "../talk/consult-question.ts";
 export {
   createRealtimeVoiceForcedConsultCoordinator,
   type RealtimeVoiceForcedConsultCoordinator,
@@ -86,20 +86,20 @@ export {
   type RealtimeVoiceForcedConsultNativeMatch,
   type RealtimeVoiceForcedConsultNativeRecentOptions,
   type RealtimeVoiceForcedConsultTimer,
-} from "../talk/forced-consult-coordinator.js";
+} from "../talk/forced-consult-coordinator.ts";
 export {
   createRealtimeVoiceTurnContextTracker,
   type RealtimeVoiceTurnContextHandle,
   type RealtimeVoiceTurnContextTracker,
   type RealtimeVoiceTurnContextTrackerOptions,
-} from "../talk/turn-context-tracker.js";
+} from "../talk/turn-context-tracker.ts";
 export {
   createRealtimeVoiceOutputActivityTracker,
   type RealtimeVoiceOutputActivityDelta,
   type RealtimeVoiceOutputActivitySnapshot,
   type RealtimeVoiceOutputActivityTracker,
   type RealtimeVoiceOutputActivityTrackerOptions,
-} from "../talk/output-activity-tracker.js";
+} from "../talk/output-activity-tracker.ts";
 export {
   buildRealtimeVoiceAgentConsultChatMessage,
   buildRealtimeVoiceAgentConsultPolicyInstructions,
@@ -117,18 +117,18 @@ export {
   type RealtimeVoiceAgentConsultArgs,
   type RealtimeVoiceAgentConsultToolPolicy,
   type RealtimeVoiceAgentConsultTranscriptEntry,
-} from "../talk/agent-consult-tool.js";
+} from "../talk/agent-consult-tool.ts";
 export {
   consultRealtimeVoiceAgent,
   type RealtimeVoiceAgentConsultResult,
   type RealtimeVoiceAgentConsultRuntime,
-} from "../talk/agent-consult-runtime.js";
+} from "../talk/agent-consult-runtime.ts";
 export {
   createRealtimeVoiceAgentTalkbackQueue,
   type RealtimeVoiceAgentTalkbackQueue,
   type RealtimeVoiceAgentTalkbackQueueParams,
   type RealtimeVoiceAgentTalkbackResult,
-} from "../talk/agent-talkback-runtime.js";
+} from "../talk/agent-talkback-runtime.ts";
 export {
   buildRealtimeVoiceAgentCancelProviderResult,
   buildRealtimeVoiceAgentControlSpeechMessage,
@@ -145,31 +145,31 @@ export {
   type RealtimeVoiceAgentControlIntent,
   type RealtimeVoiceAgentControlProviderResult,
   type RealtimeVoiceAgentControlResult,
-} from "../talk/agent-run-control.js";
+} from "../talk/agent-run-control.ts";
 export {
   resolveRealtimeVoiceFastContextConsult,
   type RealtimeVoiceFastContextConfig,
   type RealtimeVoiceFastContextConsultResult,
   type RealtimeVoiceFastContextLabels,
-} from "../talk/fast-context-runtime.js";
+} from "../talk/fast-context-runtime.ts";
 export {
   canonicalizeRealtimeVoiceProviderId,
   getRealtimeVoiceProvider,
   listRealtimeVoiceProviders,
   normalizeRealtimeVoiceProviderId,
-} from "../talk/provider-registry.js";
+} from "../talk/provider-registry.ts";
 export {
   resolveConfiguredRealtimeVoiceProvider,
   type ResolvedRealtimeVoiceProvider,
   type ResolveConfiguredRealtimeVoiceProviderParams,
-} from "../talk/provider-resolver.js";
+} from "../talk/provider-resolver.ts";
 export {
   createRealtimeVoiceBridgeSession,
   type RealtimeVoiceAudioSink,
   type RealtimeVoiceBridgeSession,
   type RealtimeVoiceBridgeSessionParams,
   type RealtimeVoiceMarkStrategy,
-} from "../talk/session-runtime.js";
+} from "../talk/session-runtime.ts";
 export {
   extendRealtimeVoiceOutputEchoSuppression,
   getRealtimeVoiceBridgeEventHealth,
@@ -181,11 +181,11 @@ export {
   type RealtimeVoiceBridgeEventLogEntry,
   type RealtimeVoiceTranscriptEntry,
   type RealtimeVoiceTranscriptHealth,
-} from "../talk/session-log-runtime.js";
+} from "../talk/session-log-runtime.ts";
 export {
   convertPcmToMulaw8k,
   mulawToPcm,
   pcmToMulaw,
   resamplePcm,
   resamplePcmTo8k,
-} from "../talk/audio-codec.js";
+} from "../talk/audio-codec.ts";

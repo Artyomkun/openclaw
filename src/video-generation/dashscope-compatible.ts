@@ -13,14 +13,14 @@ import {
   waitProviderOperationPollInterval,
   type ProviderOperationTimeoutMs,
 } from "openclaw/plugin-sdk/provider-http";
-import { resolveGeneratedMediaMaxBytes } from "../media/configured-max-bytes.js";
+import { resolveGeneratedMediaMaxBytes } from "../media/configured-max-bytes.ts";
 import type {
   GeneratedVideoAsset,
   VideoGenerationProviderCapabilities,
   VideoGenerationRequest,
   VideoGenerationResult,
   VideoGenerationSourceAsset,
-} from "./types.js";
+} from "./types.ts";
 
 // DashScope-compatible video helper for Wan-style async task APIs: submit JSON,
 // poll task status, then download generated video URLs with byte limits.

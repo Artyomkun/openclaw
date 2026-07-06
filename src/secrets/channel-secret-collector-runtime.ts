@@ -12,10 +12,10 @@ export {
   isBaseFieldActiveForChannelSurface,
   normalizeSecretStringValue,
   resolveChannelAccountSurface,
-} from "./channel-secret-basic-runtime.js";
+} from "./channel-secret-basic-runtime.ts";
 export type {
   ChannelAccountEntry,
   ChannelAccountPredicate,
   ChannelAccountSurface,
-} from "./channel-secret-basic-runtime.js";
-export { collectNestedChannelTtsAssignments } from "./channel-secret-tts-runtime.js";
+} from "./channel-secret-basic-runtime.ts";
+export { collectNestedChannelTtsAssignments } from "./channel-secret-tts-runtime.ts";

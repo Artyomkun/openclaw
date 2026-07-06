@@ -186,24 +186,6 @@ export function buildQwenOAuthModelCatalog(): ReadonlyArray<ModelDefinitionConfi
   return QWEN_MODEL_CATALOG.map((model) => ({ ...model, maxTokens: 65_536 }));
 }
 
-/** @deprecated Use QWEN_BASE_URL. */
-export const MODELSTUDIO_BASE_URL = QWEN_BASE_URL;
-/** @deprecated Use QWEN_GLOBAL_BASE_URL. */
-export const MODELSTUDIO_GLOBAL_BASE_URL = QWEN_GLOBAL_BASE_URL;
-/** @deprecated Use QWEN_CN_BASE_URL. */
-export const MODELSTUDIO_CN_BASE_URL = QWEN_CN_BASE_URL;
-/** @deprecated Use QWEN_STANDARD_CN_BASE_URL. */
-export const MODELSTUDIO_STANDARD_CN_BASE_URL = QWEN_STANDARD_CN_BASE_URL;
-/** @deprecated Use QWEN_STANDARD_GLOBAL_BASE_URL. */
-export const MODELSTUDIO_STANDARD_GLOBAL_BASE_URL = QWEN_STANDARD_GLOBAL_BASE_URL;
-/** @deprecated Use QWEN_DEFAULT_MODEL_ID. */
-export const MODELSTUDIO_DEFAULT_MODEL_ID = QWEN_DEFAULT_MODEL_ID;
-/** @deprecated Use QWEN_DEFAULT_COST. */
-export const MODELSTUDIO_DEFAULT_COST = QWEN_DEFAULT_COST;
-/** @deprecated Use qwen/${QWEN_DEFAULT_MODEL_ID}. */
-export const MODELSTUDIO_DEFAULT_MODEL_REF = `modelstudio/${QWEN_DEFAULT_MODEL_ID}`;
-/** @deprecated Use QWEN_MODEL_CATALOG. */
-export const MODELSTUDIO_MODEL_CATALOG = QWEN_MODEL_CATALOG;
 export const isNativeModelStudioBaseUrl = isNativeQwenBaseUrl;
 export const applyModelStudioNativeStreamingUsageCompat = applyQwenNativeStreamingUsageCompat;
 export const buildModelStudioModelDefinition = buildQwenModelDefinition;

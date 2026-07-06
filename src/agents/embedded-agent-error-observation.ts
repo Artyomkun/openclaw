@@ -2,16 +2,16 @@
  * Builds structured observations for embedded-agent API/text failures.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { readLoggingConfig } from "../logging/config.js";
-import { redactIdentifier } from "../logging/redact-identifier.js";
-import { getDefaultRedactPatterns, redactSensitiveText } from "../logging/redact.js";
+import { readLoggingConfig } from "../logging/config.ts";
+import { redactIdentifier } from "../logging/redact-identifier.ts";
+import { getDefaultRedactPatterns, redactSensitiveText } from "../logging/redact.ts";
 import {
   classifyProviderRuntimeFailureKind,
   getApiErrorPayloadFingerprint,
   parseApiErrorInfo,
   type ProviderRuntimeFailureKind,
-} from "./embedded-agent-helpers.js";
-import { stableStringify } from "./stable-stringify.js";
+} from "./embedded-agent-helpers.ts";
+import { stableStringify } from "./stable-stringify.ts";
 
 const MAX_OBSERVATION_INPUT_CHARS = 64_000;
 const MAX_FINGERPRINT_MESSAGE_CHARS = 8_000;

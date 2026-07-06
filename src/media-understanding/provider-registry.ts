@@ -1,11 +1,11 @@
 // Media-understanding provider registry combines plugin capability providers,
 // config-derived image providers, and test/runtime overrides.
-import type { OpenClawConfig } from "../config/types.js";
-import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.js";
-import { resolveImageCapableConfigProviderIds } from "./config-provider-models.js";
-import { describeImageWithModel, describeImagesWithModel } from "./image-runtime.js";
-import { normalizeMediaProviderId } from "./provider-id.js";
-import type { MediaUnderstandingProvider } from "./types.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.ts";
+import { resolveImageCapableConfigProviderIds } from "./config-provider-models.ts";
+import { describeImageWithModel, describeImagesWithModel } from "./image-runtime.ts";
+import { normalizeMediaProviderId } from "./provider-id.ts";
+import type { MediaUnderstandingProvider } from "./types.ts";
 
 function mergeProviderIntoRegistry(
   registry: Map<string, MediaUnderstandingProvider>,
@@ -46,7 +46,7 @@ function hydrateModelBackedMediaProvider(
   };
 }
 
-export { normalizeMediaExecutionProviderId, normalizeMediaProviderId } from "./provider-id.js";
+export { normalizeMediaExecutionProviderId, normalizeMediaProviderId } from "./provider-id.ts";
 
 /** Builds the media-understanding provider registry from plugin capabilities and config providers. */
 export function buildMediaUnderstandingRegistry(

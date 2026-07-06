@@ -14,4 +14,4 @@ export {
   runEmbeddedAgent,
   resolveEmbeddedSessionLane,
   waitForEmbeddedAgentRunEnd,
-} from "./embedded-agent.js";
+} from "./embedded-agent.ts";

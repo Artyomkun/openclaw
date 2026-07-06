@@ -1,14 +1,14 @@
 // Implements channel-scoped tailing of the OpenClaw log file.
 import fs from "node:fs/promises";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { normalizeChannelId as normalizeBundledChannelId } from "../../channels/registry.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
-import { getResolvedLoggerSettings } from "../../logging.js";
-import { resolveLogFile } from "../../logging/log-tail.js";
-import { parseLogLine } from "../../logging/parse-log-line.js";
-import { listManifestChannelContributionIds } from "../../plugins/manifest-contribution-ids.js";
-import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { normalizeChannelId as normalizeBundledChannelId } from "../../channels/registry.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
+import { getResolvedLoggerSettings } from "../../logging.ts";
+import { resolveLogFile } from "../../logging/log-tail.ts";
+import { parseLogLine } from "../../logging/parse-log-line.ts";
+import { listManifestChannelContributionIds } from "../../plugins/manifest-contribution-ids.ts";
+import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
 
 export type ChannelsLogsOptions = {
   channel?: string;

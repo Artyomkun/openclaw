@@ -8,10 +8,10 @@ import {
   resolveSessionStoreTargets,
   type SessionStoreSelectionOptions,
   type SessionStoreTarget,
-} from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { RuntimeEnv } from "../runtime.js";
+} from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 export { resolveSessionStoreTargets };
 
 /** Resolves session store targets or exits the current command on validation errors. */

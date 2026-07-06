@@ -1,6 +1,6 @@
 // Shared root plugin-sdk surface.
 // Keep this entry intentionally tiny. Channel/provider helpers belong on
-// dedicated subpaths or, for legacy consumers, the compat surface.
+// dedicated subpaths or, the compat surface.
 
 export type {
   ChannelAccountSnapshot,
@@ -12,33 +12,33 @@ export type {
   ChannelMessageActionContext,
   ChannelMessageActionName,
   ChannelStatusIssue,
-} from "../channels/plugins/types.public.js";
-export type { ChannelGatewayContext } from "../channels/plugins/types.adapters.js";
-export type { ChannelConfigSchema, ChannelConfigUiHint } from "../channels/plugins/types.config.js";
-export type { ChannelSetupInput } from "../channels/plugins/types.public.js";
-export type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.js";
+} from "../channels/plugins/types.public.ts";
+export type { ChannelGatewayContext } from "../channels/plugins/types.adapters.ts";
+export type { ChannelConfigSchema, ChannelConfigUiHint } from "../channels/plugins/types.config.ts";
+export type { ChannelSetupInput } from "../channels/plugins/types.public.ts";
+export type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.ts";
 export type {
   ChannelConfiguredBindingConversationRef,
   ChannelConfiguredBindingMatch,
   ChannelConfiguredBindingProvider,
-} from "../channels/plugins/types.adapters.js";
-export type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
+} from "../channels/plugins/types.adapters.ts";
+export type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
 export type {
   ConfiguredBindingConversation,
   ConfiguredBindingResolution,
   CompiledConfiguredBinding,
   StatefulBindingTargetDescriptor,
-} from "../channels/plugins/binding-types.js";
+} from "../channels/plugins/binding-types.ts";
 export type {
   StatefulBindingTargetDriver,
   StatefulBindingTargetReadyResult,
   StatefulBindingTargetResetResult,
   StatefulBindingTargetSessionResult,
-} from "../channels/plugins/stateful-target-drivers.js";
+} from "../channels/plugins/stateful-target-drivers.ts";
 export type {
   ChannelSetupWizard,
   ChannelSetupWizardAllowFromEntry,
-} from "../channels/plugins/setup-wizard-types.js";
+} from "../channels/plugins/setup-wizard-types.ts";
 export type {
   AgentHarness,
   AnyAgentTool,
@@ -54,32 +54,32 @@ export type {
   SpeechProviderPlugin,
   UnifiedModelCatalogProviderContext,
   UnifiedModelCatalogProviderPlugin,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 export type {
   PluginHookChannelChatContext,
   PluginHookChannelContext,
   PluginHookChannelSenderContext,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 export type {
   UnifiedModelCatalogEntry,
   UnifiedModelCatalogKind,
   UnifiedModelCatalogSource,
 } from "@openclaw/model-catalog-core/model-catalog-types";
-export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
-export type { ResolvedProviderRuntimeAuth } from "../plugins/runtime/model-auth-types.js";
+export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
+export type { ResolvedProviderRuntimeAuth } from "../plugins/runtime/model-auth-types.ts";
 export type {
   PluginRuntime,
   RuntimeLogger,
   SubagentRunParams,
   SubagentRunResult,
-} from "../plugins/runtime/types.js";
+} from "../plugins/runtime/types.ts";
 export type {
   LlmCompleteCaller,
   LlmCompleteMessage,
   LlmCompleteParams,
   LlmCompleteResult,
   LlmCompleteUsage,
-} from "../plugins/runtime/types-core.js";
+} from "../plugins/runtime/types-core.ts";
 export type {
   BoundTaskFlowsRuntime,
   BoundTaskRunsRuntime,
@@ -87,7 +87,7 @@ export type {
   PluginRuntimeTaskFlows,
   PluginRuntimeTaskRuns,
   PluginRuntimeTasks,
-} from "../plugins/runtime/runtime-tasks.types.js";
+} from "../plugins/runtime/runtime-tasks.types.ts";
 export type {
   TaskFlowDetail,
   TaskFlowView,
@@ -95,31 +95,27 @@ export type {
   TaskRunCancelResult,
   TaskRunDetail,
   TaskRunView,
-} from "../plugins/runtime/task-domain-types.js";
-export type { OpenClawConfig } from "../config/config.js";
-/** @deprecated Use OpenClawConfig instead */
-export type { OpenClawConfig as ClawdbotConfig } from "../config/config.js";
-/** @deprecated Use OpenClawConfig instead */
-export type { OpenClawConfig as OpenClawSchemaType } from "../config/config.js";
+} from "../plugins/runtime/task-domain-types.ts";
+export type { OpenClawConfig } from "../config/config.ts";
 export type {
   MemoryPluginCapability,
   MemoryPluginPublicArtifact,
   MemoryPluginPublicArtifactsProvider,
-} from "../plugins/memory-state.js";
-export type { CliBackendConfig } from "../config/types.js";
-export type * from "./image-generation.js";
-export type * from "./music-generation.js";
-export type { SecretInput, SecretRef } from "../config/types.secrets.js";
-export type { RuntimeEnv } from "../runtime.js";
-export type { HookEntry } from "../hooks/types.js";
-export type { ReplyPayload } from "./reply-payload.js";
-export type { WizardPrompter } from "../wizard/prompts.js";
+} from "../plugins/memory-state.ts";
+export type { CliBackendConfig } from "../config/types.ts";
+export type * from "./image-generation.ts";
+export type * from "./music-generation.ts";
+export type { SecretInput, SecretRef } from "../config/types.secrets.ts";
+export type { RuntimeEnv } from "../runtime.ts";
+export type { HookEntry } from "../hooks/types.ts";
+export type { ReplyPayload } from "./reply-payload.ts";
+export type { WizardPrompter } from "../wizard/prompts.ts";
 export type {
   ContextEngineFactory,
   ContextEngineFactoryContext,
-} from "../context-engine/registry.js";
-export type { DiagnosticEventPayload } from "../infra/diagnostic-events.js";
-export type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.js";
+} from "../context-engine/registry.ts";
+export type { DiagnosticEventPayload } from "../infra/diagnostic-events.ts";
+export type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.ts";
 export type {
   AssembleResult,
   BootstrapResult,
@@ -142,18 +138,18 @@ export type {
   TranscriptRewriteReplacement,
   TranscriptRewriteRequest,
   TranscriptRewriteResult,
-} from "../context-engine/types.js";
+} from "../context-engine/types.ts";
 
-export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
-export { registerContextEngine } from "../context-engine/registry.js";
+export { emptyPluginConfigSchema } from "../plugins/config-schema.ts";
+export { registerContextEngine } from "../context-engine/registry.ts";
 export {
   ContextEngineRuntimeSettingsUnavailableError,
   ContextEngineRuntimeSettingsUnsupportedError,
-} from "../context-engine/types.js";
-export { assertContextEngineHostSupport } from "../context-engine/host-compat.js";
+} from "../context-engine/types.ts";
+export { assertContextEngineHostSupport } from "../context-engine/host-compat.ts";
 export {
   buildMemorySystemPromptAddition,
   delegateCompactionToRuntime,
-} from "../context-engine/delegate.js";
-export { onDiagnosticEvent } from "../infra/diagnostic-events.js";
-export { optionalStringEnum, stringEnum } from "../agents/schema/typebox.js";
+} from "../context-engine/delegate.ts";
+export { onDiagnosticEvent } from "../infra/diagnostic-events.ts";
+export { optionalStringEnum, stringEnum } from "../agents/schema/typebox.ts";

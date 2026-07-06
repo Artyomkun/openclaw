@@ -10,12 +10,12 @@ import {
   type GuardedFetchResult,
   withStrictGuardedFetchMode,
   withTrustedEnvProxyGuardedFetchMode,
-} from "../../infra/net/fetch-guard.js";
+} from "../../infra/net/fetch-guard.ts";
 import {
   ssrfPolicyFromHttpBaseUrlFakeIpHostnameAllowlist,
   type SsrFPolicy,
-} from "../../infra/net/ssrf.js";
-import { readPositiveIntegerParam } from "./common.js";
+} from "../../infra/net/ssrf.ts";
+import { readPositiveIntegerParam } from "./common.ts";
 
 const WEB_TOOLS_SELF_HOSTED_NETWORK_SSRF_POLICY: SsrFPolicy = {
   dangerouslyAllowPrivateNetwork: true,

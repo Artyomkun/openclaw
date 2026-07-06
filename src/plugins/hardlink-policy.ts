@@ -1,8 +1,8 @@
 /** Enforces plugin root hardlink policy with bundled and immutable Nix-store exceptions. */
 import path from "node:path";
-import { resolveIsNixMode } from "../config/paths.js";
-import { safeRealpathSync } from "./path-safety.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
+import { resolveIsNixMode } from "../config/paths.ts";
+import { safeRealpathSync } from "./path-safety.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
 
 const NIX_STORE_ROOT = "/nix/store";
 

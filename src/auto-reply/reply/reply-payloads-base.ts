@@ -1,15 +1,15 @@
 // Defines base reply payload helpers shared by delivery and dedupe logic.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ReplyToMode } from "../../config/types.js";
-import { hasReplyPayloadContent } from "../../interactive/payload.js";
-import { copyReplyPayloadMetadata, setReplyPayloadMetadata } from "../reply-payload.js";
-import type { OriginatingChannelType } from "../templating.js";
-import type { ReplyPayload, ReplyThreadingPolicy } from "../types.js";
-import { extractReplyToTag } from "./reply-tags.js";
+import type { ReplyToMode } from "../../config/types.ts";
+import { hasReplyPayloadContent } from "../../interactive/payload.ts";
+import { copyReplyPayloadMetadata, setReplyPayloadMetadata } from "../reply-payload.ts";
+import type { OriginatingChannelType } from "../templating.ts";
+import type { ReplyPayload, ReplyThreadingPolicy } from "../types.ts";
+import { extractReplyToTag } from "./reply-tags.ts";
 import {
   createReplyToModeFilterForChannel,
   resolveImplicitCurrentMessageReplyAllowance,
-} from "./reply-threading.js";
+} from "./reply-threading.ts";
 
 /** Adds the BTW question banner for channels that only accept plain text bodies. */
 export function formatBtwTextForExternalDelivery(payload: ReplyPayload): string | undefined {

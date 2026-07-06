@@ -3,29 +3,29 @@
 
 import { timestampMsToIsoString } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { formatLookupMiss } from "../cli/error-format.js";
-import { getRuntimeConfig } from "../config/config.js";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { formatLookupMiss } from "../cli/error-format.ts";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   resolveAllAgentSessionStoreTargetsSync,
   runSessionRegistryMaintenanceForStore,
-} from "../config/sessions.js";
-import { normalizeCronLaneSegment } from "../cron/service/task-runs.js";
-import { loadCronJobsStoreSync, resolveCronJobsStorePath } from "../cron/store.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { getTaskById, updateTaskNotifyPolicyById } from "../tasks/runtime-internal.js";
-import { cancelDetachedTaskRunById } from "../tasks/task-executor.js";
-import { listTaskFlowAuditFindings } from "../tasks/task-flow-registry.audit.js";
+} from "../config/sessions.ts";
+import { normalizeCronLaneSegment } from "../cron/service/task-runs.ts";
+import { loadCronJobsStoreSync, resolveCronJobsStorePath } from "../cron/store.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { getTaskById, updateTaskNotifyPolicyById } from "../tasks/runtime-internal.ts";
+import { cancelDetachedTaskRunById } from "../tasks/task-executor.ts";
+import { listTaskFlowAuditFindings } from "../tasks/task-flow-registry.audit.ts";
 import {
   getInspectableTaskFlowAuditSummary,
   previewTaskFlowRegistryMaintenance,
   runTaskFlowRegistryMaintenance,
-} from "../tasks/task-flow-registry.maintenance.js";
+} from "../tasks/task-flow-registry.maintenance.ts";
 import {
   listTaskAuditFindings,
   summarizeRetainedLostTaskAuditFindings,
-} from "../tasks/task-registry.audit.js";
+} from "../tasks/task-registry.audit.ts";
 import {
   getInspectableTaskAuditSummary,
   getInspectableTaskRegistrySummary,
@@ -33,20 +33,20 @@ import {
   getTaskRegistryMaintenanceDiagnostics,
   previewTaskRegistryMaintenance,
   runTaskRegistryMaintenance,
-} from "../tasks/task-registry.maintenance.js";
+} from "../tasks/task-registry.maintenance.ts";
 import {
   reconcileInspectableTasks,
   reconcileTaskLookupToken,
-} from "../tasks/task-registry.reconcile.js";
-import { summarizeTaskRecords } from "../tasks/task-registry.summary.js";
-import type { TaskNotifyPolicy, TaskRecord } from "../tasks/task-registry.types.js";
+} from "../tasks/task-registry.reconcile.ts";
+import { summarizeTaskRecords } from "../tasks/task-registry.summary.ts";
+import type { TaskNotifyPolicy, TaskRecord } from "../tasks/task-registry.types.ts";
 import {
   buildTaskSystemAuditJsonPayload,
   buildTaskSystemAuditFindings,
   type TaskSystemAuditCode,
   type TaskSystemAuditFinding,
   type TaskSystemAuditSeverity,
-} from "./tasks-audit-system.js";
+} from "./tasks-audit-system.ts";
 
 const RUNTIME_PAD = 8;
 const STATUS_PAD = 10;

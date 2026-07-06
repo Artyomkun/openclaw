@@ -1,15 +1,15 @@
 // Gateway event subscription wiring for agent, heartbeat, transcript, and lifecycle broadcasts.
-import { clearAgentRunContext, onAgentEvent } from "../infra/agent-events.js";
-import { onHeartbeatEvent } from "../infra/heartbeat-events.js";
-import { onSessionLifecycleEvent } from "../sessions/session-lifecycle-events.js";
-import { onInternalSessionTranscriptUpdate } from "../sessions/transcript-events.js";
-import type { ChatAbortControllerEntry, RestartRecoveryCandidate } from "./chat-abort.js";
+import { clearAgentRunContext, onAgentEvent } from "../infra/agent-events.ts";
+import { onHeartbeatEvent } from "../infra/heartbeat-events.ts";
+import { onSessionLifecycleEvent } from "../sessions/session-lifecycle-events.ts";
+import { onInternalSessionTranscriptUpdate } from "../sessions/transcript-events.ts";
+import type { ChatAbortControllerEntry, RestartRecoveryCandidate } from "./chat-abort.ts";
 import type {
   ChatRunState,
   SessionEventSubscriberRegistry,
   SessionMessageSubscriberRegistry,
   ToolEventRecipientRegistry,
-} from "./server-chat-state.js";
+} from "./server-chat-state.ts";
 
 /** Register gateway runtime event subscriptions and return unsubscribe handles. */
 export function startGatewayEventSubscriptions(params: {

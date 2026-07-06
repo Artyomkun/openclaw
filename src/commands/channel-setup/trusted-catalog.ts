@@ -3,18 +3,18 @@ import {
   getChannelPluginCatalogEntry,
   listRawChannelPluginCatalogEntries,
   type ChannelPluginCatalogEntry,
-} from "../../channels/plugins/catalog.js";
-import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../channels/plugins/catalog.ts";
+import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   normalizePluginsConfig,
   resolveEffectivePluginActivationState,
-} from "../../plugins/config-state.js";
+} from "../../plugins/config-state.ts";
 import {
   hasExplicitManifestOwnerTrust,
   resolveManifestOwnerBasePolicyBlock,
-} from "../../plugins/manifest-owner-policy.js";
-import type { PluginOrigin } from "../../plugins/plugin-origin.types.js";
+} from "../../plugins/manifest-owner-policy.ts";
+import type { PluginOrigin } from "../../plugins/plugin-origin.types.ts";
 
 const LOCAL_CHANNEL_PLUGIN_ORIGINS = ["workspace", "config", "global"] as const;
 

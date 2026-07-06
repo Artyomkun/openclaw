@@ -12,7 +12,7 @@ export const discordChannelConfigUiHints = {
   },
   "dm.policy": {
     label: "Discord DM Policy",
-    help: 'Direct message access control ("pairing" recommended). "open" requires channels.discord.allowFrom=["*"] (legacy: channels.discord.dm.allowFrom).',
+    help: 'Direct message access control ("pairing" recommended). "open" requires channels.discord.allowFrom=["*"].',
   },
   configWrites: {
     label: "Discord Config Writes",
@@ -48,7 +48,7 @@ export const discordChannelConfigUiHints = {
   },
   streaming: {
     label: "Discord Streaming Mode",
-    help: 'Unified Discord stream preview mode: "off" | "partial" | "block" | "progress". "progress" keeps a single editable progress draft until final delivery. Legacy boolean/streamMode keys are auto-mapped.',
+    help: 'Unified Discord stream preview mode: "off" | "partial" | "block" | "progress". "progress" keeps a single editable progress draft until final delivery.',
   },
   "streaming.mode": {
     label: "Discord Streaming Mode",

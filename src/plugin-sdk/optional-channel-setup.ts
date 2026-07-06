@@ -1,8 +1,8 @@
 // Optional channel setup helpers describe setup steps that plugins may expose to users.
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import type { ChannelSetupWizard } from "../channels/plugins/setup-wizard-types.js";
-import type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.js";
-import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import type { ChannelSetupWizard } from "../channels/plugins/setup-wizard-types.ts";
+import type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.ts";
+import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.ts";
 
 type OptionalChannelSetupParams = {
   /** Channel id used by setup wizard status and routing. */

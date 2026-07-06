@@ -1,17 +1,15 @@
 // Assistant visible text helpers strip hidden reasoning and control marker text.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { stripPlainTextToolCallBlocks } from "../../../packages/tool-call-repair/src/index.js";
-import { findCodeRegions, isInsideCode } from "./code-regions.js";
-import { stripModelSpecialTokens } from "./model-special-tokens.js";
+import { stripPlainTextToolCallBlocks } from "../../../packages/tool-call-repair/src/index.ts";
+import { findCodeRegions, isInsideCode } from "./code-regions.ts";
 import {
   stripReasoningTagsFromText,
   type ReasoningTagMode,
   type ReasoningTagTrim,
-} from "./reasoning-tags.js";
+} from "./reasoning-tags.ts";
 
 const MEMORY_TAG_RE = /<\s*(\/?)\s*relevant[-_]memories\b[^<>]*>/gi;
 const MEMORY_TAG_QUICK_RE = /<\s*\/?\s*relevant[-_]memories\b/i;
-const LEGACY_BRACKET_TOOL_BLOCK_QUICK_RE = /\[\s*\/?\s*TOOL_(?:CALL|RESULT)\s*\]/i;
 const INTERNAL_TRACE_LINE_QUICK_RE =
   /(?:📊|🛠️|📖|📝|🔍|🔎|⚙️|tool[-_ ]?call|tool[-_ ]?result|function[-_ ]?call)/i;
 const INTERNAL_TRACE_LINE_RE =
@@ -508,71 +506,6 @@ export function stripMinimaxToolCallXml(text: string): string {
   result += text.slice(cursor);
   return result;
 }
-
-function isLegacyBracketToolCallPayload(value: string): boolean {
-  return (
-    /\btool\s*=>\s*["'][A-Za-z_][A-Za-z0-9_.:-]{0,119}["']/i.test(value) &&
-    /\bargs\s*=>/i.test(value)
-  );
-}
-
-function isLegacyBracketToolResultPayload(value: string): boolean {
-  return (
-    /^\s*[{[]/.test(value) ||
-    /\b(?:tool|result|output|content)\s*=>/i.test(value) ||
-    /\b(?:tool|result|output|content)\s*:/i.test(value)
-  );
-}
-
-export function stripLegacyBracketToolCallBlocks(text: string): string {
-  if (!text || !LEGACY_BRACKET_TOOL_BLOCK_QUICK_RE.test(text)) {
-    return text;
-  }
-
-  const codeRegions = findCodeRegions(text);
-  let result = "";
-  let cursor = 0;
-  while (cursor < text.length) {
-    const openMatch = /\[\s*TOOL_(CALL|RESULT)\s*\]/gi.exec(text.slice(cursor));
-    if (!openMatch?.[0]) {
-      result += text.slice(cursor);
-      break;
-    }
-    const blockKind = openMatch[1]?.toUpperCase();
-    const openStart = cursor + (openMatch.index ?? 0);
-    const payloadStart = openStart + openMatch[0].length;
-    if (isInsideCode(openStart, codeRegions)) {
-      result += text.slice(cursor, payloadStart);
-      cursor = payloadStart;
-      continue;
-    }
-
-    const closeRe =
-      blockKind === "RESULT" ? /\[\s*\/\s*TOOL_RESULT\s*\]/gi : /\[\s*\/\s*TOOL_CALL\s*\]/gi;
-    const closeMatch = closeRe.exec(text.slice(payloadStart));
-    const closeStart =
-      closeMatch?.[0] && !isInsideCode(payloadStart + (closeMatch.index ?? 0), codeRegions)
-        ? payloadStart + (closeMatch.index ?? 0)
-        : -1;
-    const payloadEnd = closeStart >= 0 ? closeStart : text.length;
-    const payload = text.slice(payloadStart, payloadEnd);
-    const shouldStrip =
-      blockKind === "RESULT"
-        ? isLegacyBracketToolResultPayload(payload)
-        : isLegacyBracketToolCallPayload(payload);
-    if (!shouldStrip) {
-      result += text.slice(cursor, payloadStart);
-      cursor = payloadStart;
-      continue;
-    }
-
-    result += text.slice(cursor, openStart);
-    cursor = closeStart >= 0 ? closeStart + (closeMatch?.[0].length ?? 0) : text.length;
-  }
-
-  return result;
-}
-
 /**
  * Strip downgraded tool call text representations that leak into user-visible
  * text content when replaying history across providers.
@@ -879,7 +812,6 @@ function applyAssistantVisibleTextStagePipeline(
     if (!options.preserveMinimaxToolXml) {
       cleaned = stripMinimaxToolCallXml(cleaned);
     }
-    cleaned = stripModelSpecialTokens(cleaned);
     cleaned = stripRelevantMemoriesTags(cleaned);
     cleaned = stripToolCallXmlTags(cleaned, {
       stripFunctionCallsXmlPayloads: options.stripFunctionCallsXmlPayloads,
@@ -888,7 +820,6 @@ function applyAssistantVisibleTextStagePipeline(
     if (options.stripInternalTraceLines !== false) {
       cleaned = stripAssistantInternalTraceLines(cleaned);
     }
-    cleaned = stripLegacyBracketToolCallBlocks(cleaned);
     cleaned = stripPlainTextToolCallBlocks(cleaned);
     if (!options.preserveDowngradedToolText) {
       cleaned = stripDowngradedToolCallText(cleaned);

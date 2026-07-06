@@ -1,10 +1,10 @@
 /** Resolves the effective reply route from current context and persisted session route. */
-import { normalizeChatType, type ChatType } from "../../channels/chat-type.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.js";
-import type { InputProvenance } from "../../sessions/input-provenance.js";
-import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.js";
-import type { FinalizedMsgContext } from "../templating.js";
+import { normalizeChatType, type ChatType } from "../../channels/chat-type.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.ts";
+import type { InputProvenance } from "../../sessions/input-provenance.ts";
+import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.ts";
+import type { FinalizedMsgContext } from "../templating.ts";
 
 /** Current finalized context fields used for reply route resolution. */
 export type EffectiveReplyRouteContext = Pick<

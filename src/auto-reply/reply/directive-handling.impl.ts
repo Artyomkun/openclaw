@@ -1,30 +1,30 @@
 /** Applies directive-only command state changes without running the agent. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentDir, resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { renderExecTargetLabel } from "../../agents/bash-tools.exec-runtime.js";
-import { resolveExecDefaults } from "../../agents/exec-defaults.js";
+import { resolveAgentDir, resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { renderExecTargetLabel } from "../../agents/bash-tools.exec-runtime.ts";
+import { resolveExecDefaults } from "../../agents/exec-defaults.ts";
 import {
   formatFastModeCommandOptions,
   formatFastModeCurrentStatus,
   formatFastModeValue,
   resolveFastModeState,
-} from "../../agents/fast-mode.js";
-import { resolveSandboxRuntimeStatus } from "../../agents/sandbox.js";
-import { replaceSessionEntry } from "../../config/sessions/session-accessor.js";
-import { triggerSessionPatchHook } from "../../gateway/session-patch-hooks.js";
-import { enqueueSystemEvent } from "../../infra/system-events.js";
-import { applyTraceOverride, applyVerboseOverride } from "../../sessions/level-overrides.js";
-import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.js";
+} from "../../agents/fast-mode.ts";
+import { resolveSandboxRuntimeStatus } from "../../agents/sandbox.ts";
+import { replaceSessionEntry } from "../../config/sessions/session-accessor.ts";
+import { triggerSessionPatchHook } from "../../gateway/session-patch-hooks.ts";
+import { enqueueSystemEvent } from "../../infra/system-events.ts";
+import { applyTraceOverride, applyVerboseOverride } from "../../sessions/level-overrides.ts";
+import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.ts";
 import {
   formatThinkingLevels,
   isThinkingLevelSupported,
   resolveSupportedThinkingLevel,
-} from "../thinking.js";
-import type { ReplyPayload } from "../types.js";
-import { resolveModelSelectionFromDirective } from "./directive-handling.model-selection.js";
-import { maybeHandleModelDirectiveInfo } from "./directive-handling.model.js";
-import type { HandleDirectiveOnlyParams } from "./directive-handling.params.js";
-import { maybeHandleQueueDirective } from "./directive-handling.queue-validation.js";
+} from "../thinking.ts";
+import type { ReplyPayload } from "../types.ts";
+import { resolveModelSelectionFromDirective } from "./directive-handling.model-selection.ts";
+import { maybeHandleModelDirectiveInfo } from "./directive-handling.model.ts";
+import type { HandleDirectiveOnlyParams } from "./directive-handling.params.ts";
+import { maybeHandleQueueDirective } from "./directive-handling.queue-validation.ts";
 import {
   canPersistSessionDirectiveDefaults,
   formatDirectiveAck,
@@ -35,10 +35,10 @@ import {
   formatInternalVerbosePersistenceDeniedText,
   enqueueModeSwitchEvents,
   withOptions,
-} from "./directive-handling.shared.js";
-import type { ElevatedLevel, ReasoningLevel, ThinkLevel } from "./directives.js";
-import { refreshQueuedFollowupSession } from "./queue.js";
-import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.js";
+} from "./directive-handling.shared.ts";
+import type { ElevatedLevel, ReasoningLevel, ThinkLevel } from "./directives.ts";
+import { refreshQueuedFollowupSession } from "./queue.ts";
+import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.ts";
 
 /** Handles inline directives that can be acknowledged without a model turn. */
 export async function handleDirectiveOnly(

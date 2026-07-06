@@ -1,14 +1,14 @@
 // Lists available agents for subagent spawn and focus commands.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { subagentRuns } from "../../../agents/subagent-registry-memory.js";
-import { countPendingDescendantRunsFromRuns } from "../../../agents/subagent-registry-queries.js";
-import { getSubagentRunsSnapshotForRead } from "../../../agents/subagent-registry-state.js";
-import { getChannelPlugin, normalizeChannelId } from "../../../channels/plugins/index.js";
-import { getSessionBindingService } from "../../../infra/outbound/session-binding-service.js";
-import { resolveChannelAccountId, resolveCommandSurfaceChannel } from "../channel-context.js";
-import type { CommandHandlerResult } from "../commands-types.js";
-import { formatRunLabel, sortSubagentRuns } from "../subagents-utils.js";
-import { RECENT_WINDOW_MINUTES, type SubagentsCommandContext, stopWithText } from "./shared.js";
+import { subagentRuns } from "../../../agents/subagent-registry-memory.ts";
+import { countPendingDescendantRunsFromRuns } from "../../../agents/subagent-registry-queries.ts";
+import { getSubagentRunsSnapshotForRead } from "../../../agents/subagent-registry-state.ts";
+import { getChannelPlugin, normalizeChannelId } from "../../../channels/plugins/index.ts";
+import { getSessionBindingService } from "../../../infra/outbound/session-binding-service.ts";
+import { resolveChannelAccountId, resolveCommandSurfaceChannel } from "../channel-context.ts";
+import type { CommandHandlerResult } from "../commands-types.ts";
+import { formatRunLabel, sortSubagentRuns } from "../subagents-utils.ts";
+import { RECENT_WINDOW_MINUTES, type SubagentsCommandContext, stopWithText } from "./shared.ts";
 
 function formatConversationBindingText(params: { conversationId: string }): string {
   return `binding:${params.conversationId}`;

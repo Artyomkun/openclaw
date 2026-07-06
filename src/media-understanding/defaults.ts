@@ -2,15 +2,15 @@
 // metadata, and capability declarations.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveRuntimeConfigCacheKey } from "../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { providerSupportsCapability } from "../../packages/media-understanding-common/src/provider-supports.js";
-import { buildMediaUnderstandingManifestMetadataRegistry } from "./manifest-metadata.js";
+import { resolveRuntimeConfigCacheKey } from "../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { providerSupportsCapability } from "../../packages/media-understanding-common/src/provider-supports.ts";
+import { buildMediaUnderstandingManifestMetadataRegistry } from "./manifest-metadata.ts";
 import {
   normalizeMediaExecutionProviderId,
   normalizeMediaProviderId,
-} from "./provider-registry.js";
-import type { MediaUnderstandingCapability, MediaUnderstandingProvider } from "./types.js";
+} from "./provider-registry.ts";
+import type { MediaUnderstandingCapability, MediaUnderstandingProvider } from "./types.ts";
 export {
   CLI_OUTPUT_MAX_BUFFER,
   DEFAULT_MAX_BYTES,
@@ -21,7 +21,7 @@ export {
   DEFAULT_TIMEOUT_SECONDS,
   DEFAULT_VIDEO_MAX_BASE64_BYTES,
   MIN_AUDIO_FILE_BYTES,
-} from "./defaults.constants.js";
+} from "./defaults.constants.ts";
 
 let defaultRegistryCache: Map<string, MediaUnderstandingProvider> | null = null;
 const configRegistryCache = new Map<string, Map<string, MediaUnderstandingProvider>>();

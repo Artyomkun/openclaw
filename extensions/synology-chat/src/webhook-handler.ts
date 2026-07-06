@@ -524,16 +524,6 @@ async function resolveSynologyReplyDeliveryUserId(params: {
   if (!params.account.dangerouslyAllowNameMatching) {
     return params.payload.user_id;
   }
-
-  const resolvedChatApiUserId = await synologyClient.resolveLegacyWebhookNameToChatUserId({
-    incomingUrl: params.account.incomingUrl,
-    mutableWebhookUsername: params.payload.username,
-    allowInsecureSsl: params.account.allowInsecureSsl,
-    log: params.log,
-  });
-  if (resolvedChatApiUserId !== undefined) {
-    return String(resolvedChatApiUserId);
-  }
   params.log?.warn(
     `Could not resolve Chat API user_id for "${params.payload.username}" — falling back to webhook user_id ${params.payload.user_id}. Reply delivery may fail.`,
   );

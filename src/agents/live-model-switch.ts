@@ -3,14 +3,14 @@
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import { loadSessionEntry, patchSessionEntry } from "../config/sessions/session-accessor.js";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import { loadSessionEntry, patchSessionEntry } from "../config/sessions/session-accessor.ts";
 import {
   normalizeStoredOverrideModel,
   resolveDefaultModelForAgent,
   resolvePersistedSelectedModelRef,
-} from "./model-selection.js";
-export { LiveSessionModelSwitchError } from "./live-model-switch-error.js";
+} from "./model-selection.ts";
+export { LiveSessionModelSwitchError } from "./live-model-switch-error.ts";
 export type LiveSessionModelSelection = {
   provider: string;
   model: string;

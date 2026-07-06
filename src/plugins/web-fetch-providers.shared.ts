@@ -1,11 +1,11 @@
 // Shares web fetch provider loading helpers across provider plugins.
-import type { PluginLoadOptions } from "./loader.js";
-import type { PluginWebFetchProviderEntry } from "./types.js";
+import type { PluginLoadOptions } from "./loader.ts";
+import type { PluginWebFetchProviderEntry } from "./types.ts";
 import {
   resolveBundledWebProviderResolutionConfig,
   sortPluginProviders,
   sortPluginProvidersForAutoDetect,
-} from "./web-provider-resolution-shared.js";
+} from "./web-provider-resolution-shared.ts";
 
 export function sortWebFetchProviders(
   providers: PluginWebFetchProviderEntry[],

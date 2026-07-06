@@ -1,8 +1,8 @@
 /**
  * Normalizes resolved provider/model ids on model records.
  */
-import type { Model } from "../../llm/types.js";
-import { normalizeModelCompat } from "../../plugins/provider-model-compat.js";
+import type { Model } from "../../llm/types.ts";
+import { normalizeModelCompat } from "../../plugins/provider-model-compat.ts";
 
 /**
  * Applies provider compatibility normalization to a resolved model record.

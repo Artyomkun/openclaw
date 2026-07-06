@@ -5,5 +5,5 @@ export {
   resolveMediaBufferPath,
   saveMediaBuffer,
   saveMediaStream,
-} from "../media/store.js";
-export type { SavedMedia } from "../media/store.js";
+} from "../media/store.ts";
+export type { SavedMedia } from "../media/store.ts";

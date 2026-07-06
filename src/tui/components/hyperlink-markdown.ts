@@ -1,7 +1,7 @@
 // Hyperlink markdown helpers render markdown links with TUI hyperlink styling.
 import type { Component, DefaultTextStyle, MarkdownTheme } from "@earendil-works/pi-tui";
 import { Markdown } from "@earendil-works/pi-tui";
-import { addOsc8Hyperlinks, extractUrls } from "../osc8-hyperlinks.js";
+import { addOsc8Hyperlinks, extractUrls } from "../osc8-hyperlinks.ts";
 
 /**
  * Wrapper around pi-tui's Markdown component that adds OSC 8 terminal

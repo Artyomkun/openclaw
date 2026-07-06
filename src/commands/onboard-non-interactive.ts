@@ -4,17 +4,17 @@
  * This module validates the existing config snapshot, routes local/remote
  * setup, and handles explicit migration imports without interactive prompts.
  */
-import { formatCliCommand } from "../cli/command-format.js";
-import { replaceConfigFile } from "../config/config.js";
-import { readConfigFileSnapshot } from "../config/io.js";
-import { logConfigUpdated } from "../config/logging.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { createNonInteractiveLoggingPrompter } from "./non-interactive-prompter.js";
-import { runNonInteractiveLocalSetup } from "./onboard-non-interactive/local.js";
-import { runNonInteractiveRemoteSetup } from "./onboard-non-interactive/remote.js";
-import type { OnboardOptions } from "./onboard-types.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { replaceConfigFile } from "../config/config.ts";
+import { readConfigFileSnapshot } from "../config/io.ts";
+import { logConfigUpdated } from "../config/logging.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { createNonInteractiveLoggingPrompter } from "./non-interactive-prompter.ts";
+import { runNonInteractiveLocalSetup } from "./onboard-non-interactive/local.ts";
+import { runNonInteractiveRemoteSetup } from "./onboard-non-interactive/remote.ts";
+import type { OnboardOptions } from "./onboard-types.ts";
 
 /** Runs a setup migration import with non-interactive prompt failures. */
 async function runNonInteractiveMigrationImport(params: {
@@ -93,7 +93,7 @@ export async function runNonInteractiveSetup(
 
   if (opts.importFrom || opts.importSource || opts.importSecrets || opts.flow === "import") {
     // Import flow owns its own commit path because migrations may intentionally
-    // shrink legacy config after extracting credentials.
+    // shrink older config after extracting credentials.
     await runNonInteractiveMigrationImport({ opts, runtime, baseConfig, baseHash: snapshot.hash });
     return;
   }

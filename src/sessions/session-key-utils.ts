@@ -48,7 +48,7 @@ type CasePreservingPeerDescriptor = {
   channel: string;
   peerKinds: ReadonlySet<string>;
   span: "segment" | "tail";
-  /** Preserve even without the `agent:<id>:` structural head (legacy Signal). */
+  /** Preserve even without the `agent:<id>:` structural head. */
   unscoped: boolean;
 };
 
@@ -173,7 +173,7 @@ function collectCasePreservedSpans(raw: string): PreservedSpan[] {
           const matched = match[0] ?? "";
           const segment = match[2] ?? "";
           const segStart = (match.index ?? 0) + matched.length - segment.length;
-          // Segment spans match the legacy `peerId.trim()` behavior exactly.
+          // Segment spans match the older `peerId.trim()` behavior exactly.
           spans.push({ start: segStart, end: segStart + segment.length, trim: true });
         }
       } else {

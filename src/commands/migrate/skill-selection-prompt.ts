@@ -16,7 +16,7 @@ import {
   reconcileInteractiveMigrationEnterValues,
   reconcileInteractiveMigrationShortcutValues,
   reconcileInteractiveMigrationSkillToggleValues,
-} from "./selection.js";
+} from "./selection.ts";
 
 type MigrationSkillSelectionOption = {
   value: string;

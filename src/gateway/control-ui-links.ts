@@ -2,9 +2,9 @@
 import {
   inspectBestEffortPrimaryTailnetIPv4,
   pickBestEffortPrimaryLanIPv4,
-} from "../infra/network-discovery-display.js";
-import { normalizeControlUiBasePath } from "./control-ui-shared.js";
-import { isValidIPv4 } from "./net.js";
+} from "../infra/network-discovery-display.ts";
+import { normalizeControlUiBasePath } from "./control-ui-shared.ts";
+import { isValidIPv4 } from "./net.ts";
 
 /** Resolve the advertised HTTP and websocket URLs for the Control UI. */
 export function resolveControlUiLinks(params: {

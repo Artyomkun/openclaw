@@ -2,20 +2,20 @@
 // so outbound-only messages can be mirrored into conversation state.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { MsgContext } from "../../auto-reply/templating.js";
-import type { ChatType } from "../../channels/chat-type.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
+import type { MsgContext } from "../../auto-reply/templating.ts";
+import type { ChatType } from "../../channels/chat-type.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
 import {
   recordSessionMetaFromInbound,
   resolveStorePath,
-} from "../../config/sessions/inbound.runtime.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RoutePeer } from "../../routing/resolve-route.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { buildOutboundBaseSessionKey } from "./base-session-key.js";
-import type { ResolvedMessagingTarget } from "./target-resolver.js";
+} from "../../config/sessions/inbound.runtime.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RoutePeer } from "../../routing/resolve-route.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { buildOutboundBaseSessionKey } from "./base-session-key.ts";
+import type { ResolvedMessagingTarget } from "./target-resolver.ts";
 
 /** Session route produced for an outbound message target. */
 export type OutboundSessionRoute = {
@@ -85,20 +85,6 @@ function inferPeerKindFromPlugin(params: {
   return undefined;
 }
 
-function inferPeerKindFromLegacyParser(params: {
-  plugin: ReturnType<typeof resolveOutboundChannelPlugin>;
-  targets: readonly string[];
-}): ChatType | undefined {
-  for (const target of params.targets) {
-    const parsed = params.plugin?.messaging?.parseExplicitTarget?.({ raw: target });
-    const inferred = normalizeInferredPeerKind(parsed?.chatType);
-    if (inferred) {
-      return inferred;
-    }
-  }
-  return undefined;
-}
-
 function inferPeerKindFromFallbackPrefixes(targets: readonly string[]): ChatType | undefined {
   for (const target of targets) {
     for (const fallback of FALLBACK_TARGET_KIND_PREFIXES) {
@@ -138,7 +124,6 @@ function inferPeerKind(params: {
   const targets = uniqueStrings([params.target, strippedTarget].filter(Boolean));
   return (
     inferPeerKindFromPlugin({ plugin, targets }) ??
-    inferPeerKindFromLegacyParser({ plugin, targets }) ??
     inferPeerKindFromFallbackPrefixes(targets) ??
     "direct"
   );

@@ -1,19 +1,19 @@
 // Commander wiring for `openclaw update`, its status/finalize subcommands, and help text.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { defaultRuntime } from "../runtime.js";
-import { inheritOptionFromParent } from "./command-options.js";
-import { formatHelpExamples } from "./help-format.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { inheritOptionFromParent } from "./command-options.ts";
+import { formatHelpExamples } from "./help-format.ts";
 import type {
   UpdateCommandOptions,
   UpdateFinalizeOptions,
   UpdateStatusOptions,
   UpdateWizardOptions,
-} from "./update-cli/shared.js";
-import { updateStatusCommand } from "./update-cli/status.js";
-import { updateCommand, updateFinalizeCommand } from "./update-cli/update-command.js";
-import { updateWizardCommand } from "./update-cli/wizard.js";
+} from "./update-cli/shared.ts";
+import { updateStatusCommand } from "./update-cli/status.ts";
+import { updateCommand, updateFinalizeCommand } from "./update-cli/update-command.ts";
+import { updateWizardCommand } from "./update-cli/wizard.ts";
 
 export { updateCommand, updateFinalizeCommand, updateStatusCommand, updateWizardCommand };
 export type {

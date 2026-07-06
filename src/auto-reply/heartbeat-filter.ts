@@ -2,14 +2,14 @@
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString as readString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { HEARTBEAT_RESPONSE_TOOL_NAME } from "./heartbeat-tool-response.js";
+import { HEARTBEAT_RESPONSE_TOOL_NAME } from "./heartbeat-tool-response.ts";
 import {
   HEARTBEAT_RESPONSE_TOOL_PROMPT,
   HEARTBEAT_TRANSCRIPT_PROMPT,
   resolveHeartbeatPromptForResponseTool,
   stripHeartbeatToken,
-} from "./heartbeat.js";
-import { MESSAGE_TOOL_DELIVERY_HINTS } from "./reply/delivery-hints.js";
+} from "./heartbeat.ts";
+import { MESSAGE_TOOL_DELIVERY_HINTS } from "./reply/delivery-hints.ts";
 
 const HEARTBEAT_TASK_PROMPT_PREFIX =
   "Run the following periodic tasks (only those due based on their intervals):";

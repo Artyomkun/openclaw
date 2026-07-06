@@ -1,8 +1,8 @@
 // Storage-neutral session maintenance operations for the file-backed session store.
 import path from "node:path";
-import { enforceSessionDiskBudget, type SessionDiskBudgetSweepResult } from "./disk-budget.js";
-import { collectSessionMaintenancePreserveKeys } from "./store-maintenance-preserve.js";
-import { resolveMaintenanceConfig } from "./store-maintenance-runtime.js";
+import { enforceSessionDiskBudget, type SessionDiskBudgetSweepResult } from "./disk-budget.ts";
+import { collectSessionMaintenancePreserveKeys } from "./store-maintenance-preserve.ts";
+import { resolveMaintenanceConfig } from "./store-maintenance-runtime.ts";
 import {
   capEntryCount,
   getActiveSessionMaintenanceWarning,
@@ -12,8 +12,8 @@ import {
   shouldRunSessionEntryMaintenance,
   type ResolvedSessionMaintenanceConfig,
   type SessionMaintenanceWarning,
-} from "./store-maintenance.js";
-import type { SessionEntry } from "./types.js";
+} from "./store-maintenance.ts";
+import type { SessionEntry } from "./types.ts";
 
 export type SessionMaintenanceApplyReport = {
   mode: ResolvedSessionMaintenanceConfig["mode"];

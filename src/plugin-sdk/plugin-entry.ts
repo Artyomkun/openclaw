@@ -1,7 +1,7 @@
 // Plugin entry contracts define the manifest-facing hooks implemented by plugin packages.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { emptyPluginConfigSchema } from "../plugins/config-schema.js";
-import { createCachedLazyValueGetter } from "./lazy-value.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { emptyPluginConfigSchema } from "../plugins/config-schema.ts";
+import { createCachedLazyValueGetter } from "./lazy-value.ts";
 
 export type AnyAgentTool = import("../plugins/types.js").AnyAgentTool;
 export type AgentHarness = import("../plugins/types.js").AgentHarness;
@@ -195,13 +195,13 @@ export type {
   PluginConversationBindingResolvedEvent,
   PluginConversationBindingRequestParams,
   PluginConversationBindingRequestResult,
-} from "../plugins/conversation-binding.types.js";
+} from "../plugins/conversation-binding.types.ts";
 export type {
   PluginHookInboundClaimContext,
   PluginHookInboundClaimEvent,
   PluginHookInboundClaimResult,
-} from "../plugins/hook-types.js";
-export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
+} from "../plugins/hook-types.ts";
+export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
 export type {
   UnifiedModelCatalogEntry,
   UnifiedModelCatalogKind,
@@ -213,19 +213,13 @@ export {
   buildJsonPluginConfigSchema,
   buildPluginConfigSchema,
   emptyPluginConfigSchema,
-} from "../plugins/config-schema.js";
+} from "../plugins/config-schema.ts";
 
 /** Options for a plugin entry that registers providers, tools, commands, or services. */
 type DefinePluginEntryOptions = {
   id: string;
   name: string;
   description: string;
-  /**
-   * @deprecated Declare exclusive plugin kind in `openclaw.plugin.json` via
-   * manifest `kind`. Runtime-entry `kind` remains only as a compatibility
-   * fallback for older plugins.
-   */
-  kind?: OpenClawPluginDefinition["kind"];
   configSchema?: OpenClawPluginConfigSchema | (() => OpenClawPluginConfigSchema);
   reload?: OpenClawPluginDefinition["reload"];
   nodeHostCommands?: OpenClawPluginDefinition["nodeHostCommands"];

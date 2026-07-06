@@ -1,18 +1,18 @@
 // Local embedded Gateway request context.
 // Lets local agent paths reuse Gateway server methods without starting a server.
-import { loadManifestModelCatalog } from "../agents/model-catalog.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { CronServiceContract } from "../cron/service-contract.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { loadManifestModelCatalog } from "../agents/model-catalog.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { CronServiceContract } from "../cron/service-contract.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   getPluginRuntimeGatewayRequestScope,
   withPluginRuntimeGatewayRequestScope,
-} from "../plugins/runtime/gateway-request-scope.js";
-import { NodeRegistry } from "./node-registry.js";
-import type { ChannelRuntimeSnapshot } from "./server-channel-runtime.types.js";
-import { createChatRunEntry, type ChatRunEntry } from "./server-chat-state.js";
-import type { GatewayRequestContext } from "./server-methods/types.js";
+} from "../plugins/runtime/gateway-request-scope.ts";
+import { NodeRegistry } from "./node-registry.ts";
+import type { ChannelRuntimeSnapshot } from "./server-channel-runtime.types.ts";
+import { createChatRunEntry, type ChatRunEntry } from "./server-chat-state.ts";
+import type { GatewayRequestContext } from "./server-methods/types.ts";
 
 // Embedded/local agent calls need enough GatewayRequestContext to reuse server
 // methods without starting the full gateway. Unsupported subsystems fail loudly

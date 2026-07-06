@@ -9,8 +9,8 @@ import { statSync } from "node:fs";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import { killProcessTree } from "../process/kill-tree.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { killProcessTree } from "../process/kill-tree.ts";
 
 const SNAPSHOT_VERSION = 1;
 const SNAPSHOT_REFRESH_MS = 5 * 60 * 1000;
@@ -24,7 +24,6 @@ const SNAPSHOT_DISABLE_VALUES = new Set(["0", "false", "no", "off"]);
 const SAFE_ENV_NAMES = new Set([
   "ASDF_DIR",
   "BUN_INSTALL",
-  "CARGO_HOME",
   "CDPATH",
   "GOPATH",
   "GOROOT",

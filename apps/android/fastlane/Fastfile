@@ -44,7 +44,7 @@ def repo_root
 end
 
 def android_release_signing_script
-  File.join(repo_root, "scripts", "android-release-signing.mjs")
+  File.join(repo_root, "scripts", "android-release-signing.ts")
 end
 
 def android_release_signing_materialized_properties_path

@@ -7,12 +7,12 @@ import {
   buildConfiguredAcpSessionKey,
   normalizeBindingConfig,
   type ConfiguredAcpBindingChannel,
-} from "../../acp/persistent-bindings.types.js";
-import { resolveConfiguredBindingRecord } from "../../channels/plugins/binding-registry.js";
-import { listAcpBindings } from "../../config/bindings.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
-import { DEFAULT_ACCOUNT_ID, isAcpSessionKey } from "../../routing/session-key.js";
+} from "../../acp/persistent-bindings.types.ts";
+import { resolveConfiguredBindingRecord } from "../../channels/plugins/binding-registry.ts";
+import { listAcpBindings } from "../../config/bindings.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getSessionBindingService } from "../../infra/outbound/session-binding-service.ts";
+import { DEFAULT_ACCOUNT_ID, isAcpSessionKey } from "../../routing/session-key.ts";
 
 const acpResetTargetDeps = {
   getSessionBindingService,

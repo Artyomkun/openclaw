@@ -1,24 +1,24 @@
 // Core command registry that lazily imports command groups based on parsed argv.
 import type { Command } from "commander";
-import { resolveCliArgvInvocation } from "../argv-invocation.js";
-import { shouldRegisterPrimaryCommandOnly } from "../command-registration-policy.js";
+import { resolveCliArgvInvocation } from "../argv-invocation.ts";
+import { shouldRegisterPrimaryCommandOnly } from "../command-registration-policy.ts";
 import {
   buildCommandGroupEntries,
   defineImportedCommandGroupSpec,
   defineImportedProgramCommandGroupSpecs,
   type CommandGroupDescriptorSpec,
-} from "./command-group-descriptors.js";
-import type { ProgramContext } from "./context.js";
+} from "./command-group-descriptors.ts";
+import type { ProgramContext } from "./context.ts";
 import {
   getCoreCliCommandDescriptors,
   getCoreCliCommandNames as getCoreDescriptorNames,
   getCoreCliCommandsWithSubcommands,
-} from "./core-command-descriptors.js";
+} from "./core-command-descriptors.ts";
 import {
   registerCommandGroupByName,
   registerCommandGroups,
   type CommandGroupEntry,
-} from "./register-command-groups.js";
+} from "./register-command-groups.ts";
 
 export { getCoreCliCommandDescriptors, getCoreCliCommandsWithSubcommands };
 

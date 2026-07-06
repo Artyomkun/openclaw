@@ -1,8 +1,8 @@
 // Plugin install planning helpers for bundled, official external, and npm fallback paths.
-import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
-import type { BundledPluginSource } from "../plugins/bundled-sources.js";
-import { PLUGIN_INSTALL_ERROR_CODE } from "../plugins/install.js";
-import { shortenHomePath } from "../utils.js";
+import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
+import type { BundledPluginSource } from "../plugins/bundled-sources.ts";
+import { PLUGIN_INSTALL_ERROR_CODE } from "../plugins/install.ts";
+import { shortenHomePath } from "../utils.ts";
 
 type BundledLookup = (params: {
   kind: "pluginId" | "npmSpec";

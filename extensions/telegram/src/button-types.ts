@@ -1,11 +1,9 @@
 // Telegram plugin module implements button types behavior.
 import { parseExecApprovalCommandText } from "openclaw/plugin-sdk/approval-reply-runtime";
-import { reduceInteractiveReply } from "openclaw/plugin-sdk/interactive-runtime";
 import {
   isMessagePresentationInteractiveBlock,
   normalizeMessagePresentation,
   normalizeInteractiveReply,
-  type InteractiveReply,
   type MessagePresentation,
   type MessagePresentationButton,
 } from "openclaw/plugin-sdk/interactive-runtime";
@@ -97,35 +95,6 @@ function chunkInteractiveButtons(
   }
 }
 
-/**
- * @deprecated Use buildTelegramPresentationButtons with MessagePresentation.
- */
-export function buildTelegramInteractiveButtons(
-  interactive?: InteractiveReply,
-): TelegramInlineButtons | undefined {
-  const rows = reduceInteractiveReply(
-    interactive,
-    [] as TelegramInlineButton[][],
-    (state, block) => {
-      if (block.type === "buttons") {
-        chunkInteractiveButtons(block.buttons, state);
-        return state;
-      }
-      if (block.type === "select") {
-        chunkInteractiveButtons(
-          block.options.map((option) => ({
-            label: option.label,
-            value: option.value,
-          })),
-          state,
-        );
-      }
-      return state;
-    },
-  );
-  return rows.length > 0 ? rows : undefined;
-}
-
 /** Convert portable presentation controls to Telegram inline keyboard rows. */
 export function buildTelegramPresentationButtons(
   presentation?: MessagePresentation,
@@ -151,15 +120,13 @@ export function buildTelegramPresentationButtons(
   return rows.length > 0 ? rows : undefined;
 }
 
-/** Resolve Telegram inline buttons, preserving explicit and legacy button precedence. */
+/** Resolve Telegram inline buttons, preserving explicit. */
 export function resolveTelegramInlineButtons(params: {
   buttons?: TelegramInlineButtons;
   presentation?: unknown;
   interactive?: unknown;
 }): TelegramInlineButtons | undefined {
   return (
-    params.buttons ??
-    buildTelegramInteractiveButtons(normalizeInteractiveReply(params.interactive)) ??
-    buildTelegramPresentationButtons(normalizeMessagePresentation(params.presentation))
+    params.buttons ?? buildTelegramPresentationButtons(normalizeMessagePresentation(params.presentation))
   );
 }

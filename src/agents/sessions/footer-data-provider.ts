@@ -13,7 +13,7 @@ import {
   watchFile,
 } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { closeWatcher, FS_WATCH_RETRY_DELAY_MS, watchWithErrorHandler } from "../utils/fs-watch.js";
+import { closeWatcher, FS_WATCH_RETRY_DELAY_MS, watchWithErrorHandler } from "../utils/fs-watch.ts";
 
 type GitPaths = {
   repoDir: string;

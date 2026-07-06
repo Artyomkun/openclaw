@@ -1,15 +1,15 @@
 // Compiles plugin manifest schemas for validation without runtime loading.
 import { Compile, type Validator as TypeBoxValidator } from "typebox/compile";
 import { Format } from "typebox/format";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { appendAllowedValuesHint, summarizeAllowedValues } from "../config/allowed-values.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { appendAllowedValuesHint, summarizeAllowedValues } from "../config/allowed-values.ts";
 import {
   applyJsonSchemaDefaults,
   findJsonSchemaShapeError,
   normalizeJsonSchemaForTypeBox,
-} from "../shared/json-schema-defaults.js";
-import type { JsonSchemaObject } from "../shared/json-schema.types.js";
-import { PluginLruCache } from "./plugin-cache-primitives.js";
+} from "../shared/json-schema-defaults.ts";
+import type { JsonSchemaObject } from "../shared/json-schema.types.ts";
+import { PluginLruCache } from "./plugin-cache-primitives.ts";
 
 type TypeBoxValidationError = {
   keyword?: string;

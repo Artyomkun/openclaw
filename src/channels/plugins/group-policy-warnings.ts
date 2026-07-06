@@ -7,9 +7,9 @@ import {
   resolveAllowlistProviderRuntimeGroupPolicy,
   resolveDefaultGroupPolicy,
   resolveOpenProviderRuntimeGroupPolicy,
-} from "../../config/runtime-group-policy.js";
-import type { GroupPolicy } from "../../config/types.base.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/runtime-group-policy.ts";
+import type { GroupPolicy } from "../../config/types.base.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
 type GroupPolicyWarningCollector = (groupPolicy: GroupPolicy) => string[];
 type AccountGroupPolicyWarningCollector<ResolvedAccount> = (params: {

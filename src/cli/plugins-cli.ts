@@ -1,11 +1,11 @@
 // Commander registration for plugin list/search/inspect/install/update/authoring commands.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import type { PluginInspectOptions } from "./plugins-inspect-command.js";
-import type { PluginsListOptions } from "./plugins-list-command.js";
-import { parseStrictPositiveIntOption } from "./program/helpers.js";
-import { applyParentDefaultHelpAction } from "./program/parent-default-help.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import type { PluginInspectOptions } from "./plugins-inspect-command.ts";
+import type { PluginsListOptions } from "./plugins-list-command.ts";
+import { parseStrictPositiveIntOption } from "./program/helpers.ts";
+import { applyParentDefaultHelpAction } from "./program/parent-default-help.ts";
 
 export type PluginUpdateOptions = {
   all?: boolean;
@@ -47,8 +47,6 @@ export type PluginSearchOptions = {
 
 export type PluginUninstallOptions = {
   keepFiles?: boolean;
-  /** @deprecated Use keepFiles. */
-  keepConfig?: boolean;
   force?: boolean;
   dryRun?: boolean;
 };

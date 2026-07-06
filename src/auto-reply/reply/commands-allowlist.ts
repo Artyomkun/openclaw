@@ -4,28 +4,28 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveExplicitConfigWriteTarget } from "../../channels/plugins/config-writes.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import { normalizeChannelId } from "../../channels/registry.js";
-import { readConfigFileSnapshot } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { resolveExplicitConfigWriteTarget } from "../../channels/plugins/config-writes.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import { normalizeChannelId } from "../../channels/registry.ts";
+import { readConfigFileSnapshot } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   addChannelAllowFromStoreEntry,
   readChannelAllowFromStore,
   removeChannelAllowFromStoreEntry,
-} from "../../pairing/pairing-store.js";
-import { DEFAULT_ACCOUNT_ID, normalizeOptionalAccountId } from "../../routing/session-key.js";
-import { resolveChannelAccountId, resolveCommandSurfaceChannel } from "./channel-context.js";
+} from "../../pairing/pairing-store.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeOptionalAccountId } from "../../routing/session-key.ts";
+import { resolveChannelAccountId, resolveCommandSurfaceChannel } from "./channel-context.ts";
 import {
   rejectNonOwnerCommand,
   rejectUnauthorizedCommand,
   requireCommandFlagEnabled,
   requireGatewayClientScope,
-} from "./command-gates.js";
-import type { CommandHandler } from "./commands-types.js";
-import { applyAllowlistConfigMutation, AutoReplyConfigMutationError } from "./config-mutations.js";
-import { resolveConfigWriteDeniedText } from "./config-write-authorization.js";
+} from "./command-gates.ts";
+import type { CommandHandler } from "./commands-types.ts";
+import { applyAllowlistConfigMutation, AutoReplyConfigMutationError } from "./config-mutations.ts";
+import { resolveConfigWriteDeniedText } from "./config-write-authorization.ts";
 
 type AllowlistScope = "dm" | "group" | "all";
 type AllowlistAction = "list" | "add" | "remove";

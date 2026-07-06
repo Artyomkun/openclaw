@@ -1,13 +1,13 @@
 // Emits reset hooks and cleanup work around session reset commands.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { selectSessionTranscriptLeafControlledPath } from "../../config/sessions/transcript-tree.js";
-import { logVerbose } from "../../globals.js";
-import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { HandleCommandsParams } from "./commands-types.js";
+import { selectSessionTranscriptLeafControlledPath } from "../../config/sessions/transcript-tree.ts";
+import { logVerbose } from "../../globals.ts";
+import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { HandleCommandsParams } from "./commands-types.ts";
 
 const routeReplyRuntimeLoader = createLazyImportLoader(() => import("./route-reply.runtime.js"));
 

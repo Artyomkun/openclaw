@@ -5,28 +5,28 @@ import {
   resolveAcpThreadSessionDetailLines,
 } from "@openclaw/acp-core/runtime/session-identifiers";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { getAcpSessionManager } from "../../../acp/control-plane/manager.js";
-import { resolveAcpSessionResolutionError } from "../../../acp/control-plane/manager.utils.js";
+import { getAcpSessionManager } from "../../../acp/control-plane/manager.ts";
+import { resolveAcpSessionResolutionError } from "../../../acp/control-plane/manager.utils.ts";
 import {
   cleanupFailedAcpSpawn,
   type AcpSpawnRuntimeCloseHandle,
-} from "../../../acp/control-plane/spawn.js";
+} from "../../../acp/control-plane/spawn.ts";
 import {
   isAcpEnabledByPolicy,
   resolveAcpAgentPolicyError,
   resolveAcpDispatchPolicyError,
   resolveAcpDispatchPolicyMessage,
-} from "../../../acp/policy.js";
+} from "../../../acp/policy.ts";
 import {
   resolveAcpSpawnRuntimePolicyError,
   resolveRuntimeCwdForAcpSpawn,
-} from "../../../agents/acp-spawn.js";
-import { resolveSpawnedWorkspaceInheritance } from "../../../agents/spawned-context.js";
-import { getChannelPlugin, normalizeChannelId } from "../../../channels/plugins/index.js";
+} from "../../../agents/acp-spawn.ts";
+import { resolveSpawnedWorkspaceInheritance } from "../../../agents/spawned-context.ts";
+import { getChannelPlugin, normalizeChannelId } from "../../../channels/plugins/index.ts";
 import {
   resolveThreadBindingIntroText,
   resolveThreadBindingThreadName,
-} from "../../../channels/thread-bindings-messages.js";
+} from "../../../channels/thread-bindings-messages.ts";
 import {
   formatThreadBindingDisabledError,
   formatThreadBindingSpawnDisabledError,
@@ -35,27 +35,27 @@ import {
   resolveThreadBindingMaxAgeMsForChannel,
   resolveThreadBindingPlacementForCurrentContext,
   resolveThreadBindingSpawnPolicy,
-} from "../../../channels/thread-bindings-policy.js";
-import { updateSessionEntry } from "../../../config/sessions/session-accessor.js";
-import type { SessionAcpMeta } from "../../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../../infra/errors.js";
-import { normalizeConversationRef } from "../../../infra/outbound/session-binding-normalization.js";
+} from "../../../channels/thread-bindings-policy.ts";
+import { updateSessionEntry } from "../../../config/sessions/session-accessor.ts";
+import type { SessionAcpMeta } from "../../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../../infra/errors.ts";
+import { normalizeConversationRef } from "../../../infra/outbound/session-binding-normalization.ts";
 import {
   getSessionBindingService,
   type ConversationRef,
   type SessionBindingPlacement,
   type SessionBindingRecord,
   type SessionBindingService,
-} from "../../../infra/outbound/session-binding-service.js";
-import type { ReplyPayload } from "../../types.js";
-import type { CommandHandlerResult, HandleCommandsParams } from "../commands-types.js";
+} from "../../../infra/outbound/session-binding-service.ts";
+import type { ReplyPayload } from "../../types.ts";
+import type { CommandHandlerResult, HandleCommandsParams } from "../commands-types.ts";
 import {
   resolveAcpCommandAccountId,
   resolveAcpCommandBindingContext,
   resolveAcpCommandConversationId,
   resolveAcpCommandThreadId,
-} from "./context.js";
+} from "./context.ts";
 import {
   ACP_STEER_OUTPUT_LIMIT,
   collectAcpErrorText,
@@ -66,8 +66,8 @@ import {
   type AcpSpawnBindMode,
   type AcpSpawnThreadMode,
   withAcpCommandErrorBoundary,
-} from "./shared.js";
-import { resolveAcpTargetSessionKey } from "./targets.js";
+} from "./shared.ts";
+import { resolveAcpTargetSessionKey } from "./targets.ts";
 
 function resolveAcpBindingLabelNoun(params: {
   conversationId?: string;

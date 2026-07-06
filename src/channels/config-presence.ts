@@ -10,14 +10,14 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   hasBundledChannelPersistedAuthState,
   listBundledChannelIdsWithPersistedAuthState,
-} from "../channels/plugins/persisted-auth-state.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { hasNonEmptyString } from "../infra/outbound/channel-target.js";
-import type { PluginDiscoveryResult } from "../plugins/discovery.js";
-import { listOfficialExternalChannelEnvVars } from "../plugins/official-external-plugin-catalog.js";
-import { isRecord } from "../utils.js";
-import { listBundledChannelIds } from "./plugins/bundled-ids.js";
+} from "../channels/plugins/persisted-auth-state.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { hasNonEmptyString } from "../infra/outbound/channel-target.ts";
+import type { PluginDiscoveryResult } from "../plugins/discovery.ts";
+import { listOfficialExternalChannelEnvVars } from "../plugins/official-external-plugin-catalog.ts";
+import { isRecord } from "../utils.ts";
+import { listBundledChannelIds } from "./plugins/bundled-ids.ts";
 
 const IGNORED_CHANNEL_CONFIG_KEYS = new Set(["defaults", "modelByChannel"]);
 

@@ -1,30 +1,30 @@
 // Observes and recovers config files that appear missing, corrupt, or clobbered.
 import crypto from "node:crypto";
-import { isRecord } from "../utils.js";
+import { isRecord } from "../utils.ts";
 import {
   appendConfigAuditRecord,
   appendConfigAuditRecordSync,
   snapshotConfigAuditProcessInfo,
   type ConfigObserveAuditRecord,
-} from "./io.audit.js";
+} from "./io.audit.ts";
 import {
   persistBoundedClobberedConfigSnapshot,
   persistBoundedClobberedConfigSnapshotSync,
-} from "./io.clobber-snapshot.js";
+} from "./io.clobber-snapshot.ts";
 import {
   readConfigHealthStateFromStore,
   writeConfigHealthStateToStore,
   type ConfigHealthEntry,
   type ConfigHealthFingerprint,
   type ConfigHealthState,
-} from "./io.health-state.js";
-import { resolveConfigObserveSuspiciousReasons } from "./io.observe-suspicious.js";
-import { formatConfigIssueSummary } from "./issue-format.js";
+} from "./io.health-state.ts";
+import { resolveConfigObserveSuspiciousReasons } from "./io.observe-suspicious.ts";
+import { formatConfigIssueSummary } from "./issue-format.ts";
 import {
   isPluginLocalInvalidConfigSnapshot,
   shouldAttemptLastKnownGoodRecovery,
-} from "./recovery-policy.js";
-import type { ConfigFileSnapshot } from "./types.openclaw.js";
+} from "./recovery-policy.ts";
+import type { ConfigFileSnapshot } from "./types.openclaw.ts";
 
 /** Dependencies injected into config recovery observation for testable filesystem behavior. */
 export type ObserveRecoveryDeps = {
@@ -900,7 +900,7 @@ export async function recoverConfigFromLastKnownGood(params: {
     mode: 0o600,
   });
   await deps.fs.promises.chmod?.(snapshot.path, 0o600).catch(() => {});
-  const issueSummary = formatConfigIssueSummary([...snapshot.issues, ...snapshot.legacyIssues]);
+  const issueSummary = formatConfigIssueSummary([...snapshot.issues]);
   deps.logger.warn(
     `Config auto-restored from last-known-good: ${snapshot.path} (${params.reason})${issueSummary ? `; Rejected validation details: ${issueSummary}.` : ""}`,
   );

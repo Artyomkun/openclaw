@@ -1,9 +1,9 @@
 // Marks retained managed npm package trees that should stay importable but not recoverable.
 import fs from "node:fs";
 import path from "node:path";
-import { safePathSegmentHashed } from "../infra/install-safe-path.js";
-import { resolveDefaultPluginNpmDir, resolvePluginNpmProjectsDir } from "./install-paths.js";
-import { listManagedPluginNpmRootsSync } from "./npm-project-roots.js";
+import { safePathSegmentHashed } from "../infra/install-safe-path.ts";
+import { resolveDefaultPluginNpmDir, resolvePluginNpmProjectsDir } from "./install-paths.ts";
+import { listManagedPluginNpmRootsSync } from "./npm-project-roots.ts";
 
 export const RETAINED_MANAGED_NPM_INSTALL_MARKER = ".openclaw-retained-npm-install.json";
 const RETAINED_MANAGED_NPM_INSTALL_MARKER_DIR = ".openclaw-retained-npm-installs";
@@ -142,30 +142,6 @@ function listManagedNpmPackageDirs(npmRoot: string): string[] {
   });
 }
 
-async function cleanupRetainedLegacyNpmPackages(params: {
-  npmRoot: string;
-  activeInstallPaths: string[];
-  onError?: (error: unknown, projectRoot: string) => void;
-}): Promise<number> {
-  let removed = 0;
-  for (const packageDir of listManagedNpmPackageDirs(params.npmRoot)) {
-    if (
-      !hasRetainedManagedNpmInstallMarker(packageDir) ||
-      params.activeInstallPaths.some((installPath) => isPathEqualOrInside(packageDir, installPath))
-    ) {
-      continue;
-    }
-    try {
-      await fs.promises.rm(packageDir, { recursive: true, force: true });
-      await clearRetainedManagedNpmInstallMarker(packageDir);
-      removed += 1;
-    } catch (error) {
-      params.onError?.(error, packageDir);
-    }
-  }
-  return removed;
-}
-
 export async function cleanupRetainedManagedNpmInstallGenerations(
   params: {
     activeInstallPaths?: Iterable<string>;
@@ -184,11 +160,6 @@ export async function cleanupRetainedManagedNpmInstallGenerations(
   let removed = 0;
   for (const projectRoot of listManagedPluginNpmRootsSync(npmDir)) {
     if (path.resolve(projectRoot) === path.resolve(npmDir)) {
-      removed += await cleanupRetainedLegacyNpmPackages({
-        npmRoot: projectRoot,
-        activeInstallPaths,
-        onError: params.onError,
-      });
       continue;
     }
     const markerDir = path.join(projectRoot, RETAINED_MANAGED_NPM_INSTALL_MARKER_DIR);

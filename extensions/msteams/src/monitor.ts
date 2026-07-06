@@ -299,34 +299,6 @@ export async function monitorMSTeamsProvider(
       : {}),
   });
 
-  // Existing Azure Bot registrations may still point at the legacy
-  // `/api/messages` endpoint while an operator has configured a custom
-  // `webhook.path`. Forward to the configured path with a one-time deprecation
-  // warning so those registrations keep working through the transition. The
-  // forwarder runs after the SDK route is registered, so it only matches
-  // requests that the SDK route itself didn't claim.
-  if (configuredPath !== "/api/messages") {
-    let warnedLegacyMessagesRoute = false;
-    expressApp.post(
-      "/api/messages",
-      (req: Request, res: Response, next: (err?: unknown) => void) => {
-        if (!warnedLegacyMessagesRoute) {
-          warnedLegacyMessagesRoute = true;
-          log.warn?.(
-            `received request on /api/messages but webhook.path is ${configuredPath}; ` +
-              "update your Azure Bot endpoint — this fallback will be removed in a future release",
-          );
-        }
-        // Rewrite the URL so the SDK's registered handler picks it up. Express
-        // app instances are themselves request handlers (Application extends
-        // IRouter extends RequestHandler), so re-invoking the app re-runs the
-        // middleware chain (including the SDK-registered route).
-        req.url = configuredPath;
-        expressApp(req, res, next);
-      },
-    );
-  }
-
   // Build a token provider adapter for Graph API operations
   const tokenProvider = createMSTeamsTokenProvider(app);
 

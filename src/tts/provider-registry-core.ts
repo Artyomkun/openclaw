@@ -1,11 +1,11 @@
 // TTS provider registry core stores provider factories and defaults.
-import type { OpenClawConfig } from "../config/types.js";
+import type { OpenClawConfig } from "../config/types.ts";
 import {
   buildCapabilityProviderMaps,
   normalizeCapabilityProviderId,
-} from "../plugins/provider-registry-shared.js";
-import type { SpeechProviderPlugin } from "../plugins/types.js";
-import type { SpeechProviderId } from "./provider-types.js";
+} from "../plugins/provider-registry-shared.ts";
+import type { SpeechProviderPlugin } from "../plugins/types.ts";
+import type { SpeechProviderId } from "./provider-types.ts";
 
 /** Resolver contract used by default and loaded-only speech provider registries. */
 export type SpeechProviderRegistryResolver = {

@@ -5,8 +5,8 @@
  */
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.js";
-import { pathExists } from "../utils.js";
+import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.ts";
+import { pathExists } from "../utils.ts";
 
 const FALLBACK_TEMPLATE_DIR = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),

@@ -3,8 +3,8 @@
  * Shared by agent/session tool inventory resolvers and UI/API callers that
  * present enabled tools grouped by source.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
 
 /** Source bucket for an effective agent tool inventory entry. */
 export type EffectiveToolSource = "core" | "plugin" | "channel" | "mcp";

@@ -1,4 +1,4 @@
-import type { GatewaySessionRow } from "./session-utils.js";
+import type { GatewaySessionRow } from "./session-utils.ts";
 
 export function buildGatewaySessionEventFields(params: {
   sessionRow: GatewaySessionRow;

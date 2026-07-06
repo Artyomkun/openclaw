@@ -1,11 +1,11 @@
 /** Migration provider context and report-directory helpers. */
 import path from "node:path";
 import { timestampMsToIsoFileStamp } from "@openclaw/normalization-core/number-coercion";
-import { getRuntimeConfig } from "../../config/config.js";
-import { resolveStateDir } from "../../config/paths.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { MigrationProviderContext } from "../../plugins/types.js";
-import type { RuntimeEnv } from "../../runtime.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import { resolveStateDir } from "../../config/paths.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { MigrationProviderContext } from "../../plugins/types.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
 
 /** Builds a migration logger that keeps JSON stdout machine-readable. */
 export function createMigrationLogger(runtime: RuntimeEnv, opts: { json?: boolean } = {}) {

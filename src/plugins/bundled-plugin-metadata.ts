@@ -3,8 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import { collectBundledChannelConfigs } from "./bundled-channel-config-metadata.js";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+import { collectBundledChannelConfigs } from "./bundled-channel-config-metadata.ts";
 import {
   collectBundledPluginPublicSurfaceArtifacts,
   collectBundledPluginRuntimeSidecarArtifacts,
@@ -13,15 +13,15 @@ import {
   rewriteBundledPluginEntryToBuiltPath,
   resolveBundledPluginScanDir,
   trimBundledPluginString,
-} from "./bundled-plugin-scan.js";
+} from "./bundled-plugin-scan.ts";
 import {
   getPackageManifestMetadata,
   loadPluginManifest,
   type OpenClawPackageManifest,
   type PackageManifest,
   type PluginManifest,
-} from "./manifest.js";
-import { resolveLoaderPackageRoot } from "./sdk-alias.js";
+} from "./manifest.ts";
+import { resolveLoaderPackageRoot } from "./sdk-alias.ts";
 
 const OPENCLAW_PACKAGE_ROOT =
   resolveLoaderPackageRoot({

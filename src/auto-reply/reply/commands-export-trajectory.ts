@@ -1,16 +1,16 @@
 // Implements trajectory export command packaging for the active session agent.
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { createExecTool } from "../../agents/bash-tools.js";
-import type { ExecToolDetails } from "../../agents/bash-tools.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import type { ExecApprovalRequest } from "../../infra/exec-approvals.js";
-import type { ReplyPayload } from "../types.js";
-import { parseExportCommandOutputPath } from "./commands-export-common.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { createExecTool } from "../../agents/bash-tools.ts";
+import type { ExecToolDetails } from "../../agents/bash-tools.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import type { ExecApprovalRequest } from "../../infra/exec-approvals.ts";
+import type { ReplyPayload } from "../types.ts";
+import { parseExportCommandOutputPath } from "./commands-export-common.ts";
 import {
   buildCurrentOpenClawCliArgv,
   buildCurrentOpenClawCliCommand,
   buildCurrentOpenClawCliExecEnv,
-} from "./commands-openclaw-cli.js";
+} from "./commands-openclaw-cli.ts";
 import {
   deliverPrivateCommandReply,
   readCommandDeliveryTarget,
@@ -18,8 +18,8 @@ import {
   resolvePrivateCommandApprovalRouteExpiresAtMs,
   resolvePrivateCommandRouteTargets,
   type PrivateCommandRouteTarget,
-} from "./commands-private-route.js";
-import type { HandleCommandsParams } from "./commands-types.js";
+} from "./commands-private-route.ts";
+import type { HandleCommandsParams } from "./commands-types.ts";
 
 const EXPORT_TRAJECTORY_DOCS_URL = "https://docs.openclaw.ai/tools/trajectory";
 const EXPORT_TRAJECTORY_EXEC_SCOPE_KEY = "chat:export-trajectory";

@@ -3,22 +3,22 @@
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   PluginWebFetchProviderEntry,
   PluginWebSearchProviderEntry,
-} from "../plugins/types.js";
-import { resolvePluginWebFetchProviders } from "../plugins/web-fetch-providers.runtime.js";
-import { sortWebFetchProvidersForAutoDetect } from "../plugins/web-fetch-providers.shared.js";
-import { resolvePluginWebSearchProviders } from "../plugins/web-search-providers.runtime.js";
-import { sortWebSearchProvidersForAutoDetect } from "../plugins/web-search-providers.shared.js";
-import { normalizeOptionalAccountId } from "../routing/session-key.js";
-import { loadChannelSecretContractApi } from "../secrets/channel-contract-api.js";
+} from "../plugins/types.ts";
+import { resolvePluginWebFetchProviders } from "../plugins/web-fetch-providers.runtime.ts";
+import { sortWebFetchProvidersForAutoDetect } from "../plugins/web-fetch-providers.shared.ts";
+import { resolvePluginWebSearchProviders } from "../plugins/web-search-providers.runtime.ts";
+import { sortWebSearchProvidersForAutoDetect } from "../plugins/web-search-providers.shared.ts";
+import { normalizeOptionalAccountId } from "../routing/session-key.ts";
+import { loadChannelSecretContractApi } from "../secrets/channel-contract-api.ts";
 import {
   discoverConfigSecretTargetsByIds,
   listSecretTargetRegistryEntries,
-} from "../secrets/target-registry.js";
+} from "../secrets/target-registry.ts";
 
 const STATIC_QR_REMOTE_TARGET_IDS = ["gateway.remote.token", "gateway.remote.password"] as const;
 const STATIC_MODEL_TARGET_IDS = [

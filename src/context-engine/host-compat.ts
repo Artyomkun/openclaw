@@ -5,7 +5,7 @@ import type {
   ContextEngineHostRequirements,
   ContextEngineInfo,
   ContextEngineOperation,
-} from "./types.js";
+} from "./types.ts";
 
 export type ContextEngineHostSupport = {
   id: string;

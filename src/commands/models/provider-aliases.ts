@@ -1,14 +1,14 @@
 /** Provider alias canonicalization for model catalog rows. */
 import fs from "node:fs";
 import path from "node:path";
-import { normalizeProviderId } from "../../agents/model-selection.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { normalizeProviderId } from "../../agents/model-selection.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   loadPluginManifestRegistry,
   type PluginManifestRecord,
-} from "../../plugins/manifest-registry.js";
-import { loadPluginManifest, type PluginManifestModelCatalog } from "../../plugins/manifest.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.js";
+} from "../../plugins/manifest-registry.ts";
+import { loadPluginManifest, type PluginManifestModelCatalog } from "../../plugins/manifest.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.ts";
 
 type ProviderAliasSource = {
   cfg: OpenClawConfig;

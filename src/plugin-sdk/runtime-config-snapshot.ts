@@ -6,10 +6,10 @@ export {
   getRuntimeConfigSnapshot,
   selectApplicableRuntimeConfig,
   setRuntimeConfigSnapshot,
-} from "../config/runtime-snapshot.js";
+} from "../config/runtime-snapshot.ts";
 export {
   clearConfigCache,
   getRuntimeConfig,
   getRuntimeConfigSourceSnapshot,
-} from "../config/io.js";
-export type { OpenClawConfig } from "../config/types.js";
+} from "../config/io.ts";
+export type { OpenClawConfig } from "../config/types.ts";

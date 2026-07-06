@@ -7,126 +7,126 @@ import {
   hasConfiguredModelFallbacks,
   resolveAgentConfig,
   resolveSessionAgentId,
-} from "../../agents/agent-scope.js";
-import { resolveContextTokensForModel } from "../../agents/context.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.js";
-import { hasVisibleAgentPayload } from "../../agents/embedded-agent-runner/delivery-evidence.js";
+} from "../../agents/agent-scope.ts";
+import { resolveContextTokensForModel } from "../../agents/context.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.ts";
+import { hasVisibleAgentPayload } from "../../agents/embedded-agent-runner/delivery-evidence.ts";
 import {
   formatEmbeddedAgentQueueFailureSummary,
   queueEmbeddedAgentMessageWithOutcomeAsync,
-} from "../../agents/embedded-agent-runner/runs.js";
-import { resolveFastModeState } from "../../agents/fast-mode.js";
-import { resolveModelAuthMode } from "../../agents/model-auth.js";
-import { isCliProvider } from "../../agents/model-selection.js";
-import { deriveContextPromptTokens, hasNonzeroUsage, normalizeUsage } from "../../agents/usage.js";
-import { enqueueCommitmentExtraction } from "../../commitments/runtime.js";
-import type { OpenClawConfig } from "../../config/config.js";
+} from "../../agents/embedded-agent-runner/runs.ts";
+import { resolveFastModeState } from "../../agents/fast-mode.ts";
+import { resolveModelAuthMode } from "../../agents/model-auth.ts";
+import { isCliProvider } from "../../agents/model-selection.ts";
+import { deriveContextPromptTokens, hasNonzeroUsage, normalizeUsage } from "../../agents/usage.ts";
+import { enqueueCommitmentExtraction } from "../../commitments/runtime.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
 import {
   resolveSessionPluginStatusLines,
   resolveSessionPluginTraceLines,
   type SessionEntry,
-} from "../../config/sessions.js";
-import { loadSessionEntry, updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.js";
-import type { TypingMode } from "../../config/types.js";
-import { resolveSessionTranscriptCandidates } from "../../gateway/session-utils.fs.js";
-import { logVerbose } from "../../globals.js";
-import { emitAgentEvent } from "../../infra/agent-events.js";
-import { emitTrustedDiagnosticEvent, isDiagnosticsEnabled } from "../../infra/diagnostic-events.js";
+} from "../../config/sessions.ts";
+import { loadSessionEntry, updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.ts";
+import type { TypingMode } from "../../config/types.ts";
+import { resolveSessionTranscriptCandidates } from "../../gateway/session-utils.fs.ts";
+import { logVerbose } from "../../globals.ts";
+import { emitAgentEvent } from "../../infra/agent-events.ts";
+import { emitTrustedDiagnosticEvent, isDiagnosticsEnabled } from "../../infra/diagnostic-events.ts";
 import {
   createChildDiagnosticTraceContext,
   freezeDiagnosticTraceContext,
-} from "../../infra/diagnostic-trace-context.js";
-import { measureDiagnosticsTimelineSpan } from "../../infra/diagnostics-timeline.js";
-import { enqueueSystemEvent } from "../../infra/system-events.js";
-import { CommandLaneClearedError, GatewayDrainingError } from "../../process/command-queue.js";
-import { shouldPreserveUserFacingSessionStateForInputProvenance } from "../../sessions/input-provenance.js";
-import { resolveSendPolicy } from "../../sessions/send-policy.js";
+} from "../../infra/diagnostic-trace-context.ts";
+import { measureDiagnosticsTimelineSpan } from "../../infra/diagnostics-timeline.ts";
+import { enqueueSystemEvent } from "../../infra/system-events.ts";
+import { CommandLaneClearedError, GatewayDrainingError } from "../../process/command-queue.ts";
+import { shouldPreserveUserFacingSessionStateForInputProvenance } from "../../sessions/input-provenance.ts";
+import { resolveSendPolicy } from "../../sessions/send-policy.ts";
 import {
   normalizeDeliveryContext,
   type DeliveryContext,
-} from "../../utils/delivery-context.shared.js";
+} from "../../utils/delivery-context.shared.ts";
 import {
   estimateUsageCost,
   formatTokenCount,
   resolveModelCostConfig,
-} from "../../utils/usage-format.js";
+} from "../../utils/usage-format.ts";
 import {
   buildFallbackClearedNotice,
   buildFallbackNotice,
   resolveFallbackTransition,
-} from "../fallback-state.js";
-import { DEFAULT_HEARTBEAT_ACK_MAX_CHARS, stripHeartbeatToken } from "../heartbeat.js";
+} from "../fallback-state.ts";
+import { DEFAULT_HEARTBEAT_ACK_MAX_CHARS, stripHeartbeatToken } from "../heartbeat.ts";
 import {
   isReplyPayloadStatusNotice,
   markReplyPayloadForSourceSuppressionDelivery,
   setReplyPayloadMetadata,
-} from "../reply-payload.js";
-import type { OriginatingChannelType, TemplateContext } from "../templating.js";
-import type { VerboseLevel } from "../thinking.js";
-import { SILENT_REPLY_TOKEN } from "../tokens.js";
-import type { GetReplyOptions, ReplyPayload } from "../types.js";
+} from "../reply-payload.ts";
+import type { OriginatingChannelType, TemplateContext } from "../templating.ts";
+import type { VerboseLevel } from "../thinking.ts";
+import { SILENT_REPLY_TOKEN } from "../tokens.ts";
+import type { GetReplyOptions, ReplyPayload } from "../types.ts";
 import {
   buildKnownAgentRunFailureReplyPayload,
   runAgentTurnWithFallback,
-} from "./agent-runner-execution.js";
+} from "./agent-runner-execution.ts";
 import {
   createShouldEmitToolOutput,
   createShouldEmitToolResult,
   isAudioPayload,
   signalTypingIfNeeded,
-} from "./agent-runner-helpers.js";
-import { runMemoryFlushIfNeeded, runPreflightCompactionIfNeeded } from "./agent-runner-memory.js";
-import { buildReplyPayloads } from "./agent-runner-payloads.js";
+} from "./agent-runner-helpers.ts";
+import { runMemoryFlushIfNeeded, runPreflightCompactionIfNeeded } from "./agent-runner-memory.ts";
+import { buildReplyPayloads } from "./agent-runner-payloads.ts";
 import {
   appendUnscheduledReminderNote,
   hasSessionRelatedCronJobs,
   hasUnbackedReminderCommitment,
-} from "./agent-runner-reminder-guard.js";
-import { resetReplyRunSession } from "./agent-runner-session-reset.js";
-import { appendUsageLine, resolveResponseUsageLine } from "./agent-runner-usage-line.js";
-import { resolveQueuedReplyExecutionConfig } from "./agent-runner-utils.js";
-import { createAudioAsVoiceBuffer, createBlockReplyPipeline } from "./block-reply-pipeline.js";
-import { resolveEffectiveBlockStreamingConfig } from "./block-streaming.js";
+} from "./agent-runner-reminder-guard.ts";
+import { resetReplyRunSession } from "./agent-runner-session-reset.ts";
+import { appendUsageLine, resolveResponseUsageLine } from "./agent-runner-usage-line.ts";
+import { resolveQueuedReplyExecutionConfig } from "./agent-runner-utils.ts";
+import { createAudioAsVoiceBuffer, createBlockReplyPipeline } from "./block-reply-pipeline.ts";
+import { resolveEffectiveBlockStreamingConfig } from "./block-streaming.ts";
 import {
   createCompactionNoticePayload,
   shouldNotifyUserAboutCompaction,
   type CompactionNoticePhase,
-} from "./compaction-notice.js";
-import { resolveEffectiveReplyRoute } from "./effective-reply-route.js";
-import { createFollowupRunner } from "./followup-runner.js";
-import { REPLY_RUN_STILL_SHUTTING_DOWN_TEXT } from "./get-reply-run-queue.js";
-import { resolveOriginMessageProvider, resolveOriginMessageTo } from "./origin-routing.js";
-import { sanitizePendingFinalDeliveryText } from "./pending-final-delivery.js";
-import { drainPendingToolTasks } from "./pending-tool-task-drain.js";
-import { readPostCompactionContext } from "./post-compaction-context.js";
+} from "./compaction-notice.ts";
+import { resolveEffectiveReplyRoute } from "./effective-reply-route.ts";
+import { createFollowupRunner } from "./followup-runner.ts";
+import { REPLY_RUN_STILL_SHUTTING_DOWN_TEXT } from "./get-reply-run-queue.ts";
+import { resolveOriginMessageProvider, resolveOriginMessageTo } from "./origin-routing.ts";
+import { sanitizePendingFinalDeliveryText } from "./pending-final-delivery.ts";
+import { drainPendingToolTasks } from "./pending-tool-task-drain.ts";
+import { readPostCompactionContext } from "./post-compaction-context.ts";
 import {
   shouldWarnAboutPrivateMessageToolFinal,
   warnPrivateMessageToolFinal,
-} from "./private-message-tool-final.js";
-import { resolveActiveRunQueueAction } from "./queue-policy.js";
+} from "./private-message-tool-final.ts";
+import { resolveActiveRunQueueAction } from "./queue-policy.ts";
 import {
   enqueueFollowupRun,
   refreshQueuedFollowupSession,
   scheduleFollowupDrain,
   type FollowupRun,
   type QueueSettings,
-} from "./queue.js";
-import { createReplyMediaContext } from "./reply-media-paths.js";
-import { resolveReplyOperationRunState } from "./reply-operation-run-state.js";
+} from "./queue.ts";
+import { createReplyMediaContext } from "./reply-media-paths.ts";
+import { resolveReplyOperationRunState } from "./reply-operation-run-state.ts";
 import {
   replyRunRegistry,
   runAfterReplyOperationClear,
   type ReplyOperation,
-} from "./reply-run-registry.js";
-import { createReplyToModeFilterForChannel, resolveReplyToMode } from "./reply-threading.js";
-import { admitReplyTurn, resolveReplyTurnKind } from "./reply-turn-admission.js";
-import { buildReplyUsageState, recordReplyUsageState } from "./reply-usage-state.js";
-import { resolveRoutedDeliveryThreadId } from "./routed-delivery-thread.js";
-import { incrementRunCompactionCount, persistRunSessionUsage } from "./session-run-accounting.js";
-import { resolveSourceReplyVisibilityPolicy } from "./source-reply-delivery-mode.js";
-import { createTypingSignaler } from "./typing-mode.js";
-import type { TypingController } from "./typing.js";
+} from "./reply-run-registry.ts";
+import { createReplyToModeFilterForChannel, resolveReplyToMode } from "./reply-threading.ts";
+import { admitReplyTurn, resolveReplyTurnKind } from "./reply-turn-admission.ts";
+import { buildReplyUsageState, recordReplyUsageState } from "./reply-usage-state.ts";
+import { resolveRoutedDeliveryThreadId } from "./routed-delivery-thread.ts";
+import { incrementRunCompactionCount, persistRunSessionUsage } from "./session-run-accounting.ts";
+import { resolveSourceReplyVisibilityPolicy } from "./source-reply-delivery-mode.ts";
+import { createTypingSignaler } from "./typing-mode.ts";
+import type { TypingController } from "./typing.ts";
 
 const BLOCK_REPLY_SEND_TIMEOUT_MS = 15_000;
 const RESTART_LIFECYCLE_REPLY_TEXT =

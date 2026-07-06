@@ -1,5 +1,5 @@
 // Text chunking helpers split long outbound text while preserving readable line boundaries.
-import { chunkTextByBreakResolver } from "../shared/text-chunking.js";
+import { chunkTextByBreakResolver } from "../shared/text-chunking.ts";
 
 /**
  * Splits outbound channel text into chunks no longer than the requested limit.
@@ -27,12 +27,12 @@ export {
   type MarkdownStyleSpan,
   type MarkdownTableCell,
   type MarkdownTableMeta,
-} from "../../packages/markdown-core/src/ir.js";
+} from "../../packages/markdown-core/src/ir.ts";
 /** Render-size-aware Markdown chunking for channel payload limits. */
 export {
   renderMarkdownIRChunksWithinLimit,
   type RenderMarkdownIRChunksWithinLimitOptions,
-} from "../../packages/markdown-core/src/render-aware-chunking.js";
+} from "../../packages/markdown-core/src/render-aware-chunking.ts";
 /** Marker-based Markdown rendering hooks for channel-specific formatting. */
 export {
   renderMarkdownWithMarkers,
@@ -40,9 +40,9 @@ export {
   type RenderOptions,
   type RenderStyleMap,
   type RenderStyleMarker,
-} from "../../packages/markdown-core/src/render.js";
+} from "../../packages/markdown-core/src/render.ts";
 /** Markdown table conversion helper shared by text-only channel renderers. */
-export { convertMarkdownTables } from "../../packages/markdown-core/src/tables.js";
+export { convertMarkdownTables } from "../../packages/markdown-core/src/tables.ts";
 /** Assistant-visible text sanitizers for removing internal scaffolding before delivery. */
 export {
   sanitizeAssistantVisibleText,
@@ -51,24 +51,24 @@ export {
   stripAssistantInternalScaffolding,
   stripToolCallXmlTags,
   type AssistantVisibleTextSanitizerProfile,
-} from "../shared/text/assistant-visible-text.js";
+} from "../shared/text/assistant-visible-text.ts";
 /** File-reference detection helpers for avoiding accidental autolinks. */
 export {
   FILE_REF_EXTENSIONS_WITH_TLD,
   isAutoLinkedFileRef,
-} from "../shared/text/auto-linked-file-ref.js";
+} from "../shared/text/auto-linked-file-ref.ts";
 /** Code-region helpers for markdown-aware text transformations. */
-export { findCodeRegions, isInsideCode, type CodeRegion } from "../shared/text/code-regions.js";
+export { findCodeRegions, isInsideCode, type CodeRegion } from "../shared/text/code-regions.ts";
 /** Reasoning-tag stripping helpers for public channel output. */
 export {
   stripReasoningTagsFromText,
   type ReasoningTagMode,
   type ReasoningTagTrim,
-} from "../shared/text/reasoning-tags.js";
+} from "../shared/text/reasoning-tags.ts";
 /** Plain-text markdown stripper for transports without markdown support. */
-export { stripMarkdown } from "../shared/text/strip-markdown.js";
+export { stripMarkdown } from "../shared/text/strip-markdown.ts";
 /** Terminal-safe text sanitizer for CLI-facing plugin output. */
-export { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
+export { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
 /** System-message marker helpers for preserving generated status lines. */
 export { SYSTEM_MARK, hasSystemMark, prefixSystemMessage } from "../infra/system-message.ts";
 /** Inline directive stripping helpers for display and delivery boundaries. */
@@ -78,6 +78,6 @@ export {
   stripInlineDirectiveTagsFromMessageForDisplay,
   type DisplayMessageWithContent,
   type InlineDirectiveParseResult,
-} from "../utils/directive-tags.js";
+} from "../utils/directive-tags.ts";
 /** Generic item chunker for plugin payload planning. */
-export { chunkItems } from "../utils/chunk-items.js";
+export { chunkItems } from "../utils/chunk-items.ts";

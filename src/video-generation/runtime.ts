@@ -1,8 +1,8 @@
 // Video generation runtime coordinates provider auth, fallbacks, and job polling.
-import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import { resolveAgentModelTimeoutMsValue } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import type { FallbackAttempt } from "../agents/model-fallback.types.ts";
+import { resolveAgentModelTimeoutMsValue } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   buildMediaGenerationNormalizationMetadata,
   buildNoCapabilityModelConfiguredMessage,
@@ -10,19 +10,19 @@ import {
   resolveCapabilityModelCandidates,
   resolveMediaProviderRequestTimeoutMs,
   throwCapabilityGenerationFailure,
-} from "../media-generation/runtime-shared.js";
-import { getProviderEnvVars } from "../secrets/provider-env-vars.js";
-import { resolveVideoGenerationModeCapabilities } from "./capabilities.js";
+} from "../media-generation/runtime-shared.ts";
+import { getProviderEnvVars } from "../secrets/provider-env-vars.ts";
+import { resolveVideoGenerationModeCapabilities } from "./capabilities.ts";
 import {
   buildReferenceInputCapabilityFailure,
   resolveProviderWithModelCapabilities,
-} from "./capability-overlays.js";
-import { resolveVideoGenerationSupportedDurations } from "./duration-support.js";
-import { parseVideoGenerationModelRef } from "./model-ref.js";
-import { resolveVideoGenerationOverrides } from "./normalization.js";
-import { getVideoGenerationProvider, listVideoGenerationProviders } from "./provider-registry.js";
-import type { GenerateVideoParams, GenerateVideoRuntimeResult } from "./runtime-types.js";
-import type { VideoGenerationProviderOptionType, VideoGenerationResult } from "./types.js";
+} from "./capability-overlays.ts";
+import { resolveVideoGenerationSupportedDurations } from "./duration-support.ts";
+import { parseVideoGenerationModelRef } from "./model-ref.ts";
+import { resolveVideoGenerationOverrides } from "./normalization.ts";
+import { getVideoGenerationProvider, listVideoGenerationProviders } from "./provider-registry.ts";
+import type { GenerateVideoParams, GenerateVideoRuntimeResult } from "./runtime-types.ts";
+import type { VideoGenerationProviderOptionType, VideoGenerationResult } from "./types.ts";
 
 const log = createSubsystemLogger("video-generation");
 const MODEL_CAPABILITY_LOOKUP_TIMEOUT_MS = 5_000;
@@ -36,7 +36,7 @@ type VideoGenerationRuntimeDeps = {
   log?: Pick<typeof log, "debug" | "warn">;
 };
 
-export type { GenerateVideoParams, GenerateVideoRuntimeResult } from "./runtime-types.js";
+export type { GenerateVideoParams, GenerateVideoRuntimeResult } from "./runtime-types.ts";
 
 /**
  * Validate agent-supplied providerOptions against the candidate's declared
@@ -46,7 +46,7 @@ export type { GenerateVideoParams, GenerateVideoRuntimeResult } from "./runtime-
  * Backward-compatible behavior:
  * - Provider declares no schema (undefined): pass options through as-is.
  *   The provider receives them and may silently ignore unknown keys. This is
- *   the safe default for legacy / not-yet-migrated providers.
+ *   the safe default for not-yet-migrated providers.
  * - Provider explicitly declares an empty schema ({}): rejects any options.
  *   This is the opt-in signal that the provider has been audited and truly
  *   supports no options.

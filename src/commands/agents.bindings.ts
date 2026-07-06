@@ -1,20 +1,20 @@
 // Pure helpers for parsing, adding, removing, and generating agent route bindings.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeSortedUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { getBundledChannelSetupPlugin } from "../channels/plugins/bundled.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import { getLoadedChannelPlugin } from "../channels/plugins/index.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import { normalizeChannelId as normalizeBundledChannelId } from "../channels/registry.js";
-import { formatUnknownChannelMessage } from "../cli/error-format.js";
-import { isRouteBinding, listRouteBindings } from "../config/bindings.js";
-import type { AgentRouteBinding } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { listManifestChannelContributionIds } from "../plugins/manifest-contribution-ids.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAgentId } from "../routing/session-key.js";
-import type { ChannelChoice } from "./onboard-types.js";
+import { getBundledChannelSetupPlugin } from "../channels/plugins/bundled.ts";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
+import { getLoadedChannelPlugin } from "../channels/plugins/index.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import { normalizeChannelId as normalizeBundledChannelId } from "../channels/registry.ts";
+import { formatUnknownChannelMessage } from "../cli/error-format.ts";
+import { isRouteBinding, listRouteBindings } from "../config/bindings.ts";
+import type { AgentRouteBinding } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { listManifestChannelContributionIds } from "../plugins/manifest-contribution-ids.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAgentId } from "../routing/session-key.ts";
+import type { ChannelChoice } from "./onboard-types.ts";
 
-export { describeBinding } from "./agents.binding-format.js";
+export { describeBinding } from "./agents.binding-format.ts";
 
 function bindingMatchKey(match: AgentRouteBinding["match"]) {
   const accountId = normalizeOptionalString(match.accountId) || DEFAULT_ACCOUNT_ID;

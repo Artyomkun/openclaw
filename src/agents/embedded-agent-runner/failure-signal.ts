@@ -2,8 +2,8 @@
  * Converts embedded run failures into provider failover signals.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { isExecLikeToolName, type ToolErrorSummary } from "../tool-error-summary.js";
-import type { EmbeddedRunFailureSignal } from "./types.js";
+import { isExecLikeToolName, type ToolErrorSummary } from "../tool-error-summary.ts";
+import type { EmbeddedRunFailureSignal } from "./types.ts";
 
 /**
  * Converts terminal tool errors from unattended embedded runs into failure signals.

@@ -1,7 +1,7 @@
 // Gateway auth mode policy rejects ambiguous token+password config before
 // credential resolution can choose the wrong side.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { hasConfiguredSecretInput } from "../config/types.secrets.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { hasConfiguredSecretInput } from "../config/types.secrets.ts";
 
 // Gateway auth mode validation keeps ambiguous token/password configs out of
 // runtime credential resolution. The resolver can preserve precedence only

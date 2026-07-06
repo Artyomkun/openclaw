@@ -10,17 +10,17 @@ import {
   startsWithSilentToken,
   stripLeadingSilentToken,
   stripSilentToken,
-} from "../auto-reply/tokens.js";
-import { defaultRuntime } from "../runtime.js";
-import { isCronSessionKey } from "../sessions/session-key-utils.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { type DeliveryContext, normalizeDeliveryContext } from "../utils/delivery-context.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.js";
+} from "../auto-reply/tokens.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { isCronSessionKey } from "../sessions/session-key-utils.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { type DeliveryContext, normalizeDeliveryContext } from "../utils/delivery-context.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.ts";
 import {
   buildAnnounceIdFromChildRun,
   buildAnnounceIdempotencyKey,
-} from "./announce-idempotency.js";
-import { formatAgentInternalEventsForPrompt, type AgentInternalEvent } from "./internal-events.js";
+} from "./announce-idempotency.ts";
+import { formatAgentInternalEventsForPrompt, type AgentInternalEvent } from "./internal-events.ts";
 import {
   deliverSubagentAnnouncement,
   loadRequesterSessionEntry,
@@ -28,9 +28,9 @@ import {
   runAnnounceDeliveryWithRetry,
   resolveSubagentAnnounceTimeoutMs,
   resolveSubagentCompletionOrigin,
-} from "./subagent-announce-delivery.js";
-import type { SubagentAnnounceDeliveryResult } from "./subagent-announce-dispatch.js";
-import { resolveAnnounceOrigin } from "./subagent-announce-origin.js";
+} from "./subagent-announce-delivery.ts";
+import type { SubagentAnnounceDeliveryResult } from "./subagent-announce-dispatch.ts";
+import { resolveAnnounceOrigin } from "./subagent-announce-origin.ts";
 import {
   applySubagentWaitOutcome,
   buildChildCompletionFindings,
@@ -41,18 +41,18 @@ import {
   readSubagentOutput,
   type SubagentRunOutcome,
   waitForSubagentRunOutcome,
-} from "./subagent-announce-output.js";
+} from "./subagent-announce-output.ts";
 import {
   callGateway,
   dispatchGatewayMethodInProcess,
   isEmbeddedAgentRunActive,
   getRuntimeConfig,
   waitForEmbeddedAgentRunEnd,
-} from "./subagent-announce.runtime.js";
-import { getSubagentDepthFromSessionStore } from "./subagent-depth.js";
-import { deleteSubagentSessionForCleanup } from "./subagent-session-cleanup.js";
-import type { SpawnSubagentMode } from "./subagent-spawn.types.js";
-import { isAnnounceSkip } from "./tools/sessions-send-tokens.js";
+} from "./subagent-announce.runtime.ts";
+import { getSubagentDepthFromSessionStore } from "./subagent-depth.ts";
+import { deleteSubagentSessionForCleanup } from "./subagent-session-cleanup.ts";
+import type { SpawnSubagentMode } from "./subagent-spawn.types.ts";
+import { isAnnounceSkip } from "./tools/sessions-send-tokens.ts";
 
 type SubagentAnnounceDeps = {
   callGateway: typeof callGateway;
@@ -78,9 +78,9 @@ function loadSubagentRegistryRuntime() {
   return subagentRegistryRuntimeLoader.load();
 }
 
-export { buildSubagentSystemPrompt } from "./subagent-system-prompt.js";
-export { captureSubagentCompletionReply } from "./subagent-announce-output.js";
-export type { SubagentRunOutcome } from "./subagent-announce-output.js";
+export { buildSubagentSystemPrompt } from "./subagent-system-prompt.ts";
+export { captureSubagentCompletionReply } from "./subagent-announce-output.ts";
+export type { SubagentRunOutcome } from "./subagent-announce-output.ts";
 
 export type SubagentAnnounceType = "subagent task" | "cron job";
 

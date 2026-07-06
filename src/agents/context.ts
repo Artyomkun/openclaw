@@ -2,10 +2,10 @@
 // agent reports a model id. This includes custom models.json entries.
 
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { getRuntimeConfig } from "../config/config.js";
-import { projectConfigOntoRuntimeSourceSnapshot } from "../config/runtime-source-projection.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { computeBackoff, type BackoffPolicy } from "../infra/backoff.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import { projectConfigOntoRuntimeSourceSnapshot } from "../config/runtime-source-projection.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { computeBackoff, type BackoffPolicy } from "../infra/backoff.ts";
 import {
   lookupCachedContextTokens,
   lookupCachedContextWindow,
@@ -14,25 +14,25 @@ import {
   MODEL_CONTEXT_TOKEN_CACHE,
   MODEL_CONTEXT_WINDOW_CACHE,
   providerContextTokenCacheKey,
-} from "./context-cache.js";
+} from "./context-cache.ts";
 import {
   type ContextTokenResolutionParams,
   type ModelsConfig,
   resolveAnthropicFixedContextWindow,
   resolveContextTokensForModelFromCache,
-} from "./context-resolution.js";
+} from "./context-resolution.ts";
 import {
   beginContextWindowCacheRefresh,
   CONTEXT_WINDOW_RUNTIME_STATE,
-} from "./context-runtime-state.js";
-import { normalizeProviderId } from "./model-selection.js";
+} from "./context-runtime-state.ts";
+import { normalizeProviderId } from "./model-selection.ts";
 
 export {
   ANTHROPIC_CONTEXT_1M_TOKENS,
   ANTHROPIC_FABLE_CONTEXT_TOKENS,
   ANTHROPIC_VERTEX_CONTEXT_1M_TOKENS,
-} from "./context-resolution.js";
-export { resetContextWindowCacheForTest } from "./context-runtime-state.js";
+} from "./context-resolution.ts";
+export { resetContextWindowCacheForTest } from "./context-runtime-state.ts";
 
 type ModelEntry = {
   id: string;

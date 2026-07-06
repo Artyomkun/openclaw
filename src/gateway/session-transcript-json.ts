@@ -1,5 +1,5 @@
 // Shared bounded JSONL metadata parsing for gateway transcript readers.
-import { escapeRegExp } from "../shared/regexp.js";
+import { escapeRegExp } from "../shared/regexp.ts";
 
 export function normalizeOptionalString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim().length > 0 ? value : undefined;

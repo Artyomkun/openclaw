@@ -11,19 +11,19 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH } from "../config/agent-limits.js";
-import { loadSessionStore, resolveStorePath } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH } from "../config/agent-limits.ts";
+import { loadSessionStore, resolveStorePath } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   isAcpSessionKey,
   isSubagentSessionKey,
   parseAgentSessionKey,
-} from "../routing/session-key.js";
+} from "../routing/session-key.ts";
 import {
   normalizeInheritedToolAllowlist,
   normalizeInheritedToolDenylist,
-} from "./inherited-tool-deny.js";
-import { getSubagentDepthFromSessionStore } from "./subagent-depth.js";
+} from "./inherited-tool-deny.ts";
+import { getSubagentDepthFromSessionStore } from "./subagent-depth.ts";
 
 /** Resolved role for a main session, orchestrating subagent, or leaf subagent. */
 export type SubagentSessionRole = "main" | "orchestrator" | "leaf";

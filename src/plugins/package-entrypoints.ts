@@ -4,7 +4,7 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 
 /** True when a package entrypoint needs built JavaScript candidates. */
 export function isTypeScriptPackageEntry(entryPath: string): boolean {
-  return [".ts", ".mts", ".cts"].includes(path.extname(entryPath).toLowerCase());
+  return [".ts", ".ts",].includes(path.extname(entryPath).toLowerCase());
 }
 
 /** Lists built runtime entry candidates for a TypeScript package entrypoint. */
@@ -20,8 +20,8 @@ export function listBuiltRuntimeEntryCandidates(entryPath: string): string[] {
     : `./dist/${withoutExtension.replace(/^\.\//u, "")}`;
   const withJavaScriptExtensions = (basePath: string) => [
     `${basePath}.js`,
-    `${basePath}.mjs`,
-    `${basePath}.cjs`,
+    `${basePath}.ts`,
+    `${basePath}.ts`,
   ];
   const candidates = [
     ...withJavaScriptExtensions(distWithoutExtension),

@@ -1,13 +1,13 @@
 /** Built-in and channel-derived command registry data for auto-reply commands. */
-import { listLoadedChannelPlugins } from "../channels/plugins/registry-loaded.js";
-import { getActivePluginChannelRegistryVersionFromState } from "../plugins/runtime-channel-state.js";
+import { listLoadedChannelPlugins } from "../channels/plugins/registry-loaded.ts";
+import { getActivePluginChannelRegistryVersionFromState } from "../plugins/runtime-channel-state.ts";
 import {
   assertCommandRegistry,
   buildBuiltinChatCommands,
   defineChatCommand,
-} from "./commands-registry.shared.js";
-import type { ChatCommandDefinition } from "./commands-registry.types.js";
-import { listThinkingLevels } from "./thinking.js";
+} from "./commands-registry.shared.ts";
+import type { ChatCommandDefinition } from "./commands-registry.types.ts";
+import { listThinkingLevels } from "./thinking.ts";
 
 /** Builds and caches the chat-command registry for the current channel-plugin registry version. */
 type ChannelPlugin = ReturnType<typeof listLoadedChannelPlugins>[number];

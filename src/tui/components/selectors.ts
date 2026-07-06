@@ -4,9 +4,9 @@ import {
   filterableSelectListTheme,
   searchableSelectListTheme,
   settingsListTheme,
-} from "../theme/theme.js";
-import { FilterableSelectList, type FilterableSelectItem } from "./filterable-select-list.js";
-import { SearchableSelectList } from "./searchable-select-list.js";
+} from "../theme/theme.ts";
+import { FilterableSelectList, type FilterableSelectItem } from "./filterable-select-list.ts";
+import { SearchableSelectList } from "./searchable-select-list.ts";
 
 /** Creates a themed searchable select list for TUI overlays. */
 export function createSearchableSelectList(items: SelectItem[], maxVisible = 7) {

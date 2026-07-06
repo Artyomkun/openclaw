@@ -1,7 +1,7 @@
 // Gateway auth option parser: supports direct values and file-backed secrets with CLI warnings.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { readSecretFromFile } from "../acp/secret-file.js";
-import { defaultRuntime } from "../runtime.js";
+import { readSecretFromFile } from "../acp/secret-file.ts";
+import { defaultRuntime } from "../runtime.ts";
 
 function resolveGatewaySecretOption(params: {
   direct?: unknown;

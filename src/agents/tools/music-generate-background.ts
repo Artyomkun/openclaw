@@ -3,11 +3,11 @@
  *
  * Binds shared detached media-task lifecycle behavior to music_generate labels and completion messages.
  */
-import { MUSIC_GENERATION_TASK_KIND } from "../music-generation-task-status.js";
+import { MUSIC_GENERATION_TASK_KIND } from "../music-generation-task-status.ts";
 import {
   createMediaGenerationTaskLifecycle,
   type MediaGenerationTaskHandle,
-} from "./media-generate-background-shared.js";
+} from "./media-generate-background-shared.ts";
 
 export type MusicGenerationTaskHandle = MediaGenerationTaskHandle;
 

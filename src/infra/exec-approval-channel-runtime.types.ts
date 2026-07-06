@@ -1,7 +1,7 @@
 // Defines channel-native approval runtime contracts.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ExecApprovalRequest, ExecApprovalResolved } from "./exec-approvals.js";
-import type { PluginApprovalRequest, PluginApprovalResolved } from "./plugin-approvals.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ExecApprovalRequest, ExecApprovalResolved } from "./exec-approvals.ts";
+import type { PluginApprovalRequest, PluginApprovalResolved } from "./plugin-approvals.ts";
 
 type ApprovalRequestEvent = ExecApprovalRequest | PluginApprovalRequest;
 type ApprovalResolvedEvent = ExecApprovalResolved | PluginApprovalResolved;

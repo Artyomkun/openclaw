@@ -7,14 +7,9 @@ import {
   removePluginFromConfig,
 } from "openclaw/plugin-sdk/runtime-doctor";
 import {
-  legacyConfigRules as MATRIX_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig as normalizeMatrixCompatibilityConfig,
 } from "./doctor-contract.js";
 import {
-  autoMigrateLegacyMatrixState,
-  autoPrepareLegacyMatrixCrypto,
-  detectLegacyMatrixCrypto,
-  detectLegacyMatrixState,
   maybeCreateMatrixMigrationSnapshot,
   resolveMatrixMigrationStatus,
 } from "./matrix-migration.runtime.js";
@@ -46,39 +41,6 @@ function configMayNeedMatrixDoctorSequence(cfg: OpenClawConfig, env: NodeJS.Proc
     hasConfiguredMatrixPluginSurface(cfg) ||
     hasConfiguredMatrixEnv(env)
   );
-}
-
-export function formatMatrixLegacyStatePreview(
-  detection: Exclude<ReturnType<typeof detectLegacyMatrixState>, null | { warning: string }>,
-): string {
-  return [
-    "- Matrix plugin upgraded in place.",
-    `- Legacy sync store: ${detection.legacyStoragePath} -> ${detection.targetStoragePath}`,
-    `- Legacy crypto store: ${detection.legacyCryptoPath} -> ${detection.targetCryptoPath}`,
-    ...(detection.selectionNote ? [`- ${detection.selectionNote}`] : []),
-    '- Run "openclaw doctor --fix" to migrate this Matrix state now.',
-  ].join("\n");
-}
-
-export function formatMatrixLegacyCryptoPreview(
-  detection: ReturnType<typeof detectLegacyMatrixCrypto>,
-): string[] {
-  const notes: string[] = [];
-  for (const warning of detection.warnings) {
-    notes.push(`- ${warning}`);
-  }
-  for (const plan of detection.plans) {
-    notes.push(
-      [
-        `- Matrix encrypted-state migration is pending for account "${plan.accountId}".`,
-        `- Legacy crypto store: ${plan.legacyCryptoPath}`,
-        `- Recovery key state: Matrix SQLite state (imports ${plan.recoveryKeyPath} if present)`,
-        `- Migration state: Matrix SQLite state (imports ${plan.statePath} if present)`,
-        '- Run "openclaw doctor --fix" to extract any saved backup key now. Backed-up room keys will restore automatically on next gateway start.',
-      ].join("\n"),
-    );
-  }
-  return notes;
 }
 
 export async function collectMatrixInstallPathWarnings(cfg: OpenClawConfig): Promise<string[]> {
@@ -168,40 +130,6 @@ export async function applyMatrixDoctorRepair(params: {
   if (!matrixSnapshotReady) {
     return { changes, warnings };
   }
-
-  const matrixStateRepair = await autoMigrateLegacyMatrixState({
-    cfg: params.cfg,
-    env: params.env,
-  });
-  if (matrixStateRepair.changes.length > 0) {
-    changes.push(
-      [
-        "Matrix plugin upgraded in place.",
-        ...matrixStateRepair.changes.map((entry) => `- ${entry}`),
-        "- No user action required.",
-      ].join("\n"),
-    );
-  }
-  if (matrixStateRepair.warnings.length > 0) {
-    warnings.push(matrixStateRepair.warnings.map((entry) => `- ${entry}`).join("\n"));
-  }
-
-  const matrixCryptoRepair = await autoPrepareLegacyMatrixCrypto({
-    cfg: params.cfg,
-    env: params.env,
-  });
-  if (matrixCryptoRepair.changes.length > 0) {
-    changes.push(
-      [
-        "Matrix encrypted-state migration prepared.",
-        ...matrixCryptoRepair.changes.map((entry) => `- ${entry}`),
-      ].join("\n"),
-    );
-  }
-  if (matrixCryptoRepair.warnings.length > 0) {
-    warnings.push(matrixCryptoRepair.warnings.map((entry) => `- ${entry}`).join("\n"));
-  }
-
   return { changes, warnings };
 }
 
@@ -232,19 +160,6 @@ export async function runMatrixDoctorSequence(params: {
       cfg: params.cfg,
       env: params.env,
     });
-    if (migrationStatus.legacyState) {
-      if ("warning" in migrationStatus.legacyState) {
-        warningNotes.push(`- ${migrationStatus.legacyState.warning}`);
-      } else {
-        warningNotes.push(formatMatrixLegacyStatePreview(migrationStatus.legacyState));
-      }
-    }
-    if (
-      migrationStatus.legacyCrypto.warnings.length > 0 ||
-      migrationStatus.legacyCrypto.plans.length > 0
-    ) {
-      warningNotes.push(...formatMatrixLegacyCryptoPreview(migrationStatus.legacyCrypto));
-    }
   }
 
   return { changeNotes, warningNotes };
@@ -255,7 +170,6 @@ export const matrixDoctor: ChannelDoctorAdapter = {
   groupModel: "sender",
   groupAllowFromFallbackToAllowFrom: false,
   warnOnEmptyGroupSenderAllowlist: true,
-  legacyConfigRules: MATRIX_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig: normalizeMatrixCompatibilityConfig,
   runConfigSequence: async ({ cfg, env, shouldRepair }) =>
     await runMatrixDoctorSequence({ cfg, env, shouldRepair }),

@@ -1,6 +1,6 @@
 /** Reads and renders macOS LaunchAgent plists for gateway service installs. */
 import fs from "node:fs/promises";
-import type { GatewayServiceEnvironmentValueSource } from "./service-types.js";
+import type { GatewayServiceEnvironmentValueSource } from "./service-types.ts";
 
 // launchd defaults to a 10s spawn throttle. Keep that default explicitly so
 // crash loops back off instead of respawning every second while still allowing
@@ -92,7 +92,7 @@ function isGeneratedEnvWrapperArgs(
   if (!label) {
     return false;
   }
-  // Legacy/corrupted plists may preserve the label-derived wrapper name inside
+  // Corrupted plists may preserve the label-derived wrapper name inside
   // a mangled service-env path. Still unwrap it so the next rewrite can repair.
   return (
     includesGeneratedEnvironmentDirToken(wrapperPath) &&

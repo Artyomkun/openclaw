@@ -13,11 +13,11 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { parseStrictPositiveInteger } from "./parse-finite-number.js";
-import { isAtLeast, parseSemver } from "./runtime-guard.js";
-import { compareComparableSemver, parseComparableSemver } from "./semver-compare.js";
-import { createTempDownloadTarget } from "./temp-download.js";
-export { parseClawHubPluginSpec } from "./clawhub-spec.js";
+import { parseStrictPositiveInteger } from "./parse-finite-number.ts";
+import { isAtLeast, parseSemver } from "./runtime-guard.ts";
+import { compareComparableSemver, parseComparableSemver } from "./semver-compare.ts";
+import { createTempDownloadTarget } from "./temp-download.ts";
+export { parseClawHubPluginSpec } from "./clawhub-spec.ts";
 
 const DEFAULT_CLAWHUB_URL = "https://clawhub.ai";
 const DEFAULT_GITHUB_CODELOAD_URL = "https://codeload.github.com";
@@ -66,7 +66,6 @@ export type ClawHubPackageArtifactSummary = {
   npmFileCount?: number | null;
   downloadUrl?: string | null;
   tarballUrl?: string | null;
-  legacyDownloadUrl?: string | null;
 };
 export type ClawHubArtifactScanState =
   | "pending"
@@ -87,7 +86,6 @@ export type ClawHubPackageSecurityTrust = {
 export type ClawHubResolvedArtifact =
   | {
       source: "clawhub";
-      artifactKind: "legacy-zip";
       packageName: string;
       version: string;
       downloadUrl?: string | null;
@@ -493,7 +491,7 @@ function resolveClawHubConfigPaths(): string[] {
   const explicit =
     normalizeOptionalString(process.env.OPENCLAW_CLAWHUB_CONFIG_PATH) ||
     normalizeOptionalString(process.env.CLAWHUB_CONFIG_PATH) ||
-    normalizeOptionalString(process.env.CLAWDHUB_CONFIG_PATH); // legacy misspelling from older clawhub CLI builds; keep for back-compat
+    normalizeOptionalString(process.env.CLAWDHUB_CONFIG_PATH);
   if (explicit) {
     return [explicit];
   }
@@ -894,9 +892,8 @@ function parseOptionalSecurityRelease(value: unknown): ClawHubPackageSecurityRes
   }
   const result: NonNullable<ClawHubPackageSecurityResponse["release"]> = {};
   const releaseId = optionalStringField(value, "releaseId", "security release");
-  const legacyId = optionalStringField(value, "id", "security release");
   const version = optionalStringField(value, "version", "security release");
-  const id = releaseId ?? legacyId;
+  const id = releaseId;
   if (id !== undefined) {
     result.id = id;
   }

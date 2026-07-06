@@ -3,7 +3,7 @@
  *
  * Lazily registers ACP target drivers so non-ACP channel flows avoid ACP runtime imports.
  */
-import { registerStatefulBindingTargetDriver } from "./stateful-target-drivers.js";
+import { registerStatefulBindingTargetDriver } from "./stateful-target-drivers.ts";
 
 type AcpStatefulTargetDriverModule = typeof import("./acp-stateful-target-driver.js");
 

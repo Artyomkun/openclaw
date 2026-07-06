@@ -1,5 +1,5 @@
 // Runtime boundary for collecting channel security audit findings.
-import { collectChannelSecurityFindings as collectChannelSecurityFindingsImpl } from "./audit-channel.js";
+import { collectChannelSecurityFindings as collectChannelSecurityFindingsImpl } from "./audit-channel.ts";
 
 type CollectChannelSecurityFindings =
   typeof import("./audit-channel.js").collectChannelSecurityFindings;

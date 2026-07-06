@@ -22,6 +22,6 @@ export function createLiveTransportQaCliRegistration(
     ...params,
     defaultProviderMode: "live-frontier",
     providerModeHelp:
-      "Provider mode: mock-openai or live-frontier (legacy live-openai still works)",
+      "Provider mode: mock-openai or live-frontier",
   });
 }

@@ -1,20 +1,20 @@
 // In-process gateway run loop, restart signaling, drain, and update respawn handling.
 import { randomUUID } from "node:crypto";
 import net from "node:net";
-import { clearRuntimeConfigSnapshot } from "../../config/runtime-snapshot.js";
+import { clearRuntimeConfigSnapshot } from "../../config/runtime-snapshot.ts";
 import {
   captureGatewayRestartTraceHandoff,
   createGatewayRestartTraceHandoffEnv,
   measureGatewayRestartTrace,
   markGatewayRestartTrace,
   startGatewayRestartTrace,
-} from "../../gateway/restart-trace.js";
-import type { startGatewayServer } from "../../gateway/server.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { acquireGatewayLock } from "../../infra/gateway-lock.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+} from "../../gateway/restart-trace.ts";
+import type { startGatewayServer } from "../../gateway/server.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { acquireGatewayLock } from "../../infra/gateway-lock.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 const gatewayLog = createSubsystemLogger("gateway");
 const LAUNCHD_SUPERVISED_RESTART_EXIT_DELAY_MS = 1500;
 const DEFAULT_RESTART_DRAIN_TIMEOUT_MS = 300_000;

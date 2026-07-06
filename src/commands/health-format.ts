@@ -1,10 +1,10 @@
 /** Formatting helpers for `openclaw health` failures and channel summaries. */
 import { asNullableRecord } from "@openclaw/normalization-core/record-coerce";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { formatChannelStatusState } from "../channels/plugins/status-state.js";
-import { isGatewayTransportError } from "../gateway/call.js";
-import type { ChannelAccountHealthSummary, HealthSummary } from "./health.types.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { colorize, isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { formatChannelStatusState } from "../channels/plugins/status-state.ts";
+import { isGatewayTransportError } from "../gateway/call.ts";
+import type { ChannelAccountHealthSummary, HealthSummary } from "./health.types.ts";
 
 export function formatGatewayClosedDiagnostic(err: unknown): string | undefined {
   if (!isGatewayTransportError(err) || err.kind !== "closed") {

@@ -1,6 +1,4 @@
 // Volcengine plugin module implements tts behavior.
-import * as crypto from "node:crypto";
-import { readResponseWithLimit } from "openclaw/plugin-sdk/response-limit-runtime";
 import { fetchWithSsrFGuard } from "openclaw/plugin-sdk/ssrf-runtime";
 
 export type VolcengineTtsEncoding = "ogg_opus" | "mp3" | "pcm" | "wav";
@@ -24,14 +22,9 @@ type VolcengineTTSParams = {
 };
 
 const DEFAULT_SEED_VOICE = "en_female_anna_mars_bigtts";
-const DEFAULT_LEGACY_VOICE = "zh_female_xiaohe_uranus_bigtts";
-const DEFAULT_CLUSTER = "volcano_tts";
 const DEFAULT_SEED_TTS_RESOURCE_ID = "seed-tts-1.0";
 const DEFAULT_SEED_TTS_APP_KEY = "aGjiRDfUWi";
-const VOLCENGINE_TTS_RESPONSE_MAX_BYTES = 16 * 1024 * 1024;
-const BYTEPLUS_SEED_TTS_URL =
-  "https://voice.ap-southeast-1.bytepluses.com/api/v3/tts/unidirectional";
-const VOLCENGINE_LEGACY_TTS_URL = "https://openspeech.bytedance.com/api/v1/tts";
+const BYTEPLUS_SEED_TTS_URL = "https://voice.ap-southeast-1.bytepluses.com/api/v3/tts/unidirectional";
 
 type VolcengineTtsResponse = {
   code?: number;
@@ -74,10 +67,6 @@ function toTtsResponse(parsed: Record<string, unknown>): VolcengineTtsResponse {
           : undefined,
     data: typeof parsed.data === "string" ? parsed.data : undefined,
   };
-}
-
-function parseLegacyTtsResponse(text: string): VolcengineTtsResponse {
-  return toTtsResponse(parseJsonObject(text, "Volcengine"));
 }
 
 function parseSeedTtsFrames(text: string): VolcengineTtsResponse[] {
@@ -158,124 +147,13 @@ async function seedSpeechTTS(params: VolcengineTTSParams & { apiKey: string }): 
     policy: { hostnameAllowlist: hostnameAllowlist(baseUrl) },
     auditContext: "volcengine.tts",
   });
-
-  try {
-    const responseText = new TextDecoder().decode(
-      await readResponseWithLimit(response, VOLCENGINE_TTS_RESPONSE_MAX_BYTES, {
-        onOverflow: ({ maxBytes }) =>
-          new Error(`BytePlus Seed Speech TTS response exceeds ${maxBytes} bytes`),
-      }),
-    );
-    const frames = parseSeedTtsFrames(responseText);
-    const chunks: Buffer[] = [];
-    for (const frame of frames) {
-      if (frame.code === 0) {
-        if (frame.data) {
-          chunks.push(Buffer.from(frame.data, "base64"));
-        }
-        continue;
-      }
-      if (frame.code === 20000000) {
-        continue;
-      }
-      throw new Error(
-        `BytePlus Seed Speech TTS error ${frame.code ?? response.status}: ${
-          frame.message ?? "unknown"
-        }`,
-      );
-    }
-
-    if (!response.ok || chunks.length === 0) {
-      throw new Error(`BytePlus Seed Speech TTS error ${response.status}: no audio data`);
-    }
-
-    return Buffer.concat(chunks);
-  } finally {
-    await release();
-  }
-}
-
-async function legacyVolcengineTTS(
-  params: VolcengineTTSParams & { appId: string; token: string },
-): Promise<Buffer> {
-  const {
-    text,
-    appId,
-    token,
-    voice = DEFAULT_LEGACY_VOICE,
-    cluster = DEFAULT_CLUSTER,
-    baseUrl = VOLCENGINE_LEGACY_TTS_URL,
-    speedRatio = 1,
-    volumeRatio = 1,
-    pitchRatio = 1,
-    emotion,
-    encoding = "ogg_opus",
-    timeoutMs = 30_000,
-  } = params;
-
-  const payload = JSON.stringify({
-    app: { appid: appId, token, cluster },
-    user: { uid: "openclaw" },
-    audio: {
-      voice_type: voice,
-      encoding,
-      speed_ratio: speedRatio,
-      volume_ratio: volumeRatio,
-      pitch_ratio: pitchRatio,
-      ...(emotion ? { emotion } : {}),
-    },
-    request: {
-      reqid: crypto.randomUUID(),
-      text,
-      text_type: "plain",
-      operation: "query",
-    },
-  });
-
-  const { response, release } = await fetchWithSsrFGuard({
-    url: baseUrl,
-    init: {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer;${token}`,
-      },
-      body: payload,
-    },
-    timeoutMs,
-    policy: { hostnameAllowlist: hostnameAllowlist(baseUrl) },
-    auditContext: "volcengine.tts",
-  });
-
-  try {
-    const responseText = new TextDecoder().decode(
-      await readResponseWithLimit(response, VOLCENGINE_TTS_RESPONSE_MAX_BYTES, {
-        onOverflow: ({ maxBytes }) =>
-          new Error(`Volcengine TTS response exceeds ${maxBytes} bytes`),
-      }),
-    );
-    const body = parseLegacyTtsResponse(responseText);
-    if (!response.ok || body.code !== 3000 || !body.data) {
-      throw new Error(
-        `Volcengine TTS error ${body.code ?? response.status}: ${body.message ?? "unknown"}`,
-      );
-    }
-    return Buffer.from(body.data, "base64");
-  } finally {
-    await release();
-  }
 }
 
 export async function volcengineTTS(params: VolcengineTTSParams): Promise<Buffer> {
   if (params.apiKey) {
     return seedSpeechTTS({ ...params, apiKey: params.apiKey });
   }
-
-  if (params.appId && params.token) {
-    return legacyVolcengineTTS({ ...params, appId: params.appId, token: params.token });
-  }
-
   throw new Error(
-    "Volcengine TTS credentials missing. Set a BytePlus Seed Speech API key or legacy AppID/token.",
+    "Volcengine TTS credentials missing. Set a BytePlus Seed Speech API key or old AppID/token.",
   );
 }

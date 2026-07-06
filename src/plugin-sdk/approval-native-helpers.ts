@@ -2,29 +2,29 @@
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "../../packages/normalization-core/src/string-coerce.js";
+} from "../../packages/normalization-core/src/string-coerce.ts";
 import type {
   ExecApprovalForwardingConfig,
   ExecApprovalForwardingMode,
-} from "../config/types.approvals.js";
-import { doesApprovalRequestMatchChannelAccount } from "../infra/approval-request-account-binding.js";
-import { matchesApprovalRequestFilters } from "../infra/approval-request-filters.js";
+} from "../config/types.approvals.ts";
+import { doesApprovalRequestMatchChannelAccount } from "../infra/approval-request-account-binding.ts";
+import { matchesApprovalRequestFilters } from "../infra/approval-request-filters.ts";
 import {
   getExecApprovalReplyMetadata,
   type ExecApprovalReplyMetadata,
-} from "../infra/exec-approval-reply.js";
-import type { ExecApprovalSessionTarget } from "../infra/exec-approval-session-target.js";
+} from "../infra/exec-approval-reply.ts";
+import type { ExecApprovalSessionTarget } from "../infra/exec-approval-session-target.ts";
 import {
   resolveApprovalRequestOriginTarget,
   resolveApprovalRequestSessionTarget,
-} from "../infra/exec-approval-session-target.js";
-import type { ExecApprovalRequest } from "../infra/exec-approvals.js";
-import type { PluginApprovalRequest } from "../infra/plugin-approvals.js";
-import { normalizeAccountId } from "../routing/session-key.js";
-import type { ChannelApprovalCapability, ChannelOutboundPayloadHint } from "./channel-contract.js";
-import { channelRouteTargetsMatchExact } from "./channel-route.js";
-import type { OpenClawConfig } from "./config-runtime.js";
-import type { ReplyPayload } from "./reply-payload.js";
+} from "../infra/exec-approval-session-target.ts";
+import type { ExecApprovalRequest } from "../infra/exec-approvals.ts";
+import type { PluginApprovalRequest } from "../infra/plugin-approvals.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
+import type { ChannelApprovalCapability, ChannelOutboundPayloadHint } from "./channel-contract.ts";
+import { channelRouteTargetsMatchExact } from "./channel-route.ts";
+import type { OpenClawConfig } from "./config-runtime.ts";
+import type { ReplyPayload } from "./reply-payload.ts";
 
 type ApprovalRequest = ExecApprovalRequest | PluginApprovalRequest;
 type ApprovalKind = "exec" | "plugin";
@@ -281,7 +281,7 @@ export function shouldSuppressLocalNativeExecApprovalPrompt(params: {
   payload: ReplyPayload;
   /** Outbound payload hint proving an active native exec approval route. */
   hint?: ChannelOutboundPayloadHint;
-  /** Legacy transport gate for native delivery. */
+  /** Older transport gate for native delivery. */
   isTransportEnabled?: (params: { cfg: OpenClawConfig; accountId?: string | null }) => boolean;
   /** Preferred transport gate for native delivery. */
   isNativeDeliveryEnabled?: (params: { cfg: OpenClawConfig; accountId?: string | null }) => boolean;

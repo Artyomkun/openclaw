@@ -5,12 +5,12 @@ import {
   markUpdateRestartSentinelFailure,
   writeRestartSentinel,
   type RestartSentinelPayload,
-} from "./restart-sentinel.js";
+} from "./restart-sentinel.ts";
 import {
   buildUpdateRestartSentinelPayload,
   type UpdateRestartSentinelMeta,
-} from "./update-restart-sentinel-payload.js";
-import type { UpdateRunResult } from "./update-runner.js";
+} from "./update-restart-sentinel-payload.ts";
+import type { UpdateRunResult } from "./update-runner.ts";
 
 // Control-plane update sentinel helpers preserve update metadata while a
 // managed service handoff waits for restart health to complete.

@@ -1,5 +1,5 @@
 // Implements debug command toggles used by maintainers during reply runs.
-import { parseStandardSetUnsetSlashCommand } from "./commands-setunset-standard.js";
+import { parseStandardSetUnsetSlashCommand } from "./commands-setunset-standard.ts";
 
 type DebugCommand =
   | { action: "show" }

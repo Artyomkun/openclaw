@@ -1,17 +1,17 @@
 // Root Commander help, global options, banner, version, and example formatting.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { isRich, theme } from "../../../packages/terminal-core/src/theme.js";
-import { resolveCommitHash } from "../../infra/git-commit.js";
-import { escapeRegExp } from "../../utils.js";
-import { isRootVersionInvocation } from "../argv.js";
-import { formatCliBannerLine, hasEmittedCliBanner } from "../banner.js";
-import { replaceCliName, resolveCliName } from "../cli-name.js";
-import { CLI_LOG_LEVEL_VALUES, parseCliLogLevelOption } from "../log-level-option.js";
-import type { ProgramContext } from "./context.js";
-import { getCoreCliCommandsWithSubcommands } from "./core-command-descriptors.js";
-import { formatCliParseErrorOutput } from "./error-output.js";
-import { getSubCliCommandsWithSubcommands } from "./subcli-descriptors.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { isRich, theme } from "../../../packages/terminal-core/src/theme.ts";
+import { resolveCommitHash } from "../../infra/git-commit.ts";
+import { escapeRegExp } from "../../utils.ts";
+import { isRootVersionInvocation } from "../argv.ts";
+import { formatCliBannerLine, hasEmittedCliBanner } from "../banner.ts";
+import { replaceCliName, resolveCliName } from "../cli-name.ts";
+import { CLI_LOG_LEVEL_VALUES, parseCliLogLevelOption } from "../log-level-option.ts";
+import type { ProgramContext } from "./context.ts";
+import { getCoreCliCommandsWithSubcommands } from "./core-command-descriptors.ts";
+import { formatCliParseErrorOutput } from "./error-output.ts";
+import { getSubCliCommandsWithSubcommands } from "./subcli-descriptors.ts";
 
 const CLI_NAME = resolveCliName();
 const CLI_NAME_PATTERN = escapeRegExp(CLI_NAME);

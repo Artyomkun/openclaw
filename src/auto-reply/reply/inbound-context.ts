@@ -1,10 +1,10 @@
 // Builds prompt context facts from inbound channel and sender metadata.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import { resolveConversationLabel } from "../../channels/conversation-label.js";
-import { resolveCommandTurnContext } from "../command-turn-context.js";
-import type { FinalizedMsgContext, MsgContext } from "../templating.js";
-import { normalizeInboundTextNewlines, sanitizeInboundSystemTags } from "./inbound-text.js";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import { resolveConversationLabel } from "../../channels/conversation-label.ts";
+import { resolveCommandTurnContext } from "../command-turn-context.ts";
+import type { FinalizedMsgContext, MsgContext } from "../templating.ts";
+import { normalizeInboundTextNewlines, sanitizeInboundSystemTags } from "./inbound-text.ts";
 
 export type FinalizeInboundContextOptions = {
   forceBodyForAgent?: boolean;
@@ -104,7 +104,7 @@ export function finalizeInboundContext<T extends Record<string, unknown>>(
   const bodyForAgentSource = opts.forceBodyForAgent
     ? normalized.Body
     : (normalized.BodyForAgent ??
-      // Prefer "clean" text over legacy envelope-shaped Body when upstream forgets to set BodyForAgent.
+      // Prefer "clean" text over older envelope-shaped Body when upstream forgets to set BodyForAgent.
       normalized.CommandBody ??
       normalized.RawBody ??
       normalized.Body);

@@ -1,7 +1,7 @@
 // Ios Version script supports OpenClaw repository automation.
 import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { parseReleaseVersion } from "./npm-publish-plan.mjs";
+import { parseReleaseVersion } from "./npm-publish-plan.ts";
 
 const IOS_VERSION_FILE = "apps/ios/version.json";
 const IOS_CHANGELOG_FILE = "apps/ios/CHANGELOG.md";

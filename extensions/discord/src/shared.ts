@@ -5,7 +5,6 @@ import { formatAllowFromLowercase } from "openclaw/plugin-sdk/allow-from";
 import { adaptScopedAccountAccessor } from "openclaw/plugin-sdk/channel-config-helpers";
 import { createScopedChannelConfigAdapter } from "openclaw/plugin-sdk/channel-config-helpers";
 import type { ChannelDoctorAdapter } from "openclaw/plugin-sdk/channel-contract";
-import { inspectDiscordAccount } from "./account-inspect.js";
 import {
   isDiscordAccountEnabledForRuntime,
   listDiscordAccountIds,
@@ -23,7 +22,6 @@ import {
 } from "./channel-api.js";
 import { DiscordChannelConfigSchema } from "./config-schema.js";
 import { normalizeCompatibilityConfig } from "./doctor-contract.js";
-import { DISCORD_LEGACY_CONFIG_RULES } from "./doctor-shared.js";
 import type { OpenClawConfig } from "./runtime-api.js";
 import {
   collectRuntimeConfigAssignments,
@@ -34,7 +32,6 @@ import {
   unsupportedSecretRefSurfacePatterns,
 } from "./security-contract.js";
 import { discordSecurityAdapter } from "./security.js";
-import { deriveLegacySessionChatType } from "./session-contract.js";
 
 const DISCORD_CHANNEL = "discord" as const;
 
@@ -56,7 +53,6 @@ const discordDoctor: ChannelDoctorAdapter = {
   groupModel: "route",
   groupAllowFromFallbackToAllowFrom: false,
   warnOnEmptyGroupSenderAllowlist: false,
-  legacyConfigRules: DISCORD_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig,
   collectPreviewWarnings: async (params) =>
     (await loadDiscordDoctorModule()).discordDoctor.collectPreviewWarnings?.(params) ?? [],
@@ -166,9 +162,6 @@ export function createDiscordPluginBase(params: {
             tokenStatus: account.tokenStatus,
           },
         }),
-    },
-    messaging: {
-      deriveLegacySessionChatType,
     },
     security: discordSecurityAdapter,
     secrets: {

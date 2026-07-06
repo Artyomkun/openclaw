@@ -9,57 +9,57 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { planManifestModelCatalogRows } from "../model-catalog/manifest-planner.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { planManifestModelCatalogRows } from "../model-catalog/manifest-planner.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
 import {
   isManifestPluginAvailableForControlPlane,
   loadManifestMetadataSnapshot,
-} from "../plugins/manifest-contract-eligibility.js";
-import { resolvePluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.js";
-import { augmentModelCatalogWithProviderPlugins } from "../plugins/provider-runtime.runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { resolveDefaultAgentDir } from "./agent-scope.js";
-import { ensureAuthProfileStoreWithoutExternalProfiles } from "./auth-profiles.js";
-import { modelSupportsInput as modelCatalogEntrySupportsInput } from "./model-catalog-lookup.js";
+} from "../plugins/manifest-contract-eligibility.ts";
+import { resolvePluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.ts";
+import { augmentModelCatalogWithProviderPlugins } from "../plugins/provider-runtime.runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { resolveDefaultAgentDir } from "./agent-scope.ts";
+import { ensureAuthProfileStoreWithoutExternalProfiles } from "./auth-profiles.ts";
+import { modelSupportsInput as modelCatalogEntrySupportsInput } from "./model-catalog-lookup.ts";
 import {
   buildAgentModelCatalogCacheKey,
   readCachedAgentModelCatalog,
   writeCachedAgentModelCatalog,
-} from "./model-catalog-state-cache.js";
-import type { ModelCatalogEntry, ModelInputType } from "./model-catalog.types.js";
-import { resolveModelWorkspaceDir } from "./model-discovery-context.js";
+} from "./model-catalog-state-cache.ts";
+import type { ModelCatalogEntry, ModelInputType } from "./model-catalog.types.ts";
+import { resolveModelWorkspaceDir } from "./model-discovery-context.ts";
 import {
   modelKey,
   normalizeConfiguredProviderCatalogModelId,
   type ProviderModelIdNormalizationOptions,
-} from "./model-ref-shared.js";
+} from "./model-ref-shared.ts";
 import {
   buildConfiguredModelCatalog,
   hasConfiguredProviderModelRows,
-} from "./model-selection-shared.js";
+} from "./model-selection-shared.ts";
 import {
   buildModelsJsonSourceFingerprint,
   prepareOpenClawModelsJsonSource,
-} from "./models-config.js";
+} from "./models-config.ts";
 import {
   filterGeneratedPluginModelCatalogProviders,
   listPluginModelCatalogFiles,
   type PluginModelCatalogMetadataSnapshot,
-} from "./plugin-model-catalog.js";
+} from "./plugin-model-catalog.ts";
 
 const log = createSubsystemLogger("model-catalog");
 const AGENT_CUSTOM_MODEL_DEFAULT_CONTEXT_WINDOW = 128_000;
 
-export type { ModelCatalogEntry, ModelInputType } from "./model-catalog.types.js";
+export type { ModelCatalogEntry, ModelInputType } from "./model-catalog.types.ts";
 export {
   findModelCatalogEntry,
   findModelInCatalog,
   modelSupportsInput,
-} from "./model-catalog-lookup.js";
+} from "./model-catalog-lookup.ts";
 
 type DiscoveredModel = {
   id: string;
@@ -142,14 +142,6 @@ export function resetModelCatalogCacheForTest() {
   loadedModelCatalogGeneration = -1;
   importAgentDiscovery = defaultImportAgentDiscovery;
 }
-
-// Test-only escape hatch: allow mocking discovery failures without touching module state.
-export function setModelCatalogImportForTest(loader?: () => Promise<AgentDiscoveryModule>) {
-  importAgentDiscovery = loader ?? defaultImportAgentDiscovery;
-}
-
-/** @deprecated Use `setModelCatalogImportForTest`. */
-export { setModelCatalogImportForTest as __setModelCatalogImportForTest };
 
 function catalogEntryDedupeKey(provider: string, id: string): string {
   const normalizedProvider = normalizeProviderId(provider);

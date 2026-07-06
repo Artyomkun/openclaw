@@ -7,29 +7,29 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import { loadSessionStore } from "../config/sessions/store-load.js";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import { loadSessionStore } from "../config/sessions/store-load.ts";
 import {
   resolveExternalBestEffortDeliveryTarget,
   type ExternalBestEffortDeliveryTarget,
-} from "../infra/outbound/best-effort-delivery.js";
-import { sendMessage } from "../infra/outbound/message.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { stringifyRouteThreadId } from "../plugin-sdk/channel-route.js";
-import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
-import { isCronSessionKey, isSubagentSessionKey } from "../sessions/session-key-utils.js";
-import { isGatewayMessageChannel, normalizeMessageChannel } from "../utils/message-channel.js";
+} from "../infra/outbound/best-effort-delivery.ts";
+import { sendMessage } from "../infra/outbound/message.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { stringifyRouteThreadId } from "../plugin-sdk/channel-route.ts";
+import { resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
+import { isCronSessionKey, isSubagentSessionKey } from "../sessions/session-key-utils.ts";
+import { isGatewayMessageChannel, normalizeMessageChannel } from "../utils/message-channel.ts";
 import {
   buildExecApprovalFollowupIdempotencyKey,
   isExecApprovalFollowupSessionRebound,
-} from "./bash-tools.exec-approval-followup-state.js";
-import { sanitizeUserFacingText } from "./embedded-agent-helpers/sanitize-user-facing-text.js";
+} from "./bash-tools.exec-approval-followup-state.ts";
+import { sanitizeUserFacingText } from "./embedded-agent-helpers/sanitize-user-facing-text.ts";
 import {
   formatExecDeniedUserMessage,
   isExecDeniedResultText,
   parseExecApprovalResultText,
-} from "./exec-approval-result.js";
-import { callGatewayTool } from "./tools/gateway.js";
+} from "./exec-approval-result.ts";
+import { callGatewayTool } from "./tools/gateway.ts";
 
 const log = createSubsystemLogger("agents/exec-approval-followup");
 

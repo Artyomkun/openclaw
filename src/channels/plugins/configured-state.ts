@@ -3,12 +3,12 @@
  *
  * Lists and checks bundled channels that can report configured account state.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginDiscoveryResult } from "../../plugins/discovery.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginDiscoveryResult } from "../../plugins/discovery.ts";
 import {
   hasBundledChannelPackageState,
   listBundledChannelIdsForPackageState,
-} from "./package-state-probes.js";
+} from "./package-state-probes.ts";
 
 /**
  * Lists bundled channel ids that expose configured-state detectors.

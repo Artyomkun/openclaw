@@ -2,26 +2,26 @@
 // do not pull heavyweight runtime graphs at activation time.
 
 import { findNormalizedProviderKey } from "@openclaw/model-catalog-core/provider-id";
-import { resolvePrimaryStringValue } from "../../packages/normalization-core/src/string-coerce.js";
-import { ensureStaticModelAllowlistEntry } from "../agents/model-allowlist-entry.js";
-import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.js";
+import { resolvePrimaryStringValue } from "../../packages/normalization-core/src/string-coerce.ts";
+import { ensureStaticModelAllowlistEntry } from "../agents/model-allowlist-entry.ts";
+import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.ts";
 import {
   normalizeAgentModelMapForConfig,
   normalizeAgentModelRefForConfig,
-} from "../config/model-input.js";
-import type { AgentModelEntryConfig } from "../config/types.agent-defaults.js";
+} from "../config/model-input.ts";
+import type { AgentModelEntryConfig } from "../config/types.agent-defaults.ts";
 import type {
   ModelApi,
   ModelDefinitionConfig,
   ModelProviderConfig,
-} from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 export type { OpenClawConfig, ModelApi, ModelDefinitionConfig, ModelProviderConfig };
 export {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../config/model-input.js";
+} from "../config/model-input.ts";
 
 /** Alias registration accepted by provider onboarding presets. */
 export type AgentModelAliasEntry =
@@ -30,11 +30,6 @@ export type AgentModelAliasEntry =
       modelRef: string;
       alias?: string;
     };
-
-const LEGACY_OPENCODE_ZEN_DEFAULT_MODELS = new Set([
-  "opencode/claude-opus-4-5",
-  "opencode-zen/claude-opus-4-5",
-]);
 
 /** Current OpenCode Zen default model ref used by onboarding and repair flows. */
 export const OPENCODE_ZEN_DEFAULT_MODEL = "opencode/claude-opus-4-6";
@@ -329,10 +324,7 @@ export function applyOpencodeZenModelDefault(cfg: OpenClawConfig): {
   changed: boolean;
 } {
   const current = resolvePrimaryStringValue(cfg.agents?.defaults?.model);
-  const normalizedCurrent =
-    current && LEGACY_OPENCODE_ZEN_DEFAULT_MODELS.has(current)
-      ? OPENCODE_ZEN_DEFAULT_MODEL
-      : current;
+  const normalizedCurrent = current && OPENCODE_ZEN_DEFAULT_MODEL;
   if (normalizedCurrent === OPENCODE_ZEN_DEFAULT_MODEL) {
     return { next: cfg, changed: false };
   }

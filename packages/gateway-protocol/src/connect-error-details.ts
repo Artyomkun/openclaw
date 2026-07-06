@@ -440,7 +440,7 @@ export function readPairingConnectErrorDetails(
   });
 }
 
-/** Parses legacy/string-only pairing-required messages into structured details. */
+/** Parses string-only pairing-required messages into structured details. */
 export function readConnectPairingRequiredMessage(
   message: string | null | undefined,
 ): ConnectPairingRequiredDetails | null {

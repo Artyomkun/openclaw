@@ -2,9 +2,9 @@
 // attachment records and classifies media kind from MIME or filename.
 import { getFileExtension, isAudioFileName, kindFromMime } from "@openclaw/media-core/mime";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { MsgContext } from "../auto-reply/templating.js";
-import { assertNoWindowsNetworkPath, safeFileURLToPath } from "../infra/local-file-access.js";
-import type { MediaAttachment } from "./types.js";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import { assertNoWindowsNetworkPath, safeFileURLToPath } from "../infra/local-file-access.ts";
+import type { MediaAttachment } from "./types.ts";
 
 /** Normalizes a local attachment path while rejecting remote file URLs and Windows UNC paths. */
 export function normalizeAttachmentPath(raw?: string | null): string | undefined {
@@ -27,7 +27,7 @@ export function normalizeAttachmentPath(raw?: string | null): string | undefined
   return value;
 }
 
-/** Flattens legacy single-value and array media fields into indexed attachment records. */
+/** Flattens older single-value and array media fields into indexed attachment records. */
 export function normalizeAttachments(ctx: MsgContext): MediaAttachment[] {
   const pathsFromArray = Array.isArray(ctx.MediaPaths) ? ctx.MediaPaths : undefined;
   const urlsFromArray = Array.isArray(ctx.MediaUrls) ? ctx.MediaUrls : undefined;
@@ -46,7 +46,7 @@ export function normalizeAttachments(ctx: MsgContext): MediaAttachment[] {
   };
 
   if (pathsFromArray && pathsFromArray.length > 0) {
-    // Array fields are authoritative for multi-attachment messages; the legacy
+    // Array fields are authoritative for multi-attachment messages; the older
     // single URL remains a per-item fallback for older channel payloads.
     const count = pathsFromArray.length;
     const urls = urlsFromArray && urlsFromArray.length > 0 ? urlsFromArray : undefined;

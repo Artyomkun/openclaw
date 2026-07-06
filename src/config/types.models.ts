@@ -4,10 +4,10 @@ import type {
   OpenAICompletionsCompat,
   OpenAIResponsesCompat,
   ThinkingLevelMap,
-} from "../llm/types.js";
-import type { AgentRuntimePolicyConfig } from "./types.agents-shared.js";
-import type { ConfiguredModelProviderRequest } from "./types.provider-request.js";
-import type { SecretInput } from "./types.secrets.js";
+} from "../llm/types.ts";
+import type { AgentRuntimePolicyConfig } from "./types.agents-shared.ts";
+import type { ConfiguredModelProviderRequest } from "./types.provider-request.ts";
+import type { SecretInput } from "./types.secrets.ts";
 
 /** Provider API adapter ids accepted by model/provider config and schema generation. */
 export const MODEL_APIS = [

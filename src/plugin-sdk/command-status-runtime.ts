@@ -1,7 +1,7 @@
 /**
  * Lazy runtime SDK subpath for command status reply generation.
  */
-import { createLazyRuntimeMethodBinder, createLazyRuntimeModule } from "../shared/lazy-runtime.js";
+import { createLazyRuntimeMethodBinder, createLazyRuntimeModule } from "../shared/lazy-runtime.ts";
 
 type CommandStatusRuntime = typeof import("./command-status.runtime.js");
 
@@ -10,7 +10,7 @@ const loadCommandStatusRuntime = createLazyRuntimeModule(
 );
 const bindCommandStatusRuntime = createLazyRuntimeMethodBinder(loadCommandStatusRuntime);
 
-export type { ResolveDirectStatusReplyForSessionParams } from "./command-status.runtime.js";
+export type { ResolveDirectStatusReplyForSessionParams } from "./command-status.runtime.ts";
 
 /** Resolves the direct status reply text for a session without eagerly loading runtime code. */
 export const resolveDirectStatusReplyForSession: CommandStatusRuntime["resolveDirectStatusReplyForSession"] =

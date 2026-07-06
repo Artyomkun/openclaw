@@ -1,10 +1,10 @@
 /** Discovery helpers for turning gateway remote URLs and Bonjour beacons into SSH targets. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { GatewayBonjourBeacon } from "../../infra/bonjour-discovery.js";
+import type { GatewayBonjourBeacon } from "../../infra/bonjour-discovery.ts";
 import {
   buildGatewayDiscoveryTarget,
   serializeGatewayDiscoveryBeacon,
-} from "../../infra/gateway-discovery-targets.js";
+} from "../../infra/gateway-discovery-targets.ts";
 
 /** Infers a user@host SSH target from a configured remote websocket URL. */
 export function inferSshTargetFromRemoteUrl(rawUrl?: string | null): string | null {

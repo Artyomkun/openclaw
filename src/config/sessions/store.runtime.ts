@@ -4,15 +4,15 @@ export {
   cleanupSessionLifecycleArtifacts,
   updateSessionStore,
   updateSessionStoreEntry,
-} from "./store.js";
-export { deleteSessionEntryLifecycle, resetSessionEntryLifecycle } from "./session-accessor.js";
+} from "./store.ts";
+export { deleteSessionEntryLifecycle, resetSessionEntryLifecycle } from "./session-accessor.ts";
 export type {
   SessionLifecycleArtifactCleanupParams,
   SessionLifecycleArtifactCleanupResult,
-} from "./store.js";
+} from "./store.ts";
 export type {
   DeleteSessionEntryLifecycleResult,
   ResetSessionEntryLifecycleResult,
   SessionLifecycleArchivedTranscript,
   SessionLifecycleStoreTarget,
-} from "./session-accessor.js";
+} from "./session-accessor.ts";

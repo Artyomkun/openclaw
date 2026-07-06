@@ -1,15 +1,15 @@
 // Builds provider-aware auth-choice options and grouped onboarding menus.
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveProviderSetupFlowContributions } from "../flows/provider-flow.js";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveProviderSetupFlowContributions } from "../flows/provider-flow.ts";
 import {
   CORE_AUTH_CHOICE_OPTIONS,
   type AuthChoiceGroup,
   type AuthChoiceOption,
   formatStaticAuthChoiceChoicesForCli,
-} from "./auth-choice-options.static.js";
-import type { AuthChoice, AuthChoiceGroupId } from "./onboard-types.js";
+} from "./auth-choice-options.static.ts";
+import type { AuthChoice, AuthChoiceGroupId } from "./onboard-types.ts";
 
 function compareOptionLabels(a: AuthChoiceOption, b: AuthChoiceOption): number {
   return a.label.localeCompare(b.label);
@@ -80,7 +80,6 @@ function resolveProviderChoiceOptions(params?: {
 /** Format all currently available auth-choice values for CLI help/validation. */
 export function formatAuthChoiceChoicesForCli(params?: {
   includeSkip?: boolean;
-  includeLegacyAliases?: boolean;
   config?: OpenClawConfig;
   workspaceDir?: string;
   env?: NodeJS.ProcessEnv;

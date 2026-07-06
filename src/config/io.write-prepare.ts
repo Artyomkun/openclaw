@@ -1,12 +1,12 @@
 // Prepares config writes by diffing current state and preserving metadata.
 import { isDeepStrictEqual } from "node:util";
 import { normalizeConfiguredProviderCatalogModelId } from "@openclaw/model-catalog-core/provider-model-id-normalization";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import { parseConfigPathArrayIndex } from "../shared/path-array-index.js";
-import { isRecord } from "../utils.js";
-import { applyMergePatch } from "./merge-patch.js";
-import { normalizeAgentModelMapForConfig, normalizeAgentModelRefForConfig } from "./model-input.js";
-import type { OpenClawConfig } from "./types.js";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { parseConfigPathArrayIndex } from "../shared/path-array-index.ts";
+import { isRecord } from "../utils.ts";
+import { applyMergePatch } from "./merge-patch.ts";
+import { normalizeAgentModelMapForConfig, normalizeAgentModelRefForConfig } from "./model-input.ts";
+import type { OpenClawConfig } from "./types.ts";
 
 const OPEN_DM_POLICY_ALLOW_FROM_RE =
   /^(?<policyPath>[a-z0-9_.-]+)\s*=\s*"open"\s+requires\s+(?<allowPath>[a-z0-9_.-]+)(?:\s+\(or\s+[a-z0-9_.-]+\))?\s+to include "\*"$/i;

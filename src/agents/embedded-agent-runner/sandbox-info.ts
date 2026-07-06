@@ -1,11 +1,11 @@
 /**
  * Builds sandbox/full-access status metadata for embedded-agent run results.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ExecElevatedDefaults, ExecToolDefaults } from "../bash-tools.js";
-import { resolveExecDefaults } from "../exec-defaults.js";
-import type { resolveSandboxContext } from "../sandbox.js";
-import type { EmbeddedFullAccessBlockedReason, EmbeddedSandboxInfo } from "./types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ExecElevatedDefaults, ExecToolDefaults } from "../bash-tools.ts";
+import { resolveExecDefaults } from "../exec-defaults.ts";
+import type { resolveSandboxContext } from "../sandbox.ts";
+import type { EmbeddedFullAccessBlockedReason, EmbeddedSandboxInfo } from "./types.ts";
 
 /**
  * Resolves the sandbox/elevated-exec facts exposed to embedded agent results.

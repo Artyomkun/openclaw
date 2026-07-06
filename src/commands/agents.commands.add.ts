@@ -9,39 +9,39 @@ import {
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
+} from "../agents/agent-scope.ts";
 import {
   buildPortableAuthProfileSecretsStoreForAgentCopy,
   ensureAuthProfileStore,
-} from "../agents/auth-profiles.js";
-import { resolveAuthStorePath } from "../agents/auth-profiles/paths.js";
-import { loadPersistedAuthProfileStore } from "../agents/auth-profiles/persisted.js";
-import { saveAuthProfileStore } from "../agents/auth-profiles/store.js";
-import { formatCliCommand } from "../cli/command-format.js";
+} from "../agents/auth-profiles.ts";
+import { resolveAuthStorePath } from "../agents/auth-profiles/paths.ts";
+import { loadPersistedAuthProfileStore } from "../agents/auth-profiles/persisted.ts";
+import { saveAuthProfileStore } from "../agents/auth-profiles/store.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
 import {
   commitConfigWithPendingPluginInstalls,
   transformConfigWithPendingPluginInstalls,
-} from "../cli/plugins-install-record-commit.js";
-import { logConfigUpdated } from "../config/logging.js";
-import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { resolveUserPath, shortenHomePath } from "../utils.js";
-import { createClackPrompter } from "../wizard/clack-prompter.js";
-import { WizardCancelledError } from "../wizard/prompts.js";
+} from "../cli/plugins-install-record-commit.ts";
+import { logConfigUpdated } from "../config/logging.ts";
+import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { resolveUserPath, shortenHomePath } from "../utils.ts";
+import { createClackPrompter } from "../wizard/clack-prompter.ts";
+import { WizardCancelledError } from "../wizard/prompts.ts";
 import {
   applyAgentBindings,
   buildChannelBindings,
   describeBinding,
   parseBindingSpecs,
-} from "./agents.bindings.js";
-import { createQuietRuntime, requireValidConfigFileSnapshot } from "./agents.command-shared.js";
-import { applyAgentConfig, findAgentEntryIndex, listAgentEntries } from "./agents.config.js";
-import { promptAuthChoiceGrouped } from "./auth-choice-prompt.js";
-import { applyAuthChoice, warnIfModelConfigLooksOff } from "./auth-choice.js";
-import { setupChannels } from "./onboard-channels.js";
-import { ensureWorkspaceAndSessions } from "./onboard-helpers.js";
-import type { ChannelChoice } from "./onboard-types.js";
+} from "./agents.bindings.ts";
+import { createQuietRuntime, requireValidConfigFileSnapshot } from "./agents.command-shared.ts";
+import { applyAgentConfig, findAgentEntryIndex, listAgentEntries } from "./agents.config.ts";
+import { promptAuthChoiceGrouped } from "./auth-choice-prompt.ts";
+import { applyAuthChoice, warnIfModelConfigLooksOff } from "./auth-choice.ts";
+import { setupChannels } from "./onboard-channels.ts";
+import { ensureWorkspaceAndSessions } from "./onboard-helpers.ts";
+import type { ChannelChoice } from "./onboard-types.ts";
 
 type AgentsAddOptions = {
   name?: string;

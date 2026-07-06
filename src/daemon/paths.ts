@@ -1,7 +1,7 @@
 /** Resolves daemon state, home, and generated task-script paths. */
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveGatewayProfileSuffix } from "./constants.js";
+import { resolveGatewayProfileSuffix } from "./constants.ts";
 
 const windowsAbsolutePath = /^[a-zA-Z]:[\\/]/;
 const windowsUncPath = /^\\\\/;

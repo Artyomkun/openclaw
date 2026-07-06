@@ -2,16 +2,16 @@ import {
   expandEnvNormalizationKeys,
   normalizeZaiEnv,
   resolveEnvNormalizationKeys,
-} from "../infra/env.js";
+} from "../infra/env.ts";
 // Defines environment-variable config metadata and preservation rules.
 import {
   isDangerousHostEnvOverrideVarName,
   isDangerousHostEnvVarName,
   normalizeEnvVarKey,
-} from "../infra/host-env-security.js";
-import { containsEnvVarReference } from "./env-substitution.js";
-import { ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV } from "./future-version-guard.js";
-import type { OpenClawConfig } from "./types.js";
+} from "../infra/host-env-security.ts";
+import { containsEnvVarReference } from "./env-substitution.ts";
+import { ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV } from "./future-version-guard.ts";
+import type { OpenClawConfig } from "./types.ts";
 
 function isBlockedConfigEnvVar(key: string): boolean {
   return (

@@ -1,13 +1,10 @@
 // Defines plugin middleware contracts for agent tool results.
-import type { AgentToolResult } from "../agents/runtime/index.js";
+import type { AgentToolResult } from "../agents/runtime/index.ts";
 
 export type OpenClawAgentToolResult<TResult = unknown> = AgentToolResult<TResult>;
 
 export type AgentToolResultMiddlewareRuntime = "openclaw" | "codex";
-/** @deprecated Use AgentToolResultMiddlewareRuntime. */
-export type AgentToolResultMiddlewareHarness =
-  | AgentToolResultMiddlewareRuntime
-  | "codex-app-server";
+export type AgentToolResultMiddlewareHarness = "codex-app-server";
 
 export type AgentToolResultMiddlewareEvent = {
   threadId?: string;
@@ -22,8 +19,6 @@ export type AgentToolResultMiddlewareEvent = {
 
 export type AgentToolResultMiddlewareContext = {
   runtime: AgentToolResultMiddlewareRuntime;
-  /** @deprecated Use runtime. */
-  harness?: AgentToolResultMiddlewareRuntime;
   agentId?: string;
   sessionId?: string;
   sessionKey?: string;
@@ -41,6 +36,4 @@ export type AgentToolResultMiddleware = (
 
 export type AgentToolResultMiddlewareOptions = {
   runtimes?: AgentToolResultMiddlewareRuntime[];
-  /** @deprecated Use runtimes. */
-  harnesses?: AgentToolResultMiddlewareHarness[];
 };

@@ -2,8 +2,8 @@
 import {
   isChildlessNativeSubagentTask,
   resolveChildlessNativeSubagentTaskDefinition,
-} from "./native-subagent-task.js";
-import type { TaskRecord } from "./task-registry.types.js";
+} from "./native-subagent-task.ts";
+import type { TaskRecord } from "./task-registry.types.ts";
 
 /** Runtime label used for Codex-native subagent task records. */
 export const CODEX_NATIVE_SUBAGENT_RUNTIME = "subagent";

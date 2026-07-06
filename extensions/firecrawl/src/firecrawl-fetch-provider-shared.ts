@@ -31,14 +31,6 @@ export const FIRECRAWL_WEB_FETCH_PROVIDER_SHARED = {
     if (!fetchConfig || typeof fetchConfig !== "object") {
       return undefined;
     }
-    const legacy = fetchConfig.firecrawl;
-    if (!legacy || typeof legacy !== "object" || Array.isArray(legacy)) {
-      return undefined;
-    }
-    if ((legacy as { enabled?: boolean }).enabled === false) {
-      return undefined;
-    }
-    return (legacy as { apiKey?: unknown }).apiKey;
   },
   setCredentialValue: (fetchConfigTarget, value) => {
     const firecrawl = ensureRecord(fetchConfigTarget, "firecrawl");

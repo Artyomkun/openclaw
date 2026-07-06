@@ -3,8 +3,8 @@
  */
 import fs from "node:fs/promises";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { serializeJsonlLine, writeJsonlLines } from "../../config/sessions/transcript-jsonl.js";
-import { invalidateSessionFileRepairCache } from "../session-file-repair.js";
+import { serializeJsonlLine, writeJsonlLines } from "../../config/sessions/transcript-jsonl.ts";
+import { invalidateSessionFileRepairCache } from "../session-file-repair.ts";
 
 type SessionHeaderEntry = {
   type: "session";

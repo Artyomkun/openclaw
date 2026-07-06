@@ -3,21 +3,21 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { PluginHealthErrorSummary } from "../../commands/health.types.js";
-import { createConfigIO } from "../../config/io.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { GatewayServiceRuntime } from "../../daemon/service-runtime.js";
-import type { GatewayService } from "../../daemon/service.js";
-import { resolveGatewayProbeAuthSafeWithSecretInputs } from "../../gateway/probe-auth.js";
-import { probeGateway } from "../../gateway/probe.js";
+import type { PluginHealthErrorSummary } from "../../commands/health.types.ts";
+import { createConfigIO } from "../../config/io.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { GatewayServiceRuntime } from "../../daemon/service-runtime.ts";
+import type { GatewayService } from "../../daemon/service.ts";
+import { resolveGatewayProbeAuthSafeWithSecretInputs } from "../../gateway/probe-auth.ts";
+import { probeGateway } from "../../gateway/probe.ts";
 import {
   classifyPortListener,
   formatPortDiagnostics,
   inspectPortUsage,
   type PortUsage,
-} from "../../infra/ports.js";
-import { killProcessTree } from "../../process/kill-tree.js";
-import { sleep } from "../../utils.js";
+} from "../../infra/ports.ts";
+import { killProcessTree } from "../../process/kill-tree.ts";
+import { sleep } from "../../utils.ts";
 
 export const DEFAULT_RESTART_HEALTH_TIMEOUT_MS = 60_000;
 export const DEFAULT_RESTART_HEALTH_DELAY_MS = 500;

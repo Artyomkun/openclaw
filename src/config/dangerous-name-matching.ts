@@ -1,6 +1,6 @@
 // Detects dangerous config names used by validation and warnings.
-import { asBoolean } from "../utils/boolean.js";
-import type { OpenClawConfig } from "./config.js";
+import { asBoolean } from "../utils/boolean.ts";
+import type { OpenClawConfig } from "./config.ts";
 
 type DangerousNameMatchingConfig = {
   dangerouslyAllowNameMatching?: boolean;

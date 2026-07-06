@@ -803,8 +803,6 @@ export class QmdMemoryManager implements MemorySearchManager {
     // fall back to best-effort idempotent `qmd collection add`.
     const existing = await this.listCollectionsBestEffort(stats);
 
-    await this.migrateLegacyUnscopedCollections(existing);
-
     for (const collection of this.qmd.collections) {
       const listed = existing.get(collection.name);
       if (listed && !this.shouldRebindCollection(collection, listed)) {
@@ -1077,68 +1075,6 @@ export class QmdMemoryManager implements MemorySearchManager {
     }
   }
 
-  private async migrateLegacyUnscopedCollections(
-    existing: Map<string, ListedCollection>,
-  ): Promise<void> {
-    for (const collection of this.qmd.collections) {
-      if (existing.has(collection.name)) {
-        continue;
-      }
-      const legacyName = this.deriveLegacyCollectionName(collection.name);
-      if (!legacyName) {
-        continue;
-      }
-      const listedLegacy = existing.get(legacyName);
-      if (!listedLegacy) {
-        continue;
-      }
-      if (!this.canMigrateLegacyCollection(collection, listedLegacy)) {
-        log.debug(
-          `qmd legacy collection migration skipped for ${legacyName} (path/pattern mismatch)`,
-        );
-        continue;
-      }
-      try {
-        await this.removeCollection(legacyName);
-        existing.delete(legacyName);
-      } catch (err) {
-        const message = formatErrorMessage(err);
-        if (!this.isCollectionMissingError(message)) {
-          log.warn(`qmd collection remove failed for ${legacyName}: ${message}`);
-        }
-      }
-    }
-  }
-
-  private deriveLegacyCollectionName(scopedName: string): string | null {
-    const agentSuffix = `-${this.sanitizeCollectionNameSegment(this.agentId)}`;
-    if (!scopedName.endsWith(agentSuffix)) {
-      return null;
-    }
-    const legacyName = scopedName.slice(0, -agentSuffix.length).trim();
-    return legacyName || null;
-  }
-
-  private canMigrateLegacyCollection(
-    collection: ManagedCollection,
-    listedLegacy: ListedCollection,
-  ): boolean {
-    if (listedLegacy.path && !this.pathsMatch(listedLegacy.path, collection.path)) {
-      return false;
-    }
-    if (
-      typeof listedLegacy.pattern === "string" &&
-      !this.patternsMatchForManagedCollection(
-        collection.path,
-        listedLegacy.pattern,
-        collection.pattern,
-      )
-    ) {
-      return false;
-    }
-    return true;
-  }
-
   private async ensureCollectionPath(collection: {
     path: string;
     pattern: string;
@@ -1186,27 +1122,6 @@ export class QmdMemoryManager implements MemorySearchManager {
     );
     await this.ensureCollections({ force: true, debugContext });
     return true;
-  }
-
-  private async addCollection(pathArg: string, name: string, pattern: string): Promise<void> {
-    const candidateFlags = resolveQmdCollectionPatternFlags(this.collectionPatternFlag);
-    let lastError: unknown;
-    for (const flag of candidateFlags) {
-      try {
-        await this.runQmd(["collection", "add", pathArg, "--name", name, flag, pattern], {
-          timeoutMs: this.qmd.update.commandTimeoutMs,
-        });
-        this.collectionPatternFlag = flag;
-        return;
-      } catch (err) {
-        lastError = err;
-        if (!this.isUnsupportedQmdOptionError(err) || candidateFlags.at(-1) === flag) {
-          throw err;
-        }
-        log.warn(`qmd collection add rejected ${flag}; retrying with legacy compatibility flag`);
-      }
-    }
-    throw lastError instanceof Error ? lastError : new Error(String(lastError));
   }
 
   private async removeCollection(name: string): Promise<void> {

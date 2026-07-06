@@ -1,10 +1,10 @@
 // Agent and agents command registration with lazy command-module loading for startup speed.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { hasExplicitOptions } from "../command-options.js";
-import { formatHelpExamples } from "../help-format.js";
-import { collectOption } from "./helpers.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { hasExplicitOptions } from "../command-options.ts";
+import { formatHelpExamples } from "../help-format.ts";
+import { collectOption } from "./helpers.ts";
 
 type AgentsAddModule = typeof import("../../commands/agents.commands.add.js");
 type AgentsBindModule = typeof import("../../commands/agents.commands.bind.js");

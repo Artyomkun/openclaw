@@ -4,7 +4,7 @@
  * Reads lightweight thread placement and inbound conversation hooks without full plugin loading.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { loadBundledPluginPublicArtifactModuleSync } from "../../plugins/public-surface-loader.js";
+import { loadBundledPluginPublicArtifactModuleSync } from "../../plugins/public-surface-loader.ts";
 
 type ThreadBindingPlacement = "current" | "child";
 

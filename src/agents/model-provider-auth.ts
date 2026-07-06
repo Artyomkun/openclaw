@@ -6,15 +6,15 @@
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { Worker } from "node:worker_threads";
-import { hashRuntimeConfigValue } from "../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { toErrorObject } from "../infra/errors.js";
+import { hashRuntimeConfigValue } from "../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { toErrorObject } from "../infra/errors.ts";
 import {
   listAgentIds,
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "./agent-scope-config.js";
+} from "./agent-scope-config.ts";
 import {
   externalCliDiscoveryForProviderAuth,
   externalCliDiscoveryForProviders,
@@ -23,14 +23,14 @@ import {
   getRuntimeAuthProfileStoreSnapshot,
   listProfilesForProvider,
   type AuthProfileStore,
-} from "./auth-profiles.js";
+} from "./auth-profiles.ts";
 import {
   createRuntimeProviderAuthLookup,
   hasAvailableAuthForProvider,
   hasRuntimeAvailableProviderAuth,
   type RuntimeProviderAuthLookup,
-} from "./model-auth.js";
-import { loadModelCatalog } from "./model-catalog.js";
+} from "./model-auth.ts";
+import { loadModelCatalog } from "./model-catalog.ts";
 import {
   cancelCurrentProviderAuthWarmWorker,
   claimCurrentProviderAuthStateGeneration,
@@ -42,9 +42,9 @@ import {
   setCurrentProviderAuthWarmWorker,
   type PreparedProviderAuthState,
   type ProviderAuthWarmSnapshot,
-} from "./model-provider-auth-state.js";
-import { normalizeProviderId } from "./model-selection.js";
-import { resolveDefaultAgentWorkspaceDir } from "./workspace.js";
+} from "./model-provider-auth-state.ts";
+import { normalizeProviderId } from "./model-selection.ts";
+import { resolveDefaultAgentWorkspaceDir } from "./workspace.ts";
 
 type ProviderAuthWarmWorkerResult =
   | {

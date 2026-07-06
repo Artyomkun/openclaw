@@ -4,5 +4,5 @@ export {
   executePluginCommand,
   getPluginCommandSpecs,
   matchPluginCommand,
-} from "./commands.js";
-export { loadOpenClawPlugins } from "./loader.js";
+} from "./commands.ts";
+export { loadOpenClawPlugins } from "./loader.ts";

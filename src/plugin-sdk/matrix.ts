@@ -3,4 +3,4 @@
  * imported the previous Matrix-shaped helper bundle. New plugins should import
  * `openclaw/plugin-sdk/run-command` directly.
  */
-export { runPluginCommandWithTimeout } from "./run-command.js";
+export { runPluginCommandWithTimeout } from "./run-command.ts";

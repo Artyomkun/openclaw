@@ -4,11 +4,11 @@
  * Builds safe status snapshots and resolves enabled/configured account state.
  */
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isRecord } from "../utils.js";
-import { projectSafeChannelAccountSnapshotFields } from "./account-snapshot-fields.js";
-import type { ChannelAccountSnapshot } from "./plugins/types.core.js";
-import type { ChannelPlugin } from "./plugins/types.plugin.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isRecord } from "../utils.ts";
+import { projectSafeChannelAccountSnapshotFields } from "./account-snapshot-fields.ts";
+import type { ChannelAccountSnapshot } from "./plugins/types.core.ts";
+import type { ChannelPlugin } from "./plugins/types.plugin.ts";
 
 /**
  * Builds the safe account snapshot shown by CLI, gateway, and status summaries.

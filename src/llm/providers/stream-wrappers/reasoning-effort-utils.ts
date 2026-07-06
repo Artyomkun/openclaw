@@ -1,5 +1,5 @@
 // Reasoning effort utilities map provider thinking controls to runtime levels.
-import type { ThinkLevel } from "../../../auto-reply/thinking.js";
+import type { ThinkLevel } from "../../../auto-reply/thinking.ts";
 
 /** Reasoning effort values accepted by OpenAI-compatible providers. */
 export type ReasoningEffort = "none" | "minimal" | "low" | "medium" | "high" | "xhigh";

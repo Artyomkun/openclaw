@@ -5,24 +5,24 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { GatewayAuthConfig, GatewayTrustedProxyConfig } from "../config/types.gateway.js";
-import { readTailscaleWhoisIdentity, type TailscaleWhoisIdentity } from "../infra/tailscale.js";
-import { safeEqualSecret } from "../security/secret-equal.js";
+import type { GatewayAuthConfig, GatewayTrustedProxyConfig } from "../config/types.gateway.ts";
+import { readTailscaleWhoisIdentity, type TailscaleWhoisIdentity } from "../infra/tailscale.ts";
+import { safeEqualSecret } from "../security/secret-equal.ts";
 import {
   AUTH_RATE_LIMIT_SCOPE_SHARED_SECRET,
   type AuthRateLimiter,
   type RateLimitCheckResult,
-} from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth-resolve.js";
+} from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth-resolve.ts";
 import {
   isLoopbackAddress,
   resolveLocalInterfaceAddressMatch,
   resolveRequestClientIp,
   isTrustedProxyAddress,
   resolveClientIp,
-} from "./net.js";
-import { checkBrowserOrigin } from "./origin-check.js";
-import { withSerializedRateLimitAttempt } from "./rate-limit-attempt-serialization.js";
+} from "./net.ts";
+import { checkBrowserOrigin } from "./origin-check.ts";
+import { withSerializedRateLimitAttempt } from "./rate-limit-attempt-serialization.ts";
 export {
   resolveEffectiveSharedGatewayAuth,
   resolveGatewayAuth,
@@ -30,10 +30,7 @@ export {
   type ResolvedGatewayAuth,
   type ResolvedGatewayAuthMode,
   type ResolvedGatewayAuthModeSource,
-} from "./auth-resolve.js";
-
-const LEGACY_OPENCLAW_ENV_NOTE =
-  " Legacy CLAWDBOT_* and MOLTBOT_* environment variables are ignored; use OPENCLAW_* names.";
+} from "./auth-resolve.ts";
 
 /** Normalized outcome for gateway shared-secret, Tailscale, device, and proxy auth. */
 export type GatewayAuthResult = {
@@ -263,7 +260,7 @@ export function assertGatewayAuthConfigured(
       return;
     }
     throw new Error(
-      `gateway auth mode is token, but no token was configured (set gateway.auth.token or OPENCLAW_GATEWAY_TOKEN).${LEGACY_OPENCLAW_ENV_NOTE}`,
+      `gateway auth mode is token, but no token was configured (set gateway.auth.token or OPENCLAW_GATEWAY_TOKEN).`,
     );
   }
   if (auth.mode === "password" && !auth.password) {
@@ -276,7 +273,7 @@ export function assertGatewayAuthConfigured(
       );
     }
     throw new Error(
-      `gateway auth mode is password, but no password was configured.${LEGACY_OPENCLAW_ENV_NOTE}`,
+      `gateway auth mode is password, but no password was configured.`,
     );
   }
   if (auth.mode === "trusted-proxy") {

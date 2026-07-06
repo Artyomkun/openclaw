@@ -3,32 +3,32 @@ import {
   resolveAgentDir,
   resolveDefaultAgentId,
   resolveSessionAgentId,
-} from "../../agents/agent-scope.js";
-import { resolveCliRuntimeModelBackendBinding } from "../../agents/cli-backends.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
-import type { ModelCatalogEntry } from "../../agents/model-catalog.js";
+} from "../../agents/agent-scope.ts";
+import { resolveCliRuntimeModelBackendBinding } from "../../agents/cli-backends.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
+import type { ModelCatalogEntry } from "../../agents/model-catalog.ts";
 import {
   modelKey,
   normalizeProviderId,
   type ModelAliasIndex,
-} from "../../agents/model-selection.js";
-import { resolveContextConfigProviderForRuntime } from "../../agents/openai-routing.js";
-import { replaceSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { triggerSessionPatchHook } from "../../gateway/session-patch-hooks.js";
-import { enqueueSystemEvent } from "../../infra/system-events.js";
-import { applyTraceOverride, applyVerboseOverride } from "../../sessions/level-overrides.js";
-import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.js";
-import { isThinkingLevelSupported, resolveSupportedThinkingLevel } from "../thinking.js";
-import { resolveModelSelectionFromDirective } from "./directive-handling.model-selection.js";
-import type { InlineDirectives } from "./directive-handling.parse.js";
+} from "../../agents/model-selection.ts";
+import { resolveContextConfigProviderForRuntime } from "../../agents/openai-routing.ts";
+import { replaceSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { triggerSessionPatchHook } from "../../gateway/session-patch-hooks.ts";
+import { enqueueSystemEvent } from "../../infra/system-events.ts";
+import { applyTraceOverride, applyVerboseOverride } from "../../sessions/level-overrides.ts";
+import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.ts";
+import { isThinkingLevelSupported, resolveSupportedThinkingLevel } from "../thinking.ts";
+import { resolveModelSelectionFromDirective } from "./directive-handling.model-selection.ts";
+import type { InlineDirectives } from "./directive-handling.parse.ts";
 import {
   canPersistSessionDirectiveDefaults,
   enqueueModeSwitchEvents,
-} from "./directive-handling.shared.js";
-import type { ElevatedLevel, ReasoningLevel, ThinkLevel } from "./directives.js";
-import { resolveContextTokens } from "./model-selection.js";
+} from "./directive-handling.shared.ts";
+import type { ElevatedLevel, ReasoningLevel, ThinkLevel } from "./directives.ts";
+import { resolveContextTokens } from "./model-selection.ts";
 
 export type PersistedThinkingLevelRemap = {
   from: ThinkLevel;

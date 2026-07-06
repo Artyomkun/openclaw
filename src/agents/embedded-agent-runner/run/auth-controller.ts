@@ -1,41 +1,41 @@
 /**
  * Coordinates provider auth, profile rotation, and runtime auth refresh.
  */
-import type { ThinkLevel } from "../../../auto-reply/thinking.js";
-import { formatErrorMessage } from "../../../infra/errors.js";
-import type { Model } from "../../../llm/types.js";
-import { prepareProviderRuntimeAuth } from "../../../plugins/provider-runtime.js";
+import type { ThinkLevel } from "../../../auto-reply/thinking.ts";
+import { formatErrorMessage } from "../../../infra/errors.ts";
+import type { Model } from "../../../llm/types.ts";
+import { prepareProviderRuntimeAuth } from "../../../plugins/provider-runtime.ts";
 import {
   type AuthProfileStore,
   isProfileInCooldown,
   resolveProfilesUnavailableReason,
   resolveSubscriptionAuthModeForProfiles,
-} from "../../auth-profiles.js";
-import { formatAuthProfileFailureMessage } from "../../auth-profiles/failure-copy.js";
+} from "../../auth-profiles.ts";
+import { formatAuthProfileFailureMessage } from "../../auth-profiles/failure-copy.ts";
 import {
   classifyFailoverReason,
   isFailoverErrorMessage,
   type FailoverReason,
-} from "../../embedded-agent-helpers.js";
-import { FailoverError, resolveFailoverStatus } from "../../failover-error.js";
-import { shouldAllowCooldownProbeForReason } from "../../failover-policy.js";
+} from "../../embedded-agent-helpers.ts";
+import { FailoverError, resolveFailoverStatus } from "../../failover-error.ts";
+import { shouldAllowCooldownProbeForReason } from "../../failover-policy.ts";
 import {
   getApiKeyForModel,
   MissingProviderAuthError,
   type ResolvedProviderAuth,
-} from "../../model-auth.js";
+} from "../../model-auth.ts";
 import {
   applyPreparedRuntimeAuthToModel,
   type ModelProviderRequestTransportOverrides,
-} from "../../provider-request-config.js";
-import { clampRuntimeAuthRefreshDelayMs } from "../../runtime-auth-refresh.js";
+} from "../../provider-request-config.ts";
+import { clampRuntimeAuthRefreshDelayMs } from "../../runtime-auth-refresh.ts";
 import {
   RUNTIME_AUTH_REFRESH_MARGIN_MS,
   RUNTIME_AUTH_REFRESH_MIN_DELAY_MS,
   RUNTIME_AUTH_REFRESH_RETRY_MS,
   type RuntimeAuthState,
-} from "./helpers.js";
-import type { RunEmbeddedAgentParams } from "./params.js";
+} from "./helpers.ts";
+import type { RunEmbeddedAgentParams } from "./params.ts";
 
 type ApiKeyInfo = ResolvedProviderAuth;
 

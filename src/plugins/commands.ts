@@ -6,11 +6,11 @@
  */
 
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveBoundAgentIdForSession } from "../agents/session-agent-binding.js";
-import { resolveConversationBindingContext } from "../channels/conversation-binding-context.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { ADMIN_SCOPE, isOperatorScope } from "../gateway/operator-scopes.js";
-import { logVerbose } from "../globals.js";
+import { resolveBoundAgentIdForSession } from "../agents/session-agent-binding.ts";
+import { resolveConversationBindingContext } from "../channels/conversation-binding-context.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { ADMIN_SCOPE, isOperatorScope } from "../gateway/operator-scopes.ts";
+import { logVerbose } from "../globals.ts";
 import {
   clearPluginCommands,
   clearPluginCommandsForPlugin,
@@ -20,7 +20,7 @@ import {
   registerPluginCommand,
   validateCommandName,
   validatePluginCommandDefinition,
-} from "./command-registration.js";
+} from "./command-registration.ts";
 import {
   canExposeSenderIsOwner,
   isTrustedReservedCommandOwner,
@@ -28,19 +28,19 @@ import {
   pluginCommands,
   setPluginCommandRegistryLocked,
   type RegisteredPluginCommand,
-} from "./command-registry-state.js";
-import { getPluginCommandSpecs, listProviderPluginCommandSpecs } from "./command-specs.js";
+} from "./command-registry-state.ts";
+import { getPluginCommandSpecs, listProviderPluginCommandSpecs } from "./command-specs.ts";
 import {
   detachPluginConversationBinding,
   getCurrentPluginConversationBinding,
   requestPluginConversationBinding,
-} from "./conversation-binding.js";
-import { getActivePluginChannelRegistry } from "./runtime.js";
+} from "./conversation-binding.ts";
+import { getActivePluginChannelRegistry } from "./runtime.ts";
 import type {
   OpenClawPluginCommandDefinition,
   PluginCommandContext,
   PluginCommandResult,
-} from "./types.js";
+} from "./types.ts";
 
 // Maximum allowed length for command arguments (defense in depth)
 const MAX_ARGS_LENGTH = 4096;

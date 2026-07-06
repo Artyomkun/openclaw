@@ -2,4 +2,4 @@
 export {
   applyAnthropicEphemeralCacheControlMarkers,
   resolveAnthropicEphemeralCacheControl,
-} from "../../../agents/anthropic-payload-policy.js";
+} from "../../../agents/anthropic-payload-policy.ts";

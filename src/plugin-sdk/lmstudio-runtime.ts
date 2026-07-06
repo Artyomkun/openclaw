@@ -3,11 +3,11 @@ import type {
   ModelDefinitionConfig,
   ModelProviderConfig,
   OpenClawConfig,
-} from "../config/types.js";
+} from "../config/types.ts";
 import {
   createLazyFacadeValue as createLazyFacadeRuntimeValue,
   loadBundledPluginPublicSurfaceModuleSync,
-} from "./facade-runtime.js";
+} from "./facade-runtime.ts";
 
 type LmstudioReasoningCapabilityWire = {
   allowed_options?: unknown;

@@ -1,8 +1,8 @@
 // Normalizes provider model compatibility metadata from plugins.
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { detectOpenAICompletionsCompat } from "../agents/openai-completions-compat.js";
-import type { ModelCompatConfig } from "../config/types.models.js";
-import type { Model } from "../llm/types.js";
+import { detectOpenAICompletionsCompat } from "../agents/openai-completions-compat.ts";
+import type { ModelCompatConfig } from "../config/types.models.ts";
+import type { Model } from "../llm/types.ts";
 
 export function extractModelCompat(
   modelOrCompat: { compat?: unknown } | ModelCompatConfig | undefined,
@@ -15,25 +15,6 @@ export function extractModelCompat(
     return compat && typeof compat === "object" ? (compat as ModelCompatConfig) : undefined;
   }
   return modelOrCompat as ModelCompatConfig;
-}
-
-/** @deprecated Provider-owned model compat helper; do not use from third-party plugins. */
-export function applyModelCompatPatch<T extends { compat?: ModelCompatConfig }>(
-  model: T,
-  patch: Partial<ModelCompatConfig> & Record<string, unknown>,
-): T {
-  const nextCompat = { ...model.compat, ...patch } as ModelCompatConfig;
-  const currentCompat = model.compat as (Record<string, unknown> & ModelCompatConfig) | undefined;
-  if (
-    model.compat &&
-    Object.entries(patch).every(([key, value]) => currentCompat?.[key] === value)
-  ) {
-    return model;
-  }
-  return {
-    ...model,
-    compat: nextCompat,
-  };
 }
 
 export function hasToolSchemaProfile(

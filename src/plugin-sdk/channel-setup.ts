@@ -1,21 +1,21 @@
 // Channel setup contracts expose setup wizard hooks and account config writes to plugins.
-import type { ChannelSetupWizard } from "../channels/plugins/setup-wizard-types.js";
-import type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.js";
+import type { ChannelSetupWizard } from "../channels/plugins/setup-wizard-types.ts";
+import type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.ts";
 import {
   createOptionalChannelSetupAdapter,
   createOptionalChannelSetupWizard,
-} from "./optional-channel-setup.js";
+} from "./optional-channel-setup.ts";
 
-export type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.js";
-export type { ChannelSetupInput } from "../channels/plugins/types.core.js";
-export type { ChannelSetupDmPolicy, ChannelSetupWizard } from "./setup.js";
+export type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.ts";
+export type { ChannelSetupInput } from "../channels/plugins/types.core.ts";
+export type { ChannelSetupDmPolicy, ChannelSetupWizard } from "./setup.ts";
 export {
   DEFAULT_ACCOUNT_ID,
   createTopLevelChannelDmPolicy,
   formatDocsLink,
   setSetupChannelEnabled,
   splitSetupEntries,
-} from "./setup.js";
+} from "./setup.ts";
 
 /** Metadata used to advertise an optional channel plugin during setup flows. */
 type OptionalChannelSetupParams = {
@@ -40,7 +40,7 @@ export type OptionalChannelSetupSurface = {
 export {
   createOptionalChannelSetupAdapter,
   createOptionalChannelSetupWizard,
-} from "./optional-channel-setup.js";
+} from "./optional-channel-setup.ts";
 
 /** Build both optional setup surfaces from one metadata object. */
 export function createOptionalChannelSetupSurface(

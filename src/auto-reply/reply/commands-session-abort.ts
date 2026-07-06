@@ -1,28 +1,28 @@
 // Implements session abort commands and active-run stop targeting.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { SessionEntry } from "../../config/sessions.js";
-import { logVerbose } from "../../globals.js";
-import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.js";
+import type { SessionEntry } from "../../config/sessions.ts";
+import { logVerbose } from "../../globals.ts";
+import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.ts";
 import {
   resolveAbortCutoffFromContext,
   shouldPersistAbortCutoff,
   type AbortCutoff,
-} from "./abort-cutoff.js";
+} from "./abort-cutoff.ts";
 import {
   abortSessionRunTarget,
   formatAbortReplyText,
   isAbortTrigger,
   setAbortMemory,
   stopSubagentsForRequester,
-} from "./abort.js";
-import { rejectUnauthorizedCommand } from "./command-gates.js";
+} from "./abort.ts";
+import { rejectUnauthorizedCommand } from "./command-gates.ts";
 import {
   persistAbortTargetEntry,
   resolveCommandSessionEntryForKey,
-} from "./commands-session-store.js";
-import type { CommandHandler } from "./commands-types.js";
-import { clearSessionQueues } from "./queue.js";
-import { replyRunRegistry } from "./reply-run-registry.js";
+} from "./commands-session-store.ts";
+import type { CommandHandler } from "./commands-types.ts";
+import { clearSessionQueues } from "./queue.ts";
+import { replyRunRegistry } from "./reply-run-registry.ts";
 
 type AbortTarget = {
   entry?: SessionEntry;

@@ -19,35 +19,35 @@ import {
   validateSkillsSkillCardParams,
   validateSkillsStatusParams,
   validateSkillsUpdateParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   listAgentIds,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope.js";
-import { canExecRequestNode } from "../../agents/exec-defaults.js";
-import { listAgentWorkspaceDirs } from "../../agents/workspace-dirs.js";
-import { redactConfigObject } from "../../config/redact-snapshot.js";
-import { fetchClawHubSkillDetail } from "../../infra/clawhub.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { updateSkillConfigEntry } from "../../skills/config/mutations.js";
-import { collectSkillBins } from "../../skills/discovery/bins.js";
-import { buildWorkspaceSkillStatus } from "../../skills/discovery/status.js";
+} from "../../agents/agent-scope.ts";
+import { canExecRequestNode } from "../../agents/exec-defaults.ts";
+import { listAgentWorkspaceDirs } from "../../agents/workspace-dirs.ts";
+import { redactConfigObject } from "../../config/redact-snapshot.ts";
+import { fetchClawHubSkillDetail } from "../../infra/clawhub.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { updateSkillConfigEntry } from "../../skills/config/mutations.ts";
+import { collectSkillBins } from "../../skills/discovery/bins.ts";
+import { buildWorkspaceSkillStatus } from "../../skills/discovery/status.ts";
 import {
   installSkillFromClawHub,
   readLocalSkillCardContentSync,
   searchSkillsFromClawHub,
   updateSkillsFromClawHub,
-} from "../../skills/lifecycle/clawhub.js";
-import { installSkill } from "../../skills/lifecycle/install.js";
-import { installUploadedSkillArchive } from "../../skills/lifecycle/upload-install.js";
-import { loadWorkspaceSkillEntries } from "../../skills/loading/workspace.js";
-import { getRemoteSkillEligibility } from "../../skills/runtime/remote.js";
+} from "../../skills/lifecycle/clawhub.ts";
+import { installSkill } from "../../skills/lifecycle/install.ts";
+import { installUploadedSkillArchive } from "../../skills/lifecycle/upload-install.ts";
+import { loadWorkspaceSkillEntries } from "../../skills/loading/workspace.ts";
+import { getRemoteSkillEligibility } from "../../skills/runtime/remote.ts";
 import {
   collectClawHubVerdictTargets,
   fetchOpenClawSkillSecurityVerdicts,
-} from "../../skills/security/clawhub-verdicts.js";
+} from "../../skills/security/clawhub-verdicts.ts";
 import {
   applySkillProposal,
   inspectSkillProposal,
@@ -57,15 +57,15 @@ import {
   quarantineSkillProposal,
   rejectSkillProposal,
   reviseSkillProposal,
-} from "../../skills/workshop/service.js";
-import { skillsUploadHandlers } from "./skills-upload.js";
+} from "../../skills/workshop/service.ts";
+import { skillsUploadHandlers } from "./skills-upload.ts";
 import type {
   GatewayRequestContext,
   GatewayRequestHandlerOptions,
   GatewayRequestHandlers,
   RespondFn,
-} from "./types.js";
-import { assertValidParams, type Validator } from "./validation.js";
+} from "./types.ts";
+import { assertValidParams, type Validator } from "./validation.ts";
 
 function resolveSkillsAgentWorkspace(params: unknown, context: GatewayRequestContext) {
   const cfg = context.getRuntimeConfig();

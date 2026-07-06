@@ -1,11 +1,11 @@
 /** Converts loaded plugin registries into stable plugin records for status and diagnostics. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { PluginCompatCode } from "./compat/registry.js";
-import type { PluginActivationState } from "./config-state.js";
-import type { PluginBundleFormat, PluginDiagnosticCode, PluginFormat } from "./manifest-types.js";
-import type { PluginManifestContracts } from "./manifest.js";
-import type { PluginRecord, PluginRegistry } from "./registry.js";
-import type { PluginLogger } from "./types.js";
+import type { PluginCompatCode } from "./compat/registry.ts";
+import type { PluginActivationState } from "./config-state.ts";
+import type { PluginBundleFormat, PluginDiagnosticCode, PluginFormat } from "./manifest-types.ts";
+import type { PluginManifestContracts } from "./manifest.ts";
+import type { PluginRecord, PluginRegistry } from "./registry.ts";
+import type { PluginLogger } from "./types.ts";
 
 /** Builds the registry record shape shared by plugin loading, status, and diagnostics. */
 export function createPluginRecord(params: {

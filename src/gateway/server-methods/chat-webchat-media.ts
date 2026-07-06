@@ -4,13 +4,13 @@ import path from "node:path";
 import { estimateBase64DecodedBytes } from "@openclaw/media-core/base64";
 import { isAudioFileName } from "@openclaw/media-core/mime";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import { openLocalFileSafely } from "../../infra/fs-safe.js";
-import { assertNoWindowsNetworkPath, safeFileURLToPath } from "../../infra/local-file-access.js";
-import { assertLocalMediaAllowed, LocalMediaAccessError } from "../../media/local-media-access.js";
-import { resolveSendableOutboundReplyParts } from "../../plugin-sdk/reply-payload.js";
-import { sanitizeReplyDirectiveId } from "../../utils/directive-tags.js";
-import { isSuppressedControlReplyText } from "../control-reply-text.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import { openLocalFileSafely } from "../../infra/fs-safe.ts";
+import { assertNoWindowsNetworkPath, safeFileURLToPath } from "../../infra/local-file-access.ts";
+import { assertLocalMediaAllowed, LocalMediaAccessError } from "../../media/local-media-access.ts";
+import { resolveSendableOutboundReplyParts } from "../../plugin-sdk/reply-payload.ts";
+import { sanitizeReplyDirectiveId } from "../../utils/directive-tags.ts";
+import { isSuppressedControlReplyText } from "../control-reply-text.ts";
 
 /** Cap local audio files exposed through assistant media. */
 const MAX_WEBCHAT_AUDIO_BYTES = 15 * 1024 * 1024;

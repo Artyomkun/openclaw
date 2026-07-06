@@ -8,22 +8,22 @@ import {
   mergeInboundPathRoots,
 } from "@openclaw/media-core/inbound-path-policy";
 import { detectMime } from "@openclaw/media-core/mime";
-import { resolveStateDir } from "../config/paths.js";
-import { logVerbose, shouldLogVerbose } from "../globals.js";
-import { FsSafeError, openLocalFileSafely } from "../infra/fs-safe.js";
-import type { SsrFPolicy } from "../infra/net/ssrf.js";
-import { isAbortError } from "../infra/unhandled-rejections.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
+import { FsSafeError, openLocalFileSafely } from "../infra/fs-safe.ts";
+import type { SsrFPolicy } from "../infra/net/ssrf.ts";
+import { isAbortError } from "../infra/unhandled-rejections.ts";
 import {
   readRemoteMediaBuffer,
   type MediaFetchRetryOptions,
   MediaFetchError,
-} from "../media/fetch.js";
-import { getDefaultMediaLocalRoots } from "../media/local-roots.js";
-import { resolveInboundMediaReference } from "../media/media-reference.js";
-import { buildRandomTempFilePath } from "../plugin-sdk/temp-path.js";
-import { normalizeAttachmentPath } from "./attachments.normalize.js";
-import { MediaUnderstandingSkipError } from "../../packages/media-understanding-common/src/errors.js";
-import type { MediaAttachment } from "./types.js";
+} from "../media/fetch.ts";
+import { getDefaultMediaLocalRoots } from "../media/local-roots.ts";
+import { resolveInboundMediaReference } from "../media/media-reference.ts";
+import { buildRandomTempFilePath } from "../plugin-sdk/temp-path.ts";
+import { normalizeAttachmentPath } from "./attachments.normalize.ts";
+import { MediaUnderstandingSkipError } from "../../packages/media-understanding-common/src/errors.ts";
+import type { MediaAttachment } from "./types.ts";
 
 type MediaBufferResult = {
   buffer: Buffer;

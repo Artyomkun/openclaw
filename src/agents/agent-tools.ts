@@ -8,38 +8,38 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.js";
-import { HEARTBEAT_RESPONSE_TOOL_NAME } from "../auto-reply/heartbeat-tool-response.js";
-import type { InboundEventKind } from "../channels/inbound-event/kind.js";
-import { resolveExecCommandHighlighting } from "../config/exec-command-highlighting.js";
-import type { ModelCompatConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.js";
-import { resolveEventSessionRoutingPolicy } from "../infra/event-session-routing.js";
-import { applyExecPolicyLayer } from "../infra/exec-policy.js";
-import { resolveMergedSafeBinProfileFixtures } from "../infra/exec-safe-bin-runtime-policy.js";
-import { logWarn } from "../logger.js";
-import type { PluginHookChannelContext } from "../plugins/hook-types.js";
-import { getPluginToolMeta } from "../plugins/tools.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import type { SkillSnapshot } from "../skills/types.js";
-import { resolveGatewayMessageChannel } from "../utils/message-channel.js";
-import { resolveAgentConfig } from "./agent-scope.js";
-import { wrapToolWithAbortSignal } from "./agent-tools.abort.js";
+import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.ts";
+import { HEARTBEAT_RESPONSE_TOOL_NAME } from "../auto-reply/heartbeat-tool-response.ts";
+import type { InboundEventKind } from "../channels/inbound-event/kind.ts";
+import { resolveExecCommandHighlighting } from "../config/exec-command-highlighting.ts";
+import type { ModelCompatConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.ts";
+import { resolveEventSessionRoutingPolicy } from "../infra/event-session-routing.ts";
+import { applyExecPolicyLayer } from "../infra/exec-policy.ts";
+import { resolveMergedSafeBinProfileFixtures } from "../infra/exec-safe-bin-runtime-policy.ts";
+import { logWarn } from "../logger.ts";
+import type { PluginHookChannelContext } from "../plugins/hook-types.ts";
+import { getPluginToolMeta } from "../plugins/tools.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import type { SkillSnapshot } from "../skills/types.ts";
+import { resolveGatewayMessageChannel } from "../utils/message-channel.ts";
+import { resolveAgentConfig } from "./agent-scope.ts";
+import { wrapToolWithAbortSignal } from "./agent-tools.abort.ts";
 import {
   isToolWrappedWithBeforeToolCallHook,
   rewrapToolWithBeforeToolCallHook,
   type ToolOutcomeObserver,
   wrapToolWithBeforeToolCallHook,
-} from "./agent-tools.before-tool-call.js";
-import { applyDeferredFollowupToolDescriptions } from "./agent-tools.deferred-followup.js";
-import { filterToolsByMessageProvider } from "./agent-tools.message-provider-policy.js";
+} from "./agent-tools.before-tool-call.ts";
+import { applyDeferredFollowupToolDescriptions } from "./agent-tools.deferred-followup.ts";
+import { filterToolsByMessageProvider } from "./agent-tools.message-provider-policy.ts";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
   resolveInheritedToolPolicyForSession,
   resolveSubagentToolPolicyForSession,
-} from "./agent-tools.policy.js";
+} from "./agent-tools.policy.ts";
 import {
   assertRequiredParams,
   createHostWorkspaceEditTool,
@@ -53,46 +53,46 @@ import {
   wrapToolWorkspaceRootGuard,
   wrapToolWorkspaceRootGuardWithOptions,
   wrapToolParamValidation,
-} from "./agent-tools.read.js";
-import { normalizeToolParameters } from "./agent-tools.schema.js";
-import type { AnyAgentTool } from "./agent-tools.types.js";
-import { createApplyPatchTool } from "./apply-patch.js";
-import type { AuthProfileStore } from "./auth-profiles/types.js";
-import { describeExecTool, describeProcessTool } from "./bash-tools.descriptions.js";
-import type { ExecToolDefaults } from "./bash-tools.exec-types.js";
-import type { ProcessToolDefaults } from "./bash-tools.process.js";
-import { execSchema, processSchema } from "./bash-tools.schemas.js";
-import { listChannelAgentTools } from "./channel-tools.js";
-import { shouldSuppressManagedWebSearchTool } from "./codex-native-web-search.js";
-import { resolveImageSanitizationLimits } from "./image-sanitization.js";
+} from "./agent-tools.read.ts";
+import { normalizeToolParameters } from "./agent-tools.schema.ts";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
+import { createApplyPatchTool } from "./apply-patch.ts";
+import type { AuthProfileStore } from "./auth-profiles/types.ts";
+import { describeExecTool, describeProcessTool } from "./bash-tools.descriptions.ts";
+import type { ExecToolDefaults } from "./bash-tools.exec-types.ts";
+import type { ProcessToolDefaults } from "./bash-tools.process.ts";
+import { execSchema, processSchema } from "./bash-tools.schemas.ts";
+import { listChannelAgentTools } from "./channel-tools.ts";
+import { shouldSuppressManagedWebSearchTool } from "./codex-native-web-search.ts";
+import { resolveImageSanitizationLimits } from "./image-sanitization.ts";
 import {
   filterLocalModelLeanTools,
   resolveLocalModelLeanPreserveToolNames,
-} from "./local-model-lean.js";
-import type { ModelAuthMode } from "./model-auth.js";
-import { resolveOpenClawPluginToolsForOptions } from "./openclaw-plugin-tools.js";
-import { createOpenClawTools } from "./openclaw-tools.js";
-import type { SandboxContext } from "./sandbox.js";
-import { SANDBOX_AGENT_WORKSPACE_MOUNT } from "./sandbox/constants.js";
-import { resolveReadOnlyWorkspaceSkillMounts } from "./sandbox/workspace-mounts.js";
-import { resolveSenderToolPolicy } from "./sender-tool-policy.js";
-import { createCodingTools, createReadTool } from "./sessions/index.js";
+} from "./local-model-lean.ts";
+import type { ModelAuthMode } from "./model-auth.ts";
+import { resolveOpenClawPluginToolsForOptions } from "./openclaw-plugin-tools.ts";
+import { createOpenClawTools } from "./openclaw-tools.ts";
+import type { SandboxContext } from "./sandbox.ts";
+import { SANDBOX_AGENT_WORKSPACE_MOUNT } from "./sandbox/constants.ts";
+import { resolveReadOnlyWorkspaceSkillMounts } from "./sandbox/workspace-mounts.ts";
+import { resolveSenderToolPolicy } from "./sender-tool-policy.ts";
+import { createCodingTools, createReadTool } from "./sessions/index.ts";
 import {
   isSubagentEnvelopeSession,
   resolveSubagentCapabilityStore,
-} from "./subagent-capabilities.js";
+} from "./subagent-capabilities.ts";
 import {
   EXEC_TOOL_DISPLAY_SUMMARY,
   PROCESS_TOOL_DISPLAY_SUMMARY,
-} from "./tool-description-presets.js";
-import { createToolFsPolicy, resolveToolFsConfig } from "./tool-fs-policy.js";
-import { resolveToolLoopDetectionConfig } from "./tool-loop-detection-config.js";
-import { buildDeclaredToolAllowlistContext } from "./tool-policy-declared-context.js";
-import { isToolAllowedByPolicies } from "./tool-policy-match.js";
+} from "./tool-description-presets.ts";
+import { createToolFsPolicy, resolveToolFsConfig } from "./tool-fs-policy.ts";
+import { resolveToolLoopDetectionConfig } from "./tool-loop-detection-config.ts";
+import { buildDeclaredToolAllowlistContext } from "./tool-policy-declared-context.ts";
+import { isToolAllowedByPolicies } from "./tool-policy-match.ts";
 import {
   applyToolPolicyPipeline,
   buildDefaultToolPolicyPipelineSteps,
-} from "./tool-policy-pipeline.js";
+} from "./tool-policy-pipeline.ts";
 import {
   collectExplicitAllowlist,
   collectExplicitDenylist,
@@ -102,7 +102,7 @@ import {
   normalizeToolName,
   replaceWithEffectiveToolAllowlist,
   resolveToolProfilePolicy,
-} from "./tool-policy.js";
+} from "./tool-policy.ts";
 import {
   createToolSearchTools,
   resolveToolSearchConfig,
@@ -112,12 +112,12 @@ import {
   TOOL_SEARCH_RAW_TOOL_NAME,
   type ToolSearchCatalogRef,
   type ToolSearchCatalogToolExecutor,
-} from "./tool-search.js";
+} from "./tool-search.ts";
 import {
   replaceWithEffectiveCronCreatorToolAllowlist,
   type CronCreatorToolAllowlistEntry,
-} from "./tools/cron-tool.js";
-import { resolveWorkspaceRoot } from "./workspace-dir.js";
+} from "./tools/cron-tool.ts";
+import { resolveWorkspaceRoot } from "./workspace-dir.ts";
 
 const MEMORY_FLUSH_ALLOWED_TOOL_NAMES = new Set(["read", "write"]);
 
@@ -372,7 +372,7 @@ function resolveExecConfig(params: { cfg?: OpenClawConfig; agentId?: string }) {
   };
 }
 
-export { resolveToolLoopDetectionConfig } from "./tool-loop-detection-config.js";
+export { resolveToolLoopDetectionConfig } from "./tool-loop-detection-config.ts";
 
 /** Test-only access to internal tool assembly helpers. */
 export const testing = {
@@ -570,9 +570,6 @@ export function createOpenClawCodingTools(options?: {
     modelProvider: options?.modelProvider,
     modelId: options?.modelId,
   });
-  // Prefer the already-resolved sandbox context policy. Recomputing from
-  // sessionKey/config can lose the real sandbox agent when callers pass a
-  // legacy alias like `main` instead of an agent session key.
   const sandboxToolPolicy = sandbox?.tools;
   const groupPolicy = resolveGroupToolPolicy({
     config: options?.config,
@@ -647,7 +644,7 @@ export function createOpenClawCodingTools(options?: {
     ...runtimeProfileAlsoAllow,
   ]);
   // Prefer sessionKey for process isolation scope to prevent cross-session process visibility/killing.
-  // Fallback to agentId if no sessionKey is available (e.g. legacy or global contexts).
+  // Fallback to agentId if no sessionKey is available.
   const scopeKey = resolveProcessToolScopeKey({
     scopeKey: options?.exec?.scopeKey,
     sessionKey: options?.sessionKey,

@@ -3,33 +3,33 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { validateSecretsResolveResult } from "../../packages/gateway-protocol/src/index.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { callGateway } from "../gateway/call.js";
-import { gatewaySecretInputPathCanWin } from "../gateway/credentials-secret-inputs.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { validateSecretsResolveResult } from "../../packages/gateway-protocol/src/index.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { callGateway } from "../gateway/call.ts";
+import { gatewaySecretInputPathCanWin } from "../gateway/credentials-secret-inputs.ts";
 import {
   ALL_GATEWAY_SECRET_INPUT_PATHS,
   readGatewaySecretInputValue,
   type SupportedGatewaySecretInputPath,
-} from "../gateway/secret-input-paths.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveManifestContractOwnerPluginId } from "../plugins/plugin-registry.js";
+} from "../gateway/secret-input-paths.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveManifestContractOwnerPluginId } from "../plugins/plugin-registry.ts";
 import {
   analyzeCommandSecretAssignmentsFromSnapshot,
   type UnresolvedCommandSecretAssignment,
-} from "../secrets/command-config.js";
-import { getPath, setPathExistingStrict } from "../secrets/path-utils.js";
-import { resolveSecretRefValue } from "../secrets/resolve.js";
-import { collectConfigAssignments } from "../secrets/runtime-config-collectors.js";
-import { createResolverContext } from "../secrets/runtime-shared.js";
-import { resolveRuntimeWebTools } from "../secrets/runtime-web-tools.js";
-import { assertExpectedResolvedSecretValue } from "../secrets/secret-value.js";
+} from "../secrets/command-config.ts";
+import { getPath, setPathExistingStrict } from "../secrets/path-utils.ts";
+import { resolveSecretRefValue } from "../secrets/resolve.ts";
+import { collectConfigAssignments } from "../secrets/runtime-config-collectors.ts";
+import { createResolverContext } from "../secrets/runtime-shared.ts";
+import { resolveRuntimeWebTools } from "../secrets/runtime-web-tools.ts";
+import { assertExpectedResolvedSecretValue } from "../secrets/secret-value.ts";
 import {
   discoverConfigSecretTargetsByIds,
   type DiscoveredConfigSecretTarget,
-} from "../secrets/target-registry.js";
+} from "../secrets/target-registry.ts";
 
 type ResolveCommandSecretsResult = {
   resolvedConfig: OpenClawConfig;
@@ -43,11 +43,7 @@ export type CommandSecretResolutionMode =
   | "read_only_status"
   | "read_only_operational";
 
-type LegacyCommandSecretResolutionMode = "strict" | "summary" | "operational_readonly"; // pragma: allowlist secret
-
-type CommandSecretResolutionModeInput =
-  | CommandSecretResolutionMode
-  | LegacyCommandSecretResolutionMode;
+type CommandSecretResolutionModeInput = CommandSecretResolutionMode;
 
 type CommandSecretTargetState =
   | "resolved_gateway"

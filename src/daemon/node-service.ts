@@ -6,9 +6,9 @@ import {
   resolveNodeLaunchAgentLabel,
   resolveNodeSystemdServiceName,
   resolveNodeWindowsTaskName,
-} from "./constants.js";
-import type { GatewayService, GatewayServiceInstallArgs } from "./service.js";
-import { resolveGatewayService } from "./service.js";
+} from "./constants.ts";
+import type { GatewayService, GatewayServiceInstallArgs } from "./service.ts";
+import { resolveGatewayService } from "./service.ts";
 
 // Wraps the generic gateway service with node-specific service identifiers and env.
 function withNodeServiceEnv(

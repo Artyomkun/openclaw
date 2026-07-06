@@ -3,8 +3,8 @@
  *
  * Local callers keep the historic throwing API while agent-core returns explicit Result objects.
  */
-import type { StreamFn as CoreStreamFn } from "../../../../packages/llm-core/src/index.js";
-import type { Model } from "../../../llm/types.js";
+import type { StreamFn as CoreStreamFn } from "../../../../packages/llm-core/src/index.ts";
+import type { Model } from "../../../llm/types.ts";
 import {
   calculateContextTokens,
   compact as compactCore,
@@ -25,9 +25,9 @@ import {
   type CompactionSettings,
   type ContextUsageEstimate,
   type Result,
-} from "../../runtime/index.js";
-import type { AgentMessage, StreamFn, ThinkingLevel } from "../../runtime/index.js";
-import type { SessionEntry } from "../session-manager.js";
+} from "../../runtime/index.ts";
+import type { AgentMessage, StreamFn, ThinkingLevel } from "../../runtime/index.ts";
+import type { SessionEntry } from "../session-manager.ts";
 
 export {
   calculateContextTokens,
@@ -46,7 +46,7 @@ export {
   type ContextUsageEstimate,
 };
 
-/** Converts agent-core Result values back to the legacy session compaction API shape. */
+/** Converts agent-core Result values back to the session compaction API shape. */
 function unwrapCompactionResult<T>(result: Result<T, Error>): T {
   if (result.ok) {
     return result.value;

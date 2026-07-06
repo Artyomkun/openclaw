@@ -1,12 +1,12 @@
 // Gateway node session runtime factory.
 // Creates node registry, subscription, and voice-wake fanout state.
-import { NodeRegistry, type SerializedEventPayload } from "./node-registry.js";
+import { NodeRegistry, type SerializedEventPayload } from "./node-registry.ts";
 import {
   createSessionEventSubscriberRegistry,
   createSessionMessageSubscriberRegistry,
-} from "./server-chat-state.js";
-import { createNodeSubscriptionManager } from "./server-node-subscriptions.js";
-import { hasConnectedTalkNode } from "./server-talk-nodes.js";
+} from "./server-chat-state.ts";
+import { createNodeSubscriptionManager } from "./server-node-subscriptions.ts";
+import { hasConnectedTalkNode } from "./server-talk-nodes.ts";
 
 // Node session runtime owns connected node registry state, session event
 // subscriptions, and voice-wake fanout helpers for the gateway process.

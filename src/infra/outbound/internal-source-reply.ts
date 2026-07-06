@@ -3,13 +3,13 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ChannelThreadingToolContext } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { parseSessionDeliveryRoute } from "../../routing/session-key.js";
-import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.js";
-import { resolveOutboundChannelPlugin } from "./channel-resolution.js";
-import { isConfiguredChannel, listConfiguredMessageChannels } from "./channel-selection.js";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ChannelThreadingToolContext } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { parseSessionDeliveryRoute } from "../../routing/session-key.ts";
+import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.ts";
+import { resolveOutboundChannelPlugin } from "./channel-resolution.ts";
+import { isConfiguredChannel, listConfiguredMessageChannels } from "./channel-selection.ts";
 
 type InternalSourceReplySinkInput = {
   cfg: OpenClawConfig;

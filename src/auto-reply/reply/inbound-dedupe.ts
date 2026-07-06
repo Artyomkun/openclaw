@@ -3,12 +3,12 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveGlobalDedupeCache, type DedupeCache } from "../../infra/dedupe.js";
-import { channelRouteDedupeKey } from "../../plugin-sdk/channel-route.js";
-import { parseAgentSessionKey } from "../../sessions/session-key-utils.js";
-import { resolveGlobalSingleton } from "../../shared/global-singleton.js";
-import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.js";
-import type { MsgContext } from "../templating.js";
+import { resolveGlobalDedupeCache, type DedupeCache } from "../../infra/dedupe.ts";
+import { channelRouteDedupeKey } from "../../plugin-sdk/channel-route.ts";
+import { parseAgentSessionKey } from "../../sessions/session-key-utils.ts";
+import { resolveGlobalSingleton } from "../../shared/global-singleton.ts";
+import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.ts";
+import type { MsgContext } from "../templating.ts";
 
 const DEFAULT_INBOUND_DEDUPE_TTL_MS = 20 * 60_000;
 const DEFAULT_INBOUND_DEDUPE_MAX = 5000;

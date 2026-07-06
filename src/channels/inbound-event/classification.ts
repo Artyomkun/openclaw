@@ -3,10 +3,10 @@
  *
  * Decides whether group/channel activity should wake the agent or remain a passive room event.
  */
-import { resolveAgentConfig } from "../../agents/agent-scope.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ConversationFacts } from "../turn/types.js";
-import type { InboundEventKind } from "./kind.js";
+import { resolveAgentConfig } from "../../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ConversationFacts } from "../turn/types.ts";
+import type { InboundEventKind } from "./kind.ts";
 
 /**
  * Facts needed to classify whether inbound room activity should wake the agent.

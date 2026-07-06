@@ -1,18 +1,18 @@
 // Builds web-search install catalog entries from plugin metadata.
 import { normalizeOptionalString as normalizeString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isRecord } from "../utils.js";
-import { enablePluginInConfig } from "./enable.js";
-import type { PluginPackageInstall } from "./manifest.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isRecord } from "../utils.ts";
+import { enablePluginInConfig } from "./enable.ts";
+import type { PluginPackageInstall } from "./manifest.ts";
 import {
   getOfficialExternalPluginCatalogManifest,
   listOfficialExternalPluginCatalogEntries,
   resolveOfficialExternalPluginInstall,
   resolveOfficialExternalPluginLabel,
   type OfficialExternalWebSearchProvider,
-} from "./official-external-plugin-catalog.js";
-import type { PluginWebSearchProviderEntry } from "./web-provider-types.js";
+} from "./official-external-plugin-catalog.ts";
+import type { PluginWebSearchProviderEntry } from "./web-provider-types.ts";
 
 /** Install catalog entry for an official external web-search provider plugin. */
 export type WebSearchInstallCatalogEntry = {

@@ -1,7 +1,7 @@
 // Agent skill filter helpers select skills that apply to a configured agent.
-import type { OpenClawConfig } from "../../config/types.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { normalizeSkillFilter } from "./filter.js";
+import type { OpenClawConfig } from "../../config/types.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { normalizeSkillFilter } from "./filter.ts";
 
 type AgentSkillsLimits = {
   maxSkillsPromptChars?: number;
@@ -20,7 +20,7 @@ function resolveAgentEntry(
 
 /**
  * Explicit per-agent skills win when present; otherwise fall back to shared defaults.
- * Unknown agent ids also fall back to defaults so legacy/unresolved callers do not widen access.
+ * Unknown agent ids also fall back to defaults so unresolved callers do not widen access.
  */
 export function resolveEffectiveAgentSkillFilter(
   cfg: OpenClawConfig | undefined,

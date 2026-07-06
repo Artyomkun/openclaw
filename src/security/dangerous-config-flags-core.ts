@@ -1,8 +1,8 @@
 // Defines core dangerous config flag metadata for security audits.
-import { DANGEROUS_SANDBOX_DOCKER_BOOLEAN_KEYS } from "../agents/sandbox/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isRecord } from "../utils.js";
-import { collectCoreInsecureOrDangerousFlags } from "./core-dangerous-config-flags.js";
+import { DANGEROUS_SANDBOX_DOCKER_BOOLEAN_KEYS } from "../agents/sandbox/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isRecord } from "../utils.ts";
+import { collectCoreInsecureOrDangerousFlags } from "./core-dangerous-config-flags.ts";
 
 type DangerousFlagValue = string | number | boolean | null;
 

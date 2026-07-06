@@ -1,9 +1,9 @@
 // Skill discovery status helpers summarize installed, workspace, and bundled skills.
 import path from "node:path";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { evaluateEntryRequirementsForCurrentPlatform } from "../../shared/entry-status.js";
-import type { RequirementConfigCheck, Requirements } from "../../shared/requirements.js";
-import { CONFIG_DIR } from "../../utils.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { evaluateEntryRequirementsForCurrentPlatform } from "../../shared/entry-status.ts";
+import type { RequirementConfigCheck, Requirements } from "../../shared/requirements.ts";
+import { CONFIG_DIR } from "../../utils.ts";
 import {
   readClawHubSkillsLockfileStatusSync,
   resolveClawHubSkillStatusLinkSync,
@@ -11,8 +11,8 @@ import {
   type ClawHubSkillStatusLink,
   type ClawHubSkillsLockfileStatusRead,
   type LocalSkillCardStatus,
-} from "../lifecycle/clawhub.js";
-import { resolveBundledSkillsContext } from "../loading/bundled-context.js";
+} from "../lifecycle/clawhub.ts";
+import { resolveBundledSkillsContext } from "../loading/bundled-context.ts";
 import {
   hasBinary,
   isBundledSkillAllowed,
@@ -20,20 +20,20 @@ import {
   resolveBundledAllowlist,
   resolveSkillConfig,
   resolveSkillsInstallPreferences,
-} from "../loading/config.js";
-import { loadWorkspaceSkillEntries } from "../loading/workspace.js";
+} from "../loading/config.ts";
+import { loadWorkspaceSkillEntries } from "../loading/workspace.ts";
 import type {
   SkillEntry,
   SkillEligibilityContext,
   SkillInstallSpec,
   SkillsInstallPreferences,
-} from "../types.js";
-import { resolveEffectiveAgentSkillFilter } from "./agent-filter.js";
+} from "../types.ts";
+import { resolveEffectiveAgentSkillFilter } from "./agent-filter.ts";
 import {
   buildSkillIndexEntries,
   normalizeSkillIndexName,
   type SkillIndexEntry,
-} from "./skill-index.js";
+} from "./skill-index.ts";
 
 type SkillStatusConfigCheck = RequirementConfigCheck;
 
@@ -151,19 +151,15 @@ function selectPreferredInstallSpec(
 
   const brewSpec = findKind("brew");
   const nodeSpec = findKind("node");
-  const goSpec = findKind("go");
-  const uvSpec = findKind("uv");
   const downloadSpec = findKind("download");
   const brewAvailable = hasBinary("brew");
 
   // Table-driven preference chain; first match wins.
   const pickers: Array<() => { spec: SkillInstallSpec; index: number } | undefined> = [
     () => (prefs.preferBrew && brewAvailable ? brewSpec : undefined),
-    () => uvSpec,
     () => nodeSpec,
     // Only prefer brew when available to avoid guaranteed failure on Linux/Docker.
     () => (brewAvailable ? brewSpec : undefined),
-    () => goSpec,
     // Prefer download over an unavailable brew spec.
     () => downloadSpec,
     // Last resort: surface descriptive brew-missing error instead of "no installer found".
@@ -218,10 +214,6 @@ function normalizeInstallOptions(
         label = `Install ${spec.formula} (brew)`;
       } else if (spec.kind === "node" && spec.package) {
         label = `Install ${spec.package} (${prefs.nodeManager})`;
-      } else if (spec.kind === "go" && spec.module) {
-        label = `Install ${spec.module} (go)`;
-      } else if (spec.kind === "uv" && spec.package) {
-        label = `Install ${spec.package} (uv)`;
       } else if (spec.kind === "download" && spec.url) {
         const url = spec.url.trim();
         const last = url.split("/").pop();

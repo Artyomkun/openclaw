@@ -1,27 +1,27 @@
 // Runtime task helpers expose task-flow operations to activated plugin runtimes.
-import { listTasksForFlowId } from "../../tasks/runtime-internal.js";
+import { listTasksForFlowId } from "../../tasks/runtime-internal.ts";
 import {
   mapTaskFlowDetail,
   mapTaskFlowView,
   mapTaskRunAggregateSummary,
   mapTaskRunDetail,
   mapTaskRunView,
-} from "../../tasks/task-domain-views.js";
-import { cancelDetachedTaskRunById, getFlowTaskSummary } from "../../tasks/task-executor.js";
+} from "../../tasks/task-domain-views.ts";
+import { cancelDetachedTaskRunById, getFlowTaskSummary } from "../../tasks/task-executor.ts";
 import {
   getTaskFlowByIdForOwner,
   listTaskFlowsForOwner,
   findLatestTaskFlowForOwner,
   resolveTaskFlowForLookupTokenForOwner,
-} from "../../tasks/task-flow-owner-access.js";
+} from "../../tasks/task-flow-owner-access.ts";
 import {
   findLatestTaskForRelatedSessionKeyForOwner,
   getTaskByIdForOwner,
   listTasksForRelatedSessionKeyForOwner,
   resolveTaskForLookupTokenForOwner,
-} from "../../tasks/task-owner-access.js";
-import { normalizeDeliveryContext } from "../../utils/delivery-context.shared.js";
-import type { PluginRuntimeTaskFlow } from "./runtime-taskflow.types.js";
+} from "../../tasks/task-owner-access.ts";
+import { normalizeDeliveryContext } from "../../utils/delivery-context.shared.ts";
+import type { PluginRuntimeTaskFlow } from "./runtime-taskflow.types.ts";
 import type {
   BoundTaskFlowsRuntime,
   BoundTaskRunsRuntime,
@@ -30,14 +30,14 @@ import type {
   PluginRuntimeTasks,
   TaskFlowDetail,
   TaskRunCancelResult,
-} from "./runtime-tasks.types.js";
+} from "./runtime-tasks.types.ts";
 export type {
   BoundTaskFlowsRuntime,
   BoundTaskRunsRuntime,
   PluginRuntimeTaskFlows,
   PluginRuntimeTaskRuns,
   PluginRuntimeTasks,
-} from "./runtime-tasks.types.js";
+} from "./runtime-tasks.types.ts";
 
 function assertSessionKey(sessionKey: string | undefined, errorMessage: string): string {
   const normalized = sessionKey?.trim();
@@ -212,13 +212,9 @@ export function createRuntimeTaskFlows(): PluginRuntimeTaskFlows {
   };
 }
 
-export function createRuntimeTasks(params: {
-  legacyTaskFlow: PluginRuntimeTaskFlow;
-}): PluginRuntimeTasks {
+export function createRuntimeTasks(): PluginRuntimeTasks {
   return {
     runs: createRuntimeTaskRuns(),
     flows: createRuntimeTaskFlows(),
-    managedFlows: params.legacyTaskFlow,
-    flow: params.legacyTaskFlow,
   };
 }

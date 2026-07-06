@@ -1,12 +1,12 @@
 // Defines official external install records for plugins.
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
-import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { parseClawHubPluginSpec } from "../infra/clawhub-spec.ts";
+import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
 import {
   getOfficialExternalPluginCatalogEntry,
   resolveOfficialExternalPluginInstall,
   type OfficialExternalPluginCatalogEntry,
-} from "./official-external-plugin-catalog.js";
+} from "./official-external-plugin-catalog.ts";
 
 function resolveNpmSpecPackageName(spec: string | undefined): string | undefined {
   return spec ? parseRegistryNpmSpec(spec)?.name : undefined;

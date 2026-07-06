@@ -1,18 +1,18 @@
 // Camera payload validation and artifact writers for node media commands.
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import { toErrorObject } from "../infra/errors.js";
-import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.js";
-import { normalizeHostname } from "../infra/net/hostname.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
-import { resolveCliName } from "./cli-name.js";
+import { toErrorObject } from "../infra/errors.ts";
+import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.ts";
+import { normalizeHostname } from "../infra/net/hostname.ts";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
+import { resolveCliName } from "./cli-name.ts";
 import {
   asBoolean,
   asNumber,
   asRecord,
   asString,
   resolveTempPathParts,
-} from "./nodes-media-utils.js";
+} from "./nodes-media-utils.ts";
 
 const MAX_CAMERA_URL_DOWNLOAD_BYTES = 250 * 1024 * 1024;
 const MAX_CAMERA_BASE64_BYTES = MAX_CAMERA_URL_DOWNLOAD_BYTES;

@@ -1,17 +1,17 @@
 // Formats channel account summaries for CLI status surfaces.
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { resolveInspectedChannelAccount } from "../channels/account-inspection.js";
-import { hasConfiguredUnavailableCredentialStatus } from "../channels/account-snapshot-fields.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { resolveInspectedChannelAccount } from "../channels/account-inspection.ts";
+import { hasConfiguredUnavailableCredentialStatus } from "../channels/account-snapshot-fields.ts";
 import {
   buildChannelAccountSnapshot,
   formatChannelAllowFrom,
-} from "../channels/account-summary.js";
-import { formatChannelStatusState } from "../channels/plugins/status-state.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
+} from "../channels/account-summary.ts";
+import { formatChannelStatusState } from "../channels/plugins/status-state.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.ts";
 import { formatTimeAgo } from "./format-time/format-relative.ts";
 
 type ChannelSummaryOptions = {

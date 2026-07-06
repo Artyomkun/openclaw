@@ -3,13 +3,11 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import type { ChannelDoctorAdapter } from "openclaw/plugin-sdk/channel-contract";
-import { migratePersistentDedupeLegacyJsonFile } from "openclaw/plugin-sdk/persistent-dedupe";
 import { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
 import { listNextcloudTalkAccountIds, resolveNextcloudTalkAccount } from "./accounts.js";
 import { probeNextcloudTalkBotResponseFeature } from "./bot-preflight.js";
 import {
-  legacyConfigRules as NEXTCLOUD_TALK_LEGACY_CONFIG_RULES,
-  normalizeCompatibilityConfig as normalizeNextcloudTalkCompatibilityConfig,
+  normalizeCompatibilityConfig as normalizeNextcloudTalkCompatibilityConfig
 } from "./doctor-contract.js";
 import {
   NEXTCLOUD_TALK_PLUGIN_ID,
@@ -19,14 +17,6 @@ import type { CoreConfig } from "./types.js";
 
 const REPLAY_DEDUPE_TTL_MS = 24 * 60 * 60 * 1000;
 const REPLAY_DEDUPE_MAX_ENTRIES = 10_000;
-
-function sanitizeLegacyReplaySegment(value: string): string {
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return "default";
-  }
-  return trimmed.replace(/[^a-zA-Z0-9_-]/g, "_");
-}
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {
@@ -73,21 +63,7 @@ async function repairNextcloudTalkReplayDedupeState(params: {
   const replayDir = path.join(stateDir, "nextcloud-talk", "replay-dedupe");
 
   for (const accountId of listNextcloudTalkAccountIds(params.cfg)) {
-    const legacyPath = path.join(replayDir, `${sanitizeLegacyReplaySegment(accountId)}.json`);
-    if (!(await fileExists(legacyPath))) {
-      continue;
-    }
     try {
-      const result = await migratePersistentDedupeLegacyJsonFile({
-        filePath: legacyPath,
-        namespace: accountId,
-        ttlMs: REPLAY_DEDUPE_TTL_MS,
-        memoryMaxSize: 0,
-        pluginId: NEXTCLOUD_TALK_PLUGIN_ID,
-        namespacePrefix: NEXTCLOUD_TALK_REPLAY_DEDUPE_NAMESPACE_PREFIX,
-        stateMaxEntries: REPLAY_DEDUPE_MAX_ENTRIES,
-        env,
-      });
       changes.push(
         `Migrated Nextcloud Talk replay dedupe cache for account "${accountId}" to SQLite (${result.imported} imported, ${result.skippedExpired} expired, ${result.skippedExisting} already current).`,
       );
@@ -102,7 +78,6 @@ async function repairNextcloudTalkReplayDedupeState(params: {
 }
 
 export const nextcloudTalkDoctor: ChannelDoctorAdapter = {
-  legacyConfigRules: NEXTCLOUD_TALK_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig: normalizeNextcloudTalkCompatibilityConfig,
   collectPreviewWarnings: async ({ cfg }) =>
     await collectNextcloudTalkBotResponseWarnings({ cfg: cfg as CoreConfig }),

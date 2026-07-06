@@ -30,7 +30,7 @@ function escapeQmdExactFilePattern(fileName: string): string {
 }
 
 const WINDOWS_COMMAND_EXTENSION_RE =
-  /^((?:[A-Za-z]:[\\/]|\\\\[^\\/]+[\\/][^\\/]+[\\/]).*?\.(?:bat|cmd|cjs|exe|js|mjs|ps1))(?:\s+|$)/i;
+  /^((?:[A-Za-z]:[\\/]|\\\\[^\\/]+[\\/][^\\/]+[\\/]).*?\.(?:bat|cmd|ts|exe|js|ts|ps1))(?:\s+|$)/i;
 
 function resolveQmdCommand(rawCommand: string): string {
   const trimmedCommand = rawCommand.trim();

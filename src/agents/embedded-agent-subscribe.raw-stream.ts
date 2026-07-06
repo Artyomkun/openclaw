@@ -3,9 +3,9 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { appendRegularFile } from "../infra/fs-safe.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { appendRegularFile } from "../infra/fs-safe.ts";
 
 let rawStreamReady = false;
 

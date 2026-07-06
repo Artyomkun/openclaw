@@ -1,25 +1,25 @@
 /** Formatting helpers for gateway runtime summaries and doctor repair hints. */
-import { formatCliCommand } from "../cli/command-format.js";
+import { formatCliCommand } from "../cli/command-format.ts";
 import {
   resolveGatewayLaunchAgentLabel,
   resolveGatewaySystemdServiceName,
   resolveGatewayWindowsTaskName,
-} from "../daemon/constants.js";
-import { resolveDaemonContainerContext } from "../daemon/container-context.js";
-import { formatRuntimeStatus } from "../daemon/runtime-format.js";
-import { buildPlatformRuntimeLogHints } from "../daemon/runtime-hints.js";
+} from "../daemon/constants.ts";
+import { resolveDaemonContainerContext } from "../daemon/container-context.ts";
+import { formatRuntimeStatus } from "../daemon/runtime-format.ts";
+import { buildPlatformRuntimeLogHints } from "../daemon/runtime-hints.ts";
 import {
   getSystemdCgroupHygieneSummary,
   isSystemdCgroupHygieneRisk,
   type GatewayServiceRuntime,
-} from "../daemon/service-runtime.js";
+} from "../daemon/service-runtime.ts";
 import {
   isSystemdUnavailableDetail,
   renderSystemdUnavailableHints,
-} from "../daemon/systemd-hints.js";
-import { classifySystemdUnavailableDetail } from "../daemon/systemd-unavailable.js";
-import { isWSLEnv } from "../infra/wsl.js";
-import { getResolvedLoggerSettings } from "../logging.js";
+} from "../daemon/systemd-hints.ts";
+import { classifySystemdUnavailableDetail } from "../daemon/systemd-unavailable.ts";
+import { isWSLEnv } from "../infra/wsl.ts";
+import { getResolvedLoggerSettings } from "../logging.ts";
 
 type RuntimeHintOptions = {
   platform?: NodeJS.Platform;

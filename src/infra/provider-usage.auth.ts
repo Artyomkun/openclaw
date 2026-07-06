@@ -8,24 +8,24 @@ import {
   listProfilesForProvider,
   resolveApiKeyForProfile,
   resolveAuthProfileOrder,
-} from "../agents/auth-profiles.js";
-import { resolveEnvApiKey } from "../agents/model-auth-env.js";
-import { isNonSecretApiKeyMarker } from "../agents/model-auth-markers.js";
-import { resolveUsableCustomProviderApiKey } from "../agents/model-auth.js";
-import { normalizeProviderId } from "../agents/model-selection.js";
-import { getRuntimeConfig, type OpenClawConfig } from "../config/config.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.js";
+} from "../agents/auth-profiles.ts";
+import { resolveEnvApiKey } from "../agents/model-auth-env.ts";
+import { isNonSecretApiKeyMarker } from "../agents/model-auth-markers.ts";
+import { resolveUsableCustomProviderApiKey } from "../agents/model-auth.ts";
+import { normalizeProviderId } from "../agents/model-selection.ts";
+import { getRuntimeConfig, type OpenClawConfig } from "../config/config.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.ts";
 import {
   isActivatedManifestOwner,
   passesManifestOwnerBasePolicy,
-} from "../plugins/manifest-owner-policy.js";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
-import { resolveProviderUsageAuthWithPlugin } from "../plugins/provider-runtime.js";
-import { resolveProviderAuthEnvVarCandidates } from "../secrets/provider-env-vars.js";
-import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
-import { isOAuthOnlyUsageProvider } from "./provider-usage.shared.js";
-import type { UsageProviderId } from "./provider-usage.types.js";
+} from "../plugins/manifest-owner-policy.ts";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
+import { resolveProviderUsageAuthWithPlugin } from "../plugins/provider-runtime.ts";
+import { resolveProviderAuthEnvVarCandidates } from "../secrets/provider-env-vars.ts";
+import { normalizeSecretInput } from "../utils/normalize-secret-input.ts";
+import { isOAuthOnlyUsageProvider } from "./provider-usage.shared.ts";
+import type { UsageProviderId } from "./provider-usage.types.ts";
 
 export type ProviderAuth = {
   provider: UsageProviderId;

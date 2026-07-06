@@ -1,18 +1,18 @@
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
   resolveInheritedToolPolicyForSession,
   resolveSubagentToolPolicyForSession,
-} from "./agent-tools.policy.js";
-import type { SandboxToolPolicy } from "./sandbox.js";
-import { resolveSenderToolPolicy } from "./sender-tool-policy.js";
+} from "./agent-tools.policy.ts";
+import type { SandboxToolPolicy } from "./sandbox.ts";
+import { resolveSenderToolPolicy } from "./sender-tool-policy.ts";
 import {
   isSubagentEnvelopeSession,
   resolveSubagentCapabilityStore,
-} from "./subagent-capabilities.js";
-import { isToolAllowedByPolicies } from "./tool-policy-match.js";
-import { mergeAlsoAllowPolicy, resolveToolProfilePolicy } from "./tool-policy.js";
+} from "./subagent-capabilities.ts";
+import { isToolAllowedByPolicies } from "./tool-policy-match.ts";
+import { mergeAlsoAllowPolicy, resolveToolProfilePolicy } from "./tool-policy.ts";
 
 export type WebSearchToolPolicyParams = {
   config?: OpenClawConfig;

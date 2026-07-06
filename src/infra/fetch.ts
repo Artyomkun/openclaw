@@ -1,6 +1,6 @@
 // Centralizes fetch access, timeout relay, and response parsing helpers.
-import { bindAbortRelay } from "../utils/fetch-timeout.js";
-import { normalizeRequestInitHeadersForFetch } from "./fetch-headers.js";
+import { bindAbortRelay } from "../utils/fetch-timeout.ts";
+import { normalizeRequestInitHeadersForFetch } from "./fetch-headers.ts";
 
 type FetchWithPreconnect = typeof fetch & {
   preconnect: (url: string, init?: { credentials?: RequestCredentials }) => void;

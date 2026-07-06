@@ -1,6 +1,6 @@
 // Defines managed task-flow registry records and parser helpers.
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
-import type { TaskNotifyPolicy } from "./task-registry.types.js";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
+import type { TaskNotifyPolicy } from "./task-registry.types.ts";
 
 /** JSON value shape persisted with task-flow state and wait metadata. */
 export type JsonValue =

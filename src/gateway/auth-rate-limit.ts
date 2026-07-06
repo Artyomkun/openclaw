@@ -16,8 +16,8 @@
  *   {@link createAuthRateLimiter} and pass it where needed.
  */
 
-import { resolveIntegerOption, resolveTimerTimeoutMs } from "../shared/number-coercion.js";
-import { isLoopbackAddress, resolveClientIp } from "./net.js";
+import { resolveIntegerOption, resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import { isLoopbackAddress, resolveClientIp } from "./net.ts";
 
 // ---------------------------------------------------------------------------
 // Types

@@ -1,5 +1,5 @@
-import type { PluginHookReplyUsageState } from "../../plugins/hook-types.js";
-import type { UsageContract } from "./translator.js";
+import type { PluginHookReplyUsageState } from "../../plugins/hook-types.ts";
+import type { UsageContract } from "./translator.ts";
 
 export function buildUsageContract(
   state: PluginHookReplyUsageState,

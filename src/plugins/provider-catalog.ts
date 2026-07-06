@@ -4,9 +4,9 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ModelProviderConfig } from "../config/types.js";
-import { copyRecordEntries } from "../shared/safe-record.js";
-import type { ProviderCatalogContext, ProviderCatalogResult } from "./types.js";
+import type { ModelProviderConfig } from "../config/types.ts";
+import { copyRecordEntries } from "../shared/safe-record.ts";
+import type { ProviderCatalogContext, ProviderCatalogResult } from "./types.ts";
 
 function addApiKeyToProvider(
   provider: ModelProviderConfig,

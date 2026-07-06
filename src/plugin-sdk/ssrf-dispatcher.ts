@@ -6,4 +6,4 @@ export {
   resolvePinnedHostnameWithPolicy,
   type PinnedDispatcherPolicy,
   type SsrFPolicy,
-} from "../infra/net/ssrf.js";
+} from "../infra/net/ssrf.ts";

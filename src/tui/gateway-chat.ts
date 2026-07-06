@@ -4,7 +4,7 @@ import {
   GATEWAY_CLIENT_CAPS,
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
 import {
   type HelloOk,
   MIN_CLIENT_PROTOCOL_VERSION,
@@ -15,21 +15,21 @@ import {
   type SessionsListParams,
   type SessionsPatchResult,
   type SessionsPatchParams,
-} from "../../packages/gateway-protocol/src/index.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { assertExplicitGatewayAuthModeWhenBothConfigured } from "../gateway/auth-mode-policy.js";
-import { resolveGatewayInteractiveSurfaceAuth } from "../gateway/auth-surface-resolution.js";
+} from "../../packages/gateway-protocol/src/index.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { assertExplicitGatewayAuthModeWhenBothConfigured } from "../gateway/auth-mode-policy.ts";
+import { resolveGatewayInteractiveSurfaceAuth } from "../gateway/auth-surface-resolution.ts";
 import {
   buildGatewayConnectionDetails,
   ensureExplicitGatewayAuth,
   resolveExplicitGatewayAuth,
-} from "../gateway/call.js";
-import { startGatewayClientWhenEventLoopReady } from "../gateway/client-start-readiness.js";
-import { GatewayClient, GatewayClientRequestError } from "../gateway/client.js";
-import { isLoopbackHost } from "../gateway/net.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { VERSION } from "../version.js";
-import { TUI_SETUP_AUTH_SOURCE_CONFIG, TUI_SETUP_AUTH_SOURCE_ENV } from "./setup-launch-env.js";
+} from "../gateway/call.ts";
+import { startGatewayClientWhenEventLoopReady } from "../gateway/client-start-readiness.ts";
+import { GatewayClient, GatewayClientRequestError } from "../gateway/client.ts";
+import { isLoopbackHost } from "../gateway/net.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { VERSION } from "../version.ts";
+import { TUI_SETUP_AUTH_SOURCE_CONFIG, TUI_SETUP_AUTH_SOURCE_ENV } from "./setup-launch-env.ts";
 import type {
   ChatSendOptions,
   TuiAgentsList,
@@ -39,7 +39,7 @@ import type {
   TuiSessionList,
   TuiSessionMutationResult,
   TuiChatSendResult,
-} from "./tui-backend.js";
+} from "./tui-backend.ts";
 
 export type GatewayConnectionOptions = {
   url?: string;

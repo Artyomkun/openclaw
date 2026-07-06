@@ -1,8 +1,8 @@
 /** Process-wide registry for ACP runtime backends contributed by plugins. */
 import type { AcpRuntime } from "@openclaw/acp-core/runtime/types";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveGlobalSingleton } from "../../shared/global-singleton.js";
-import { AcpRuntimeError } from "./errors.js";
+import { resolveGlobalSingleton } from "../../shared/global-singleton.ts";
+import { AcpRuntimeError } from "./errors.ts";
 
 /** Registered ACP backend with optional health probe used for auto-selection. */
 export type AcpRuntimeBackend = {

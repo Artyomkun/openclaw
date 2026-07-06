@@ -1,20 +1,20 @@
 // Lightweight ACP runtime backend helpers for startup-loaded plugins.
 
-import { hasExplicitCommandContextText } from "../auto-reply/reply/context-text.js";
+import { hasExplicitCommandContextText } from "../auto-reply/reply/context-text.ts";
 import type {
   PluginHookReplyDispatchContext,
   PluginHookReplyDispatchEvent,
   PluginHookReplyDispatchResult,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 
-export { AcpRuntimeError, isAcpRuntimeError } from "../acp/runtime/errors.js";
-export type { AcpRuntimeErrorCode } from "../acp/runtime/errors.js";
+export { AcpRuntimeError, isAcpRuntimeError } from "../acp/runtime/errors.ts";
+export type { AcpRuntimeErrorCode } from "../acp/runtime/errors.ts";
 export {
   getAcpRuntimeBackend,
   registerAcpRuntimeBackend,
   requireAcpRuntimeBackend,
   unregisterAcpRuntimeBackend,
-} from "../acp/runtime/registry.js";
+} from "../acp/runtime/registry.ts";
 export type {
   AcpRuntime,
   AcpRuntimeCapabilities,

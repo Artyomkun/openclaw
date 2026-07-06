@@ -10,11 +10,11 @@ import {
   upsertTaskWithDeliveryStateToSqlite,
   upsertTaskDeliveryStateToSqlite,
   upsertTaskRegistryRecordToSqlite,
-} from "./task-registry.store.sqlite.js";
-import type { TaskRegistryStoreSnapshot } from "./task-registry.store.types.js";
-import type { TaskDeliveryState, TaskRecord } from "./task-registry.types.js";
+} from "./task-registry.store.sqlite.ts";
+import type { TaskRegistryStoreSnapshot } from "./task-registry.store.types.ts";
+import type { TaskDeliveryState, TaskRecord } from "./task-registry.types.ts";
 
-export type { TaskRegistryStoreSnapshot } from "./task-registry.store.types.js";
+export type { TaskRegistryStoreSnapshot } from "./task-registry.store.types.ts";
 
 export type TaskRegistryStore = {
   loadSnapshot: () => TaskRegistryStoreSnapshot;

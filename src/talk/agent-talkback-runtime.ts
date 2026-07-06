@@ -5,7 +5,7 @@
  * this queue batches compatible fragments, runs consults serially, and aborts
  * cleanly when the voice session closes.
  */
-import type { RuntimeLogger } from "../plugins/runtime/types-core.js";
+import type { RuntimeLogger } from "../plugins/runtime/types-core.ts";
 
 /** Text produced by a delegated voice consult. */
 export type RealtimeVoiceAgentTalkbackResult = {

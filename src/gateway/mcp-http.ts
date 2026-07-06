@@ -7,11 +7,11 @@ import {
   type ServerResponse,
 } from "node:http";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { getRuntimeConfig } from "../config/io.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { logDebug, logWarn } from "../logger.js";
-import { handleMcpJsonRpc } from "./mcp-http.handlers.js";
+import { getRuntimeConfig } from "../config/io.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { logDebug, logWarn } from "../logger.ts";
+import { handleMcpJsonRpc } from "./mcp-http.handlers.ts";
 import {
   clearActiveMcpLoopbackRuntimeByOwnerToken,
   markMcpLoopbackRequestClassified,
@@ -23,8 +23,8 @@ import {
   resolveMcpLoopbackYieldContext,
   setActiveMcpLoopbackRuntime,
   updateMcpLoopbackToolCallCapture,
-} from "./mcp-http.loopback-runtime.js";
-import { jsonRpcError, type JsonRpcRequest } from "./mcp-http.protocol.js";
+} from "./mcp-http.loopback-runtime.ts";
+import { jsonRpcError, type JsonRpcRequest } from "./mcp-http.protocol.ts";
 import {
   isMcpHttpBodyTooLargeError,
   isMcpHttpBodyTimeoutError,
@@ -33,8 +33,8 @@ import {
   resolveMcpHttpBodyTimeoutMs,
   resolveMcpRequestContext,
   validateMcpLoopbackRequest,
-} from "./mcp-http.request.js";
-import { McpLoopbackToolCache } from "./mcp-http.runtime.js";
+} from "./mcp-http.request.ts";
+import { McpLoopbackToolCache } from "./mcp-http.runtime.ts";
 
 // Loopback MCP server exposes gateway-scoped tools to local MCP clients over a
 // bearer-token HTTP endpoint bound to 127.0.0.1. Only one active server/runtime
@@ -43,7 +43,7 @@ export {
   createMcpLoopbackServerConfig,
   getActiveMcpLoopbackRuntime,
   resolveMcpLoopbackBearerToken,
-} from "./mcp-http.loopback-runtime.js";
+} from "./mcp-http.loopback-runtime.ts";
 
 type McpLoopbackServer = {
   port: number;

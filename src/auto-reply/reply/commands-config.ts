@@ -1,38 +1,38 @@
 // Implements config inspection and mutation commands for reply sessions.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveConfigWriteTargetFromPath } from "../../channels/plugins/config-writes.js";
-import { normalizeChannelId } from "../../channels/registry.js";
+import { resolveConfigWriteTargetFromPath } from "../../channels/plugins/config-writes.ts";
+import { normalizeChannelId } from "../../channels/registry.ts";
 import {
   getConfigValueAtPath,
   parseConfigPath,
   setConfigValueAtPath,
-} from "../../config/config-paths.js";
-import { readConfigFileSnapshot } from "../../config/config.js";
-import { redactConfigObject, redactConfigSnapshot } from "../../config/redact-snapshot.js";
+} from "../../config/config-paths.ts";
+import { readConfigFileSnapshot } from "../../config/config.ts";
+import { redactConfigObject, redactConfigSnapshot } from "../../config/redact-snapshot.ts";
 import {
   getConfigOverrides,
   resetConfigOverrides,
   setConfigOverride,
   unsetConfigOverride,
-} from "../../config/runtime-overrides.js";
-import { loadGatewayRuntimeConfigSchema } from "../../config/runtime-schema.js";
-import { isInternalMessageChannel } from "../../utils/message-channel.js";
-import { resolveChannelAccountId } from "./channel-context.js";
+} from "../../config/runtime-overrides.ts";
+import { loadGatewayRuntimeConfigSchema } from "../../config/runtime-schema.ts";
+import { isInternalMessageChannel } from "../../utils/message-channel.ts";
+import { resolveChannelAccountId } from "./channel-context.ts";
 import {
   rejectNonOwnerCommand,
   rejectUnauthorizedCommand,
   requireCommandFlagEnabled,
   requireGatewayClientScope,
-} from "./command-gates.js";
-import type { CommandHandler } from "./commands-types.js";
-import { parseConfigCommand } from "./config-commands.js";
+} from "./command-gates.ts";
+import type { CommandHandler } from "./commands-types.ts";
+import { parseConfigCommand } from "./config-commands.ts";
 import {
   formatAutoReplyConfigMutationError,
   setConfigPath,
   unsetConfigPath,
-} from "./config-mutations.js";
-import { resolveConfigWriteDeniedText } from "./config-write-authorization.js";
-import { parseDebugCommand } from "./debug-commands.js";
+} from "./config-mutations.ts";
+import { resolveConfigWriteDeniedText } from "./config-write-authorization.ts";
+import { parseDebugCommand } from "./debug-commands.ts";
 
 function formatConfigSetValueLabel(params: {
   path: string[];

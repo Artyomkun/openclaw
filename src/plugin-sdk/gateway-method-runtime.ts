@@ -1,6 +1,6 @@
 // Gateway method runtime helpers dispatch plugin calls through the in-process gateway.
-import { dispatchGatewayMethodInProcessRaw } from "../gateway/server-plugins.js";
-import { getPluginRuntimeGatewayRequestScope } from "../plugins/runtime/gateway-request-scope.js";
+import { dispatchGatewayMethodInProcessRaw } from "../gateway/server-plugins.ts";
+import { getPluginRuntimeGatewayRequestScope } from "../plugins/runtime/gateway-request-scope.ts";
 
 /** Error envelope returned by in-process Gateway method dispatch. */
 export type GatewayMethodDispatchError = {

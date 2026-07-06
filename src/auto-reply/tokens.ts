@@ -1,5 +1,5 @@
 /** Silent-reply and heartbeat tokens plus helpers for suppressing token-only model output. */
-import { escapeRegExp } from "../shared/regexp.js";
+import { escapeRegExp } from "../shared/regexp.ts";
 
 /** Token that marks a heartbeat response as an acknowledgement with no user notification. */
 export const HEARTBEAT_TOKEN = "HEARTBEAT_OK";

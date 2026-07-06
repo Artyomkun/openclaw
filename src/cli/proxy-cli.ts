@@ -1,8 +1,8 @@
 // Commander registration for debug proxy capture, validation, query, and blob commands.
 import { InvalidArgumentError, type Command } from "commander";
-import { parseStrictInteger } from "../infra/parse-finite-number.js";
-import type { CaptureQueryPreset } from "../proxy-capture/types.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
+import { parseStrictInteger } from "../infra/parse-finite-number.ts";
+import type { CaptureQueryPreset } from "../proxy-capture/types.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
 
 type ProxyCliRuntime = typeof import("./proxy-cli.runtime.js");
 

@@ -1,15 +1,15 @@
 // Resolves approval delivery targets from sessions and turn sources.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveSessionConversationRef } from "../channels/plugins/session-conversation.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeMessageChannel } from "../utils/message-channel.js";
+import { resolveSessionConversationRef } from "../channels/plugins/session-conversation.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeMessageChannel } from "../utils/message-channel.ts";
 import {
   doesApprovalRequestMatchChannelAccount,
   resolvePersistedApprovalRequestSessionEntry,
-} from "./approval-request-account-binding.js";
-import type { ExecApprovalRequest } from "./exec-approvals.js";
-import { resolveSessionDeliveryTarget } from "./outbound/targets.js";
-import type { PluginApprovalRequest } from "./plugin-approvals.js";
+} from "./approval-request-account-binding.ts";
+import type { ExecApprovalRequest } from "./exec-approvals.ts";
+import { resolveSessionDeliveryTarget } from "./outbound/targets.ts";
+import type { PluginApprovalRequest } from "./plugin-approvals.ts";
 
 /** Delivery target recovered from an approval request's live turn-source or stored session. */
 export type ExecApprovalSessionTarget = {

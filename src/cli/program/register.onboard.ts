@@ -1,10 +1,10 @@
 // Commander registration for onboard setup flags and lazy onboard runtime execution.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { formatAuthChoiceChoicesForCli } from "../../commands/auth-choice-options.js";
-import type { GatewayDaemonRuntime } from "../../commands/daemon-runtime.js";
-import { CORE_ONBOARD_AUTH_FLAGS } from "../../commands/onboard-core-auth-flags.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { formatAuthChoiceChoicesForCli } from "../../commands/auth-choice-options.ts";
+import type { GatewayDaemonRuntime } from "../../commands/daemon-runtime.ts";
+import { CORE_ONBOARD_AUTH_FLAGS } from "../../commands/onboard-core-auth-flags.ts";
 import type {
   AuthChoice,
   GatewayAuthChoice,
@@ -13,10 +13,10 @@ import type {
   ResetScope,
   SecretInputMode,
   TailscaleMode,
-} from "../../commands/onboard-types.js";
-import { resolveProviderOnboardAuthFlags } from "../../plugins/provider-auth-choices.js";
-import { runCommandWithRuntime } from "../cli-utils.js";
-import { parsePort } from "../shared/parse-port.js";
+} from "../../commands/onboard-types.ts";
+import { resolveProviderOnboardAuthFlags } from "../../plugins/provider-auth-choices.ts";
+import { runCommandWithRuntime } from "../cli-utils.ts";
+import { parsePort } from "../shared/parse-port.ts";
 
 function resolveInstallDaemonFlag(
   command: unknown,
@@ -43,7 +43,6 @@ function resolveInstallDaemonFlag(
 }
 
 const AUTH_CHOICE_HELP = formatAuthChoiceChoicesForCli({
-  includeLegacyAliases: true,
   includeSkip: true,
 });
 

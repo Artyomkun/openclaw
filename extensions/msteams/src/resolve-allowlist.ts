@@ -74,7 +74,7 @@ export function parseMSTeamsConversationId(raw: string): string | null {
  * Accepts both prefixed and bare formats:
  * - `conversation:<id>` — explicit conversation prefix
  * - `user:<aad-guid>`   — user id (16+ hex chars, UUID-like)
- * - `19:abc@thread.tacv2` / `19:abc@thread.skype` — channel / legacy group
+ * - `19:abc@thread.tacv2` / `19:abc@thread.skype` — channel
  * - `19:{userId}_{appId}@unq.gbl.spaces` — Graph 1:1 chat thread format
  * - `a:1xxx` — Bot Framework personal (1:1) chat id
  * - `8:orgid:xxx` — Bot Framework org-scoped personal chat id
@@ -99,7 +99,7 @@ export function looksLikeMSTeamsTargetId(raw: string): boolean {
   }
   // Bare Bot Framework / Graph conversation id formats.
   // Channel / group ids always start with `19:` and include an `@thread.*`
-  // suffix (`@thread.tacv2` or the legacy `@thread.skype`). Personal chat
+  // suffix (`@thread.tacv2`). Personal chat
   // ids come in three shapes: `a:1...` (Bot Framework), `8:orgid:...`
   // (org-scoped Bot Framework), and `19:{userId}_{appId}@unq.gbl.spaces`
   // (Graph API 1:1 chat thread). Bot Framework user ids use `29:...`.

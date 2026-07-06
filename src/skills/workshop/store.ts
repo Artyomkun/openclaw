@@ -2,17 +2,17 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveStateDir } from "../../config/paths.js";
-import { type FileLockOptions, withFileLock } from "../../infra/file-lock.js";
-import { root } from "../../infra/fs-safe.js";
-import { tryReadJson } from "../../infra/json-files.js";
-import { normalizeSkillIndexName } from "../discovery/skill-index.js";
+import { resolveStateDir } from "../../config/paths.ts";
+import { type FileLockOptions, withFileLock } from "../../infra/file-lock.ts";
+import { root } from "../../infra/fs-safe.ts";
+import { tryReadJson } from "../../infra/json-files.ts";
+import { normalizeSkillIndexName } from "../discovery/skill-index.ts";
 import {
   assertInsideWorkspace,
   assertWorkspaceSkillSupportPathSetIsFileOnly,
   MAX_WORKSPACE_SKILL_SUPPORT_FILE_BYTES,
   normalizeWorkspaceSkillSupportPath,
-} from "../lifecycle/workspace-skill-write.js";
+} from "../lifecycle/workspace-skill-write.ts";
 import {
   SKILL_WORKSHOP_MANIFEST_SCHEMA,
   SKILL_WORKSHOP_ROLLBACK_SCHEMA,
@@ -24,7 +24,7 @@ import {
   type SkillProposalRollback,
   type SkillProposalSupportFile,
   type SkillProposalSupportFileInput,
-} from "./types.js";
+} from "./types.ts";
 
 const WORKSHOP_REL_DIR = "skill-workshop";
 const PROPOSALS_REL_DIR = path.join(WORKSHOP_REL_DIR, "proposals");

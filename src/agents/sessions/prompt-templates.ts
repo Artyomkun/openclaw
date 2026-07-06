@@ -9,14 +9,14 @@ import { basename, dirname, isAbsolute, join, resolve, sep } from "node:path";
 export {
   parseCommandArgs,
   substituteArgs,
-} from "../../../packages/agent-core/src/harness/prompt-template-arguments.js";
+} from "../../../packages/agent-core/src/harness/prompt-template-arguments.ts";
 import {
   parseCommandArgs,
   substituteArgs,
-} from "../../../packages/agent-core/src/harness/prompt-template-arguments.js";
-import { CONFIG_DIR_NAME } from "../config.js";
-import { parseFrontmatter } from "../utils/frontmatter.js";
-import { createSyntheticSourceInfo, type SourceInfo } from "./source-info.js";
+} from "../../../packages/agent-core/src/harness/prompt-template-arguments.ts";
+import { CONFIG_DIR_NAME } from "../config.ts";
+import { parseFrontmatter } from "../utils/frontmatter.ts";
+import { createSyntheticSourceInfo, type SourceInfo } from "./source-info.ts";
 
 /**
  * Represents a prompt template loaded from a markdown file

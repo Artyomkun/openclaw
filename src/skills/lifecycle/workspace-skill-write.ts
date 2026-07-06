@@ -1,8 +1,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { pathExists, root } from "../../infra/fs-safe.js";
-import { isPathInside } from "../../infra/path-safety.js";
-import { findContainingAllowedSkillSymlinkTarget } from "../loading/symlink-targets.js";
+import { pathExists, root } from "../../infra/fs-safe.ts";
+import { isPathInside } from "../../infra/path-safety.ts";
+import { findContainingAllowedSkillSymlinkTarget } from "../loading/symlink-targets.ts";
 
 const ALLOWED_SUPPORT_FILE_ROOTS = new Set(
   "assets examples references scripts templates".split(" "),

@@ -6,16 +6,16 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { ChatType } from "../channels/chat-type.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { findGitRoot } from "../infra/git-root.js";
-import type { ActiveProcessSessionReference } from "./bash-process-references.js";
+import type { ChatType } from "../channels/chat-type.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { findGitRoot } from "../infra/git-root.ts";
+import type { ActiveProcessSessionReference } from "./bash-process-references.ts";
 import {
   formatUserTime,
   resolveUserTimeFormat,
   resolveUserTimezone,
   type ResolvedTimeFormat,
-} from "./date-time.js";
+} from "./date-time.ts";
 
 type RuntimeInfoInput = {
   agentId?: string;

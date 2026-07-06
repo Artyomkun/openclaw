@@ -156,15 +156,12 @@ function resolvePerplexityTransport(perplexity?: PerplexityConfig): {
   const auth = resolvePerplexityApiKey(perplexity);
   const baseUrl = resolvePerplexityBaseUrl(perplexity, auth.source, auth.apiKey);
   const model = resolvePerplexityModel(perplexity);
-  const hasLegacyOverride = Boolean(
-    normalizeOptionalString(perplexity?.baseUrl) || normalizeOptionalString(perplexity?.model),
-  );
   return {
     ...auth,
     baseUrl,
     model,
     transport:
-      hasLegacyOverride || !isDirectPerplexityBaseUrl(baseUrl) ? "chat_completions" : "search_api",
+      !isDirectPerplexityBaseUrl(baseUrl) ? "chat_completions" : "search_api",
   };
 }
 

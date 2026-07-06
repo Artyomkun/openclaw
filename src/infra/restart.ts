@@ -2,28 +2,28 @@
 import { spawnSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
-import { getRuntimeConfig } from "../config/config.js";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   resolveGatewayLaunchAgentLabel,
   resolveGatewaySystemdServiceName,
-} from "../daemon/constants.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
-import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.js";
+} from "../daemon/constants.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../state/openclaw-state-db.js";
+} from "../state/openclaw-state-db.ts";
 import {
   executeSqliteQuerySync,
   executeSqliteQueryTakeFirstSync,
   getNodeSqliteKysely,
-} from "./kysely-sync.js";
-import { cleanStaleGatewayProcessesSync, findGatewayPidsOnPortSync } from "./restart-stale-pids.js";
-import type { RestartAttempt } from "./restart.types.js";
-import { relaunchGatewayScheduledTask } from "./windows-task-restart.js";
+} from "./kysely-sync.ts";
+import { cleanStaleGatewayProcessesSync, findGatewayPidsOnPortSync } from "./restart-stale-pids.ts";
+import type { RestartAttempt } from "./restart.types.ts";
+import { relaunchGatewayScheduledTask } from "./windows-task-restart.ts";
 
-export type { RestartAttempt } from "./restart.types.js";
+export type { RestartAttempt } from "./restart.types.ts";
 
 const SPAWN_TIMEOUT_MS = 2000;
 const SIGUSR1_AUTH_GRACE_MS = 5000;

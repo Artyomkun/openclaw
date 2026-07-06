@@ -1,7 +1,7 @@
 // Focused public config shape types used by bundled and third-party plugins.
 
-export type { ChannelGroupPolicy } from "../config/group-policy.js";
-export type { SessionScope } from "../config/sessions/types.js";
+export type { ChannelGroupPolicy } from "../config/group-policy.ts";
+export type { SessionScope } from "../config/sessions/types.ts";
 export type {
   AccessGroupsConfig,
   AuthConfig,
@@ -55,4 +55,4 @@ export type {
   TtsConfig,
   TtsModelOverrideConfig,
   TtsProvider,
-} from "../config/types.js";
+} from "../config/types.ts";

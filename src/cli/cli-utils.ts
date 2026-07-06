@@ -1,6 +1,6 @@
 // Shared CLI execution wrappers and inherited Commander option lookup.
 import type { Command } from "commander";
-import { formatErrorMessage } from "../infra/errors.js";
+import { formatErrorMessage } from "../infra/errors.ts";
 
 export { formatErrorMessage };
 
@@ -56,12 +56,11 @@ export async function runCommandWithRuntime(
   }
 }
 
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Commander option values are typed by the caller.
-export function resolveOptionFromCommand<T>(
-  command: Command | undefined,
+export function resolveOptionFromCommand(
+  command: Command,
   key: string,
-): T | undefined {
-  let current: Command | null | undefined = command;
+): unknown {
+  let current: Command | undefined = command;
   while (current) {
     const opts = current.opts?.() ?? {};
     if (opts[key] !== undefined) {

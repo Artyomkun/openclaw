@@ -1,7 +1,7 @@
 // Prepares parent-context fork metadata for guarded reply session initialization.
 import path from "node:path";
-import type { SessionEntry } from "../../config/sessions.js";
-import { forkSessionFromParent, resolveParentForkDecision } from "./session-fork.js";
+import type { SessionEntry } from "../../config/sessions.ts";
+import { forkSessionFromParent, resolveParentForkDecision } from "./session-fork.ts";
 
 export async function prepareReplySessionParentFork(params: {
   agentId: string;

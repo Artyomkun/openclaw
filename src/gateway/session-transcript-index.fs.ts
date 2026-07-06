@@ -5,13 +5,13 @@ import { StringDecoder } from "node:string_decoder";
 import {
   parseSessionTranscriptTreeEntry,
   scanSessionTranscriptTree,
-} from "../config/sessions/transcript-tree.js";
+} from "../config/sessions/transcript-tree.ts";
 import {
   extractJsonNullableStringFieldPrefix,
   extractJsonNumberFieldPrefix,
   extractJsonStringFieldPrefix,
   normalizeOptionalString,
-} from "./session-transcript-json.js";
+} from "./session-transcript-json.ts";
 
 const TRANSCRIPT_INDEX_READ_CHUNK_BYTES = 64 * 1024;
 const MAX_TRANSCRIPT_INDEX_CACHE_ENTRIES = 256;

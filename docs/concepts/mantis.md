@@ -337,7 +337,7 @@ Supported artifact kinds:
 - `metadata`: JSON/log sidecar.
 - `report`: Markdown report.
 
-The reusable publisher is `scripts/mantis/publish-pr-evidence.mjs`. Workflows
+The reusable publisher is `scripts/mantis/publish-pr-evidence.ts`. Workflows
 call it with the manifest, target PR, artifact target root, comment marker,
 Actions artifact URL, run URL, and request source. It uploads declared artifacts
 to the configured Mantis R2/S3 bucket, builds a summary-first PR comment with

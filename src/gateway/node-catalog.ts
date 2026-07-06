@@ -2,14 +2,14 @@
 // Merges paired devices, approved node records, and live websocket sessions.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { normalizeSortedUniqueTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { hasEffectivePairedDeviceRole, type PairedDevice } from "../infra/device-pairing.js";
+import { hasEffectivePairedDeviceRole, type PairedDevice } from "../infra/device-pairing.ts";
 import {
   sameNodeApprovalSurfaceSet,
   sameNodePermissionSurface,
-} from "../infra/node-pairing-surface.js";
-import type { NodePairingPairedNode, NodePairingPendingRequest } from "../infra/node-pairing.js";
-import type { NodeListNode } from "../shared/node-list-types.js";
-import type { NodeSession } from "./node-registry.js";
+} from "../infra/node-pairing-surface.ts";
+import type { NodePairingPairedNode, NodePairingPendingRequest } from "../infra/node-pairing.ts";
+import type { NodeListNode } from "../shared/node-list-types.ts";
+import type { NodeSession } from "./node-registry.ts";
 
 type KnownNodeDevicePairingSource = {
   nodeId: string;

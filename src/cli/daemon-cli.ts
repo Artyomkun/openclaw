@@ -1,6 +1,6 @@
 // Public daemon CLI barrel retained for gateway service command compatibility.
-export { registerDaemonCli } from "./daemon-cli/register.js";
-export { addGatewayServiceCommands } from "./daemon-cli/register-service-commands.js";
+export { registerDaemonCli } from "./daemon-cli/register.ts";
+export { addGatewayServiceCommands } from "./daemon-cli/register-service-commands.ts";
 export {
   runDaemonInstall,
   runDaemonRestart,
@@ -8,9 +8,9 @@ export {
   runDaemonStatus,
   runDaemonStop,
   runDaemonUninstall,
-} from "./daemon-cli/runners.js";
+} from "./daemon-cli/runners.ts";
 export type {
   DaemonInstallOptions,
   DaemonStatusOptions,
   GatewayRpcOpts,
-} from "./daemon-cli/types.js";
+} from "./daemon-cli/types.ts";

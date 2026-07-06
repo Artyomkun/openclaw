@@ -4,11 +4,11 @@
  * auth profile store loading.
  */
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   resolveExternalCliAuthScopeFromConfig,
   type ExternalCliAuthScope,
-} from "./external-cli-scope.js";
+} from "./external-cli-scope.ts";
 
 /** External CLI auth discovery mode used while loading auth profile stores. */
 export type ExternalCliAuthDiscovery =

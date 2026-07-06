@@ -1,9 +1,9 @@
 /** Stores plugin host-hook run context, scheduler jobs, and pending event cleanup state. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { AgentEventPayload } from "../infra/agent-events.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import { withPluginHostCleanupTimeout } from "./host-hook-cleanup-timeout.js";
+import type { AgentEventPayload } from "../infra/agent-events.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import { withPluginHostCleanupTimeout } from "./host-hook-cleanup-timeout.ts";
 import {
   isPluginJsonValue,
   type PluginAgentEventSubscriptionRegistration,
@@ -13,8 +13,8 @@ import {
   type PluginRunContextPatch,
   type PluginSessionSchedulerJobHandle,
   type PluginSessionSchedulerJobRegistration,
-} from "./host-hooks.js";
-import type { PluginRegistry } from "./registry-types.js";
+} from "./host-hooks.ts";
+import type { PluginRegistry } from "./registry-types.ts";
 
 type PluginRunContextNamespaces = Map<string, PluginJsonValue>;
 type PluginRunContextByPlugin = Map<string, PluginRunContextNamespaces>;

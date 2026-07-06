@@ -226,7 +226,7 @@ export interface TextSignatureV1 {
 export interface TextContent {
   type: "text";
   text: string;
-  textSignature?: string; // e.g., for OpenAI responses, message metadata (legacy id string or TextSignatureV1 JSON)
+  textSignature?: string; // e.g., for OpenAI responses, message metadata
 }
 
 /** Provider reasoning/thinking content block, including opaque replay signatures. */
@@ -466,7 +466,7 @@ export interface AnthropicMessagesCompat {
   /**
    * Whether the provider accepts per-tool `eager_input_streaming`.
    * When false, the Anthropic provider omits `tools[].eager_input_streaming`
-   * and sends the legacy `fine-grained-tool-streaming-2025-05-14` beta header
+   * and sends the older `fine-grained-tool-streaming-2025-05-14` beta header
    * for tool-enabled requests.
    * Default: true.
    */

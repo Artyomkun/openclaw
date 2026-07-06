@@ -94,7 +94,7 @@ function safeParseState(parsed: unknown): TelegramUpdateOffsetState | null {
   }
 }
 
-export type TelegramOffsetRotationReason = "bot-id-changed" | "token-rotated" | "legacy-state";
+export type TelegramOffsetRotationReason = "bot-id-changed" | "token-rotated";
 
 export type TelegramUpdateOffsetRotationInfo = {
   reason: TelegramOffsetRotationReason;
@@ -112,12 +112,8 @@ function rotationForToken(
     return null;
   }
   let reason: TelegramOffsetRotationReason | null = null;
-  if (parsed.botId === null) {
-    reason = "legacy-state";
-  } else if (parsed.botId !== currentBotId) {
+  if (parsed.botId !== currentBotId) {
     reason = "bot-id-changed";
-  } else if (parsed.tokenFingerprint === null) {
-    reason = "legacy-state";
   } else if (parsed.tokenFingerprint !== fingerprintFromToken(botToken)) {
     reason = "token-rotated";
   }
@@ -190,18 +186,6 @@ export function setTelegramUpdateOffsetStoreForTest(
   store: TelegramUpdateOffsetStore | undefined,
 ): void {
   updateOffsetStoreForTest = store;
-}
-
-export async function listTelegramLegacyUpdateOffsetEntries(params: {
-  accountId?: string;
-  persistedPath: string;
-}): Promise<Array<{ key: string; value: TelegramUpdateOffsetState }>> {
-  const { value } = await readJsonFileWithFallback<unknown>(params.persistedPath, null);
-  const parsed = safeParseState(value);
-  if (!parsed || parsed.lastUpdateId === null) {
-    return [];
-  }
-  return [{ key: normalizeTelegramUpdateOffsetAccountId(params.accountId), value: parsed }];
 }
 
 export function shouldReplaceTelegramUpdateOffsetEntry(params: {

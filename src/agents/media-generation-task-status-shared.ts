@@ -9,10 +9,10 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { listFreshTasksForOwnerKey } from "../tasks/runtime-internal.js";
-import type { TaskRecord } from "../tasks/task-registry.types.js";
-import { buildSessionAsyncTaskStatusDetails } from "./session-async-task-status.js";
-import { stableStringify } from "./stable-stringify.js";
+import { listFreshTasksForOwnerKey } from "../tasks/runtime-internal.ts";
+import type { TaskRecord } from "../tasks/task-registry.types.ts";
+import { buildSessionAsyncTaskStatusDetails } from "./session-async-task-status.ts";
+import { stableStringify } from "./stable-stringify.ts";
 
 /** Marks media as ready while requester delivery is still being confirmed. */
 export const MEDIA_GENERATION_DELIVERING_COMPLETION_PROGRESS =

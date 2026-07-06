@@ -6,7 +6,7 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { GeneratedImageAsset, ImageGenerationSourceImage } from "./types.js";
+import type { GeneratedImageAsset, ImageGenerationSourceImage } from "./types.ts";
 
 const DEFAULT_IMAGE_MIME_TYPE = "image/png";
 const DEFAULT_IMAGE_FILE_PREFIX = "image";

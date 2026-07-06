@@ -4,27 +4,27 @@ import {
   normalizeProviderId,
 } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { note } from "../../packages/terminal-core/src/note.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
 import {
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
-import { hasAnyAuthProfileStoreSource } from "../agents/auth-profiles.js";
-import { resolveMemorySearchConfig } from "../agents/memory-search.js";
+} from "../agents/agent-scope.ts";
+import { hasAnyAuthProfileStoreSource } from "../agents/auth-profiles.ts";
+import { resolveMemorySearchConfig } from "../agents/memory-search.ts";
 import {
   resolveApiKeyForProvider,
   resolveEnvApiKey,
   resolveUsableCustomProviderApiKey,
-} from "../agents/model-auth.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
+} from "../agents/model-auth.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   checkQmdBinaryAvailability,
   resolveQmdBinaryUnavailableReason,
-} from "../memory-host-sdk/engine-qmd.js";
-import { hasConfiguredMemorySecretInput } from "../memory-host-sdk/secret.js";
+} from "../memory-host-sdk/engine-qmd.ts";
+import { hasConfiguredMemorySecretInput } from "../memory-host-sdk/secret.ts";
 import {
   auditDreamingArtifacts,
   auditShortTermPromotionArtifacts,
@@ -32,18 +32,17 @@ import {
   repairShortTermPromotionArtifacts,
   type DreamingArtifactsAuditSummary,
   type ShortTermAuditSummary,
-} from "../plugin-sdk/memory-core-engine-runtime.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
+} from "../plugin-sdk/memory-core-engine-runtime.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
 import {
   getActiveMemorySearchManager,
   resolveActiveMemoryBackendConfig,
-} from "../plugins/memory-runtime.js";
-import { defaultSlotIdForKey } from "../plugins/slots.js";
-import { getProviderEnvVars } from "../secrets/provider-env-vars.js";
-import { resolveUserPath } from "../utils.js";
-import type { DoctorPrompter } from "./doctor-prompter.js";
-import { maybeRepairWorkspaceMemoryHealth, noteWorkspaceMemoryHealth } from "./doctor-workspace.js";
-import { isRecord } from "./doctor/shared/legacy-config-record-shared.js";
+} from "../plugins/memory-runtime.ts";
+import { defaultSlotIdForKey } from "../plugins/slots.ts";
+import { getProviderEnvVars } from "../secrets/provider-env-vars.ts";
+import { resolveUserPath } from "../utils.ts";
+import type { DoctorPrompter } from "./doctor-prompter.ts";
+import { maybeRepairWorkspaceMemoryHealth, noteWorkspaceMemoryHealth } from "./doctor-workspace.ts";
 
 type RuntimeMemoryAuditContext = {
   workspaceDir?: string;
@@ -200,14 +199,10 @@ async function resolveRuntimeMemoryAuditContext(
   }
   try {
     const status = manager.status();
-    const customQmd =
-      isRecord(status.custom) && isRecord(status.custom.qmd) ? status.custom.qmd : null;
     return {
       workspaceDir: status.workspaceDir?.trim(),
       backend: status.backend,
-      dbPath: status.dbPath,
-      qmdCollections:
-        typeof customQmd?.collections === "number" ? customQmd.collections : undefined,
+      dbPath: status.dbPath
     };
   } finally {
     await manager.close?.().catch(() => undefined);
@@ -585,7 +580,7 @@ export async function noteMemorySearchHealth(
     return;
   }
 
-  // Remote provider — check for API key. Legacy provider: "auto" resolves to OpenAI.
+  // Remote provider — check for API key.
   if (hasRemoteApiKey || (await hasApiKeyForProvider(provider, cfg, agentDir))) {
     return;
   }

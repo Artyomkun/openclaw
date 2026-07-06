@@ -363,7 +363,7 @@ Example (read-only source + an extra data directory):
 
 - Binds bypass the sandbox filesystem: they expose host paths with whatever mode you set (`:ro` or `:rw`).
 - OpenClaw blocks dangerous bind sources (for example: `docker.sock`, `/etc`, `/proc`, `/sys`, `/dev`, and parent mounts that would expose them).
-- OpenClaw also blocks common home-directory credential roots such as `~/.aws`, `~/.cargo`, `~/.config`, `~/.docker`, `~/.gnupg`, `~/.netrc`, `~/.npm`, and `~/.ssh`.
+- OpenClaw also blocks common home-directory credential roots such as `~/.aws`, `~/.config`, `~/.docker`, `~/.gnupg`, `~/.netrc`, `~/.npm`, and `~/.ssh`.
 - Bind validation is not just string matching. OpenClaw normalizes the source path, then resolves it again through the deepest existing ancestor before re-checking blocked paths and allowed roots.
 - That means symlink-parent escapes still fail closed even when the final leaf does not exist yet. Example: `/workspace/run-link/new-file` still resolves as `/var/run/...` if `run-link` points there.
 - Allowed source roots are canonicalized the same way, so a path that only looks inside the allowlist before symlink resolution is still rejected as `outside allowed roots`.

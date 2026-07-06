@@ -1,6 +1,6 @@
 // Doctor lint flow runs lint-like doctor checks and formats findings.
-import { scrubDoctorErrorMessage } from "./doctor-error-message.js";
-import { listHealthChecks } from "./health-check-registry.js";
+import { scrubDoctorErrorMessage } from "./doctor-error-message.ts";
+import { listHealthChecks } from "./health-check-registry.ts";
 import {
   HEALTH_FINDING_SEVERITY_RANK,
   healthFindingMeetsSeverity,
@@ -8,7 +8,7 @@ import {
   type HealthCheckContext,
   type HealthFinding,
   type HealthFindingSeverity,
-} from "./health-checks.js";
+} from "./health-checks.ts";
 
 // Non-mutating health-check runner used by `openclaw doctor --lint`.
 export interface DoctorLintRunOptions {

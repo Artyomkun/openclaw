@@ -3,7 +3,7 @@
  * helpers to fail with actionable auth provenance while keeping secret
  * normalization local.
  */
-import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
+import { normalizeSecretInput } from "../utils/normalize-secret-input.ts";
 
 const AWS_BEARER_ENV = "AWS_BEARER_TOKEN_BEDROCK";
 const AWS_ACCESS_KEY_ENV = "AWS_ACCESS_KEY_ID";

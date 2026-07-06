@@ -8,11 +8,11 @@ import {
   mergeExtractedTreeIntoDestination,
   prepareArchiveDestinationDir,
   withStagedArchiveDestination,
-} from "../../infra/archive.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { runCommandWithTimeout } from "../../process/exec.js";
-import { hasBinary } from "../loading/config.js";
-import { parseTarVerboseMetadata } from "./install-tar-verbose.js";
+} from "../../infra/archive.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { runCommandWithTimeout } from "../../process/exec.ts";
+import { hasBinary } from "../loading/config.ts";
+import { parseTarVerboseMetadata } from "./install-tar-verbose.ts";
 
 type ArchiveExtractResult = { stdout: string; stderr: string; code: number | null };
 type TarPreflightResult = {

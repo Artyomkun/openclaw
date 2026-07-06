@@ -24,7 +24,7 @@ export type InstallRecordBase = {
   clawhubTrustStale?: boolean;
   clawhubTrustCheckedAt?: string;
   clawhubTrustAcknowledgedAt?: string;
-  artifactKind?: "legacy-zip" | "npm-pack";
+  artifactKind?: "npm-pack";
   artifactFormat?: "zip" | "tgz";
   npmIntegrity?: string;
   npmShasum?: string;

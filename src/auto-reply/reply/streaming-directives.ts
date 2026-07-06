@@ -1,14 +1,14 @@
 // Converts streaming reply directives into payload delivery decisions.
 import { hasOutboundReplyContent } from "openclaw/plugin-sdk/reply-payload";
-import { parseInlineDirectives } from "../../utils/directive-tags.js";
+import { parseInlineDirectives } from "../../utils/directive-tags.ts";
 import {
   isSilentReplyPrefixText,
   isSilentReplyText,
   SILENT_REPLY_TOKEN,
   startsWithSilentToken,
   stripLeadingSilentToken,
-} from "../tokens.js";
-import type { ReplyDirectiveParseResult } from "./reply-directives.js";
+} from "../tokens.ts";
+import type { ReplyDirectiveParseResult } from "./reply-directives.ts";
 
 type PendingReplyState = {
   explicitId?: string;
@@ -63,7 +63,7 @@ export const splitTrailingDirective = (
   }
 
   // Keep a possible final-reply MEDIA directive out of partial streaming
-  // payloads. The final message parser still owns legacy MEDIA delivery.
+  // payloads. The final message parser still owns older MEDIA delivery.
   const lastNewline = text.lastIndexOf("\n");
   const lastLine = lastNewline < 0 ? text : text.slice(lastNewline + 1);
   if (/^\s*MEDIA:/i.test(lastLine)) {

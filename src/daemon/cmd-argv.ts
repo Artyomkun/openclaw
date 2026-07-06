@@ -1,6 +1,6 @@
 /** Windows cmd argument quoting and parser mirror used by service tests. */
-import { splitArgsPreservingQuotes } from "./arg-split.js";
-import { assertNoCmdLineBreak } from "./cmd-set.js";
+import { splitArgsPreservingQuotes } from "./arg-split.ts";
+import { assertNoCmdLineBreak } from "./cmd-set.ts";
 
 export function quoteCmdScriptArg(value: string): string {
   assertNoCmdLineBreak(value, "Command argument");

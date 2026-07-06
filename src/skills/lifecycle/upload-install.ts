@@ -1,18 +1,18 @@
 // Upload install helpers install skills from staged uploaded archives.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ArchiveLogger } from "../../infra/archive.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ArchiveLogger } from "../../infra/archive.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   installSkillArchiveFromPath,
   type SkillArchiveInstallFailureKind,
   validateRequestedSkillSlug,
-} from "./archive-install.js";
+} from "./archive-install.ts";
 import {
   defaultSkillUploadStore,
   normalizeSkillUploadSha256,
   SkillUploadRequestError,
   type SkillUploadStore,
-} from "./upload-store.js";
+} from "./upload-store.ts";
 
 /** Error classes exposed by uploaded skill archive install attempts. */
 type UploadedSkillInstallErrorKind = "invalid-request" | "unavailable";

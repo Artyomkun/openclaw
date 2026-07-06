@@ -3,8 +3,8 @@ import {
   buildAgentMessageFromConversationEntries,
   type ConversationEntry,
   IMAGE_ONLY_USER_MESSAGE,
-} from "./agent-prompt.js";
-import type { ContentPart, ItemParam } from "./open-responses.schema.js";
+} from "./agent-prompt.ts";
+import type { ContentPart, ItemParam } from "./open-responses.schema.ts";
 
 const FILE_ONLY_USER_MESSAGE = "User sent file(s) with no text.";
 

@@ -1,15 +1,15 @@
 // Matches approval requests against channel account and session bindings.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import { loadSessionStore } from "../config/sessions/store-load.js";
-import { resolveMaintenanceConfigFromInput } from "../config/sessions/store-maintenance.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeOptionalAccountId } from "../routing/account-id.js";
-import { parseAgentSessionKey } from "../routing/session-key.js";
-import { normalizeMessageChannel } from "../utils/message-channel.js";
-import type { ExecApprovalRequest } from "./exec-approvals.js";
-import type { PluginApprovalRequest } from "./plugin-approvals.js";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import { loadSessionStore } from "../config/sessions/store-load.ts";
+import { resolveMaintenanceConfigFromInput } from "../config/sessions/store-maintenance.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeOptionalAccountId } from "../routing/account-id.ts";
+import { parseAgentSessionKey } from "../routing/session-key.ts";
+import { normalizeMessageChannel } from "../utils/message-channel.ts";
+import type { ExecApprovalRequest } from "./exec-approvals.ts";
+import type { PluginApprovalRequest } from "./plugin-approvals.ts";
 
 type ApprovalRequestLike = ExecApprovalRequest | PluginApprovalRequest;
 

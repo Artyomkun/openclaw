@@ -3,9 +3,9 @@ import {
   ErrorCodes,
   errorShape,
   validateNodeInvokeResultParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { respondInvalidParams } from "./nodes.helpers.js";
-import type { GatewayRequestHandler } from "./types.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { respondInvalidParams } from "./nodes.helpers.ts";
+import type { GatewayRequestHandler } from "./types.ts";
 
 function normalizeNodeInvokeResultParams(params: unknown): unknown {
   if (!params || typeof params !== "object") {

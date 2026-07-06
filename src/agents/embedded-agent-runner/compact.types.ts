@@ -1,17 +1,17 @@
 /**
  * Shared parameter and metric types for embedded-agent compaction.
  */
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ReasoningLevel, ThinkLevel } from "../../auto-reply/thinking.js";
-import type { ChatType } from "../../channels/chat-type.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ContextEngine, ContextEngineRuntimeContext } from "../../context-engine/types.js";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ReasoningLevel, ThinkLevel } from "../../auto-reply/thinking.ts";
+import type { ChatType } from "../../channels/chat-type.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ContextEngine, ContextEngineRuntimeContext } from "../../context-engine/types.ts";
 import type { Model } from "openclaw/plugin-sdk/llm";
-import type { CommandQueueEnqueueFn } from "../../process/command-queue.types.js";
-import type { SkillSnapshot } from "../../skills/types.js";
-import type { ExecElevatedDefaults, ExecToolDefaults } from "../bash-tools.exec-types.js";
-import type { AgentRunSessionTarget } from "../run-session-target.js";
-import type { AgentRuntimePlan } from "../runtime-plan/types.js";
+import type { CommandQueueEnqueueFn } from "../../process/command-queue.types.ts";
+import type { SkillSnapshot } from "../../skills/types.ts";
+import type { ExecElevatedDefaults, ExecToolDefaults } from "../bash-tools.exec-types.ts";
+import type { AgentRunSessionTarget } from "../run-session-target.ts";
+import type { AgentRuntimePlan } from "../runtime-plan/types.ts";
 
 export type CompactEmbeddedAgentSessionParams = {
   sessionId: string;

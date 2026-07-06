@@ -1,4 +1,21 @@
-// Memory Core plugin module implements tools.shared behavior.
+/**
+ * Memory Core - Tools Shared
+ * 
+ * Shared utilities for memory tools.
+ * 
+ * RESPONSIBILITIES:
+ * - Load memory tool runtime
+ * - Define schemas for memory tools
+ * - Resolve memory manager context
+ * - Create memory tools
+ * - Build unavailable results
+ * - Search corpus supplements
+ * 
+ * ORACLE ADAPTATIONS:
+ * - Works with Oracle memory backend
+ * - Supports Oracle-specific error handling
+ */
+
 import { optionalFiniteNumberSchema, stringEnum } from "openclaw/plugin-sdk/channel-actions";
 import {
   listMemoryCorpusSupplements,
@@ -11,9 +28,13 @@ import {
 import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/string-coerce-runtime";
 import { Type } from "typebox";
 
+// ========================================================================
+// Types
+// ========================================================================
+
 type MemoryToolRuntime = typeof import("./tools.runtime.js");
 type MemorySearchManagerResult = Awaited<
-  ReturnType<(typeof import("./memory/index.js"))["getMemorySearchManager"]>
+  ReturnType<(typeof import("./memory/manager.js"))["getMemorySearchManager"]>
 >;
 type MemoryToolOptions = {
   config?: OpenClawConfig;
@@ -23,12 +44,20 @@ type MemoryToolOptions = {
   oneShotCliRun?: boolean;
 };
 
+// ========================================================================
+// Runtime Loader
+// ========================================================================
+
 let memoryToolRuntimePromise: Promise<MemoryToolRuntime> | null = null;
 
 export async function loadMemoryToolRuntime(): Promise<MemoryToolRuntime> {
   memoryToolRuntimePromise ??= import("./tools.runtime.js");
   return await memoryToolRuntimePromise;
 }
+
+// ========================================================================
+// Schemas
+// ========================================================================
 
 export const MemorySearchSchema = Type.Object({
   query: Type.String(),
@@ -44,21 +73,32 @@ export const MemoryGetSchema = Type.Object({
   corpus: Type.Optional(stringEnum(["memory", "wiki", "all"])),
 });
 
+// ========================================================================
+// Context Resolution
+// ========================================================================
+
 function resolveMemoryToolContext(options: MemoryToolOptions) {
   const cfg = options.getConfig?.() ?? options.config;
   if (!cfg) {
     return null;
   }
+  
   const { sessionAgentId: agentId } = resolveSessionAgentIds({
     sessionKey: options.agentSessionKey,
     config: cfg,
     agentId: options.agentId,
   });
+  
   if (!resolveMemorySearchConfig(cfg, agentId)) {
     return null;
   }
+  
   return { cfg, agentId };
 }
+
+// ========================================================================
+// Manager Context
+// ========================================================================
 
 export async function getMemoryManagerContextWithPurpose(params: {
   cfg: OpenClawConfig;
@@ -75,11 +115,13 @@ export async function getMemoryManagerContextWithPurpose(params: {
 > {
   const { getMemorySearchManager } = await loadMemoryToolRuntime();
   const startedAt = Date.now();
+  
   const { manager, debug, error } = await getMemorySearchManager({
     cfg: params.cfg,
     agentId: params.agentId,
     purpose: params.purpose,
   });
+  
   return manager
     ? {
         manager,
@@ -90,6 +132,10 @@ export async function getMemoryManagerContextWithPurpose(params: {
       }
     : { error };
 }
+
+// ========================================================================
+// Tool Factory
+// ========================================================================
 
 export function createMemoryTool(params: {
   options: MemoryToolOptions;
@@ -103,6 +149,7 @@ export function createMemoryTool(params: {
   if (!ctx) {
     return null;
   }
+  
   return {
     label: params.label,
     name: params.name,
@@ -115,6 +162,10 @@ export function createMemoryTool(params: {
   };
 }
 
+// ========================================================================
+// Unavailable Results
+// ========================================================================
+
 export function buildMemorySearchUnavailableResult(
   error: string | undefined,
   overrides?: {
@@ -124,10 +175,12 @@ export function buildMemorySearchUnavailableResult(
 ) {
   const reason = (error ?? "memory search unavailable").trim() || "memory search unavailable";
   const normalizedReason = normalizeLowercaseStringOrEmpty(reason);
+  
   const isQuotaError = /insufficient_quota|quota|429/.test(normalizedReason);
   const isMissingNodeSqlite = /missing node:sqlite|no such built-?in module: node:sqlite/.test(
     normalizedReason,
   );
+  
   const warning =
     overrides?.warning ??
     (isQuotaError
@@ -135,6 +188,7 @@ export function buildMemorySearchUnavailableResult(
       : isMissingNodeSqlite
         ? "Memory search is unavailable because this OpenClaw Node runtime does not provide SQLite support."
         : "Memory search is unavailable due to an embedding/provider error.");
+  
   const action =
     overrides?.action ??
     (isQuotaError
@@ -142,6 +196,7 @@ export function buildMemorySearchUnavailableResult(
       : isMissingNodeSqlite
         ? "Run OpenClaw with a Node runtime that includes node:sqlite, then retry memory_search."
         : "Check embedding provider configuration and retry memory_search.");
+  
   return {
     results: [],
     disabled: true,
@@ -157,6 +212,10 @@ export function buildMemorySearchUnavailableResult(
   };
 }
 
+// ========================================================================
+// Corpus Supplements
+// ========================================================================
+
 export async function searchMemoryCorpusSupplements(params: {
   query: string;
   maxResults?: number;
@@ -166,15 +225,18 @@ export async function searchMemoryCorpusSupplements(params: {
   if (params.corpus === "memory" || params.corpus === "sessions") {
     return [];
   }
+  
   const supplements = listMemoryCorpusSupplements();
   if (supplements.length === 0) {
     return [];
   }
+  
   const results = (
     await Promise.all(
       supplements.map(async (registration) => await registration.supplement.search(params)),
     )
   ).flat();
+  
   return results
     .toSorted((left, right) => {
       if (left.score !== right.score) {
@@ -195,11 +257,13 @@ export async function getMemoryCorpusSupplementResult(params: {
   if (params.corpus === "memory" || params.corpus === "sessions") {
     return null;
   }
+  
   for (const registration of listMemoryCorpusSupplements()) {
     const result = await registration.supplement.get(params);
     if (result) {
       return result;
     }
   }
+  
   return null;
 }

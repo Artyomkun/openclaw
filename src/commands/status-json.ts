@@ -1,9 +1,9 @@
 // Thin `openclaw status --json` wrapper.
 // Command wiring lives here; scan/payload behavior lives in the shared JSON command runner.
 
-import type { RuntimeEnv } from "../runtime.js";
+import type { RuntimeEnv } from "../runtime.ts";
 import { runStatusJsonCommand } from "./status-json-command.ts";
-import { scanStatusJsonFast } from "./status.scan.fast-json.js";
+import { scanStatusJsonFast } from "./status.scan.fast-json.ts";
 
 /** Runs status JSON with the standard fast scan and all-mode security audit behavior. */
 export async function statusJsonCommand(

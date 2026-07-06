@@ -3,16 +3,16 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveChannelGroupRequireMention } from "../../config/group-policy.js";
-import type { GroupKeyResolution, SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { SilentReplyPolicy } from "../../shared/silent-reply-policy.js";
-import { isInternalMessageChannel } from "../../utils/message-channel.js";
-import type { SourceReplyDeliveryMode } from "../get-reply-options.types.js";
-import { normalizeGroupActivation } from "../group-activation.js";
-import type { TemplateContext } from "../templating.js";
-import { extractExplicitGroupId } from "./group-id.js";
+import { resolveChannelGroupRequireMention } from "../../config/group-policy.ts";
+import type { GroupKeyResolution, SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { SilentReplyPolicy } from "../../shared/silent-reply-policy.ts";
+import { isInternalMessageChannel } from "../../utils/message-channel.ts";
+import type { SourceReplyDeliveryMode } from "../get-reply-options.types.ts";
+import { normalizeGroupActivation } from "../group-activation.ts";
+import type { TemplateContext } from "../templating.ts";
+import { extractExplicitGroupId } from "./group-id.ts";
 
 const groupsRuntimeLoader = createLazyImportLoader(() => import("./groups.runtime.js"));
 
@@ -229,7 +229,7 @@ function resolveSharedChatNoun(chatType?: string | null): "group chat" | "channe
  * Builds trusted group/channel delivery guidance.
  *
  * Room names, members, and history are rendered separately as untrusted inbound
- * context. Legacy automatic delivery posts text final replies directly, but
+ * context. Older automatic delivery posts text final replies directly, but
  * files/images/attachments still need message(action=send).
  */
 export function buildGroupChatContext(params: {

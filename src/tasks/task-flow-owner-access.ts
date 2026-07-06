@@ -4,8 +4,8 @@ import {
   findLatestTaskFlowForOwnerKey,
   getTaskFlowById,
   listTaskFlowsForOwnerKey,
-} from "./task-flow-registry.js";
-import type { TaskFlowRecord } from "./task-flow-registry.types.js";
+} from "./task-flow-registry.ts";
+import type { TaskFlowRecord } from "./task-flow-registry.types.ts";
 
 /** Reads a flow only when it belongs to the caller owner key. */
 export function getTaskFlowByIdForOwner(params: {

@@ -1,8 +1,8 @@
 // Skill security scanner inspects skill files and manifests for unsafe patterns.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { hasErrnoCode } from "../../infra/errors.js";
-import { isPathInside } from "../../security/scan-paths.js";
+import { hasErrnoCode } from "../../infra/errors.ts";
+import { isPathInside } from "../../security/scan-paths.ts";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -46,10 +46,9 @@ export type SkillScanOptions = {
 const SCANNABLE_EXTENSIONS = new Set([
   ".js",
   ".ts",
-  ".mjs",
-  ".cjs",
-  ".mts",
-  ".cts",
+  ".ts",
+  ".ts",
+  ".ts",
   ".jsx",
   ".tsx",
 ]);

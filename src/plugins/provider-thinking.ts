@@ -1,11 +1,11 @@
 // Resolves provider thinking-level policy from plugin metadata.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { resolveBundledProviderPolicySurface } from "./provider-public-artifacts.js";
+import { resolveBundledProviderPolicySurface } from "./provider-public-artifacts.ts";
 import type {
   ProviderDefaultThinkingPolicyContext,
   ProviderThinkingProfile,
   ProviderThinkingPolicyContext,
-} from "./provider-thinking.types.js";
+} from "./provider-thinking.types.ts";
 
 type ThinkingProviderPlugin = {
   id: string;

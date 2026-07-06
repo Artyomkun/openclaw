@@ -1,18 +1,18 @@
 // Builds base config schema metadata shared across generated config surfaces.
 import { isSensitiveUrlConfigPath } from "@openclaw/net-policy/redact-sensitive-url";
-import { VERSION } from "../version.js";
-import { FIELD_HELP } from "./schema.help.js";
-import type { ConfigUiHints } from "./schema.hints.js";
+import { VERSION } from "../version.ts";
+import { FIELD_HELP } from "./schema.help.ts";
+import type { ConfigUiHints } from "./schema.hints.ts";
 import {
   applySensitiveUrlHints,
   buildBaseHints,
   collectMatchingSchemaPaths,
   mapSensitivePaths,
-} from "./schema.hints.js";
-import { FIELD_LABELS } from "./schema.labels.js";
-import { asSchemaObject, cloneSchema } from "./schema.shared.js";
-import { applyDerivedTags } from "./schema.tags.js";
-import { OpenClawSchema } from "./zod-schema.js";
+} from "./schema.hints.ts";
+import { FIELD_LABELS } from "./schema.labels.ts";
+import { asSchemaObject, cloneSchema } from "./schema.shared.ts";
+import { applyDerivedTags } from "./schema.tags.ts";
+import { OpenClawSchema } from "./zod-schema.ts";
 
 type ConfigSchema = Record<string, unknown>;
 
@@ -32,8 +32,6 @@ type JsonSchemaObject = Record<string, unknown> & {
   oneOf?: JsonSchemaObject[];
   allOf?: JsonSchemaObject[];
 };
-
-const LEGACY_HIDDEN_PUBLIC_PATHS = ["canvasHost", "hooks.internal.handlers"] as const;
 
 const asJsonSchemaObject = (value: unknown): JsonSchemaObject | null =>
   asSchemaObject(value) as JsonSchemaObject | null;
@@ -200,26 +198,6 @@ function stripObjectPropertyPath(schema: ConfigSchema, path: readonly string[]):
   }
 }
 
-function stripLegacyCompatSchemaPaths(schema: ConfigSchema): ConfigSchema {
-  const next = cloneSchema(schema);
-  for (const path of LEGACY_HIDDEN_PUBLIC_PATHS) {
-    stripObjectPropertyPath(next, path.split("."));
-  }
-  return next;
-}
-
-function stripLegacyCompatHints(hints: ConfigUiHints): ConfigUiHints {
-  const next: ConfigUiHints = { ...hints };
-  for (const path of LEGACY_HIDDEN_PUBLIC_PATHS) {
-    for (const key of Object.keys(next)) {
-      if (key === path || key.startsWith(`${path}.`) || key.startsWith(`${path}[`)) {
-        delete next[key];
-      }
-    }
-  }
-  return next;
-}
-
 let baseConfigSchemaStablePayload: BaseConfigSchemaStablePayload | null = null;
 
 function computeBaseConfigSchemaStablePayload(): BaseConfigSchemaStablePayload {
@@ -247,10 +225,6 @@ function computeBaseConfigSchemaStablePayload(): BaseConfigSchemaStablePayload {
     isSensitiveUrlConfigPath,
   );
   const stablePayload = {
-    schema: stripLegacyCompatSchemaPaths(stripChannelSchema(schema)),
-    uiHints: stripLegacyCompatHints(
-      applyDerivedTags(applySensitiveUrlHints(baseHints, sensitiveUrlPaths)),
-    ),
     version: VERSION,
   } satisfies BaseConfigSchemaStablePayload;
   baseConfigSchemaStablePayload = stablePayload;

@@ -1,8 +1,8 @@
 // Gateway connection auth facade.
 // Resolves config-backed client credentials with or without async SecretRefs.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveGatewayCredentialsWithSecretInputs } from "./credentials-secret-inputs.js";
-import type { resolveGatewayCredentialsFromConfig } from "./credentials.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveGatewayCredentialsWithSecretInputs } from "./credentials-secret-inputs.ts";
+import type { resolveGatewayCredentialsFromConfig } from "./credentials.ts";
 
 // Thin public bridge from OpenClawConfig-shaped callers to the lower-level
 // credential resolver. Keep this file policy-free; precedence lives in

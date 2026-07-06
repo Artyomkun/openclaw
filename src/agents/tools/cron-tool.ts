@@ -5,51 +5,51 @@
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { Type, type TSchema } from "typebox";
-import { getRuntimeConfig, type OpenClawConfig } from "../../config/config.js";
-import { resolveCronCreationDelivery } from "../../cron/delivery-context.js";
-import { assertCronDeliveryInputNonBlankFields } from "../../cron/delivery-target-validation.js";
-import { normalizeCronJobCreate, normalizeCronJobPatch } from "../../cron/normalize.js";
-import type { CronDelivery } from "../../cron/types.js";
-import { normalizeHttpWebhookUrl } from "../../cron/webhook-url.js";
-import { GatewayClientRequestError } from "../../gateway/client.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { parseAgentSessionKey } from "../../sessions/session-key-utils.js";
-import { extractTextFromChatContent } from "../../shared/chat-content.js";
-import { isRecord, truncateUtf16Safe } from "../../utils.js";
-import type { DeliveryContext } from "../../utils/delivery-context.shared.js";
-import { resolveSessionAgentId } from "../agent-scope.js";
+import { getRuntimeConfig, type OpenClawConfig } from "../../config/config.ts";
+import { resolveCronCreationDelivery } from "../../cron/delivery-context.ts";
+import { assertCronDeliveryInputNonBlankFields } from "../../cron/delivery-target-validation.ts";
+import { normalizeCronJobCreate, normalizeCronJobPatch } from "../../cron/normalize.ts";
+import type { CronDelivery } from "../../cron/types.ts";
+import { normalizeHttpWebhookUrl } from "../../cron/webhook-url.ts";
+import { GatewayClientRequestError } from "../../gateway/client.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { parseAgentSessionKey } from "../../sessions/session-key-utils.ts";
+import { extractTextFromChatContent } from "../../shared/chat-content.ts";
+import { isRecord, truncateUtf16Safe } from "../../utils.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.shared.ts";
+import { resolveSessionAgentId } from "../agent-scope.ts";
 import {
   optionalFiniteNumberSchema,
   optionalNonNegativeIntegerSchema,
   optionalPositiveIntegerSchema,
   optionalStringEnum,
   stringEnum,
-} from "../schema/typebox.js";
-import { CRON_TOOL_DISPLAY_SUMMARY } from "../tool-description-presets.js";
-import { isToolAllowedByPolicyName } from "../tool-policy-match.js";
+} from "../schema/typebox.ts";
+import { CRON_TOOL_DISPLAY_SUMMARY } from "../tool-description-presets.ts";
+import { isToolAllowedByPolicyName } from "../tool-policy-match.ts";
 import {
   buildPluginToolGroups,
   expandPolicyWithPluginGroups,
   expandToolGroups,
   normalizeToolName,
-} from "../tool-policy.js";
-import { setToolTerminalPresentation } from "../tool-terminal-presentation.js";
+} from "../tool-policy.ts";
+import { setToolTerminalPresentation } from "../tool-terminal-presentation.ts";
 import {
   type AnyAgentTool,
   jsonResult,
   readNonNegativeIntegerParam,
   readStringParam,
-} from "./common.js";
+} from "./common.ts";
 import {
   canonicalizeCronToolObject,
   hasCronCreateSignal,
   isEmptyRecoveredCronPatch,
   recoverCronObjectFromFlatParams,
-} from "./cron-tool-canonicalize.js";
-import { withGatewayToolCallerIdentity } from "./gateway-caller-context.js";
-import { gatewayCallOptionSchemaProperties } from "./gateway-schema.js";
-import { callGatewayTool, readGatewayCallOptions, type GatewayCallOptions } from "./gateway.js";
-import { resolveInternalSessionKey, resolveMainSessionAlias } from "./sessions-helpers.js";
+} from "./cron-tool-canonicalize.ts";
+import { withGatewayToolCallerIdentity } from "./gateway-caller-context.ts";
+import { gatewayCallOptionSchemaProperties } from "./gateway-schema.ts";
+import { callGatewayTool, readGatewayCallOptions, type GatewayCallOptions } from "./gateway.ts";
+import { resolveInternalSessionKey, resolveMainSessionAlias } from "./sessions-helpers.ts";
 
 // Spell out job/patch properties for model-facing schema; runtime validation
 // still happens in normalizeCronJob* to avoid nested union schemas.

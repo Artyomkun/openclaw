@@ -12,9 +12,9 @@ import {
   normalizeStaticProviderModelIdWithPolicies,
 } from "@openclaw/model-catalog-core/provider-model-id-normalization";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { normalizeProviderModelIdWithManifest } from "../plugins/manifest-model-id-normalization.js";
-import { modelKey } from "../shared/model-key.js";
-export { modelKey } from "../shared/model-key.js";
+import { normalizeProviderModelIdWithManifest } from "../plugins/manifest-model-id-normalization.ts";
+import { modelKey } from "../shared/model-key.ts";
+export { modelKey } from "../shared/model-key.ts";
 
 type StaticModelRef = {
   provider: string;

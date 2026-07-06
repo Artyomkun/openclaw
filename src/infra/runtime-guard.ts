@@ -1,6 +1,6 @@
 // Validates the current runtime against OpenClaw's Node engine floor.
 import process from "node:process";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
 
 type RuntimeKind = "node" | "unknown";
 

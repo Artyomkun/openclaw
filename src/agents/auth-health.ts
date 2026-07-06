@@ -9,18 +9,18 @@ import {
 } from "@openclaw/model-catalog-core/provider-id";
 import { asDateTimestampMs } from "@openclaw/normalization-core/number-coercion";
 import { normalizeUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   DEFAULT_OAUTH_REFRESH_MARGIN_MS,
   type AuthCredentialReasonCode,
   evaluateStoredCredentialEligibility,
   resolveTokenExpiryState,
-} from "./auth-profiles/credential-state.js";
-import { resolveAuthProfileDisplayLabel } from "./auth-profiles/display.js";
-import { resolveEffectiveOAuthCredential } from "./auth-profiles/effective-oauth.js";
-import { resolveAuthProfileOrder } from "./auth-profiles/order.js";
-import type { AuthProfileCredential, AuthProfileStore } from "./auth-profiles/types.js";
-import { resolveProviderIdForAuth } from "./provider-auth-aliases.js";
+} from "./auth-profiles/credential-state.ts";
+import { resolveAuthProfileDisplayLabel } from "./auth-profiles/display.ts";
+import { resolveEffectiveOAuthCredential } from "./auth-profiles/effective-oauth.ts";
+import { resolveAuthProfileOrder } from "./auth-profiles/order.ts";
+import type { AuthProfileCredential, AuthProfileStore } from "./auth-profiles/types.ts";
+import { resolveProviderIdForAuth } from "./provider-auth-aliases.ts";
 
 type AuthProfileSource = "store";
 

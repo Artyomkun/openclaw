@@ -4,20 +4,20 @@
  * Lists configured or allowed agent ids plus model/runtime metadata for subagent spawn decisions.
  */
 import { Type } from "typebox";
-import { getRuntimeConfig } from "../../config/config.js";
+import { getRuntimeConfig } from "../../config/config.ts";
 import {
   DEFAULT_AGENT_ID,
   normalizeAgentId,
   parseAgentSessionKey,
-} from "../../routing/session-key.js";
-import { resolveModelAgentRuntimeMetadata } from "../agent-runtime-metadata.js";
-import { listAgentIds } from "../agent-scope-config.js";
-import { resolveAgentConfig, resolveAgentEffectiveModelPrimary } from "../agent-scope.js";
-import { resolveDefaultModelForAgent } from "../model-selection.js";
-import { resolveSubagentAllowedTargetIds } from "../subagent-target-policy.js";
-import type { AnyAgentTool } from "./common.js";
-import { jsonResult } from "./common.js";
-import { resolveInternalSessionKey, resolveMainSessionAlias } from "./sessions-helpers.js";
+} from "../../routing/session-key.ts";
+import { resolveModelAgentRuntimeMetadata } from "../agent-runtime-metadata.ts";
+import { listAgentIds } from "../agent-scope-config.ts";
+import { resolveAgentConfig, resolveAgentEffectiveModelPrimary } from "../agent-scope.ts";
+import { resolveDefaultModelForAgent } from "../model-selection.ts";
+import { resolveSubagentAllowedTargetIds } from "../subagent-target-policy.ts";
+import type { AnyAgentTool } from "./common.ts";
+import { jsonResult } from "./common.ts";
+import { resolveInternalSessionKey, resolveMainSessionAlias } from "./sessions-helpers.ts";
 
 const AgentsListToolSchema = Type.Object({});
 

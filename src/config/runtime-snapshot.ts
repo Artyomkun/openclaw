@@ -1,6 +1,6 @@
 // Produces redacted runtime config snapshots for diagnostics and UI surfaces.
 import { createHash } from "node:crypto";
-import type { OpenClawConfig } from "./types.js";
+import type { OpenClawConfig } from "./types.ts";
 
 export type RuntimeConfigSnapshotRefreshOptions = {
   includeAuthStoreRefs?: boolean;

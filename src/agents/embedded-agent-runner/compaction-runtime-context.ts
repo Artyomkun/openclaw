@@ -1,27 +1,27 @@
 /**
  * Builds runtime context for context-engine backed embedded compaction.
  */
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ReasoningLevel, ThinkLevel } from "../../auto-reply/thinking.js";
-import type { ChatType } from "../../channels/chat-type.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SkillSnapshot } from "../../skills/types.js";
-import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.js";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ReasoningLevel, ThinkLevel } from "../../auto-reply/thinking.ts";
+import type { ChatType } from "../../channels/chat-type.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SkillSnapshot } from "../../skills/types.ts";
+import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.ts";
 import {
   listActiveProcessSessionReferences,
   type ActiveProcessSessionReference,
-} from "../bash-process-references.js";
-import type { ExecElevatedDefaults } from "../bash-tools.js";
-import { DEFAULT_PROVIDER } from "../defaults.js";
+} from "../bash-process-references.ts";
+import type { ExecElevatedDefaults } from "../bash-tools.ts";
+import { DEFAULT_PROVIDER } from "../defaults.ts";
 import {
   buildModelAliasIndex,
   inferUniqueProviderFromConfiguredModels,
   resolveModelRefFromString,
-} from "../model-selection-shared.js";
+} from "../model-selection-shared.ts";
 import {
   openAIProviderUsesCodexRuntimeByDefault,
   resolveSelectedOpenAIRuntimeProvider,
-} from "../openai-routing.js";
+} from "../openai-routing.ts";
 
 type EmbeddedCompactionRuntimeContext = {
   sessionKey?: string;

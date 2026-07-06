@@ -4,8 +4,8 @@
  * failures into structured failover reasons and remediation metadata.
  */
 import { parseStrictNonNegativeInteger } from "@openclaw/normalization-core/number-coercion";
-import { formatCliCommand } from "../cli/command-format.js";
-import { readErrorName } from "../infra/errors.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { readErrorName } from "../infra/errors.ts";
 import {
   classifyFailoverSignal,
   extractFailoverSignalDetails,
@@ -13,10 +13,10 @@ import {
   isUnclassifiedNoBodyHttpSignal,
   type FailoverClassification,
   type FailoverSignal,
-} from "./embedded-agent-helpers/errors.js";
-import { isTimeoutErrorMessage } from "./embedded-agent-helpers/errors.js";
-import type { FailoverReason } from "./embedded-agent-helpers/types.js";
-import { isSessionWriteLockAcquireError } from "./session-write-lock-error.js";
+} from "./embedded-agent-helpers/errors.ts";
+import { isTimeoutErrorMessage } from "./embedded-agent-helpers/errors.ts";
+import type { FailoverReason } from "./embedded-agent-helpers/types.ts";
+import { isSessionWriteLockAcquireError } from "./session-write-lock-error.ts";
 
 const ABORT_TIMEOUT_RE = /request was aborted|request aborted/i;
 const MAX_FAILOVER_CAUSE_DEPTH = 25;

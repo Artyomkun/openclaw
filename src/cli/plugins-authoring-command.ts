@@ -2,22 +2,22 @@
 import fs from "node:fs";
 import path from "node:path";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { getToolPluginMetadata, type ToolPluginMetadata } from "../plugin-sdk/tool-plugin.js";
+import { getToolPluginMetadata, type ToolPluginMetadata } from "../plugin-sdk/tool-plugin.ts";
 import {
   loadPluginManifest,
   PLUGIN_MANIFEST_FILENAME,
   resolvePackageExtensionEntries,
-} from "../plugins/manifest.js";
-import { unwrapDefaultModuleExport } from "../plugins/module-export.js";
+} from "../plugins/manifest.ts";
+import { unwrapDefaultModuleExport } from "../plugins/module-export.ts";
 import {
   createPluginModuleLoaderCache,
   getCachedPluginModuleLoader,
-} from "../plugins/plugin-module-loader-cache.js";
-import { buildPluginLoaderAliasMap } from "../plugins/sdk-alias.js";
-import { defaultRuntime } from "../runtime.js";
-import { toSafeImportPath } from "../shared/import-specifier.js";
-import { isRecord } from "../utils.js";
-import { VERSION } from "../version.js";
+} from "../plugins/plugin-module-loader-cache.ts";
+import { buildPluginLoaderAliasMap } from "../plugins/sdk-alias.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { toSafeImportPath } from "../shared/import-specifier.ts";
+import { isRecord } from "../utils.ts";
+import { VERSION } from "../version.ts";
 
 type JsonObject = Record<string, unknown>;
 
@@ -486,7 +486,7 @@ export default defineToolPlugin({
 });
 `;
   const testSource = `import { describe, expect, it } from "vitest";
-import entry from "./index.js";
+import entry from "./index.ts";
 import { getToolPluginMetadata } from "openclaw/plugin-sdk/tool-plugin";
 
 describe(${idLiteral}, () => {
@@ -675,7 +675,7 @@ export default definePluginEntry({
 `;
   const testSource = `import { describe, expect, it } from "vitest";
 import type { OpenClawPluginApi, ProviderPlugin } from "openclaw/plugin-sdk/plugin-entry";
-import entry from "./index.js";
+import entry from "./index.ts";
 
 describe(${idLiteral}, () => {
   it("registers the provider", () => {

@@ -1,58 +1,11 @@
 // Telegram plugin module implements doctor contract behavior.
 import type {
   ChannelDoctorConfigMutation,
-  ChannelDoctorLegacyConfigRule,
 } from "openclaw/plugin-sdk/channel-contract";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import {
   asObjectRecord,
-  hasLegacyAccountStreamingAliases,
-  hasLegacyStreamingAliases,
-  normalizeLegacyChannelAliases,
 } from "openclaw/plugin-sdk/runtime-doctor";
-import { resolveTelegramPreviewStreamMode } from "./preview-streaming.js";
-
-function hasLegacyTelegramStreamingAliases(value: unknown): boolean {
-  return hasLegacyStreamingAliases(value, { includePreviewChunk: true });
-}
-
-function hasRetiredTelegramDmConfig(value: unknown): boolean {
-  const entry = asObjectRecord(value);
-  if (!entry) {
-    return false;
-  }
-  if (asObjectRecord(entry.dm)) {
-    return true;
-  }
-  return Object.values(asObjectRecord(entry.direct) ?? {}).some(
-    (direct) => asObjectRecord(direct)?.threadReplies !== undefined,
-  );
-}
-
-function hasRetiredTelegramAccountDmConfig(value: unknown): boolean {
-  const accounts = asObjectRecord(value);
-  if (!accounts) {
-    return false;
-  }
-  return Object.values(accounts).some((account) => hasRetiredTelegramDmConfig(account));
-}
-
-function hasRetiredTelegramNativeDraftConfig(value: unknown): boolean {
-  const entry = asObjectRecord(value);
-  const streaming = asObjectRecord(entry?.streaming);
-  const preview = asObjectRecord(streaming?.preview);
-  return (
-    preview?.nativeToolProgress !== undefined || preview?.nativeToolProgressAllowFrom !== undefined
-  );
-}
-
-function hasRetiredTelegramAccountNativeDraftConfig(value: unknown): boolean {
-  const accounts = asObjectRecord(value);
-  if (!accounts) {
-    return false;
-  }
-  return Object.values(accounts).some((account) => hasRetiredTelegramNativeDraftConfig(account));
-}
 
 function removeRetiredTelegramDmConfig(params: {
   entry: Record<string, unknown>;
@@ -152,50 +105,6 @@ function resolveCompatibleDefaultGroupEntry(section: Record<string, unknown>): {
   return { groups, entry };
 }
 
-export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
-  {
-    path: ["channels", "telegram", "groupMentionsOnly"],
-    message:
-      'channels.telegram.groupMentionsOnly was removed; use channels.telegram.groups."*".requireMention instead. Run "openclaw doctor --fix".',
-  },
-  {
-    path: ["channels", "telegram"],
-    message:
-      'channels.telegram.dm and direct.<chatId>.threadReplies were removed; DM topic sessions now follow Telegram getMe.has_topics_enabled, so topics-enabled bots may use thread-scoped DM sessions. Run "openclaw doctor --fix".',
-    match: hasRetiredTelegramDmConfig,
-  },
-  {
-    path: ["channels", "telegram", "accounts"],
-    message:
-      'channels.telegram.accounts.<id>.dm and direct.<chatId>.threadReplies were removed; DM topic sessions now follow Telegram getMe.has_topics_enabled, so topics-enabled bots may use thread-scoped DM sessions. Run "openclaw doctor --fix".',
-    match: hasRetiredTelegramAccountDmConfig,
-  },
-  {
-    path: ["channels", "telegram"],
-    message:
-      'channels.telegram.streaming.preview.nativeToolProgress and nativeToolProgressAllowFrom were removed; Telegram previews now use rich send/edit messages. Run "openclaw doctor --fix".',
-    match: hasRetiredTelegramNativeDraftConfig,
-  },
-  {
-    path: ["channels", "telegram", "accounts"],
-    message:
-      'channels.telegram.accounts.<id>.streaming.preview.nativeToolProgress and nativeToolProgressAllowFrom were removed; Telegram previews now use rich send/edit messages. Run "openclaw doctor --fix".',
-    match: hasRetiredTelegramAccountNativeDraftConfig,
-  },
-  {
-    path: ["channels", "telegram"],
-    message:
-      "channels.telegram.streamMode, channels.telegram.streaming (scalar), chunkMode, blockStreaming, draftChunk, and blockStreamingCoalesce are legacy; use channels.telegram.streaming.{mode,chunkMode,preview.chunk,block.enabled,block.coalesce}.",
-    match: hasLegacyTelegramStreamingAliases,
-  },
-  {
-    path: ["channels", "telegram", "accounts"],
-    message:
-      "channels.telegram.accounts.<id>.streamMode, streaming (scalar), chunkMode, blockStreaming, draftChunk, and blockStreamingCoalesce are legacy; use channels.telegram.accounts.<id>.streaming.{mode,chunkMode,preview.chunk,block.enabled,block.coalesce}.",
-    match: (value) => hasLegacyAccountStreamingAliases(value, hasLegacyTelegramStreamingAliases),
-  },
-];
-
 export function normalizeCompatibilityConfig({
   cfg,
 }: {
@@ -251,18 +160,6 @@ export function normalizeCompatibilityConfig({
       changed = true;
     }
   }
-
-  const aliases = normalizeLegacyChannelAliases({
-    entry: updated,
-    pathPrefix: "channels.telegram",
-    changes,
-    resolveStreamingOptions: (entry) => ({
-      includePreviewChunk: true,
-      resolvedMode: resolveTelegramPreviewStreamMode(entry),
-    }),
-  });
-  updated = aliases.entry;
-  changed = changed || aliases.changed;
 
   const accounts = asObjectRecord(updated.accounts);
   if (accounts) {

@@ -1,5 +1,5 @@
 // Overflow helpers classify provider overflow errors and retryable responses.
-import type { AssistantMessage } from "../types.js";
+import type { AssistantMessage } from "../types.ts";
 
 /**
  * Regex patterns to detect context overflow errors from different providers.

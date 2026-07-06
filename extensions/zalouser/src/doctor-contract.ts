@@ -1,7 +1,6 @@
 // Zalouser plugin module implements doctor contract behavior.
 import type {
   ChannelDoctorConfigMutation,
-  ChannelDoctorLegacyConfigRule,
 } from "openclaw/plugin-sdk/channel-contract";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 
@@ -11,29 +10,6 @@ function asObjectRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === "object" && !Array.isArray(value)
     ? (value as Record<string, unknown>)
     : null;
-}
-
-function hasLegacyZalouserGroupAllowAlias(value: unknown): boolean {
-  const group = asObjectRecord(value);
-  return Boolean(group && typeof group.allow === "boolean");
-}
-
-function hasLegacyZalouserGroupAllowAliases(value: unknown): boolean {
-  const groups = asObjectRecord(value);
-  return Boolean(
-    groups && Object.values(groups).some((group) => hasLegacyZalouserGroupAllowAlias(group)),
-  );
-}
-
-function hasLegacyZalouserAccountGroupAllowAliases(value: unknown): boolean {
-  const accounts = asObjectRecord(value);
-  if (!accounts) {
-    return false;
-  }
-  return Object.values(accounts).some((account) => {
-    const accountRecord = asObjectRecord(account);
-    return Boolean(accountRecord && hasLegacyZalouserGroupAllowAliases(accountRecord.groups));
-  });
 }
 
 function normalizeZalouserGroupAllowAliases(params: {
@@ -134,21 +110,6 @@ function normalizeZalouserCompatibilityConfig(cfg: OpenClawConfig): ChannelDocto
     changes,
   };
 }
-
-export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
-  {
-    path: ["channels", "zalouser", "groups"],
-    message:
-      'channels.zalouser.groups.<id>.allow is legacy; use channels.zalouser.groups.<id>.enabled instead. Run "openclaw doctor --fix".',
-    match: hasLegacyZalouserGroupAllowAliases,
-  },
-  {
-    path: ["channels", "zalouser", "accounts"],
-    message:
-      'channels.zalouser.accounts.<id>.groups.<id>.allow is legacy; use channels.zalouser.accounts.<id>.groups.<id>.enabled instead. Run "openclaw doctor --fix".',
-    match: hasLegacyZalouserAccountGroupAllowAliases,
-  },
-];
 
 export function normalizeCompatibilityConfig(params: {
   cfg: OpenClawConfig;

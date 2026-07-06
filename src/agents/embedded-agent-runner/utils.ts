@@ -1,8 +1,8 @@
 /**
  * Small shared normalization helpers for embedded-agent runner settings.
  */
-import type { ReasoningLevel, ThinkLevel } from "../../auto-reply/thinking.js";
-import type { ThinkingLevel } from "../runtime/index.js";
+import type { ReasoningLevel, ThinkLevel } from "../../auto-reply/thinking.ts";
+import type { ThinkingLevel } from "../runtime/index.ts";
 
 export function normalizeContextTokenBudget(value: unknown): number | undefined {
   return typeof value === "number" && Number.isFinite(value) && value > 0

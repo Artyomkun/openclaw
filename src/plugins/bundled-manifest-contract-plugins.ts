@@ -1,17 +1,17 @@
 /** Resolves enabled bundled plugins that advertise a specific manifest contract list. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveBundledPluginCompatibleLoadValues,
   type PluginActivationBundledCompatMode,
-} from "./activation-context.js";
+} from "./activation-context.ts";
 import {
   createPluginActivationSource,
   normalizePluginsConfig,
   resolveEffectivePluginActivationState,
-} from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import { loadManifestContractSnapshot } from "./manifest-contract-eligibility.js";
-import type { PluginManifestContractListKey, PluginManifestRecord } from "./manifest-registry.js";
+} from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import { loadManifestContractSnapshot } from "./manifest-contract-eligibility.ts";
+import type { PluginManifestContractListKey, PluginManifestRecord } from "./manifest-registry.ts";
 
 function createPluginIdSet(pluginIds: readonly string[] | undefined): Set<string> | null {
   return pluginIds && pluginIds.length > 0 ? new Set(pluginIds) : null;

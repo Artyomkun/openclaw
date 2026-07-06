@@ -5,4 +5,4 @@ export {
   applyPrimaryModel,
   promptDefaultModel,
   promptModelAllowlist,
-} from "../flows/model-picker.js";
+} from "../flows/model-picker.ts";

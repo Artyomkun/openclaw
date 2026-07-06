@@ -4,13 +4,13 @@ import {
   SENSITIVE_URL_HINT_TAG,
 } from "@openclaw/net-policy/redact-sensitive-url";
 import { z } from "zod";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import type { ConfigUiHints } from "../shared/config-ui-hints-types.js";
-import { FIELD_HELP } from "./schema.help.js";
-import { FIELD_LABELS } from "./schema.labels.js";
-import { applyDerivedTags } from "./schema.tags.js";
-import { isSensitiveConfigPath } from "./sensitive-paths.js";
-import { sensitive } from "./zod-schema.sensitive.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import type { ConfigUiHints } from "../shared/config-ui-hints-types.ts";
+import { FIELD_HELP } from "./schema.help.ts";
+import { FIELD_LABELS } from "./schema.labels.ts";
+import { applyDerivedTags } from "./schema.tags.ts";
+import { isSensitiveConfigPath } from "./sensitive-paths.ts";
+import { sensitive } from "./zod-schema.sensitive.ts";
 
 let log: ReturnType<typeof createSubsystemLogger> | null = null;
 
@@ -21,7 +21,7 @@ function getLog(): ReturnType<typeof createSubsystemLogger> {
   return log;
 }
 
-export type { ConfigUiHint, ConfigUiHints } from "../shared/config-ui-hints-types.js";
+export type { ConfigUiHint, ConfigUiHints } from "../shared/config-ui-hints-types.ts";
 
 const GROUP_LABELS: Record<string, string> = {
   wizard: "Wizard",

@@ -4,73 +4,73 @@
  * Creates the per-run tool inventory from config, channel context, sandbox policy, auth stores, and plugin tools.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.js";
-import type { InboundEventKind } from "../channels/inbound-event/kind.js";
-import { selectApplicableRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway } from "../gateway/call.js";
-import { isEmbeddedMode } from "../infra/embedded-mode.js";
-import { getActiveSecretsRuntimeConfigSnapshot } from "../secrets/runtime-state.js";
-import { getActiveRuntimeWebToolsMetadata } from "../secrets/runtime-web-tools-state.js";
-import { isCronRunSessionKey } from "../sessions/session-key-utils.js";
-import { resolveTranscriptsConfig } from "../transcripts/config.js";
-import { normalizeDeliveryContext } from "../utils/delivery-context.js";
-import type { GatewayMessageChannel } from "../utils/message-channel.js";
-import { resolveAgentWorkspaceDir, resolveSessionAgentIds } from "./agent-scope.js";
+import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.ts";
+import type { InboundEventKind } from "../channels/inbound-event/kind.ts";
+import { selectApplicableRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway } from "../gateway/call.ts";
+import { isEmbeddedMode } from "../infra/embedded-mode.ts";
+import { getActiveSecretsRuntimeConfigSnapshot } from "../secrets/runtime-state.ts";
+import { getActiveRuntimeWebToolsMetadata } from "../secrets/runtime-web-tools-state.ts";
+import { isCronRunSessionKey } from "../sessions/session-key-utils.ts";
+import { resolveTranscriptsConfig } from "../transcripts/config.ts";
+import { normalizeDeliveryContext } from "../utils/delivery-context.ts";
+import type { GatewayMessageChannel } from "../utils/message-channel.ts";
+import { resolveAgentWorkspaceDir, resolveSessionAgentIds } from "./agent-scope.ts";
 import {
   type HookContext,
   isToolWrappedWithBeforeToolCallHook,
   wrapToolWithBeforeToolCallHook,
-} from "./agent-tools.before-tool-call.js";
-import type { AuthProfileStore } from "./auth-profiles/types.js";
-import { resolveOpenClawPluginToolsForOptions } from "./openclaw-plugin-tools.js";
+} from "./agent-tools.before-tool-call.ts";
+import type { AuthProfileStore } from "./auth-profiles/types.ts";
+import { resolveOpenClawPluginToolsForOptions } from "./openclaw-plugin-tools.ts";
 import {
   isToolExplicitlyAllowedByFactoryPolicy,
   mergeFactoryPolicyList,
   resolveImageToolFactoryAvailable,
   resolveOptionalMediaToolFactoryPlan,
-} from "./openclaw-tools.media-factory-plan.js";
-import { applyNodesToolWorkspaceGuard } from "./openclaw-tools.nodes-workspace-guard.js";
+} from "./openclaw-tools.media-factory-plan.ts";
+import { applyNodesToolWorkspaceGuard } from "./openclaw-tools.nodes-workspace-guard.ts";
 import {
   collectPresentOpenClawTools,
   shouldIncludeUpdatePlanToolForOpenClawTools,
-} from "./openclaw-tools.registration.js";
-import type { SandboxFsBridge } from "./sandbox/fs-bridge.js";
-import type { SpawnedToolContext } from "./spawned-context.js";
-import type { ToolFsPolicy } from "./tool-fs-policy.js";
-import { resolveToolLoopDetectionConfig } from "./tool-loop-detection-config.js";
-import { createAgentsListTool } from "./tools/agents-list-tool.js";
-import type { AnyAgentTool } from "./tools/common.js";
-import { createCronTool, type CronCreatorToolAllowlistEntry } from "./tools/cron-tool.js";
-import { createEmbeddedCallGateway } from "./tools/embedded-gateway-stub.js";
-import { wrapToolWithGatewayCallerIdentity } from "./tools/gateway-caller-context.js";
-import { createGatewayTool } from "./tools/gateway-tool.js";
+} from "./openclaw-tools.registration.ts";
+import type { SandboxFsBridge } from "./sandbox/fs-bridge.ts";
+import type { SpawnedToolContext } from "./spawned-context.ts";
+import type { ToolFsPolicy } from "./tool-fs-policy.ts";
+import { resolveToolLoopDetectionConfig } from "./tool-loop-detection-config.ts";
+import { createAgentsListTool } from "./tools/agents-list-tool.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
+import { createCronTool, type CronCreatorToolAllowlistEntry } from "./tools/cron-tool.ts";
+import { createEmbeddedCallGateway } from "./tools/embedded-gateway-stub.ts";
+import { wrapToolWithGatewayCallerIdentity } from "./tools/gateway-caller-context.ts";
+import { createGatewayTool } from "./tools/gateway-tool.ts";
 import {
   createCreateGoalTool,
   createGetGoalTool,
   createUpdateGoalTool,
-} from "./tools/goal-tools.js";
-import { createHeartbeatResponseTool } from "./tools/heartbeat-response-tool.js";
-import { createImageGenerateTool } from "./tools/image-generate-tool.js";
-import { createImageTool } from "./tools/image-tool.js";
-import { createMessageTool } from "./tools/message-tool.js";
-import { createMusicGenerateTool } from "./tools/music-generate-tool.js";
-import { createNodesTool } from "./tools/nodes-tool.js";
-import { createPdfTool } from "./tools/pdf-tool.js";
-import { createSessionStatusTool } from "./tools/session-status-tool.js";
-import { createSessionsHistoryTool } from "./tools/sessions-history-tool.js";
-import { createSessionsListTool } from "./tools/sessions-list-tool.js";
-import { createSessionsSendTool } from "./tools/sessions-send-tool.js";
-import { createSessionsSpawnTool } from "./tools/sessions-spawn-tool.js";
-import { createSessionsYieldTool } from "./tools/sessions-yield-tool.js";
-import { createSkillWorkshopTool } from "./tools/skill-workshop-tool.js";
-import { createSubagentsTool } from "./tools/subagents-tool.js";
-import { createTranscriptsTool } from "./tools/transcripts-tool.js";
-import { createTtsTool } from "./tools/tts-tool.js";
-import { createUpdatePlanTool } from "./tools/update-plan-tool.js";
-import { createVideoGenerateTool } from "./tools/video-generate-tool.js";
-import { createWebFetchTool, createWebSearchTool } from "./tools/web-tools.js";
-import { resolveWorkspaceRoot } from "./workspace-dir.js";
+} from "./tools/goal-tools.ts";
+import { createHeartbeatResponseTool } from "./tools/heartbeat-response-tool.ts";
+import { createImageGenerateTool } from "./tools/image-generate-tool.ts";
+import { createImageTool } from "./tools/image-tool.ts";
+import { createMessageTool } from "./tools/message-tool.ts";
+import { createMusicGenerateTool } from "./tools/music-generate-tool.ts";
+import { createNodesTool } from "./tools/nodes-tool.ts";
+import { createPdfTool } from "./tools/pdf-tool.ts";
+import { createSessionStatusTool } from "./tools/session-status-tool.ts";
+import { createSessionsHistoryTool } from "./tools/sessions-history-tool.ts";
+import { createSessionsListTool } from "./tools/sessions-list-tool.ts";
+import { createSessionsSendTool } from "./tools/sessions-send-tool.ts";
+import { createSessionsSpawnTool } from "./tools/sessions-spawn-tool.ts";
+import { createSessionsYieldTool } from "./tools/sessions-yield-tool.ts";
+import { createSkillWorkshopTool } from "./tools/skill-workshop-tool.ts";
+import { createSubagentsTool } from "./tools/subagents-tool.ts";
+import { createTranscriptsTool } from "./tools/transcripts-tool.ts";
+import { createTtsTool } from "./tools/tts-tool.ts";
+import { createUpdatePlanTool } from "./tools/update-plan-tool.ts";
+import { createVideoGenerateTool } from "./tools/video-generate-tool.ts";
+import { createWebFetchTool, createWebSearchTool } from "./tools/web-tools.ts";
+import { resolveWorkspaceRoot } from "./workspace-dir.ts";
 
 type OpenClawToolsDeps = {
   callGateway: typeof callGateway;

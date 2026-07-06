@@ -1,5 +1,5 @@
 // Defines WhatsApp channel configuration types.
-import type { ReactionLevel } from "../utils/reaction-level.js";
+import type { ReactionLevel } from "../utils/reaction-level.ts";
 import type {
   BlockStreamingCoalesceConfig,
   ContextVisibilityMode,
@@ -7,13 +7,13 @@ import type {
   GroupPolicy,
   MarkdownConfig,
   ReplyToMode,
-} from "./types.base.js";
+} from "./types.base.ts";
 import type {
   ChannelHealthMonitorConfig,
   ChannelHeartbeatVisibilityConfig,
-} from "./types.channel-health.js";
-import type { DmConfig, MentionPatternsPolicyConfig } from "./types.messages.js";
-import type { GroupToolPolicyBySenderConfig, GroupToolPolicyConfig } from "./types.tools.js";
+} from "./types.channel-health.ts";
+import type { DmConfig, MentionPatternsPolicyConfig } from "./types.messages.ts";
+import type { GroupToolPolicyBySenderConfig, GroupToolPolicyConfig } from "./types.tools.ts";
 
 export type WhatsAppActionConfig = {
   reactions?: boolean;

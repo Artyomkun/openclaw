@@ -1,7 +1,7 @@
 // OpenCode provider helpers expose auth and model defaults for the OpenCode-compatible plugin.
-import { createProviderApiKeyAuthMethod, type OpenClawConfig } from "./provider-auth-api-key.js";
+import { createProviderApiKeyAuthMethod, type OpenClawConfig } from "./provider-auth-api-key.ts";
 
-export { applyOpencodeZenModelDefault, OPENCODE_ZEN_DEFAULT_MODEL } from "./provider-onboard.js";
+export { applyOpencodeZenModelDefault, OPENCODE_ZEN_DEFAULT_MODEL } from "./provider-onboard.ts";
 
 const OPENCODE_SHARED_PROFILE_IDS = ["opencode:default", "opencode-go:default"] as const;
 const OPENCODE_SHARED_HINT = "Shared API key for Zen + Go catalogs";

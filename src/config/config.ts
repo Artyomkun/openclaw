@@ -22,7 +22,7 @@ export {
   readSourceConfigSnapshot,
   readSourceConfigSnapshotForWrite,
   recoverConfigFromLastKnownGood,
-  recoverConfigFromJsonRootSuffix,
+  recoverConfigFrotsonRootSuffix,
   resetConfigRuntimeState,
   resolveConfigSnapshotHash,
   resolveRuntimeConfigCacheKey,
@@ -30,24 +30,24 @@ export {
   setRuntimeConfigSnapshotRefreshHandler,
   setRuntimeConfigSnapshot,
   writeConfigFile,
-} from "./io.js";
+} from "./io.ts";
 export {
   hashRuntimeConfigValue,
   resolveConfigWriteAfterWrite,
   resolveConfigWriteFollowUp,
-} from "./runtime-snapshot.js";
+} from "./runtime-snapshot.ts";
 export type {
   ConfigWriteAfterWrite,
   ConfigWriteFollowUp,
   RuntimeConfigSnapshotMetadata,
-} from "./runtime-snapshot.js";
+} from "./runtime-snapshot.ts";
 export type {
   BestEffortConfigSnapshot,
   ConfigSnapshotReadOptions,
   ConfigWriteNotification,
   ConfigWriteResult,
   ReadConfigFileSnapshotWithPluginMetadataResult,
-} from "./io.js";
+} from "./io.ts";
 export {
   ConfigMutationConflictError,
   mutateConfigFile,
@@ -55,7 +55,7 @@ export {
   replaceConfigFile,
   transformConfigFile,
   transformConfigFileWithRetry,
-} from "./mutate.js";
+} from "./mutate.ts";
 export type {
   ConfigMutationCommit,
   ConfigMutationCommitParams,
@@ -67,18 +67,18 @@ export type {
   ConfigTransformResult,
   TransformConfigFileParams,
   TransformConfigFileWithRetryParams,
-} from "./mutate.js";
+} from "./mutate.ts";
 export {
   assertConfigWriteAllowedInCurrentMode,
   NixModeConfigMutationError,
-} from "./nix-mode-write-guard.js";
-export * from "./paths.js";
-export * from "./recovery-policy.js";
-export * from "./runtime-overrides.js";
-export * from "./types.js";
+} from "./nix-mode-write-guard.ts";
+export * from "./paths.ts";
+export * from "./recovery-policy.ts";
+export * from "./runtime-overrides.ts";
+export * from "./types.ts";
 export {
   validateConfigObject,
   validateConfigObjectRaw,
   validateConfigObjectRawWithPlugins,
   validateConfigObjectWithPlugins,
-} from "./validation.js";
+} from "./validation.ts";

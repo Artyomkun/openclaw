@@ -1,17 +1,17 @@
 // Tracks image attachments that belong to the current reply turn.
 import { mimeTypeFromFilePath } from "@openclaw/media-core/mime";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import type { ImageContent } from "../../llm/types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import type { ImageContent } from "../../llm/types.ts";
 import {
   stripExtractedFileImageMetadata,
   type ExtractedFileImage,
-} from "../../media-understanding/extracted-file-images.js";
-import type { PromptImageOrderEntry } from "../../media/prompt-image-order.js";
-import type { MsgContext } from "../templating.js";
-import { resolveAgentTurnAttachments } from "./agent-turn-attachments.js";
+} from "../../media-understanding/extracted-file-images.ts";
+import type { PromptImageOrderEntry } from "../../media/prompt-image-order.ts";
+import type { MsgContext } from "../templating.ts";
+import { resolveAgentTurnAttachments } from "./agent-turn-attachments.ts";
 
 type CurrentImageAttachment = {
   index: number;

@@ -7,12 +7,12 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveThinkingDefaultForModel } from "../auto-reply/thinking.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ModelCatalogEntry } from "./model-catalog.types.js";
-import { legacyModelKey, modelKey, normalizeProviderId } from "./model-selection-normalize.js";
-import { normalizeModelSelection } from "./model-selection-resolve.js";
-import { buildConfiguredModelCatalog } from "./model-selection-shared.js";
+import { resolveThinkingDefaultForModel } from "../auto-reply/thinking.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ModelCatalogEntry } from "./model-catalog.types.ts";
+import { modelKey, normalizeProviderId } from "./model-selection-normalize.ts";
+import { normalizeModelSelection } from "./model-selection-resolve.ts";
+import { buildConfiguredModelCatalog } from "./model-selection-shared.ts";
 
 type ThinkLevel = "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "adaptive" | "max";
 
@@ -33,20 +33,15 @@ export function resolveThinkingDefault(params: {
   );
   const configuredModels = params.cfg.agents?.defaults?.models;
   const canonicalKey = modelKey(params.provider, params.model);
-  const legacyKey = legacyModelKey(params.provider, params.model);
   const normalizedCanonicalKey = normalizeLowercaseStringOrEmpty(canonicalKey);
-  const normalizedLegacyKey = normalizeOptionalLowercaseString(legacyKey);
   const primarySelection = normalizeModelSelection(params.cfg.agents?.defaults?.model);
   const normalizedPrimarySelection = normalizeOptionalLowercaseString(primarySelection);
   const explicitModelConfigured =
     (configuredModels ? canonicalKey in configuredModels : false) ||
-    Boolean(legacyKey && configuredModels && legacyKey in configuredModels) ||
     normalizedPrimarySelection === normalizedCanonicalKey ||
-    Boolean(normalizedLegacyKey && normalizedPrimarySelection === normalizedLegacyKey) ||
     normalizedPrimarySelection === normalizeLowercaseStringOrEmpty(params.model);
   const perModelThinking =
-    configuredModels?.[canonicalKey]?.params?.thinking ??
-    (legacyKey ? configuredModels?.[legacyKey]?.params?.thinking : undefined);
+    configuredModels?.[canonicalKey]?.params?.thinking;
   // Accept boolean false and common disable aliases as "off".
   if (
     perModelThinking === false ||

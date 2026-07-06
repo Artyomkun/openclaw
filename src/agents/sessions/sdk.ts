@@ -7,35 +7,35 @@ import { join } from "node:path";
 import {
   resolveThinkingDefaultForModel,
   type ThinkingCatalogEntry,
-} from "../../auto-reply/thinking.js";
-import { clampThinkingLevel } from "../../llm/model-utils.js";
-import { streamSimple } from "../../llm/stream.js";
-import type { Message, Model } from "../../llm/types.js";
-import { getAgentDir } from "../config.js";
+} from "../../auto-reply/thinking.ts";
+import { clampThinkingLevel } from "../../llm/model-utils.ts";
+import { streamSimple } from "../../llm/stream.ts";
+import type { Message, Model } from "../../llm/types.ts";
+import { getAgentDir } from "../config.ts";
 import {
   Agent,
   type AgentMessage,
   type AgentOptions,
   type ThinkingLevel,
-} from "../runtime/index.js";
-import { AgentSession, type AgentSessionWriteLockRunner } from "./agent-session.js";
-import { formatNoModelsAvailableMessage } from "./auth-guidance.js";
-import { AuthStorage } from "./auth-storage.js";
-import { DEFAULT_THINKING_LEVEL } from "./defaults.js";
+} from "../runtime/index.ts";
+import { AgentSession, type AgentSessionWriteLockRunner } from "./agent-session.ts";
+import { formatNoModelsAvailableMessage } from "./auth-guidance.ts";
+import { AuthStorage } from "./auth-storage.ts";
+import { DEFAULT_THINKING_LEVEL } from "./defaults.ts";
 import type {
   ExtensionRunner,
   LoadExtensionsResult,
   SessionStartEvent,
   ToolDefinition,
-} from "./extensions/index.js";
-import { convertToLlm } from "./messages.js";
-import { ModelRegistry } from "./model-registry.js";
-import { findInitialModel } from "./model-resolver.js";
-import type { ResourceLoader } from "./resource-loader.js";
-import { DefaultResourceLoader } from "./resource-loader.js";
-import { getDefaultSessionDir, SessionManager } from "./session-manager.js";
-import { SettingsManager } from "./settings-manager.js";
-import { isInstallTelemetryEnabled } from "./telemetry.js";
+} from "./extensions/index.ts";
+import { convertToLlm } from "./messages.ts";
+import { ModelRegistry } from "./model-registry.ts";
+import { findInitialModel } from "./model-resolver.ts";
+import type { ResourceLoader } from "./resource-loader.ts";
+import { DefaultResourceLoader } from "./resource-loader.ts";
+import { getDefaultSessionDir, SessionManager } from "./session-manager.ts";
+import { SettingsManager } from "./settings-manager.ts";
+import { isInstallTelemetryEnabled } from "./telemetry.ts";
 import {
   createBashTool,
   createCodingTools,
@@ -48,7 +48,7 @@ import {
   createWriteTool,
   type ToolName,
   withFileMutationQueue,
-} from "./tools/index.js";
+} from "./tools/index.ts";
 
 type ThinkingCatalogCompat = NonNullable<ThinkingCatalogEntry["compat"]>;
 
@@ -145,10 +145,10 @@ export type {
   SlashCommandInfo,
   SlashCommandSource,
   ToolDefinition,
-} from "./extensions/index.js";
-export type { PromptTemplate } from "./prompt-templates.js";
-export type { Skill } from "../../skills/loading/session.js";
-export type { Tool } from "./tools/index.js";
+} from "./extensions/index.ts";
+export type { PromptTemplate } from "./prompt-templates.ts";
+export type { Skill } from "../../skills/loading/session.ts";
+export type { Tool } from "./tools/index.ts";
 
 export {
   withFileMutationQueue,

@@ -1,7 +1,7 @@
 import { readStringValue } from "@openclaw/normalization-core/string-coerce";
-import { AGENT_RUN_RESTART_ABORT_STOP_REASON } from "../../agents/run-termination.js";
-import { emitAgentEvent } from "../../infra/agent-events.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+import { AGENT_RUN_RESTART_ABORT_STOP_REASON } from "../../agents/run-termination.ts";
+import { emitAgentEvent } from "../../infra/agent-events.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 
 export type AgentLifecycleTerminalBackstop = {
   emit: (

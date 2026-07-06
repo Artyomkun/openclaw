@@ -6,8 +6,8 @@
 import {
   loadSubagentRegistryFromSqlite,
   saveSubagentRegistryToSqlite,
-} from "./subagent-registry.store.sqlite.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "./subagent-registry.store.sqlite.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 const SUBAGENT_RUNS_READ_CACHE_TTL_MS = 500;
 

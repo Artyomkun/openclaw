@@ -12,7 +12,7 @@ run_hosted_prepare_gates() {
   local repo
   repo=$(gh repo view --json nameWithOwner --jq .nameWithOwner)
   local args=(
-    scripts/verify-pr-hosted-gates.mjs
+    scripts/verify-pr-hosted-gates.ts
     --repo "$repo"
     --sha "$current_head"
     --output ".local/gates-hosted-checks.json"

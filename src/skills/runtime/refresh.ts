@@ -4,27 +4,27 @@ import os from "node:os";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import chokidar, { type FSWatcher } from "chokidar";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { CONFIG_DIR, resolveUserPath } from "../../utils.js";
-import { resolvePluginSkillDirs } from "../loading/plugin-skills.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { CONFIG_DIR, resolveUserPath } from "../../utils.ts";
+import { resolvePluginSkillDirs } from "../loading/plugin-skills.ts";
 import {
   resolveAllowedSkillSymlinkTargetRealPaths,
   tryRealpath,
-} from "../loading/symlink-targets.js";
+} from "../loading/symlink-targets.ts";
 import {
   bumpSkillsSnapshotVersion,
   clearSkillsSnapshotVersionForWorkspace,
   resetSkillsRefreshStateForTest,
   setSkillsChangeListenerErrorHandler,
-} from "./refresh-state.js";
+} from "./refresh-state.ts";
 export {
   bumpSkillsSnapshotVersion,
   getSkillsSnapshotVersion,
   registerSkillsChangeListener,
   shouldRefreshSnapshotForVersion,
   type SkillsChangeEvent,
-} from "./refresh-state.js";
+} from "./refresh-state.ts";
 
 type SkillsPathWatchState = {
   watcher: FSWatcher;
@@ -84,12 +84,6 @@ export const DEFAULT_SKILLS_WATCH_IGNORED: RegExp[] = [
   /(^|[\\/])\.git([\\/]|$)/,
   /(^|[\\/])node_modules([\\/]|$)/,
   /(^|[\\/])dist([\\/]|$)/,
-  // Python virtual environments and caches
-  /(^|[\\/])\.venv([\\/]|$)/,
-  /(^|[\\/])venv([\\/]|$)/,
-  /(^|[\\/])__pycache__([\\/]|$)/,
-  /(^|[\\/])\.mypy_cache([\\/]|$)/,
-  /(^|[\\/])\.pytest_cache([\\/]|$)/,
   // Build artifacts and caches
   /(^|[\\/])build([\\/]|$)/,
   /(^|[\\/])\.cache([\\/]|$)/,

@@ -248,39 +248,6 @@ async function assertSafeWebhookFileUrl(fileUrl: string): Promise<string> {
   return parsed.toString();
 }
 
-/**
- * Resolve a mutable webhook username/nickname to the correct Chat API user_id.
- *
- * Synology Chat outgoing webhooks send a user_id that may NOT match the
- * Chat-internal user_id needed by the chatbot API (method=chatbot).
- * The webhook's "username" field corresponds to the Chat user's "nickname".
- *
- * @returns The correct Chat user_id, or undefined if not found
- */
-export async function resolveLegacyWebhookNameToChatUserId(params: {
-  incomingUrl: string;
-  mutableWebhookUsername: string;
-  allowInsecureSsl?: boolean;
-  log?: { warn: (...args: unknown[]) => void };
-}): Promise<number | undefined> {
-  const users = await fetchChatUsers(params.incomingUrl, params.allowInsecureSsl, params.log);
-  const lower = normalizeLowercaseStringOrEmpty(params.mutableWebhookUsername);
-
-  // Match by nickname first (webhook "username" field = Chat "nickname")
-  const byNickname = users.find((u) => normalizeLowercaseStringOrEmpty(u.nickname) === lower);
-  if (byNickname) {
-    return byNickname.user_id;
-  }
-
-  // Then by username
-  const byUsername = users.find((u) => normalizeLowercaseStringOrEmpty(u.username) === lower);
-  if (byUsername) {
-    return byUsername.user_id;
-  }
-
-  return undefined;
-}
-
 function buildWebhookBody(payload: ChatWebhookPayload, userId?: string | number): string {
   const numericId = parseNumericUserId(userId);
   if (numericId !== undefined) {

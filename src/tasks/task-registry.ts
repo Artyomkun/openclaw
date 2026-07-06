@@ -6,19 +6,19 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   buildAgentRunTerminalOutcome,
   type AgentRunTerminalOutcome,
-} from "../agents/agent-run-terminal-outcome.js";
-import { shouldRouteCompletionThroughRequesterSession } from "../auto-reply/reply/completion-delivery-policy.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { onAgentEvent } from "../infra/agent-events.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { requestHeartbeat } from "../infra/heartbeat-wake.js";
-import { enqueueSystemEvent } from "../infra/system-events.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { normalizeAgentId, parseAgentSessionKey } from "../routing/session-key.js";
-import { normalizeDeliveryContext } from "../utils/delivery-context.shared.js";
-import { isDeliverableMessageChannel } from "../utils/message-channel.js";
-import { cancelActiveCronTaskRun } from "./cron-task-cancel.js";
-import { isChildlessNativeSubagentTask } from "./native-subagent-task.js";
+} from "../agents/agent-run-terminal-outcome.ts";
+import { shouldRouteCompletionThroughRequesterSession } from "../auto-reply/reply/completion-delivery-policy.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { onAgentEvent } from "../infra/agent-events.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { requestHeartbeat } from "../infra/heartbeat-wake.ts";
+import { enqueueSystemEvent } from "../infra/system-events.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { normalizeAgentId, parseAgentSessionKey } from "../routing/session-key.ts";
+import { normalizeDeliveryContext } from "../utils/delivery-context.shared.ts";
+import { isDeliverableMessageChannel } from "../utils/message-channel.ts";
+import { cancelActiveCronTaskRun } from "./cron-task-cancel.ts";
+import { isChildlessNativeSubagentTask } from "./native-subagent-task.ts";
 import {
   formatTaskBlockedFollowupMessage,
   formatTaskStateChangeMessage,
@@ -28,21 +28,21 @@ import {
   shouldAutoDeliverTaskTerminalUpdate,
   shouldSuppressDuplicateTerminalDelivery,
   shouldUseParentReviewTaskTerminalMessage,
-} from "./task-executor-policy.js";
-import type { TaskFlowRecord } from "./task-flow-registry.types.js";
+} from "./task-executor-policy.ts";
+import type { TaskFlowRecord } from "./task-flow-registry.types.ts";
 import {
   getTaskFlowById,
   syncFlowFromTaskResult,
   updateFlowRecordByIdExpectedRevision,
-} from "./task-flow-runtime-internal.js";
-import type { TaskRegistryControlRuntime } from "./task-registry-control.types.js";
-import { getTaskRegistryProcessState } from "./task-registry.process-state.js";
+} from "./task-flow-runtime-internal.ts";
+import type { TaskRegistryControlRuntime } from "./task-registry-control.types.ts";
+import { getTaskRegistryProcessState } from "./task-registry.process-state.ts";
 import {
   getTaskRegistryObservers,
   getTaskRegistryStore,
   resetTaskRegistryRuntimeForTests,
   type TaskRegistryObserverEvent,
-} from "./task-registry.store.js";
+} from "./task-registry.store.ts";
 import type {
   TaskDeliveryState,
   TaskDeliveryStatus,
@@ -54,8 +54,8 @@ import type {
   TaskScopeKind,
   TaskStatus,
   TaskTerminalOutcome,
-} from "./task-registry.types.js";
-import { resolveTaskCleanupAfter } from "./task-retention.js";
+} from "./task-registry.types.ts";
+import { resolveTaskCleanupAfter } from "./task-retention.ts";
 
 const log = createSubsystemLogger("tasks/registry");
 const TASK_FLOW_SYNC_RETRY_DELAYS_MS = [1_000, 5_000, 25_000, 120_000, 600_000] as const;

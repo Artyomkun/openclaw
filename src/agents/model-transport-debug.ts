@@ -4,7 +4,7 @@
  * Model adapters share these helpers so payload, SSE, and transport diagnostics
  * interpret OpenClaw debug environment variables consistently.
  */
-import type { createSubsystemLogger } from "../logging/subsystem.js";
+import type { createSubsystemLogger } from "../logging/subsystem.ts";
 
 type SubsystemLogger = ReturnType<typeof createSubsystemLogger>;
 

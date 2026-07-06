@@ -7,9 +7,9 @@
  * (transport error or an `ok:false` payload) so automation never mistakes a
  * silent no-op for success.
  */
-import { callGatewayCli, type GatewayRpcOpts } from "../cli/gateway-cli/call.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
+import { callGatewayCli, type GatewayRpcOpts } from "../cli/gateway-cli/call.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
 
 export type SessionsCompactCliOptions = {
   key: string;

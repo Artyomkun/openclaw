@@ -5,11 +5,11 @@
  * native provider tool call can still arrive later. This coordinator prevents
  * duplicate consults and keeps late native calls correlated to forced handles.
  */
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
 import {
   matchRealtimeVoiceConsultQuestions,
   readRealtimeVoiceConsultQuestion,
-} from "./consult-question.js";
+} from "./consult-question.ts";
 
 const DEFAULT_REALTIME_VOICE_FORCED_CONSULT_NATIVE_DEDUPE_MS = 2_000;
 const DEFAULT_REALTIME_VOICE_FORCED_CONSULT_LIMIT = 12;

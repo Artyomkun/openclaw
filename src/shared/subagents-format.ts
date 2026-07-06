@@ -1,5 +1,5 @@
 // Subagent formatting helpers expose compact durations and status text.
-import { truncateUtf16Safe } from "./utf16-slice.js";
+import { truncateUtf16Safe } from "./utf16-slice.ts";
 export { formatDurationCompact } from "../infra/format-time/format-duration.ts";
 
 /** Formats token counts using compact k/m suffixes for subagent summaries. */

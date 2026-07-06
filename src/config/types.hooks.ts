@@ -124,4 +124,4 @@ export type HooksConfig = {
   /** Internal agent event hooks */
   internal?: InternalHooksConfig;
 };
-import type { InstallRecordBase } from "./types.installs.js";
+import type { InstallRecordBase } from "./types.installs.ts";

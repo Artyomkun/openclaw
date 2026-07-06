@@ -4,7 +4,7 @@ import {
   asDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   normalizeDeviceBootstrapHandoffProfile,
   normalizeDeviceBootstrapProfile,
@@ -12,12 +12,12 @@ import {
   resolveBootstrapProfileScopesForRole,
   type DeviceBootstrapProfile,
   type DeviceBootstrapProfileInput,
-} from "../shared/device-bootstrap-profile.js";
-import { roleScopesAllow } from "../shared/operator-scope-compat.js";
-import { normalizeDevicePublicKeyBase64Url } from "./device-identity.js";
-import { resolvePairingPaths } from "./pairing-files.js";
-import { createAsyncLock, pruneExpiredPending, tryReadJson, writeJson } from "./pairing-files.js";
-import { generatePairingToken, verifyPairingToken } from "./pairing-token.js";
+} from "../shared/device-bootstrap-profile.ts";
+import { roleScopesAllow } from "../shared/operator-scope-compat.ts";
+import { normalizeDevicePublicKeyBase64Url } from "./device-identity.ts";
+import { resolvePairingPaths } from "./pairing-files.ts";
+import { createAsyncLock, pruneExpiredPending, tryReadJson, writeJson } from "./pairing-files.ts";
+import { generatePairingToken, verifyPairingToken } from "./pairing-token.ts";
 
 /** Bootstrap pairing tokens are short-lived bearer credentials for first device auth. */
 export const DEVICE_BOOTSTRAP_TOKEN_TTL_MS = 10 * 60 * 1000;

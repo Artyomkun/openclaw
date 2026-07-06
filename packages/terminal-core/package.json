@@ -6,98 +6,98 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./ansi": {
-      "types": "./dist/ansi.d.mts",
-      "import": "./dist/ansi.mjs",
-      "default": "./dist/ansi.mjs"
+      "types": "./dist/ansi.d.ts",
+      "import": "./dist/ansi.ts",
+      "default": "./dist/ansi.ts"
     },
     "./decorative-emoji": {
-      "types": "./dist/decorative-emoji.d.mts",
-      "import": "./dist/decorative-emoji.mjs",
-      "default": "./dist/decorative-emoji.mjs"
+      "types": "./dist/decorative-emoji.d.ts",
+      "import": "./dist/decorative-emoji.ts",
+      "default": "./dist/decorative-emoji.ts"
     },
     "./health-style": {
-      "types": "./dist/health-style.d.mts",
-      "import": "./dist/health-style.mjs",
-      "default": "./dist/health-style.mjs"
+      "types": "./dist/health-style.d.ts",
+      "import": "./dist/health-style.ts",
+      "default": "./dist/health-style.ts"
     },
     "./links": {
-      "types": "./dist/links.d.mts",
-      "import": "./dist/links.mjs",
-      "default": "./dist/links.mjs"
+      "types": "./dist/links.d.ts",
+      "import": "./dist/links.ts",
+      "default": "./dist/links.ts"
     },
     "./note": {
-      "types": "./dist/note.d.mts",
-      "import": "./dist/note.mjs",
-      "default": "./dist/note.mjs"
+      "types": "./dist/note.d.ts",
+      "import": "./dist/note.ts",
+      "default": "./dist/note.ts"
     },
     "./osc-progress": {
-      "types": "./dist/osc-progress.d.mts",
-      "import": "./dist/osc-progress.mjs",
-      "default": "./dist/osc-progress.mjs"
+      "types": "./dist/osc-progress.d.ts",
+      "import": "./dist/osc-progress.ts",
+      "default": "./dist/osc-progress.ts"
     },
     "./palette": {
-      "types": "./dist/palette.d.mts",
-      "import": "./dist/palette.mjs",
-      "default": "./dist/palette.mjs"
+      "types": "./dist/palette.d.ts",
+      "import": "./dist/palette.ts",
+      "default": "./dist/palette.ts"
     },
     "./progress-line": {
-      "types": "./dist/progress-line.d.mts",
-      "import": "./dist/progress-line.mjs",
-      "default": "./dist/progress-line.mjs"
+      "types": "./dist/progress-line.d.ts",
+      "import": "./dist/progress-line.ts",
+      "default": "./dist/progress-line.ts"
     },
     "./prompt-select-styled": {
-      "types": "./dist/prompt-select-styled.d.mts",
-      "import": "./dist/prompt-select-styled.mjs",
-      "default": "./dist/prompt-select-styled.mjs"
+      "types": "./dist/prompt-select-styled.d.ts",
+      "import": "./dist/prompt-select-styled.ts",
+      "default": "./dist/prompt-select-styled.ts"
     },
     "./prompt-select-styled-params": {
-      "types": "./dist/prompt-select-styled-params.d.mts",
-      "import": "./dist/prompt-select-styled-params.mjs",
-      "default": "./dist/prompt-select-styled-params.mjs"
+      "types": "./dist/prompt-select-styled-params.d.ts",
+      "import": "./dist/prompt-select-styled-params.ts",
+      "default": "./dist/prompt-select-styled-params.ts"
     },
     "./prompt-style": {
-      "types": "./dist/prompt-style.d.mts",
-      "import": "./dist/prompt-style.mjs",
-      "default": "./dist/prompt-style.mjs"
+      "types": "./dist/prompt-style.d.ts",
+      "import": "./dist/prompt-style.ts",
+      "default": "./dist/prompt-style.ts"
     },
     "./restore": {
-      "types": "./dist/restore.d.mts",
-      "import": "./dist/restore.mjs",
-      "default": "./dist/restore.mjs"
+      "types": "./dist/restore.d.ts",
+      "import": "./dist/restore.ts",
+      "default": "./dist/restore.ts"
     },
     "./safe-text": {
-      "types": "./dist/safe-text.d.mts",
-      "import": "./dist/safe-text.mjs",
-      "default": "./dist/safe-text.mjs"
+      "types": "./dist/safe-text.d.ts",
+      "import": "./dist/safe-text.ts",
+      "default": "./dist/safe-text.ts"
     },
     "./stream-writer": {
-      "types": "./dist/stream-writer.d.mts",
-      "import": "./dist/stream-writer.mjs",
-      "default": "./dist/stream-writer.mjs"
+      "types": "./dist/stream-writer.d.ts",
+      "import": "./dist/stream-writer.ts",
+      "default": "./dist/stream-writer.ts"
     },
     "./table": {
-      "types": "./dist/table.d.mts",
-      "import": "./dist/table.mjs",
-      "default": "./dist/table.mjs"
+      "types": "./dist/table.d.ts",
+      "import": "./dist/table.ts",
+      "default": "./dist/table.ts"
     },
     "./terminal-link": {
-      "types": "./dist/terminal-link.d.mts",
-      "import": "./dist/terminal-link.mjs",
-      "default": "./dist/terminal-link.mjs"
+      "types": "./dist/terminal-link.d.ts",
+      "import": "./dist/terminal-link.ts",
+      "default": "./dist/terminal-link.ts"
     },
     "./theme": {
-      "types": "./dist/theme.d.mts",
-      "import": "./dist/theme.mjs",
-      "default": "./dist/theme.mjs"
+      "types": "./dist/theme.d.ts",
+      "import": "./dist/theme.ts",
+      "default": "./dist/theme.ts"
     }
   },
   "dependencies": {

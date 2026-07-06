@@ -5,16 +5,16 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
 import {
   materializeWindowsSpawnProgram,
   resolveWindowsSpawnProgram,
-} from "../plugin-sdk/windows-spawn.js";
+} from "../plugin-sdk/windows-spawn.ts";
 import {
   listKnownProviderAuthEnvVarNames,
   omitEnvKeysCaseInsensitive,
-} from "../secrets/provider-env-vars.js";
-import { classifyAcpToolApproval, type AcpApprovalClass } from "./approval-classifier.js";
+} from "../secrets/provider-env-vars.ts";
+import { classifyAcpToolApproval, type AcpApprovalClass } from "./approval-classifier.ts";
 
 type PermissionOption = RequestPermissionRequest["options"][number];
 

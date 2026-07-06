@@ -1,9 +1,9 @@
 // Gateway status probe helper used by `gateway status` service diagnostics.
-import type { OpenClawConfig } from "../../config/types.js";
-import type { GatewayProbeResult } from "../../gateway/probe.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { withProgress } from "../progress.js";
+import type { OpenClawConfig } from "../../config/types.ts";
+import type { GatewayProbeResult } from "../../gateway/probe.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { withProgress } from "../progress.ts";
 
 type GatewayStatusProbeKind = "connect" | "read";
 type GatewayStatusRequireRpcProbeResult = {

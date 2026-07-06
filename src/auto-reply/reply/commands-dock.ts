@@ -4,11 +4,11 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { getActivePluginChannelRegistry } from "../../plugins/runtime.js";
-import { resolveTextCommand } from "../commands-registry.js";
-import { resolveCommandSurfaceChannel } from "./channel-context.js";
-import { persistSessionEntry } from "./commands-session-store.js";
-import type { CommandHandler, HandleCommandsParams } from "./commands-types.js";
+import { getActivePluginChannelRegistry } from "../../plugins/runtime.ts";
+import { resolveTextCommand } from "../commands-registry.ts";
+import { resolveCommandSurfaceChannel } from "./channel-context.ts";
+import { persistSessionEntry } from "./commands-session-store.ts";
+import type { CommandHandler, HandleCommandsParams } from "./commands-types.ts";
 
 const DOCK_KEY_PREFIX = "dock:";
 

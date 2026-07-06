@@ -6,4 +6,4 @@ export {
   resolveManifestContractOwnerPluginId,
   resolveManifestContractPluginIds,
   resolveManifestContractPluginIdsByCompatibilityRuntimePath,
-} from "../plugins/plugin-registry.js";
+} from "../plugins/plugin-registry.ts";

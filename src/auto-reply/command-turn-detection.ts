@@ -1,12 +1,12 @@
 /** Fallback command-turn detection for mixed native/text channel metadata. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isControlCommandMessage } from "./command-detection.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isControlCommandMessage } from "./command-detection.ts";
 import {
   isExplicitCommandTurn,
   resolveCommandTurnContext,
   type CommandTurnContextInput,
-} from "./command-turn-context.js";
+} from "./command-turn-context.ts";
 
 function resolveCommandBody(input: CommandTurnContextInput): string | undefined {
   return (

@@ -8,15 +8,15 @@ import {
   resolveGatewayLaunchAgentLabel,
   resolveGatewaySystemdServiceName,
   resolveGatewayWindowsTaskName,
-} from "../daemon/constants.js";
-import { resolveOpenClawStateSqlitePath } from "../state/openclaw-state-db.paths.js";
-import { SUPERVISOR_HINT_ENV_VARS, type RespawnSupervisor } from "./supervisor-markers.js";
+} from "../daemon/constants.ts";
+import { resolveOpenClawStateSqlitePath } from "../state/openclaw-state-db.paths.ts";
+import { SUPERVISOR_HINT_ENV_VARS, type RespawnSupervisor } from "./supervisor-markers.ts";
 import {
   CONTROL_PLANE_UPDATE_SENTINEL_META_ENV,
   type ControlPlaneUpdateSentinelMetaFile,
-} from "./update-control-plane-sentinel.js";
-import { MANAGED_SERVICE_UPDATE_HANDOFF_TEMP_PREFIX } from "./update-managed-service-handoff-cleanup.js";
-import type { UpdateRestartSentinelMeta } from "./update-restart-sentinel-payload.js";
+} from "./update-control-plane-sentinel.ts";
+import { MANAGED_SERVICE_UPDATE_HANDOFF_TEMP_PREFIX } from "./update-managed-service-handoff-cleanup.ts";
+import type { UpdateRestartSentinelMeta } from "./update-restart-sentinel-payload.ts";
 
 const PARENT_EXIT_GRACE_MS = 60_000;
 const SYSTEMD_RUN_CANDIDATE_PATHS = ["/usr/bin/systemd-run", "/bin/systemd-run"] as const;
@@ -665,7 +665,7 @@ export async function startManagedServiceUpdateHandoff(params: {
   parentPid?: number;
 }): Promise<ManagedServiceUpdateHandoffResult> {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), MANAGED_SERVICE_UPDATE_HANDOFF_TEMP_PREFIX));
-  const scriptPath = path.join(dir, "handoff.cjs");
+  const scriptPath = path.join(dir, "handoff.ts");
   const paramsPath = path.join(dir, "handoff.json");
   const metaPath = path.join(dir, "sentinel-meta.json");
   const logPath = path.join(dir, "handoff.log");

@@ -1,6 +1,6 @@
 // Resolves when reply runs should emit typing indicators.
-import { INTERNAL_MESSAGE_CHANNEL } from "../../utils/message-channel.js";
-import type { TypingPolicy } from "../types.js";
+import { INTERNAL_MESSAGE_CHANNEL } from "../../utils/message-channel.ts";
+import type { TypingPolicy } from "../types.ts";
 
 /** Inputs used to resolve typing behavior for one reply run. */
 export type ResolveRunTypingPolicyParams = {

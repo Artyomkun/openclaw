@@ -1,5 +1,5 @@
 // Filters known noisy process warnings once per runtime.
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
 
 const warningFilterKey = Symbol.for("openclaw.warning-filter");
 

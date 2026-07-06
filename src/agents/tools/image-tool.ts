@@ -5,53 +5,53 @@
  */
 import { resolve, isAbsolute } from "node:path";
 import { Type } from "typebox";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { MediaUnderstandingModelConfig } from "../../config/types.tools.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { MediaUnderstandingModelConfig } from "../../config/types.tools.ts";
 import {
   DEFAULT_TIMEOUT_SECONDS,
   resolveAutoMediaKeyProviders,
   resolveDefaultMediaModel,
-} from "../../media-understanding/defaults.js";
-import { matchesMediaEntryCapability } from "../../media-understanding/entry-capabilities.js";
-import { normalizeMediaProviderId } from "../../media-understanding/provider-id.js";
+} from "../../media-understanding/defaults.ts";
+import { matchesMediaEntryCapability } from "../../media-understanding/entry-capabilities.ts";
+import { normalizeMediaProviderId } from "../../media-understanding/provider-id.ts";
 import {
   buildMediaUnderstandingRegistry as buildProviderRegistry,
   getMediaUnderstandingProvider,
-} from "../../media-understanding/provider-registry.js";
-import { resolveTimeoutMs } from "../../media-understanding/resolve.js";
+} from "../../media-understanding/provider-registry.ts";
+import { resolveTimeoutMs } from "../../media-understanding/resolve.ts";
 import {
   classifyMediaReferenceSource,
   normalizeMediaReferenceSource,
-} from "../../media/media-reference.js";
+} from "../../media/media-reference.ts";
 import type {
   ImageCompressionModelPolicy,
   ImageCompressionPolicy,
   WebMediaResult,
-} from "../../media/web-media.js";
+} from "../../media/web-media.ts";
 import {
   describeImageWithModel,
   describeImagesWithModel,
   type MediaUnderstandingProvider,
-} from "../../plugin-sdk/media-understanding.js";
+} from "../../plugin-sdk/media-understanding.ts";
 import {
   isManifestPluginAvailableForControlPlane,
   loadManifestMetadataSnapshot,
-} from "../../plugins/manifest-contract-eligibility.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
-import { resolveUserPath } from "../../utils.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
-import { resolveModelAsync } from "../embedded-agent-runner/model.js";
+} from "../../plugins/manifest-contract-eligibility.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
+import { resolveUserPath } from "../../utils.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
+import { resolveModelAsync } from "../embedded-agent-runner/model.ts";
 import {
   bundledStaticCatalogProviderUsesRuntimeAugment,
   resolveBundledStaticCatalogModel,
-} from "../embedded-agent-runner/model.static-catalog.js";
-import { isMinimaxVlmProvider } from "../minimax-vlm.js";
+} from "../embedded-agent-runner/model.static-catalog.ts";
+import { isMinimaxVlmProvider } from "../minimax-vlm.ts";
 import {
   resolveImageFallbackCandidates,
   resolveImageFallbackDefaultProvider,
-} from "../model-fallback.js";
-import { optionalFiniteNumberSchema, optionalPositiveIntegerSchema } from "../schema/typebox.js";
-import { readFiniteNumberParam, readPositiveIntegerParam } from "./common.js";
+} from "../model-fallback.ts";
+import { optionalFiniteNumberSchema, optionalPositiveIntegerSchema } from "../schema/typebox.ts";
+import { readFiniteNumberParam, readPositiveIntegerParam } from "./common.ts";
 import {
   coerceImageAssistantText,
   coerceImageModelConfig,
@@ -60,7 +60,7 @@ import {
   type ImageModelConfig,
   resolveConfiguredImageModelRefs,
   resolveProviderVisionModelFromConfig,
-} from "./image-tool.helpers.js";
+} from "./image-tool.helpers.ts";
 import {
   applyImageModelConfigDefaults,
   buildTextToolResult,
@@ -69,13 +69,13 @@ import {
   resolveMediaToolLocalRoots,
   resolveRemoteMediaSsrfPolicy,
   resolvePromptAndModelOverride,
-} from "./media-tool-shared.js";
+} from "./media-tool-shared.ts";
 import {
   buildToolModelConfigFromCandidates,
   hasToolModelConfig,
   resolveDefaultModelRef,
   resolveOpenAiImageMediaCandidate,
-} from "./model-config.helpers.js";
+} from "./model-config.helpers.ts";
 import {
   createSandboxBridgeReadFile,
   resolveSandboxedBridgeMediaPath,
@@ -84,7 +84,7 @@ import {
   type SandboxedBridgeMediaPathConfig,
   type SandboxFsBridge,
   type ToolFsPolicy,
-} from "./tool-runtime.helpers.js";
+} from "./tool-runtime.helpers.ts";
 
 const DEFAULT_PROMPT = "Describe the image.";
 const DEFAULT_MAX_IMAGES = 20;
@@ -1039,9 +1039,7 @@ export function createImageTool(options?: {
           "contentType" in media && typeof media.contentType === "string"
             ? media.contentType
             : undefined;
-        const legacyMimeType =
-          "mimeType" in media && typeof media.mimeType === "string" ? media.mimeType : undefined;
-        const mimeType = contentType ?? legacyMimeType ?? "image/png";
+        const mimeType = contentType ?? "image/png";
         loadedImages.push({
           buffer: media.buffer,
           mimeType,

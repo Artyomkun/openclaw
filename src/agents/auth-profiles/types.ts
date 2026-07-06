@@ -3,9 +3,8 @@
  * These types describe credential payloads, runtime selection state, and repair
  * results consumed by providers, sessions, doctor, and plugin-facing seams.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SecretRef } from "../../config/types.secrets.js";
-import type { LegacyOAuthRef } from "./legacy-oauth-ref.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SecretRef } from "../../config/types.secrets.ts";
 
 /** Provider identifier recorded on auth profile credentials. */
 export type OAuthProvider = string;
@@ -56,11 +55,10 @@ export type TokenCredential = {
   displayName?: string;
 };
 
-/** Refreshable OAuth credential plus provider metadata and legacy references. */
+/** Refreshable OAuth credential plus provider metadata. */
 export type OAuthCredential = OAuthCredentials & {
   type: "oauth";
   provider: string;
-  oauthRef?: LegacyOAuthRef;
   clientId?: string;
   /**
    * OAuth refresh tokens are not portable by default. Provider-owned flows may

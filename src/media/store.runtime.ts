@@ -4,7 +4,7 @@ import {
   FsSafeError,
   readLocalFileSafely as readLocalFileSafelyImpl,
   type FsSafeErrorCode,
-} from "../infra/fs-safe.js";
+} from "../infra/fs-safe.ts";
 
 /** Minimal fs-safe error shape consumed by media-store source-copy failures. */
 export type FsSafeLikeError = {

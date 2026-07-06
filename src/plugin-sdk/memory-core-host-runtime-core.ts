@@ -1,10 +1,8 @@
 // Memory core host runtime exports bridge memory host runtime-core APIs into the SDK.
-export * from "../../packages/memory-host-sdk/src/runtime-core.js";
+export * from "../../packages/memory-host-sdk/src/runtime-core.ts";
 export {
   DEFAULT_AGENT_COMPACTION_RESERVE_TOKENS_FLOOR,
-  /** @deprecated Use DEFAULT_AGENT_COMPACTION_RESERVE_TOKENS_FLOOR. */
-  DEFAULT_AGENT_COMPACTION_RESERVE_TOKENS_FLOOR as DEFAULT_PI_COMPACTION_RESERVE_TOKENS_FLOOR,
-} from "../agents/agent-settings.js";
+} from "../agents/agent-settings.ts";
 export {
   asToolParamsRecord,
   jsonResult,
@@ -13,21 +11,21 @@ export {
   readPositiveIntegerParam,
   readStringParam,
   type AnyAgentTool,
-} from "../agents/tools/common.js";
-export { resolveCronStyleNow } from "../agents/current-time.js";
+} from "../agents/tools/common.ts";
+export { resolveCronStyleNow } from "../agents/current-time.ts";
 export {
   resolveDefaultAgentId,
   resolveSessionAgentId,
   resolveSessionAgentIds,
-} from "../agents/agent-scope.js";
-export { resolveMemorySearchConfig } from "../agents/memory-search.js";
-export { parseNonNegativeByteSize } from "../config/byte-size.js";
-export { getRuntimeConfig, loadConfig } from "../config/config.js";
-export type { OpenClawConfig } from "../config/config.js";
-export { resolveStateDir } from "../config/paths.js";
-export { resolveSessionTranscriptsDirForAgent } from "../config/sessions/paths.js";
-export type { MemoryCitationsMode } from "../config/types.memory.js";
-export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
+} from "../agents/agent-scope.ts";
+export { resolveMemorySearchConfig } from "../agents/memory-search.ts";
+export { parseNonNegativeByteSize } from "../config/byte-size.ts";
+export { getRuntimeConfig, loadConfig } from "../config/config.ts";
+export type { OpenClawConfig } from "../config/config.ts";
+export { resolveStateDir } from "../config/paths.ts";
+export { resolveSessionTranscriptsDirForAgent } from "../config/sessions/paths.ts";
+export type { MemoryCitationsMode } from "../config/types.memory.ts";
+export { emptyPluginConfigSchema } from "../plugins/config-schema.ts";
 export type {
   MemoryCorpusGetResult,
   MemoryCorpusSearchResult,
@@ -40,7 +38,7 @@ export type {
   MemoryPluginPublicArtifactsProvider,
   MemoryPluginRuntime,
   MemoryPromptSectionBuilder,
-} from "../plugins/memory-state.js";
+} from "../plugins/memory-state.ts";
 export {
   buildMemoryPromptSection as buildActiveMemoryPromptSection,
   clearMemoryPluginState,
@@ -49,6 +47,6 @@ export {
   listMemoryCorpusSupplements,
   registerMemoryCapability,
   registerMemoryCorpusSupplement,
-} from "../plugins/memory-state.js";
-export type { OpenClawPluginApi } from "../plugins/types.js";
-export { parseAgentSessionKey } from "../routing/session-key.js";
+} from "../plugins/memory-state.ts";
+export type { OpenClawPluginApi } from "../plugins/types.ts";
+export { parseAgentSessionKey } from "../routing/session-key.ts";

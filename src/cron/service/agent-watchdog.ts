@@ -4,13 +4,13 @@ import type {
   CronAgentExecutionPhaseUpdate,
   CronAgentExecutionStarted,
   CronJob,
-} from "../types.js";
+} from "../types.ts";
 import {
   preExecutionTimeoutErrorMessage,
   setupTimeoutErrorMessage,
   timeoutErrorMessage,
-} from "./execution-errors.js";
-import type { CronServiceState } from "./state.js";
+} from "./execution-errors.ts";
+import type { CronServiceState } from "./state.ts";
 
 const CRON_TIMEOUT_CLEANUP_GUARD_MS = 20_000;
 export const CRON_AGENT_SETUP_WATCHDOG_MS = 60_000;

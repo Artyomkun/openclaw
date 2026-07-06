@@ -11,10 +11,10 @@ import {
 } from "node:fs/promises";
 import { Box, Container, Spacer, Text } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
-import { renderDiff } from "../../modes/interactive/components/diff.js";
-import type { AgentTool } from "../../runtime/index.js";
-import { textResult } from "../../tools/common.js";
-import type { ToolDefinition } from "../extensions/types.js";
+import { renderDiff } from "../../modes/interactive/components/diff.ts";
+import type { AgentTool } from "../../runtime/index.ts";
+import { textResult } from "../../tools/common.ts";
+import type { ToolDefinition } from "../extensions/types.ts";
 import {
   applyEditsToNormalizedContent,
   computeEditsDiff,
@@ -30,12 +30,12 @@ import {
   splitNoOpEdits,
   stripBom,
   validateNoOpEditTargets,
-} from "./edit-diff.js";
-import { withFileMutationQueue } from "./file-mutation-queue.js";
-import { resolveToCwd } from "./path-utils.js";
-import { invalidArgText, shortenPath, str } from "./render-utils.js";
-import type { EditToolDetails, EditToolInput } from "./tool-contracts.js";
-import { wrapToolDefinition } from "./tool-definition-wrapper.js";
+} from "./edit-diff.ts";
+import { withFileMutationQueue } from "./file-mutation-queue.ts";
+import { resolveToCwd } from "./path-utils.ts";
+import { invalidArgText, shortenPath, str } from "./render-utils.ts";
+import type { EditToolDetails, EditToolInput } from "./tool-contracts.ts";
+import { wrapToolDefinition } from "./tool-definition-wrapper.ts";
 
 type EditPreview = EditDiffResult | EditDiffError;
 
@@ -68,13 +68,7 @@ const editSchema = Type.Object(
   },
   { additionalProperties: false },
 );
-export type { EditToolDetails, EditToolInput } from "./tool-contracts.js";
-
-type LegacyEditToolInput = Record<string, unknown> & {
-  edits?: unknown;
-  oldText?: unknown;
-  newText?: unknown;
-};
+export type { EditToolDetails, EditToolInput } from "./tool-contracts.ts";
 
 const EDIT_MISMATCH_MESSAGE = "Could not find the exact text in";
 const EDIT_MISMATCH_HINT_LIMIT = 800;
@@ -119,16 +113,7 @@ function prepareEditArguments(input: unknown): EditToolInput {
       }
     } catch {}
   }
-
-  const legacy = args as LegacyEditToolInput;
-  if (typeof legacy.oldText !== "string" || typeof legacy.newText !== "string") {
-    return args as unknown as EditToolInput;
-  }
-
-  const edits = Array.isArray(legacy.edits) ? [...legacy.edits] : [];
-  edits.push({ oldText: legacy.oldText, newText: legacy.newText });
-  const { oldText: _oldText, newText: _newText, ...rest } = legacy;
-  return { ...rest, edits } as EditToolInput;
+  return { } as EditToolInput;
 }
 
 function validateEditInput(input: EditToolInput): {

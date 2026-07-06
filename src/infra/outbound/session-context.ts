@@ -1,10 +1,10 @@
 // Outbound session context carries canonical hook/session policy keys plus
 // requester metadata used by delivery policies and media roots.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.ts";
 
 export type OutboundSessionContext = {
   /**

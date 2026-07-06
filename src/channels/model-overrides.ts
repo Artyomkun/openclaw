@@ -7,24 +7,24 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   parseRawSessionConversationRef,
   parseThreadSessionSuffix,
-} from "../sessions/session-key-utils.js";
-import { normalizeMessageChannel } from "../utils/message-channel.js";
+} from "../sessions/session-key-utils.ts";
+import { normalizeMessageChannel } from "../utils/message-channel.ts";
 import {
   buildChannelKeyCandidates,
   normalizeChannelSlug,
   resolveChannelEntryMatchWithFallback,
   type ChannelMatchSource,
-} from "./channel-config.js";
-import { normalizeChatType } from "./chat-type.js";
-import { getChannelPlugin } from "./plugins/registry.js";
+} from "./channel-config.ts";
+import { normalizeChatType } from "./chat-type.ts";
+import { getChannelPlugin } from "./plugins/registry.ts";
 import {
   resolveSessionConversation,
   resolveSessionConversationRef,
-} from "./plugins/session-conversation.js";
+} from "./plugins/session-conversation.ts";
 
 /** Resolved model override for a channel conversation plus the config key that matched. */
 type ChannelModelOverride = {

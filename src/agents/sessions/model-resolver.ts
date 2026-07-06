@@ -4,12 +4,12 @@
 
 import chalk from "chalk";
 import { minimatch } from "minimatch";
-import { modelsAreEqual } from "../../llm/model-utils.js";
-import type { Model } from "../../llm/types.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.js";
-import type { ThinkingLevel } from "../runtime/index.js";
-import { DEFAULT_THINKING_LEVEL } from "./defaults.js";
-import type { ModelRegistry } from "./model-registry.js";
+import { modelsAreEqual } from "../../llm/model-utils.ts";
+import type { Model } from "../../llm/types.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.ts";
+import type { ThinkingLevel } from "../runtime/index.ts";
+import { DEFAULT_THINKING_LEVEL } from "./defaults.ts";
+import type { ModelRegistry } from "./model-registry.ts";
 
 const VALID_THINKING_LEVELS = ["off", "minimal", "low", "medium", "high", "xhigh", "max"] as const;
 

@@ -5,13 +5,13 @@ import fs from "node:fs";
 import os from "node:os";
 import { normalizeProviderIdForAuth } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalString as normalizeOptionalPathInput } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getShellEnvAppliedKeys } from "../infra/shell-env.js";
-import { resolvePluginSetupProvider } from "../plugins/setup-registry.js";
-import type { ProviderAuthEvidence } from "../secrets/provider-env-vars.js";
-import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.js";
-import { resolveProviderEnvAuthLookupMaps } from "./model-auth-env-vars.js";
-import { GCP_VERTEX_CREDENTIALS_MARKER } from "./model-auth-markers.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getShellEnvAppliedKeys } from "../infra/shell-env.ts";
+import { resolvePluginSetupProvider } from "../plugins/setup-registry.ts";
+import type { ProviderAuthEvidence } from "../secrets/provider-env-vars.ts";
+import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.ts";
+import { resolveProviderEnvAuthLookupMaps } from "./model-auth-env-vars.ts";
+import { GCP_VERTEX_CREDENTIALS_MARKER } from "./model-auth-markers.ts";
 
 // Resolves API keys and local auth evidence from environment state. This keeps
 // env-var lookup, shell-env provenance, and plugin setup fallbacks in one path.

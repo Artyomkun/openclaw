@@ -1,15 +1,15 @@
 // Channel MCP bridge translates MCP tool calls into channel runtime operations.
 import { randomUUID } from "node:crypto";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.ts";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { EventFrame } from "../../packages/gateway-protocol/src/index.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { GatewayClient } from "../gateway/client.js";
-import { extractFirstTextBlock } from "../shared/chat-message-content.js";
-import { VERSION } from "../version.js";
+import type { EventFrame } from "../../packages/gateway-protocol/src/index.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { GatewayClient } from "../gateway/client.ts";
+import { extractFirstTextBlock } from "../shared/chat-message-content.ts";
+import { VERSION } from "../version.ts";
 import type {
   ApprovalDecision,
   ApprovalKind,
@@ -22,8 +22,8 @@ import type {
   SessionListResult,
   SessionMessagePayload,
   WaitFilter,
-} from "./channel-shared.js";
-import { matchEventFilter, normalizeApprovalId, toConversation, toText } from "./channel-shared.js";
+} from "./channel-shared.ts";
+import { matchEventFilter, normalizeApprovalId, toConversation, toText } from "./channel-shared.ts";
 
 /**
  * Runtime bridge between MCP tools and the OpenClaw Gateway channel APIs.

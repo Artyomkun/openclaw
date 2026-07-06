@@ -1,22 +1,22 @@
 // Shared Gateway session projection types.
 // Keeps server methods and Control UI payloads aligned.
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
-import type { ChatType } from "../channels/chat-type.js";
+import type { ChatType } from "../channels/chat-type.ts";
 import type {
   SessionCompactionCheckpoint,
   SessionEntry,
   SessionGoal,
-} from "../config/sessions/types.js";
-import type { PluginSessionExtensionProjection } from "../plugins/host-hooks.js";
-import type { FastModeSource } from "../shared/fast-mode.js";
+} from "../config/sessions/types.ts";
+import type { PluginSessionExtensionProjection } from "../plugins/host-hooks.ts";
+import type { FastModeSource } from "../shared/fast-mode.ts";
 import type {
   GatewayAgentRuntime,
   GatewayAgentRow as SharedGatewayAgentRow,
   GatewayThinkingLevelOption,
   SessionsListResultBase,
   SessionsPatchResultBase,
-} from "../shared/session-types.js";
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
+} from "../shared/session-types.ts";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
 
 // Shared Gateway session response contracts. Server methods, UI adapters, and
 // tests import these types so list/patch/preview payloads evolve together.

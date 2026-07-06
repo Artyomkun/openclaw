@@ -2,10 +2,10 @@
 import { spawn } from "node:child_process";
 import path from "node:path";
 import { basenameFromAnyPath } from "@openclaw/media-core/file-name";
-import { writeExternalFileWithinRoot } from "../infra/fs-safe.js";
-import { tempWorkspaceSync, withTempWorkspace } from "../infra/private-temp-workspace.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
-import { runFfmpeg } from "./ffmpeg-exec.js";
+import { writeExternalFileWithinRoot } from "../infra/fs-safe.ts";
+import { tempWorkspaceSync, withTempWorkspace } from "../infra/private-temp-workspace.ts";
+import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.ts";
+import { runFfmpeg } from "./ffmpeg-exec.ts";
 
 const DEFAULT_OPUS_SAMPLE_RATE_HZ = 48_000;
 const DEFAULT_OPUS_BITRATE = "64k";

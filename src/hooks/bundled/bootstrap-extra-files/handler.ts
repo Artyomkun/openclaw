@@ -3,15 +3,15 @@ import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-
 import {
   filterBootstrapFilesForSession,
   loadExtraBootstrapFilesWithDiagnostics,
-} from "../../../agents/workspace.js";
-import { createSubsystemLogger } from "../../../logging/subsystem.js";
-import { resolveHookConfig } from "../../config.js";
-import { isAgentBootstrapEvent, type HookHandler } from "../../hooks.js";
+} from "../../../agents/workspace.ts";
+import { createSubsystemLogger } from "../../../logging/subsystem.ts";
+import { resolveHookConfig } from "../../config.ts";
+import { isAgentBootstrapEvent, type HookHandler } from "../../hooks.ts";
 
 const HOOK_KEY = "bootstrap-extra-files";
 const log = createSubsystemLogger("bootstrap-extra-files");
 
-/** Resolve legacy and current config keys for extra bootstrap file patterns. */
+/** Resolve current config keys for extra bootstrap file patterns. */
 function resolveExtraBootstrapPatterns(hookConfig: Record<string, unknown>): string[] {
   const fromPaths = normalizeTrimmedStringList(hookConfig.paths);
   if (fromPaths.length > 0) {

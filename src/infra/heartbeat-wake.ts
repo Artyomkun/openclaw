@@ -1,7 +1,7 @@
 // Tracks heartbeat wake requests, busy skips, and retry timing.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
-import { normalizeHeartbeatWakeReason } from "./heartbeat-reason.js";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import { normalizeHeartbeatWakeReason } from "./heartbeat-reason.ts";
 
 export type HeartbeatRunResult =
   | { status: "ran"; durationMs: number }

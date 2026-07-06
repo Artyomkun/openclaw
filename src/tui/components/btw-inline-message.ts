@@ -1,7 +1,7 @@
 // BTW inline message component renders compact aside messages in chat.
 import { Container, Spacer, Text } from "@earendil-works/pi-tui";
-import { theme } from "../theme/theme.js";
-import { AssistantMessageComponent } from "./assistant-message.js";
+import { theme } from "../theme/theme.ts";
+import { AssistantMessageComponent } from "./assistant-message.ts";
 
 // Inline overlay message for BTW follow-up answers inside the chat log.
 type BtwInlineMessageParams = {

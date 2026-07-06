@@ -1,13 +1,13 @@
 // Detects plugin auto-enable candidates from config and discovery results.
-import type { PluginDiscoveryResult } from "../plugins/discovery.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
+import type { PluginDiscoveryResult } from "../plugins/discovery.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
 import {
   resolveConfiguredPluginAutoEnableCandidates,
   resolvePluginAutoEnableReadiness,
   resolvePluginAutoEnableManifestRegistry,
-} from "./plugin-auto-enable.shared.js";
-import type { PluginAutoEnableCandidate } from "./plugin-auto-enable.types.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+} from "./plugin-auto-enable.shared.ts";
+import type { PluginAutoEnableCandidate } from "./plugin-auto-enable.types.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 /** Detects installed plugins that should become enabled from existing config usage. */
 export function detectPluginAutoEnableCandidates(params: {

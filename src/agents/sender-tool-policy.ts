@@ -3,11 +3,11 @@
  * Applies per-agent toolsBySender matches before global sender policy so
  * channel delivery can narrow tool access by sender identity.
  */
-import { resolveToolsBySender } from "../config/group-policy.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAgentConfig } from "./agent-scope.js";
-import { pickSandboxToolPolicy } from "./sandbox-tool-policy.js";
-import type { SandboxToolPolicy } from "./sandbox/types.js";
+import { resolveToolsBySender } from "../config/group-policy.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAgentConfig } from "./agent-scope.ts";
+import { pickSandboxToolPolicy } from "./sandbox-tool-policy.ts";
+import type { SandboxToolPolicy } from "./sandbox/types.ts";
 
 type SenderToolPolicyParams = {
   config?: OpenClawConfig;

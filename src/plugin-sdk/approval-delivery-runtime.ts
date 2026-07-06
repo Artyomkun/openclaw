@@ -6,4 +6,4 @@ export {
   createApproverRestrictedNativeApprovalCapability,
   createChannelApprovalCapability,
   splitChannelApprovalCapability,
-} from "./approval-delivery-helpers.js";
+} from "./approval-delivery-helpers.ts";

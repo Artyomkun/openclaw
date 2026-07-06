@@ -1,7 +1,7 @@
 // Transcript event helpers serialize and trim session transcript events.
 import { asPositiveSafeInteger } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { parseAgentSessionKey } from "../routing/session-key.js";
+import { parseAgentSessionKey } from "../routing/session-key.ts";
 
 /** Storage-neutral identity for the session transcript that changed. */
 export type SessionTranscriptUpdateTarget = {
@@ -15,18 +15,13 @@ type SessionTranscriptUpdateFields = {
   target?: SessionTranscriptUpdateTarget;
   sessionKey?: string;
   agentId?: string;
-  /** @deprecated Pre-SQLite compatibility mirror. Prefer `target.sessionId`. */
-  sessionId?: string;
   message?: unknown;
   messageId?: string;
   messageSeq?: number;
 };
 
 /** Normalized transcript update emitted after a session transcript changes. */
-export type SessionTranscriptUpdate = SessionTranscriptUpdateFields & {
-  /** @deprecated File-backed compatibility hint. Prefer `target` for identity. */
-  sessionFile: string;
-};
+export type SessionTranscriptUpdate = SessionTranscriptUpdateFields;
 
 /** Internal transcript update that may identify a transcript without a file path. */
 export type InternalSessionTranscriptUpdate = SessionTranscriptUpdateFields;

@@ -77,12 +77,9 @@ export function resolveFeishuGroupSession(params: {
   const replyInThread =
     (groupConfig?.replyInThread ?? feishuCfg?.replyInThread ?? "disabled") === "enabled" ||
     threadReply;
-  const legacyTopicSessionMode =
-    groupConfig?.topicSessionMode ?? feishuCfg?.topicSessionMode ?? "disabled";
   const groupSessionScope: GroupSessionScope =
     groupConfig?.groupSessionScope ??
-    feishuCfg?.groupSessionScope ??
-    (legacyTopicSessionMode === "enabled" ? "group_topic" : "group");
+    feishuCfg?.groupSessionScope;
   const normalizedTopicGroupThreadId =
     chatType === "topic_group" ? (normalizedThreadId ?? normalizedRootId) : undefined;
   const topicScope =

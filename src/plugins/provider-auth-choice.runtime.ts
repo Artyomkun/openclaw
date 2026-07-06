@@ -2,9 +2,9 @@
 import {
   resolveProviderPluginChoice as resolveProviderPluginChoiceImpl,
   runProviderModelSelectedHook as runProviderModelSelectedHookImpl,
-} from "./provider-wizard.js";
-import { resolvePluginProviders as resolvePluginProvidersImpl } from "./providers.runtime.js";
-import { resolvePluginSetupProvider as resolvePluginSetupProviderImpl } from "./setup-registry.js";
+} from "./provider-wizard.ts";
+import { resolvePluginProviders as resolvePluginProvidersImpl } from "./providers.runtime.ts";
+import { resolvePluginSetupProvider as resolvePluginSetupProviderImpl } from "./setup-registry.ts";
 
 type ResolveProviderPluginChoice =
   typeof import("./provider-wizard.js").resolveProviderPluginChoice;

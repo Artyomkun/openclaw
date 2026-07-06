@@ -3,8 +3,8 @@
  *
  * Resolves lightweight discovery hooks without loading full channel plugins.
  */
-import { loadBundledPluginPublicArtifactModuleSync } from "../../plugins/public-surface-loader.js";
-import type { ChannelMessageActionAdapter } from "./types.public.js";
+import { loadBundledPluginPublicArtifactModuleSync } from "../../plugins/public-surface-loader.ts";
+import type { ChannelMessageActionAdapter } from "./types.public.ts";
 
 /**
  * Narrow adapter surface used for message-tool schema discovery.

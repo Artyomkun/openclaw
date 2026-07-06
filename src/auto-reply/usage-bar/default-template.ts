@@ -1,4 +1,4 @@
-import type { UsageBarTemplate } from "./translator.js";
+import type { UsageBarTemplate } from "./translator.ts";
 
 export const DEFAULT_USAGE_BAR_TEMPLATE: UsageBarTemplate = {
   schema: "openclaw.usageBar.v1",

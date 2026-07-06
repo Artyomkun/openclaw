@@ -1,8 +1,8 @@
 // Gateway credential secret-input resolver.
 // Resolves SecretRefs before applying Gateway credential precedence rules.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { resolveSecretInputString } from "../secrets/resolve-secret-input-string.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { resolveSecretInputString } from "../secrets/resolve-secret-input-string.ts";
 import {
   GatewaySecretRefUnavailableError,
   resolveGatewayCredentialsFromConfig,
@@ -12,7 +12,7 @@ import {
   type GatewayCredentialPrecedence,
   type GatewayRemoteCredentialFallback,
   type GatewayRemoteCredentialPrecedence,
-} from "./credentials.js";
+} from "./credentials.ts";
 import {
   ALL_GATEWAY_SECRET_INPUT_PATHS,
   assignResolvedGatewaySecretInput,
@@ -20,7 +20,7 @@ import {
   isTokenGatewaySecretInputPath,
   readGatewaySecretInputValue,
   type SupportedGatewaySecretInputPath,
-} from "./secret-input-paths.js";
+} from "./secret-input-paths.ts";
 
 type GatewayCredentialSecretInputOptions = {
   config: OpenClawConfig;

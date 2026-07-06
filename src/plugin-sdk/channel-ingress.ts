@@ -1,9 +1,9 @@
 // Channel ingress helpers normalize inbound channel messages before agent routing.
-import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.js";
+import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.ts";
 import {
   decideChannelIngress,
   resolveChannelIngressState as resolveChannelIngressStateInternal,
-} from "../channels/message-access/index.js";
+} from "../channels/message-access/index.ts";
 import type {
   AccessGraphGate,
   ChannelIngressDecision,
@@ -19,12 +19,12 @@ import type {
   InternalMatchMaterial,
   InternalNormalizedEntry,
   IngressReasonCode,
-} from "../channels/message-access/index.js";
-import type { AccessFacts, ChannelTurnAdmission } from "../channels/turn/types.js";
+} from "../channels/message-access/index.ts";
+import type { AccessFacts, ChannelTurnAdmission } from "../channels/turn/types.ts";
 import type {
   DmGroupAccessDecision,
   DmGroupAccessReasonCode,
-} from "../security/dm-policy-shared.js";
+} from "../security/dm-policy-shared.ts";
 
 export { decideChannelIngress };
 export type {
@@ -54,7 +54,7 @@ export type {
   RouteGateState,
   RouteSenderAllowlistSource,
   RouteSenderPolicy,
-} from "../channels/message-access/index.js";
+} from "../channels/message-access/index.ts";
 
 /** Redacted identifier material that can be matched against channel allowlist entries. */
 export type ChannelIngressSubjectIdentifier = InternalMatchMaterial;
@@ -145,7 +145,7 @@ export type CreateChannelIngressMultiIdentifierAdapterParams = {
   isWildcardEntry?: (entry: ChannelIngressAdapterEntry) => boolean;
 };
 
-/** Legacy DM/group access projection retained for older channel runtime callers. */
+/** Older DM/group access projection retained for older channel runtime callers. */
 export type ChannelIngressDmGroupAccessProjection = {
   decision: DmGroupAccessDecision;
   reasonCode: DmGroupAccessReasonCode;
@@ -158,27 +158,6 @@ export type ChannelIngressSenderGroupAccessProjection = {
   groupPolicy: ChannelIngressPolicyInput["groupPolicy"];
   providerMissingFallbackApplied: boolean;
   reason: "allowed" | "disabled" | "empty_allowlist" | "sender_not_allowlisted";
-};
-
-/** @deprecated Use `resolveChannelMessageIngress` from `openclaw/plugin-sdk/channel-ingress-runtime`. */
-export type ResolveChannelIngressAccessParams = ChannelIngressStateInput & {
-  policy: ChannelIngressPolicyInput;
-  effectiveAllowFrom?: readonly string[];
-  effectiveGroupAllowFrom?: readonly string[];
-};
-
-/** @deprecated Use `resolveChannelMessageIngress` from `openclaw/plugin-sdk/channel-ingress-runtime`. */
-export type ResolvedChannelIngressAccess = {
-  state: ChannelIngressState;
-  ingress: ChannelIngressDecision;
-  isGroup: boolean;
-  senderReasonCode: IngressReasonCode;
-  access: ChannelIngressDmGroupAccessProjection & {
-    effectiveAllowFrom: string[];
-    effectiveGroupAllowFrom: string[];
-  };
-  commandAuthorized: boolean;
-  shouldBlockControlCommand: boolean;
 };
 
 function defaultNormalize(value: string): string {
@@ -290,7 +269,7 @@ function projectDmDecision(
   return decision.admission === "drop" ? "deny" : "allow";
 }
 
-/** Project a full ingress decision graph into the legacy AccessFacts shape used by channels. */
+/** Project a full ingress decision graph into the older AccessFacts shape used by channels. */
 export function projectIngressAccessFacts(decision: ChannelIngressDecision): AccessFacts {
   const command = findChannelIngressGate(decision, CHANNEL_INGRESS_GATE_SELECTORS.command);
   const activation = findChannelIngressGate(decision, CHANNEL_INGRESS_GATE_SELECTORS.activation);
@@ -322,7 +301,7 @@ export function projectIngressAccessFacts(decision: ChannelIngressDecision): Acc
           useAccessGroups: command.command.useAccessGroups,
           allowTextCommands: command.command.allowTextCommands,
           modeWhenAccessGroupsOff: command.command.modeWhenAccessGroupsOff,
-          // Ingress decisions keep redacted gate facts; legacy AccessFacts preserves
+          // Ingress decisions keep redacted gate facts; older AccessFacts preserves
           // the authorizers property but does not expose individual sender entries.
           authorizers: [],
         }
@@ -499,187 +478,9 @@ export function assertNeverChannelIngressReason(reasonCode: never): never {
   throw new Error(`Unhandled channel ingress reason code: ${String(reasonCode)}`);
 }
 
-/**
- * Read the sender gate reason code for legacy callers.
- *
- * @deprecated Use `senderAccess.reasonCode` from `resolveChannelMessageIngress(...)` or typed gate selectors.
- */
-export function findChannelIngressSenderReasonCode(
-  decision: ChannelIngressDecision,
-  params: { isGroup: boolean },
-): IngressReasonCode {
-  return findChannelIngressSenderGate(decision, params)?.reasonCode ?? decision.reasonCode;
-}
-
-/**
- * Map channel-ingress reason codes back to legacy DM/group access reason codes.
- *
- * @deprecated Use `senderAccess.reasonCode` from `resolveChannelMessageIngress(...)`.
- */
-export function mapChannelIngressReasonCodeToDmGroupAccessReason(params: {
-  reasonCode: IngressReasonCode;
-  isGroup: boolean;
-}): DmGroupAccessReasonCode {
-  switch (params.reasonCode) {
-    case "group_policy_open":
-    case "group_policy_allowed":
-      return "group_policy_allowed";
-    case "group_policy_disabled":
-      return "group_policy_disabled";
-    case "route_sender_empty":
-    case "group_policy_empty_allowlist":
-      return "group_policy_empty_allowlist";
-    case "group_policy_not_allowlisted":
-      return "group_policy_not_allowlisted";
-    case "dm_policy_open":
-      return "dm_policy_open";
-    case "dm_policy_disabled":
-      return "dm_policy_disabled";
-    case "dm_policy_allowlisted":
-      return "dm_policy_allowlisted";
-    case "dm_policy_pairing_required":
-      return "dm_policy_pairing_required";
-    default:
-      return params.isGroup ? "group_policy_not_allowlisted" : "dm_policy_not_allowlisted";
-  }
-}
-
-/**
- * Format a legacy DM/group policy reason string from a mapped ingress reason code.
- *
- * @deprecated Use `senderAccess.reason` from `resolveChannelMessageIngress(...)`.
- */
-export function formatChannelIngressPolicyReason(params: {
-  reasonCode: DmGroupAccessReasonCode;
-  dmPolicy: string;
-  groupPolicy: string;
-}): string {
-  switch (params.reasonCode) {
-    case "group_policy_allowed":
-      return `groupPolicy=${params.groupPolicy}`;
-    case "group_policy_disabled":
-      return "groupPolicy=disabled";
-    case "group_policy_empty_allowlist":
-      return "groupPolicy=allowlist (empty allowlist)";
-    case "group_policy_not_allowlisted":
-      return "groupPolicy=allowlist (not allowlisted)";
-    case "dm_policy_open":
-      return "dmPolicy=open";
-    case "dm_policy_disabled":
-      return "dmPolicy=disabled";
-    case "dm_policy_allowlisted":
-      return `dmPolicy=${params.dmPolicy} (allowlisted)`;
-    case "dm_policy_pairing_required":
-      return "dmPolicy=pairing (not allowlisted)";
-    case "dm_policy_not_allowlisted":
-      return `dmPolicy=${params.dmPolicy} (not allowlisted)`;
-  }
-  const exhaustive: never = params.reasonCode;
-  return exhaustive;
-}
-
-/**
- * Project a sender ingress reason into the legacy group-access compatibility shape.
- *
- * @deprecated Use `senderAccess.groupAccess` from `resolveChannelMessageIngress(...)`.
- */
-export function projectChannelIngressSenderGroupAccess(params: {
-  reasonCode: IngressReasonCode;
-  decisionAllowed: boolean;
-  groupPolicy: ChannelIngressPolicyInput["groupPolicy"];
-  providerMissingFallbackApplied?: boolean;
-}): ChannelIngressSenderGroupAccessProjection {
-  const reasonCode = mapChannelIngressReasonCodeToDmGroupAccessReason({
-    reasonCode: params.reasonCode,
-    isGroup: true,
-  });
-  const reason =
-    params.groupPolicy === "disabled" || reasonCode === "group_policy_disabled"
-      ? "disabled"
-      : reasonCode === "group_policy_empty_allowlist"
-        ? "empty_allowlist"
-        : reasonCode === "group_policy_not_allowlisted"
-          ? "sender_not_allowlisted"
-          : "allowed";
-  return {
-    allowed: reason === "allowed" && params.decisionAllowed,
-    groupPolicy: params.groupPolicy,
-    providerMissingFallbackApplied: params.providerMissingFallbackApplied ?? false,
-    reason,
-  };
-}
-
-/**
- * Project a full ingress decision into the legacy DM/group access compatibility shape.
- *
- * @deprecated Use `senderAccess` from `resolveChannelMessageIngress(...)`.
- */
-export function projectChannelIngressDmGroupAccess(params: {
-  ingress: ChannelIngressDecision;
-  isGroup: boolean;
-  dmPolicy: string;
-  groupPolicy: string;
-}): ChannelIngressDmGroupAccessProjection {
-  const reasonCode = mapChannelIngressReasonCodeToDmGroupAccessReason({
-    reasonCode: findChannelIngressSenderReasonCode(params.ingress, { isGroup: params.isGroup }),
-    isGroup: params.isGroup,
-  });
-  const decision: DmGroupAccessDecision =
-    reasonCode === "dm_policy_pairing_required"
-      ? "pairing"
-      : params.ingress.decision === "allow"
-        ? "allow"
-        : "block";
-  const reason = formatChannelIngressPolicyReason({
-    reasonCode,
-    dmPolicy: params.dmPolicy,
-    groupPolicy: params.groupPolicy,
-  });
-  return {
-    decision,
-    reasonCode,
-    reason,
-  };
-}
-
 /** Resolve and normalize channel ingress state from SDK input. */
 export async function resolveChannelIngressState(
   input: ChannelIngressStateInput,
 ): Promise<ChannelIngressState> {
   return await resolveChannelIngressStateInternal(input);
-}
-
-/**
- * Resolve legacy ingress access with compatibility projections and effective allowlists.
- *
- * @deprecated Use `resolveChannelMessageIngress` from `openclaw/plugin-sdk/channel-ingress-runtime`.
- */
-export async function resolveChannelIngressAccess(
-  params: ResolveChannelIngressAccessParams,
-): Promise<ResolvedChannelIngressAccess> {
-  const { policy, effectiveAllowFrom, effectiveGroupAllowFrom, ...stateInput } = params;
-  const state = await resolveChannelIngressState(stateInput);
-  const ingress = decideChannelIngress(state, policy);
-  const isGroup = params.conversation.kind !== "direct";
-  const senderReasonCode = findChannelIngressSenderReasonCode(ingress, { isGroup });
-  const access = projectChannelIngressDmGroupAccess({
-    ingress,
-    isGroup,
-    dmPolicy: policy.dmPolicy,
-    groupPolicy: policy.groupPolicy,
-  });
-  const commandGate = findChannelIngressCommandGate(ingress);
-  return {
-    state,
-    ingress,
-    isGroup,
-    senderReasonCode,
-    access: {
-      ...access,
-      effectiveAllowFrom: [...(effectiveAllowFrom ?? [])],
-      effectiveGroupAllowFrom: [...(effectiveGroupAllowFrom ?? [])],
-    },
-    commandAuthorized: commandGate?.allowed === true,
-    shouldBlockControlCommand: commandGate?.command?.shouldBlockControlCommand === true,
-  };
 }

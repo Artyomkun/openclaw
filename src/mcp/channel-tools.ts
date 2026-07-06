@@ -1,14 +1,14 @@
 // Channel MCP tools expose channel operations through an MCP server.
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.ts";
 import { z } from "zod";
-import type { OpenClawChannelBridge } from "./channel-bridge.js";
+import type { OpenClawChannelBridge } from "./channel-bridge.ts";
 import {
   extractAttachmentsFromMessage,
   resolveMessageId,
   summarizeResult,
   summarizeStructuredResult,
   toText,
-} from "./channel-shared.js";
+} from "./channel-shared.ts";
 
 /**
  * MCP tool registration for channel conversation access.

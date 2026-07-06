@@ -1,22 +1,22 @@
 // Target resolver combines plugin id heuristics, cached directory searches,
 // live fallback lookups, and normalized fallback targets.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
 import type {
   ChannelDirectoryEntry,
   ChannelDirectoryEntryKind,
   ChannelId,
-} from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
-import { buildDirectoryCacheKey, DirectoryCache } from "./directory-cache.js";
+} from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { defaultRuntime, type RuntimeEnv } from "../../runtime.ts";
+import { buildDirectoryCacheKey, DirectoryCache } from "./directory-cache.ts";
 import {
   ambiguousTargetError,
   reservedTargetLiteralError,
   unknownTargetError,
-} from "./target-errors.js";
-import { maybeResolveIdLikeTarget, type ResolvedIdLikeTarget } from "./target-id-resolution.js";
+} from "./target-errors.ts";
+import { maybeResolveIdLikeTarget, type ResolvedIdLikeTarget } from "./target-id-resolution.ts";
 import {
   buildTargetResolverSignature,
   looksLikeTargetId,
@@ -25,7 +25,7 @@ import {
   normalizeTargetForProvider,
   resolveNormalizedTargetInput,
   resolveReservedTargetLiteral,
-} from "./target-normalization.js";
+} from "./target-normalization.ts";
 
 /** Directory-backed destination kind used by outbound target resolution. */
 export type TargetResolveKind = ChannelDirectoryEntryKind | "channel";
@@ -53,7 +53,7 @@ function asResolvedMessagingTarget(
   return target;
 }
 
-export { maybeResolveIdLikeTarget } from "./target-id-resolution.js";
+export { maybeResolveIdLikeTarget } from "./target-id-resolution.ts";
 
 /** Resolves a channel target using the shared outbound target resolver. */
 export async function resolveChannelTarget(params: {

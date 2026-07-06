@@ -1,23 +1,23 @@
 /** Resolves the gateway token used when installing or updating the managed service. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { ConfigWriteOptions } from "../config/io.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { ConfigFileSnapshot } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { shouldRequireGatewayTokenForInstall } from "../gateway/auth-install-policy.js";
-import { hasAmbiguousGatewayAuthModeConfig } from "../gateway/auth-mode-policy.js";
-import { resolveGatewayAuthToken } from "../gateway/auth-token-resolution.js";
-import { resolveGatewayAuth } from "../gateway/auth.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { ConfigWriteOptions } from "../config/io.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { ConfigFileSnapshot } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { shouldRequireGatewayTokenForInstall } from "../gateway/auth-install-policy.ts";
+import { hasAmbiguousGatewayAuthModeConfig } from "../gateway/auth-mode-policy.ts";
+import { resolveGatewayAuthToken } from "../gateway/auth-token-resolution.ts";
+import { resolveGatewayAuth } from "../gateway/auth.ts";
 import {
   formatUnsafeGatewayTailscaleNoAuthMessage,
   isUnsafeGatewayTailscaleNoAuth,
-} from "../shared/gateway-tailscale-auth-policy.js";
+} from "../shared/gateway-tailscale-auth-policy.ts";
 import {
   readConfigFileSnapshotForWrite,
   replaceConfigFile,
-} from "./gateway-install-token.persist.runtime.js";
-import { randomToken } from "./random-token.js";
+} from "./gateway-install-token.persist.runtime.ts";
+import { randomToken } from "./random-token.ts";
 
 type GatewayInstallTokenOptions = {
   config: OpenClawConfig;

@@ -1,6 +1,6 @@
 // Ordered Gateway startup task runner.
 // Used for best-effort side effects that should not abort the server.
-import { formatErrorMessage } from "../infra/errors.js";
+import { formatErrorMessage } from "../infra/errors.ts";
 
 // Startup tasks run sequentially so logs and side effects stay ordered during
 // gateway startup. Failures are collected and logged without aborting later

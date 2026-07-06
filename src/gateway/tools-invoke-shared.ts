@@ -4,19 +4,19 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { runBeforeToolCallHook } from "../agents/agent-tools.before-tool-call.js";
-import { resolveToolLoopDetectionConfig } from "../agents/agent-tools.js";
-import { getChannelAgentToolMeta } from "../agents/channel-tools.js";
-import { isKnownCoreToolId } from "../agents/tool-catalog.js";
-import { ToolInputError, type AnyAgentTool } from "../agents/tools/common.js";
-import { resolveMainSessionKey } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { logWarn } from "../logger.js";
-import { isTestDefaultMemorySlotDisabled } from "../plugins/config-state.js";
-import { defaultSlotIdForKey } from "../plugins/slots.js";
-import { getPluginToolMeta } from "../plugins/tools.js";
-import { canonicalizeSessionKeyForAgent } from "./session-store-key.js";
-import { resolveGatewayScopedTools } from "./tool-resolution.js";
+import { runBeforeToolCallHook } from "../agents/agent-tools.before-tool-call.ts";
+import { resolveToolLoopDetectionConfig } from "../agents/agent-tools.ts";
+import { getChannelAgentToolMeta } from "../agents/channel-tools.ts";
+import { isKnownCoreToolId } from "../agents/tool-catalog.ts";
+import { ToolInputError, type AnyAgentTool } from "../agents/tools/common.ts";
+import { resolveMainSessionKey } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { logWarn } from "../logger.ts";
+import { isTestDefaultMemorySlotDisabled } from "../plugins/config-state.ts";
+import { defaultSlotIdForKey } from "../plugins/slots.ts";
+import { getPluginToolMeta } from "../plugins/tools.ts";
+import { canonicalizeSessionKeyForAgent } from "./session-store-key.ts";
+import { resolveGatewayScopedTools } from "./tool-resolution.ts";
 
 const MEMORY_TOOL_NAMES = new Set(["memory_search", "memory_get"]);
 

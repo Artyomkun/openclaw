@@ -1,38 +1,38 @@
 // Outbound target helpers resolve direct send targets, heartbeat destinations,
 // sender context, and session-route aware heartbeat refinements.
 import { mapAllowFromEntries } from "openclaw/plugin-sdk/channel-config-helpers";
-import { normalizeChatType, type ChatType } from "../../channels/chat-type.js";
-import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.core.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeAccountId } from "../../routing/session-key.js";
+import { normalizeChatType, type ChatType } from "../../channels/chat-type.ts";
+import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.core.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeAccountId } from "../../routing/session-key.ts";
 import {
   deliveryContextFromSession,
   mergeDeliveryContext,
-} from "../../utils/delivery-context.shared.js";
-import type { DeliveryContext } from "../../utils/delivery-context.types.js";
+} from "../../utils/delivery-context.shared.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.types.ts";
 import type {
   DeliverableMessageChannel,
   GatewayMessageChannel,
-} from "../../utils/message-channel.js";
+} from "../../utils/message-channel.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
-} from "../../utils/message-channel.js";
+} from "../../utils/message-channel.ts";
 import {
   normalizeDeliverableOutboundChannel,
   resolveOutboundChannelPlugin,
-} from "./channel-resolution.js";
-import { resolveOutboundSessionRoute } from "./outbound-session.js";
-import { isReservedTargetLiteralError } from "./target-errors.js";
-import { resolveChannelTarget, type ResolvedMessagingTarget } from "./target-resolver.js";
+} from "./channel-resolution.ts";
+import { resolveOutboundSessionRoute } from "./outbound-session.ts";
+import { isReservedTargetLiteralError } from "./target-errors.ts";
+import { resolveChannelTarget, type ResolvedMessagingTarget } from "./target-resolver.ts";
 import {
   resolveOutboundTargetWithPlugin,
   type OutboundTargetResolution,
-} from "./targets-resolve-shared.js";
+} from "./targets-resolve-shared.ts";
 
 /** Deliverable channel id accepted by outbound target resolution. */
 export type OutboundChannel = DeliverableMessageChannel;
@@ -59,9 +59,9 @@ export type HeartbeatSenderContext = {
   allowFrom: string[];
 };
 
-export type { OutboundTargetResolution } from "./targets-resolve-shared.js";
-export { resolveSessionDeliveryTarget, type SessionDeliveryTarget } from "./targets-session.js";
-import { resolveSessionDeliveryTarget, type SessionDeliveryTarget } from "./targets-session.js";
+export type { OutboundTargetResolution } from "./targets-resolve-shared.ts";
+export { resolveSessionDeliveryTarget, type SessionDeliveryTarget } from "./targets-session.ts";
+import { resolveSessionDeliveryTarget, type SessionDeliveryTarget } from "./targets-session.ts";
 
 /** Resolves a user-supplied outbound destination through the channel plugin. */
 export function resolveOutboundTarget(params: {

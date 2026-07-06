@@ -327,33 +327,6 @@ function sanitizeStoredBinding(
   return record;
 }
 
-function readLegacyBindingsFile(
-  filePath: string,
-  accountId: string,
-): TelegramThreadBindingRecord[] {
-  try {
-    const raw = fs.readFileSync(filePath, "utf-8");
-    const parsed = JSON.parse(raw) as StoredTelegramBindingState;
-    if (parsed?.version !== STORE_VERSION || !Array.isArray(parsed.bindings)) {
-      return [];
-    }
-    const bindings: TelegramThreadBindingRecord[] = [];
-    for (const entry of parsed.bindings) {
-      const record = sanitizeStoredBinding(accountId, entry);
-      if (record) {
-        bindings.push(record);
-      }
-    }
-    return bindings;
-  } catch (err) {
-    const code = (err as { code?: string }).code;
-    if (code !== "ENOENT") {
-      logVerbose(`telegram thread bindings load failed (${accountId}): ${String(err)}`);
-    }
-    return [];
-  }
-}
-
 function loadBindingsFromStore(accountId: string): TelegramThreadBindingRecord[] {
   let store: TelegramThreadBindingStore;
   try {
@@ -1018,17 +991,6 @@ export function setTelegramThreadBindingStoreForTest(
   store: TelegramThreadBindingStore | undefined,
 ): void {
   threadBindingStoreForTest = store;
-}
-
-export function listTelegramLegacyThreadBindingEntries(params: {
-  accountId: string;
-  persistedPath?: string;
-}): Array<{ key: string; value: TelegramThreadBindingRecord }> {
-  const bindings = readLegacyBindingsFile(
-    params.persistedPath ?? resolveBindingsPath(params.accountId),
-    params.accountId,
-  );
-  return bindings.map((value) => ({ key: resolveStoredBindingKey(value), value }));
 }
 
 export const testing = {

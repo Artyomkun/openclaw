@@ -4,10 +4,10 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { splitTrailingAuthProfile } from "../agents/model-ref-profile.js";
-import type { AuthProfileConfig } from "../config/types.auth.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isRecord } from "../utils.js";
+import { splitTrailingAuthProfile } from "../agents/model-ref-profile.ts";
+import type { AuthProfileConfig } from "../config/types.auth.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isRecord } from "../utils.ts";
 
 const AUTH_PROFILE_MODES = new Set<AuthProfileConfig["mode"]>([
   "api_key",

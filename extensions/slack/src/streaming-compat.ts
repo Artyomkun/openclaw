@@ -9,7 +9,6 @@ import {
 } from "openclaw/plugin-sdk/string-coerce-runtime";
 
 export type StreamingMode = "off" | "partial" | "block" | "progress";
-export type SlackLegacyDraftStreamMode = "replace" | "status_final" | "append";
 
 function normalizeStreamingMode(value: unknown): string | null {
   if (typeof value !== "string") {
@@ -33,34 +32,6 @@ function parseStreamingMode(value: unknown): StreamingMode | null {
   return null;
 }
 
-function parseSlackLegacyDraftStreamMode(value: unknown): SlackLegacyDraftStreamMode | null {
-  const normalized = normalizeStreamingMode(value);
-  if (normalized === "replace" || normalized === "status_final" || normalized === "append") {
-    return normalized;
-  }
-  return null;
-}
-
-function mapSlackLegacyDraftStreamModeToStreaming(mode: SlackLegacyDraftStreamMode): StreamingMode {
-  if (mode === "append") {
-    return "block";
-  }
-  if (mode === "status_final") {
-    return "progress";
-  }
-  return "partial";
-}
-
-export function mapStreamingModeToSlackLegacyDraftStreamMode(mode: StreamingMode) {
-  if (mode === "block") {
-    return "append" as const;
-  }
-  if (mode === "progress") {
-    return "status_final" as const;
-  }
-  return "replace" as const;
-}
-
 export function resolveSlackStreamingMode(
   params: {
     streamMode?: unknown;
@@ -72,10 +43,6 @@ export function resolveSlackStreamingMode(
   );
   if (parsedStreaming) {
     return parsedStreaming;
-  }
-  const legacyStreamMode = parseSlackLegacyDraftStreamMode(params.streamMode);
-  if (legacyStreamMode) {
-    return mapSlackLegacyDraftStreamModeToStreaming(legacyStreamMode);
   }
   if (typeof params.streaming === "boolean") {
     return params.streaming ? "partial" : "off";

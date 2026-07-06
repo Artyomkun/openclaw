@@ -5,30 +5,30 @@
  */
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   ensureBrowserControlAuth,
   resolveBrowserControlAuth,
-} from "../../plugin-sdk/browser-control-auth.js";
+} from "../../plugin-sdk/browser-control-auth.ts";
 import {
   DEFAULT_BROWSER_EVALUATE_ENABLED,
   resolveBrowserConfig,
-} from "../../plugin-sdk/browser-profiles.js";
-import { defaultRuntime } from "../../runtime.js";
-import type { SkillEligibilityContext } from "../../skills/types.js";
-import { resolveUserPath } from "../../utils.js";
-import { DEFAULT_AGENT_WORKSPACE_DIR } from "../workspace.js";
-import { getSandboxBackendWorkdirResolver, requireSandboxBackendFactory } from "./backend.js";
-import { ensureSandboxBrowser } from "./browser.js";
-import { resolveSandboxConfigForAgent } from "./config.js";
-import { SANDBOX_STATE_DIR } from "./constants.js";
-import { createSandboxFsBridge } from "./fs-bridge.js";
-import { updateRegistry } from "./registry.js";
-import { resolveSandboxRuntimeStatus } from "./runtime-status.js";
-import { resolveSandboxScopeKey, resolveSandboxWorkspaceDir } from "./shared.js";
-import type { SandboxContext, SandboxDockerConfig, SandboxWorkspaceInfo } from "./types.js";
-import { resolveMaterializedSandboxSkillsWorkspaceDir } from "./workspace-mounts.js";
-import { ensureSandboxWorkspace } from "./workspace.js";
+} from "../../plugin-sdk/browser-profiles.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import type { SkillEligibilityContext } from "../../skills/types.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { DEFAULT_AGENT_WORKSPACE_DIR } from "../workspace.ts";
+import { getSandboxBackendWorkdirResolver, requireSandboxBackendFactory } from "./backend.ts";
+import { ensureSandboxBrowser } from "./browser.ts";
+import { resolveSandboxConfigForAgent } from "./config.ts";
+import { SANDBOX_STATE_DIR } from "./constants.ts";
+import { createSandboxFsBridge } from "./fs-bridge.ts";
+import { updateRegistry } from "./registry.ts";
+import { resolveSandboxRuntimeStatus } from "./runtime-status.ts";
+import { resolveSandboxScopeKey, resolveSandboxWorkspaceDir } from "./shared.ts";
+import type { SandboxContext, SandboxDockerConfig, SandboxWorkspaceInfo } from "./types.ts";
+import { resolveMaterializedSandboxSkillsWorkspaceDir } from "./workspace-mounts.ts";
+import { ensureSandboxWorkspace } from "./workspace.ts";
 
 async function syncSandboxSkillsToWorkspace(params: {
   sourceWorkspaceDir: string;

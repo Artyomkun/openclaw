@@ -1,12 +1,12 @@
 // Document extractor runtime helpers choose lazy extraction adapters by media type.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   DocumentExtractionRequest,
   DocumentExtractionResult,
-} from "../plugins/document-extractor-types.js";
-import { resolvePluginDocumentExtractors } from "../plugins/document-extractors.runtime.js";
-import { createConfigScopedPromiseLoader } from "../plugins/plugin-cache-primitives.js";
+} from "../plugins/document-extractor-types.ts";
+import { resolvePluginDocumentExtractors } from "../plugins/document-extractors.runtime.ts";
+import { createConfigScopedPromiseLoader } from "../plugins/plugin-cache-primitives.ts";
 
 const documentExtractorLoader = createConfigScopedPromiseLoader((config?: OpenClawConfig) =>
   resolvePluginDocumentExtractors(config ? { config } : undefined),

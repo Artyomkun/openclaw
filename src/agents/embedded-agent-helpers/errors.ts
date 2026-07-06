@@ -5,27 +5,27 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { AssistantMessage } from "../../llm/types.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { AssistantMessage } from "../../llm/types.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import {
   extractLeadingHttpStatus,
   formatRawAssistantErrorForUi,
   isGenericProviderInternalError,
   parseApiErrorInfo,
-} from "../../shared/assistant-error-format.js";
-import { truncateUtf16Safe } from "../../shared/utf16-slice.js";
+} from "../../shared/assistant-error-format.ts";
+import { truncateUtf16Safe } from "../../shared/utf16-slice.ts";
 export {
   extractLeadingHttpStatus,
   formatRawAssistantErrorForUi,
   isCloudflareOrHtmlErrorPage,
   isGenericProviderInternalError,
   parseApiErrorInfo,
-} from "../../shared/assistant-error-format.js";
-import { classifyOAuthRefreshFailure } from "../auth-profiles/oauth-refresh-failure.js";
-import { formatExecDeniedUserMessage } from "../exec-approval-result.js";
-import { isModelNotFoundErrorMessage } from "../live-model-errors.js";
-import { formatSandboxToolPolicyBlockedMessage } from "../sandbox/runtime-status.js";
+} from "../../shared/assistant-error-format.ts";
+import { classifyOAuthRefreshFailure } from "../auth-profiles/oauth-refresh-failure.ts";
+import { formatExecDeniedUserMessage } from "../exec-approval-result.ts";
+import { isModelNotFoundErrorMessage } from "../live-model-errors.ts";
+import { formatSandboxToolPolicyBlockedMessage } from "../sandbox/runtime-status.ts";
 import {
   isAuthErrorMessage,
   isAuthPermanentErrorMessage,
@@ -36,12 +36,12 @@ import {
   isServerErrorMessage,
   isTimeoutErrorMessage,
   matchesFormatErrorPattern,
-} from "./failover-matches.js";
+} from "./failover-matches.ts";
 import {
   classifyProviderPluginError,
   classifyProviderSpecificError,
   matchesProviderContextOverflow,
-} from "./provider-error-patterns.js";
+} from "./provider-error-patterns.ts";
 import {
   formatBillingErrorMessage,
   formatDiskSpaceErrorCopy,
@@ -51,8 +51,8 @@ import {
   isLikelyHttpErrorText,
   isRawApiErrorPayload,
   isStreamingJsonParseError,
-} from "./sanitize-user-facing-text.js";
-import type { FailoverReason } from "./types.js";
+} from "./sanitize-user-facing-text.ts";
+import type { FailoverReason } from "./types.ts";
 
 export {
   BILLING_ERROR_USER_MESSAGE,
@@ -61,7 +61,7 @@ export {
   getApiErrorPayloadFingerprint,
   isRawApiErrorPayload,
   sanitizeUserFacingText,
-} from "./sanitize-user-facing-text.js";
+} from "./sanitize-user-facing-text.ts";
 
 export {
   isAuthErrorMessage,
@@ -71,7 +71,7 @@ export {
   isRateLimitErrorMessage,
   isServerErrorMessage,
   isTimeoutErrorMessage,
-} from "./failover-matches.js";
+} from "./failover-matches.ts";
 
 const log = createSubsystemLogger("errors");
 const sandboxToolPolicyAuditMessages = new WeakSet<AssistantMessage>();

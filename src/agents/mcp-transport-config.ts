@@ -2,18 +2,18 @@
  * Resolves MCP transport command, environment, and timeout configuration.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { resolveOpenClawMcpTransportAlias } from "../config/mcp-config-normalize.js";
-import { logWarn } from "../logger.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { resolveOpenClawMcpTransportAlias } from "../config/mcp-config-normalize.ts";
+import { logWarn } from "../logger.ts";
 import {
   describeHttpMcpServerLaunchConfig,
   resolveHttpMcpServerLaunchConfig,
   type HttpMcpTransportType,
-} from "./mcp-http.js";
+} from "./mcp-http.ts";
 import {
   describeStdioMcpServerLaunchConfig,
   resolveStdioMcpServerLaunchConfig,
-} from "./mcp-stdio.js";
+} from "./mcp-stdio.ts";
 
 // Resolves raw MCP server config into the transport shape used by bundle MCP
 // runtime startup. Stdio is preferred when launch config is valid; otherwise

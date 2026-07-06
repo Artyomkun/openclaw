@@ -1,23 +1,19 @@
-// Bounded Response script supports OpenClaw repository automation.
-type BoundedResponseTextOptions = {
-  createTooLargeError?: (message: string) => Error;
-  formatTooLargeMessage?: (label: string, maxBytes: number) => string;
-  signal?: AbortSignal;
-  timeoutPromise?: Promise<never>;
-};
+// Reads response bodies with byte limits, abort handling, and timeout cancellation.
+function defaultTooLargeMessage(label, maxBytes) {
+  return `${label} response body exceeded ${maxBytes} bytes`;
+}
 
-const defaultTooLargeMessage = (label: string, maxBytes: number) =>
-  `${label} response body exceeded ${maxBytes} bytes`;
+function defaultTooLargeError(message) {
+  return new Error(message);
+}
 
-const defaultTooLargeError = (message: string) => new Error(`${message}.`);
-
-function cancelReaderSoon(reader: ReadableStreamDefaultReader<Uint8Array>): void {
+function cancelReaderSoon(reader) {
   void Promise.resolve()
     .then(() => reader.cancel())
     .catch(() => undefined);
 }
 
-function parseContentLengthHeader(headers: Headers): number | undefined {
+function parseContentLengthHeader(headers) {
   const raw = headers.get("content-length");
   if (!raw || !/^\d+$/u.test(raw)) {
     return undefined;
@@ -26,12 +22,7 @@ function parseContentLengthHeader(headers: Headers): number | undefined {
   return Number.isSafeInteger(parsed) ? parsed : Number.POSITIVE_INFINITY;
 }
 
-async function readResponseChunk(
-  reader: ReadableStreamDefaultReader<Uint8Array>,
-  label: string,
-  signal: AbortSignal | undefined,
-  markCanceled: () => void,
-): Promise<ReadableStreamReadResult<Uint8Array>> {
+async function readResponseChunk(reader, label, signal, markCanceled) {
   if (!signal) {
     return await reader.read();
   }
@@ -41,12 +32,15 @@ async function readResponseChunk(
     throw signal.reason instanceof Error ? signal.reason : new Error(`${label} request aborted`);
   }
 
-  let removeAbortListener: (() => void) | undefined;
-  const abortPromise = new Promise<ReadableStreamReadResult<Uint8Array>>((_resolve, reject) => {
+  let removeAbortListener;
+  const abortPromise = new Promise((_resolve, reject) => {
     const onAbort = () => {
       markCanceled();
       reject(
-        signal.reason instanceof Error ? signal.reason : new Error(`${label} request aborted`),
+        toLintErrorObject(
+          signal.reason instanceof Error ? signal.reason : new Error(`${label} request aborted`),
+          "Non-Error rejection",
+        ),
       );
       cancelReaderSoon(reader);
     };
@@ -61,35 +55,19 @@ async function readResponseChunk(
   }
 }
 
-function toErrorObject(value: unknown, fallbackMessage: string): Error {
-  if (value instanceof Error) {
-    return value;
-  }
-  if (typeof value === "string") {
-    return new Error(value);
-  }
-  return new Error(fallbackMessage, { cause: value });
-}
-
-async function readResponseChunkWithTimeout(
-  reader: ReadableStreamDefaultReader<Uint8Array>,
-  label: string,
-  signal: AbortSignal | undefined,
-  timeoutPromise: Promise<never> | undefined,
-  markCanceled: () => void,
-): Promise<ReadableStreamReadResult<Uint8Array>> {
+async function readResponseChunkWithTimeout(reader, label, signal, timeoutPromise, markCanceled) {
   const readPromise = readResponseChunk(reader, label, signal, markCanceled);
   if (!timeoutPromise) {
     return await readPromise;
   }
 
   let waitingForRead = true;
-  const timeoutReadPromise = timeoutPromise.catch((error: unknown) => {
+  const timeoutReadPromise = timeoutPromise.catch((error) => {
     if (waitingForRead) {
       markCanceled();
       cancelReaderSoon(reader);
     }
-    throw toErrorObject(error, `${label} response body read timed out`);
+    throw toLintErrorObject(error, `${label} response body read timed out`);
   });
 
   try {
@@ -99,12 +77,8 @@ async function readResponseChunkWithTimeout(
   }
 }
 
-export async function readBoundedResponseText(
-  response: Response,
-  label: string,
-  maxBytes: number,
-  options: BoundedResponseTextOptions = {},
-): Promise<string> {
+/** Read response text while enforcing max bytes before and during streaming. */
+export async function readBoundedResponseText(response, label, maxBytes, options = {}) {
   const formatTooLargeMessage = options.formatTooLargeMessage ?? defaultTooLargeMessage;
   const createTooLargeError = options.createTooLargeError ?? defaultTooLargeError;
   const tooLargeError = () => createTooLargeError(formatTooLargeMessage(label, maxBytes));
@@ -120,7 +94,7 @@ export async function readBoundedResponseText(
 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
-  const chunks: string[] = [];
+  const chunks = [];
   let totalBytes = 0;
   let canceled = false;
 
@@ -158,4 +132,18 @@ export async function readBoundedResponseText(
   }
 
   return chunks.join("");
+}
+
+function toLintErrorObject(value, fallbackMessage) {
+  if (value instanceof Error) {
+    return value;
+  }
+  if (typeof value === "string") {
+    return new Error(value);
+  }
+  const error = new Error(fallbackMessage, { cause: value });
+  if ((typeof value === "object" && value !== null) || typeof value === "function") {
+    Object.assign(error, value);
+  }
+  return error;
 }

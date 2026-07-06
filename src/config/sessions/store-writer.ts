@@ -1,6 +1,6 @@
 // Session store writes are serialized per store path to avoid lost updates.
-import { runQueuedStoreWrite } from "../../shared/store-writer-queue.js";
-import { WRITER_QUEUES } from "./store-writer-state.js";
+import { runQueuedStoreWrite } from "../../shared/store-writer-queue.ts";
+import { WRITER_QUEUES } from "./store-writer-state.ts";
 
 export type RunExclusiveSessionStoreWriteOptions = {
   reentrant?: boolean;

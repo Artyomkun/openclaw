@@ -1,7 +1,7 @@
 // Shared music generation request, response, and provider type contracts.
-import type { MediaNormalizationEntry } from "../../packages/media-generation-core/src/normalization.js";
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { MediaNormalizationEntry } from "../../packages/media-generation-core/src/normalization.ts";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 /**
  * Public music generation provider contracts.

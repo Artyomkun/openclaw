@@ -1,5 +1,5 @@
 // Gateway method descriptor types define the reusable contract shared by core, plugin, channel, and auxiliary methods.
-import type { OperatorScope } from "../operator-scopes.js";
+import type { OperatorScope } from "../operator-scopes.ts";
 
 /** Scope marker for methods that only authenticated node clients may call. */
 export const NODE_GATEWAY_METHOD_SCOPE = "node" as const;

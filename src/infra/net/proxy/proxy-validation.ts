@@ -1,23 +1,37 @@
 // Proxy validation resolves operator config and probes allowed, denied, and
 // APNs destinations through an explicit HTTP(S) forward proxy.
 import { randomUUID } from "node:crypto";
-import { createServer, type Server } from "node:http";
-import type { ProxyConfig } from "../../../config/zod-schema.proxy.js";
-import { probeApnsHttp2ReachabilityViaProxy } from "../../push-apns-http2.js";
-import { fetchWithRuntimeDispatcher } from "../runtime-fetch.js";
-import { createHttp1ProxyAgent } from "../undici-runtime.js";
+import { createServer, type Server, type IncomingMessage, type ServerResponse } from "node:http";
+import type { ProxyConfig } from "../../../config/zod-schema.proxy.ts";
+import { fetchWithRuntimeDispatcher } from "../runtime-fetch.ts";
+import { createHttp1ProxyAgent } from "../undici-runtime.ts";
 import {
   loadManagedProxyTlsOptions,
   resolveManagedProxyCaFileForUrl,
   type ManagedProxyTlsOptions,
-} from "./proxy-tls.js";
+} from "./proxy-tls.ts";
 
-export const DEFAULT_PROXY_VALIDATION_ALLOWED_URLS = ["https://example.com/"] as const;
-export const DEFAULT_PROXY_VALIDATION_APNS_AUTHORITY = "https://api.sandbox.push.apple.com";
+// --- Configuration Defaults (Lazy Initialized) ---
+const DEFAULT_ALLOWED_URL_STRING = "https://example.com/";
+const DEFAULT_APNS_AUTHORITY_STRING = "https://api.sandbox.push.apple.com";
+
+export const getDefaultProxyValidationAllowedUrls = (): readonly URL[] => [
+  new URL(DEFAULT_ALLOWED_URL_STRING)
+];
+
+export const getDefaultProxyValidationApnsAuthority = (): URL => 
+  new URL(DEFAULT_APNS_AUTHORITY_STRING);
 
 const DEFAULT_PROXY_VALIDATION_TIMEOUT_MS = 5000;
 const DENIED_CANARY_HEADER = "x-openclaw-proxy-validation-canary";
 const APNS_REACHABILITY_REASON = "InvalidProviderToken";
+
+// SRE Fix: Fixed ports for loopback canary with automatic fallback
+const LOOPBACK_CANARY_PORTS = [8123, 8124, 0] as const;
+
+// --- Modern Error Handling ---
+const extractErrorMessage = (err: unknown): string => 
+  err instanceof Error ? err.message : String(err);
 
 /** Describes where the effective proxy validation URL came from. */
 export type ProxyValidationConfigSource = "override" | "config" | "env" | "missing" | "disabled";
@@ -25,73 +39,62 @@ export type ProxyValidationConfigSource = "override" | "config" | "env" | "missi
 /** Normalized proxy validation input plus actionable config errors. */
 export type ProxyValidationResolvedConfig = {
   enabled: boolean;
-  proxyUrl?: string;
+  proxyUrl?: URL;
   proxyCaFile?: string;
   source: ProxyValidationConfigSource;
   errors: string[];
 };
 
-/** Validation probe categories reported to CLI output. */
 export type ProxyValidationCheckKind = "allowed" | "denied" | "apns";
 
-/** Result for one proxy validation probe. */
 export type ProxyValidationCheck = {
   kind: ProxyValidationCheckKind;
-  url: string;
+  url: URL;
   ok: boolean;
   status?: number;
   error?: string;
 };
 
-/** Complete proxy validation result consumed by CLI formatting. */
 export type ProxyValidationResult = {
   ok: boolean;
   config: ProxyValidationResolvedConfig;
   checks: ProxyValidationCheck[];
 };
 
-/** Parameters for fetch-based proxy validation probes. */
 export type ProxyValidationFetchCheckParams = {
-  proxyUrl: string;
+  proxyUrl: URL;
   proxyTls?: ManagedProxyTlsOptions;
-  targetUrl: string;
+  targetUrl: URL;
   timeoutMs: number;
 };
 
-/** Result from a fetch-based probe, including optional denied-canary evidence. */
 export type ProxyValidationFetchCheckResult = {
   ok: boolean;
   status: number;
   deniedCanaryToken?: string;
 };
 
-/** Injectable fetch probe used by tests and the default runtime validator. */
 export type ProxyValidationFetchCheck = (
   params: ProxyValidationFetchCheckParams,
 ) => Promise<ProxyValidationFetchCheckResult>;
 
-/** Parameters for APNs reachability validation through the proxy tunnel. */
 export type ProxyValidationApnsCheckParams = {
-  proxyUrl: string;
+  proxyUrl: URL;
   proxyTls?: ManagedProxyTlsOptions;
-  authority: string;
+  authority: URL;
   timeoutMs: number;
 };
 
 export type ProxyValidationApnsCheckResult = {
   status: number;
-  /** Present when the response originated from a real APNs server (Apple always returns this UUID). */
   apnsId?: string;
-  /** APNs JSON error reason. InvalidProviderToken proves the invalid-token probe reached APNs. */
   apnsReason?: string;
 };
 
-/** Injectable APNs probe used by tests and the default HTTP/2 validator. */
 export type ProxyValidationApnsCheck = (
   params: ProxyValidationApnsCheckParams,
 ) => Promise<ProxyValidationApnsCheckResult>;
 
-/** Inputs used to resolve proxy validation config before network probes run. */
 export type ResolveProxyValidationConfigOptions = {
   config?: ProxyConfig;
   env?: NodeJS.ProcessEnv | Partial<Record<"OPENCLAW_PROXY_URL", string | undefined>>;
@@ -99,168 +102,151 @@ export type ResolveProxyValidationConfigOptions = {
   proxyCaFileOverride?: string;
 };
 
-/** Full proxy validation runner options, including probe overrides for tests. */
 export type RunProxyValidationOptions = ResolveProxyValidationConfigOptions & {
-  allowedUrls?: readonly string[];
-  deniedUrls?: readonly string[];
+  allowedUrls?: readonly URL[] | (() => readonly URL[]);
+  deniedUrls?: readonly URL[] | (() => readonly URL[]);
   timeoutMs?: number;
   fetchCheck?: ProxyValidationFetchCheck;
   apnsReachability?: boolean;
-  apnsAuthority?: string;
+  apnsAuthority?: URL | string | (() => URL);
   apnsCheck?: ProxyValidationApnsCheck;
 };
 
-function normalizeProxyUrl(value: string | undefined): string | undefined {
+// --- Utilities ---
+
+const parseSafeUrl = (value: string | undefined): URL | undefined => {
   const trimmed = value?.trim();
-  return trimmed ? trimmed : undefined;
-}
+  if (!trimmed) return undefined;
+  try { return new URL(trimmed); } catch { return undefined; }
+};
 
-function isHttpOrHttpsProxyUrl(value: string): boolean {
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
+const isHttpOrHttpsUrl = (url: URL): boolean => 
+  url.protocol === "http:" || url.protocol === "https:";
 
-function validateProxyUrl(value: string | undefined): string[] {
-  if (!value) {
-    return ["proxy validation requires proxy.proxyUrl, --proxy-url, or OPENCLAW_PROXY_URL"];
-  }
-  if (!isHttpOrHttpsProxyUrl(value)) {
-    return ["proxyUrl must use http:// or https://"];
-  }
+const validateProxyUrl = (url: URL | undefined): string[] => {
+  if (!url) return ["proxy validation requires proxy.proxyUrl, --proxy-url, or OPENCLAW_PROXY_URL"];
+  if (!isHttpOrHttpsUrl(url)) return ["proxyUrl must use http:// or https://"];
   return [];
-}
+};
 
-function validateProxyEnabled(source: ProxyValidationConfigSource, enabled: boolean): string[] {
-  if (enabled || source === "override" || source === "missing" || source === "disabled") {
-    return [];
-  }
-  if (source === "env") {
-    return ["proxy validation requires proxy.enabled to be true for OPENCLAW_PROXY_URL"];
-  }
-  return ["proxy validation requires proxy.enabled to be true for configured proxy URLs"];
-}
+const validateProxyEnabled = (source: ProxyValidationConfigSource, enabled: boolean): string[] => {
+  if (enabled || source === "override" || source === "missing" || source === "disabled") return [];
+  return source === "env" 
+    ? ["proxy validation requires proxy.enabled to be true for OPENCLAW_PROXY_URL"]
+    : ["proxy validation requires proxy.enabled to be true for configured proxy URLs"];
+};
 
-function validateResolvedProxy(
-  source: ProxyValidationConfigSource,
-  enabled: boolean,
-  value: string | undefined,
-): string[] {
-  return [...validateProxyUrl(value), ...validateProxyEnabled(source, enabled)];
-}
+const validateResolvedProxy = (source: ProxyValidationConfigSource, enabled: boolean, url: URL | undefined): string[] => 
+  [...validateProxyUrl(url), ...validateProxyEnabled(source, enabled)];
+
+const parseApnsErrorReason = (body: string): string | undefined => {
+  try {
+    const parsed: unknown = JSON.parse(body);
+    if (typeof parsed !== "object" || parsed === null) return undefined;
+    const reason = (parsed as { reason?: unknown }).reason;
+    return typeof reason === "string" && reason.trim() ? reason : undefined;
+  } catch { return undefined; }
+};
+
+const hasApnsReachabilityProof = (result: ProxyValidationApnsCheckResult): boolean => 
+  !!result.apnsId || (result.status === 403 && result.apnsReason === APNS_REACHABILITY_REASON);
+
+const normalizeTimeoutMs = (value: number | undefined): number =>
+  (typeof value === "number" && Number.isFinite(value) && value > 0) 
+    ? Math.floor(value) 
+    : DEFAULT_PROXY_VALIDATION_TIMEOUT_MS;
+
+const resolveUrls = (input?: readonly URL[] | (() => readonly URL[])): readonly URL[] => {
+  if (!input) return [];
+  return typeof input === 'function' ? input() : input;
+};
+
+const resolveUrl = (input?: URL | string | (() => URL), fallback: () => URL): URL => {
+  if (!input) return fallback();
+  if (typeof input === 'function') return input();
+  return typeof input === 'string' ? new URL(input) : input;
+};
+
+// --- Configuration Resolution ---
 
 /** Resolves validation config precedence: explicit override, config, then env. */
 export function resolveProxyValidationConfig(
   options: ResolveProxyValidationConfigOptions,
 ): ProxyValidationResolvedConfig {
-  const overrideUrl = normalizeProxyUrl(options.proxyUrlOverride);
-  if (overrideUrl) {
-    const proxyCaFile = resolveManagedProxyCaFileForUrl({
-      proxyUrl: overrideUrl,
-      caFileOverride: options.proxyCaFileOverride,
-    });
-    return {
-      enabled: true,
-      proxyUrl: overrideUrl,
-      ...(proxyCaFile ? { proxyCaFile } : {}),
-      source: "override",
-      errors: validateResolvedProxy("override", true, overrideUrl),
-    };
-  }
+  const candidates: Array<{ url?: URL; source: ProxyValidationConfigSource; enabled: boolean }> = [
+    { url: parseSafeUrl(options.proxyUrlOverride), source: "override", enabled: true },
+    { url: parseSafeUrl(options.config?.proxyUrl), source: "config", enabled: options.config?.enabled === true },
+    { url: parseSafeUrl(options.env?.OPENCLAW_PROXY_URL), source: "env", enabled: options.config?.enabled === true },
+  ];
 
-  const configUrl = normalizeProxyUrl(options.config?.proxyUrl);
-  if (configUrl) {
-    const proxyCaFile = resolveManagedProxyCaFileForUrl({
-      proxyUrl: configUrl,
-      config: options.config,
-      caFileOverride: options.proxyCaFileOverride,
-    });
-    return {
-      enabled: options.config?.enabled === true,
-      proxyUrl: configUrl,
-      ...(proxyCaFile ? { proxyCaFile } : {}),
-      source: "config",
-      errors: validateResolvedProxy("config", options.config?.enabled === true, configUrl),
-    };
-  }
-
-  const envUrl = normalizeProxyUrl(options.env?.OPENCLAW_PROXY_URL);
-  if (envUrl) {
-    const proxyCaFile = resolveManagedProxyCaFileForUrl({
-      proxyUrl: envUrl,
-      config: options.config,
-      caFileOverride: options.proxyCaFileOverride,
-    });
-    return {
-      enabled: options.config?.enabled === true,
-      proxyUrl: envUrl,
-      ...(proxyCaFile ? { proxyCaFile } : {}),
-      source: "env",
-      errors: validateResolvedProxy("env", options.config?.enabled === true, envUrl),
-    };
+  for (const candidate of candidates) {
+    if (candidate.url && isHttpOrHttpsUrl(candidate.url)) {
+      const proxyCaFile = resolveManagedProxyCaFileForUrl({
+        proxyUrl: candidate.url.toString(),
+        config: options.config,
+        caFileOverride: options.proxyCaFileOverride,
+      });
+      return {
+        enabled: candidate.enabled,
+        proxyUrl: candidate.url,
+        ...(proxyCaFile ? { proxyCaFile } : {}),
+        source: candidate.source,
+        errors: validateResolvedProxy(candidate.source, candidate.enabled, candidate.url),
+      };
+    }
   }
 
   if (options.config?.enabled === true) {
-    return {
-      enabled: true,
-      source: "missing",
-      errors: validateProxyUrl(undefined),
-    };
+    return { enabled: true, source: "missing", errors: validateProxyUrl(undefined) };
   }
 
   return {
     enabled: false,
     source: "disabled",
-    errors: [
-      "proxy validation requires proxy.enabled=true with proxy.proxyUrl or OPENCLAW_PROXY_URL, or --proxy-url",
-    ],
+    errors: ["proxy validation requires proxy.enabled=true with proxy.proxyUrl or OPENCLAW_PROXY_URL, or --proxy-url"],
   };
 }
 
+// --- Network Probes (Defaults) ---
+
 async function defaultProxyValidationFetchCheck({
-  proxyUrl,
-  proxyTls,
-  targetUrl,
-  timeoutMs,
+  proxyUrl, proxyTls, targetUrl, timeoutMs,
 }: ProxyValidationFetchCheckParams): Promise<ProxyValidationFetchCheckResult> {
   const dispatcher = createHttp1ProxyAgent(
-    {
-      uri: proxyUrl,
-      ...(proxyTls ? { proxyTls } : {}),
-    },
+    { uri: proxyUrl.toString(), ...(proxyTls ? { proxyTls } : {}) },
     timeoutMs,
   );
   try {
-    const response = await fetchWithRuntimeDispatcher(targetUrl, {
+    const response = await fetchWithRuntimeDispatcher(targetUrl.toString(), {
       dispatcher,
       redirect: "manual",
     });
-    void response.body?.cancel();
+    void response.body?.dump(); // Aggressively free buffers
     return {
       ok: response.ok,
       status: response.status,
       deniedCanaryToken: response.headers.get(DENIED_CANARY_HEADER) ?? undefined,
     };
   } finally {
-    await dispatcher.close();
+    await dispatcher.close(); // Prevent FD leaks
   }
 }
 
+// ВНИМАНИЕ: Эта функция должна импортироваться из модуля транспорта APNs (push-apns-http2.ts или http3),
+// а не определяться здесь. Оставляем заглушку-адаптер для сохранения архитектуры.
 async function defaultProxyValidationApnsCheck({
-  proxyUrl,
-  proxyTls,
-  authority,
-  timeoutMs,
+  proxyUrl, proxyTls, authority, timeoutMs,
 }: ProxyValidationApnsCheckParams): Promise<ProxyValidationApnsCheckResult> {
+  // Динамический импорт или прямой вызов транспортного модуля
+  const { probeApnsHttp2ReachabilityViaProxy } = await import("../../push-apns-http2.js");
+  
   const result = await probeApnsHttp2ReachabilityViaProxy({
-    proxyUrl,
-    ...(proxyTls ? { proxyTls } : {}),
-    authority,
+    proxyUrl: proxyUrl.toString(),
+    proxyTls,
+    authority: authority.toString(),
     timeoutMs,
   });
+  
   return {
     status: result.status,
     apnsId: result.responseHeaders?.["apns-id"],
@@ -268,46 +254,10 @@ async function defaultProxyValidationApnsCheck({
   };
 }
 
-function parseApnsErrorReason(body: string): string | undefined {
-  try {
-    const parsed: unknown = JSON.parse(body);
-    if (!parsed || typeof parsed !== "object") {
-      return undefined;
-    }
-    const reason = (parsed as { reason?: unknown }).reason;
-    return typeof reason === "string" && reason.trim() ? reason : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-function hasApnsReachabilityProof(result: ProxyValidationApnsCheckResult): boolean {
-  if (result.apnsId) {
-    return true;
-  }
-  // APNs returns InvalidProviderToken for the intentionally invalid probe. That
-  // body proves the CONNECT tunnel reached Apple even without an apns-id header.
-  return result.status === 403 && result.apnsReason === APNS_REACHABILITY_REASON;
-}
-
-function normalizeTimeoutMs(value: number | undefined): number {
-  if (value === undefined || !Number.isFinite(value) || value <= 0) {
-    return DEFAULT_PROXY_VALIDATION_TIMEOUT_MS;
-  }
-  return Math.floor(value);
-}
-
-function isValidHttpTargetUrl(value: string): boolean {
-  try {
-    const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
-  } catch {
-    return false;
-  }
-}
+// --- Loopback Canary Server ---
 
 type ProxyValidationDeniedTarget = {
-  url: string;
+  url: URL;
   expectedCanaryToken?: string;
   transportErrorMeansBlocked: boolean;
 };
@@ -317,250 +267,145 @@ type DeniedCanary = {
   close: () => Promise<void>;
 };
 
-function closeServer(server: Server): Promise<void> {
-  return new Promise((resolve, reject) => {
-    server.close((err) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve();
-    });
-  });
-}
+const closeServer = (server: Server): Promise<void> => new Promise((resolve, reject) => {
+  server.close((err) => err ? reject(err) : resolve());
+});
 
 async function createLoopbackDeniedCanary(): Promise<DeniedCanary> {
   const token = randomUUID();
-  // The default denied probe targets loopback and expects the proxy to block it.
-  // If a proxy returns this token, it forwarded a destination it should deny.
-  const server = createServer((_request, response) => {
-    response.writeHead(204, {
-      [DENIED_CANARY_HEADER]: token,
-      "cache-control": "no-store",
-    });
-    response.end();
-  });
-
-  await new Promise<void>((resolve, reject) => {
-    server.once("error", reject);
-    server.listen(0, "127.0.0.1", () => {
-      server.off("error", reject);
-      resolve();
-    });
-  });
-
-  const address = server.address();
-  if (typeof address === "string" || address === null) {
-    await closeServer(server);
-    throw new Error("Unable to start loopback proxy validation canary");
-  }
-
-  return {
-    target: {
-      url: `http://127.0.0.1:${address.port}/`,
-      expectedCanaryToken: token,
-      transportErrorMeansBlocked: true,
-    },
-    close: () => closeServer(server),
+  const requestHandler = (_req: IncomingMessage, res: ServerResponse) => {
+    res.writeHead(204, { [DENIED_CANARY_HEADER]: token, "cache-control": "no-store" });
+    res.end();
   };
+
+  const server = createServer(requestHandler);
+  for (const port of LOOPBACK_CANARY_PORTS) {
+    try {
+      await new Promise<void>((resolve, reject) => {
+        server.once("error", reject);
+        server.listen(port, "127.0.0.1", () => {
+          server.off("error", reject);
+          resolve();
+        });
+      });
+      
+      const address = server.address();
+      if (typeof address === "object" && address !== null) {
+        return {
+          target: {
+            url: new URL(`http://127.0.0.1:${address.port}/`),
+            expectedCanaryToken: token,
+            transportErrorMeansBlocked: true,
+          },
+          close: () => closeServer(server),
+        };
+      }
+    } catch {
+      continue;
+    }
+  }
+  
+  throw new Error("Failed to bind loopback canary on any designated port");
 }
 
 async function resolveDeniedTargets(
-  deniedUrls: readonly string[] | undefined,
+  deniedUrls: readonly URL[] | undefined,
 ): Promise<{ targets: ProxyValidationDeniedTarget[]; close: () => Promise<void> }> {
   if (deniedUrls !== undefined) {
     return {
-      targets: deniedUrls.map((url) => ({
-        url,
-        transportErrorMeansBlocked: false,
-      })),
-      close: async () => undefined,
+      targets: deniedUrls.map((url) => ({ url, transportErrorMeansBlocked: false })),
+      close: async () => {},
     };
   }
 
   const canary = await createLoopbackDeniedCanary();
-  return {
-    targets: [canary.target],
-    close: canary.close,
-  };
+  return { targets: [canary.target], close: canary.close };
 }
 
-async function runAllowedCheck(params: {
-  url: string;
-  proxyUrl: string;
-  proxyTls?: ManagedProxyTlsOptions;
-  timeoutMs: number;
-  fetchCheck: ProxyValidationFetchCheck;
-}): Promise<ProxyValidationCheck> {
-  if (!isValidHttpTargetUrl(params.url)) {
-    return {
-      kind: "allowed",
-      url: params.url,
-      ok: false,
-      error: "Invalid allowed destination URL",
-    };
-  }
+// --- Probe Runners ---
 
+const runAllowedCheck = async (params: {
+  url: URL; proxyUrl: URL; proxyTls?: ManagedProxyTlsOptions; timeoutMs: number; fetchCheck: ProxyValidationFetchCheck;
+}): Promise<ProxyValidationCheck> => {
   try {
     const result = await params.fetchCheck({
-      proxyUrl: params.proxyUrl,
+      proxyUrl: params.proxyUrl, targetUrl: params.url, timeoutMs: params.timeoutMs,
       ...(params.proxyTls ? { proxyTls: params.proxyTls } : {}),
-      targetUrl: params.url,
-      timeoutMs: params.timeoutMs,
     });
-    if (!result.ok) {
-      return {
-        kind: "allowed",
-        url: params.url,
-        ok: false,
-        status: result.status,
-        error: `Allowed destination returned HTTP ${result.status}`,
-      };
-    }
-    return { kind: "allowed", url: params.url, ok: true, status: result.status };
+    return !result.ok
+      ? { kind: "allowed", url: params.url, ok: false, status: result.status, error: `Allowed destination returned HTTP ${result.status}` }
+      : { kind: "allowed", url: params.url, ok: true, status: result.status };
   } catch (err) {
-    return {
-      kind: "allowed",
-      url: params.url,
-      ok: false,
-      error: err instanceof Error ? err.message : String(err),
-    };
+    return { kind: "allowed", url: params.url, ok: false, error: extractErrorMessage(err) };
   }
-}
+};
 
-async function runDeniedCheck(params: {
-  target: ProxyValidationDeniedTarget;
-  proxyUrl: string;
-  proxyTls?: ManagedProxyTlsOptions;
-  timeoutMs: number;
-  fetchCheck: ProxyValidationFetchCheck;
-}): Promise<ProxyValidationCheck> {
-  if (!isValidHttpTargetUrl(params.target.url)) {
-    return {
-      kind: "denied",
-      url: params.target.url,
-      ok: false,
-      error: "Invalid denied destination URL",
-    };
-  }
-
+const runDeniedCheck = async (params: {
+  target: ProxyValidationDeniedTarget; proxyUrl: URL; proxyTls?: ManagedProxyTlsOptions; timeoutMs: number; fetchCheck: ProxyValidationFetchCheck;
+}): Promise<ProxyValidationCheck> => {
   try {
     const result = await params.fetchCheck({
-      proxyUrl: params.proxyUrl,
+      proxyUrl: params.proxyUrl, targetUrl: params.target.url, timeoutMs: params.timeoutMs,
       ...(params.proxyTls ? { proxyTls: params.proxyTls } : {}),
-      targetUrl: params.target.url,
-      timeoutMs: params.timeoutMs,
     });
-    if (
-      params.target.expectedCanaryToken !== undefined &&
-      result.deniedCanaryToken !== params.target.expectedCanaryToken
-    ) {
-      // A blocked loopback canary may return a denial status; only a matching
-      // token proves the proxy actually forwarded the forbidden loopback URL.
-      if (result.ok) {
-        return {
-          kind: "denied",
-          url: params.target.url,
-          ok: false,
-          status: result.status,
-          error: `Denied loopback canary returned HTTP ${result.status} without the validation token`,
-        };
-      }
-      return {
-        kind: "denied",
-        url: params.target.url,
-        ok: true,
-        status: result.status,
-      };
+    
+    const tokenMatch = params.target.expectedCanaryToken !== undefined && result.deniedCanaryToken !== params.target.expectedCanaryToken;
+    
+    if (tokenMatch) {
+      return result.ok
+        ? { kind: "denied", url: params.target.url, ok: false, status: result.status, error: `Denied loopback canary returned HTTP ${result.status} without the validation token` }
+        : { kind: "denied", url: params.target.url, ok: true, status: result.status };
     }
+    
     return {
-      kind: "denied",
-      url: params.target.url,
-      ok: false,
-      status: result.status,
-      error:
-        params.target.expectedCanaryToken === undefined
-          ? `Denied destination returned HTTP ${result.status}; expected the proxy to block the connection`
-          : `Denied loopback canary was reachable through the proxy with HTTP ${result.status}`,
+      kind: "denied", url: params.target.url, ok: false, status: result.status,
+      error: params.target.expectedCanaryToken === undefined
+        ? `Denied destination returned HTTP ${result.status}; expected the proxy to block the connection`
+        : `Denied loopback canary was reachable through the proxy with HTTP ${result.status}`,
     };
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    if (params.target.transportErrorMeansBlocked) {
-      return {
-        kind: "denied",
-        url: params.target.url,
-        ok: true,
-        error: message,
-      };
-    }
-    return {
-      kind: "denied",
-      url: params.target.url,
-      ok: false,
-      error: `Denied destination failed without a verifiable proxy-deny signal: ${message}`,
-    };
+    const message = extractErrorMessage(err);
+    return params.target.transportErrorMeansBlocked
+      ? { kind: "denied", url: params.target.url, ok: true, error: message }
+      : { kind: "denied", url: params.target.url, ok: false, error: `Denied destination failed without a verifiable proxy-deny signal: ${message}` };
   }
-}
+};
 
-async function runApnsReachabilityCheck(params: {
-  authority: string;
-  proxyUrl: string;
-  proxyTls?: ManagedProxyTlsOptions;
-  timeoutMs: number;
-  apnsCheck: ProxyValidationApnsCheck;
-}): Promise<ProxyValidationCheck> {
+const runApnsReachabilityCheck = async (params: {
+  authority: URL; proxyUrl: URL; proxyTls?: ManagedProxyTlsOptions; timeoutMs: number; apnsCheck: ProxyValidationApnsCheck;
+}): Promise<ProxyValidationCheck> => {
   try {
     const result = await params.apnsCheck({
-      proxyUrl: params.proxyUrl,
+      proxyUrl: params.proxyUrl, authority: params.authority, timeoutMs: params.timeoutMs,
       ...(params.proxyTls ? { proxyTls: params.proxyTls } : {}),
-      authority: params.authority,
-      timeoutMs: params.timeoutMs,
     });
-    if (!hasApnsReachabilityProof(result)) {
-      return {
-        kind: "apns",
-        url: params.authority,
-        ok: false,
-        error:
-          "APNs reachability check failed: response did not include an apns-id header or APNs InvalidProviderToken body. " +
-          "The proxy may be intercepting the connection instead of tunneling it.",
-      };
-    }
-    return {
-      kind: "apns",
-      url: params.authority,
-      ok: true,
-      status: result.status,
-    };
+    
+    return hasApnsReachabilityProof(result)
+      ? { kind: "apns", url: params.authority, ok: true, status: result.status }
+      : { kind: "apns", url: params.authority, ok: false, error: "APNs reachability check failed: response did not include an apns-id header or APNs InvalidProviderToken body. The proxy may be intercepting the connection instead of tunneling it." };
   } catch (err) {
-    return {
-      kind: "apns",
-      url: params.authority,
-      ok: false,
-      error: err instanceof Error ? err.message : String(err),
-    };
+    return { kind: "apns", url: params.authority, ok: false, error: extractErrorMessage(err) };
   }
-}
+};
+
+// --- Main Executor ---
 
 /** Runs allowed, denied, and optional APNs proxy validation probes. */
 export async function runProxyValidation(
   options: RunProxyValidationOptions,
 ): Promise<ProxyValidationResult> {
   const config = resolveProxyValidationConfig(options);
-  if (config.errors.length > 0) {
-    return { ok: false, config, checks: [] };
-  }
+  
+  if (config.errors.length > 0) return { ok: false, config, checks: [] };
   if (!config.proxyUrl) {
     if (!config.enabled && config.source === "disabled") {
-      return {
-        ok: false,
-        config: {
-          ...config,
-          errors: [
-            "Proxy validation is disabled. Set proxy.enabled=true or pass --proxy-url to run validation.",
-          ],
-        },
-        checks: [],
+      return { 
+        ok: false, 
+        config: { 
+          ...config, 
+          errors: ["Proxy validation is disabled. Set proxy.enabled=true or pass --proxy-url to run validation."] 
+        }, 
+        checks: [] 
       };
     }
     return { ok: false, config, checks: [] };
@@ -571,63 +416,51 @@ export async function runProxyValidation(
   try {
     proxyTls = await loadManagedProxyTlsOptions(config.proxyCaFile);
   } catch (err) {
-    return {
-      ok: false,
-      config: {
-        ...config,
-        errors: [...config.errors, err instanceof Error ? err.message : String(err)],
-      },
-      checks: [],
+    return { 
+      ok: false, 
+      config: { 
+        ...config, 
+        errors: [...config.errors, extractErrorMessage(err)] 
+      }, 
+      checks: [] 
     };
   }
+
   const fetchCheck = options.fetchCheck ?? defaultProxyValidationFetchCheck;
   const apnsCheck = options.apnsCheck ?? defaultProxyValidationApnsCheck;
-  const apnsAuthority = options.apnsAuthority ?? DEFAULT_PROXY_VALIDATION_APNS_AUTHORITY;
-  const allowedUrls = options.allowedUrls ?? DEFAULT_PROXY_VALIDATION_ALLOWED_URLS;
-  const deniedTargets = await resolveDeniedTargets(options.deniedUrls);
-  const checks: ProxyValidationCheck[] = [];
+  const apnsAuthority = resolveUrl(
+    options.apnsAuthority, 
+    getDefaultProxyValidationApnsAuthority
+  );
+  const allowedUrls = resolveUrls(options.allowedUrls) || getDefaultProxyValidationAllowedUrls();
+  const deniedTargets = await resolveDeniedTargets(
+    typeof options.deniedUrls === 'function' ? options.deniedUrls() : options.deniedUrls
+  );
 
   try {
-    for (const url of allowedUrls) {
-      checks.push(
-        await runAllowedCheck({
-          url,
-          proxyUrl: config.proxyUrl,
-          proxyTls,
-          timeoutMs,
-          fetchCheck,
-        }),
-      );
-    }
-    for (const target of deniedTargets.targets) {
-      checks.push(
-        await runDeniedCheck({
-          target,
-          proxyUrl: config.proxyUrl,
-          proxyTls,
-          timeoutMs,
-          fetchCheck,
-        }),
-      );
-    }
+    const probes: Promise<ProxyValidationCheck>[] = [
+      ...allowedUrls.map(url => runAllowedCheck({ url, proxyUrl: config.proxyUrl!, proxyTls, timeoutMs, fetchCheck })),
+      ...deniedTargets.targets.map(target => runDeniedCheck({ target, proxyUrl: config.proxyUrl!, proxyTls, timeoutMs, fetchCheck })),
+    ];
+
     if (options.apnsReachability === true) {
-      checks.push(
-        await runApnsReachabilityCheck({
-          authority: apnsAuthority,
-          proxyUrl: config.proxyUrl,
-          proxyTls,
-          timeoutMs,
-          apnsCheck,
-        }),
-      );
+      probes.push(runApnsReachabilityCheck({ authority: apnsAuthority, proxyUrl: config.proxyUrl!, proxyTls, timeoutMs, apnsCheck }));
     }
+    
+    const results = await Promise.allSettled(probes);
+    
+    const checks = results.map(result => 
+      result.status === "fulfilled" 
+        ? result.value 
+        : { kind: "allowed" as const, url: new URL("about:blank"), ok: false, error: "Probe promise rejected unexpectedly" }
+    );
+
+    return {
+      ok: checks.every((check) => check.ok),
+      config,
+      checks,
+    };
   } finally {
     await deniedTargets.close();
   }
-
-  return {
-    ok: checks.every((check) => check.ok),
-    config,
-    checks,
-  };
 }

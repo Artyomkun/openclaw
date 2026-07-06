@@ -2,14 +2,14 @@
  * @deprecated Public SDK subpath has no bundled extension production imports.
  * Prefer vendor-neutral memory-host SDK subpaths for new plugin code.
  */
-import type { OpenClawConfig } from "../config/types.js";
-import { createPluginStateKeyedStore } from "../plugin-state/plugin-state-store.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { createPluginStateKeyedStore } from "../plugin-state/plugin-state-store.ts";
 import {
   createLazyFacadeObjectValue,
   loadActivatedBundledPluginPublicSurfaceModuleSync,
-} from "./facade-runtime.js";
-import type { MemorySearchManager } from "./memory-core-host-engine-storage.js";
-import type { OpenKeyedStoreOptions, PluginStateKeyedStore } from "./plugin-state-runtime.js";
+} from "./facade-runtime.ts";
+import type { MemorySearchManager } from "./memory-core-host-engine-storage.ts";
+import type { OpenKeyedStoreOptions, PluginStateKeyedStore } from "./plugin-state-runtime.ts";
 
 /** Doctor metadata for a built-in memory embedding provider. */
 export type BuiltinMemoryEmbeddingProviderDoctorMetadata = {

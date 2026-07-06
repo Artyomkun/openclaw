@@ -1,20 +1,20 @@
 // Builds the channel setup list from bundled channels, installed plugins, and trusted catalog entries.
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import { listChatChannels } from "../../channels/chat-meta.js";
-import type { ChannelPluginCatalogEntry } from "../../channels/plugins/catalog.js";
-import { isChannelVisibleInSetup } from "../../channels/plugins/exposure.js";
-import { normalizeChannelMeta } from "../../channels/plugins/meta-normalization.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelMeta } from "../../channels/plugins/types.public.js";
-import { isStaticallyChannelConfigured } from "../../config/channel-configured-shared.js";
-import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { listManifestChannelContributionIds } from "../../plugins/manifest-contribution-ids.js";
-import type { ChannelChoice } from "../onboard-types.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import { listChatChannels } from "../../channels/chat-meta.ts";
+import type { ChannelPluginCatalogEntry } from "../../channels/plugins/catalog.ts";
+import { isChannelVisibleInSetup } from "../../channels/plugins/exposure.ts";
+import { normalizeChannelMeta } from "../../channels/plugins/meta-normalization.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelMeta } from "../../channels/plugins/types.public.ts";
+import { isStaticallyChannelConfigured } from "../../config/channel-configured-shared.ts";
+import { applyPluginAutoEnable } from "../../config/plugin-auto-enable.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { listManifestChannelContributionIds } from "../../plugins/manifest-contribution-ids.ts";
+import type { ChannelChoice } from "../onboard-types.ts";
 import {
   listSetupDiscoveryChannelPluginCatalogEntries,
   listTrustedChannelPluginCatalogEntries,
-} from "./trusted-catalog.js";
+} from "./trusted-catalog.ts";
 
 type ChannelCatalogEntry = {
   id: ChannelChoice;

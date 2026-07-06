@@ -3,16 +3,16 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { asOptionalRecord } from "@openclaw/normalization-core/record-coerce";
-import { parseConfigJson5 } from "../config/io.js";
-import { resolveConfigPath, resolveStateDir } from "../config/paths.js";
-import { redactConfigObject } from "../config/redact-snapshot.js";
-import { resolveHomeRelativePath } from "../infra/home-dir.js";
-import { VERSION } from "../version.js";
+import { parseConfigJson5 } from "../config/io.ts";
+import { resolveConfigPath, resolveStateDir } from "../config/paths.ts";
+import { redactConfigObject } from "../config/redact-snapshot.ts";
+import { resolveHomeRelativePath } from "../infra/home-dir.ts";
+import { VERSION } from "../version.ts";
 import {
   readDiagnosticStabilityBundleFileSync,
   readLatestDiagnosticStabilityBundleSync,
   type ReadDiagnosticStabilityBundleResult,
-} from "./diagnostic-stability-bundle.js";
+} from "./diagnostic-stability-bundle.ts";
 import {
   jsonSupportBundleFile,
   jsonlSupportBundleFile,
@@ -21,8 +21,8 @@ import {
   writeSupportBundleZip,
   type DiagnosticSupportBundleContent,
   type DiagnosticSupportBundleFile,
-} from "./diagnostic-support-bundle.js";
-import { sanitizeSupportLogRecord } from "./diagnostic-support-log-redaction.js";
+} from "./diagnostic-support-bundle.ts";
+import { sanitizeSupportLogRecord } from "./diagnostic-support-log-redaction.ts";
 import {
   redactPathForSupport,
   redactSupportString,
@@ -30,8 +30,8 @@ import {
   sanitizeSupportConfigValue,
   sanitizeSupportSnapshotValue,
   type SupportRedactionContext,
-} from "./diagnostic-support-redaction.js";
-import { readConfiguredLogTail, type LogTailPayload } from "./log-tail.js";
+} from "./diagnostic-support-redaction.ts";
+import { readConfiguredLogTail, type LogTailPayload } from "./log-tail.ts";
 
 export const DIAGNOSTIC_SUPPORT_EXPORT_VERSION = 1;
 

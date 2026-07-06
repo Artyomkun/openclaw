@@ -2,12 +2,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import { isRecord as isJsonObject } from "@openclaw/normalization-core/record-coerce";
-import { listAgentIds, resolveAgentDir } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveUserPath } from "../utils.js";
-import { listAuthProfileStoreAgentDirs as listAuthProfileStoreAgentDirsFromAuthStorePaths } from "./auth-store-paths.js";
-import { parseEnvValue } from "./shared.js";
+import { listAgentIds, resolveAgentDir } from "../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveUserPath } from "../utils.ts";
+import { listAuthProfileStoreAgentDirs as listAuthProfileStoreAgentDirsFromAuthStorePaths } from "./auth-store-paths.ts";
+import { parseEnvValue } from "./shared.ts";
 
 /** Parses one .env assignment value using the shared shell-ish env parser. */
 export function parseEnvAssignmentValue(raw: string): string {
@@ -17,25 +17,6 @@ export function parseEnvAssignmentValue(raw: string): string {
 /** Lists agent directories that own canonical auth-profile stores. */
 export function listAuthProfileStoreAgentDirs(config: OpenClawConfig, stateDir: string): string[] {
   return listAuthProfileStoreAgentDirsFromAuthStorePaths(config, stateDir);
-}
-
-/** Lists legacy per-agent auth.json stores that can contain static credentials. */
-export function listLegacyAuthJsonPaths(stateDir: string): string[] {
-  const out: string[] = [];
-  const agentsRoot = path.join(resolveUserPath(stateDir), "agents");
-  if (!fs.existsSync(agentsRoot)) {
-    return out;
-  }
-  for (const entry of fs.readdirSync(agentsRoot, { withFileTypes: true })) {
-    if (!entry.isDirectory()) {
-      continue;
-    }
-    const candidate = path.join(agentsRoot, entry.name, "agent", "auth.json");
-    if (fs.existsSync(candidate)) {
-      out.push(candidate);
-    }
-  }
-  return out;
 }
 
 function resolveActiveAgentDir(stateDir: string, env: NodeJS.ProcessEnv = process.env): string {

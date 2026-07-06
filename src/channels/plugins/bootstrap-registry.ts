@@ -4,16 +4,16 @@
  * Provides channel plugin metadata before the full runtime registry is installed.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { listBundledChannelPluginIdsForRoot } from "./bundled-ids.js";
-import { resolveBundledChannelRootScope } from "./bundled-root.js";
+import { listBundledChannelPluginIdsForRoot } from "./bundled-ids.ts";
+import { resolveBundledChannelRootScope } from "./bundled-root.ts";
 import {
   getBundledChannelPlugin,
   getBundledChannelSecrets,
   getBundledChannelSetupPlugin,
   getBundledChannelSetupSecrets,
-} from "./bundled.js";
-import type { ChannelPlugin } from "./types.plugin.js";
-import type { ChannelId } from "./types.public.js";
+} from "./bundled.ts";
+import type { ChannelPlugin } from "./types.plugin.ts";
+import type { ChannelId } from "./types.public.ts";
 
 function resolveBootstrapChannelId(id: ChannelId): string {
   return normalizeOptionalString(id) ?? "";

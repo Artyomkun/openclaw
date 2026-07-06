@@ -6,10 +6,10 @@ import {
   type GatewayClientName,
   normalizeGatewayClientMode,
   normalizeGatewayClientName,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { listBundledChannelCatalogEntries } from "../channels/bundled-channel-catalog-read.js";
-import { getChatChannelMeta } from "../channels/chat-meta.js";
-import { getRegisteredChannelPluginMeta, normalizeChatChannelId } from "../channels/registry.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { listBundledChannelCatalogEntries } from "../channels/bundled-channel-catalog-read.ts";
+import { getChatChannelMeta } from "../channels/chat-meta.ts";
+import { getRegisteredChannelPluginMeta, normalizeChatChannelId } from "../channels/registry.ts";
 export {
   isDeliverableMessageChannel,
   isGatewayMessageChannel,
@@ -19,7 +19,7 @@ export {
   resolveMessageChannel,
   type DeliverableMessageChannel,
   type GatewayMessageChannel,
-} from "./message-channel-normalize.js";
+} from "./message-channel-normalize.ts";
 export {
   INTERNAL_MESSAGE_CHANNEL,
   isInternalNonDeliveryChannel,
@@ -27,9 +27,9 @@ export {
   isNativeApprovalChannel,
   type InternalMessageChannel,
   type NativeApprovalChannel,
-} from "./message-channel-constants.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "./message-channel-constants.js";
-import { normalizeMessageChannel } from "./message-channel-normalize.js";
+} from "./message-channel-constants.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "./message-channel-constants.ts";
+import { normalizeMessageChannel } from "./message-channel-normalize.ts";
 
 /**
  * Message channel and Gateway client classification helpers.

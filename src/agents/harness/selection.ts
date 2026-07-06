@@ -2,53 +2,53 @@ import { findNormalizedProviderValue } from "@openclaw/model-catalog-core/provid
 /**
  * Selects and invokes native agent harnesses for embedded run attempts.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   createChildDiagnosticTraceContext,
   createDiagnosticTraceContext,
   freezeDiagnosticTraceContext,
   getActiveDiagnosticTraceContext,
   runWithDiagnosticTraceContext,
-} from "../../infra/diagnostic-trace-context.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { resolveProviderRefOwnership } from "../../plugins/providers.js";
-import { isDefaultAgentRuntimeId, normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.js";
+} from "../../infra/diagnostic-trace-context.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { resolveProviderRefOwnership } from "../../plugins/providers.ts";
+import { isDefaultAgentRuntimeId, normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.ts";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
   resolveInheritedToolPolicyForSession,
   resolveSubagentToolPolicyForSession,
-} from "../agent-tools.policy.js";
+} from "../agent-tools.policy.ts";
 import type {
   EmbeddedRunAttemptParams,
   EmbeddedRunAttemptResult,
-} from "../embedded-agent-runner/run/types.js";
-import { isCliRuntimeAliasForProvider } from "../model-runtime-aliases.js";
-import { resolveSandboxRuntimeStatus } from "../sandbox/runtime-status.js";
-import { resolveSenderToolPolicy } from "../sender-tool-policy.js";
+} from "../embedded-agent-runner/run/types.ts";
+import { isCliRuntimeAliasForProvider } from "../model-runtime-aliases.ts";
+import { resolveSandboxRuntimeStatus } from "../sandbox/runtime-status.ts";
+import { resolveSenderToolPolicy } from "../sender-tool-policy.ts";
 import {
   isSubagentEnvelopeSession,
   resolveSubagentCapabilityStore,
-} from "../subagent-capabilities.js";
+} from "../subagent-capabilities.ts";
 import {
   expandToolGroups,
   mergeAlsoAllowPolicy,
   normalizeToolName,
   resolveToolProfilePolicy,
-} from "../tool-policy.js";
-import { createOpenClawAgentHarness } from "./builtin-openclaw.js";
-import { MissingAgentHarnessError } from "./errors.js";
-import { runAgentHarnessLifecycleAttempt } from "./lifecycle.js";
+} from "../tool-policy.ts";
+import { createOpenClawAgentHarness } from "./builtin-openclaw.ts";
+import { MissingAgentHarnessError } from "./errors.ts";
+import { runAgentHarnessLifecycleAttempt } from "./lifecycle.ts";
 import {
   resolveAgentHarnessPolicy as resolveConfiguredAgentHarnessPolicy,
   type AgentHarnessPolicy,
-} from "./policy.js";
-import { getRegisteredAgentHarness, listRegisteredAgentHarnesses } from "./registry.js";
-import type { AgentHarness, AgentHarnessSupport, AgentHarnessSupportContext } from "./types.js";
+} from "./policy.ts";
+import { getRegisteredAgentHarness, listRegisteredAgentHarnesses } from "./registry.ts";
+import type { AgentHarness, AgentHarnessSupport, AgentHarnessSupportContext } from "./types.ts";
 
 const log = createSubsystemLogger("agents/harness");
-export { resolveAgentHarnessPolicy } from "./policy.js";
+export { resolveAgentHarnessPolicy } from "./policy.ts";
 export type { AgentHarnessPolicy };
 
 const PLUGIN_HARNESS_SENDER_DENY_ALL_PROMPT =

@@ -5,25 +5,25 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { sanitizeTerminalText } from "../../../packages/terminal-core/src/safe-text.js";
-import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+import { sanitizeTerminalText } from "../../../packages/terminal-core/src/safe-text.ts";
+import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import { formatTimeAgo } from "../../infra/format-time/format-relative.ts";
-import { defaultRuntime } from "../../runtime.js";
-import { shortenHomeInString } from "../../utils.js";
-import { formatCliCommand } from "../command-format.js";
-import { parseDurationMs } from "../parse-duration.js";
-import { quoteCliArg } from "../quote-cli-arg.js";
-import { formatConnectionFlagReminder, getNodesTheme, runNodesCommand } from "./cli-utils.js";
-import { formatPermissions, parseNodeList, parsePairingList } from "./format.js";
-import { renderPendingPairingRequestsTable } from "./pairing-render.js";
+import { defaultRuntime } from "../../runtime.ts";
+import { shortenHomeInString } from "../../utils.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { parseDurationMs } from "../parse-duration.ts";
+import { quoteCliArg } from "../quote-cli-arg.ts";
+import { formatConnectionFlagReminder, getNodesTheme, runNodesCommand } from "./cli-utils.ts";
+import { formatPermissions, parseNodeList, parsePairingList } from "./format.ts";
+import { renderPendingPairingRequestsTable } from "./pairing-render.ts";
 import {
   callGatewayCli,
   callNodeDiagnosticsGatewayCli,
   nodesCallOpts,
   resolveNodeDiagnosticsId,
-} from "./rpc.js";
-import type { NodeListNode, NodesRpcOpts, PairedNode } from "./types.js";
+} from "./rpc.ts";
+import type { NodeListNode, NodesRpcOpts, PairedNode } from "./types.ts";
 
 type PairedNodeListRow = PairedNode & Partial<NodeListNode>;
 type NodeApprovalState = NonNullable<NodeListNode["approvalState"]>;
@@ -52,15 +52,10 @@ function resolveNodeVersions(node: {
   if (core || ui) {
     return { core, ui };
   }
-  const legacy = node.version?.trim();
-  if (!legacy) {
-    return { core: undefined, ui: undefined };
-  }
   const platform = normalizeOptionalLowercaseString(node.platform) ?? "";
-  // Legacy nodes reported one version field; headless hosts use it as core, mobile nodes as UI.
   const headless =
     platform === "darwin" || platform === "linux" || platform === "win32" || platform === "windows";
-  return headless ? { core: legacy, ui: undefined } : { core: undefined, ui: legacy };
+  return headless ? { ui: undefined } : { core: undefined };
 }
 
 function formatNodeVersions(node: {

@@ -1,20 +1,20 @@
 /** Reply threading policy helpers for channel replies and status notices. */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { ChannelThreadingAdapter } from "../../channels/plugins/types.core.js";
-import { normalizeAnyChannelId } from "../../channels/registry.js";
-import type { ReplyToMode } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID } from "../../routing/account-id.js";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { ChannelThreadingAdapter } from "../../channels/plugins/types.core.ts";
+import { normalizeAnyChannelId } from "../../channels/registry.ts";
+import type { ReplyToMode } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID } from "../../routing/account-id.ts";
 import {
   copyReplyPayloadMetadata,
   isReplyPayloadStatusNotice,
   type ReplyDeliveryContext,
-} from "../reply-payload.js";
-import type { OriginatingChannelType } from "../templating.js";
-import type { ReplyPayload, ReplyThreadingPolicy } from "../types.js";
-import { isSingleUseReplyToMode } from "./reply-reference.js";
+} from "../reply-payload.ts";
+import type { OriginatingChannelType } from "../templating.ts";
+import type { ReplyPayload, ReplyThreadingPolicy } from "../types.ts";
+import { isSingleUseReplyToMode } from "./reply-reference.ts";
 
 type ReplyToModeChannelConfig = {
   replyToMode?: ReplyToMode;
@@ -50,12 +50,6 @@ export function resolveConfiguredReplyToMode(
     const scopedMode = channelConfig?.replyToModeByChatType?.[normalizedChatType];
     if (scopedMode !== undefined) {
       return scopedMode;
-    }
-  }
-  if (normalizedChatType === "direct") {
-    const legacyDirectMode = channelConfig?.dm?.replyToMode;
-    if (legacyDirectMode !== undefined) {
-      return legacyDirectMode;
     }
   }
   return channelConfig?.replyToMode ?? "all";

@@ -3,17 +3,17 @@
  * combines explicit policy, configured models, defaults, and runtime
  * auth-backed availability.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ModelCatalogEntry } from "./model-catalog.js";
-import { createProviderAuthChecker } from "./model-provider-auth.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ModelCatalogEntry } from "./model-catalog.ts";
+import { createProviderAuthChecker } from "./model-provider-auth.ts";
 import {
   buildConfiguredModelCatalog,
   dedupeModelCatalogEntries,
-} from "./model-selection-shared.js";
+} from "./model-selection-shared.ts";
 import {
   RUNTIME_MODEL_VISIBILITY_NORMALIZATION,
   createModelVisibilityPolicy,
-} from "./model-visibility-policy.js";
+} from "./model-visibility-policy.ts";
 
 type ModelCatalogVisibilityView = "default" | "configured" | "all";
 type ProviderAuthChecker = (provider: string, modelApi?: string) => boolean | Promise<boolean>;

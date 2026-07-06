@@ -7,7 +7,7 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { parseAccessGroupAllowFromEntry } from "../allow-from.js";
+import { parseAccessGroupAllowFromEntry } from "../allow-from.ts";
 import type {
   AccessGroupMembershipFact,
   ChannelIngressState,
@@ -19,7 +19,7 @@ import type {
   RedactedIngressMatch,
   ResolvedRouteGateFacts,
   ResolvedIngressAllowlist,
-} from "./types.js";
+} from "./types.ts";
 
 function redactedEntries(entries: readonly InternalNormalizedEntry[]) {
   return entries.map(({ value: _value, ...entry }) => entry);

@@ -1,9 +1,9 @@
 // Shared directive parsing helpers used by model and auth directive handlers.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { formatCliCommand } from "../../cli/command-format.js";
-import { SYSTEM_MARK, prefixSystemMessage } from "../../infra/system-message.js";
-import { isInternalMessageChannel } from "../../utils/message-channel.js";
-import type { ElevatedLevel, ReasoningLevel } from "./directives.js";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { SYSTEM_MARK, prefixSystemMessage } from "../../infra/system-message.ts";
+import { isInternalMessageChannel } from "../../utils/message-channel.ts";
+import type { ElevatedLevel, ReasoningLevel } from "./directives.ts";
 
 export const formatDirectiveAck = (text: string): string => {
   return prefixSystemMessage(text);

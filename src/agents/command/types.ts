@@ -2,16 +2,16 @@
  * Public option and metadata types for agent command execution.
  */
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
-import type { AgentInternalEvent } from "../../agents/internal-events.js";
-import type { SpawnedRunMetadata } from "../../agents/spawned-context.js";
-import type { PromptMode } from "../../agents/system-prompt.types.js";
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.js";
-import type { PromptImageOrderEntry } from "../../media/prompt-image-order.js";
-import type { PluginHookChannelContext } from "../../plugins/hook-types.js";
-import type { InputProvenance } from "../../sessions/input-provenance.js";
-import type { ExecElevatedDefaults } from "../bash-tools.exec-types.js";
-import type { AgentStreamParams, ClientToolDefinition } from "./shared-types.js";
+import type { AgentInternalEvent } from "../../agents/internal-events.ts";
+import type { SpawnedRunMetadata } from "../../agents/spawned-context.ts";
+import type { PromptMode } from "../../agents/system-prompt.types.ts";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.ts";
+import type { PromptImageOrderEntry } from "../../media/prompt-image-order.ts";
+import type { PluginHookChannelContext } from "../../plugins/hook-types.ts";
+import type { InputProvenance } from "../../sessions/input-provenance.ts";
+import type { ExecElevatedDefaults } from "../bash-tools.exec-types.ts";
+import type { AgentStreamParams, ClientToolDefinition } from "./shared-types.ts";
 
 /** Image content block for Claude API multimodal messages. */
 export type ImageContent = {
@@ -19,7 +19,7 @@ export type ImageContent = {
   data: string;
   mimeType: string;
 };
-export type { AgentStreamParams } from "./shared-types.js";
+export type { AgentStreamParams } from "./shared-types.ts";
 
 /** Metadata overrides for trusted internal agent command callers. */
 export type AgentCommandResultMetaOverrides = {

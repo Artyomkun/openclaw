@@ -7,9 +7,9 @@ import { normalizeOptionalString } from "@openclaw/normalization-core/string-coe
 import type {
   ActiveChannelPluginRuntimeShape,
   ActivePluginChannelRegistration,
-} from "../../plugins/channel-registry-state.types.js";
-import { getActivePluginChannelRegistryFromState } from "../../plugins/runtime-channel-state.js";
-import { CHAT_CHANNEL_ORDER } from "../registry.js";
+} from "../../plugins/channel-registry-state.types.ts";
+import { getActivePluginChannelRegistryFromState } from "../../plugins/runtime-channel-state.ts";
+import { CHAT_CHANNEL_ORDER } from "../registry.ts";
 
 /**
  * Loaded channel plugin shape after id/meta normalization.

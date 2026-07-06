@@ -1,5 +1,5 @@
 // Resolves queue mode and admission policy for a reply turn.
-import type { QueueSettings } from "./queue.js";
+import type { QueueSettings } from "./queue.ts";
 
 /** Queue decisions for messages that arrive while an agent run is active. */
 export type ActiveRunQueueAction = "run-now" | "enqueue-followup" | "drop";

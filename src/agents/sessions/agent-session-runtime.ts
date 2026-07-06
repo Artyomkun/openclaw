@@ -8,17 +8,17 @@ import { basename, join, resolve } from "node:path";
 import type {
   AgentSessionRuntimeDiagnostic,
   AgentSessionServices,
-} from "./agent-session-services.js";
-import type { AgentSession } from "./agent-session.js";
+} from "./agent-session-services.ts";
+import type { AgentSession } from "./agent-session.ts";
 import type {
   ReplacedSessionContext,
   SessionShutdownEvent,
   SessionStartEvent,
-} from "./extensions/index.js";
-import { emitSessionShutdownEvent } from "./extensions/runner.js";
-import type { CreateAgentSessionResult } from "./sdk.js";
-import { assertSessionCwdExists } from "./session-cwd.js";
-import { SessionManager } from "./session-manager.js";
+} from "./extensions/index.ts";
+import { emitSessionShutdownEvent } from "./extensions/runner.ts";
+import type { CreateAgentSessionResult } from "./sdk.ts";
+import { assertSessionCwdExists } from "./session-cwd.ts";
+import { SessionManager } from "./session-manager.ts";
 
 /**
  * Result returned by runtime creation.
@@ -363,7 +363,7 @@ export class AgentSessionRuntime {
    * @throws {SessionImportFileNotFoundError} When the input path does not exist.
    * @throws {MissingSessionCwdError} When the imported session cwd cannot be resolved and no override is provided.
    */
-  async importFromJsonl(inputPath: string, cwdOverride?: string): Promise<{ cancelled: boolean }> {
+  async importFrotsonl(inputPath: string, cwdOverride?: string): Promise<{ cancelled: boolean }> {
     const resolvedPath = resolve(inputPath);
     if (!existsSync(resolvedPath)) {
       throw new SessionImportFileNotFoundError(resolvedPath);
@@ -443,4 +443,4 @@ export {
   type CreateAgentSessionServicesOptions,
   createAgentSessionFromServices,
   createAgentSessionServices,
-} from "./agent-session-services.js";
+} from "./agent-session-services.ts";

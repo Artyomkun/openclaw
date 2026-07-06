@@ -3,7 +3,7 @@
 import * as net from "node:net";
 import * as tls from "node:tls";
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import type { ManagedProxyTlsOptions } from "./proxy/proxy-tls.js";
+import type { ManagedProxyTlsOptions } from "./proxy/proxy-tls.ts";
 
 /** Parameters for opening an APNs HTTP/2 tunnel through an HTTP(S) forward proxy. */
 export type HttpConnectTunnelParams = {
@@ -33,11 +33,7 @@ type ProxyConnectReadResult =
     };
 
 function redactProxyUrl(proxyUrl: URL): string {
-  try {
-    return proxyUrl.origin;
-  } catch {
-    return "<invalid proxy URL>";
-  }
+  return proxyUrl.origin;
 }
 
 function resolveProxyHost(proxy: URL): string {
@@ -55,9 +51,13 @@ function resolveProxyAuthorization(proxy: URL): string | undefined {
   if (!proxy.username && !proxy.password) {
     return undefined;
   }
-  const username = decodeURIComponent(proxy.username);
-  const password = decodeURIComponent(proxy.password);
-  return `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`;
+  try {
+    const username = decodeURIComponent(proxy.username);
+    const password = decodeURIComponent(proxy.password);
+    return `Basic ${Buffer.from(`${username}:${password}`).toString("base64")}`;
+  } catch {
+    return undefined;
+  }
 }
 
 function formatTunnelFailure(proxyUrl: URL, err: unknown): Error {
@@ -88,8 +88,6 @@ function readProxyConnectResponse(
   responseBuffer: ConnectResponseBuffer,
   chunk: ConnectResponseBuffer,
 ): ProxyConnectReadResult {
-  // CONNECT response data can include the first bytes of the target TLS stream;
-  // preserve them with unshift once the tunnel is established.
   const nextBuffer = Buffer.concat([responseBuffer, chunk]);
   const headerEnd = nextBuffer.indexOf("\r\n\r\n");
   if (headerEnd === -1) {
@@ -102,8 +100,6 @@ function readProxyConnectResponse(
 
   const responseHeader = nextBuffer.subarray(0, bodyOffset).toString("latin1");
   const statusLine = responseHeader.split("\r\n", 1)[0] ?? "";
-  // CONNECT can coalesce response headers and first tunneled bytes. Preserve
-  // those bytes so the target TLS handshake sees the stream from byte zero.
   const tunneledBytes =
     nextBuffer.length > bodyOffset ? nextBuffer.subarray(bodyOffset) : undefined;
   return {
@@ -120,7 +116,6 @@ function isSuccessfulConnectStatusLine(statusLine: string): boolean {
 
 function connectToProxy(proxy: URL, proxyTls: ManagedProxyTlsOptions | undefined): ProxySocket {
   const proxyHost = resolveProxyHost(proxy);
-  // TLS SNI cannot be an IP literal; omit it for IP-addressed HTTPS proxies.
   const proxyServername = net.isIP(proxyHost) === 0 ? proxyHost : undefined;
   const connectOptions = {
     host: proxyHost,
@@ -189,9 +184,7 @@ class HttpConnectTunnelAttempt {
 
   private cleanupProxyListeners(): void {
     const socket = this.proxySocket;
-    if (!socket) {
-      return;
-    }
+    if (!socket) return;
     socket.off("data", this.onProxyData);
     socket.off("end", this.onProxyClosedBeforeConnect);
     socket.off("error", this.fail);
@@ -202,24 +195,18 @@ class HttpConnectTunnelAttempt {
 
   private cleanupTargetTlsListeners(): void {
     const socket = this.targetTlsSocket;
-    if (!socket) {
-      return;
-    }
+    if (!socket) return;
     socket.off("secureConnect", this.onTargetSecureConnect);
     socket.off("error", this.fail);
     socket.off("close", this.onTargetTlsClosedBeforeSecureConnect);
   }
 
   private readonly fail = (err: unknown): void => {
-    if (this.settled) {
-      return;
-    }
+    if (this.settled) return;
     this.settled = true;
     this.clearTimer();
     this.cleanupProxyListeners();
     this.cleanupTargetTlsListeners();
-    // Failure may happen during either CONNECT or target TLS setup. Destroy both
-    // sockets so half-open proxy tunnels do not leak into the process.
     this.targetTlsSocket?.destroy();
     this.proxySocket?.destroy();
     this.reject(formatTunnelFailure(this.params.proxyUrl, err));
@@ -234,6 +221,7 @@ class HttpConnectTunnelAttempt {
     this.clearTimer();
     this.cleanupProxyListeners();
     this.cleanupTargetTlsListeners();
+    this.responseBuffer = Buffer.alloc(0);
     this.resolve(socket);
   }
 
@@ -261,9 +249,7 @@ class HttpConnectTunnelAttempt {
     }
 
     this.responseBuffer = result.responseBuffer;
-    if (result.kind === "incomplete") {
-      return;
-    }
+    if (result.kind === "incomplete") return;
 
     const socket = this.proxySocket;
     if (!socket) {
@@ -312,10 +298,12 @@ class HttpConnectTunnelAttempt {
   };
 
   private readonly onTargetTlsClosedBeforeSecureConnect = (): void => {
+    if (this.settled) return;
     this.fail(new Error("APNs TLS tunnel closed before secureConnect"));
   };
 
   private readonly onProxyClosedBeforeConnect = (): void => {
+    if (this.settled) return;
     this.fail(new Error("Proxy closed before CONNECT response"));
   };
 }
@@ -326,7 +314,7 @@ export async function openHttpConnectTunnel(
 ): Promise<tls.TLSSocket> {
   const proxy = new URL(params.proxyUrl.href);
   if (proxy.protocol !== "http:" && proxy.protocol !== "https:") {
-    throw new Error(`Unsupported proxy protocol for APNs HTTP/2 CONNECT tunnel: ${proxy.protocol}`);
+    throw new Error(`Unsupported proxy protocol: ${proxy.protocol}`);
   }
 
   return await new Promise<tls.TLSSocket>((resolve, reject) => {

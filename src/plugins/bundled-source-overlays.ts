@@ -2,7 +2,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { buildLegacyBundledRootPath } from "./bundled-load-path-aliases.js";
 
 function decodeMountInfoPath(value: string): string {
   return value.replace(/\\([0-7]{3})/g, (_match, octal: string) =>
@@ -71,43 +70,6 @@ export function listBundledSourceOverlayDirs(params: {
   if (sourceOverlaysDisabled(env) || !params.bundledRoot) {
     return [];
   }
-  const legacyRoot = buildLegacyBundledRootPath(params.bundledRoot);
-  if (!legacyRoot || !fs.existsSync(legacyRoot)) {
-    return [];
-  }
-
-  let entries: fs.Dirent[];
-  try {
-    entries = fs.readdirSync(legacyRoot, { withFileTypes: true });
-  } catch {
-    return [];
-  }
-
-  const mountPoints = params.mountPoints ?? readLinuxMountPoints();
-  const legacyRootMounted = isBundledSourceOverlayPath({
-    sourcePath: legacyRoot,
-    mountPoints,
-  });
   const overlayDirs: string[] = [];
-  for (const entry of entries) {
-    if (!entry.isDirectory()) {
-      continue;
-    }
-    const sourceDir = path.join(legacyRoot, entry.name);
-    const bundledPeer = path.join(params.bundledRoot, entry.name);
-    if (!fs.existsSync(bundledPeer)) {
-      continue;
-    }
-    if (
-      !legacyRootMounted &&
-      !isBundledSourceOverlayPath({
-        sourcePath: sourceDir,
-        mountPoints,
-      })
-    ) {
-      continue;
-    }
-    overlayDirs.push(sourceDir);
-  }
   return overlayDirs.toSorted((left, right) => left.localeCompare(right));
 }

@@ -1,7 +1,7 @@
 // Undici address-family policy helpers centralize IPv4/IPv6 defaults for
 // global dispatchers, with WSL2 forced off Node's auto-selection path.
 import * as net from "node:net";
-import { isWSL2Sync } from "../wsl.js";
+import { isWSL2Sync } from "../wsl.ts";
 
 const AUTO_SELECT_FAMILY_ATTEMPT_TIMEOUT_MS = 300;
 
@@ -12,8 +12,6 @@ export function resolveUndiciAutoSelectFamily(): boolean | undefined {
   }
   try {
     const systemDefault = net.getDefaultAutoSelectFamily();
-    // WSL2 has unstable IPv6 connectivity; disable autoSelectFamily to force
-    // IPv4 connections and avoid fetch failures when reaching Windows-host services.
     if (systemDefault && isWSL2Sync()) {
       return false;
     }
@@ -72,8 +70,43 @@ export function withTemporaryUndiciAutoSelectFamily<T>(
   } finally {
     try {
       net.setDefaultAutoSelectFamily(previous);
-    } catch {
-      // Best-effort restore; dispatcher setup is already best-effort.
+    } catch (restoreErr) {
+      console.warn('Failed to restore autoSelectFamily (sync):', restoreErr);
+    }
+  }
+}
+
+/**
+ * Async version: Temporarily applies an undici family decision around asynchronous setup code.
+ * Restore is best-effort because older Node runtimes may not expose the setters.
+ */
+export async function withTemporaryUndiciAutoSelectFamilyAsync<T>(
+  autoSelectFamily: boolean | undefined,
+  run: () => Promise<T>,
+): Promise<T> {
+  if (
+    autoSelectFamily === undefined ||
+    typeof net.getDefaultAutoSelectFamily !== "function" ||
+    typeof net.setDefaultAutoSelectFamily !== "function"
+  ) {
+    return await run();
+  }
+
+  let previous: boolean;
+  try {
+    previous = net.getDefaultAutoSelectFamily();
+    net.setDefaultAutoSelectFamily(autoSelectFamily);
+  } catch {
+    return await run();
+  }
+
+  try {
+    return await run();
+  } finally {
+    try {
+      net.setDefaultAutoSelectFamily(previous);
+    } catch (restoreErr) {
+      console.warn('Failed to restore autoSelectFamily (async):', restoreErr);
     }
   }
 }

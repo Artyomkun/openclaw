@@ -1,11 +1,11 @@
 // Doctor capability lookup for channel-specific policy and migration behavior.
-import { getBundledChannelPlugin } from "../../channels/plugins/bundled.js";
-import type { ChannelDmAllowFromMode } from "../../channels/plugins/dm-access.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import { normalizeAnyChannelId } from "../../channels/registry.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { findBundledPackageChannelMetadata } from "../../plugins/bundled-package-channel-metadata.js";
-import type { PluginPackageChannelDoctorCapabilities } from "../../plugins/manifest.js";
+import { getBundledChannelPlugin } from "../../channels/plugins/bundled.ts";
+import type { ChannelDmAllowFromMode } from "../../channels/plugins/dm-access.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import { normalizeAnyChannelId } from "../../channels/registry.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { findBundledPackageChannelMetadata } from "../../plugins/bundled-package-channel-metadata.ts";
+import type { PluginPackageChannelDoctorCapabilities } from "../../plugins/manifest.ts";
 
 type DoctorGroupModel = "sender" | "route" | "hybrid";
 

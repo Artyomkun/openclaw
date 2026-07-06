@@ -4,40 +4,40 @@
  * transport params, delivery, and observability for one attempt.
  */
 import type { TSchema } from "typebox";
-import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
-import { projectConfigOntoRuntimeSourceSnapshot } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { hasReplyPayloadContent } from "../../interactive/payload.js";
-import { loadManifestMetadataSnapshot } from "../../plugins/manifest-contract-eligibility.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
+import type { ThinkLevel } from "../../auto-reply/thinking.ts";
+import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.ts";
+import { projectConfigOntoRuntimeSourceSnapshot } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { hasReplyPayloadContent } from "../../interactive/payload.ts";
+import { loadManifestMetadataSnapshot } from "../../plugins/manifest-contract-eligibility.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
 import {
   resolveProviderRuntimePluginHandle,
   type ProviderRuntimePluginHandle,
-} from "../../plugins/provider-hook-runtime.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
+} from "../../plugins/provider-hook-runtime.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
 import {
   resolveProviderFollowupFallbackRoute,
   resolveProviderSystemPromptContribution,
   resolveProviderTextTransforms,
   transformProviderSystemPrompt,
-} from "../../plugins/provider-runtime.js";
-import { resolvePreparedExtraParams } from "../embedded-agent-runner/extra-params.js";
-import { classifyEmbeddedAgentRunResultForModelFallback } from "../embedded-agent-runner/result-fallback-classifier.js";
+} from "../../plugins/provider-runtime.ts";
+import { resolvePreparedExtraParams } from "../embedded-agent-runner/extra-params.ts";
+import { classifyEmbeddedAgentRunResultForModelFallback } from "../embedded-agent-runner/result-fallback-classifier.ts";
 import {
   logProviderToolSchemaDiagnostics,
   normalizeProviderToolSchemas,
-} from "../embedded-agent-runner/tool-schema-runtime.js";
-import type { AgentTool } from "../runtime/index.js";
-import { resolveTranscriptPolicy } from "../transcript-policy.js";
-import { buildAgentRuntimeAuthPlan } from "./auth.js";
+} from "../embedded-agent-runner/tool-schema-runtime.ts";
+import type { AgentTool } from "../runtime/index.ts";
+import { resolveTranscriptPolicy } from "../transcript-policy.ts";
+import { buildAgentRuntimeAuthPlan } from "./auth.ts";
 import type {
   AgentRuntimeDeliveryPlan,
   AgentRuntimeOutcomePlan,
   AgentRuntimePlan,
   BuildAgentRuntimeDeliveryPlanParams,
   BuildAgentRuntimePlanParams,
-} from "./types.js";
+} from "./types.ts";
 
 function formatResolvedRef(params: { provider: string; modelId: string }): string {
   return `${params.provider}/${params.modelId}`;

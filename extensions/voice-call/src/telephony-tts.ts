@@ -205,7 +205,7 @@ function asProviderConfig(value: unknown): SpeechProviderConfig {
     : {};
 }
 
-/** Collect named provider configs from canonical and legacy TTS config shapes. */
+/** Collect named provider configs from canonical and TTS config shapes. */
 function collectTelephonyProviderConfigs(
   ttsConfig: VoiceCallTtsConfig | undefined,
 ): Record<string, SpeechProviderConfig> {

@@ -153,8 +153,8 @@ export async function loadChannelConfigSurfaceModule(
   const loadViaJiti = (candidatePath: string) => {
     const resolvedPath = path.resolve(candidatePath);
     const pluginSdkAlias = resolvePluginSdkAliasFile({
-      srcFile: "root-alias.cjs",
-      distFile: "root-alias.cjs",
+      srcFile: "root-alias.ts",
+      distFile: "root-alias.ts",
       modulePath: resolvedPath,
       pluginSdkResolution: "src",
     });

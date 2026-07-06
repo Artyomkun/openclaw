@@ -11,16 +11,16 @@ import {
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
 import type { TSchema } from "typebox";
-import { readLocalFileSafely } from "../../infra/fs-safe.js";
-import { readSnakeCaseParamRaw } from "../../param-key.js";
-import type { ImageSanitizationLimits } from "../image-sanitization.js";
+import { readLocalFileSafely } from "../../infra/fs-safe.ts";
+import { readSnakeCaseParamRaw } from "../../param-key.ts";
+import type { ImageSanitizationLimits } from "../image-sanitization.ts";
 import type {
   AgentTool,
   AgentToolProgress,
   AgentToolResult,
   AgentToolUpdateCallback,
-} from "../runtime/index.js";
-import { sanitizeToolResultImages } from "../tool-images.js";
+} from "../runtime/index.ts";
+import { sanitizeToolResultImages } from "../tool-images.ts";
 
 export type AgentToolWithMeta<TParameters extends TSchema, TResult> = AgentTool<
   TParameters,

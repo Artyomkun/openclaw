@@ -4,19 +4,19 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentConfig } from "../../agents/agent-scope.js";
-import { resolveMentionPatternPolicy } from "../../channels/mention-pattern-policy.js";
-import type { ChannelId } from "../../channels/plugins/channel-id.types.js";
-import { getLoadedChannelPluginById } from "../../channels/plugins/registry-loaded.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import { normalizeAnyChannelId } from "../../channels/registry.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { compileConfigRegexes, type ConfigRegexRejectReason } from "../../security/config-regex.js";
-import { escapeRegExp } from "../../utils.js";
-import type { MsgContext } from "../templating.js";
-import type { BuildMentionRegexesOptions, ExplicitMentionSignal } from "./mentions.types.js";
-export type { BuildMentionRegexesOptions, ExplicitMentionSignal } from "./mentions.types.js";
+import { resolveAgentConfig } from "../../agents/agent-scope.ts";
+import { resolveMentionPatternPolicy } from "../../channels/mention-pattern-policy.ts";
+import type { ChannelId } from "../../channels/plugins/channel-id.types.ts";
+import { getLoadedChannelPluginById } from "../../channels/plugins/registry-loaded.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import { normalizeAnyChannelId } from "../../channels/registry.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { compileConfigRegexes, type ConfigRegexRejectReason } from "../../security/config-regex.ts";
+import { escapeRegExp } from "../../utils.ts";
+import type { MsgContext } from "../templating.ts";
+import type { BuildMentionRegexesOptions, ExplicitMentionSignal } from "./mentions.types.ts";
+export type { BuildMentionRegexesOptions, ExplicitMentionSignal } from "./mentions.types.ts";
 
 function deriveMentionPatterns(identity?: { name?: string; emoji?: string }) {
   const patterns: string[] = [];

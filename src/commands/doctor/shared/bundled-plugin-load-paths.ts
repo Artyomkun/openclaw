@@ -1,17 +1,15 @@
 // Doctor warnings and repairs for redundant bundled plugin load path aliases.
 import path from "node:path";
-import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../../agents/agent-scope.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 import {
-  buildBundledPluginLoadPathAliases,
   normalizeBundledLookupPath,
-  parseLegacyBundledPluginPath,
   parsePackagedBundledPluginPath,
-} from "../../../plugins/bundled-load-path-aliases.js";
-import { resolveBundledPluginSources } from "../../../plugins/bundled-sources.js";
-import { resolveUserPath } from "../../../utils.js";
-import { asObjectRecord } from "./object.js";
+} from "../../../plugins/bundled-load-path-aliases.ts";
+import { resolveBundledPluginSources } from "../../../plugins/bundled-sources.ts";
+import { resolveUserPath } from "../../../utils.ts";
+import { asObjectRecord } from "./object.ts";
 
 type BundledPluginLoadPathHit = {
   pluginId: string;
@@ -54,7 +52,7 @@ export function scanBundledPluginLoadPathMigrations(
   const bundledPathMap = new Map<string, { pluginId: string; toPath: string }>();
   const packagedBundledLeafMap = new Map<string, { pluginId: string; toPath: string }>();
   for (const source of bundled.values()) {
-    for (const alias of buildBundledPluginLoadPathAliases(source.localPath)) {
+    for (const alias of source.localPath) {
       bundledPathMap.set(normalizeBundledLookupPath(alias.path), {
         pluginId: source.pluginId,
         toPath: source.localPath,
@@ -78,9 +76,8 @@ export function scanBundledPluginLoadPathMigrations(
     const match = bundledPathMap.get(normalized);
     if (!match) {
       const oldPackaged = parsePackagedBundledPluginPath(normalized);
-      const oldLegacy = oldPackaged ? null : parseLegacyBundledPluginPath(normalized);
-      const oldPackageRoot = oldPackaged?.packageRoot ?? oldLegacy?.packageRoot;
-      const oldBundledLeaf = oldPackaged?.bundledLeaf ?? oldLegacy?.bundledLeaf;
+      const oldPackageRoot = oldPackaged?.packageRoot;
+      const oldBundledLeaf = oldPackaged?.bundledLeaf;
       const oldPackageMatch =
         // Only rewrite paths rooted in the installed OpenClaw package; user plugin paths stay intact.
         oldPackageRoot && oldBundledLeaf && isOpenClawNodeModulesPackageRoot(oldPackageRoot)

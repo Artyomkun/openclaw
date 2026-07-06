@@ -2,24 +2,22 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { resolveUserPath } from "../utils.js";
-import { resolveCompatibilityHostVersion } from "../version.js";
-import { resolveBundledPluginsDir } from "./bundled-dir.js";
-import { buildLegacyBundledRootPath } from "./bundled-load-path-aliases.js";
-import { listBundledSourceOverlayDirs } from "./bundled-source-overlays.js";
-import { normalizePluginsConfig } from "./config-state.js";
-import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.js";
-import type { PluginDiscoveryResult } from "./discovery.js";
-import { fileSignatureMatches, hashJson } from "./installed-plugin-index-hash.js";
-import { hasOptionalMissingPluginManifestFile } from "./installed-plugin-index-manifest.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.js";
+import { resolveUserPath } from "../utils.ts";
+import { resolveCompatibilityHostVersion } from "../version.ts";
+import { resolveBundledPluginsDir } from "./bundled-dir.ts";
+import { listBundledSourceOverlayDirs } from "./bundled-source-overlays.ts";
+import { normalizePluginsConfig } from "./config-state.ts";
+import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.ts";
+import type { PluginDiscoveryResult } from "./discovery.ts";
+import { fileSignatureMatches, hashJson } from "./installed-plugin-index-hash.ts";
+import { hasOptionalMissingPluginManifestFile } from "./installed-plugin-index-manifest.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.ts";
 import {
   inspectPersistedInstalledPluginIndex,
-  readPersistedInstalledPluginIndexSync,
   refreshPersistedInstalledPluginIndex,
   type InstalledPluginIndexStoreInspection,
   type InstalledPluginIndexStoreOptions,
-} from "./installed-plugin-index-store.js";
+} from "./installed-plugin-index-store.ts";
 import {
   getInstalledPluginRecord,
   extractPluginInstallRecordsFromInstalledPluginIndex,
@@ -32,16 +30,16 @@ import {
   type InstalledPluginIndexRecord,
   type LoadInstalledPluginIndexParams,
   type RefreshInstalledPluginIndexParams,
-} from "./installed-plugin-index.js";
-import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.js";
-import type { PluginRegistrySnapshotSource } from "./plugin-registry-snapshot.types.js";
-import { fileFingerprint } from "./plugin-snapshot-fingerprint.js";
-import { resolvePluginCacheInputs } from "./roots.js";
+} from "./installed-plugin-index.ts";
+import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.ts";
+import type { PluginRegistrySnapshotSource } from "./plugin-registry-snapshot.types.ts";
+import { fileFingerprint } from "./plugin-snapshot-fingerprint.ts";
+import { resolvePluginCacheInputs } from "./roots.ts";
 
 export type PluginRegistrySnapshot = InstalledPluginIndex;
 export type PluginRegistryRecord = InstalledPluginIndexRecord;
 export type PluginRegistryInspection = InstalledPluginIndexStoreInspection;
-export type { PluginRegistrySnapshotSource } from "./plugin-registry-snapshot.types.js";
+export type { PluginRegistrySnapshotSource } from "./plugin-registry-snapshot.types.ts";
 export type PluginRegistrySnapshotDiagnosticCode =
   | "persisted-registry-disabled"
   | "persisted-registry-missing"
@@ -349,13 +347,8 @@ function isAllowedPersistedBundledPluginRoot(
   if (sourceOverlayDirs.some((overlayDir) => isPathInsideOrEqual(pluginRootDir, overlayDir))) {
     return true;
   }
-  const legacyRoot = buildLegacyBundledRootPath(bundledPluginsDir);
-  if (!legacyRoot || !isSourceCheckoutBundledPluginRoot(legacyRoot)) {
-    return false;
-  }
   const relativePluginRoot = path.relative(
-    resolveComparablePath(legacyRoot),
-    resolveComparablePath(pluginRootDir),
+    resolveComparablePath(pluginRootDir)
   );
   if (!isRelativePathInsideOrEqual(relativePluginRoot)) {
     return false;
@@ -364,16 +357,6 @@ function isAllowedPersistedBundledPluginRoot(
   // packaged root. Keep source-only bundled plugins, but invalidate stale
   // source records once their built peer appears.
   return !fs.existsSync(path.join(bundledPluginsDir, relativePluginRoot));
-}
-
-function isSourceCheckoutBundledPluginRoot(extensionsDir: string): boolean {
-  const packageRoot = path.dirname(extensionsDir);
-  return (
-    fs.existsSync(extensionsDir) &&
-    fs.existsSync(path.join(packageRoot, ".git")) &&
-    fs.existsSync(path.join(packageRoot, "pnpm-workspace.yaml")) &&
-    fs.existsSync(path.join(packageRoot, "src"))
-  );
 }
 
 function hashExistingFile(filePath: string): string | null {
@@ -594,7 +577,7 @@ export function loadPluginRegistrySnapshotWithMetadata(
       level: "warn",
       code: "persisted-registry-disabled",
       message: disabledByEnv
-        ? `${formatDeprecatedPersistedRegistryDisableWarning()} Using legacy derived plugin index.`
+        ? `${formatDeprecatedPersistedRegistryDisableWarning()} Using older derived plugin index.`
         : "Persisted plugin registry reads are disabled by the caller; using derived plugin index.",
     });
   }

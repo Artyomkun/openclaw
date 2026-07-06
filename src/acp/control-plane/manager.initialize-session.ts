@@ -4,24 +4,24 @@ import {
   mergeSessionIdentity,
 } from "@openclaw/acp-core/runtime/session-identity";
 import type { AcpRuntime, AcpRuntimeHandle } from "@openclaw/acp-core/runtime/types";
-import { resolveRuntimeConfigCacheKey } from "../../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { AcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.js";
-import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.js";
+import { resolveRuntimeConfigCacheKey } from "../../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { AcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.ts";
+import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.ts";
 import type {
   AcpInitializeSessionInput,
   AcpSessionManagerDeps,
   SessionAcpMeta,
   SessionEntry,
   WriteManagerSessionMeta,
-} from "./manager.types.js";
+} from "./manager.types.ts";
 import {
   normalizeRuntimeOptions,
   normalizeText,
   validateRuntimeOptionPatch,
-} from "./runtime-options.js";
+} from "./runtime-options.ts";
 
 /** Initializes an ACP runtime session and persists its metadata before caching the handle. */
 export async function runManagerInitializeSession(params: {

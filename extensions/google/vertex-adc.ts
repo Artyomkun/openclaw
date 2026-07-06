@@ -373,7 +373,7 @@ async function resolveGoogleVertexAccessTokenViaGoogleAuth(): Promise<string> {
  *
  * Note: the function is still named `...AuthorizedUserHeaders` to avoid a
  * symbol rename across the existing patch surface; the docstring above is
- * the truth, the name is legacy.
+ * the truth, the name is olders.
  */
 export async function resolveGoogleVertexAuthorizedUserHeaders(
   fetchImpl?: typeof fetch,

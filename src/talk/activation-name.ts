@@ -5,7 +5,7 @@
  * transcript, strips the name before agent routing, and keeps fuzzy matching
  * conservative so ordinary dictation does not trigger Talk turns.
  */
-import { levenshteinDistance } from "../shared/levenshtein-distance.js";
+import { levenshteinDistance } from "../shared/levenshtein-distance.ts";
 
 export const REALTIME_VOICE_ACTIVATION_NAME_MAX_WORDS = 2;
 

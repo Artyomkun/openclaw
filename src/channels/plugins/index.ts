@@ -6,7 +6,7 @@ export {
   getLoadedChannelPluginOrigin,
   listChannelPlugins,
   normalizeChannelId,
-} from "./registry.js";
+} from "./registry.ts";
 export {
   applyChannelMatchMeta,
   buildChannelKeyCandidates,
@@ -17,12 +17,12 @@ export {
   resolveNestedAllowlistDecision,
   type ChannelEntryMatch,
   type ChannelMatchSource,
-} from "./channel-config.js";
+} from "./channel-config.ts";
 export {
   formatAllowlistMatchMeta,
   type AllowlistMatch,
   type AllowlistMatchSource,
-} from "../allowlist-match.js";
-export type { ChannelId } from "./types.public.js";
-export type { ChannelPlugin } from "./types.plugin.js";
-export { resolveChannelApprovalAdapter, resolveChannelApprovalCapability } from "./approvals.js";
+} from "../allowlist-match.ts";
+export type { ChannelId } from "./types.public.ts";
+export type { ChannelPlugin } from "./types.plugin.ts";
+export { resolveChannelApprovalAdapter, resolveChannelApprovalCapability } from "./approvals.ts";

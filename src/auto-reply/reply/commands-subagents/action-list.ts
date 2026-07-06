@@ -1,7 +1,7 @@
 // Lists subagent runs with focus and status information.
-import { buildSubagentList } from "../../../agents/subagent-list.js";
-import type { CommandHandlerResult } from "../commands-types.js";
-import { type SubagentsCommandContext, RECENT_WINDOW_MINUTES, stopWithText } from "./shared.js";
+import { buildSubagentList } from "../../../agents/subagent-list.ts";
+import type { CommandHandlerResult } from "../commands-types.ts";
+import { type SubagentsCommandContext, RECENT_WINDOW_MINUTES, stopWithText } from "./shared.ts";
 
 export function handleSubagentsListAction(ctx: SubagentsCommandContext): CommandHandlerResult {
   const { params, runs } = ctx;

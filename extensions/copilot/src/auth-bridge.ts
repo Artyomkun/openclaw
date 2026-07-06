@@ -96,14 +96,14 @@ export function createCopilotByokAuth(input: {
 
 export interface ResolveCopilotAuthInput {
   agentId?: string;
-  agentDir?: string;
-  workspaceDir?: string;
-  copilotHome?: string;
-  auth?: {
-    gitHubToken?: string;
-    useLoggedInUser?: boolean;
-    profileId?: string;
-    profileVersion?: string;
+  agentDir: string;
+  workspaceDir: string;
+  copilotHome: string;
+  auth: {
+    gitHubToken: string;
+    useLoggedInUser: boolean;
+    profileId: string;
+    profileVersion: string;
   };
   /**
    * Contract-resolved token from core's AuthProfileStore lookup,
@@ -111,26 +111,26 @@ export interface ResolveCopilotAuthInput {
    * production main path when the agent has a configured
    * `github-copilot` auth profile.
    */
-  resolvedApiKey?: string;
+  resolvedApiKey: string;
   /**
    * Contract-resolved auth profile id, carried on
    * `EmbeddedRunAttemptParams.authProfileId`. Used for pool keying so
    * concurrent agents with distinct profiles do not share a CLI
    * session/state.
    */
-  authProfileId?: string;
+  authProfileId: string;
   /**
-   * Legacy top-level `profileVersion` fallback kept for back-compat
+   * Top-level `profileVersion` fallback kept for back-compat
    * with explicit-token (`auth.gitHubToken`) callers. The
    * contract-resolved `resolvedApiKey` path synthesises a version from
    * the token fingerprint because `EmbeddedRunAttemptParams` does not
    * carry a `profileVersion` field.
    */
-  profileVersion?: string;
+  profileVersion: string;
   /** Injected for test seams. Defaults to `process.env`. */
-  env?: NodeJS.ProcessEnv;
+  env: NodeJS.ProcessEnv;
   /** Injected for test seams. Defaults to `os.homedir()`. */
-  homeDir?: () => string;
+  homeDir: string;
 }
 
 /**

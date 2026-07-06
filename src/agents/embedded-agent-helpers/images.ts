@@ -1,12 +1,12 @@
 /**
  * Sanitizes historical embedded-agent message images and empty content blocks.
  */
-import type { ImageSanitizationLimits } from "../image-sanitization.js";
-import type { AgentMessage, AgentToolResult } from "../runtime/index.js";
-import type { ToolCallIdMode } from "../tool-call-id.js";
-import { sanitizeToolCallIdsForCloudCodeAssist } from "../tool-call-id.js";
-import { sanitizeContentBlocksImages } from "../tool-images.js";
-import { stripThoughtSignatures } from "./bootstrap.js";
+import type { ImageSanitizationLimits } from "../image-sanitization.ts";
+import type { AgentMessage, AgentToolResult } from "../runtime/index.ts";
+import type { ToolCallIdMode } from "../tool-call-id.ts";
+import { sanitizeToolCallIdsForCloudCodeAssist } from "../tool-call-id.ts";
+import { sanitizeContentBlocksImages } from "../tool-images.ts";
+import { stripThoughtSignatures } from "./bootstrap.ts";
 
 type ContentBlock = AgentToolResult<unknown>["content"][number];
 const EMPTY_CONTENT_PLACEHOLDER = "[empty content omitted]";

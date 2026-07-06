@@ -1,5 +1,5 @@
 // Defines secret reference and resolution configuration types.
-import { isRecord } from "../utils.js";
+import { isRecord } from "../utils.ts";
 
 /** Supported secret reference backends in config. */
 export type SecretRefSource = "env" | "file" | "exec"; // pragma: allowlist secret
@@ -23,10 +23,6 @@ export type SecretInput = string | SecretRef;
 export const DEFAULT_SECRET_PROVIDER_ALIAS = "default"; // pragma: allowlist secret
 /** Strict env-var id shape accepted for env-backed SecretRefs. */
 export const ENV_SECRET_REF_ID_RE = /^[A-Z][A-Z0-9_]{0,127}$/;
-/** Legacy env SecretRef marker retained for config migration/read compatibility. */
-export const LEGACY_SECRETREF_ENV_MARKER_PREFIX = "secretref-env:"; // pragma: allowlist secret
-/** Older env SecretRef marker retained for migration/read compatibility. */
-export const LEGACY_DOUBLE_UNDERSCORE_ENV_MARKER_PREFIX = "__env__:"; // pragma: allowlist secret
 const ENV_SECRET_TEMPLATE_RE = /^\$\{([A-Z][A-Z0-9_]{0,127})\}$/;
 const ENV_SECRET_SHORTHAND_RE = /^\$([A-Z][A-Z0-9_]{0,127})$/;
 /** Secret string read mode: throw on unresolved refs or inspect without resolving. */
@@ -67,20 +63,6 @@ export function isSecretRef(value: unknown): value is SecretRef {
   );
 }
 
-function isLegacySecretRefWithoutProvider(
-  value: unknown,
-): value is { source: SecretRefSource; id: string } {
-  if (!isRecord(value)) {
-    return false;
-  }
-  return (
-    (value.source === "env" || value.source === "file" || value.source === "exec") &&
-    typeof value.id === "string" &&
-    value.id.trim().length > 0 &&
-    value.provider === undefined
-  );
-}
-
 /** Parse `$NAME` and `${NAME}` env-secret shorthand strings into env SecretRefs. */
 export function parseEnvTemplateSecretRef(
   value: unknown,
@@ -101,55 +83,10 @@ export function parseEnvTemplateSecretRef(
   };
 }
 
-/** Parse legacy env SecretRef marker strings kept for config migration/read compatibility. */
-export function parseLegacySecretRefEnvMarker(
-  value: unknown,
-  provider = DEFAULT_SECRET_PROVIDER_ALIAS,
-): SecretRef | null {
-  if (typeof value !== "string") {
-    return null;
-  }
-  const trimmed = value.trim();
-  const prefix = trimmed.startsWith(LEGACY_SECRETREF_ENV_MARKER_PREFIX)
-    ? LEGACY_SECRETREF_ENV_MARKER_PREFIX
-    : trimmed.startsWith(LEGACY_DOUBLE_UNDERSCORE_ENV_MARKER_PREFIX)
-      ? LEGACY_DOUBLE_UNDERSCORE_ENV_MARKER_PREFIX
-      : undefined;
-  if (!prefix) {
-    return null;
-  }
-  const id = trimmed.slice(prefix.length);
-  if (!ENV_SECRET_REF_ID_RE.test(id)) {
-    return null;
-  }
-  return {
-    source: "env",
-    provider: provider.trim() || DEFAULT_SECRET_PROVIDER_ALIAS,
-    id,
-  };
-}
-
-/** Coerce canonical, legacy, and env-shorthand secret inputs into a SecretRef. */
+/** Coerce canonical, and env-shorthand secret inputs into a SecretRef. */
 export function coerceSecretRef(value: unknown, defaults?: SecretDefaults): SecretRef | null {
   if (isSecretRef(value)) {
     return value;
-  }
-  const legacyEnvMarker = parseLegacySecretRefEnvMarker(value, defaults?.env);
-  if (legacyEnvMarker) {
-    return legacyEnvMarker;
-  }
-  if (isLegacySecretRefWithoutProvider(value)) {
-    const provider =
-      value.source === "env"
-        ? (defaults?.env ?? DEFAULT_SECRET_PROVIDER_ALIAS)
-        : value.source === "file"
-          ? (defaults?.file ?? DEFAULT_SECRET_PROVIDER_ALIAS)
-          : (defaults?.exec ?? DEFAULT_SECRET_PROVIDER_ALIAS);
-    return {
-      source: value.source,
-      provider,
-      id: value.id,
-    };
   }
   const envTemplate = parseEnvTemplateSecretRef(value, defaults?.env);
   if (envTemplate) {

@@ -1,6 +1,6 @@
 // Routing account id helpers normalize account identifiers for route matching.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
 
 export const DEFAULT_ACCOUNT_ID = "default";
 

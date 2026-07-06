@@ -27,17 +27,16 @@ async function normalizeUploadPaths(paths: string[]): Promise<string[]> {
   return result.paths;
 }
 
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Browser request result type is shared between request and success formatter.
-async function runBrowserPostAction<T>(params: {
+async function runBrowserPostAction(params: {
   parent: BrowserParentOpts;
   profile: string | undefined;
   path: string;
   body: Record<string, unknown>;
   timeoutMs: number;
-  describeSuccess: (result: T) => string;
+  describeSuccess: (result: any) => string;
 }): Promise<void> {
   try {
-    const result = await callBrowserRequest<T>(
+    const result = await callBrowserRequest<any>(
       params.parent,
       {
         method: "POST",

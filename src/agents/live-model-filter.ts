@@ -6,9 +6,9 @@
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { parseStrictNonNegativeInteger } from "@openclaw/normalization-core/number-coercion";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveProviderModernModelRef } from "../plugins/provider-runtime.js";
-import { liveProvidersShareOwningPlugin } from "./live-provider-owner.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveProviderModernModelRef } from "../plugins/provider-runtime.ts";
+import { liveProvidersShareOwningPlugin } from "./live-provider-owner.ts";
 
 type ModelRef = {
   provider?: string | null;

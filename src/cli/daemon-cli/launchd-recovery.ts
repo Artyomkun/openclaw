@@ -3,7 +3,7 @@ import {
   formatLaunchAgentGuiSessionError,
   launchAgentPlistExists,
   repairLaunchAgentBootstrap,
-} from "../../daemon/launchd.js";
+} from "../../daemon/launchd.ts";
 
 const LAUNCH_AGENT_RECOVERY_MESSAGE =
   "Gateway LaunchAgent was installed but not loaded; re-bootstrapped launchd service.";

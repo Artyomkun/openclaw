@@ -1,10 +1,10 @@
 /** Collects config-backed secret targets for runtime secret preparation. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
-import { collectChannelConfigAssignments } from "./runtime-config-collectors-channels.js";
-import { collectCoreConfigAssignments } from "./runtime-config-collectors-core.js";
-import { collectPluginConfigAssignments } from "./runtime-config-collectors-plugins.js";
-import type { ResolverContext } from "./runtime-shared.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginOrigin } from "../plugins/plugin-origin.types.ts";
+import { collectChannelConfigAssignments } from "./runtime-config-collectors-channels.ts";
+import { collectCoreConfigAssignments } from "./runtime-config-collectors-core.ts";
+import { collectPluginConfigAssignments } from "./runtime-config-collectors-plugins.ts";
+import type { ResolverContext } from "./runtime-shared.ts";
 
 /** Collects every config-backed SecretRef assignment before runtime values are materialized. */
 /** Collects concrete config path assignments that may need SecretRef conversion. */

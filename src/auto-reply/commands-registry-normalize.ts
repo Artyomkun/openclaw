@@ -4,14 +4,14 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.js";
-import { escapeRegExp } from "../utils.js";
-import { getChatCommands } from "./commands-registry.data.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { escapeRegExp } from "../utils.ts";
+import { getChatCommands } from "./commands-registry.data.ts";
 import type {
   ChatCommandDefinition,
   CommandDetection,
   CommandNormalizeOptions,
-} from "./commands-registry.types.js";
+} from "./commands-registry.types.ts";
 
 type TextAliasSpec = {
   key: string;

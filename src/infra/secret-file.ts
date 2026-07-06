@@ -1,17 +1,20 @@
-// Exposes private secret file helpers with fs-safe defaults.
-import "./fs-safe-defaults.js";
-import { readSecretFileSync as readSecretFileSyncImpl } from "@openclaw/fs-safe/secret";
-import { resolveUserPath } from "../utils.js";
+// Private secret file helpers using native Node.js fs.
 
-export {
-  DEFAULT_SECRET_FILE_MAX_BYTES,
-  PRIVATE_SECRET_DIR_MODE,
-  PRIVATE_SECRET_FILE_MODE,
-  readSecretFileSync,
-  tryReadSecretFileSync,
-  type SecretFileReadOptions,
-} from "@openclaw/fs-safe/secret";
-export { writeSecretFileAtomic as writePrivateSecretFileAtomic } from "@openclaw/fs-safe/secret";
+import fsSync from 'node:fs';
+import path from 'node:path';
+import { resolveUserPath } from '../utils.ts';
+
+// ─── Constants ──────────────────────────────────────────────────
+
+export const DEFAULT_SECRET_FILE_MAX_BYTES = 1024 * 1024; // 1 MiB
+export const PRIVATE_SECRET_DIR_MODE = 0o700;
+export const PRIVATE_SECRET_FILE_MODE = 0o600;
+
+// ─── Types ──────────────────────────────────────────────────────
+
+export type SecretFileReadOptions = {
+  maxBytes?: number;
+};
 
 export type SecretFileReadResult =
   | {
@@ -26,30 +29,47 @@ export type SecretFileReadResult =
       error?: unknown;
     };
 
-/** @deprecated Use readSecretFileSync() or tryReadSecretFileSync(). */
-export function loadSecretFileSync(
-  filePath: string,
-  label: string,
-  options: Parameters<typeof readSecretFileSyncImpl>[2] = {},
-): SecretFileReadResult {
-  const trimmedPath = filePath.trim();
-  const resolvedPath = resolveUserPath(trimmedPath);
-  if (!resolvedPath) {
-    return { ok: false, message: `${label} file path is empty.` };
+// ─── Secret file write ─────────────────────────────────────────
+
+export function writeSecretFileAtomic(params: {
+  rootDir: string;
+  filePath: string;
+  content: string | Buffer;
+  dirMode?: number;
+  mode?: number;
+}): string {
+  const { rootDir, filePath, content, dirMode = PRIVATE_SECRET_DIR_MODE, mode = PRIVATE_SECRET_FILE_MODE } = params;
+
+  const resolvedRoot = path.resolve(rootDir);
+  const resolvedPath = path.resolve(filePath);
+
+  if (!resolvedPath.startsWith(resolvedRoot)) {
+    throw new Error(`File path escapes root: ${filePath}`);
   }
 
+  const dir = path.dirname(resolvedPath);
   try {
-    return {
-      ok: true,
-      secret: readSecretFileSyncImpl(filePath, label, options),
-      resolvedPath,
-    };
-  } catch (error) {
-    return {
-      ok: false,
-      message: error instanceof Error ? error.message : String(error),
-      resolvedPath,
-      error,
-    };
+    fsSync.mkdirSync(dir, { recursive: true, mode: dirMode });
+  } catch (err: any) {
+    throw new Error(`Failed to create secret directory: ${err.message}`);
+  }
+
+  const tempPath = `${resolvedPath}.tmp-${process.pid}-${Date.now()}`;
+  try {
+    fsSync.writeFileSync(tempPath, content, { mode });
+    fsSync.renameSync(tempPath, resolvedPath);
+    return resolvedPath;
+  } catch (err: any) {
+    try {
+      fsSync.unlinkSync(tempPath);
+      } catch (err: any) {
+        try {
+          fsSync.unlinkSync(tempPath);
+        } catch (cleanupError) {
+          console.warn(`Failed to clean up temp file ${tempPath}:`, cleanupError);
+        }
+        throw new Error(`Failed to write secret file: ${err.message}`);
+      }
+    throw new Error(`Failed to write secret file: ${err.message}`);
   }
 }

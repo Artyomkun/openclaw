@@ -9,4 +9,4 @@ export {
   readStringArrayParam,
   readStringOrNumberParam,
   readStringParam,
-} from "../agents/tools/common.js";
+} from "../agents/tools/common.ts";

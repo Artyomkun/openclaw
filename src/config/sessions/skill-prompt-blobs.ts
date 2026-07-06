@@ -2,8 +2,8 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { writeTextAtomic } from "../../infra/json-files.js";
-import type { SessionEntry, SessionSkillPromptRef, SessionSkillSnapshot } from "./types.js";
+import { writeTextAtomic } from "../../infra/json-files.ts";
+import type { SessionEntry, SessionSkillPromptRef, SessionSkillSnapshot } from "./types.ts";
 
 const PROMPT_BLOB_DIR = "skills-prompts";
 const PROMPT_BLOB_ALGORITHM: SessionSkillPromptRef["algorithm"] = "sha256";

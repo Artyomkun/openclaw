@@ -6,17 +6,17 @@ import {
   errorShape,
   formatValidationErrors,
   validateToolsEffectiveParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { buildEffectiveToolInventoryGroups } from "../../agents/tools-effective-inventory-groups.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { buildEffectiveToolInventoryGroups } from "../../agents/tools-effective-inventory-groups.ts";
 import type {
   EffectiveToolInventoryNotice,
   EffectiveToolInventoryResult,
-} from "../../agents/tools-effective-inventory.types.js";
-import { buildRuntimeCompatibleMcpToolInventory } from "../../agents/tools-effective-mcp-inventory.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { toErrorObject } from "../../infra/errors.js";
-import { logDebug, logWarn } from "../../logger.js";
-import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.js";
+} from "../../agents/tools-effective-inventory.types.ts";
+import { buildRuntimeCompatibleMcpToolInventory } from "../../agents/tools-effective-mcp-inventory.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { toErrorObject } from "../../infra/errors.ts";
+import { logDebug, logWarn } from "../../logger.ts";
+import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.ts";
 import {
   applyFinalEffectiveToolPolicy,
   buildBundleMcpToolsFromCatalog,
@@ -35,8 +35,8 @@ import {
   resolveSessionAgentId,
   resolveSessionMcpConfigSummary,
   resolveSessionModelRef,
-} from "./tools-effective.runtime.js";
-import type { GatewayRequestHandlers, RespondFn } from "./types.js";
+} from "./tools-effective.runtime.ts";
+import type { GatewayRequestHandlers, RespondFn } from "./types.ts";
 
 const TOOLS_EFFECTIVE_FRESH_TTL_MS = 10_000;
 const TOOLS_EFFECTIVE_STALE_TTL_MS = 120_000;

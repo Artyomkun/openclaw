@@ -2,7 +2,7 @@
 import type {
   ChannelRuntimeContextKey,
   ChannelRuntimeSurface,
-} from "../channels/plugins/channel-runtime-surface.types.js";
+} from "../channels/plugins/channel-runtime-surface.types.ts";
 
 const NOOP_DISPOSE = () => {};
 

@@ -1,6 +1,6 @@
 // Formats provider usage summaries for CLI and status output.
-import { clampPercent } from "./provider-usage.shared.js";
-import type { ProviderUsageSnapshot, UsageSummary, UsageWindow } from "./provider-usage.types.js";
+import { clampPercent } from "./provider-usage.shared.ts";
+import type { ProviderUsageSnapshot, UsageSummary, UsageWindow } from "./provider-usage.types.ts";
 
 // Compact reset times for chat/status lines; long windows fall back to a date.
 function formatResetRemaining(targetMs?: number, now?: number): string | null {

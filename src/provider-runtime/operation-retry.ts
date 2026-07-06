@@ -1,6 +1,6 @@
 // Provider operation retry helpers run retryable provider operations with backoff.
-import { sleepWithAbort } from "../infra/backoff.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import { sleepWithAbort } from "../infra/backoff.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 
 export type ProviderOperationRetryStage = "read" | "poll" | "download" | "create";
 

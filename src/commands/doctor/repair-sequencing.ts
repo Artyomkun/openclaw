@@ -1,45 +1,40 @@
 // Doctor repair sequence coordinator for config, auth, plugin, and warning repairs.
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
 import {
   applyPluginAutoEnable,
   materializePluginAutoEnableCandidates,
-} from "../../config/plugin-auto-enable.js";
+} from "../../config/plugin-auto-enable.ts";
 import {
   collectOpenAICodexAuthProfileStoreIdMap,
   maybeMigrateAuthProfileJsonStoresToSqlite,
   maybeRepairOpenAICodexAuthConfig,
   maybeRepairOpenAICodexAuthProfileStores,
-} from "../doctor-auth-flat-profiles.js";
-import { maybeRepairLegacyOAuthSidecarProfiles } from "../doctor-auth-oauth-sidecar.js";
+} from "../doctor-auth-flat-profiles.ts";
 import {
   maybeRepairManagedNpmOpenClawPeerLinks,
   maybeRepairStaleManagedNpmBundledPlugins,
-} from "../doctor-plugin-registry.js";
-import { collectActiveToolSchemaProjectionWarnings } from "./shared/active-tool-schema-warnings.js";
-import { maybeRepairGroupAllowFromFallback } from "./shared/allowfrom-fallback-migration.js";
-import { maybeRepairAllowlistPolicyAllowFrom } from "./shared/allowlist-policy-repair.js";
-import { maybeRepairBundledPluginLoadPaths } from "./shared/bundled-plugin-load-paths.js";
+} from "../doctor-plugin-registry.ts";
+import { collectActiveToolSchemaProjectionWarnings } from "./shared/active-tool-schema-warnings.ts";
+import { maybeRepairAllowlistPolicyAllowFrom } from "./shared/allowlist-policy-repair.ts";
+import { maybeRepairBundledPluginLoadPaths } from "./shared/bundled-plugin-load-paths.ts";
 import {
   createChannelDoctorEmptyAllowlistPolicyHooks,
   collectChannelDoctorRepairMutations,
-} from "./shared/channel-doctor.js";
-import { maybeRepairCodexRoutes } from "./shared/codex-route-warnings.js";
+} from "./shared/channel-doctor.ts";
 import {
   applyDoctorConfigMutation,
   type DoctorConfigMutationState,
-} from "./shared/config-mutation-state.js";
-import { maybeRepairContextEngineHostCompatibility } from "./shared/context-engine-host-compat.js";
-import { scanEmptyAllowlistPolicyWarnings } from "./shared/empty-allowlist-scan.js";
-import { maybeRepairExecSafeBinProfiles } from "./shared/exec-safe-bins.js";
-import { maybeRepairInvalidPluginConfig } from "./shared/invalid-plugin-config.js";
-import { maybeRepairLegacyToolsBySenderKeys } from "./shared/legacy-tools-by-sender.js";
-import { repairMissingConfiguredPluginInstalls } from "./shared/missing-configured-plugin-install.js";
-import { maybeRepairOpenPolicyAllowFrom } from "./shared/open-policy-allowfrom.js";
-import { cleanupLegacyPluginDependencyState } from "./shared/plugin-dependency-cleanup.js";
-import { repairStaleOAuthProfileShadows } from "./shared/stale-oauth-profile-shadows.js";
-import { maybeRepairStalePluginConfig } from "./shared/stale-plugin-config.js";
-import { maybeRepairStaleSubagentAllowlists } from "./shared/stale-subagent-allowlist.js";
-import { isUpdatePackageSwapInProgress } from "./shared/update-phase.js";
+} from "./shared/config-mutation-state.ts";
+import { maybeRepairContextEngineHostCompatibility } from "./shared/context-engine-host-compat.ts";
+import { scanEmptyAllowlistPolicyWarnings } from "./shared/empty-allowlist-scan.ts";
+import { maybeRepairExecSafeBinProfiles } from "./shared/exec-safe-bins.ts";
+import { maybeRepairInvalidPluginConfig } from "./shared/invalid-plugin-config.ts";
+import { repairMissingConfiguredPluginInstalls } from "./shared/missing-configured-plugin-install.ts";
+import { maybeRepairOpenPolicyAllowFrom } from "./shared/open-policy-allowfrom.ts";
+import { repairStaleOAuthProfileShadows } from "./shared/stale-oauth-profile-shadows.ts";
+import { maybeRepairStalePluginConfig } from "./shared/stale-plugin-config.ts";
+import { maybeRepairStaleSubagentAllowlists } from "./shared/stale-subagent-allowlist.ts";
+import { isUpdatePackageSwapInProgress } from "./shared/update-phase.ts";
 
 /** Run doctor auto-repairs in dependency order and collect sanitized user notes. */
 export async function runDoctorRepairSequence(params: {
@@ -160,7 +155,6 @@ export async function runDoctorRepairSequence(params: {
   applyMutation(maybeRepairInvalidPluginConfig(state.candidate));
   applyMutation(await maybeRepairAllowlistPolicyAllowFrom(state.candidate));
   applyMutation(maybeRepairOpenPolicyAllowFrom(state.candidate));
-  applyMutation(maybeRepairGroupAllowFromFallback(state.candidate));
   applyMutation(maybeRepairStaleSubagentAllowlists(state.candidate));
 
   const emptyAllowlistWarnings = scanEmptyAllowlistPolicyWarnings(state.candidate, {
@@ -171,27 +165,7 @@ export async function runDoctorRepairSequence(params: {
     warningNotes.push(sanitizeLines(emptyAllowlistWarnings));
   }
 
-  applyMutation(maybeRepairLegacyToolsBySenderKeys(state.candidate));
   applyMutation(maybeRepairExecSafeBinProfiles(state.candidate));
-  const pluginDependencyCleanup = await cleanupLegacyPluginDependencyState({ env });
-  if (pluginDependencyCleanup.changes.length > 0) {
-    changeNotes.push(sanitizeLines(pluginDependencyCleanup.changes));
-  }
-  if (pluginDependencyCleanup.warnings.length > 0) {
-    warningNotes.push(sanitizeLines(pluginDependencyCleanup.warnings));
-  }
-  const legacyOAuthSidecarRepair = await maybeRepairLegacyOAuthSidecarProfiles({
-    cfg: state.candidate,
-    prompter: { confirmAutoFix: async () => true },
-    emitNotes: false,
-    env,
-  });
-  if (legacyOAuthSidecarRepair.changes.length > 0) {
-    changeNotes.push(sanitizeLines(legacyOAuthSidecarRepair.changes));
-  }
-  if (legacyOAuthSidecarRepair.warnings.length > 0) {
-    warningNotes.push(sanitizeLines(legacyOAuthSidecarRepair.warnings));
-  }
   const openAIAuthProviderRepair = await maybeRepairOpenAICodexAuthProfileStores({
     cfg: state.candidate,
     env,
@@ -234,7 +208,6 @@ export async function runDoctorRepairSequence(params: {
     warningNotes.push(sanitizeLines(authProfileSqliteMigration.warnings));
   }
   const authProfilesRepaired =
-    legacyOAuthSidecarRepair.changes.length > 0 ||
     openAIAuthProviderRepair.changes.length > 0 ||
     staleOAuthShadowRepair.changes.length > 0 ||
     authProfileSqliteMigration.changes.length > 0;

@@ -15,8 +15,8 @@ const QA_BUNDLED_PLUGIN_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
 const QA_CLI_METADATA_ENTRY_BASENAMES = Object.freeze([
   "cli-metadata.ts",
   "cli-metadata.js",
-  "cli-metadata.mjs",
-  "cli-metadata.cjs",
+  "cli-metadata.ts",
+  "cli-metadata.ts",
 ]);
 
 function assertSafeQaBundledPluginId(pluginId: string) {

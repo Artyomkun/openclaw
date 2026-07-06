@@ -1,9 +1,9 @@
 // OpenAI ChatGPT OAuth helpers manage ChatGPT OAuth login and token refresh.
-import { loadActivatedBundledPluginPublicSurfaceModuleSync } from "../../../plugin-sdk/facade-runtime.js";
-import type { RuntimeEnv } from "../../../runtime.js";
-import type { WizardPrompter } from "../../../wizard/prompts.js";
-import { throwIfOAuthLoginAborted, withOAuthLoginAbort } from "./abort.js";
-import type { OAuthCredentials, OAuthLoginCallbacks, OAuthProviderInterface } from "./types.js";
+import { loadActivatedBundledPluginPublicSurfaceModuleSync } from "../../../plugin-sdk/facade-runtime.ts";
+import type { RuntimeEnv } from "../../../runtime.ts";
+import type { WizardPrompter } from "../../../wizard/prompts.ts";
+import { throwIfOAuthLoginAborted, withOAuthLoginAbort } from "./abort.ts";
+import type { OAuthCredentials, OAuthLoginCallbacks, OAuthProviderInterface } from "./types.ts";
 
 // OAuth adapter for the bundled OpenAI/ChatGPT provider surface.
 const OPENAI_CODEX_PROVIDER_ID = "openai";
@@ -17,44 +17,6 @@ function loadOpenAICodexOAuthFacade(): OpenAICodexOAuthFacade {
     dirName: "openai",
     artifactBasename: "api.js",
   });
-}
-
-function createLegacyRuntime(callbacks: OAuthLoginCallbacks): RuntimeEnv {
-  return {
-    log: (message) => callbacks.onProgress?.(String(message)),
-    error: (message) => callbacks.onProgress?.(String(message)),
-    exit: (code) => {
-      throw new Error(`exit:${code}`);
-    },
-  };
-}
-
-// Bridges generic OAuth callbacks into the wizard prompter expected by the provider login flow.
-function createLegacyPrompter(callbacks: OAuthLoginCallbacks): WizardPrompter {
-  const progress = {
-    update: (message: string) => callbacks.onProgress?.(message),
-    stop: (message?: string) => {
-      if (message) {
-        callbacks.onProgress?.(message);
-      }
-    },
-  };
-  return {
-    intro: async () => {},
-    outro: async () => {},
-    note: async (message) => callbacks.onProgress?.(message),
-    select: async (params) => params.options[0]?.value,
-    multiselect: async (params) => params.initialValues ?? [],
-    text: async (prompt) => {
-      const input = callbacks.onPrompt({
-        message: prompt.message,
-        placeholder: prompt.placeholder,
-      });
-      return await withOAuthLoginAbort(input, callbacks.signal);
-    },
-    confirm: async () => false,
-    progress: () => progress,
-  } as WizardPrompter;
 }
 
 async function refreshViaProviderRuntime(refreshToken: string): Promise<OAuthCredentials> {
@@ -91,8 +53,6 @@ export async function loginOpenAICodex(callbacks: OAuthLoginCallbacks): Promise<
     : undefined;
   const credentials = await withOAuthLoginAbort(
     loginOpenAICodexOAuth({
-      prompter: createLegacyPrompter(callbacks),
-      runtime: createLegacyRuntime(callbacks),
       isRemote: false,
       signal: callbacks.signal,
       onManualCodeInput,

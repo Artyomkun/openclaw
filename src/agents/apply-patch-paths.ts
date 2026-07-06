@@ -4,8 +4,8 @@
  * full strict patch parser.
  */
 import path from "node:path";
-import { resolveSandboxInputPath } from "./sandbox-paths.js";
-import type { SandboxFsBridge } from "./sandbox/fs-bridge.js";
+import { resolveSandboxInputPath } from "./sandbox-paths.ts";
+import type { SandboxFsBridge } from "./sandbox/fs-bridge.ts";
 
 /**
  * Lightweight path extractor for the `apply_patch` envelope grammar.

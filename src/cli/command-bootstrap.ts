@@ -1,10 +1,10 @@
 // Shared command preflight: config readiness plus optional plugin registry activation.
-import type { ConfigFileSnapshot } from "../config/types.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import type { CliPluginRegistryPolicy } from "./command-catalog.js";
-import { resolveCliCommandPathPolicy } from "./command-path-policy.js";
-import { ensureCliPluginRegistryLoaded } from "./plugin-registry-loader.js";
+import type { ConfigFileSnapshot } from "../config/types.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import type { CliPluginRegistryPolicy } from "./command-catalog.ts";
+import { resolveCliCommandPathPolicy } from "./command-path-policy.ts";
+import { ensureCliPluginRegistryLoaded } from "./plugin-registry-loader.ts";
 
 const configGuardModuleLoader = createLazyImportLoader(() => import("./program/config-guard.js"));
 

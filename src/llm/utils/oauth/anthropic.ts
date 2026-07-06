@@ -6,7 +6,7 @@
  */
 
 import type { Server } from "node:http";
-import { toErrorObject } from "../../../infra/errors.js";
+import { toErrorObject } from "../../../infra/errors.ts";
 import {
   generateOAuthState,
   generatePKCE,
@@ -14,19 +14,19 @@ import {
   oauthSuccessHtml,
   parseOAuthAuthorizationInput,
   resolveOAuthTokenExpiresAt,
-} from "../../../plugin-sdk/provider-oauth-runtime.js";
+} from "../../../plugin-sdk/provider-oauth-runtime.ts";
 import {
   buildOAuthRequestSignal,
   createOAuthLoginCancelledError,
   throwIfOAuthLoginAborted,
   withOAuthLoginAbort,
-} from "./abort.js";
+} from "./abort.ts";
 import type {
   OAuthCredentials,
   OAuthLoginCallbacks,
   OAuthPrompt,
   OAuthProviderInterface,
-} from "./types.js";
+} from "./types.ts";
 
 type CallbackServerInfo = {
   server: Server;

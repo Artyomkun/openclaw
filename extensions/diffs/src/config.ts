@@ -37,16 +37,6 @@ type DiffsPluginConfig = {
     fileQuality?: DiffImageQualityPreset;
     fileScale?: number;
     fileMaxWidth?: number;
-    /** @deprecated Use fileFormat. */
-    format?: DiffOutputFormat;
-    /** @deprecated Use fileFormat. */
-    imageFormat?: DiffOutputFormat;
-    /** @deprecated Use fileQuality. */
-    imageQuality?: DiffImageQualityPreset;
-    /** @deprecated Use fileScale. */
-    imageScale?: number;
-    /** @deprecated Use fileMaxWidth. */
-    imageMaxWidth?: number;
     mode?: DiffMode;
     ttlSeconds?: number;
   };

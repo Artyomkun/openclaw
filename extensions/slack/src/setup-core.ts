@@ -5,7 +5,6 @@ import {
   createAccountScopedGroupAccessSection,
   createAllowlistSetupWizardProxy,
   createEnvPatchedAccountSetupAdapter,
-  createLegacyCompatChannelDmPolicy,
   createStandardChannelSetupStatus,
   DEFAULT_ACCOUNT_ID,
   parseMentionOrPrefixedId,
@@ -159,12 +158,6 @@ export function createSlackSetupWizardBase(handlers: {
     NonNullable<NonNullable<ChannelSetupWizard["groupAccess"]>["resolveAllowlist"]>
   >;
 }) {
-  const slackDmPolicy: ChannelSetupDmPolicy = createLegacyCompatChannelDmPolicy({
-    label: "Slack",
-    channel,
-    promptAllowFrom: handlers.promptAllowFrom,
-  });
-
   return {
     channel,
     status: createStandardChannelSetupStatus({
@@ -222,7 +215,6 @@ export function createSlackSetupWizardBase(handlers: {
         inputPrompt: t("wizard.slack.appTokenInput"),
       }),
     ],
-    dmPolicy: slackDmPolicy,
     allowFrom: createAccountScopedAllowFromSection({
       channel,
       credentialInputKey: "botToken",

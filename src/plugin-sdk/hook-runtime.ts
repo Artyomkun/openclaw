@@ -3,10 +3,10 @@
  * subpaths and avoid adding new imports here.
  */
 
-export * from "../hooks/fire-and-forget.js";
-export * from "../hooks/internal-hooks.js";
-export * from "../hooks/message-hook-mappers.js";
+export * from "../hooks/fire-and-forget.ts";
+export * from "../hooks/internal-hooks.ts";
+export * from "../hooks/message-hook-mappers.ts";
 export {
   initializeGlobalHookRunner,
   resetGlobalHookRunner,
-} from "../plugins/hook-runner-global.js";
+} from "../plugins/hook-runner-global.ts";

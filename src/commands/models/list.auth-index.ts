@@ -1,26 +1,26 @@
 /** Auth availability index for `openclaw models list` rows. */
 import { normalizeProviderIdForAuth } from "@openclaw/model-catalog-core/provider-id";
-import type { AuthProfileStore } from "../../agents/auth-profiles/types.js";
-import type { AuthProfileCredential } from "../../agents/auth-profiles/types.js";
+import type { AuthProfileStore } from "../../agents/auth-profiles/types.ts";
+import type { AuthProfileCredential } from "../../agents/auth-profiles/types.ts";
 import {
   listProviderEnvAuthLookupKeys,
   resolveProviderEnvAuthLookupMaps,
-} from "../../agents/model-auth-env-vars.js";
-import { resolveEnvApiKey } from "../../agents/model-auth-env.js";
-import { resolveAwsSdkEnvVarName } from "../../agents/model-auth-runtime-shared.js";
+} from "../../agents/model-auth-env-vars.ts";
+import { resolveEnvApiKey } from "../../agents/model-auth-env.ts";
+import { resolveAwsSdkEnvVarName } from "../../agents/model-auth-runtime-shared.ts";
 import {
   hasSyntheticLocalProviderAuthConfig,
   hasUsableCustomProviderApiKey,
-} from "../../agents/model-auth.js";
+} from "../../agents/model-auth.ts";
 import {
   OPENAI_CODEX_PROVIDER_ID,
   OPENAI_PROVIDER_ID,
   openAIProviderUsesCodexRuntimeByDefault,
-} from "../../agents/openai-routing.js";
-import { resolveAgentModelPrimaryValue } from "../../config/model-input.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
-import { loadPluginRegistrySnapshotWithMetadata } from "../../plugins/plugin-registry.js";
+} from "../../agents/openai-routing.ts";
+import { resolveAgentModelPrimaryValue } from "../../config/model-input.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
+import { loadPluginRegistrySnapshotWithMetadata } from "../../plugins/plugin-registry.ts";
 
 export type ModelListAuthIndex = {
   hasProviderAuth(provider: string): boolean;

@@ -1,16 +1,16 @@
 // Gateway discovery runtime.
 // Starts local mDNS plugin discovery and optional wide-area DNS-SD publishing.
-import { isTruthyEnvValue } from "../infra/env.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { pickPrimaryTailnetIPv4, pickPrimaryTailnetIPv6 } from "../infra/tailnet.js";
-import { parseTcpPort } from "../infra/tcp-port.js";
-import { resolveWideAreaDiscoveryDomain, writeWideAreaGatewayZone } from "../infra/widearea-dns.js";
-import type { PluginGatewayDiscoveryServiceRegistration } from "../plugins/registry-types.js";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { pickPrimaryTailnetIPv4, pickPrimaryTailnetIPv6 } from "../infra/tailnet.ts";
+import { parseTcpPort } from "../infra/tcp-port.ts";
+import { resolveWideAreaDiscoveryDomain, writeWideAreaGatewayZone } from "../infra/widearea-dns.ts";
+import type { PluginGatewayDiscoveryServiceRegistration } from "../plugins/registry-types.ts";
 import {
   formatBonjourInstanceName,
   resolveBonjourCliPath,
   resolveTailnetDnsHint,
-} from "./server-discovery.js";
+} from "./server-discovery.ts";
 
 const DEFAULT_DISCOVERY_ADVERTISE_TIMEOUT_MS = 5_000;
 

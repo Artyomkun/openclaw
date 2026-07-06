@@ -3,8 +3,8 @@
  *
  * Provides ordered channel metadata for setup, status, and selection surfaces.
  */
-import { buildChatChannelMetaById, type ChatChannelMeta } from "./chat-meta-shared.js";
-import { CHAT_CHANNEL_ORDER, type ChatChannelId } from "./ids.js";
+import { buildChatChannelMetaById, type ChatChannelMeta } from "./chat-meta-shared.ts";
+import { CHAT_CHANNEL_ORDER, type ChatChannelId } from "./ids.ts";
 
 let chatChannelMetaCache: Record<ChatChannelId, ChatChannelMeta> | null = null;
 

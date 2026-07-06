@@ -8,12 +8,12 @@ import {
   type AuthProfileCredential,
   type AuthProfileStore,
   type ProfileUsageStats,
-} from "../../agents/auth-profiles.js";
-import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { shortenHomePath } from "../../utils.js";
-import { loadModelsConfig } from "./load-config.js";
-import { resolveModelsTargetAgent } from "./shared.js";
+} from "../../agents/auth-profiles.ts";
+import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { shortenHomePath } from "../../utils.ts";
+import { loadModelsConfig } from "./load-config.ts";
+import { resolveModelsTargetAgent } from "./shared.ts";
 
 type AuthProfileSummary = {
   id: string;

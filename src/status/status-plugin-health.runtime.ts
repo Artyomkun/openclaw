@@ -1,19 +1,19 @@
-import { listPersistedRuntimeToolSchemaQuarantines } from "../agents/tool-schema-quarantine-health.js";
-import { resolveReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.js";
+import { listPersistedRuntimeToolSchemaQuarantines } from "../agents/tool-schema-quarantine-health.ts";
+import { resolveReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.ts";
 // Runtime plugin health collection is isolated from pure status formatting so
 // ordinary status tests do not eagerly load plugin registry internals.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { listContextEngineQuarantines } from "../context-engine/registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { listContextEngineQuarantines } from "../context-engine/registry.ts";
 import {
   getActiveRuntimePluginRegistry,
   listLoadedRuntimePluginIdsAcrossSurfaces,
-} from "../plugins/active-runtime-registry.js";
+} from "../plugins/active-runtime-registry.ts";
 import {
   dedupeChannelPluginFailures,
   dedupePluginDiagnostics,
   isChannelPluginFailureDiagnostic,
   mergeStatusPluginHealthSnapshots,
-} from "./status-plugin-health.js";
+} from "./status-plugin-health.ts";
 import type {
   ChannelPluginFailureRecord,
   PluginCompatibilityHealthNotice,
@@ -21,7 +21,7 @@ import type {
   PluginHealthRecord,
   RuntimeToolQuarantineRecord,
   StatusPluginHealthSnapshot,
-} from "./status-plugin-health.js";
+} from "./status-plugin-health.ts";
 
 // The normalize* helpers project registry records onto the snapshot types while
 // omitting absent fields entirely, so snapshot merges never see explicitly

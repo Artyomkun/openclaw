@@ -3,7 +3,7 @@
  * Keeps store snapshots JSON-serializable before callers mutate or persist
  * profile state.
  */
-import type { AuthProfileStore } from "./types.js";
+import type { AuthProfileStore } from "./types.ts";
 
 /** Deep-clones an auth profile store and rejects non-JSON values. */
 export function cloneAuthProfileStore(store: AuthProfileStore): AuthProfileStore {

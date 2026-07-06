@@ -1,8 +1,8 @@
 // Links plugin peer packages for local development installs.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { hasErrnoCode } from "../infra/errors.js";
-import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.js";
+import { hasErrnoCode } from "../infra/errors.ts";
+import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.ts";
 
 type PluginPeerLinkLogger = {
   info?: (message: string) => void;

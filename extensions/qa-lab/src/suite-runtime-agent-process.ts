@@ -122,7 +122,7 @@ function isJsonRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
 
-function isStructuredDiagnosticJson(value: unknown) {
+function isStructuredDiagnostitson(value: unknown) {
   if (!isJsonRecord(value)) {
     return false;
   }
@@ -194,7 +194,7 @@ function parseQaCliJsonOutput(text: string, args: readonly string[]) {
     if (expectedPayload !== undefined) {
       return expectedPayload;
     }
-    const payload = candidates.toReversed().find((value) => !isStructuredDiagnosticJson(value));
+    const payload = candidates.toReversed().find((value) => !isStructuredDiagnostitson(value));
     if (payload !== undefined) {
       return payload;
     }

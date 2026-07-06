@@ -1,6 +1,6 @@
 // Lazy command implementations for routes that can bypass full Commander registration.
-import { defaultRuntime } from "../../runtime.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+import { defaultRuntime } from "../../runtime.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 import {
   parseAgentsListRouteArgs,
   parseChannelsListRouteArgs,
@@ -16,7 +16,7 @@ import {
   parseStatusRouteArgs,
   parseTasksAuditRouteArgs,
   parseTasksListRouteArgs,
-} from "./route-args.js";
+} from "./route-args.ts";
 
 type RouteArgParser<TArgs> = (argv: string[]) => TArgs | null;
 

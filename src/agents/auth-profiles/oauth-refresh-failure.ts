@@ -4,8 +4,8 @@
  * commands without trusting raw provider text.
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
-import { formatCliCommand } from "../../cli/command-format.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
 
 export type OAuthRefreshFailureReason =
   | "refresh_token_reused"

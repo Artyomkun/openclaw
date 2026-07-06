@@ -4,27 +4,27 @@ import { canonicalizeBase64, estimateBase64DecodedBytes } from "@openclaw/media-
 import { basenameFromAnyPath } from "@openclaw/media-core/file-name";
 import { extensionForMime } from "@openclaw/media-core/mime";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { assertMediaNotDataUrl, resolveSandboxedMediaSource } from "../../agents/sandbox-paths.js";
-import { readStringArrayParam, readStringParam } from "../../agents/tools/common.js";
-import { resolveChannelMessageToolMediaSourceParamKeys } from "../../channels/plugins/message-action-discovery.js";
-import type { ChannelId, ChannelMessageActionName } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { root } from "../../infra/fs-safe.js";
-import { basenameFromMediaSource } from "../../infra/local-file-access.js";
-import { resolveChannelAccountMediaMaxMb } from "../../media/configured-max-bytes.js";
+import { assertMediaNotDataUrl, resolveSandboxedMediaSource } from "../../agents/sandbox-paths.ts";
+import { readStringArrayParam, readStringParam } from "../../agents/tools/common.ts";
+import { resolveChannelMessageToolMediaSourceParamKeys } from "../../channels/plugins/message-action-discovery.ts";
+import type { ChannelId, ChannelMessageActionName } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { root } from "../../infra/fs-safe.ts";
+import { basenameFromMediaSource } from "../local-file-access.ts";
+import { resolveChannelAccountMediaMaxMb } from "../../media/configured-max-bytes.ts";
 import {
   buildOutboundMediaLoadOptions,
   resolveOutboundMediaAccess,
   resolveOutboundMediaLocalRoots,
   type OutboundMediaAccess,
   type OutboundMediaReadFile,
-} from "../../media/load-options.js";
-import { resolveOutboundAttachmentFromBuffer } from "../../media/outbound-attachment.js";
-import { MEDIA_MAX_BYTES } from "../../media/store.js";
-import { loadWebMedia } from "../../media/web-media.js";
-import { resolveSnakeCaseParamKey } from "../../param-key.js";
-import { readBooleanParam as readBooleanParamShared } from "../../plugin-sdk/boolean-param.js";
-import { hasPotentialPluginActionParam } from "./message-action-param-keys.js";
+} from "../../media/load-options.ts";
+import { resolveOutboundAttachmentFromBuffer } from "../../media/outbound-attachment.ts";
+import { MEDIA_MAX_BYTES } from "../../media/store.ts";
+import { loadWebMedia } from "../../media/web-media.ts";
+import { resolveSnakeCaseParamKey } from "../../param-key.ts";
+import { readBooleanParam as readBooleanParamShared } from "../../plugin-sdk/boolean-param.ts";
+import { hasPotentialPluginActionParam } from "./message-action-param-keys.ts";
 
 /** Shared boolean param reader used by message-action argument normalization. */
 export const readBooleanParam = readBooleanParamShared;

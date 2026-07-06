@@ -1,20 +1,20 @@
 // Implements task-list commands that route through the current session agent.
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { logVerbose } from "../../globals.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { logVerbose } from "../../globals.ts";
 import { formatDurationCompact } from "../../infra/format-time/format-duration.ts";
 import { formatTimeAgo } from "../../infra/format-time/format-relative.ts";
-import type { TaskRecord } from "../../tasks/task-registry.types.js";
+import type { TaskRecord } from "../../tasks/task-registry.types.ts";
 import {
   listTasksForAgentIdForStatus,
   listTasksForSessionKeyForStatus,
-} from "../../tasks/task-status-access.js";
+} from "../../tasks/task-status-access.ts";
 import {
   buildTaskStatusSnapshot,
   formatTaskStatusDetail,
   formatTaskStatusTitle,
-} from "../../tasks/task-status.js";
-import type { ReplyPayload } from "../types.js";
-import type { CommandHandler, HandleCommandsParams } from "./commands-types.js";
+} from "../../tasks/task-status.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { CommandHandler, HandleCommandsParams } from "./commands-types.ts";
 
 const MAX_VISIBLE_TASKS = 5;
 

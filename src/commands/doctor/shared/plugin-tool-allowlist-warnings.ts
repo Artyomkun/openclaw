@@ -4,20 +4,20 @@ import {
   sortUniqueStrings,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { sanitizeServerName, TOOL_NAME_SEPARATOR } from "../../../agents/agent-bundle-mcp-names.js";
-import { compileGlobPatterns, matchesAnyGlobPattern } from "../../../agents/glob-pattern.js";
-import { resolveProviderToolPolicy } from "../../../agents/provider-tool-policy.js";
+import { sanitizeServerName, TOOL_NAME_SEPARATOR } from "../../../agents/agent-bundle-mcp-names.ts";
+import { compileGlobPatterns, matchesAnyGlobPattern } from "../../../agents/glob-pattern.ts";
+import { resolveProviderToolPolicy } from "../../../agents/provider-tool-policy.ts";
 import {
   mergeAlsoAllowPolicy,
   normalizeToolName,
   resolveToolProfilePolicy,
-} from "../../../agents/tool-policy.js";
-import type { AgentModelConfig } from "../../../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { normalizePluginId } from "../../../plugins/config-state.js";
-import { loadManifestMetadataSnapshot } from "../../../plugins/manifest-contract-eligibility.js";
-import type { PluginManifestRegistry } from "../../../plugins/manifest-registry.js";
-import { resolveDoctorPrimaryModelRef } from "./primary-model-ref.js";
+} from "../../../agents/tool-policy.ts";
+import type { AgentModelConfig } from "../../../config/types.agents-shared.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { normalizePluginId } from "../../../plugins/config-state.ts";
+import { loadManifestMetadataSnapshot } from "../../../plugins/manifest-contract-eligibility.ts";
+import type { PluginManifestRegistry } from "../../../plugins/manifest-registry.ts";
+import { resolveDoctorPrimaryModelRef } from "./primary-model-ref.ts";
 
 type ToolAllowlistSource = {
   label: string;

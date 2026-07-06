@@ -6,8 +6,8 @@ import {
   normalizeStringEntries,
   normalizeUniqueStringEntries,
 } from "@openclaw/normalization-core/string-normalization";
-import { resolveBrewPathDirs } from "./brew.js";
-import { isTruthyEnvValue } from "./env.js";
+import { resolveBrewPathDirs } from "./brew.ts";
+import { isTruthyEnvValue } from "./env.ts";
 
 type EnsureOpenClawPathOpts = {
   /** Executable whose directory should stay first for shebang-compatible child processes. */

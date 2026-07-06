@@ -2,29 +2,29 @@
  * Truncates oversized tool-result content in messages and transcripts.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import type { TextContent } from "../../llm/types.js";
-import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.js";
-import { resolveAgentContextLimits } from "../agent-scope.js";
-import type { AgentMessage } from "../runtime/index.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import type { TextContent } from "../../llm/types.ts";
+import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.ts";
+import { resolveAgentContextLimits } from "../agent-scope.ts";
+import type { AgentMessage } from "../runtime/index.ts";
 import {
   acquireSessionWriteLock,
   type SessionWriteLockAcquireTimeoutConfig,
   resolveSessionWriteLockOptions,
-} from "../session-write-lock.js";
-import { SessionManager } from "../sessions/index.js";
-import { formatContextLimitTruncationNotice } from "./context-truncation-notice.js";
-import { log } from "./logger.js";
+} from "../session-write-lock.ts";
+import { SessionManager } from "../sessions/index.ts";
+import { formatContextLimitTruncationNotice } from "./context-truncation-notice.ts";
+import { log } from "./logger.ts";
 import {
   persistTranscriptStateMutation,
   readTranscriptFileState,
   type TranscriptFileState,
-} from "./transcript-file-state.js";
+} from "./transcript-file-state.ts";
 import {
   rewriteTranscriptEntriesInSessionManager,
   rewriteTranscriptEntriesInState,
-} from "./transcript-rewrite.js";
+} from "./transcript-rewrite.ts";
 
 /**
  * Maximum share of the context window a single tool result should occupy.

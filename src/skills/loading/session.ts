@@ -3,14 +3,14 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import ignore from "ignore";
-import { CONFIG_DIR_NAME, getAgentDir } from "../../agents/config.js";
-import type { ResourceDiagnostic } from "../../agents/sessions/diagnostics.js";
-import { createSyntheticSourceInfo, type SourceInfo } from "../../agents/sessions/source-info.js";
-import { parseFrontmatter } from "../../agents/utils/frontmatter.js";
-import { canonicalizePath } from "../../agents/utils/paths.js";
-import { addIgnoreRules, toPosixPath, type IgnoreMatcher } from "../../shared/ignore-rules.js";
-import { formatSkillsForPrompt as formatSkillContractForPrompt } from "./skill-contract.js";
-import { computeSkillPromptVersion } from "./skill-version.js";
+import { CONFIG_DIR_NAME, getAgentDir } from "../../agents/config.ts";
+import type { ResourceDiagnostic } from "../../agents/sessions/diagnostics.ts";
+import { createSyntheticSourceInfo, type SourceInfo } from "../../agents/sessions/source-info.ts";
+import { parseFrontmatter } from "../../agents/utils/frontmatter.ts";
+import { canonicalizePath } from "../../agents/utils/paths.ts";
+import { addIgnoreRules, toPosixPath, type IgnoreMatcher } from "../../shared/ignore-rules.ts";
+import { formatSkillsForPrompt as formatSkillContractForPrompt } from "./skill-contract.ts";
+import { computeSkillPromptVersion } from "./skill-version.ts";
 
 /** Max name length per spec */
 const MAX_NAME_LENGTH = 64;

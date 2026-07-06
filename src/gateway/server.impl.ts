@@ -5,15 +5,15 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   getActiveEmbeddedRunCount,
   resolveActiveEmbeddedRunSessionId,
-} from "../agents/embedded-agent-runner/run-state.js";
-import { getTotalPendingReplies } from "../auto-reply/reply/dispatcher-registry.js";
+} from "../agents/embedded-agent-runner/run-state.ts";
+import { getTotalPendingReplies } from "../auto-reply/reply/dispatcher-registry.ts";
 import {
   getLoadedChannelPluginEntryById,
   listLoadedChannelPlugins,
-} from "../channels/plugins/registry-loaded.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import { createDefaultDeps } from "../cli/deps.js";
-import { isRestartEnabled } from "../config/commands.flags.js";
+} from "../channels/plugins/registry-loaded.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import { createDefaultDeps } from "../cli/deps.ts";
+import { isRestartEnabled } from "../config/commands.flags.ts";
 import {
   getRuntimeConfig,
   promoteConfigSnapshotToLastKnownGood,
@@ -21,54 +21,54 @@ import {
   registerConfigWriteListener,
   setRuntimeConfigSnapshot,
   type ReadConfigFileSnapshotWithPluginMetadataResult,
-} from "../config/io.js";
-import { isNixMode, normalizeStateDirEnv } from "../config/paths.js";
-import { applyConfigOverrides } from "../config/runtime-overrides.js";
-import { resolveMainSessionKey } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getActiveCronJobCount } from "../cron/active-jobs.js";
+} from "../config/io.ts";
+import { isNixMode, normalizeStateDirEnv } from "../config/paths.ts";
+import { applyConfigOverrides } from "../config/runtime-overrides.ts";
+import { resolveMainSessionKey } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getActiveCronJobCount } from "../cron/active-jobs.ts";
 import {
   isDiagnosticsEnabled,
   setDiagnosticsEnabledForProcess,
-} from "../infra/diagnostic-events.js";
+} from "../infra/diagnostic-events.ts";
 import {
   emitDiagnosticsTimelineEvent,
   isDiagnosticsTimelineEnabled,
-} from "../infra/diagnostics-timeline.js";
-import { isTruthyEnvValue, isVitestRuntimeEnv, logAcceptedEnvOption } from "../infra/env.js";
-import { ensureOpenClawCliOnPath } from "../infra/path-env.js";
-import { readGatewayRestartHandoffSync } from "../infra/restart-handoff.js";
-import { setGatewaySigusr1RestartPolicy, setPreRestartDeferralCheck } from "../infra/restart.js";
-import { enqueueSystemEvent } from "../infra/system-events.js";
-import type { VoiceWakeRoutingConfig } from "../infra/voicewake-routing.js";
-import { withDiagnosticPhase } from "../logging/diagnostic-phase.js";
-import { startDiagnosticHeartbeat, stopDiagnosticHeartbeat } from "../logging/diagnostic.js";
-import { createSubsystemLogger, runtimeForLogger } from "../logging/subsystem.js";
-import { setCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
-import type { PluginHookGatewayCronService } from "../plugins/hook-types.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "../plugins/installed-plugin-index-records.js";
-import { cleanupRetainedManagedNpmInstallGenerations } from "../plugins/managed-npm-retention.js";
-import { clearPluginMetadataLifecycleCaches } from "../plugins/plugin-metadata-lifecycle.js";
+} from "../infra/diagnostics-timeline.ts";
+import { isTruthyEnvValue, isVitestRuntimeEnv, logAcceptedEnvOption } from "../infra/env.ts";
+import { ensureOpenClawCliOnPath } from "../infra/path-env.ts";
+import { readGatewayRestartHandoffSync } from "../infra/restart-handoff.ts";
+import { setGatewaySigusr1RestartPolicy, setPreRestartDeferralCheck } from "../infra/restart.ts";
+import { enqueueSystemEvent } from "../infra/system-events.ts";
+import type { VoiceWakeRoutingConfig } from "../infra/voicewake-routing.ts";
+import { withDiagnosticPhase } from "../logging/diagnostic-phase.ts";
+import { startDiagnosticHeartbeat, stopDiagnosticHeartbeat } from "../logging/diagnostic.ts";
+import { createSubsystemLogger, runtimeForLogger } from "../logging/subsystem.ts";
+import { setCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
+import type { PluginHookGatewayCronService } from "../plugins/hook-types.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "../plugins/installed-plugin-index-records.ts";
+import { cleanupRetainedManagedNpmInstallGenerations } from "../plugins/managed-npm-retention.ts";
+import { clearPluginMetadataLifecycleCaches } from "../plugins/plugin-metadata-lifecycle.ts";
 import {
   pinActivePluginChannelRegistry,
   pinActivePluginHttpRouteRegistry,
   pinActivePluginSessionExtensionRegistry,
-} from "../plugins/runtime.js";
-import type { PluginRuntime } from "../plugins/runtime/types.js";
-import { getTotalQueueSize, isGatewayDraining } from "../process/command-queue.js";
-import type { RuntimeEnv } from "../runtime.js";
+} from "../plugins/runtime.ts";
+import type { PluginRuntime } from "../plugins/runtime/types.ts";
+import { getTotalQueueSize, isGatewayDraining } from "../process/command-queue.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import {
   clearSecretsRuntimeSnapshot,
   getActiveSecretsRuntimeConfigSnapshot,
-} from "../secrets/runtime-state.js";
-import { createAuthRateLimiter, type AuthRateLimiter } from "./auth-rate-limit.js";
-import { resolveGatewayAuth } from "./auth.js";
-import type { RestartRecoveryCandidate } from "./chat-abort.js";
-import { ADMIN_SCOPE } from "./method-scopes.js";
+} from "../secrets/runtime-state.ts";
+import { createAuthRateLimiter, type AuthRateLimiter } from "./auth-rate-limit.ts";
+import { resolveGatewayAuth } from "./auth.ts";
+import type { RestartRecoveryCandidate } from "./chat-abort.ts";
+import { ADMIN_SCOPE } from "./method-scopes.ts";
 import {
   STARTUP_UNAVAILABLE_GATEWAY_METHODS,
   listCoreGatewayMethodNames,
-} from "./methods/core-descriptors.js";
+} from "./methods/core-descriptors.ts";
 import {
   createCoreGatewayMethodDescriptors,
   createGatewayMethodDescriptorsFromHandlers,
@@ -76,13 +76,13 @@ import {
   createPluginGatewayMethodDescriptors,
   isCoreGatewayMethodClassified,
   type GatewayMethodRegistry,
-} from "./methods/registry.js";
-import { isLoopbackHost } from "./net.js";
-import { createNodeReapprovalCoordinator } from "./node-reapproval-coordinator.js";
+} from "./methods/registry.ts";
+import { isLoopbackHost } from "./net.ts";
+import { createNodeReapprovalCoordinator } from "./node-reapproval-coordinator.ts";
 import {
   listChannelPluginConfigTargetIds,
   pluginConfigTargetsChanged,
-} from "./plugin-channel-reload-targets.js";
+} from "./plugin-channel-reload-targets.ts";
 import {
   collectGatewayProcessMemoryUsageMb,
   finishGatewayRestartTrace,
@@ -90,36 +90,36 @@ import {
   recordGatewayRestartTraceSpan,
   resumeGatewayRestartTraceFromEnv,
   resumeGatewayRestartTraceFromHandoff,
-} from "./restart-trace.js";
-import { resolveGatewayPluginConfig } from "./runtime-plugin-config.js";
-import { resolveGatewayControlUiRootState } from "./server-control-ui-root.js";
-import { createLazyGatewayCronState } from "./server-cron-lazy.js";
-import { applyGatewayLaneConcurrency } from "./server-lanes.js";
-import { createGatewayServerLiveState, type GatewayServerLiveState } from "./server-live-state.js";
-import { GATEWAY_EVENTS } from "./server-methods-list.js";
-import type { GatewayRequestContext, GatewayRequestHandlers } from "./server-methods/types.js";
-import { setFallbackGatewayContextResolver } from "./server-plugins.js";
-import type { GatewayPluginReloadResult } from "./server-reload-handlers.js";
-import { createGatewayRuntimeState } from "./server-runtime-state.js";
+} from "./restart-trace.ts";
+import { resolveGatewayPluginConfig } from "./runtime-plugin-config.ts";
+import { resolveGatewayControlUiRootState } from "./server-control-ui-root.ts";
+import { createLazyGatewayCronState } from "./server-cron-lazy.ts";
+import { applyGatewayLaneConcurrency } from "./server-lanes.ts";
+import { createGatewayServerLiveState, type GatewayServerLiveState } from "./server-live-state.ts";
+import { GATEWAY_EVENTS } from "./server-methods-list.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers } from "./server-methods/types.ts";
+import { setFallbackGatewayContextResolver } from "./server-plugins.ts";
+import type { GatewayPluginReloadResult } from "./server-reload-handlers.ts";
+import { createGatewayRuntimeState } from "./server-runtime-state.ts";
 import {
   enforceSharedGatewaySessionGenerationForConfigWrite,
   getRequiredSharedGatewaySessionGeneration,
   type SharedGatewaySessionGenerationState,
-} from "./server-shared-auth-generation.js";
-import { createWizardSessionTracker } from "./server-wizard-sessions.js";
-import { createGatewayEventLoopHealthMonitor } from "./server/event-loop-health.js";
+} from "./server-shared-auth-generation.ts";
+import { createWizardSessionTracker } from "./server-wizard-sessions.ts";
+import { createGatewayEventLoopHealthMonitor } from "./server/event-loop-health.ts";
 import {
   getHealthCache,
   getHealthVersion,
   getPresenceVersion,
   incrementPresenceVersion,
   refreshGatewayHealthSnapshot,
-} from "./server/health-state.js";
-import { resolveHookClientIpConfig } from "./server/hook-client-ip-config.js";
-import { createReadinessChecker } from "./server/readiness.js";
-import { loadGatewayTlsRuntime } from "./server/tls.js";
-import { resolveSharedGatewaySessionGeneration } from "./server/ws-shared-generation.js";
-import { maybeSeedControlUiAllowedOriginsAtStartup } from "./startup-control-ui-origins.js";
+} from "./server/health-state.ts";
+import { resolveHookClientIpConfig } from "./server/hook-client-ip-config.ts";
+import { createReadinessChecker } from "./server/readiness.ts";
+import { loadGatewayTlsRuntime } from "./server/tls.ts";
+import { resolveSharedGatewaySessionGeneration } from "./server/ws-shared-generation.ts";
+import { maybeSeedControlUiAllowedOriginsAtStartup } from "./startup-control-ui-origins.ts";
 
 type LoadGatewayModelCatalog = typeof import("./server-model-catalog.js").loadGatewayModelCatalog;
 

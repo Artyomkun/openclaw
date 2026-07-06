@@ -5,8 +5,8 @@ import os from "node:os";
 import path from "node:path";
 import { isRecord as hasRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalLowercaseString as normalizeString } from "@openclaw/normalization-core/string-coerce";
-import { collectConfiguredAgentHarnessRuntimes } from "../../../agents/harness-runtimes.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import { collectConfiguredAgentHarnessRuntimes } from "../../../agents/harness-runtimes.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 
 type CodexNativeAssetHit = {
   /** Native Codex asset category discovered under Codex or personal agent homes. */

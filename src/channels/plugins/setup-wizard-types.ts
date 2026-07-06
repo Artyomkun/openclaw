@@ -3,18 +3,18 @@
  *
  * Defines status, credentials, prompts, group access, and finalization types for setup flows.
  */
-import type { DmPolicy } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import type { WizardPrompter } from "../../wizard/prompts.js";
-import type { ChannelAccessPolicy } from "./setup-group-access.js";
-import type { ChannelConfigAdapter, ChannelSetupAdapter } from "./types.adapters.js";
+import type { DmPolicy } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import type { WizardPrompter } from "../../wizard/prompts.ts";
+import type { ChannelAccessPolicy } from "./setup-group-access.ts";
+import type { ChannelConfigAdapter, ChannelSetupAdapter } from "./types.adapters.ts";
 import type {
   ChannelCapabilities,
   ChannelId,
   ChannelMeta,
   ChannelSetupInput,
-} from "./types.core.js";
+} from "./types.core.ts";
 
 export type ChannelSetupPlugin = {
   id: ChannelId;

@@ -6,22 +6,22 @@
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
 import { Type, type TSchema } from "typebox";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { defaultRuntime } from "../../runtime.js";
-import { normalizeAnyChannelId } from "../registry.js";
-import { getChannelPlugin, getLoadedChannelPlugin, listChannelPlugins } from "./index.js";
-import type { ChannelMessageCapability } from "./message-capabilities.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { normalizeAnyChannelId } from "../registry.ts";
+import { getChannelPlugin, getLoadedChannelPlugin, listChannelPlugins } from "./index.ts";
+import type { ChannelMessageCapability } from "./message-capabilities.ts";
 import {
   resolveBundledChannelMessageToolDiscoveryAdapter,
   type ChannelMessageToolDiscoveryAdapter,
-} from "./message-tool-api.js";
+} from "./message-tool-api.ts";
 import type {
   ChannelMessageActionDiscoveryContext,
   ChannelMessageActionName,
   ChannelMessageToolDiscovery,
   ChannelMessageToolSchemaContribution,
-} from "./types.public.js";
+} from "./types.public.ts";
 
 /**
  * Input used to discover channel message actions for agent tool schemas.

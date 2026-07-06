@@ -5,10 +5,10 @@
  */
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { resolveUserPath } from "../../utils.js";
-import { resolveAgentIdFromSessionKey } from "../agent-scope.js";
-import { hashTextSha256 } from "./hash.js";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { resolveAgentIdFromSessionKey } from "../agent-scope.ts";
+import { hashTextSha256 } from "./hash.ts";
 
 /** Converts an arbitrary session key into a bounded filesystem/container-safe slug. */
 export function slugifySessionKey(value: string) {

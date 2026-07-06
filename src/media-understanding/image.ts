@@ -1,36 +1,36 @@
 // Model-backed image understanding runtime for providers without a native media
 // provider hook.
 import { clampPositiveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import { resolveModelAsync } from "../agents/embedded-agent-runner/model.js";
-import { isMinimaxVlmModel, minimaxUnderstandImage } from "../agents/minimax-vlm.js";
+import { resolveModelAsync } from "../agents/embedded-agent-runner/model.ts";
+import { isMinimaxVlmModel, minimaxUnderstandImage } from "../agents/minimax-vlm.ts";
 import {
   getApiKeyForModel,
   requireApiKey,
   resolveApiKeyForProvider,
-} from "../agents/model-auth.js";
-import { normalizeModelRef } from "../agents/model-selection.js";
-import { ensureOpenClawModelsJson } from "../agents/models-config.js";
-import { resolveProviderRequestCapabilities } from "../agents/provider-attribution.js";
-import { registerProviderStreamForModel } from "../agents/provider-stream.js";
+} from "../agents/model-auth.ts";
+import { normalizeModelRef } from "../agents/model-selection.ts";
+import { ensureOpenClawModelsJson } from "../agents/models-config.ts";
+import { resolveProviderRequestCapabilities } from "../agents/provider-attribution.ts";
+import { registerProviderStreamForModel } from "../agents/provider-stream.ts";
 import {
   coerceImageAssistantText,
   hasImageReasoningOnlyResponse,
-} from "../agents/tools/image-tool.helpers.js";
-import { isSecretRef } from "../config/types.secrets.js";
-import { complete } from "../llm/stream.js";
-import type { AssistantMessage, Context, Model, ProviderStreamOptions } from "../llm/types.js";
+} from "../agents/tools/image-tool.helpers.ts";
+import { isSecretRef } from "../config/types.secrets.ts";
+import { complete } from "../llm/stream.ts";
+import type { AssistantMessage, Context, Model, ProviderStreamOptions } from "../llm/types.ts";
 import {
   buildCopilotIdeHeaders,
   COPILOT_INTEGRATION_ID,
   resolveCopilotApiToken,
-} from "../plugin-sdk/provider-auth.js";
-import { normalizeMediaProviderId } from "./provider-id.js";
+} from "../plugin-sdk/provider-auth.ts";
+import { normalizeMediaProviderId } from "./provider-id.ts";
 import type {
   ImageDescriptionRequest,
   ImageDescriptionResult,
   ImagesDescriptionRequest,
   ImagesDescriptionResult,
-} from "./types.js";
+} from "./types.ts";
 
 function resolveImageToolMaxTokens(modelMaxTokens: number | undefined, requestedMaxTokens = 4096) {
   if (

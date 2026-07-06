@@ -3,7 +3,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.js";
+import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.ts";
 
 export const OPENCLAW_DOCS_URL = "https://docs.openclaw.ai";
 export const OPENCLAW_SOURCE_URL = "https://github.com/openclaw/openclaw";

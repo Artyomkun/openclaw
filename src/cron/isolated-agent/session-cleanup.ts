@@ -1,7 +1,7 @@
-import { retireSessionMcpRuntime } from "../../agents/agent-bundle-mcp-tools.js";
-import { isCronSessionKey } from "../../routing/session-key.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { CronJob } from "../types.js";
+import { retireSessionMcpRuntime } from "../../agents/agent-bundle-mcp-tools.ts";
+import { isCronSessionKey } from "../../routing/session-key.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { CronJob } from "../types.ts";
 
 const gatewayCallRuntimeLoader = createLazyImportLoader(
   () => import("../../gateway/call.runtime.js"),

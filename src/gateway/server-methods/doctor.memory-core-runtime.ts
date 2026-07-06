@@ -13,4 +13,4 @@ export {
   removeGroundedShortTermCandidates,
   repairDreamingArtifacts,
   writeBackfillDiaryEntries,
-} from "../../plugin-sdk/memory-core-bundled-runtime.js";
+} from "../../plugin-sdk/memory-core-bundled-runtime.ts";

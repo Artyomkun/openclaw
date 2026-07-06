@@ -2,28 +2,28 @@
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { areBundledPluginsDisabled, resolveBundledPluginsDir } from "../plugins/bundled-dir.js";
+import { areBundledPluginsDisabled, resolveBundledPluginsDir } from "../plugins/bundled-dir.ts";
 import {
   getCachedPluginSourceModuleLoader,
   type PluginModuleLoaderCache,
-} from "../plugins/plugin-module-loader-cache.js";
-import { resolveLoaderPackageRoot } from "../plugins/sdk-alias.js";
+} from "../plugins/plugin-module-loader-cache.ts";
+import { resolveLoaderPackageRoot } from "../plugins/sdk-alias.ts";
 import {
   loadBundledPluginPublicSurfaceModuleSync as loadBundledPluginPublicSurfaceModuleSyncLight,
   loadFacadeModuleAtLocationSync as loadFacadeModuleAtLocationSyncShared,
   resetFacadeLoaderStateForTest,
   type FacadeModuleLocation,
-} from "./facade-loader.js";
+} from "./facade-loader.ts";
 import {
   createFacadeResolutionKey as createFacadeResolutionKeyShared,
   resolveBundledFacadeModuleLocation,
   resolveRegistryPluginModuleLocationFromRecords,
-} from "./facade-resolution-shared.js";
+} from "./facade-resolution-shared.ts";
 export {
   createLazyFacadeArrayValue,
   createLazyFacadeObjectValue,
   listImportedBundledPluginFacadeIds,
-} from "./facade-loader.js";
+} from "./facade-loader.ts";
 
 /** Create a lazy value/function proxy for one property of a facade module. */
 export function createLazyFacadeValue<TFacade extends object, K extends keyof TFacade>(
@@ -190,22 +190,21 @@ function buildFacadeActivationCheckParams(
 }
 
 /** Load a bundled or registry-backed plugin public surface, tracking activation ownership. */
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Dynamic facade loaders use caller-supplied module surface types.
-export function loadBundledPluginPublicSurfaceModuleSync<T extends object>(
+export function loadBundledPluginPublicSurfaceModuleSync(
   params: BundledPluginPublicSurfaceParams,
-): T {
+): unknown {
   const location = resolveFacadeModuleLocation(params);
   const trackedPluginId = () =>
     loadFacadeActivationCheckRuntime().resolveTrackedFacadePluginId(
       buildFacadeActivationCheckParams(params, location),
     );
   if (!location) {
-    return loadBundledPluginPublicSurfaceModuleSyncLight<T>({
+    return loadBundledPluginPublicSurfaceModuleSyncLight({
       ...params,
       trackedPluginId,
     });
   }
-  return loadFacadeModuleAtLocationSync<T>({
+  return loadFacadeModuleAtLocationSync({
     location,
     trackedPluginId,
     runtimeDeps: {
@@ -227,7 +226,6 @@ export function canLoadActivatedBundledPluginPublicSurface(params: {
 }
 
 /** Load an activated plugin public surface or throw when activation policy blocks access. */
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Dynamic facade loaders use caller-supplied module surface types.
 export function loadActivatedBundledPluginPublicSurfaceModuleSync<T extends object>(params: {
   dirName: string;
   artifactBasename: string;
@@ -236,23 +234,22 @@ export function loadActivatedBundledPluginPublicSurfaceModuleSync<T extends obje
   loadFacadeActivationCheckRuntime().resolveActivatedBundledPluginPublicSurfaceAccessOrThrow(
     buildFacadeActivationCheckParams(params),
   );
-  return loadBundledPluginPublicSurfaceModuleSync<T>(params);
+  return loadBundledPluginPublicSurfaceModuleSync<T>(params) as T;
 }
 
 /** Load an activated plugin public surface, returning null when activation policy blocks access. */
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Dynamic facade loaders use caller-supplied module surface types.
-export function tryLoadActivatedBundledPluginPublicSurfaceModuleSync<T extends object>(params: {
+export function tryLoadActivatedBundledPluginPublicSurfaceModuleSync(params: {
   dirName: string;
   artifactBasename: string;
   env?: NodeJS.ProcessEnv;
-}): T | null {
+}): unknown {
   const access = loadFacadeActivationCheckRuntime().resolveBundledPluginPublicSurfaceAccess(
     buildFacadeActivationCheckParams(params),
   );
   if (!access.allowed) {
     return null;
   }
-  return loadBundledPluginPublicSurfaceModuleSync<T>(params);
+  return loadBundledPluginPublicSurfaceModuleSync(params);
 }
 
 /** Reset facade runtime caches and activation-check test overrides. */

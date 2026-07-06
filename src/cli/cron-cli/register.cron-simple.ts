@@ -5,12 +5,12 @@ import {
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import type { CronDeliveryPreview, CronJob } from "../../cron/types.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
-import { defaultRuntime } from "../../runtime.js";
-import type { GatewayRpcOpts } from "../gateway-rpc.js";
-import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.js";
-import { parseDurationMs } from "../parse-duration.js";
+import type { CronDeliveryPreview, CronJob } from "../../cron/types.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import type { GatewayRpcOpts } from "../gateway-rpc.ts";
+import { addGatewayClientOptions, callGatewayFromCli } from "../gateway-rpc.ts";
+import { parseDurationMs } from "../parse-duration.ts";
 import {
   coerceCronDeliveryPreviews,
   enrichCronJsonWithStatus,
@@ -18,7 +18,7 @@ import {
   printCronJson,
   printCronShow,
   warnIfCronSchedulerDisabled,
-} from "./shared.js";
+} from "./shared.ts";
 
 const CRON_SHOW_PAGE_SIZE = 200;
 const CRON_SHOW_LOOKUP_MAX_PAGES = 50;

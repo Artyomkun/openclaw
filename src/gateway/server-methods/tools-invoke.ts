@@ -7,9 +7,9 @@ import {
   formatValidationErrors,
   validateToolsInvokeParams,
   type ToolsInvokeResult,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { invokeGatewayTool } from "../tools-invoke-shared.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { invokeGatewayTool } from "../tools-invoke-shared.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /**
  * RPC adapter for invoking gateway-visible tools from connected clients.

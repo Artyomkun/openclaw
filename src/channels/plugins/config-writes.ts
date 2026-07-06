@@ -4,7 +4,7 @@
  * Applies shared config write authorization to concrete OpenClaw channel config.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   authorizeConfigWriteShared,
   canBypassConfigWritePolicyShared,
@@ -15,8 +15,8 @@ import {
   type ConfigWriteAuthorizationResultLike,
   type ConfigWriteScopeLike,
   type ConfigWriteTargetLike,
-} from "./config-write-policy-shared.js";
-import type { ChannelId } from "./types.core.js";
+} from "./config-write-policy-shared.ts";
+import type { ChannelId } from "./types.core.ts";
 
 /**
  * Channel/account scope used by channel config write checks.

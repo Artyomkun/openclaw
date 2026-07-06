@@ -3,42 +3,42 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { collectTextContentBlocks } from "../../agents/content-blocks.js";
-import type { BlockReplyChunking } from "../../agents/embedded-agent-block-chunker.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { generateSecureToken } from "../../infra/secure-random.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+import { collectTextContentBlocks } from "../../agents/content-blocks.ts";
+import type { BlockReplyChunking } from "../../agents/embedded-agent-block-chunker.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { generateSecureToken } from "../../infra/secure-random.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 import {
   listReservedChatSlashCommandNames,
   resolveSkillCommandInvocation,
-} from "../../skills/discovery/chat-commands.js";
-import type { SkillCommandSpec } from "../../skills/types.js";
-import { markCommandReplyForDelivery } from "../reply-payload.js";
-import type { MsgContext, TemplateContext } from "../templating.js";
-import type { ElevatedLevel, ReasoningLevel, ThinkLevel, VerboseLevel } from "../thinking.js";
-import type { GetReplyOptions, ReplyPayload } from "../types.js";
+} from "../../skills/discovery/chat-commands.ts";
+import type { SkillCommandSpec } from "../../skills/types.ts";
+import { markCommandReplyForDelivery } from "../reply-payload.ts";
+import type { MsgContext, TemplateContext } from "../templating.ts";
+import type { ElevatedLevel, ReasoningLevel, ThinkLevel, VerboseLevel } from "../thinking.ts";
+import type { GetReplyOptions, ReplyPayload } from "../types.ts";
 import {
   readAbortCutoffFromSessionEntry,
   resolveAbortCutoffFromContext,
   shouldSkipMessageByAbortCutoff,
-} from "./abort-cutoff.js";
-import { getAbortMemory, isAbortRequestText } from "./abort-primitives.js";
+} from "./abort-cutoff.ts";
+import { getAbortMemory, isAbortRequestText } from "./abort-primitives.ts";
 import {
   takeCommandSessionMetadataChangesFromTargets,
   type CommandSessionMetadataChange,
-} from "./command-session-metadata.js";
-import type { buildStatusReply, handleCommands } from "./commands.runtime.js";
-import { isDirectiveOnly } from "./directive-handling.directive-only.js";
-import type { InlineDirectives } from "./directive-handling.parse.js";
-import { extractExplicitGroupId } from "./group-id.js";
-import { stripMentions, stripStructuralPrefixes } from "./mentions.js";
-import type { createModelSelectionState } from "./model-selection.js";
-import { extractInlineSimpleCommand } from "./reply-inline.js";
-import type { TypingController } from "./typing.js";
+} from "./command-session-metadata.ts";
+import type { buildStatusReply, handleCommands } from "./commands.runtime.ts";
+import { isDirectiveOnly } from "./directive-handling.directive-only.ts";
+import type { InlineDirectives } from "./directive-handling.parse.ts";
+import { extractExplicitGroupId } from "./group-id.ts";
+import { stripMentions, stripStructuralPrefixes } from "./mentions.ts";
+import type { createModelSelectionState } from "./model-selection.ts";
+import { extractInlineSimpleCommand } from "./reply-inline.ts";
+import type { TypingController } from "./typing.ts";
 
 type SkillCommandsRuntime = typeof import("../../skills/discovery/chat-commands.runtime.js");
 type SkillToolDispatchRuntime = typeof import("../../skills/runtime/tool-dispatch.js");

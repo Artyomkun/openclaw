@@ -3,8 +3,8 @@ import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import type {
   DocumentExtractorPlugin,
   PluginDocumentExtractorEntry,
-} from "./document-extractor-types.js";
-import { loadBundledPluginPublicArtifactModuleFromCandidatesSync } from "./public-surface-loader.js";
+} from "./document-extractor-types.ts";
+import { loadBundledPluginPublicArtifactModuleFromCandidatesSync } from "./public-surface-loader.ts";
 
 const DOCUMENT_EXTRACTOR_ARTIFACT_CANDIDATES = [
   "document-extractor.js",

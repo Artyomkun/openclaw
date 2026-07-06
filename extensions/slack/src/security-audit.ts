@@ -58,11 +58,8 @@ export async function collectSlackSecurityAuditFindings(params: {
   }
 
   const allowFromRaw = slackCfg.allowFrom;
-  const legacyAllowFromRaw = (params.account as { dm?: { allowFrom?: unknown } }).dm?.allowFrom;
   const allowFrom = Array.isArray(allowFromRaw)
     ? allowFromRaw
-    : Array.isArray(legacyAllowFromRaw)
-      ? legacyAllowFromRaw
       : [];
   const storeAllowFrom = await readChannelAllowFromStore("slack", process.env, accountId).catch(
     () => [],

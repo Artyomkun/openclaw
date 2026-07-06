@@ -1,15 +1,15 @@
 // Session key resolution maps inbound message context to persisted store buckets.
-import type { MsgContext } from "../../auto-reply/templating.js";
+import type { MsgContext } from "../../auto-reply/templating.ts";
 import {
   buildAgentMainSessionKey,
   DEFAULT_AGENT_ID,
   normalizeAgentId,
   normalizeMainKey,
-} from "../../routing/session-key.js";
-import { normalizeE164 } from "../../utils.js";
-import { normalizeExplicitSessionKey } from "./explicit-session-key-normalization.js";
-import { resolveGroupSessionKey } from "./group.js";
-import type { SessionScope } from "./types.js";
+} from "../../routing/session-key.ts";
+import { normalizeE164 } from "../../utils.ts";
+import { normalizeExplicitSessionKey } from "./explicit-session-key-normalization.ts";
+import { resolveGroupSessionKey } from "./group.ts";
+import type { SessionScope } from "./types.ts";
 
 /**
  * Derives the raw session bucket from message context before agent/main-key normalization.

@@ -36,7 +36,7 @@ jobs:
           OPENCLAW_DEPENDENCY_GUARD_MODE: detect
           OPENCLAW_SECURITY_APPROVERS: vincentkoc,steipete,joshavant
           OPENCLAW_SECURITY_TEAM_SLUG: openclaw-secops
-        run: node scripts/github/dependency-guard.mjs
+        run: node scripts/github/dependency-guard.ts
 
   dependency-guard-autoscrub:
     if: ${{ !github.event.pull_request.draft && needs.dependency-guard-detect.outputs.autoscrub == 'true' }}
@@ -84,7 +84,7 @@ jobs:
           OPENCLAW_DEPENDENCY_GUARD_MODE: autoscrub
           OPENCLAW_SECURITY_APPROVERS: vincentkoc,steipete,joshavant
           OPENCLAW_SECURITY_TEAM_SLUG: openclaw-secops
-        run: node scripts/github/dependency-guard.mjs
+        run: node scripts/github/dependency-guard.ts
 
   dependency-guard:
     if: ${{ !github.event.pull_request.draft && always() }}
@@ -106,4 +106,4 @@ jobs:
           OPENCLAW_DEPENDENCY_GUARD_MODE: enforce
           OPENCLAW_SECURITY_APPROVERS: vincentkoc,steipete,joshavant
           OPENCLAW_SECURITY_TEAM_SLUG: openclaw-secops
-        run: node scripts/github/dependency-guard.mjs
+        run: node scripts/github/dependency-guard.ts

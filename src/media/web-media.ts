@@ -12,28 +12,28 @@ import {
   normalizeMimeType,
 } from "@openclaw/media-core/mime";
 import { uniqueValues } from "@openclaw/normalization-core/string-normalization";
-import { logVerbose, shouldLogVerbose } from "../globals.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { FsSafeError, readLocalFileSafely } from "../infra/fs-safe.js";
-import { assertNoWindowsNetworkPath, safeFileURLToPath } from "../infra/local-file-access.js";
-import type { PinnedDispatcherPolicy, SsrFPolicy } from "../infra/net/ssrf.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
-import { getActivePluginRegistry } from "../plugins/runtime.js";
-import { resolveUserPath } from "../utils.js";
-import { readRemoteMediaBuffer } from "./fetch.js";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { FsSafeError, readLocalFileSafely } from "../infra/fs-safe.ts";
+import { assertNoWindowsNetworkPath, safeFileURLToPath } from "../infra/local-file-access.ts";
+import type { PinnedDispatcherPolicy, SsrFPolicy } from "../infra/net/ssrf.ts";
+import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.ts";
+import { getActivePluginRegistry } from "../plugins/runtime.ts";
+import { resolveUserPath } from "../utils.ts";
+import { readRemoteMediaBuffer } from "./fetch.ts";
 import {
   assertLocalMediaAllowed,
   getDefaultLocalRoots,
   LocalMediaAccessError,
   type LocalMediaAccessErrorCode,
-} from "./local-media-access.js";
-import { MediaReferenceError, resolveInboundMediaReference } from "./media-reference.js";
+} from "./local-media-access.ts";
+import { MediaReferenceError, resolveInboundMediaReference } from "./media-reference.ts";
 import {
   createImageProcessor,
   readImageMetadataFromHeader,
   readImageProbeFromHeader,
-} from "./media-services.js";
-import { extractOriginalFilename, getMediaDir } from "./store.js";
+} from "./media-services.ts";
+import { extractOriginalFilename, getMediaDir } from "./store.ts";
 
 export { getDefaultLocalRoots, LocalMediaAccessError };
 export type { LocalMediaAccessErrorCode };
@@ -182,13 +182,6 @@ const HOST_READ_TEXT_PLAIN_EXTENSION_BY_MIME: Record<string, readonly string[]> 
   "text/plain": [".txt"],
 };
 const MB = 1024 * 1024;
-
-function stripLegacyMediaDirectivePrefix(mediaUrl: string): string {
-  if (/^\s*media:\/\//i.test(mediaUrl)) {
-    return mediaUrl;
-  }
-  return mediaUrl.replace(/^\s*MEDIA\s*:\s*/i, "");
-}
 
 function getTextStats(text: string): { printableRatio: number } {
   if (!text) {
@@ -868,7 +861,6 @@ async function loadWebMediaInternal(
     hostReadCapability = false,
     imageCompression,
   } = options;
-  mediaUrl = stripLegacyMediaDirectivePrefix(mediaUrl);
   mediaUrl = (await resolveMediaStoreUriToPath(mediaUrl)) ?? mediaUrl;
   // Use fileURLToPath for proper handling of file:// URLs (handles file://localhost/path, etc.)
   if (mediaUrl.startsWith("file://")) {
@@ -879,7 +871,6 @@ async function loadWebMediaInternal(
     }
   }
   mediaUrl = (await resolveHostedPluginMediaUrl(mediaUrl)) ?? mediaUrl;
-  mediaUrl = stripLegacyMediaDirectivePrefix(mediaUrl);
 
   const optimizeAndClampImage = async (
     buffer: Buffer,
@@ -1155,4 +1146,4 @@ export async function optimizeImageToJpeg(
   };
 }
 
-export { optimizeImageToPng } from "./media-services.js";
+export { optimizeImageToPng } from "./media-services.ts";

@@ -6,11 +6,11 @@ import {
   asDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import type { CommandContext } from "../auto-reply/reply/commands-types.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { tryReadJson, writeJson } from "../infra/json-files.js";
-import type { RuntimeEnv } from "../runtime.js";
+import type { CommandContext } from "../auto-reply/reply/commands-types.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { tryReadJson, writeJson } from "../infra/json-files.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import {
   executeCrestodianOperation,
   formatCrestodianPersistentPlan,
@@ -18,8 +18,8 @@ import {
   parseCrestodianOperation,
   type CrestodianCommandDeps,
   type CrestodianOperation,
-} from "./operations.js";
-import { resolveCrestodianRescuePolicy } from "./rescue-policy.js";
+} from "./operations.ts";
+import { resolveCrestodianRescuePolicy } from "./rescue-policy.ts";
 
 /**
  * Message-channel rescue command handling for Crestodian.

@@ -11,10 +11,10 @@ import {
   resolveExpiresAtMsFromDurationMs,
   timestampMsToIsoString,
 } from "@openclaw/normalization-core/number-coercion";
-import { loadJsonFile } from "../infra/json-file.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveUserPath } from "../utils.js";
-import type { OAuthProvider } from "./auth-profiles/types.js";
+import { loadJsonFile } from "../infra/json-file.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveUserPath } from "../utils.ts";
+import type { OAuthProvider } from "./auth-profiles/types.ts";
 
 const log = createSubsystemLogger("agents/auth-profiles");
 
@@ -458,36 +458,6 @@ export function readClaudeCliCredentials(options?: {
 
   const data = raw as Record<string, unknown>;
   return parseClaudeCliOauthCredential(data.claudeAiOauth);
-}
-
-/** @deprecated Anthropic provider-owned CLI credential helper; do not use from third-party plugins. */
-export function readClaudeCliCredentialsCached(options?: {
-  allowKeychainPrompt?: boolean;
-  ttlMs?: number;
-  platform?: NodeJS.Platform;
-  homeDir?: string;
-  execSync?: ExecSyncFn;
-}): ClaudeCliCredential | null {
-  const platform = options?.platform ?? process.platform;
-  const ttlMs = options?.ttlMs ?? 0;
-  const credentialsPath = resolveClaudeCliCredentialsPath(options?.homeDir);
-  const keychainIntent =
-    platform === "darwin" && options?.allowKeychainPrompt !== false ? "keychain" : "file";
-  return readCachedCliCredential({
-    ttlMs,
-    cache: claudeCliCache,
-    cacheKey: `${credentialsPath}:${keychainIntent}`,
-    read: () =>
-      readClaudeCliCredentials({
-        allowKeychainPrompt: options?.allowKeychainPrompt,
-        platform,
-        homeDir: options?.homeDir,
-        execSync: options?.execSync,
-      }),
-    setCache: (next) => {
-      claudeCliCache = next;
-    },
-  });
 }
 
 /** Reads Codex CLI OAuth credentials from Keychain or CODEX_HOME auth.json. */

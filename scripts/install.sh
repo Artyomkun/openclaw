@@ -533,15 +533,6 @@ run_required_step() {
     exit 1
 }
 
-cleanup_legacy_submodules() {
-    local repo_dir="$1"
-    local legacy_dir="$repo_dir/Peekaboo"
-    if [[ -d "$legacy_dir" ]]; then
-        ui_info "Removing legacy submodule checkout: ${legacy_dir}"
-        rm -rf "$legacy_dir"
-    fi
-}
-
 cleanup_npm_openclaw_paths() {
     local npm_root=""
     npm_root="$(npm root -g 2>/dev/null || true)"
@@ -2644,8 +2635,6 @@ install_openclaw_from_git() {
     else
         ui_info "Repo has local changes; skipping git checkout/update"
     fi
-
-    cleanup_legacy_submodules "$repo_dir"
     activate_repo_pnpm_version "$repo_dir"
 
     local install_lockfile_flag
@@ -2847,15 +2836,8 @@ run_bootstrap_onboarding_if_needed() {
     local effective_home
     effective_home="$(resolve_openclaw_effective_home)"
     local config_path="${OPENCLAW_CONFIG_PATH:-$effective_home/.openclaw/openclaw.json}"
-    local legacy_config_path="${HOME}/.openclaw/openclaw.json"
-    local legacy_clawdbot_path="${HOME}/.clawdbot/clawdbot.json"
     if [[ -f "${config_path}" || -f "$effective_home/.clawdbot/clawdbot.json" ]]; then
         return
-    fi
-    if [[ -z "${OPENCLAW_CONFIG_PATH:-}" && "${effective_home}" != "${HOME}" ]]; then
-        if [[ -f "$legacy_config_path" || -f "$legacy_clawdbot_path" ]]; then
-            return
-        fi
     fi
 
     local workspace

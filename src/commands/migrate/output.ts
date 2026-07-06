@@ -1,11 +1,11 @@
 /** Formatting and validation helpers for migration previews and apply results. */
 import { log } from "@clack/prompts";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { redactMigrationPlan } from "../../plugin-sdk/migration.js";
-import type { MigrationApplyResult, MigrationItem, MigrationPlan } from "../../plugins/types.js";
-import { writeRuntimeJson } from "../../runtime.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import type { MigrateApplyOptions } from "./types.js";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { redactMigrationPlan } from "../../plugin-sdk/migration.ts";
+import type { MigrationApplyResult, MigrationItem, MigrationPlan } from "../../plugins/types.ts";
+import { writeRuntimeJson } from "../../runtime.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import type { MigrateApplyOptions } from "./types.ts";
 
 function formatCount(value: number, label: string): string {
   return `${value} ${label}${value === 1 ? "" : "s"}`;

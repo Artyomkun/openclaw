@@ -4,36 +4,36 @@ import {
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveDefaultAgentDir } from "../agents/agent-scope-config.js";
-import { hasAuthProfileForProvider } from "../agents/tools/model-config.helpers.js";
+import { resolveDefaultAgentDir } from "../agents/agent-scope-config.ts";
+import { hasAuthProfileForProvider } from "../agents/tools/model-config.helpers.ts";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
   selectApplicableRuntimeConfig,
-} from "../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { logVerbose } from "../globals.js";
-import { resolveManifestContractOwnerPluginId } from "../plugins/plugin-registry-contributions.js";
-import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
+} from "../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { logVerbose } from "../globals.ts";
+import { resolveManifestContractOwnerPluginId } from "../plugins/plugin-registry-contributions.ts";
+import type { PluginWebSearchProviderEntry } from "../plugins/types.ts";
 import {
   resolvePluginWebSearchProviders,
   resolveRuntimeWebSearchProviders,
-} from "../plugins/web-search-providers.runtime.js";
-import { sortWebSearchProvidersForAutoDetect } from "../plugins/web-search-providers.shared.js";
-import { getActiveRuntimeWebToolsMetadata } from "../secrets/runtime-web-tools-state.js";
-import type { RuntimeWebSearchMetadata } from "../secrets/runtime-web-tools.types.js";
+} from "../plugins/web-search-providers.runtime.ts";
+import { sortWebSearchProvidersForAutoDetect } from "../plugins/web-search-providers.shared.ts";
+import { getActiveRuntimeWebToolsMetadata } from "../secrets/runtime-web-tools-state.ts";
+import type { RuntimeWebSearchMetadata } from "../secrets/runtime-web-tools.types.ts";
 import {
   hasWebProviderEntryCredential,
   providerRequiresCredential,
   readWebProviderEnvValue,
   resolveWebProviderConfig,
-} from "../../packages/web-content-core/src/provider-runtime-shared.js";
+} from "../../packages/web-content-core/src/provider-runtime-shared.ts";
 import type {
   ResolveWebSearchDefinitionParams,
   RunWebSearchParams,
   RunWebSearchResult,
   RuntimeWebSearchConfig as WebSearchConfig,
-} from "./runtime-types.js";
+} from "./runtime-types.ts";
 
 function resolveSearchConfig(cfg?: OpenClawConfig): WebSearchConfig {
   return resolveWebProviderConfig(cfg, "search") as NonNullable<WebSearchConfig> | undefined;

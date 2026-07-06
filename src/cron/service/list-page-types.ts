@@ -1,5 +1,5 @@
 /** Shared filter, sort, and page result types for cron job listing. */
-import type { CronJob, CronRunStatus } from "../types.js";
+import type { CronJob, CronRunStatus } from "../types.ts";
 
 /** Enabled-state filter accepted by paginated cron listing. */
 export type CronJobsEnabledFilter = "all" | "enabled" | "disabled";

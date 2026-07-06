@@ -6,26 +6,24 @@ import {
   listAgentIds,
   resolveAgentDir,
   resolveDefaultAgentDir,
-} from "../agents/agent-scope-config.js";
+} from "../agents/agent-scope-config.ts";
 import {
   AUTH_PROFILE_FILENAME,
   AUTH_STATE_FILENAME,
-  LEGACY_AUTH_FILENAME,
-} from "../agents/auth-profiles/path-constants.js";
-import { resolveAuthProfileDatabasePath } from "../agents/auth-profiles/sqlite.js";
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import { resolveOAuthPath } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
-import { resolveUserPath } from "../utils.js";
-import { hasCredentialBearingObjectValue, hasSecretRefCandidate } from "./runtime-secret-scan.js";
-import type { SecretDefaults } from "./runtime-shared.js";
+} from "../agents/auth-profiles/path-constants.ts";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import { resolveOAuthPath } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import type { PluginOrigin } from "../plugins/plugin-origin.types.ts";
+import { resolveUserPath } from "../utils.ts";
+import { hasCredentialBearingObjectValue, hasSecretRefCandidate } from "./runtime-secret-scan.ts";
+import type { SecretDefaults } from "./runtime-shared.ts";
 import type {
   PreparedSecretsRuntimeSnapshot,
   SecretsRuntimeRefreshContext,
-} from "./runtime-state.js";
-import type { RuntimeWebToolsMetadata } from "./runtime-web-tools.types.js";
+} from "./runtime-state.ts";
+import type { RuntimeWebToolsMetadata } from "./runtime-web-tools.types.ts";
 
 const RUNTIME_PATH_ENV_KEYS = [
   "HOME",
@@ -100,10 +98,9 @@ function resolveCandidateAgentDirs(params: {
 
 function hasCandidateAuthProfileStoreSource(agentDir: string): boolean {
   return (
-    existsSync(resolveAuthProfileDatabasePath(agentDir)) ||
     existsSync(path.join(agentDir, AUTH_PROFILE_FILENAME)) ||
     existsSync(path.join(agentDir, AUTH_STATE_FILENAME)) ||
-    existsSync(path.join(agentDir, LEGACY_AUTH_FILENAME))
+    existsSync(path.join(agentDir))
   );
 }
 

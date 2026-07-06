@@ -7,18 +7,18 @@ import os from "node:os";
 import path from "node:path";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { isPathInside } from "../../infra/path-guards.js";
-import { resolveSandboxInputPath, resolveSandboxPath } from "../sandbox-paths.js";
-import type { SandboxFsBridgeContext } from "./backend-handle.types.js";
-import { splitSandboxBindSpec } from "./bind-spec.js";
-import { SANDBOX_AGENT_WORKSPACE_MOUNT } from "./constants.js";
-import { resolveSandboxHostPathViaExistingAncestor } from "./host-paths.js";
+import { isPathInside } from "../../infra/path-guards.ts";
+import { resolveSandboxInputPath, resolveSandboxPath } from "../sandbox-paths.ts";
+import type { SandboxFsBridgeContext } from "./backend-handle.types.ts";
+import { splitSandboxBindSpec } from "./bind-spec.ts";
+import { SANDBOX_AGENT_WORKSPACE_MOUNT } from "./constants.ts";
+import { resolveSandboxHostPathViaExistingAncestor } from "./host-paths.ts";
 import {
   isPathInsideContainerRoot,
   normalizeContainerPath,
   relativePathEscapesContainerRoot,
-} from "./path-utils.js";
-import { resolveReadOnlyWorkspaceSkillMounts } from "./workspace-mounts.js";
+} from "./path-utils.ts";
+import { resolveReadOnlyWorkspaceSkillMounts } from "./workspace-mounts.ts";
 
 export type SandboxFsMount = {
   hostRoot: string;

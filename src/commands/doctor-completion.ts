@@ -1,8 +1,8 @@
 /** Doctor checks and repair effects for cached shell completion setup. */
 import { spawnSync } from "node:child_process";
 import path from "node:path";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveCliName } from "../cli/cli-name.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveCliName } from "../cli/cli-name.ts";
 import {
   completionCacheExists,
   formatCompletionReloadCommand,
@@ -13,11 +13,11 @@ import {
   resolveShellFromEnv,
   usesSlowDynamicCompletion,
   type CompletionShell,
-} from "../cli/completion-runtime.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
-import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.js";
-import type { RuntimeEnv } from "../runtime.js";
-import type { DoctorPrompter } from "./doctor-prompter.js";
+} from "../cli/completion-runtime.ts";
+import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.ts";
+import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { DoctorPrompter } from "./doctor-prompter.ts";
 
 const COMPLETION_CACHE_WRITE_TIMEOUT_MS = 30_000;
 
@@ -53,7 +53,7 @@ async function generateCompletionCache(
     return false;
   }
 
-  const binPath = path.join(root, "openclaw.mjs");
+  const binPath = path.join(root, "openclaw.ts");
   const args = [binPath, "completion", "--write-state"];
   if (options.shell) {
     args.push("--shell", options.shell);

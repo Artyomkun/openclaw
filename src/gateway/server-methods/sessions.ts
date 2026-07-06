@@ -7,7 +7,7 @@ import {
   normalizeOptionalString,
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { GATEWAY_CLIENT_IDS } from "../../../packages/gateway-protocol/src/client-info.js";
+import { GATEWAY_CLIENT_IDS } from "../../../packages/gateway-protocol/src/client-info.ts";
 import {
   ErrorCodes,
   errorShape,
@@ -31,22 +31,22 @@ import {
   validateSessionsResetParams,
   validateSessionsResolveParams,
   validateSessionsSendParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { readAcpSessionMeta } from "../../acp/runtime/session-meta.js";
-import { resolveModelAgentRuntimeMetadata } from "../../agents/agent-runtime-metadata.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { readAcpSessionMeta } from "../../acp/runtime/session-meta.ts";
+import { resolveModelAgentRuntimeMetadata } from "../../agents/agent-runtime-metadata.ts";
 import {
   listAgentIds,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope.js";
+} from "../../agents/agent-scope.ts";
 import {
   abortEmbeddedAgentRun,
   isEmbeddedAgentRunActive,
   waitForEmbeddedAgentRunEnd,
-} from "../../agents/embedded-agent-runner/runs.js";
-import { compactEmbeddedAgentSession } from "../../agents/embedded-agent.js";
-import { clearSessionQueues } from "../../auto-reply/reply/queue/cleanup.js";
-import { normalizeReasoningLevel, normalizeThinkLevel } from "../../auto-reply/thinking.js";
+} from "../../agents/embedded-agent-runner/runs.ts";
+import { compactEmbeddedAgentSession } from "../../agents/embedded-agent.ts";
+import { clearSessionQueues } from "../../auto-reply/reply/queue/cleanup.ts";
+import { normalizeReasoningLevel, normalizeThinkLevel } from "../../auto-reply/thinking.ts";
 import {
   runSessionsCleanup,
   serializeSessionCleanupResult,
@@ -55,53 +55,53 @@ import {
   deleteSessionEntryLifecycle,
   type SessionEntry,
   updateSessionStore,
-} from "../../config/sessions.js";
-import { resolveAgentMainSessionKey } from "../../config/sessions/main-session.js";
+} from "../../config/sessions.ts";
+import { resolveAgentMainSessionKey } from "../../config/sessions/main-session.ts";
 import {
   applySessionPatchProjection,
   createSessionEntryWithTranscript,
   preflightSessionTranscriptForManualCompact,
   trimSessionTranscriptForManualCompact,
-} from "../../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   createInternalHookEvent,
   hasInternalHookListeners,
   triggerInternalHook,
-} from "../../hooks/internal-hooks.js";
+} from "../../hooks/internal-hooks.ts";
 import {
   measureDiagnosticsTimelineSpan,
   measureDiagnosticsTimelineSpanSync,
-} from "../../infra/diagnostics-timeline.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { patchPluginSessionExtension } from "../../plugins/host-hook-state.js";
-import { isPluginJsonValue } from "../../plugins/host-hooks.js";
+} from "../../infra/diagnostics-timeline.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { patchPluginSessionExtension } from "../../plugins/host-hook-state.ts";
+import { isPluginJsonValue } from "../../plugins/host-hooks.ts";
 import {
   normalizeAgentId,
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
   toAgentStoreSessionKey,
-} from "../../routing/session-key.js";
-import { ADMIN_SCOPE } from "../operator-scopes.js";
-import { resolveSessionKeyForRun } from "../server-session-key.js";
+} from "../../routing/session-key.ts";
+import { ADMIN_SCOPE } from "../operator-scopes.ts";
+import { resolveSessionKeyForRun } from "../server-session-key.ts";
 import {
   createFileBackedCompactionCheckpointStore,
   getSessionCompactionCheckpoint,
   listSessionCompactionCheckpoints,
-} from "../session-compaction-checkpoints.js";
-import { triggerSessionPatchHook } from "../session-patch-hooks.js";
+} from "../session-compaction-checkpoints.ts";
+import { triggerSessionPatchHook } from "../session-patch-hooks.ts";
 import {
   resolveSessionStoreAgentId,
   resolveSessionStoreKey,
   resolveStoredSessionKeyForAgentStore,
   resolveStoredSessionOwnerAgentId,
-} from "../session-store-key.js";
-import { reactivateCompletedSubagentSession } from "../session-subagent-reactivation.js";
+} from "../session-store-key.ts";
+import { reactivateCompletedSubagentSession } from "../session-subagent-reactivation.ts";
 import {
   readRecentSessionMessagesWithStatsAsync,
   readSessionMessageCountAsync,
   readSessionPreviewItemsFromTranscript,
-} from "../session-transcript-readers.js";
+} from "../session-transcript-readers.ts";
 import {
   buildGatewaySessionRow,
   listSessionsFromStoreAsync,
@@ -118,22 +118,22 @@ import {
   type SessionsPatchResult,
   type SessionsPreviewEntry,
   type SessionsPreviewResult,
-} from "../session-utils.js";
-import { applySessionsPatchToStore, projectSessionsPatchEntry } from "../sessions-patch.js";
-import { resolveSessionKeyFromResolveParams } from "../sessions-resolve.js";
-import { setGatewayDedupeEntry } from "./agent-wait-dedupe.js";
-import { chatHandlers } from "./chat.js";
-import { loadOptionalServerMethodModelCatalog } from "./optional-model-catalog.js";
-import { hasTrackedActiveSessionRun } from "./session-active-runs.js";
-import { emitSessionsChanged } from "./session-change-event.js";
+} from "../session-utils.ts";
+import { applySessionsPatchToStore, projectSessionsPatchEntry } from "../sessions-patch.ts";
+import { resolveSessionKeyFromResolveParams } from "../sessions-resolve.ts";
+import { setGatewayDedupeEntry } from "./agent-wait-dedupe.ts";
+import { chatHandlers } from "./chat.ts";
+import { loadOptionalServerMethodModelCatalog } from "./optional-model-catalog.ts";
+import { hasTrackedActiveSessionRun } from "./session-active-runs.ts";
+import { emitSessionsChanged } from "./session-change-event.ts";
 import type {
   GatewayClient,
   GatewayRequestContext,
   GatewayRequestHandlerOptions,
   GatewayRequestHandlers,
   RespondFn,
-} from "./types.js";
-import { assertValidParams } from "./validation.js";
+} from "./types.ts";
+import { assertValidParams } from "./validation.ts";
 
 const compactionCheckpointStore = createFileBackedCompactionCheckpointStore();
 
@@ -696,11 +696,10 @@ async function handleSessionSend(params: {
   }
   const requestedAgentId = requestedAgent.agentId;
   const loaded = loadSessionEntry(key, { agentId: requestedAgentId });
-  const { legacyKey } = loaded;
   let { entry, canonicalKey, storePath } = loaded;
   // Reject sends/steers targeting sessions whose owning agent was deleted (#65524).
   const deletedAgentId = resolveDeletedAgentIdFromSessionKey(cfg, canonicalKey, entry, {
-    acpMetadataSessionKey: legacyKey ?? canonicalKey,
+    acpMetadataSessionKey: canonicalKey,
   });
   if (deletedAgentId !== null) {
     params.respond(
@@ -1592,7 +1591,7 @@ export const sessionsHandlers: GatewayRequestHandlers = {
       return;
     }
     const loaded = loadSessionEntry(key, { agentId: requestedAgent.agentId });
-    const { cfg: loadedCfg, entry, canonicalKey, legacyKey } = loaded;
+    const { cfg: loadedCfg, entry, canonicalKey } = loaded;
     const target = resolveGatewaySessionStoreTarget({
       cfg: loadedCfg,
       key: canonicalKey,
@@ -1619,7 +1618,6 @@ export const sessionsHandlers: GatewayRequestHandlers = {
     const branchedSession = await compactionCheckpointStore.branchCheckpointSession({
       storePath: target.storePath,
       sourceKey: canonicalKey,
-      sourceStoreKey: legacyKey,
       nextKey,
       checkpointId,
     });
@@ -1714,7 +1712,7 @@ export const sessionsHandlers: GatewayRequestHandlers = {
       return;
     }
     const loaded = loadSessionEntry(key, { agentId: requestedAgent.agentId });
-    const { entry, canonicalKey, legacyKey, storePath } = loaded;
+    const { entry, canonicalKey, storePath } = loaded;
     if (!entry?.sessionId) {
       respond(
         false,
@@ -1750,7 +1748,6 @@ export const sessionsHandlers: GatewayRequestHandlers = {
     const restoredSession = await compactionCheckpointStore.restoreCheckpointSession({
       storePath,
       sessionKey: canonicalKey,
-      sessionStoreKey: legacyKey,
       checkpointId,
     });
     if (
@@ -2245,7 +2242,7 @@ export const sessionsHandlers: GatewayRequestHandlers = {
       emitSessionUnboundLifecycleEvent,
     } = await loadSessionsRuntimeModule();
 
-    const { entry, legacyKey, canonicalKey } = loadSessionEntry(key, {
+    const { entry, canonicalKey } = loadSessionEntry(key, {
       agentId: requestedAgentId,
     });
     if (rejectPluginRuntimeDeleteMismatch({ client, key: canonicalKey ?? key, entry, respond })) {
@@ -2256,7 +2253,6 @@ export const sessionsHandlers: GatewayRequestHandlers = {
       key,
       target,
       entry,
-      legacyKey,
       canonicalKey,
       reason: "session-delete",
     });

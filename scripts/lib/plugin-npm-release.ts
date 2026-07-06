@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
 import { validateExternalCodePluginPackageJson } from "../../packages/plugin-package-contract/src/index.ts";
 import { parseReleaseVersion } from "../openclaw-npm-release-check.ts";
-import { collectReleaseVersionFloorErrors, resolveNpmPublishPlan } from "./npm-publish-plan.mjs";
+import { collectReleaseVersionFloorErrors, resolveNpmPublishPlan } from "./npm-publish-plan.ts";
 
 export type PluginPackageJson = {
   name?: string;

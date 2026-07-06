@@ -1,6 +1,6 @@
 // Codex runtime plugin auto-install/repair helpers for OpenAI model selections.
-import { modelSelectionShouldEnsureCodexPlugin } from "../agents/openai-routing.js";
-import { createRuntimePluginModelSelectionHelpers } from "./runtime-plugin-install.js";
+import { modelSelectionShouldEnsureCodexPlugin } from "../agents/openai-routing.ts";
+import { createRuntimePluginModelSelectionHelpers } from "./runtime-plugin-install.ts";
 
 export const CODEX_RUNTIME_PLUGIN_ID = "codex";
 const CODEX_RUNTIME_PLUGIN_LABEL = "Codex";

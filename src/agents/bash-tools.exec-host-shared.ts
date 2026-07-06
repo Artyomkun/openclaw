@@ -5,12 +5,12 @@
  */
 import crypto from "node:crypto";
 import { resolveExpiresAtMsFromDurationMs } from "@openclaw/normalization-core/number-coercion";
-import { formatErrorMessage } from "../infra/errors.js";
-import { buildExecApprovalUnavailableReplyPayload } from "../infra/exec-approval-reply.js";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { buildExecApprovalUnavailableReplyPayload } from "../infra/exec-approval-reply.ts";
 import {
   type ExecApprovalInitiatingSurfaceState,
   resolveExecApprovalInitiatingSurfaceState,
-} from "../infra/exec-approval-surface.js";
+} from "../infra/exec-approval-surface.ts";
 import {
   minSecurity,
   maxAsk,
@@ -20,19 +20,19 @@ import {
   type ExecAsk,
   type ExecApprovalDecision,
   type ExecSecurity,
-} from "../infra/exec-approvals.js";
-import { logWarn } from "../logger.js";
-import { registerExecApprovalFollowupRuntimeHandoff } from "./bash-tools.exec-approval-followup-state.js";
-import { sendExecApprovalFollowup } from "./bash-tools.exec-approval-followup.js";
+} from "../infra/exec-approvals.ts";
+import { logWarn } from "../logger.ts";
+import { registerExecApprovalFollowupRuntimeHandoff } from "./bash-tools.exec-approval-followup-state.ts";
+import { sendExecApprovalFollowup } from "./bash-tools.exec-approval-followup.ts";
 import {
   type ExecApprovalRegistration,
   resolveRegisteredExecApprovalDecision,
-} from "./bash-tools.exec-approval-request.js";
-import { buildApprovalPendingMessage } from "./bash-tools.exec-runtime.js";
-import { DEFAULT_APPROVAL_TIMEOUT_MS } from "./bash-tools.exec-runtime.js";
-import type { ExecElevatedDefaults, ExecToolDetails } from "./bash-tools.exec-types.js";
-import { isExecDeniedResultText } from "./exec-approval-result.js";
-import type { AgentToolResult } from "./runtime/index.js";
+} from "./bash-tools.exec-approval-request.ts";
+import { buildApprovalPendingMessage } from "./bash-tools.exec-runtime.ts";
+import { DEFAULT_APPROVAL_TIMEOUT_MS } from "./bash-tools.exec-runtime.ts";
+import type { ExecElevatedDefaults, ExecToolDetails } from "./bash-tools.exec-types.ts";
+import { isExecDeniedResultText } from "./exec-approval-result.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
 
 type ResolvedExecApprovals = ReturnType<typeof resolveExecApprovals>;
 /** Cap for deduplicating repeated follow-up dispatch failure log keys. */

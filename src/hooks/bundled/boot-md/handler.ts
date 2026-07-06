@@ -1,11 +1,11 @@
 // Boot.md hook injects workspace boot notes into agent startup context.
-import { listAgentIds, resolveAgentWorkspaceDir } from "../../../agents/agent-scope.js";
-import { createDefaultDeps } from "../../../cli/deps.js";
-import { runBootOnce } from "../../../gateway/boot.js";
-import { runStartupTasks, type StartupTask } from "../../../gateway/startup-tasks.js";
-import { createSubsystemLogger } from "../../../logging/subsystem.js";
-import type { HookHandler } from "../../hooks.js";
-import { isGatewayStartupEvent } from "../../internal-hooks.js";
+import { listAgentIds, resolveAgentWorkspaceDir } from "../../../agents/agent-scope.ts";
+import { createDefaultDeps } from "../../../cli/deps.ts";
+import { runBootOnce } from "../../../gateway/boot.ts";
+import { runStartupTasks, type StartupTask } from "../../../gateway/startup-tasks.ts";
+import { createSubsystemLogger } from "../../../logging/subsystem.ts";
+import type { HookHandler } from "../../hooks.ts";
+import { isGatewayStartupEvent } from "../../internal-hooks.ts";
 
 const log = createSubsystemLogger("hooks/boot-md");
 

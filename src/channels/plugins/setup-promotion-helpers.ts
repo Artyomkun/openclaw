@@ -1,16 +1,16 @@
 /**
  * Channel setup promotion helpers.
  *
- * Moves legacy single-account channel config into account-scoped config records.
+ * Moves older single-account channel config into account-scoped config records.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
-import { getBundledChannelPlugin, hasBundledChannelPackageSetupFeature } from "./bundled.js";
-import { getLoadedChannelPlugin } from "./registry.js";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.ts";
+import { getBundledChannelPlugin, hasBundledChannelPackageSetupFeature } from "./bundled.ts";
+import { getLoadedChannelPlugin } from "./registry.ts";
 import {
   collectSingleAccountPromotionEntries,
   isCommonSingleAccountPromotionKey,
-} from "./setup-promotion-keys.js";
+} from "./setup-promotion-keys.ts";
 
 type ChannelSectionBase = {
   defaultAccount?: string;

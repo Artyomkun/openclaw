@@ -11,13 +11,13 @@ import {
   normalizeOptionalString,
   type FastMode,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ChatType } from "../../channels/chat-type.js";
-import type { ChannelId } from "../../channels/plugins/channel-id.types.js";
-import type { ChannelRouteRef } from "../../plugin-sdk/channel-route.js";
-import type { Skill } from "../../skills/loading/skill-contract.js";
-import type { DeliveryContext } from "../../utils/delivery-context.types.js";
-import type { TtsAutoMode } from "../types.tts.js";
-import { rewriteSessionFileForNewSessionId } from "./session-file-rotation.js";
+import type { ChatType } from "../../channels/chat-type.ts";
+import type { ChannelId } from "../../channels/plugins/channel-id.types.ts";
+import type { ChannelRouteRef } from "../../plugin-sdk/channel-route.ts";
+import type { Skill } from "../../skills/loading/skill-contract.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.types.ts";
+import type { TtsAutoMode } from "../types.tts.ts";
+import { rewriteSessionFileForNewSessionId } from "./session-file-rotation.ts";
 
 export type SessionScope = "per-sender" | "global";
 
@@ -360,7 +360,7 @@ export type SessionEntry = {
   restartRecoveryDeliveryRunId?: string;
   /**
    * Whether totalTokens reflects a fresh context snapshot for the latest run.
-   * Undefined means legacy/unknown freshness; false forces consumers to treat
+   * Undefined means unknown freshness; false forces consumers to treat
    * totalTokens as stale/unknown for context-utilization displays.
    */
   totalTokensFresh?: boolean;

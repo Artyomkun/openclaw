@@ -1,14 +1,14 @@
 /**
  * Waits for completion-required async tasks before finalizing an attempt.
  */
-import { toErrorObject } from "../../../infra/errors.js";
-import { isCronRunSessionKey } from "../../../sessions/session-key-utils.js";
-import { isTerminalTaskStatus } from "../../../tasks/task-executor-policy.js";
-import type { TaskRecord } from "../../../tasks/task-registry.types.js";
+import { toErrorObject } from "../../../infra/errors.ts";
+import { isCronRunSessionKey } from "../../../sessions/session-key-utils.ts";
+import { isTerminalTaskStatus } from "../../../tasks/task-executor-policy.ts";
+import type { TaskRecord } from "../../../tasks/task-registry.types.ts";
 import {
   findTaskByRunIdForStatus,
   listTasksForOwnerOrRequesterSessionKeyForStatus,
-} from "../../../tasks/task-status-access.js";
+} from "../../../tasks/task-status-access.ts";
 
 export type AsyncStartedToolMeta = {
   toolName?: string;

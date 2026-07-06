@@ -1,7 +1,7 @@
 // Shares channel-configured checks across config and runtime surfaces.
-import { getChannelEnvVars } from "../secrets/channel-env-vars.js";
-import { isRecord } from "../utils.js";
-import type { OpenClawConfig } from "./config.js";
+import { getChannelEnvVars } from "../secrets/channel-env-vars.ts";
+import { isRecord } from "../utils.ts";
+import type { OpenClawConfig } from "./config.ts";
 
 /** Returns a channel config object when `channels.<id>` is present and object-shaped. */
 export function resolveChannelConfigRecord(

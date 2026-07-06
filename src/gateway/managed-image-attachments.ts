@@ -4,30 +4,30 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import path from "node:path";
-import { resolveDefaultAgentId } from "../agents/agent-scope-config.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { resolveStateDir } from "../config/paths.js";
-import { readLocalFileSafely } from "../infra/fs-safe.js";
-import { tryReadJson, writeJson } from "../infra/json-files.js";
-import { assertLocalMediaAllowed, resolveLocalMediaRoots } from "../media/local-media-access.js";
-import { resolveLocalMediaPath } from "../media/local-media-path.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope-config.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import { readLocalFileSafely } from "../infra/fs-safe.ts";
+import { tryReadJson, writeJson } from "../infra/json-files.ts";
+import { assertLocalMediaAllowed, resolveLocalMediaRoots } from "../media/local-media-access.ts";
+import { resolveLocalMediaPath } from "../media/local-media-path.ts";
 import {
   createImageProcessor,
   getImageMetadata,
   readImageProbeFromHeader,
-} from "../media/media-services.js";
-import { MEDIA_MAX_BYTES, saveMediaBuffer, saveMediaSource } from "../media/store.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth.js";
-import { sendJson, sendMethodNotAllowed, sendMissingScopeForbidden } from "./http-common.js";
+} from "../media/media-services.ts";
+import { MEDIA_MAX_BYTES, saveMediaBuffer, saveMediaSource } from "../media/store.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth.ts";
+import { sendJson, sendMethodNotAllowed, sendMissingScopeForbidden } from "./http-common.ts";
 import {
   authorizeGatewayHttpRequestOrReply,
   resolveOpenAiCompatibleHttpOperatorScopes,
   resolveOpenAiCompatibleHttpSenderIsOwner,
-} from "./http-utils.js";
-import { authorizeOperatorScopesForMethod } from "./method-scopes.js";
-import { readSessionMessagesWithSourceAsync } from "./session-transcript-readers.js";
-import { loadSessionEntry, resolveSessionHistoryTranscriptPathAsync } from "./session-utils.js";
+} from "./http-utils.ts";
+import { authorizeOperatorScopesForMethod } from "./method-scopes.ts";
+import { readSessionMessagesWithSourceAsync } from "./session-transcript-readers.ts";
+import { loadSessionEntry, resolveSessionHistoryTranscriptPathAsync } from "./session-utils.ts";
 
 const OUTGOING_IMAGE_ROUTE_PREFIX = "/api/chat/media/outgoing";
 const DEFAULT_TRANSIENT_OUTGOING_IMAGE_TTL_MS = 15 * 60 * 1000;

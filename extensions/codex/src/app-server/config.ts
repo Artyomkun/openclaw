@@ -563,8 +563,6 @@ export function resolveCodexAppServerRuntimeOptions(
     resolveSandbox(config.sandbox) ?? resolveSandbox(env.OPENCLAW_CODEX_APP_SERVER_SANDBOX);
   const explicitApprovalsReviewer = resolveApprovalsReviewer(config.approvalsReviewer);
   const normalizedPolicyMode = resolveCodexPolicyModeForOpenClawExecMode(execMode);
-  const ignoreLegacyYoloPolicyMode =
-    normalizedPolicyMode === "guardian" && explicitPolicyMode === "yolo";
   const canUseModelBackedReviewer = canUseCodexModelBackedApprovalsReviewerForModel({
     modelProvider: params.modelProvider,
     model: params.model,
@@ -595,9 +593,8 @@ export function resolveCodexAppServerRuntimeOptions(
   const forceRuntimePolicy =
     forceUserReviewer || forceGuardianReviewer || forceDangerFullAccessSandbox;
   const defaultPolicy =
-    explicitPolicyMode && !forceRuntimePolicy && !ignoreLegacyYoloPolicyMode
-      ? undefined
-      : resolveDefaultCodexAppServerPolicy({
+    explicitPolicyMode && !forceRuntimePolicy
+      && resolveDefaultCodexAppServerPolicy({
           transport,
           env,
           forceGuardian: normalizedPolicyMode === "guardian",
@@ -608,7 +605,7 @@ export function resolveCodexAppServerRuntimeOptions(
           readRequirementsFile: params.readRequirementsFile,
           platform: params.platform,
           hostName: params.hostName,
-          execModeRequiringUserReviewer: forceUserReviewer ? execMode : undefined,
+          execModeRequiringUserReviewer: forceUserReviewer || execMode,
         });
   const preserveExplicitAutoSandbox = forceGuardianReviewer && configuredSandbox === "read-only";
   const forcedPolicy = forceRuntimePolicy
@@ -630,9 +627,8 @@ export function resolveCodexAppServerRuntimeOptions(
           defaultPolicy?.approvalsReviewer ?? (forceUserReviewer ? "user" : "auto_review"),
       }
     : undefined;
-  const policyMode = ignoreLegacyYoloPolicyMode
-    ? normalizedPolicyMode
-    : (explicitPolicyMode ?? normalizedPolicyMode ?? defaultPolicy?.mode ?? "yolo");
+  const policyMode = normalizedPolicyMode
+    || (explicitPolicyMode ?? normalizedPolicyMode ?? defaultPolicy?.mode ?? "yolo");
   const serviceTier = normalizeCodexServiceTier(config.serviceTier);
   const resolvedSandbox =
     forcedPolicy?.sandbox ??
@@ -1747,9 +1743,6 @@ function selectForcedDangerFullAccessSandbox(params: {
     if (params.openClawSandboxActive) {
       return params.defaultPolicy.sandbox ?? "workspace-write";
     }
-    throw new Error(
-      "legacy full exec security with ask requires Codex app-server danger-full-access",
-    );
   }
   return "danger-full-access";
 }

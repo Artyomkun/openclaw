@@ -1,17 +1,17 @@
 // Reconciles stale task-flow records with their child task state.
-import { listTasksForFlowId } from "./runtime-internal.js";
+import { listTasksForFlowId } from "./runtime-internal.ts";
 import {
   listTaskFlowAuditFindings,
   summarizeTaskFlowAuditFindings,
   type TaskFlowAuditSummary,
-} from "./task-flow-registry.audit.js";
+} from "./task-flow-registry.audit.ts";
 import {
   deleteTaskFlowRecordById,
   getTaskFlowById,
   listTaskFlowRecords,
   updateFlowRecordByIdExpectedRevision,
-} from "./task-flow-registry.js";
-import type { TaskFlowRecord } from "./task-flow-registry.types.js";
+} from "./task-flow-registry.ts";
+import type { TaskFlowRecord } from "./task-flow-registry.types.ts";
 
 const TASK_FLOW_RETENTION_MS = 7 * 24 * 60 * 60_000;
 

@@ -1,14 +1,14 @@
 // Collects raw data needed to render `openclaw status --all`.
 // This file performs local read-only probes; formatting stays in report-line builders.
 
-import { canExecRequestNode } from "../../agents/exec-defaults.js";
-import { readConfigFileSnapshot, resolveGatewayPort } from "../../config/config.js";
-import { readLastGatewayErrorLine } from "../../daemon/diagnostics.js";
-import { inspectPortUsage } from "../../infra/ports.js";
-import { readRestartSentinel } from "../../infra/restart-sentinel.js";
-import { buildPluginCompatibilityNotices } from "../../plugins/status.js";
-import { buildWorkspaceSkillStatus } from "../../skills/discovery/status.js";
-import { getRemoteSkillEligibility } from "../../skills/runtime/remote.js";
+import { canExecRequestNode } from "../../agents/exec-defaults.ts";
+import { readConfigFileSnapshot, resolveGatewayPort } from "../../config/config.ts";
+import { readLastGatewayErrorLine } from "../../daemon/diagnostics.ts";
+import { inspectPortUsage } from "../../infra/ports.ts";
+import { readRestartSentinel } from "../../infra/restart-sentinel.ts";
+import { buildPluginCompatibilityNotices } from "../../plugins/status.ts";
+import { buildWorkspaceSkillStatus } from "../../skills/discovery/status.ts";
+import { getRemoteSkillEligibility } from "../../skills/runtime/remote.ts";
 import { buildStatusAllOverviewRows } from "../status-overview-rows.ts";
 import {
   buildStatusOverviewSurfaceFromOverview,
@@ -21,7 +21,7 @@ import {
 } from "../status-runtime-shared.ts";
 import { formatUpdateRestartStatusValue } from "../status-update-restart.ts";
 import { resolveStatusAllConnectionDetails } from "../status.gateway-connection.ts";
-import type { NodeOnlyGatewayInfo } from "../status.node-mode.js";
+import type { NodeOnlyGatewayInfo } from "../status.node-mode.ts";
 import type { StatusScanOverviewResult } from "../status.scan-overview.ts";
 
 type StatusServiceSummaries = Awaited<ReturnType<typeof resolveStatusServiceSummaries>>;

@@ -1,6 +1,5 @@
 // Discord plugin module implements channel behavior.
 import {
-  buildLegacyDmAccountAllowlistAdapter,
   createAccountScopedAllowlistNameResolver,
   createNestedAllowlistOverrideResolver,
 } from "openclaw/plugin-sdk/allowlist-config-edit";
@@ -287,16 +286,6 @@ export const discordPlugin: ChannelPlugin<ResolvedDiscordAccount, DiscordProbe> 
         setup: discordSetupAdapter,
       }),
       allowlist: {
-        ...buildLegacyDmAccountAllowlistAdapter({
-          channelId: "discord",
-          resolveAccount: resolveDiscordAccount,
-          normalize: ({ cfg, accountId, values }) =>
-            discordConfigAdapter.formatAllowFrom!({ cfg, accountId, allowFrom: values }),
-          resolveDmAllowFrom: (account, { cfg }) =>
-            resolveDiscordAccountAllowFrom({ cfg, accountId: account.accountId }),
-          resolveGroupPolicy: (account) => account.config.groupPolicy,
-          resolveGroupOverrides: resolveDiscordAllowlistGroupOverrides,
-        }),
         resolveNames: resolveDiscordAllowlistNames,
       },
       groups: {
@@ -308,7 +297,7 @@ export const discordPlugin: ChannelPlugin<ResolvedDiscordAccount, DiscordProbe> 
       },
       agentPrompt: {
         messageToolHints: () => [
-          "- Discord mentions: use canonical outbound syntax: users `<@USER_ID>`, channels `<#CHANNEL_ID>`, and roles `<@&ROLE_ID>`. Plain `@name` text only pings when a configured `mentionAliases` entry rewrites it; do not use the legacy `<@!USER_ID>` nickname form.",
+          "- Discord mentions: use canonical outbound syntax: users `<@USER_ID>`, channels `<#CHANNEL_ID>`, and roles `<@&ROLE_ID>`. Plain `@name` text only pings when a configured `mentionAliases` entry rewrites it; do not use the older `<@!USER_ID>` nickname form.",
           "- Discord components: set `components` when sending messages to include buttons, selects, or v2 containers.",
           "- Forms: add `components.modal` (title, fields). OpenClaw adds a trigger button and routes submissions as new messages.",
         ],

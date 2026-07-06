@@ -1,25 +1,25 @@
 // Handles auth directives that choose provider auth profiles for a reply.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { formatRemainingShort } from "../../agents/auth-health.js";
+import { formatRemainingShort } from "../../agents/auth-health.ts";
 import {
   isConfiguredAwsSdkAuthProfileForProvider,
   isProfileInCooldown,
   resolveAuthProfileDisplayLabel,
   resolveAuthStorePathForDisplay,
-} from "../../agents/auth-profiles.js";
-import type { AuthProfileCredential } from "../../agents/auth-profiles/types.js";
+} from "../../agents/auth-profiles.ts";
+import type { AuthProfileCredential } from "../../agents/auth-profiles/types.ts";
 import {
   ensureAuthProfileStore,
   resolveAuthProfileOrder,
   resolveEnvApiKey,
   resolveUsableCustomProviderApiKey,
-} from "../../agents/model-auth.js";
-import { findNormalizedProviderValue, normalizeProviderId } from "../../agents/model-selection.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { coerceSecretRef } from "../../config/types.secrets.js";
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
-import { shortenHomePath } from "../../utils.js";
-import { maskApiKey } from "../../utils/mask-api-key.js";
+} from "../../agents/model-auth.ts";
+import { findNormalizedProviderValue, normalizeProviderId } from "../../agents/model-selection.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { coerceSecretRef } from "../../config/types.secrets.ts";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
+import { shortenHomePath } from "../../utils.ts";
+import { maskApiKey } from "../../utils/mask-api-key.ts";
 
 /** Controls how much auth provenance is shown in directive status output. */
 export type ModelAuthDetailMode = "compact" | "verbose";

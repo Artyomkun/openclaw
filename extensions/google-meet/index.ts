@@ -102,7 +102,7 @@ const googleMeetConfigSchema = {
     },
     "chrome.audioFormat": {
       label: "Audio Format",
-      help: "Command-pair audio format. PCM16 24 kHz is the default Chrome/Meet path; G.711 mu-law 8 kHz remains available for legacy command pairs.",
+      help: "Command-pair audio format. PCM16 24 kHz is the default Chrome/Meet path; G.711 mu-law 8 kHz remains available for older command pairs.",
       advanced: true,
     },
     "chrome.audioBufferBytes": {
@@ -180,7 +180,7 @@ const googleMeetConfigSchema = {
     "voiceCall.introMessage": { label: "Voice Call Intro Message", advanced: true },
     "realtime.strategy": {
       label: "Realtime Strategy",
-      help: "Legacy realtime alias setting. Use mode=agent or mode=bidi for new Meet joins.",
+      help: "Older realtime alias setting. Use mode=agent or mode=bidi for new Meet joins.",
     },
     "realtime.provider": {
       label: "Speech Provider",
@@ -394,20 +394,6 @@ const googleMeetToolDeps = {
   callGatewayFromCli,
   platform: () => process.platform,
 };
-
-export const testing = {
-  setCallGatewayFromCliForTests(next?: typeof callGatewayFromCli): void {
-    googleMeetToolDeps.callGatewayFromCli = next ?? callGatewayFromCli;
-  },
-  setPlatformForTests(next?: () => NodeJS.Platform): void {
-    googleMeetToolDeps.platform = next ?? (() => process.platform);
-  },
-  isGoogleMeetAgentToolActionUnsupportedOnHost,
-  resolveGoogleMeetGatewayOperationTimeoutMs,
-};
-
-/** @deprecated Use `testing`. */
-export { testing as __testing };
 
 type GoogleMeetGatewayToolAction =
   | "join"

@@ -1,7 +1,7 @@
 // Concurrency wrapper for media-understanding tasks that keeps successful
 // outputs while verbose-logging per-provider failures.
-import { logVerbose, shouldLogVerbose } from "../globals.js";
-import { runTasksWithConcurrency } from "../utils/run-with-concurrency.js";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
+import { runTasksWithConcurrency } from "../utils/run-with-concurrency.ts";
 
 /** Runs media tasks under a fixed concurrency limit while preserving successful results. */
 export async function runWithConcurrency<T>(

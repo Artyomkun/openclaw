@@ -1,10 +1,10 @@
 /** Preflights local model-provider endpoints before scheduled cron runner startup. */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { ModelProviderConfig } from "../../config/types.models.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { fetchWithSsrFGuard } from "../../infra/net/fetch-guard.js";
-import type { SsrFPolicy } from "../../infra/net/ssrf.js";
+import type { ModelProviderConfig } from "../../config/types.models.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { fetchWithSsrFGuard } from "../../infra/net/fetch-guard.ts";
+import type { SsrFPolicy } from "../../infra/net/ssrf.ts";
 
 const PREFLIGHT_CACHE_TTL_MS = 5 * 60_000;
 const PREFLIGHT_TIMEOUT_MS = 2_500;

@@ -1,19 +1,19 @@
 // Resolves runtime safe-bin policy and trust warnings.
-import { resolveSafeBins } from "./exec-approvals-allowlist.js";
+import { resolveSafeBins } from "./exec-approvals-allowlist.ts";
 import {
   normalizeSafeBinProfileFixtures,
   resolveSafeBinProfiles,
   type SafeBinProfile,
   type SafeBinProfileFixture,
   type SafeBinProfileFixtures,
-} from "./exec-safe-bin-policy.js";
-import { normalizeSafeBinName } from "./exec-safe-bin-semantics.js";
+} from "./exec-safe-bin-policy.ts";
+import { normalizeSafeBinName } from "./exec-safe-bin-semantics.ts";
 import {
   getTrustedSafeBinDirs,
   listWritableExplicitTrustedSafeBinDirs,
   normalizeTrustedSafeBinDirs,
   type WritableTrustedSafeBinDir,
-} from "./exec-safe-bin-trust.js";
+} from "./exec-safe-bin-trust.ts";
 
 type ExecSafeBinConfigScope = {
   safeBins?: string[] | null;

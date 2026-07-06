@@ -3,13 +3,13 @@ import {
   identityHasStableSessionId,
   resolveSessionIdentityFromMeta,
 } from "@openclaw/acp-core/runtime/session-identity";
-import { toAcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.js";
-import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.js";
+import { toAcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.ts";
+import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.ts";
 import {
   discardPersistedManagerRuntimeState,
   isRecoverableManagerAcpxExitError,
   tryPrepareFreshManagerRuntimeSession,
-} from "./manager.runtime-resume-state.js";
+} from "./manager.runtime-resume-state.ts";
 import type {
   AcpCloseSessionInput,
   AcpCloseSessionResult,
@@ -17,8 +17,8 @@ import type {
   EnsureManagerRuntimeHandle,
   ResolveManagerSession,
   WriteManagerSessionMeta,
-} from "./manager.types.js";
-import { requireReadySessionMeta, resolveAcpSessionResolutionError } from "./manager.utils.js";
+} from "./manager.types.ts";
+import { requireReadySessionMeta, resolveAcpSessionResolutionError } from "./manager.utils.ts";
 
 /** Closes an ACP session runtime handle and optionally discards persistent state/meta. */
 export async function runManagerCloseSession(params: {

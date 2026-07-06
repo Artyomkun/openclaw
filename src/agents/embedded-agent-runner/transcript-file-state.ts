@@ -5,10 +5,10 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { isSessionTranscriptSideAppendEntry } from "../../config/sessions/transcript-tree.js";
-import { CURRENT_SESSION_VERSION } from "../../config/sessions/version.js";
-import { appendRegularFile } from "../../infra/fs-safe.js";
-import { privateFileStore } from "../../infra/private-file-store.js";
+import { isSessionTranscriptSideAppendEntry } from "../../config/sessions/transcript-tree.ts";
+import { CURRENT_SESSION_VERSION } from "../../config/sessions/version.ts";
+import { appendRegularFile } from "../../infra/fs-safe.ts";
+import { privateFileStore } from "../../infra/private-file-store.ts";
 import {
   buildSessionContext,
   migrateSessionEntries,
@@ -17,7 +17,7 @@ import {
   type SessionContext,
   type SessionEntry,
   type SessionHeader,
-} from "../sessions/index.js";
+} from "../sessions/index.ts";
 
 // Mutable view over a session JSONL transcript. The runner uses this layer to
 // tolerate old or partially malformed rows before appending new canonical rows.

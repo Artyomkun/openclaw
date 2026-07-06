@@ -1,11 +1,11 @@
 /** Computes at/every/cron schedule timestamps with bounded Croner caching. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { Cron } from "croner";
-import { parseAbsoluteTimeMs } from "./parse.js";
-import { coerceFiniteScheduleNumber } from "./schedule-number.js";
-import type { CronSchedule } from "./types.js";
+import { parseAbsoluteTimeMs } from "./parse.ts";
+import { coerceFiniteScheduleNumber } from "./schedule-number.ts";
+import type { CronSchedule } from "./types.ts";
 
-export { coerceFiniteScheduleNumber } from "./schedule-number.js";
+export { coerceFiniteScheduleNumber } from "./schedule-number.ts";
 
 const CRON_EVAL_CACHE_MAX = 512;
 const cronEvalCache = new Map<string, Cron>();

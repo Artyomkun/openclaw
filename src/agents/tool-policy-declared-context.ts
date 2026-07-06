@@ -1,18 +1,18 @@
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { normalizeConfiguredMcpServers } from "../config/mcp-config-normalize.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
+import { normalizeConfiguredMcpServers } from "../config/mcp-config-normalize.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
 import {
   isManifestPluginAvailableForControlPlane,
   loadManifestMetadataSnapshot,
-} from "../plugins/manifest-contract-eligibility.js";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
-import { hasManifestToolAvailability } from "../plugins/manifest-tool-availability.js";
-import { sanitizeServerName, TOOL_NAME_SEPARATOR } from "./agent-bundle-mcp-names.js";
-import { compileGlobPatterns, matchesAnyGlobPattern } from "./glob-pattern.js";
-import type { DeclaredToolAllowlistContext } from "./tool-policy.js";
-import { normalizeToolName } from "./tool-policy.js";
+} from "../plugins/manifest-contract-eligibility.ts";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
+import { hasManifestToolAvailability } from "../plugins/manifest-tool-availability.ts";
+import { sanitizeServerName, TOOL_NAME_SEPARATOR } from "./agent-bundle-mcp-names.ts";
+import { compileGlobPatterns, matchesAnyGlobPattern } from "./glob-pattern.ts";
+import type { DeclaredToolAllowlistContext } from "./tool-policy.ts";
+import { normalizeToolName } from "./tool-policy.ts";
 
 type ToolDenylist = ReturnType<typeof compileGlobPatterns>;
 

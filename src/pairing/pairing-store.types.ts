@@ -1,6 +1,6 @@
 // Shared type contracts for pairing challenge and channel binding records.
-import type { ChannelId } from "../channels/plugins/channel-id.types.js";
-import type { ChannelPairingAdapter } from "../channels/plugins/pairing.types.js";
+import type { ChannelId } from "../channels/plugins/channel-id.types.ts";
+import type { ChannelPairingAdapter } from "../channels/plugins/pairing.types.ts";
 
 // Pairing store contracts shared by channel ingress and approval flows. Pairing
 // channels use channel ids but keep a narrower alias for readability.

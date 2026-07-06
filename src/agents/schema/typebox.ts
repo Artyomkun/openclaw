@@ -8,8 +8,8 @@ import { Type } from "typebox";
 import {
   CHANNEL_TARGET_DESCRIPTION,
   CHANNEL_TARGETS_DESCRIPTION,
-} from "../../infra/outbound/channel-target.js";
-export { optionalStringEnum, stringEnum } from "./string-enum.js";
+} from "../../infra/outbound/channel-target.ts";
+export { optionalStringEnum, stringEnum } from "./string-enum.ts";
 
 /** Builds a schema for one outbound channel target. */
 export function channelTargetSchema(options?: { description?: string }) {

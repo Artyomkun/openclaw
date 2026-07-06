@@ -1,9 +1,9 @@
 /**
  * Resolves why an auth profile failed during provider auth selection.
  */
-import type { AuthProfileFailureReason } from "../../auth-profiles/types.js";
-import type { FailoverReason } from "../../embedded-agent-helpers/types.js";
-import type { AuthProfileFailurePolicy } from "./auth-profile-failure-policy.types.js";
+import type { AuthProfileFailureReason } from "../../auth-profiles/types.ts";
+import type { FailoverReason } from "../../embedded-agent-helpers/types.ts";
+import type { AuthProfileFailurePolicy } from "./auth-profile-failure-policy.types.ts";
 
 /**
  * Returns the subset of failover reasons that should affect shared auth-profile

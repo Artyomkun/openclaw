@@ -1,6 +1,6 @@
 // Discord-style admin command registration for roles, channels, members, events, and moderation.
 import type { Command } from "commander";
-import type { MessageCliHelpers } from "./helpers.js";
+import type { MessageCliHelpers } from "./helpers.ts";
 
 /** Register Discord admin and moderation message subcommands. */
 export function registerMessageDiscordAdminCommands(message: Command, helpers: MessageCliHelpers) {

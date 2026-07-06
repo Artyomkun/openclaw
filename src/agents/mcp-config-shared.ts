@@ -8,7 +8,7 @@ import {
   isDangerousHostEnvVarName,
   isDangerousHostInheritedEnvVarName,
   normalizeEnvVarKey,
-} from "../infra/host-env-security.js";
+} from "../infra/host-env-security.ts";
 
 const MCP_EXPLICIT_CREDENTIAL_ENV_KEYS = new Set([
   // Explicit MCP server credentials are operator-configured auth inputs, not

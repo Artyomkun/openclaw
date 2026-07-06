@@ -6,22 +6,22 @@ import {
   handleAgentStart,
   handleCompactionEnd,
   handleCompactionStart,
-} from "./embedded-agent-subscribe.handlers.lifecycle.js";
+} from "./embedded-agent-subscribe.handlers.lifecycle.ts";
 import {
   handleMessageEnd,
   handleMessageStart,
   handleMessageUpdate,
-} from "./embedded-agent-subscribe.handlers.messages.js";
+} from "./embedded-agent-subscribe.handlers.messages.ts";
 import {
   handleToolExecutionEnd,
   handleToolExecutionStart,
   handleToolExecutionUpdate,
-} from "./embedded-agent-subscribe.handlers.tools.js";
+} from "./embedded-agent-subscribe.handlers.tools.ts";
 import type {
   EmbeddedAgentSubscribeContext,
   EmbeddedAgentSubscribeEvent,
-} from "./embedded-agent-subscribe.handlers.types.js";
-import { isPromiseLike } from "./embedded-agent-subscribe.promise.js";
+} from "./embedded-agent-subscribe.handlers.types.ts";
+import { isPromiseLike } from "./embedded-agent-subscribe.promise.ts";
 
 /** Create the serialized event dispatcher for subscribed embedded-agent sessions. */
 export function createEmbeddedAgentSessionEventHandler(ctx: EmbeddedAgentSubscribeContext) {

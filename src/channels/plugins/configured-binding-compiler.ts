@@ -7,17 +7,17 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { listConfiguredBindings } from "../../config/bindings.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { pickFirstExistingAgentId } from "../../routing/resolve-route.js";
-import { resolveChannelConfiguredBindingProvider } from "./binding-provider.js";
-import type { CompiledConfiguredBinding, ConfiguredBindingChannel } from "./binding-types.js";
-import { resolveConfiguredBindingConsumer } from "./configured-binding-consumers.js";
-import { getChannelPlugin } from "./index.js";
+import { listConfiguredBindings } from "../../config/bindings.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { pickFirstExistingAgentId } from "../../routing/resolve-route.ts";
+import { resolveChannelConfiguredBindingProvider } from "./binding-provider.ts";
+import type { CompiledConfiguredBinding, ConfiguredBindingChannel } from "./binding-types.ts";
+import { resolveConfiguredBindingConsumer } from "./configured-binding-consumers.ts";
+import { getChannelPlugin } from "./index.ts";
 import type {
   ChannelConfiguredBindingConversationRef,
   ChannelConfiguredBindingProvider,
-} from "./types.adapters.js";
+} from "./types.adapters.ts";
 
 export type CompiledConfiguredBindingRegistry = {
   rulesByChannel: Map<ConfiguredBindingChannel, CompiledConfiguredBinding[]>;

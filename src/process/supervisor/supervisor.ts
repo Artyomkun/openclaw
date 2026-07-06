@@ -2,10 +2,10 @@
 import crypto from "node:crypto";
 import { performance } from "node:perf_hooks";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { getShellConfig } from "../../agents/shell-utils.js";
-import { createChildAdapter } from "./adapters/child.js";
-import { createPtyAdapter } from "./adapters/pty.js";
-import { createRunRegistry } from "./registry.js";
+import { getShellConfig } from "../../agents/shell-utils.ts";
+import { createChildAdapter } from "./adapters/child.ts";
+import { createPtyAdapter } from "./adapters/pty.ts";
+import { createRunRegistry } from "./registry.ts";
 import type {
   ManagedRun,
   ProcessSupervisor,
@@ -13,7 +13,7 @@ import type {
   RunRecord,
   SpawnInput,
   TerminationReason,
-} from "./types.js";
+} from "./types.ts";
 
 type SupervisorLogRuntime = typeof import("./supervisor-log.runtime.js");
 

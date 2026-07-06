@@ -1,11 +1,11 @@
 // Gateway method registry normalizes method descriptors, enforces unique names, and exposes dispatch policy metadata.
-import type { PluginRegistry } from "../../plugins/registry-types.js";
-import { normalizePluginGatewayMethodScope } from "../../shared/gateway-method-policy.js";
-import { ADMIN_SCOPE, type OperatorScope } from "../operator-scopes.js";
+import type { PluginRegistry } from "../../plugins/registry-types.ts";
+import { normalizePluginGatewayMethodScope } from "../../shared/gateway-method-policy.ts";
+import { ADMIN_SCOPE, type OperatorScope } from "../operator-scopes.ts";
 import {
   createCoreGatewayMethodDescriptors,
   isCoreGatewayMethodClassified,
-} from "./core-descriptors.js";
+} from "./core-descriptors.ts";
 import {
   DYNAMIC_GATEWAY_METHOD_SCOPE,
   type GatewayMethodDescriptor,
@@ -14,7 +14,7 @@ import {
   type GatewayMethodOwner,
   type GatewayMethodRegistryView,
   NODE_GATEWAY_METHOD_SCOPE,
-} from "./descriptor.js";
+} from "./descriptor.ts";
 
 export type GatewayMethodRegistry = GatewayMethodRegistryView;
 export { createCoreGatewayMethodDescriptors, isCoreGatewayMethodClassified };
@@ -117,7 +117,7 @@ export function createPluginGatewayMethodDescriptor(params: {
   };
 }
 
-/** Resolves plugin method descriptors, including the legacy handler-only registry shape. */
+/** Resolves plugin method descriptors, including the older handler-only registry shape. */
 export function createPluginGatewayMethodDescriptors(
   registry: Pick<PluginRegistry, "gatewayHandlers"> &
     Partial<Pick<PluginRegistry, "gatewayMethodDescriptors">>,

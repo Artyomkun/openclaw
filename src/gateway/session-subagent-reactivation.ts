@@ -1,6 +1,6 @@
 // Subagent session reactivation helper.
 // Replaces completed subagent run records when a user steers the child session.
-import { getLatestSubagentRunByChildSessionKey } from "../agents/subagent-registry-read.js";
+import { getLatestSubagentRunByChildSessionKey } from "../agents/subagent-registry-read.ts";
 
 // Completed subagent sessions can be reactivated after a user steer by replacing
 // the previous completed run id with the next run id through a lazy runtime

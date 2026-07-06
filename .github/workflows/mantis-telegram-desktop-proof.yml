@@ -223,7 +223,7 @@ jobs:
       candidate_trust: ${{ steps.validate.outputs.candidate_trust }}
     steps:
       - name: Checkout harness ref
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           ref: main
           persist-credentials: false
@@ -350,7 +350,7 @@ jobs:
           done
 
       - name: Checkout harness ref
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -362,7 +362,7 @@ jobs:
           install-bun: "true"
 
       - name: Setup Go for Crabbox CLI
-        uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
         with:
           go-version: "1.26.x"
           cache: false
@@ -445,7 +445,7 @@ jobs:
           sudo chown -R codex:codex "$GITHUB_WORKSPACE"
 
       - name: Run Codex Mantis Telegram agent
-        uses: openai/codex-action@e0fdf01220eb9a88167c4898839d273e3f2609d1
+        uses: openai/codex-action@10cb888d2ed3b99867f7e7ccff174a861a75aeb6
         env:
           BASELINE_REF: ${{ needs.resolve_request.outputs.baseline_ref }}
           BASELINE_SHA: ${{ needs.validate_refs.outputs.baseline_revision }}
@@ -620,7 +620,7 @@ jobs:
     environment: qa-live-shared
     steps:
       - name: Checkout harness ref
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
 

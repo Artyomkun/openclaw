@@ -1,6 +1,6 @@
 // Normalizes config tag metadata for schema and docs surfaces.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { ConfigUiHint, ConfigUiHints } from "../shared/config-ui-hints-types.js";
+import type { ConfigUiHint, ConfigUiHints } from "../shared/config-ui-hints-types.ts";
 
 /** Stable config UI tag vocabulary used for filtering and grouping schema hints. */
 export const CONFIG_TAGS = [

@@ -1,10 +1,10 @@
 // Gateway startup checks that must run before shared CLI bootstrap can migrate state.
-import { ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV } from "../../config/future-version-guard.js";
-import type { ConfigFileSnapshot } from "../../config/types.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import type { GatewayRunPreBootstrapOptions } from "./future-config-guard.js";
-import { enforceGatewayRunFutureConfigGuard } from "./future-config-guard.js";
-import { getGatewayRunRuntimeHooks } from "./runtime-hooks.js";
+import { ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV } from "../../config/future-version-guard.ts";
+import type { ConfigFileSnapshot } from "../../config/types.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import type { GatewayRunPreBootstrapOptions } from "./future-config-guard.ts";
+import { enforceGatewayRunFutureConfigGuard } from "./future-config-guard.ts";
+import { getGatewayRunRuntimeHooks } from "./runtime-hooks.ts";
 
 type GatewayRunGuardParams = {
   opts: GatewayRunPreBootstrapOptions;
@@ -638,8 +638,7 @@ export async function prepareGatewayRunBootstrap(params: GatewayRunGuardParams):
         restoreSuspicious: true,
       });
   await pinGatewayRunRuntimePaths();
-  // Dev reset deletes the state directory before recreating config. Migrating first would
-  // archive legacy state and then delete its imported SQLite rows.
+  // Dev reset deletes the state directory before recreating config.
   const shouldBootstrap = guarded && !params.opts.reset;
   preparedGatewayRunBootstrapSnapshot = shouldBootstrap ? lastGuardedGatewayRunSnapshot : undefined;
   if (guarded && params.opts.reset && lastGuardedGatewayRunSnapshot) {

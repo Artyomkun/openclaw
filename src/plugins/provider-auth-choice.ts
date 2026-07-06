@@ -1,35 +1,35 @@
 // Formats provider authentication choices exposed by plugin setup flows.
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
 import {
   resolveDefaultAgentId,
   resolveAgentDir,
   resolveAgentWorkspaceDir,
-} from "../agents/agent-scope.js";
-import { upsertAuthProfileWithLock } from "../agents/auth-profiles.js";
-import { formatLiteralProviderPrefixedModelRef } from "../agents/model-ref-shared.js";
-import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace.js";
-import { normalizeAgentModelRefForConfig } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { openUrl } from "../infra/browser-open.js";
-import { isRemoteEnvironment } from "../infra/remote-env.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import { enablePluginInConfig } from "./enable.js";
+} from "../agents/agent-scope.ts";
+import { upsertAuthProfileWithLock } from "../agents/auth-profiles.ts";
+import { formatLiteralProviderPrefixedModelRef } from "../agents/model-ref-shared.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace.ts";
+import { normalizeAgentModelRefForConfig } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { openUrl } from "../infra/browser-open.ts";
+import { isRemoteEnvironment } from "../infra/remote-env.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import { enablePluginInConfig } from "./enable.ts";
 import {
   applyProviderAuthConfigPatch,
   applyDefaultModel,
   pickAuthMethod,
   resolveProviderMatch,
-} from "./provider-auth-choice-helpers.js";
+} from "./provider-auth-choice-helpers.ts";
 import {
   resolveManifestProviderAuthChoice,
   type ProviderAuthChoiceMetadata,
-} from "./provider-auth-choices.js";
-import { applyAuthProfileConfig } from "./provider-auth-helpers.js";
-import { resolveProviderInstallCatalogEntry } from "./provider-install-catalog.js";
-import { createVpsAwareOAuthHandlers } from "./provider-oauth-flow.js";
-import type { ProviderAuthMethod, ProviderAuthOptionBag, ProviderPlugin } from "./types.js";
+} from "./provider-auth-choices.ts";
+import { applyAuthProfileConfig } from "./provider-auth-helpers.ts";
+import { resolveProviderInstallCatalogEntry } from "./provider-install-catalog.ts";
+import { createVpsAwareOAuthHandlers } from "./provider-oauth-flow.ts";
+import type { ProviderAuthMethod, ProviderAuthOptionBag, ProviderPlugin } from "./types.ts";
 
 type UpsertAuthProfileParams = Parameters<typeof upsertAuthProfileWithLock>[0];
 

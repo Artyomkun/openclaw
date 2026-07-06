@@ -2,18 +2,18 @@
 import fs from "node:fs";
 import path from "node:path";
 import { asNullableObjectRecord } from "@openclaw/normalization-core/record-coerce";
-import type { note } from "../../packages/terminal-core/src/note.js";
-import { isHeartbeatOkResponse, isHeartbeatUserMessage } from "../auto-reply/heartbeat-filter.js";
-import { formatSessionArchiveTimestamp } from "../config/sessions/artifacts.js";
-import { resolveMainSessionKey } from "../config/sessions/main-session.js";
+import type { note } from "../../packages/terminal-core/src/note.ts";
+import { isHeartbeatOkResponse, isHeartbeatUserMessage } from "../auto-reply/heartbeat-filter.ts";
+import { formatSessionArchiveTimestamp } from "../config/sessions/artifacts.ts";
+import { resolveMainSessionKey } from "../config/sessions/main-session.ts";
 import {
   resolveSessionFilePath,
   type resolveSessionFilePathOptions,
-} from "../config/sessions/paths.js";
-import { updateSessionStore } from "../config/sessions/store.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { parseAgentSessionKey } from "../sessions/session-key-utils.js";
+} from "../config/sessions/paths.ts";
+import { updateSessionStore } from "../config/sessions/store.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { parseAgentSessionKey } from "../sessions/session-key-utils.ts";
 
 type DoctorPrompterLike = {
   confirmRuntimeRepair: (params: {

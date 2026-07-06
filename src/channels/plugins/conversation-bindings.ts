@@ -3,9 +3,9 @@
  *
  * Starts plugin binding managers and updates per-session binding idle/max-age limits.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getChannelPlugin } from "./registry.js";
-import type { ChannelId } from "./types.public.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getChannelPlugin } from "./registry.ts";
+import type { ChannelId } from "./types.public.ts";
 
 /**
  * Starts the optional per-channel conversation binding manager.

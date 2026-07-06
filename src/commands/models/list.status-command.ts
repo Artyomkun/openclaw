@@ -2,34 +2,34 @@
 import path from "node:path";
 import { findNormalizedProviderValue } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { colorize, theme } from "../../../packages/terminal-core/src/theme.js";
+import { colorize, theme } from "../../../packages/terminal-core/src/theme.ts";
 import {
   resolveAgentDir,
   resolveAgentExplicitModelPrimary,
   resolveAgentModelFallbacksOverride,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope.js";
+} from "../../agents/agent-scope.ts";
 import {
   buildAuthHealthSummary,
   DEFAULT_OAUTH_WARN_MS,
   formatRemainingShort,
-} from "../../agents/auth-health.js";
-import { evaluateStoredCredentialEligibility } from "../../agents/auth-profiles/credential-state.js";
+} from "../../agents/auth-health.ts";
+import { evaluateStoredCredentialEligibility } from "../../agents/auth-profiles/credential-state.ts";
 import {
   resolveAuthProfileEligibility,
   resolveAuthProfileOrder,
-} from "../../agents/auth-profiles/order.js";
-import { resolveAuthStorePathForDisplay } from "../../agents/auth-profiles/paths.js";
-import { ensureAuthProfileStoreWithoutExternalProfiles as ensureAuthProfileStore } from "../../agents/auth-profiles/store.js";
-import type { AuthProfileCredential } from "../../agents/auth-profiles/types.js";
-import { resolveProfileUnusableUntilForDisplay } from "../../agents/auth-profiles/usage.js";
+} from "../../agents/auth-profiles/order.ts";
+import { resolveAuthStorePathForDisplay } from "../../agents/auth-profiles/paths.ts";
+import { ensureAuthProfileStoreWithoutExternalProfiles as ensureAuthProfileStore } from "../../agents/auth-profiles/store.ts";
+import type { AuthProfileCredential } from "../../agents/auth-profiles/types.ts";
+import { resolveProfileUnusableUntilForDisplay } from "../../agents/auth-profiles/usage.ts";
 import {
   listProviderEnvAuthLookupKeys,
   resolveProviderEnvAuthLookupMaps,
-} from "../../agents/model-auth-env-vars.js";
-import { resolveEnvApiKey, resolveUsableCustomProviderApiKey } from "../../agents/model-auth.js";
-import { resolveCliRuntimeExecutionProvider } from "../../agents/model-runtime-aliases.js";
+} from "../../agents/model-auth-env-vars.ts";
+import { resolveEnvApiKey, resolveUsableCustomProviderApiKey } from "../../agents/model-auth.ts";
+import { resolveCliRuntimeExecutionProvider } from "../../agents/model-runtime-aliases.ts";
 import {
   buildModelAliasIndex,
   isCliProvider,
@@ -37,49 +37,49 @@ import {
   normalizeProviderId,
   resolveConfiguredModelRef,
   resolveModelRefFromString,
-} from "../../agents/model-selection.js";
+} from "../../agents/model-selection.ts";
 import {
   OPENAI_CODEX_PROVIDER_ID,
   OPENAI_PROVIDER_ID,
   openAIProviderUsesCodexRuntimeByDefault,
-} from "../../agents/openai-routing.js";
-import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
-import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.js";
-import { createConfigIO } from "../../config/config.js";
+} from "../../agents/openai-routing.ts";
+import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.ts";
+import { createConfigIO } from "../../config/config.ts";
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../../config/model-input.js";
+} from "../../config/model-input.ts";
 import {
   parseStrictFiniteNumber,
   parseStrictPositiveInteger,
-} from "../../infra/parse-finite-number.js";
-import { getShellEnvAppliedKeys, shouldEnableShellEnvFallback } from "../../infra/shell-env.js";
+} from "../../infra/parse-finite-number.ts";
+import { getShellEnvAppliedKeys, shouldEnableShellEnvFallback } from "../../infra/shell-env.ts";
 import {
   captureCurrentPluginMetadataSnapshotState,
   getCurrentPluginMetadataSnapshot,
   restoreCurrentPluginMetadataSnapshotState,
   setCurrentPluginMetadataSnapshot,
-} from "../../plugins/current-plugin-metadata-snapshot.js";
-import { loadManifestMetadataSnapshot } from "../../plugins/manifest-contract-eligibility.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
-import type { ProviderSyntheticAuthResult } from "../../plugins/provider-external-auth.types.js";
-import { resolveProviderSyntheticAuthWithPlugin } from "../../plugins/provider-runtime.js";
-import { resolveRuntimeSyntheticAuthProviderRefs } from "../../plugins/synthetic-auth.runtime.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveUserPath, shortenHomePath } from "../../utils.js";
-import { resolveProviderAuthOverview } from "./list.auth-overview.js";
-import { isRich } from "./list.format.js";
-import type { AuthProbeSummary } from "./list.probe.js";
-import type { ProviderAuthOverview } from "./list.types.js";
-import { loadModelsConfig } from "./load-config.js";
+} from "../../plugins/current-plugin-metadata-snapshot.ts";
+import { loadManifestMetadataSnapshot } from "../../plugins/manifest-contract-eligibility.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
+import type { ProviderSyntheticAuthResult } from "../../plugins/provider-external-auth.types.ts";
+import { resolveProviderSyntheticAuthWithPlugin } from "../../plugins/provider-runtime.ts";
+import { resolveRuntimeSyntheticAuthProviderRefs } from "../../plugins/synthetic-auth.runtime.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveUserPath, shortenHomePath } from "../../utils.ts";
+import { resolveProviderAuthOverview } from "./list.auth-overview.ts";
+import { isRich } from "./list.format.ts";
+import type { AuthProbeSummary } from "./list.probe.ts";
+import type { ProviderAuthOverview } from "./list.types.ts";
+import { loadModelsConfig } from "./load-config.ts";
 import {
   DEFAULT_MODEL,
   DEFAULT_PROVIDER,
   ensureFlagCompatibility,
   resolveKnownAgentId,
-} from "./shared.js";
+} from "./shared.ts";
 
 type ProviderUsageRuntime = typeof import("../../infra/provider-usage.js");
 type ProgressRuntime = typeof import("../../cli/progress.js");
@@ -575,12 +575,10 @@ export async function modelsStatusCommand(
       resolveProviderIdForAuth(provider, envLookupParams);
     const listRuntimeAuthProviderCandidates = (
       provider: string,
-      options?: { includeLegacyOpenAICodex?: boolean },
     ): string[] => {
       const normalizedProvider = normalizeProviderId(provider);
       const candidates = [normalizedProvider, resolveProviderAuthHealthId(normalizedProvider)];
       if (
-        options?.includeLegacyOpenAICodex === true &&
         openAIProviderUsesCodexRuntimeByDefault({
           provider: normalizedProvider,
           config: cfg,
@@ -657,9 +655,7 @@ export async function modelsStatusCommand(
     const resolveRuntimeAuthRouteEffective = (
       provider: string,
     ): ProviderAuthOverview["effective"] => {
-      const candidates = listRuntimeAuthProviderCandidates(provider, {
-        includeLegacyOpenAICodex: true,
-      });
+      const candidates = listRuntimeAuthProviderCandidates(provider);
       for (const candidate of candidates) {
         const direct = providerAuthMap.get(candidate)?.effective;
         if (
@@ -696,9 +692,8 @@ export async function modelsStatusCommand(
     };
     const hasUsableNonProfileAuth = (
       provider: string,
-      options?: { includeLegacyOpenAICodex?: boolean },
     ): boolean => {
-      for (const candidate of listRuntimeAuthProviderCandidates(provider, options)) {
+      for (const candidate of listRuntimeAuthProviderCandidates(provider)) {
         const auth = providerAuthMap.get(candidate);
         if (
           auth?.env ||
@@ -721,9 +716,8 @@ export async function modelsStatusCommand(
     };
     const hasUsableProviderAuth = (
       provider: string,
-      options?: { includeLegacyOpenAICodex?: boolean },
     ): boolean => {
-      for (const candidate of listRuntimeAuthProviderCandidates(provider, options)) {
+      for (const candidate of listRuntimeAuthProviderCandidates(provider)) {
         if (hasUsableDirectProviderAuth(candidate)) {
           return true;
         }
@@ -754,7 +748,7 @@ export async function modelsStatusCommand(
       }
       return (
         openAIProviderUsesCodexRuntimeByDefault({ provider, config: cfg }) &&
-        hasUsableProviderAuth(OPENAI_PROVIDER_ID, { includeLegacyOpenAICodex: true })
+        hasUsableProviderAuth(OPENAI_PROVIDER_ID)
       );
     };
     const runtimeAuthRoutes = Array.from(
@@ -767,9 +761,7 @@ export async function modelsStatusCommand(
               provider: usage.provider,
               runtime: "codex",
               authProvider: codexProvider,
-              status: hasUsableProviderAuth(codexProvider, {
-                includeLegacyOpenAICodex: true,
-              })
+              status: hasUsableProviderAuth(codexProvider)
                 ? "usable"
                 : "missing",
               effective,
@@ -950,11 +942,9 @@ export async function modelsStatusCommand(
         if (
           usage.allowCodexRuntimeFallback &&
           openAIProviderUsesCodexRuntimeByDefault({ provider: usage.provider, config: cfg }) &&
-          hasUsableProviderAuth(OPENAI_PROVIDER_ID, { includeLegacyOpenAICodex: true })
+          hasUsableProviderAuth(OPENAI_PROVIDER_ID)
         ) {
-          for (const candidate of listRuntimeAuthProviderCandidates(OPENAI_PROVIDER_ID, {
-            includeLegacyOpenAICodex: true,
-          })) {
+          for (const candidate of listRuntimeAuthProviderCandidates(OPENAI_PROVIDER_ID)) {
             providersInUse.add(candidate);
           }
         }

@@ -7,35 +7,35 @@ import {
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { Command } from "commander";
-import { buildBundleMcpToolsFromCatalog } from "../agents/agent-bundle-mcp-materialize.js";
-import { createSessionMcpRuntime } from "../agents/agent-bundle-mcp-runtime.js";
+import { buildBundleMcpToolsFromCatalog } from "../agents/agent-bundle-mcp-materialize.ts";
+import { createSessionMcpRuntime } from "../agents/agent-bundle-mcp-runtime.ts";
 import {
   buildMcpHttpFetch,
   withoutMcpAuthorizationHeader,
   withSameOriginMcpHttpHeaders,
-} from "../agents/mcp-http-fetch.js";
+} from "../agents/mcp-http-fetch.ts";
 import {
   clearMcpOAuthCredentials,
   readMcpOAuthCredentialsStatus,
   runMcpOAuthLogin,
   type McpOAuthCredentialsStatus,
-} from "../agents/mcp-oauth.js";
-import { resolveMcpTransportConfig } from "../agents/mcp-transport-config.js";
-import { parseConfigValue } from "../auto-reply/reply/config-value.js";
+} from "../agents/mcp-oauth.ts";
+import { resolveMcpTransportConfig } from "../agents/mcp-transport-config.ts";
+import { parseConfigValue } from "../auto-reply/reply/config-value.ts";
 import {
   listConfiguredMcpServers,
   setConfiguredMcpServer,
   unsetConfiguredMcpServer,
   updateConfiguredMcpServer,
   updateConfiguredMcpServerTools,
-} from "../config/mcp-config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { serveOpenClawChannelMcp } from "../mcp/channel-server.js";
-import { defaultRuntime } from "../runtime.js";
-import { formatCliCommand } from "./command-format.js";
-import { resolveGatewayAuthOptions } from "./gateway-secret-options.js";
-import { applyParentDefaultHelpAction } from "./program/parent-default-help.js";
+} from "../config/mcp-config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { serveOpenClawChannelMcp } from "../mcp/channel-server.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { resolveGatewayAuthOptions } from "./gateway-secret-options.ts";
+import { applyParentDefaultHelpAction } from "./program/parent-default-help.ts";
 
 function fail(message: string): never {
   defaultRuntime.error(message);

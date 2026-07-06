@@ -8,16 +8,16 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeUniqueSingleOrTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { getRuntimeConfigSnapshot } from "../../config/runtime-snapshot.js";
-import { tryLoadActivatedBundledPluginPublicSurfaceModuleSync } from "../../plugin-sdk/facade-runtime.js";
+import { getRuntimeConfigSnapshot } from "../../config/runtime-snapshot.ts";
+import { tryLoadActivatedBundledPluginPublicSurfaceModuleSync } from "../../plugin-sdk/facade-runtime.ts";
 import {
   parseRawSessionConversationRef,
   parseThreadSessionSuffix,
   type ParsedThreadSessionSuffix,
   type RawSessionConversationRef,
-} from "../../sessions/session-key-utils.js";
-import { normalizeChannelId as normalizeChatChannelId } from "../registry.js";
-import { getLoadedChannelPlugin, normalizeChannelId as normalizeAnyChannelId } from "./registry.js";
+} from "../../sessions/session-key-utils.ts";
+import { normalizeChannelId as normalizeChatChannelId } from "../registry.ts";
+import { getLoadedChannelPlugin, normalizeChannelId as normalizeAnyChannelId } from "./registry.ts";
 
 /**
  * Normalized conversation id details for one channel raw id.

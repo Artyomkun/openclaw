@@ -83,7 +83,7 @@ OpenClaw assumes the host and config boundary are trusted:
 
 ### Secure file operations
 
-OpenClaw uses `@openclaw/fs-safe` for root-bounded file access, atomic writes, archive extraction, temp workspaces, and secret-file helpers. OpenClaw defaults fs-safe's optional POSIX Python helper to **off**; set `OPENCLAW_FS_SAFE_PYTHON_MODE=auto` or `require` only when you want the extra fd-relative mutation hardening and can support a Python runtime.
+OpenClaw uses native Node.js `fs` and `path` for root-bounded file access, atomic writes, archive extraction, and temporary workspaces. All operations are cross-platform and do not require additional dependencies.
 
 Details: [Secure file operations](/gateway/security/secure-file-operations).
 

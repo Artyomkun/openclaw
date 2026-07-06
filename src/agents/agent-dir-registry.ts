@@ -1,7 +1,7 @@
 /** Process-local reverse registry from prepared agent directories to agent ids. */
 import path from "node:path";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { resolveUserPath } from "../utils.js";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { resolveUserPath } from "../utils.ts";
 
 // Process-local registry mapping resolved agent directories back to agent ids.
 // It lets later runtime paths recover scope from an already-prepared agent dir.

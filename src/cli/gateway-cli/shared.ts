@@ -3,10 +3,10 @@ import {
   resolveGatewayLaunchAgentLabel,
   resolveGatewaySystemdServiceName,
   resolveGatewayWindowsTaskName,
-} from "../../daemon/constants.js";
-import { resolveGatewayService } from "../../daemon/service.js";
-import { defaultRuntime } from "../../runtime.js";
-import { formatCliCommand } from "../command-format.js";
+} from "../../daemon/constants.ts";
+import { resolveGatewayService } from "../../daemon/service.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { formatCliCommand } from "../command-format.ts";
 
 function renderGatewayServiceStopHints(env: NodeJS.ProcessEnv = process.env): string[] {
   const profile = env.OPENCLAW_PROFILE;

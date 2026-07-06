@@ -4,24 +4,24 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { formatRemainingShort } from "../../agents/auth-health.js";
-import { resolveAuthProfileDisplayLabel } from "../../agents/auth-profiles/display.js";
-import { resolveAuthStorePathForDisplay } from "../../agents/auth-profiles/paths.js";
-import { loadPersistedAuthProfileStore } from "../../agents/auth-profiles/persisted.js";
-import { listProfilesForProvider } from "../../agents/auth-profiles/profiles.js";
-import type { AuthProfileStore } from "../../agents/auth-profiles/types.js";
-import { resolveProfileUnusableUntilForDisplay } from "../../agents/auth-profiles/usage.js";
-import { isNonSecretApiKeyMarker, isOAuthApiKeyMarker } from "../../agents/model-auth-markers.js";
+import { formatRemainingShort } from "../../agents/auth-health.ts";
+import { resolveAuthProfileDisplayLabel } from "../../agents/auth-profiles/display.ts";
+import { resolveAuthStorePathForDisplay } from "../../agents/auth-profiles/paths.ts";
+import { loadPersistedAuthProfileStore } from "../../agents/auth-profiles/persisted.ts";
+import { listProfilesForProvider } from "../../agents/auth-profiles/profiles.ts";
+import type { AuthProfileStore } from "../../agents/auth-profiles/types.ts";
+import { resolveProfileUnusableUntilForDisplay } from "../../agents/auth-profiles/usage.ts";
+import { isNonSecretApiKeyMarker, isOAuthApiKeyMarker } from "../../agents/model-auth-markers.ts";
 import {
   getCustomProviderApiKey,
   resolveEnvApiKey,
   resolveUsableCustomProviderApiKey,
-} from "../../agents/model-auth.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ProviderAuthEvidence } from "../../secrets/provider-env-vars.js";
-import { shortenHomePath } from "../../utils.js";
-import { maskApiKey } from "../../utils/mask-api-key.js";
-import type { ProviderAuthOverview } from "./list.types.js";
+} from "../../agents/model-auth.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ProviderAuthEvidence } from "../../secrets/provider-env-vars.ts";
+import { shortenHomePath } from "../../utils.ts";
+import { maskApiKey } from "../../utils/mask-api-key.ts";
+import type { ProviderAuthOverview } from "./list.types.ts";
 
 function formatMarkerOrSecret(value: string): string {
   return isNonSecretApiKeyMarker(value, { includeEnvVarName: false })

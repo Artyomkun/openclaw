@@ -7,10 +7,10 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveOAuthDir, resolveStateDir } from "../config/paths.js";
-import { resolveRequiredHomeDir } from "../infra/home-dir.js";
-import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
-import type { PairingChannel } from "./pairing-store.types.js";
+import { resolveOAuthDir, resolveStateDir } from "../config/paths.ts";
+import { resolveRequiredHomeDir } from "../infra/home-dir.ts";
+import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.ts";
+import type { PairingChannel } from "./pairing-store.types.ts";
 
 export type AllowFromStore = {
   version: 1;
@@ -114,10 +114,6 @@ export function resolveAllowFromFilePath(
 
 export function dedupePreserveOrder(entries: string[]): string[] {
   return normalizeUniqueStringEntries(entries);
-}
-
-export function shouldIncludeLegacyAllowFromEntries(normalizedAccountId: string): boolean {
-  return !normalizedAccountId || normalizedAccountId === DEFAULT_ACCOUNT_ID;
 }
 
 export function resolveAllowFromAccountId(accountId?: string): string {

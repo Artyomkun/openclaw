@@ -1,6 +1,6 @@
 // Research signal helpers normalize skill names and extract research-worthy signals.
-import { normalizeSkillIndexName } from "../discovery/skill-index.js";
-import { compactWhitespace, extractTranscriptText } from "./text.js";
+import { normalizeSkillIndexName } from "../discovery/skill-index.ts";
+import { compactWhitespace, extractTranscriptText } from "./text.ts";
 
 const CORRECTION_PATTERNS = [
   /\bnext time\b/i,

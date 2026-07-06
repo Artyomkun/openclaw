@@ -1,13 +1,13 @@
 // Coordinates restart requests around active embedded agent runs.
-import { getActiveEmbeddedRunCount } from "../agents/embedded-agent-runner/run-state.js";
-import { getTotalPendingReplies } from "../auto-reply/reply/dispatcher-registry.js";
-import { getActiveCronJobCount } from "../cron/active-jobs.js";
-import { getTotalQueueSize } from "../process/command-queue.js";
+import { getActiveEmbeddedRunCount } from "../agents/embedded-agent-runner/run-state.ts";
+import { getTotalPendingReplies } from "../auto-reply/reply/dispatcher-registry.ts";
+import { getActiveCronJobCount } from "../cron/active-jobs.ts";
+import { getTotalQueueSize } from "../process/command-queue.ts";
 import {
   getInspectableActiveTaskRestartBlockers,
   type ActiveTaskRestartBlocker,
-} from "../tasks/task-registry.maintenance.js";
-import { scheduleGatewaySigusr1Restart, type ScheduledRestart } from "./restart.js";
+} from "../tasks/task-registry.maintenance.ts";
+import { scheduleGatewaySigusr1Restart, type ScheduledRestart } from "./restart.ts";
 
 // Safe restart coordination checks active local work before scheduling SIGUSR1
 // restarts, while still allowing explicit deferral bypasses for operators.

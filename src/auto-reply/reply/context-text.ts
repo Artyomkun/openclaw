@@ -1,5 +1,5 @@
 // Formats finalized message context into prompt-visible text.
-import type { FinalizedMsgContext } from "../templating.js";
+import type { FinalizedMsgContext } from "../templating.ts";
 
 /** Message context fields that can carry user-visible command text. */
 export type ContextTextKey =

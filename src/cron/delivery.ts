@@ -1,25 +1,25 @@
 /** Sends cron announce payloads and best-effort failure notifications. */
-import { sendDurableMessageBatch } from "../channels/message/runtime.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import { createOutboundSendDeps } from "../cli/outbound-send-deps.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveAgentOutboundIdentity } from "../infra/outbound/identity.js";
-import { buildOutboundSessionContext } from "../infra/outbound/session-context.js";
-import { getChildLogger } from "../logging.js";
+import { sendDurableMessageBatch } from "../channels/message/runtime.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { createOutboundSendDeps } from "../cli/outbound-send-deps.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveAgentOutboundIdentity } from "../infra/outbound/identity.ts";
+import { buildOutboundSessionContext } from "../infra/outbound/session-context.ts";
+import { getChildLogger } from "../logging.ts";
 import {
   resolveFailureDestination,
   type CronFailureDeliveryPlan,
   type CronFailureDestinationInput,
   type CronDeliveryPlan,
   resolveCronDeliveryPlan,
-} from "./delivery-plan.js";
+} from "./delivery-plan.ts";
 import {
   resolveDeliveryTarget,
   type DeliveryTargetResolution,
-} from "./isolated-agent/delivery-target.js";
-import { resolveCronNotificationSessionKey } from "./session-target.js";
-import type { CronMessageChannel } from "./types.js";
+} from "./isolated-agent/delivery-target.ts";
+import { resolveCronNotificationSessionKey } from "./session-target.ts";
+import type { CronMessageChannel } from "./types.ts";
 
 export {
   resolveCronDeliveryPlan,

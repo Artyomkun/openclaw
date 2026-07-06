@@ -1,7 +1,6 @@
 // Sub-CLI descriptor catalog used for root help placeholders and lazy registration.
-import { defineCommandDescriptorCatalog } from "./command-descriptor-utils.js";
-import type { NamedCommandDescriptor } from "./command-group-descriptors.js";
-import { isPrivateQaCliEnabled } from "./private-qa-cli.js";
+import { defineCommandDescriptorCatalog } from "./command-descriptor-utils.ts";
+import type { NamedCommandDescriptor } from "./command-group-descriptors.ts";
 
 /** Descriptor shape for root-level sub-CLI commands. */
 export type SubCliDescriptor = NamedCommandDescriptor;
@@ -15,7 +14,7 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
   },
   {
     name: "daemon",
-    description: "Manage the Gateway service (legacy alias)",
+    description: "Manage the Gateway service",
     hasSubcommands: true,
   },
   { name: "logs", description: "Tail Gateway logs locally or via RPC", hasSubcommands: false },
@@ -128,11 +127,6 @@ const subCliCommandCatalog = defineCommandDescriptorCatalog([
     hasSubcommands: false,
   },
   {
-    name: "clawbot",
-    description: "Legacy clawbot command aliases",
-    hasSubcommands: true,
-  },
-  {
     name: "pairing",
     description: "Secure DM pairing (approve inbound requests)",
     hasSubcommands: true,
@@ -185,9 +179,6 @@ function filterPrivateQaItems<T>(
   items: ReadonlyArray<T>,
   getName: (item: T) => string,
 ): ReadonlyArray<T> {
-  if (isPrivateQaCliEnabled()) {
-    return items;
-  }
   return items.filter((item) => getName(item) !== "qa");
 }
 

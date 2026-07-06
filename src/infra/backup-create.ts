@@ -6,21 +6,21 @@ import os from "node:os";
 import path from "node:path";
 import type { DatabaseSync } from "node:sqlite";
 import { resolveDateTimestampMs } from "@openclaw/normalization-core/number-coercion";
-import { loadSqliteVecExtension } from "../../packages/memory-host-sdk/src/engine-storage.js";
+import { loadSqliteVecExtension } from "../../packages/memory-host-sdk/src/engine-storage.ts";
 import {
   buildBackupArchiveBasename,
   buildBackupArchivePath,
   buildBackupArchiveRoot,
   type BackupAsset,
   resolveBackupPlanFromDisk,
-} from "../commands/backup-shared.js";
-import { isPathWithin } from "../commands/cleanup-utils.js";
-import { resolveOpenClawStateSqlitePath } from "../state/openclaw-state-db.paths.js";
-import { resolveHomeDir, resolveUserPath } from "../utils.js";
-import { resolveRuntimeServiceVersion } from "../version.js";
-import { isVolatileBackupPath } from "./backup-volatile-filter.js";
-import { writeJson } from "./json-files.js";
-import { requireNodeSqlite } from "./node-sqlite.js";
+} from "../commands/backup-shared.ts";
+import { isPathWithin } from "../commands/cleanup-utils.ts";
+import { resolveOpenClawStateSqlitePath } from "../state/openclaw-state-db.paths.ts";
+import { resolveHomeDir, resolveUserPath } from "../utils.ts";
+import { resolveRuntimeServiceVersion } from "../version.ts";
+import { isVolatileBackupPath } from "./backup-volatile-filter.ts";
+import { writeJson } from "./json-files.ts";
+import { requireNodeSqlite } from "./node-sqlite.ts";
 
 type TarRuntime = typeof import("tar");
 

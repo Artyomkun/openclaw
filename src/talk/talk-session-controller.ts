@@ -9,7 +9,7 @@ import {
   type TalkEventSequencer,
   type TalkMode,
   type TalkTransport,
-} from "./talk-events.js";
+} from "./talk-events.ts";
 
 /**
  * Why a turn-scoped Talk operation could not emit an event.
@@ -234,7 +234,7 @@ export function createTalkSessionController(
 }
 
 /**
- * Normalizes legacy realtime transport names into Talk transport families.
+ * Normalizes older realtime transport names into Talk transport families.
  */
 export function normalizeTalkTransport(value: string | undefined): string | undefined {
   const normalized = normalizeOptionalString(value);

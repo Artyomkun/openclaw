@@ -2,7 +2,7 @@
  * Memory config types shared by core context-engine paths and memory host/plugin runtimes.
  * Builtin memory stays core-owned; qmd settings describe the external QMD integration.
  */
-import type { SessionSendPolicyConfig } from "./types.base.js";
+import type { SessionSendPolicyConfig } from "./types.base.ts";
 
 /** Memory backend family selected for retrieval and session memory features. */
 export type MemoryBackend = "builtin" | "qmd";

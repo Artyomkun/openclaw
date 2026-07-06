@@ -4,8 +4,8 @@
  * Detects loaded or known channels that can render approval prompts natively.
  */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveChannelApprovalCapability } from "./approvals.js";
-import type { ChannelPlugin } from "./types.plugin.js";
+import { resolveChannelApprovalCapability } from "./approvals.ts";
+import type { ChannelPlugin } from "./types.plugin.ts";
 
 export const NATIVE_APPROVAL_PROMPT_RUNTIME_CAPABILITY = "nativeApprovals";
 

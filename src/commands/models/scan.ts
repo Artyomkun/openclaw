@@ -4,22 +4,22 @@ import {
   stylePromptHint,
   stylePromptMessage,
   stylePromptTitle,
-} from "../../../packages/terminal-core/src/prompt-style.js";
-import { resolveApiKeyForProvider } from "../../agents/model-auth.js";
-import { type ModelScanResult, scanOpenRouterModels } from "../../agents/model-scan.js";
-import { formatCliCommand } from "../../cli/command-format.js";
-import { withProgressTotals } from "../../cli/progress.js";
-import { logConfigUpdated } from "../../config/logging.js";
-import { toAgentModelListLike } from "../../config/model-input.js";
+} from "../../../packages/terminal-core/src/prompt-style.ts";
+import { resolveApiKeyForProvider } from "../../agents/model-auth.ts";
+import { type ModelScanResult, scanOpenRouterModels } from "../../agents/model-scan.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { withProgressTotals } from "../../cli/progress.ts";
+import { logConfigUpdated } from "../../config/logging.ts";
+import { toAgentModelListLike } from "../../config/model-input.ts";
 import {
   parseStrictFiniteNumber,
   parseStrictPositiveInteger,
-} from "../../infra/parse-finite-number.js";
-import { getEnvApiKey } from "../../llm/env-api-keys.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { pad, truncate } from "./list.format.js";
-import { loadModelsConfig } from "./load-config.js";
-import { formatMs, formatTokenK, updateConfig } from "./shared.js";
+} from "../../infra/parse-finite-number.ts";
+import { getEnvApiKey } from "../../llm/env-api-keys.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { pad, truncate } from "./list.format.ts";
+import { loadModelsConfig } from "./load-config.ts";
+import { formatMs, formatTokenK, updateConfig } from "./shared.ts";
 
 const MODEL_PAD = 42;
 const CTX_PAD = 8;

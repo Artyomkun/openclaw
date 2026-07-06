@@ -4,39 +4,39 @@
 import {
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope-config.js";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import { normalizeReplyPayload } from "../../auto-reply/reply/normalize-reply.js";
-import { createReplyMediaPathNormalizer } from "../../auto-reply/reply/reply-media-paths.runtime.js";
-import { sendDurableMessageBatch } from "../../channels/message/runtime.js";
-import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
-import { createReplyPrefixContext } from "../../channels/reply-prefix.js";
-import { createOutboundSendDeps, type CliDeps } from "../../cli/outbound-send-deps.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage, toErrorObject } from "../../infra/errors.js";
+} from "../../agents/agent-scope-config.ts";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import { normalizeReplyPayload } from "../../auto-reply/reply/normalize-reply.ts";
+import { createReplyMediaPathNormalizer } from "../../auto-reply/reply/reply-media-paths.runtime.ts";
+import { sendDurableMessageBatch } from "../../channels/message/runtime.ts";
+import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.ts";
+import { createReplyPrefixContext } from "../../channels/reply-prefix.ts";
+import { createOutboundSendDeps, type CliDeps } from "../../cli/outbound-send-deps.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage, toErrorObject } from "../../infra/errors.ts";
 import {
   resolveAgentDeliveryPlanWithSessionRoute,
   resolveAgentOutboundTarget,
-} from "../../infra/outbound/agent-delivery.js";
-import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.js";
-import { buildOutboundResultEnvelope } from "../../infra/outbound/envelope.js";
+} from "../../infra/outbound/agent-delivery.ts";
+import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.ts";
+import { buildOutboundResultEnvelope } from "../../infra/outbound/envelope.ts";
 import {
   createOutboundPayloadPlan,
   formatOutboundPayloadLog,
   type NormalizedOutboundPayload,
   projectOutboundPayloadPlanForJson,
   projectOutboundPayloadPlanForOutbound,
-} from "../../infra/outbound/payloads.js";
-import type { OutboundSessionContext } from "../../infra/outbound/session-context.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { isInternalMessageChannel } from "../../utils/message-channel.js";
-import type { MessagingToolSend } from "../embedded-agent-messaging.types.js";
-import type { EmbeddedAgentRunMeta } from "../embedded-agent-runner/types.js";
-import { isNestedAgentLane } from "../lanes.js";
-import { isAgentRunRestartAbortReason } from "../run-termination.js";
-import type { AgentCommandOpts, AgentCommandResultMetaOverrides } from "./types.js";
+} from "../../infra/outbound/payloads.ts";
+import type { OutboundSessionContext } from "../../infra/outbound/session-context.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { isInternalMessageChannel } from "../../utils/message-channel.ts";
+import type { MessagingToolSend } from "../embedded-agent-messaging.types.ts";
+import type { EmbeddedAgentRunMeta } from "../embedded-agent-runner/types.ts";
+import { isNestedAgentLane } from "../lanes.ts";
+import { isAgentRunRestartAbortReason } from "../run-termination.ts";
+import type { AgentCommandOpts, AgentCommandResultMetaOverrides } from "./types.ts";
 
 type RunResult = Awaited<ReturnType<(typeof import("../embedded-agent.js"))["runEmbeddedAgent"]>>;
 type DurableSendResult = Awaited<ReturnType<typeof sendDurableMessageBatch>>;

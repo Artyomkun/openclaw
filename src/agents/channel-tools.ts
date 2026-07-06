@@ -4,27 +4,27 @@
  * guidance, and weakly-attached channel metadata for wrapped tools.
  */
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { getChannelPlugin, listChannelPlugins } from "../channels/plugins/index.js";
+import { getChannelPlugin, listChannelPlugins } from "../channels/plugins/index.ts";
 import {
   createMessageActionDiscoveryContext,
   resolveMessageActionDiscoveryForPlugin,
   resolveMessageActionDiscoveryChannelId,
   resolveCurrentChannelMessageToolDiscoveryAdapter,
   testing as messageActionTesting,
-} from "../channels/plugins/message-action-discovery.js";
+} from "../channels/plugins/message-action-discovery.ts";
 import {
   channelPluginHasNativeApprovalPromptUi,
   NATIVE_APPROVAL_PROMPT_RUNTIME_CAPABILITY,
-} from "../channels/plugins/native-approval-prompt.js";
+} from "../channels/plugins/native-approval-prompt.ts";
 import type {
   ChannelAgentTool,
   ChannelMessageActionName,
-} from "../channels/plugins/types.public.js";
-import { normalizeAnyChannelId } from "../channels/registry.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { setChannelAgentToolMeta } from "./channel-tool-metadata.js";
+} from "../channels/plugins/types.public.ts";
+import { normalizeAnyChannelId } from "../channels/registry.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { setChannelAgentToolMeta } from "./channel-tool-metadata.ts";
 
-export { copyChannelAgentToolMeta, getChannelAgentToolMeta } from "./channel-tool-metadata.js";
+export { copyChannelAgentToolMeta, getChannelAgentToolMeta } from "./channel-tool-metadata.ts";
 
 type ChannelMessageActionDiscoveryParams = {
   cfg?: OpenClawConfig;

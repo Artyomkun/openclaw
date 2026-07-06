@@ -12,17 +12,17 @@ import {
   removeSandboxContainer,
   type SandboxBrowserInfo,
   type SandboxContainerInfo,
-} from "../agents/sandbox.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
+} from "../agents/sandbox.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
 import {
   displayBrowsers,
   displayContainers,
   displayRecreatePreview,
   displayRecreateResult,
   displaySummary,
-} from "./sandbox-display.js";
+} from "./sandbox-display.ts";
 
 // --- Types ---
 

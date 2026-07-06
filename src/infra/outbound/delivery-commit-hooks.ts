@@ -1,8 +1,8 @@
 // Delivery commit hooks attach post-commit side effects to result objects
 // without widening the public outbound result shape.
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { formatErrorMessage } from "../errors.js";
-import type { OutboundDeliveryResult } from "./deliver-types.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { formatErrorMessage } from "../errors.ts";
+import type { OutboundDeliveryResult } from "./deliver-types.ts";
 
 /** Callback attached to a delivery result and run after durable send commit. */
 export type OutboundDeliveryCommitHook = () => Promise<void>;

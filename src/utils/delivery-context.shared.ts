@@ -6,15 +6,15 @@ import {
   normalizeChannelRouteRef,
   normalizeChannelRouteTarget,
   type ChannelRouteRef,
-} from "../plugin-sdk/channel-route.js";
-import { normalizeAccountId } from "./account-id.js";
-import type { DeliveryContext, DeliveryContextSessionSource } from "./delivery-context.types.js";
+} from "../plugin-sdk/channel-route.ts";
+import { normalizeAccountId } from "./account-id.ts";
+import type { DeliveryContext, DeliveryContextSessionSource } from "./delivery-context.types.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isInternalNonDeliveryChannel,
-} from "./message-channel-constants.js";
-import { isDeliverableMessageChannel, normalizeMessageChannel } from "./message-channel-core.js";
-export type { DeliveryContext, DeliveryContextSessionSource } from "./delivery-context.types.js";
+} from "./message-channel-constants.ts";
+import { isDeliverableMessageChannel, normalizeMessageChannel } from "./message-channel-core.ts";
+export type { DeliveryContext, DeliveryContextSessionSource } from "./delivery-context.types.ts";
 
 /**
  * Delivery-context normalization and projection helpers.
@@ -141,7 +141,7 @@ function mergeExternalDeliveryContextOverInternalRoute(
   });
 }
 
-/** Reconciles legacy session delivery fields, route metadata, and explicit delivery context. */
+/** Reconciles older session delivery fields, route metadata, and explicit delivery context. */
 export function normalizeSessionDeliveryFields(source?: DeliveryContextSessionSource): {
   route?: ChannelRouteRef;
   deliveryContext?: DeliveryContext;
@@ -163,20 +163,9 @@ export function normalizeSessionDeliveryFields(source?: DeliveryContextSessionSo
 
   const normalizedRoute = normalizeDeliveryChannelRoute(source.route);
   const routeContext = deliveryContextFromChannelRoute(normalizedRoute);
-  const legacyContext = normalizeDeliveryContext({
-    channel: source.lastChannel ?? source.channel,
-    to: source.lastTo,
-    accountId: source.lastAccountId,
-    threadId: source.lastThreadId,
-  });
   const deliveryContext = normalizeDeliveryContext(source.deliveryContext);
-  // Legacy webchat `last*` fields can outlive the external channel that should
-  // receive replies. Prefer an explicit deliverable context when it exists.
-  const sessionContext =
-    isInternalRouteContext(legacyContext) && hasExternalDeliveryTarget(deliveryContext)
-      ? mergeExternalDeliveryContextOverInternalRoute(deliveryContext, legacyContext)
-      : mergeDeliveryContext(legacyContext, deliveryContext);
-  const routeInternalContext = mergeDeliveryContext(routeContext, legacyContext);
+  const sessionContext = mergeDeliveryContext(deliveryContext);
+  const routeInternalContext = mergeDeliveryContext(routeContext);
   // Route metadata normally wins, except for internal fallback routes paired
   // with an explicit external delivery target from newer session state.
   const routeIsInternalFallback =
@@ -209,7 +198,7 @@ export function normalizeSessionDeliveryFields(source?: DeliveryContextSessionSo
   };
 }
 
-/** Derives the best delivery context from current and legacy session fields. */
+/** Derives the best delivery context from current. */
 export function deliveryContextFromSession(
   entry?: DeliveryContextSessionSource,
 ): DeliveryContext | undefined {

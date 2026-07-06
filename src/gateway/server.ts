@@ -4,8 +4,8 @@
  * Keeping `server.impl` behind dynamic import lets light-weight callers import
  * server types and helpers without paying the full startup dependency graph.
  */
-export { truncateCloseReason } from "./server/close-reason.js";
-export type { GatewayServer, GatewayServerOptions } from "./server.impl.js";
+export { truncateCloseReason } from "./server/close-reason.ts";
+export type { GatewayServer, GatewayServerOptions } from "./server.impl.ts";
 
 function emitStartupTrace(name: string, durationMs: number, totalMs: number): void {
   if (!process.env.OPENCLAW_GATEWAY_STARTUP_TRACE) {

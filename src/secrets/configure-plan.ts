@@ -1,19 +1,19 @@
 /** Builds the interactive `openclaw secrets configure` target list and apply plan. */
 import { isDeepStrictEqual } from "node:util";
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveSecretInputRef,
   type SecretProviderConfig,
   type SecretRef,
-} from "../config/types.secrets.js";
-import { parseConfigPathArrayIndex } from "../shared/path-array-index.js";
-import type { SecretsApplyPlan } from "./plan.js";
-import { isRecord } from "./shared.js";
+} from "../config/types.secrets.ts";
+import { parseConfigPathArrayIndex } from "../shared/path-array-index.ts";
+import type { SecretsApplyPlan } from "./plan.ts";
+import { isRecord } from "./shared.ts";
 import {
   discoverAuthProfileSecretTargets,
   discoverConfigSecretTargets,
-} from "./target-registry.js";
+} from "./target-registry.ts";
 
 /** Credential target shown by `openclaw secrets configure` before a SecretRef is selected. */
 export type ConfigureCandidate = {
@@ -270,8 +270,7 @@ export function buildSecretsConfigurePlan(params: {
       : {}),
     options: {
       scrubEnv: true,
-      scrubAuthProfilesForProviderTargets: true,
-      scrubLegacyAuthJson: true,
+      scrubAuthProfilesForProviderTargets: true
     },
   };
 }

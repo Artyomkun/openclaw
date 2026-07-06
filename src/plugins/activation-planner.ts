@@ -2,19 +2,19 @@
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.js";
-import { normalizePluginsConfig } from "./config-state.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { normalizePluginsConfig } from "./config-state.ts";
 import {
   hasExplicitManifestOwnerTrust,
   isBundledManifestOwner,
   passesManifestOwnerBasePolicy,
-} from "./manifest-owner-policy.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { PluginDiagnostic } from "./manifest-types.js";
-import type { PluginManifestActivationCapability } from "./manifest.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry-contributions.js";
-import { createPluginIdScopeSet, normalizePluginIdScope } from "./plugin-scope.js";
+} from "./manifest-owner-policy.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import type { PluginDiagnostic } from "./manifest-types.ts";
+import type { PluginManifestActivationCapability } from "./manifest.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry-contributions.ts";
+import { createPluginIdScopeSet, normalizePluginIdScope } from "./plugin-scope.ts";
 
 /** Runtime surface that can request a lazily activated plugin owner. */
 export type PluginActivationPlannerTrigger =

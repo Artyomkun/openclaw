@@ -1,16 +1,16 @@
 // Update command presentation helpers: spinner lifecycle, failure hints, and result summaries.
 import { spinner } from "@clack/prompts";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
 import { formatDurationPrecise } from "../../infra/format-time/format-duration.ts";
 import type {
   UpdateRunResult,
   UpdateStepAdvisory,
   UpdateStepInfo,
   UpdateStepProgress,
-} from "../../infra/update-runner.js";
-import { defaultRuntime } from "../../runtime.js";
-import type { UpdateCommandOptions } from "./shared.js";
+} from "../../infra/update-runner.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import type { UpdateCommandOptions } from "./shared.ts";
 
 const STEP_LABELS: Record<string, string> = {
   "clean check": "Working directory is clean",

@@ -1,8 +1,8 @@
 /** Chooses which source family should back a model-list invocation. */
 import type { NormalizedModelCatalogRow } from "@openclaw/model-catalog-core/model-catalog-types";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 
 /** Source family selected for a model-list run. */
 export type ModelListSourcePlanKind =

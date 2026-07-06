@@ -6,7 +6,7 @@ export {
   type OpenAiCompatibleImageProviderRequestBody,
   type OpenAiCompatibleImageProviderRequestParams,
   type OpenAiCompatibleImageRequestMode,
-} from "../image-generation/openai-compatible-image-provider.js";
+} from "../image-generation/openai-compatible-image-provider.ts";
 
 export {
   generatedImageAssetFromBase64,
@@ -22,7 +22,7 @@ export {
   type ImageMimeTypeDetection,
   type OpenAiCompatibleImageResponseEntry,
   type OpenAiCompatibleImageResponsePayload,
-} from "../image-generation/image-assets.js";
+} from "../image-generation/image-assets.ts";
 
 export type {
   GeneratedImageAsset,
@@ -39,4 +39,4 @@ export type {
   ImageGenerationRequest,
   ImageGenerationResult,
   ImageGenerationSourceImage,
-} from "../image-generation/types.js";
+} from "../image-generation/types.ts";

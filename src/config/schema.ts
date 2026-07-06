@@ -1,21 +1,21 @@
 // Builds and validates the canonical OpenClaw configuration schema.
 import crypto from "node:crypto";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { CHANNEL_IDS } from "../channels/ids.js";
-import { parseConfigPathArrayIndex } from "../shared/path-array-index.js";
-import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "./bundled-channel-config-metadata.generated.js";
-import { computeBaseConfigSchemaResponse } from "./schema-base.js";
-import type { ConfigUiHint, ConfigUiHints } from "./schema.hints.js";
-import { applySensitiveHints, applySensitiveUrlHints } from "./schema.hints.js";
+import { CHANNEL_IDS } from "../channels/ids.ts";
+import { parseConfigPathArrayIndex } from "../shared/path-array-index.ts";
+import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "./bundled-channel-config-metadata.generated.ts";
+import { computeBaseConfigSchemaResponse } from "./schema-base.ts";
+import type { ConfigUiHint, ConfigUiHints } from "./schema.hints.ts";
+import { applySensitiveHints, applySensitiveUrlHints } from "./schema.hints.ts";
 import {
   asSchemaObject,
   cloneSchema,
   findWildcardHintMatch,
   schemaHasChildren,
-} from "./schema.shared.js";
-import { applyDerivedTags } from "./schema.tags.js";
+} from "./schema.shared.ts";
+import { applyDerivedTags } from "./schema.tags.ts";
 
-export type { ConfigUiHint, ConfigUiHints } from "./schema.hints.js";
+export type { ConfigUiHint, ConfigUiHints } from "./schema.hints.ts";
 
 export type ConfigSchema = Record<string, unknown>;
 

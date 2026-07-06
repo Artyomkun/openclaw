@@ -6,18 +6,18 @@ import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   type SessionEntry as StoredSessionEntry,
-} from "../config/sessions.js";
+} from "../config/sessions.ts";
 import {
   scanSessionTranscriptTree,
   type SessionTranscriptTree,
-} from "../config/sessions/transcript-tree.js";
-import { diagnosticLogger as diag } from "../logging/diagnostic.js";
+} from "../config/sessions/transcript-tree.ts";
+import { diagnosticLogger as diag } from "../logging/diagnostic.ts";
 import {
   buildSessionContext,
   migrateSessionEntries,
   parseSessionEntries,
   type SessionEntry as AgentSessionEntry,
-} from "./sessions/session-manager.js";
+} from "./sessions/session-manager.ts";
 
 /** Resolves the persisted transcript file for a BTW session handoff. */
 export function resolveBtwSessionTranscriptPath(params: {

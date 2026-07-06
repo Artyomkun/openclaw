@@ -552,8 +552,8 @@
     "target": "网络模型"
   },
   {
-    "source": "Bridge protocol (legacy nodes, historical)",
-    "target": "Bridge protocol（旧版节点，历史参考）"
+    "source": "Bridge protocol (historical)",
+    "target": "Bridge protocol（历史参考）"
   },
   {
     "source": "Doctor",

@@ -3,7 +3,7 @@
  *
  * Resolves whether channel metadata should appear in configured, setup, and docs views.
  */
-import type { ChannelMeta } from "./types.core.js";
+import type { ChannelMeta } from "./types.core.ts";
 
 /**
  * Resolves where a channel should appear in configured, setup, and docs views.
@@ -11,7 +11,7 @@ import type { ChannelMeta } from "./types.core.js";
 export function resolveChannelExposure(
   meta: Pick<ChannelMeta, "exposure" | "showConfigured" | "showInSetup">,
 ) {
-  // `showConfigured` and `showInSetup` are legacy metadata fields; keep them
+  // `showConfigured` and `showInSetup` are older metadata fields; keep them
   // as fallback inputs so older bundled manifests keep their visibility.
   return {
     configured: meta.exposure?.configured ?? meta.showConfigured ?? true,

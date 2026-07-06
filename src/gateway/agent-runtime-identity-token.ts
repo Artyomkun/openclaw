@@ -1,7 +1,7 @@
 // Purpose-scoped local agent runtime identity token for Gateway clients.
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { ensureExecApprovals, loadExecApprovals } from "../infra/exec-approvals.js";
-import { normalizeAgentId } from "../routing/session-key.js";
+import { ensureExecApprovals, loadExecApprovals } from "../infra/exec-approvals.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
 
 const AGENT_RUNTIME_IDENTITY_TOKEN_CONTEXT = "openclaw:gateway-agent-runtime-identity-token:v1";
 const AGENT_RUNTIME_IDENTITY_TOKEN_KIND = "agent-runtime";

@@ -1,6 +1,6 @@
 // Gateway channel health policy.
 // Evaluates channel lifecycle snapshots for restart/readiness decisions.
-import type { ChannelId } from "../channels/plugins/types.public.js";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
 
 type ChannelHealthSnapshot = {
   running?: boolean;

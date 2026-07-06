@@ -4,54 +4,54 @@
  * Validates media references, resolves provider/model capabilities, and schedules video generation.
  */
 import { Type, type TSchema } from "typebox";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SsrFPolicy } from "../../infra/net/ssrf.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { resolveGeneratedMediaMaxBytes } from "../../media/configured-max-bytes.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SsrFPolicy } from "../../infra/net/ssrf.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { resolveGeneratedMediaMaxBytes } from "../../media/configured-max-bytes.ts";
 import {
   classifyMediaReferenceSource,
   normalizeMediaReferenceSource,
-} from "../../media/media-reference.js";
-import { saveMediaBuffer } from "../../media/store.js";
-import { loadWebMedia } from "../../media/web-media.js";
-import { readSnakeCaseParamRaw } from "../../param-key.js";
-import { isManifestPluginAvailableForControlPlane } from "../../plugins/manifest-contract-eligibility.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
-import { resolveUserPath } from "../../utils.js";
-import type { DeliveryContext } from "../../utils/delivery-context.js";
+} from "../../media/media-reference.ts";
+import { saveMediaBuffer } from "../../media/store.ts";
+import { loadWebMedia } from "../../media/web-media.ts";
+import { readSnakeCaseParamRaw } from "../../param-key.ts";
+import { isManifestPluginAvailableForControlPlane } from "../../plugins/manifest-contract-eligibility.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
+import { resolveUserPath } from "../../utils.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.ts";
 import {
   resolveVideoGenerationMode,
   resolveVideoGenerationModeCapabilities,
-} from "../../video-generation/capabilities.js";
-import { parseVideoGenerationModelRef } from "../../video-generation/model-ref.js";
+} from "../../video-generation/capabilities.ts";
+import { parseVideoGenerationModelRef } from "../../video-generation/model-ref.ts";
 import {
   generateVideo,
   listRuntimeVideoGenerationProviders,
-} from "../../video-generation/runtime.js";
+} from "../../video-generation/runtime.ts";
 import type {
   VideoGenerationIgnoredOverride,
   VideoGenerationProvider,
   VideoGenerationResolution,
   VideoGenerationSourceAsset,
-} from "../../video-generation/types.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
+} from "../../video-generation/types.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
 import {
   formatGeneratedAttachmentLines,
   type AgentGeneratedAttachment,
-} from "../generated-attachments.js";
+} from "../generated-attachments.ts";
 import {
   buildMediaGenerationRequestKey,
   recordRecentMediaGenerationTaskStartForSession,
-} from "../media-generation-task-status-shared.js";
-import { getCustomProviderApiKey } from "../model-auth.js";
-import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
-import { ToolInputError, readNumberParam, readStringParam } from "./common.js";
-import { decodeDataUrl } from "./image-tool.helpers.js";
+} from "../media-generation-task-status-shared.ts";
+import { getCustomProviderApiKey } from "../model-auth.ts";
+import { resolveProviderIdForAuth } from "../provider-auth-aliases.ts";
+import { ToolInputError, readNumberParam, readStringParam } from "./common.ts";
+import { decodeDataUrl } from "./image-tool.helpers.ts";
 import {
   hasSnapshotCapabilityProviderAvailability,
   loadCapabilityMetadataSnapshot,
-} from "./manifest-capability-availability.js";
+} from "./manifest-capability-availability.ts";
 import {
   buildMediaGenerationStartedToolResult,
   createDefaultMediaGenerateBackgroundScheduler,
@@ -60,7 +60,7 @@ import {
   shouldDetachMediaGenerationTask,
   type MediaGenerateAsyncStartCallback,
   type MediaGenerateBackgroundScheduler,
-} from "./media-generate-background-shared.js";
+} from "./media-generate-background-shared.ts";
 import {
   applyVideoGenerationModelConfigDefaults,
   buildMediaReferenceDetails,
@@ -74,20 +74,20 @@ import {
   resolveMediaToolLocalRoots,
   resolveRemoteMediaSsrfPolicy,
   resolveSelectedCapabilityProvider,
-} from "./media-tool-shared.js";
+} from "./media-tool-shared.ts";
 import {
   hasAuthForProvider,
   coerceToolModelConfig,
   hasToolModelConfig,
   type ToolModelConfig,
-} from "./model-config.helpers.js";
+} from "./model-config.helpers.ts";
 import {
   createSandboxBridgeReadFile,
   resolveSandboxedBridgeMediaPath,
   type AnyAgentTool,
   type SandboxFsBridge,
   type ToolFsPolicy,
-} from "./tool-runtime.helpers.js";
+} from "./tool-runtime.helpers.ts";
 import {
   completeVideoGenerationTaskRun,
   createVideoGenerationTaskRun,
@@ -95,12 +95,12 @@ import {
   recordVideoGenerationTaskProgress,
   videoGenerationTaskLifecycle,
   type VideoGenerationTaskHandle,
-} from "./video-generate-background.js";
+} from "./video-generate-background.ts";
 import {
   createVideoGenerateDuplicateGuardResult,
   createVideoGenerateListActionResult,
   createVideoGenerateStatusActionResult,
-} from "./video-generate-tool.actions.js";
+} from "./video-generate-tool.actions.ts";
 
 const log = createSubsystemLogger("agents/tools/video-generate");
 const MAX_INPUT_IMAGES = 9;

@@ -1,23 +1,23 @@
 // Reconciles configured plugin installs after the core package update has completed.
-import { repairMissingConfiguredPluginInstalls } from "../../commands/doctor/shared/missing-configured-plugin-install.js";
-import { UPDATE_POST_CORE_CONVERGENCE_ENV } from "../../commands/doctor/shared/update-phase.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../../config/types.plugins.js";
-import type { ClawHubRiskAcknowledgementRequest } from "../../infra/clawhub-install-trust.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "../../plugins/config-state.js";
-import { resolveDefaultPluginNpmDir } from "../../plugins/install-paths.js";
-import { listManagedPluginNpmRoots } from "../../plugins/npm-project-roots.js";
+import { repairMissingConfiguredPluginInstalls } from "../../commands/doctor/shared/missing-configured-plugin-install.ts";
+import { UPDATE_POST_CORE_CONVERGENCE_ENV } from "../../commands/doctor/shared/update-phase.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../../config/types.plugins.ts";
+import type { ClawHubRiskAcknowledgementRequest } from "../../infra/clawhub-install-trust.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "../../plugins/config-state.ts";
+import { resolveDefaultPluginNpmDir } from "../../plugins/install-paths.ts";
+import { listManagedPluginNpmRoots } from "../../plugins/npm-project-roots.ts";
 import {
   resolveTrustedSourceLinkedOfficialClawHubSpec,
   resolveTrustedSourceLinkedOfficialNpmSpec,
-} from "../../plugins/official-external-install-records.js";
-import { relinkOpenClawPeerDependenciesInManagedNpmRoot } from "../../plugins/plugin-peer-link.js";
-import { pruneStaleLocalBundledPluginInstallRecords } from "../../plugins/stale-local-bundled-plugin-install-records.js";
-import { VERSION } from "../../version.js";
+} from "../../plugins/official-external-install-records.ts";
+import { relinkOpenClawPeerDependenciesInManagedNpmRoot } from "../../plugins/plugin-peer-link.ts";
+import { pruneStaleLocalBundledPluginInstallRecords } from "../../plugins/stale-local-bundled-plugin-install-records.ts";
+import { VERSION } from "../../version.ts";
 import {
   runPluginPayloadSmokeCheck,
   type PluginPayloadSmokeFailure,
-} from "./plugin-payload-validation.js";
+} from "./plugin-payload-validation.ts";
 
 export type PostCoreConvergenceWarning = {
   pluginId?: string;

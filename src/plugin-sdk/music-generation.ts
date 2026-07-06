@@ -11,10 +11,10 @@ export type {
   MusicGenerationResult,
   MusicGenerationSourceImage,
   MusicGenerationOutputFormat,
-} from "../music-generation/types.js";
+} from "../music-generation/types.ts";
 export {
   downloadGeneratedMusicAsset,
   extractGeneratedMusicFileCandidates,
   generatedMusicAssetFromBase64,
   type GeneratedMusicFileCandidate,
-} from "../music-generation/provider-assets.js";
+} from "../music-generation/provider-assets.ts";

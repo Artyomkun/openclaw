@@ -3,24 +3,24 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isOperatorScope } from "../gateway/operator-scopes.js";
-import { logVerbose } from "../globals.js";
-import { isRecord } from "../utils.js";
-import { normalizeAgentPromptSurfaceKind } from "./agent-prompt-surface-kind.js";
+import { isOperatorScope } from "../gateway/operator-scopes.ts";
+import { logVerbose } from "../globals.ts";
+import { isRecord } from "../utils.ts";
+import { normalizeAgentPromptSurfaceKind } from "./agent-prompt-surface-kind.ts";
 import {
   clearPluginCommands,
   clearPluginCommandsForPlugin,
   isPluginCommandRegistryLocked,
   pluginCommands,
   type RegisteredPluginCommand,
-} from "./command-registry-state.js";
+} from "./command-registry-state.ts";
 import {
   AGENT_PROMPT_SURFACE_KINDS,
   type AgentPromptGuidance,
   type AgentPromptGuidanceEntry,
   type AgentPromptSurfaceKind,
   type OpenClawPluginCommandDefinition,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Reserved command names that plugins cannot override (built-in commands).

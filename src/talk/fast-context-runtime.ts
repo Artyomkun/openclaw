@@ -6,11 +6,11 @@
  * back to the normal consult flow.
  */
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { getActiveMemorySearchManager } from "../plugins/memory-runtime.js";
-import type { RealtimeVoiceAgentConsultResult } from "./agent-consult-runtime.js";
-import { parseRealtimeVoiceAgentConsultArgs } from "./agent-consult-tool.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { getActiveMemorySearchManager } from "../plugins/memory-runtime.ts";
+import type { RealtimeVoiceAgentConsultResult } from "./agent-consult-runtime.ts";
+import { parseRealtimeVoiceAgentConsultArgs } from "./agent-consult-tool.ts";
 
 type Logger = {
   debug?: (message: string) => void;

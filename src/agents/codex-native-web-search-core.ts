@@ -2,20 +2,20 @@
  * Activates and injects OpenAI/Codex native web-search tools when config,
  * model API, and auth state allow it.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isRecord } from "../utils.js";
-import { externalCliDiscoveryForProviderAuth } from "./auth-profiles/external-cli-discovery.js";
-import { listProfilesForProvider } from "./auth-profiles/profile-list.js";
-import { ensureAuthProfileStore } from "./auth-profiles/store.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isRecord } from "../utils.ts";
+import { externalCliDiscoveryForProviderAuth } from "./auth-profiles/external-cli-discovery.ts";
+import { listProfilesForProvider } from "./auth-profiles/profile-list.ts";
+import { ensureAuthProfileStore } from "./auth-profiles/store.ts";
 import {
   type CodexNativeSearchMode,
   resolveCodexNativeWebSearchConfig,
-} from "./codex-native-web-search.shared.js";
-import type { SandboxToolPolicy } from "./sandbox.js";
+} from "./codex-native-web-search.shared.ts";
+import type { SandboxToolPolicy } from "./sandbox.ts";
 import {
   resolveWebSearchToolPolicy,
   type WebSearchToolPolicyParams,
-} from "./web-search-tool-policy.js";
+} from "./web-search-tool-policy.ts";
 
 type CodexNativeSearchActivation = {
   globalWebSearchEnabled: boolean;

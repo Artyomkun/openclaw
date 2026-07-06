@@ -3,10 +3,10 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { MsgContext } from "../../auto-reply/templating.js";
-import { getLoadedChannelPlugin, listChannelPlugins } from "../../channels/plugins/index.js";
-import { normalizeSessionKeyPreservingOpaquePeerIds } from "../../sessions/session-key-utils.js";
-import { normalizeMessageChannel } from "../../utils/message-channel.js";
+import type { MsgContext } from "../../auto-reply/templating.ts";
+import { getLoadedChannelPlugin, listChannelPlugins } from "../../channels/plugins/index.ts";
+import { normalizeSessionKeyPreservingOpaquePeerIds } from "../../sessions/session-key-utils.ts";
+import { normalizeMessageChannel } from "../../utils/message-channel.ts";
 
 // Candidate channels come from context and key shape because explicit keys may be prefixed.
 function resolveExplicitSessionKeyNormalizerCandidates(

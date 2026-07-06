@@ -9,5 +9,5 @@ export {
   optimizeImageToJpeg,
   optimizeImageToPng,
   type WebMediaResult,
-} from "../media/web-media.js";
-export type { LocalMediaAccessErrorCode } from "../media/web-media.js";
+} from "../media/web-media.ts";
+export type { LocalMediaAccessErrorCode } from "../media/web-media.ts";

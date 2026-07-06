@@ -3,46 +3,46 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import { getLogger } from "../../logging/logger.js";
-import { normalizeAgentId, parseAgentSessionKey } from "../../routing/session-key.js";
-import type { OpenClawConfig } from "../types.openclaw.js";
+import { resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import { getLogger } from "../../logging/logger.ts";
+import { normalizeAgentId, parseAgentSessionKey } from "../../routing/session-key.ts";
+import type { OpenClawConfig } from "../types.openclaw.ts";
 import {
   enforceSessionDiskBudget,
   pruneUnreferencedSessionArtifacts,
   resolveSessionArtifactCanonicalPathsForEntry,
   type SessionUnreferencedArtifactSweepResult,
-} from "./disk-budget.js";
-import { extractGeneratedTranscriptSessionId } from "./generated-transcript-session-id.js";
+} from "./disk-budget.ts";
+import { extractGeneratedTranscriptSessionId } from "./generated-transcript-session-id.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   resolveSessionTranscriptPathInDir,
   resolveStorePath,
-} from "./paths.js";
+} from "./paths.ts";
 import {
   applySessionEntryLifecycleMutation,
   purgeDeletedAgentSessionEntries,
   type SessionEntryLifecycleRemoval,
   type SessionEntryLifecycleUpsert,
-} from "./session-accessor.js";
-import { cloneSessionStoreRecord } from "./store-cache.js";
-import { collectSessionMaintenancePreserveKeys } from "./store-maintenance-preserve.js";
-import { resolveMaintenanceConfig } from "./store-maintenance-runtime.js";
+} from "./session-accessor.ts";
+import { cloneSessionStoreRecord } from "./store-cache.ts";
+import { collectSessionMaintenancePreserveKeys } from "./store-maintenance-preserve.ts";
+import { resolveMaintenanceConfig } from "./store-maintenance-runtime.ts";
 import {
   capEntryCount,
   pruneStaleModelRunEntries,
   pruneStaleEntries,
   shouldRunModelRunPrune,
   type ResolvedSessionMaintenanceConfig,
-} from "./store-maintenance.js";
-import { loadSessionStore } from "./store.js";
+} from "./store-maintenance.ts";
+import { loadSessionStore } from "./store.ts";
 import {
   resolveSessionStoreTargets,
   type SessionStoreTarget,
   type SessionStoreSelectionOptions,
-} from "./targets.js";
-import type { SessionEntry } from "./types.js";
+} from "./targets.ts";
+import type { SessionEntry } from "./types.ts";
 
 export type SessionsCleanupOptions = SessionStoreSelectionOptions & {
   dryRun?: boolean;
@@ -331,7 +331,7 @@ function pruneMissingTranscriptEntries(params: {
     try {
       canonicalTranscriptPath = resolveSessionTranscriptPathInDir(entry.sessionId, sessionsDir);
     } catch {
-      // Malformed legacy rows cannot resolve a transcript path; --fix-missing prunes them.
+      // Malformed older rows cannot resolve a transcript path; --fix-missing prunes them.
     }
     let transcriptPath: string | undefined;
     try {

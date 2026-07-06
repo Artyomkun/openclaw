@@ -7,7 +7,7 @@ import {
   buildPluginLoaderAliasMap,
   listWorkspacePackageExportAliasEntries,
   type PluginSdkResolutionPreference,
-} from "./sdk-alias.js";
+} from "./sdk-alias.ts";
 
 type ResolveFilename = (
   request: string,
@@ -37,7 +37,7 @@ type NativeAliasEntry = {
   target: string;
 };
 
-/** Resolver install options for CJS `_resolveFilename` and modern ESM loader hooks. */
+/** Resolver install options for ts `_resolveFilename` and modern ESM loader hooks. */
 export type InstallOpenClawPluginSdkNativeResolverOptions = {
   modulePath?: string;
   pluginModulePath?: string;
@@ -109,9 +109,8 @@ function isPluginSdkAliasSpecifier(specifier: string): boolean {
 
 function isNativeLoadableSdkTarget(targetPath: string): boolean {
   switch (path.extname(targetPath)) {
-    case ".cjs":
     case ".js":
-    case ".mjs":
+    case ".ts":
       return true;
     default:
       return false;

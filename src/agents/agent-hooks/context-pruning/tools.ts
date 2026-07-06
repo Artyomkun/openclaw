@@ -1,7 +1,7 @@
 /** Tool-name matching helpers for context-pruning eligibility. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { compileGlobPatterns, matchesAnyGlobPattern } from "../../glob-pattern.js";
-import type { ContextPruningToolMatch } from "./settings.js";
+import { compileGlobPatterns, matchesAnyGlobPattern } from "../../glob-pattern.ts";
+import type { ContextPruningToolMatch } from "./settings.ts";
 
 // Tool-name matcher used by context pruning to decide which tool-result blocks
 // are safe to prune.

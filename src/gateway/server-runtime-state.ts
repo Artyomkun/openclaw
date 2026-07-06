@@ -3,9 +3,9 @@
 import type { IncomingMessage, Server as HttpServer, ServerResponse } from "node:http";
 import type { Duplex } from "node:stream";
 import { WebSocketServer } from "ws";
-import type { CliDeps } from "../cli/deps.types.js";
-import type { createSubsystemLogger } from "../logging/subsystem.js";
-import type { PluginRegistry } from "../plugins/registry.js";
+import type { CliDeps } from "../cli/deps.types.ts";
+import type { createSubsystemLogger } from "../logging/subsystem.ts";
+import type { PluginRegistry } from "../plugins/registry.ts";
 import {
   pinActivePluginChannelRegistry,
   pinActivePluginHttpRouteRegistry,
@@ -13,38 +13,38 @@ import {
   releasePinnedPluginChannelRegistry,
   releasePinnedPluginHttpRouteRegistry,
   releasePinnedPluginSessionExtensionRegistry,
-} from "../plugins/runtime.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth.js";
-import type { ChatAbortControllerEntry } from "./chat-abort.js";
-import type { ControlUiRootState } from "./control-ui.js";
-import type { HooksConfigResolved } from "./hooks.js";
-import type { AuthorizedGatewayHttpRequest } from "./http-auth-utils.js";
-import { isLoopbackHost, resolveGatewayListenHosts } from "./net.js";
-import type { GatewayBroadcastFn, GatewayBroadcastToConnIdsFn } from "./server-broadcast-types.js";
-import { createGatewayBroadcaster } from "./server-broadcast.js";
+} from "../plugins/runtime.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth.ts";
+import type { ChatAbortControllerEntry } from "./chat-abort.ts";
+import type { ControlUiRootState } from "./control-ui.ts";
+import type { HooksConfigResolved } from "./hooks.ts";
+import type { AuthorizedGatewayHttpRequest } from "./http-auth-utils.ts";
+import { isLoopbackHost, resolveGatewayListenHosts } from "./net.ts";
+import type { GatewayBroadcastFn, GatewayBroadcastToConnIdsFn } from "./server-broadcast-types.ts";
+import { createGatewayBroadcaster } from "./server-broadcast.ts";
 import {
   type ChatRunEntry,
   type ChatRunRegistration,
   createChatRunState,
   createToolEventRecipientRegistry,
-} from "./server-chat-state.js";
-import { MAX_PREAUTH_PAYLOAD_BYTES } from "./server-constants.js";
-import { attachGatewayUpgradeHandler, createGatewayHttpServer } from "./server-http.js";
-import type { GatewayRequestContext } from "./server-methods/types.js";
-import type { DedupeEntry } from "./server-shared.js";
-import type { HookClientIpConfig, HooksRequestHandler } from "./server/hooks-request-handler.js";
-import { listenGatewayHttpServer } from "./server/http-listen.js";
-import type { PluginRoutePathContext } from "./server/plugins-http/path-context.js";
-import { shouldEnforceGatewayAuthForPluginPath } from "./server/plugins-http/route-auth.js";
-import { findMatchingPluginNodeCapabilityRoute } from "./server/plugins-http/route-capability.js";
+} from "./server-chat-state.ts";
+import { MAX_PREAUTH_PAYLOAD_BYTES } from "./server-constants.ts";
+import { attachGatewayUpgradeHandler, createGatewayHttpServer } from "./server-http.ts";
+import type { GatewayRequestContext } from "./server-methods/types.ts";
+import type { DedupeEntry } from "./server-shared.ts";
+import type { HookClientIpConfig, HooksRequestHandler } from "./server/hooks-request-handler.ts";
+import { listenGatewayHttpServer } from "./server/http-listen.ts";
+import type { PluginRoutePathContext } from "./server/plugins-http/path-context.ts";
+import { shouldEnforceGatewayAuthForPluginPath } from "./server/plugins-http/route-auth.ts";
+import { findMatchingPluginNodeCapabilityRoute } from "./server/plugins-http/route-capability.ts";
 import {
   createPreauthConnectionBudget,
   type PreauthConnectionBudget,
-} from "./server/preauth-connection-budget.js";
-import type { ReadinessChecker } from "./server/readiness.js";
-import type { GatewayTlsRuntime } from "./server/tls.js";
-import type { GatewayWsClient } from "./server/ws-types.js";
+} from "./server/preauth-connection-budget.ts";
+import type { ReadinessChecker } from "./server/readiness.ts";
+import type { GatewayTlsRuntime } from "./server/tls.ts";
+import type { GatewayWsClient } from "./server/ws-types.ts";
 
 type GatewayPluginRequestHandler = (
   req: IncomingMessage,

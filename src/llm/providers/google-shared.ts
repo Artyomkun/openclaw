@@ -12,8 +12,8 @@ import {
   type Part,
   type ThinkingConfig,
 } from "@google/genai";
-import { stripSystemPromptCacheBoundary } from "../../agents/system-prompt-cache-boundary.js";
-import { calculateCost, clampThinkingLevel } from "../model-utils.js";
+import { stripSystemPromptCacheBoundary } from "../../agents/system-prompt-cache-boundary.ts";
+import { calculateCost, clampThinkingLevel } from "../model-utils.ts";
 import type {
   Api,
   AssistantMessage,
@@ -29,10 +29,10 @@ import type {
   Tool,
   ToolCall,
   StreamOptions,
-} from "../types.js";
-import type { AssistantMessageEventStream } from "../utils/event-stream.js";
-import { sanitizeSurrogates } from "../utils/sanitize-unicode.js";
-import { transformMessages } from "./transform-messages.js";
+} from "../types.ts";
+import type { AssistantMessageEventStream } from "../utils/event-stream.ts";
+import { sanitizeSurrogates } from "../utils/sanitize-unicode.ts";
+import { transformMessages } from "./transform-messages.ts";
 
 export type GoogleApiType = "google-generative-ai" | "google-vertex";
 
@@ -374,7 +374,7 @@ function sanitizeForOpenApi(schema: unknown): unknown {
  * Convert tools to Gemini function declarations format.
  *
  * By default uses `parametersJsonSchema` which supports full JSON Schema (including
- * anyOf, oneOf, const, etc.). Set `useParameters` to true to use the legacy `parameters`
+ * anyOf, oneOf, const, etc.). Set `useParameters` to true to use the older `parameters`
  * field instead (OpenAPI 3.03 Schema). This is needed for Cloud Code Assist with Claude
  * models, where the API translates `parameters` into Anthropic's `input_schema`.
  */

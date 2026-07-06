@@ -424,8 +424,6 @@ export function createCodexDynamicToolBridge(params: {
     }
     return getChannelAgentToolMeta(tool as never) === undefined;
   };
-  const legacyExtensionRunner =
-    createCodexAppServerToolResultExtensionRunner(toolResultHookContext);
   const directToolNames = new Set([
     ...ALWAYS_DIRECT_DYNAMIC_TOOL_NAMES,
     ...(params.directToolNames ?? []),
@@ -526,16 +524,8 @@ export function createCodexDynamicToolBridge(params: {
           isError: rawIsError,
           result: rawResult,
         });
-        const result = await legacyExtensionRunner.applyToolResultExtensions({
-          threadId: call.threadId,
-          turnId: call.turnId,
-          toolCallId: call.callId,
-          toolName,
-          args: structuredClone(executedArgs),
-          result: middlewareResult,
-        });
-        const resultIsError = rawIsError || isCodexToolResultError(result);
-        notifyAgentToolResult(options?.onAgentToolResult, toolName, result, resultIsError);
+        const resultIsError = rawIsError;
+        notifyAgentToolResult(options?.onAgentToolResult, toolName, resultIsError);
         void runAgentHarnessAfterToolCallHook({
           toolName,
           toolCallId: call.callId,
@@ -545,13 +535,11 @@ export function createCodexDynamicToolBridge(params: {
           sessionKey: toolResultHookContext.sessionKey,
           channelId: toolResultHookContext.channelId,
           startArgs: executedArgs,
-          result,
           startedAt,
         });
         finalizeToolTerminalPresentation({
           toolCallId: call.callId,
           runId: toolResultHookContext.runId,
-          result,
           isError: resultIsError,
           observer: params.hookContext?.onToolOutcome,
           toolName,
@@ -713,13 +701,11 @@ export function createCodexDynamicToolBridge(params: {
 function notifyAgentToolResult(
   observer: EmbeddedRunAttemptParams["onAgentToolResult"] | undefined,
   toolName: string,
-  result: unknown,
   isError: boolean,
 ) {
   try {
     observer?.({
       toolName,
-      result: sanitizeToolResult(result),
       isError,
     });
   } catch (error) {

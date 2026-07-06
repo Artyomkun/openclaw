@@ -6,13 +6,13 @@ import {
   readConnectPairingRequiredMessage,
   readPairingConnectErrorDetails,
   type ConnectPairingRequiredReason,
-} from "../../packages/gateway-protocol/src/connect-error-details.js";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { withProgress } from "../cli/progress.js";
-import { OPENCLAW_WRAPPER_ENV_KEY } from "../daemon/program-args.js";
-import { readRestartSentinel } from "../infra/restart-sentinel.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
+} from "../../packages/gateway-protocol/src/connect-error-details.ts";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { withProgress } from "../cli/progress.ts";
+import { OPENCLAW_WRAPPER_ENV_KEY } from "../daemon/program-args.ts";
+import { readRestartSentinel } from "../infra/restart-sentinel.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
 import { runStatusJsonCommand } from "./status-json-command.ts";
 import { buildStatusOverviewSurfaceFromScan } from "./status-overview-surface.ts";
 import {
@@ -57,7 +57,7 @@ function loadStatusNodeModeModule() {
   return statusNodeModeModuleLoader.load();
 }
 
-/** Extracts device-pairing recovery context from structured gateway errors or legacy message text. */
+/** Extracts device-pairing recovery context from structured gateway errors or message text. */
 export function resolvePairingRecoveryContext(params: {
   error?: string | null;
   closeReason?: string | null;

@@ -1,25 +1,25 @@
 /** CLI entrypoint for `openclaw gateway status`. */
-import { isRich } from "../../packages/terminal-core/src/theme.js";
-import { parseGatewayPortOption } from "../cli/gateway-port-option.js";
-import { withProgress } from "../cli/progress.js";
-import { readBestEffortConfig, resolveGatewayPort } from "../config/config.js";
-import { resolveWideAreaDiscoveryDomain } from "../infra/widearea-dns.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { inferSshTargetFromRemoteUrl, resolveSshTarget } from "./gateway-status/discovery.js";
+import { isRich } from "../../packages/terminal-core/src/theme.ts";
+import { parseGatewayPortOption } from "../cli/gateway-port-option.ts";
+import { withProgress } from "../cli/progress.ts";
+import { readBestEffortConfig, resolveGatewayPort } from "../config/config.ts";
+import { resolveWideAreaDiscoveryDomain } from "../infra/widearea-dns.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { inferSshTargetFromRemoteUrl, resolveSshTarget } from "./gateway-status/discovery.ts";
 import {
   buildNetworkHints,
   parseTimeoutMs,
   resolveTargets,
   sanitizeSshTarget,
-} from "./gateway-status/helpers.js";
+} from "./gateway-status/helpers.ts";
 import {
   buildGatewayStatusWarnings,
   pickPrimaryProbedTarget,
   writeGatewayStatusJson,
   writeGatewayStatusText,
-} from "./gateway-status/output.js";
-import { runGatewayStatusProbePass } from "./gateway-status/probe-run.js";
+} from "./gateway-status/output.ts";
+import { runGatewayStatusProbePass } from "./gateway-status/probe-run.ts";
 
 const sshConfigModuleLoader = createLazyImportLoader(() => import("../infra/ssh-config.js"));
 const sshTunnelModuleLoader = createLazyImportLoader(() => import("../infra/ssh-tunnel.js"));

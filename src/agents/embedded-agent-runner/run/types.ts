@@ -1,34 +1,34 @@
 /**
  * Shared result and attempt types for embedded-agent run internals.
  */
-import type { HeartbeatToolResponse } from "../../../auto-reply/heartbeat-tool-response.js";
-import type { ThinkLevel } from "../../../auto-reply/thinking.js";
+import type { HeartbeatToolResponse } from "../../../auto-reply/heartbeat-tool-response.ts";
+import type { ThinkLevel } from "../../../auto-reply/thinking.ts";
 import type {
   SessionContextBudgetStatus,
   SessionSystemPromptReport,
-} from "../../../config/sessions/types.js";
-import type { ContextEngine, ContextEnginePromptCacheInfo } from "../../../context-engine/types.js";
-import type { DiagnosticTraceContext } from "../../../infra/diagnostic-trace-context.js";
-import type { AssistantMessage, Model } from "../../../llm/types.js";
-import type { PluginHookBeforeAgentStartResult } from "../../../plugins/hook-before-agent-start.types.js";
-import type { AgentHarnessTaskRuntimeScope } from "../../../tasks/agent-harness-task-runtime-scope.js";
-import type { AcceptedSessionSpawn } from "../../accepted-session-spawn.js";
-import type { ToolOutcomeObserver } from "../../agent-tools.before-tool-call.js";
-import type { AuthProfileStore } from "../../auth-profiles/types.js";
+} from "../../../config/sessions/types.ts";
+import type { ContextEngine, ContextEnginePromptCacheInfo } from "../../../context-engine/types.ts";
+import type { DiagnosticTraceContext } from "../../../infra/diagnostic-trace-context.ts";
+import type { AssistantMessage, Model } from "../../../llm/types.ts";
+import type { PluginHookBeforeAgentStartResult } from "../../../plugins/hook-before-agent-start.types.ts";
+import type { AgentHarnessTaskRuntimeScope } from "../../../tasks/agent-harness-task-runtime-scope.ts";
+import type { AcceptedSessionSpawn } from "../../accepted-session-spawn.ts";
+import type { ToolOutcomeObserver } from "../../agent-tools.before-tool-call.ts";
+import type { AuthProfileStore } from "../../auth-profiles/types.ts";
 import type {
   MessagingToolSend,
   MessagingToolSourceReplyPayload,
-} from "../../embedded-agent-messaging.types.js";
-import type { AgentRunTimeoutPhase } from "../../run-timeout-attribution.js";
-import type { AgentRuntimePlan } from "../../runtime-plan/types.js";
-import type { AgentMessage } from "../../runtime/index.js";
-import type { AuthStorage, ModelRegistry } from "../../sessions/index.js";
-import type { ToolErrorSummary } from "../../tool-error-summary.js";
-import type { NormalizedUsage } from "../../usage.js";
-import type { EmbeddedRunReplayMetadata, EmbeddedRunReplayState } from "../replay-state.js";
-import type { EmbeddedRunLivenessState } from "../types.js";
-import type { RunEmbeddedAgentParams } from "./params.js";
-import type { PreemptiveCompactionRoute } from "./preemptive-compaction.types.js";
+} from "../../embedded-agent-messaging.types.ts";
+import type { AgentRunTimeoutPhase } from "../../run-timeout-attribution.ts";
+import type { AgentRuntimePlan } from "../../runtime-plan/types.ts";
+import type { AgentMessage } from "../../runtime/index.ts";
+import type { AuthStorage, ModelRegistry } from "../../sessions/index.ts";
+import type { ToolErrorSummary } from "../../tool-error-summary.ts";
+import type { NormalizedUsage } from "../../usage.ts";
+import type { EmbeddedRunReplayMetadata, EmbeddedRunReplayState } from "../replay-state.ts";
+import type { EmbeddedRunLivenessState } from "../types.ts";
+import type { RunEmbeddedAgentParams } from "./params.ts";
+import type { PreemptiveCompactionRoute } from "./preemptive-compaction.types.ts";
 
 type EmbeddedRunAttemptBase = Omit<
   RunEmbeddedAgentParams,

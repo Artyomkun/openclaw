@@ -1,10 +1,10 @@
 // Builds lazy native approval runtime adapters.
-import { createLazyRuntimeModule } from "../shared/lazy-runtime.js";
+import { createLazyRuntimeModule } from "../shared/lazy-runtime.ts";
 import type {
   ChannelApprovalNativeAvailabilityAdapter,
   ChannelApprovalNativeRuntimeAdapter,
-} from "./approval-handler-runtime-types.js";
-import type { ExecApprovalChannelRuntimeEventKind } from "./exec-approval-channel-runtime.types.js";
+} from "./approval-handler-runtime-types.ts";
+import type { ExecApprovalChannelRuntimeEventKind } from "./exec-approval-channel-runtime.types.ts";
 
 /** Runtime-context capability key used by channels to register native approval resources. */
 export const CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY = "approval.native";

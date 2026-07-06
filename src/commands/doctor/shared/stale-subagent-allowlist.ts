@@ -1,7 +1,7 @@
 // Doctor scanner and repair for subagent allowlists that reference missing agents.
-import { listAgentIds } from "../../../agents/agent-scope-config.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { normalizeAgentId, normalizeOptionalAgentId } from "../../../routing/session-key.js";
+import { listAgentIds } from "../../../agents/agent-scope-config.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { normalizeAgentId, normalizeOptionalAgentId } from "../../../routing/session-key.ts";
 
 export type StaleSubagentAllowlistHit = {
   /** Config path containing the stale allowAgents entry. */

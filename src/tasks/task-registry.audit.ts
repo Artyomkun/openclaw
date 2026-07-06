@@ -6,9 +6,9 @@ import {
   type TaskAuditFinding,
   type TaskAuditSeverity,
   type TaskAuditSummary,
-} from "./task-registry.audit.shared.js";
-import type { TaskRecord } from "./task-registry.types.js";
-import { resolveEffectiveTaskCleanupAfter } from "./task-retention.js";
+} from "./task-registry.audit.shared.ts";
+import type { TaskRecord } from "./task-registry.types.ts";
+import { resolveEffectiveTaskCleanupAfter } from "./task-retention.ts";
 
 export type TaskAuditOptions = {
   now?: number;

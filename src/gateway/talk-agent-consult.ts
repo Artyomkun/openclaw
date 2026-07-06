@@ -6,17 +6,17 @@ import {
   errorShape,
   type ConnectParams,
   type ErrorShape,
-} from "../../packages/gateway-protocol/src/index.js";
-import { normalizeTalkSection } from "../config/talk.js";
-import { buildRealtimeVoiceAgentConsultChatMessage } from "../talk/agent-consult-tool.js";
-import { chatHandlers } from "./server-methods/chat.js";
+} from "../../packages/gateway-protocol/src/index.ts";
+import { normalizeTalkSection } from "../config/talk.ts";
+import { buildRealtimeVoiceAgentConsultChatMessage } from "../talk/agent-consult-tool.ts";
+import { chatHandlers } from "./server-methods/chat.ts";
 import type {
   GatewayClient,
   GatewayRequestContext,
   GatewayRequestHandlers,
-} from "./server-methods/shared-types.js";
-import { registerTalkRealtimeRelayAgentRun } from "./talk-realtime-relay.js";
-import { formatForLog } from "./ws-log.js";
+} from "./server-methods/shared-types.ts";
+import { registerTalkRealtimeRelayAgentRun } from "./talk-realtime-relay.ts";
+import { formatForLog } from "./ws-log.ts";
 
 type TalkChatSendAckStatus = "started" | "in_flight" | "ok" | "timeout" | "error";
 

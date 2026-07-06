@@ -10,11 +10,11 @@ import { basename, dirname, isAbsolute, join, relative, resolve } from "node:pat
 import { globSync } from "glob";
 import ignore from "ignore";
 import { minimatch } from "minimatch";
-import { addIgnoreRules, toPosixPath, type IgnoreMatcher } from "../../shared/ignore-rules.js";
-import { CONFIG_DIR_NAME } from "../config.js";
-import { type GitSource, parseGitUrl } from "../utils/git.js";
-import { canonicalizePath, isLocalPath } from "../utils/paths.js";
-import type { PackageSource, SettingsManager } from "./settings-manager.js";
+import { addIgnoreRules, toPosixPath, type IgnoreMatcher } from "../../shared/ignore-rules.ts";
+import { CONFIG_DIR_NAME } from "../config.ts";
+import { type GitSource, parseGitUrl } from "../utils/git.ts";
+import { canonicalizePath, isLocalPath } from "../utils/paths.ts";
+import type { PackageSource, SettingsManager } from "./settings-manager.ts";
 
 export interface PathMetadata {
   source: string;

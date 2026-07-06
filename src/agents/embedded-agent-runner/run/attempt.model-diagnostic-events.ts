@@ -2,12 +2,12 @@ import { isRecord } from "@openclaw/normalization-core/record-coerce";
 /**
  * Emits diagnostic model-call events around embedded-agent stream functions.
  */
-import { fireAndForgetBoundedHook } from "../../../hooks/fire-and-forget.js";
+import { fireAndForgetBoundedHook } from "../../../hooks/fire-and-forget.ts";
 import {
   diagnosticErrorCategory,
   diagnosticErrorFailureKind,
   diagnosticProviderRequestIdHash,
-} from "../../../infra/diagnostic-error-metadata.js";
+} from "../../../infra/diagnostic-error-metadata.ts";
 import {
   areDiagnosticsEnabledForProcess,
   emitTrustedDiagnosticEvent,
@@ -15,26 +15,26 @@ import {
   type DiagnosticModelCallContent,
   type DiagnosticMemoryUsage,
   emitTrustedDiagnosticEventWithPrivateData,
-} from "../../../infra/diagnostic-events.js";
+} from "../../../infra/diagnostic-events.ts";
 import {
   cloneDiagnosticContentValue,
   type DiagnosticModelContentCapturePolicy,
-} from "../../../infra/diagnostic-llm-content.js";
+} from "../../../infra/diagnostic-llm-content.ts";
 import {
   createChildDiagnosticTraceContext,
   freezeDiagnosticTraceContext,
   formatDiagnosticTraceparent,
   type DiagnosticTraceContext,
-} from "../../../infra/diagnostic-trace-context.js";
-import { markDiagnosticRunProgress } from "../../../logging/diagnostic-run-activity.js";
-import { getGlobalHookRunner } from "../../../plugins/hook-runner-global.js";
+} from "../../../infra/diagnostic-trace-context.ts";
+import { markDiagnosticRunProgress } from "../../../logging/diagnostic-run-activity.ts";
+import { getGlobalHookRunner } from "../../../plugins/hook-runner-global.ts";
 import type {
   PluginHookAgentContext,
   PluginHookContextWindowSource,
   PluginHookModelCallEndedEvent,
   PluginHookModelCallStartedEvent,
-} from "../../../plugins/hook-types.js";
-import type { StreamFn } from "../../runtime/index.js";
+} from "../../../plugins/hook-types.ts";
+import type { StreamFn } from "../../runtime/index.ts";
 
 type ModelCallDiagnosticContext = {
   runId: string;

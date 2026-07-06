@@ -7,7 +7,7 @@ type FacadeModule = {
 import {
   createLazyFacadeArrayValue,
   loadBundledPluginPublicSurfaceModuleSync,
-} from "./facade-loader.js";
+} from "./facade-loader.ts";
 
 function loadFacadeModule(): FacadeModule {
   return loadBundledPluginPublicSurfaceModuleSync<FacadeModule>({

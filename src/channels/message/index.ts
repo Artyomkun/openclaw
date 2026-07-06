@@ -1,13 +1,13 @@
 // Public barrel for channel message delivery, live preview, receipt, receive, and recovery
 // contracts used by channel plugins and core delivery code.
-export { deriveDurableFinalDeliveryRequirements } from "./capabilities.js";
-export { defineChannelMessageAdapter } from "./adapter.js";
-export { createChannelMessageAdapterFromOutbound } from "./outbound-bridge.js";
+export { deriveDurableFinalDeliveryRequirements } from "./capabilities.ts";
+export { defineChannelMessageAdapter } from "./adapter.ts";
+export { createChannelMessageAdapterFromOutbound } from "./outbound-bridge.ts";
 export {
   createDurableInboundReceiveJournal,
   createDurableInboundReceiveJournalFromQueue,
-} from "./durable-receive.js";
-export { createChannelIngressQueue } from "./ingress-queue.js";
+} from "./durable-receive.ts";
+export { createChannelIngressQueue } from "./ingress-queue.ts";
 export {
   listDeclaredChannelMessageLiveCapabilities,
   listDeclaredDurableFinalCapabilities,
@@ -21,7 +21,7 @@ export {
   verifyChannelMessageReceiveAckPolicyProofs,
   verifyDurableFinalCapabilityProofs,
   verifyLivePreviewFinalizerCapabilityProofs,
-} from "./contracts.js";
+} from "./contracts.ts";
 export {
   createLiveMessageState,
   createPreviewMessageReceipt,
@@ -31,21 +31,21 @@ export {
   markLiveMessageCancelled,
   markLiveMessageFinalized,
   markLiveMessagePreviewUpdated,
-} from "./live.js";
+} from "./live.ts";
 export {
   createMessageReceiptFromOutboundResults,
   listMessageReceiptPlatformIds,
   resolveMessageReceiptPrimaryId,
-} from "./receipt.js";
-export { createMessageReceiveContext, shouldAckMessageAfterStage } from "./receive.js";
+} from "./receipt.ts";
+export { createMessageReceiveContext, shouldAckMessageAfterStage } from "./receive.ts";
 export {
   createChannelReplyPipeline,
   createReplyPrefixContext,
   createReplyPrefixOptions,
   createTypingCallbacks,
   resolveChannelSourceReplyDeliveryMode,
-} from "./reply-pipeline.js";
-export { classifyDurableSendRecoveryState, createDurableMessageStateRecord } from "./state.js";
+} from "./reply-pipeline.ts";
+export { classifyDurableSendRecoveryState, createDurableMessageStateRecord } from "./state.ts";
 export type {
   DurableInboundReceiveAcceptOptions,
   DurableInboundReceiveAcceptResult,
@@ -56,7 +56,7 @@ export type {
   DurableInboundReceivePendingRecord,
   DurableInboundReceiveQueueJournalOptions,
   DurableInboundReceiveReleaseOptions,
-} from "./durable-receive.js";
+} from "./durable-receive.ts";
 export type {
   ChannelIngressQueue,
   ChannelIngressQueueClaim,
@@ -67,12 +67,12 @@ export type {
   ChannelIngressQueuePruneOptions,
   ChannelIngressQueueRecord,
   CreateChannelIngressQueueOptions,
-} from "./ingress-queue.js";
+} from "./ingress-queue.ts";
 export type {
   ChannelMessageOutboundBridgeAdapter,
   ChannelMessageOutboundBridgeResult,
   CreateChannelMessageAdapterFromOutboundParams,
-} from "./outbound-bridge.js";
+} from "./outbound-bridge.ts";
 export type {
   ChannelMessageLiveCapabilityProof,
   ChannelMessageLiveCapabilityProofMap,
@@ -86,7 +86,7 @@ export type {
   LivePreviewFinalizerCapabilityProof,
   LivePreviewFinalizerCapabilityProofMap,
   LivePreviewFinalizerCapabilityProofResult,
-} from "./contracts.js";
+} from "./contracts.ts";
 export type {
   ChannelReplyPipeline,
   CreateChannelReplyPipelineParams,
@@ -96,20 +96,20 @@ export type {
   ReplyPrefixOptions,
   SourceReplyDeliveryMode,
   TypingCallbacks,
-} from "./reply-pipeline.js";
+} from "./reply-pipeline.ts";
 export type {
   MessageAckPolicy,
   MessageAckStage,
   MessageAckState,
   MessageReceiveContext,
-} from "./receive.js";
+} from "./receive.ts";
 export type {
   LivePreviewFinalizerDraft,
   FinalizableLivePreviewAdapter,
   LivePreviewFinalizerResult,
   LivePreviewFinalizerResultKind,
-} from "./live.js";
-export type { DurableMessageSendState, DurableMessageStateRecord } from "./state.js";
+} from "./live.ts";
+export type { DurableMessageSendState, DurableMessageStateRecord } from "./state.ts";
 export type {
   ChannelMessageAdapter,
   ChannelMessageAdapterShape,
@@ -153,4 +153,4 @@ export type {
   RenderedMessageBatchPlan,
   RenderedMessageBatchPlanItem,
   RenderedMessageBatchPlanKind,
-} from "./types.js";
+} from "./types.ts";

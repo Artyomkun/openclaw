@@ -1,51 +1,51 @@
 // Diagnostic logger records structured runtime events, timings, and health snapshots.
 import { monitorEventLoopDelay, performance } from "node:perf_hooks";
-import { getRuntimeConfig } from "../config/config.js";
-import { resolveAllAgentSessionStoreTargetsSync } from "../config/sessions/targets.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import { resolveAllAgentSessionStoreTargetsSync } from "../config/sessions/targets.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   areDiagnosticsEnabledForProcess,
   emitInternalDiagnosticEvent as emitDiagnosticEvent,
   isDiagnosticsEnabled,
   type DiagnosticPhaseSnapshot,
   type DiagnosticLivenessWarningReason,
-} from "../infra/diagnostic-events.js";
-import { emitDiagnosticMemorySample, resetDiagnosticMemoryForTest } from "./diagnostic-memory.js";
+} from "../infra/diagnostic-events.ts";
+import { emitDiagnosticMemorySample, resetDiagnosticMemoryForTest } from "./diagnostic-memory.ts";
 import {
   getCurrentDiagnosticPhase,
   getRecentDiagnosticPhases,
   resetDiagnosticPhasesForTest,
-} from "./diagnostic-phase.js";
+} from "./diagnostic-phase.ts";
 import {
   getDiagnosticSessionActivitySnapshot,
   resetDiagnosticRunActivityForTest,
   type DiagnosticSessionActivitySnapshot,
-} from "./diagnostic-run-activity.js";
+} from "./diagnostic-run-activity.ts";
 import {
   diagnosticLogger as diag,
   getLastDiagnosticActivityAt,
   markDiagnosticActivity as markActivity,
   resetDiagnosticActivityForTest,
-} from "./diagnostic-runtime.js";
+} from "./diagnostic-runtime.ts";
 import {
   classifySessionAttention,
   isTerminalDiagnosticProgressReason,
   type SessionAttentionClassification,
-} from "./diagnostic-session-attention.js";
+} from "./diagnostic-session-attention.ts";
 import {
   formatCronSessionDiagnosticFields,
   resolveCronSessionDiagnosticContext,
-} from "./diagnostic-session-context.js";
+} from "./diagnostic-session-context.ts";
 import {
   requestStuckSessionRecovery,
   requestStuckSessionRecoveryOutcome,
   resetDiagnosticSessionRecoveryCoordinatorForTest,
   type RecoverStuckSession,
-} from "./diagnostic-session-recovery-coordinator.js";
+} from "./diagnostic-session-recovery-coordinator.ts";
 import type {
   StuckSessionRecoveryOutcome,
   StuckSessionRecoveryRequest,
-} from "./diagnostic-session-recovery.js";
+} from "./diagnostic-session-recovery.ts";
 import {
   diagnosticSessionStates,
   getDiagnosticSessionState,
@@ -54,18 +54,18 @@ import {
   resetDiagnosticSessionStateForTest,
   type SessionRef,
   type SessionStateValue,
-} from "./diagnostic-session-state.js";
+} from "./diagnostic-session-state.ts";
 import {
   installDiagnosticStabilityFatalHook,
   resetDiagnosticStabilityBundleForTest,
   uninstallDiagnosticStabilityFatalHook,
-} from "./diagnostic-stability-bundle.js";
+} from "./diagnostic-stability-bundle.ts";
 import {
   resetDiagnosticStabilityRecorderForTest,
   startDiagnosticStabilityRecorder,
   stopDiagnosticStabilityRecorder,
-} from "./diagnostic-stability.js";
-export { diagnosticLogger, logLaneDequeue, logLaneEnqueue } from "./diagnostic-runtime.js";
+} from "./diagnostic-stability.ts";
+export { diagnosticLogger, logLaneDequeue, logLaneEnqueue } from "./diagnostic-runtime.ts";
 
 const webhookStats = {
   received: 0,

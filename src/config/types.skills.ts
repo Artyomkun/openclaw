@@ -2,7 +2,7 @@
  * Skill-related config types for discovery, installation, limits, and per-skill overrides.
  * Secret-bearing skill options use SecretInput so config redaction and secret refs stay consistent.
  */
-import type { SecretInput } from "./types.secrets.js";
+import type { SecretInput } from "./types.secrets.ts";
 
 /** Per-skill runtime override keyed by skill name or source-specific skill key. */
 export type SkillConfig = {

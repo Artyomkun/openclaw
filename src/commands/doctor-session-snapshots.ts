@@ -3,20 +3,20 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveStateDir } from "../config/paths.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveStateDir } from "../config/paths.ts";
 import {
   hydrateSessionStoreSkillPromptRefs,
   resolveSessionSkillPromptBlobPath,
-} from "../config/sessions/skill-prompt-blobs.js";
-import { resolveAllAgentSessionStoreTargetsSync } from "../config/sessions/targets.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
-import { expandHomePrefix } from "../infra/home-dir.js";
-import { writeTextAtomic } from "../infra/json-files.js";
-import { resolveBundledSkillsDir } from "../skills/loading/bundled-dir.js";
-import { shortenHomePath } from "../utils.js";
+} from "../config/sessions/skill-prompt-blobs.ts";
+import { resolveAllAgentSessionStoreTargetsSync } from "../config/sessions/targets.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.ts";
+import { expandHomePrefix } from "../infra/home-dir.ts";
+import { writeTextAtomic } from "../infra/json-files.ts";
+import { resolveBundledSkillsDir } from "../skills/loading/bundled-dir.ts";
+import { shortenHomePath } from "../utils.ts";
 
 const SESSION_SNAPSHOTS_CHECK_ID = "core/doctor/session-snapshots";
 

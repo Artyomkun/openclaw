@@ -1,11 +1,11 @@
 /** Text-command routing decisions for surfaces that may also support native commands. */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { listChannelPlugins } from "../channels/plugins/index.js";
+import { listChannelPlugins } from "../channels/plugins/index.ts";
 import {
   getActivePluginChannelRegistryVersion,
   requireActivePluginChannelRegistry,
-} from "../plugins/runtime.js";
-import type { ShouldHandleTextCommandsParams } from "./commands-registry.types.js";
+} from "../plugins/runtime.ts";
+import type { ShouldHandleTextCommandsParams } from "./commands-registry.types.ts";
 
 /** Cached native-command surface lookup, invalidated by active plugin-registry version. */
 let cachedNativeCommandSurfaces: Set<string> | null = null;

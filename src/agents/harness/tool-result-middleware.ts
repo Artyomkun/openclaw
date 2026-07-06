@@ -2,21 +2,21 @@
  * Runs native harness tool-result middleware around tool execution results.
  */
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import type {
   AgentToolResultMiddleware,
   AgentToolResultMiddlewareContext,
   AgentToolResultMiddlewareEvent,
   OpenClawAgentToolResult,
-} from "../../plugins/agent-tool-result-middleware-types.js";
-import { createLazyPromiseLoader } from "../../shared/lazy-promise.js";
-import { truncateUtf16Safe } from "../../utils.js";
+} from "../../plugins/agent-tool-result-middleware-types.ts";
+import { createLazyPromiseLoader } from "../../shared/lazy-promise.ts";
+import { truncateUtf16Safe } from "../../utils.ts";
 import {
   hasMessagingDeliveryReceipt,
   isDeliveredMessagingToolResult,
-} from "../embedded-agent-message-tool-source-reply.js";
-import { isMessagingToolSendAction } from "../embedded-agent-messaging.js";
-import { isToolResultError } from "../tool-result-error.js";
+} from "../embedded-agent-message-tool-source-reply.ts";
+import { isMessagingToolSendAction } from "../embedded-agent-messaging.ts";
+import { isToolResultError } from "../tool-result-error.ts";
 
 const log = createSubsystemLogger("agents/harness");
 const MAX_MIDDLEWARE_CONTENT_BLOCKS = 200;
@@ -503,7 +503,7 @@ export function createAgentToolResultMiddlewareRunner(
       if (handlersForRun.length === 0) {
         return event.result;
       }
-      // Snapshot the confirmed side effect before legacy middleware can mutate
+      // Snapshot the confirmed side effect before older middleware can mutate
       // or sanitization can collapse the receipt; never expose the raw result.
       const deliveredMessagingFallback = buildDeliveredMessagingFailureFallback(
         event,
@@ -513,7 +513,7 @@ export function createAgentToolResultMiddlewareRunner(
       for (const handler of handlersForRun) {
         try {
           const next = await handler({ ...event, result: current }, middlewareContext);
-          // Middleware may mutate event.result in place for legacy runtime parity.
+          // Middleware may mutate event.result in place for older runtime parity.
           // Validate the current object after every handler so in-place writes
           // cannot bypass the same shape and size bounds as returned results.
           const candidate = next?.result ?? current;

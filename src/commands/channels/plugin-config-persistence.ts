@@ -1,8 +1,8 @@
-import { commitConfigWithPendingPluginInstalls } from "../../cli/plugins-install-record-commit.js";
-import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-registry-refresh.js";
-import { replaceConfigFile } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RuntimeEnv } from "../../runtime.js";
+import { commitConfigWithPendingPluginInstalls } from "../../cli/plugins-install-record-commit.ts";
+import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-registry-refresh.ts";
+import { replaceConfigFile } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
 
 export async function persistResolvedChannelPluginConfig(params: {
   resolved: {

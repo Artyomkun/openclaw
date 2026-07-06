@@ -1,9 +1,9 @@
 // Looks up installed plugin index records by normalized scope.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { compileSafeRegex } from "../security/safe-regex.js";
-import { normalizePluginId } from "./config-state.js";
-import { CONFIG_PATH_ACTIVATION_COMPAT_CODE } from "./installed-plugin-index-config-path-scope.js";
-import type { InstalledPluginIndex, InstalledPluginIndexRecord } from "./installed-plugin-index.js";
+import { compileSafeRegex } from "../security/safe-regex.ts";
+import { normalizePluginId } from "./config-state.ts";
+import { CONFIG_PATH_ACTIVATION_COMPAT_CODE } from "./installed-plugin-index-config-path-scope.ts";
+import type { InstalledPluginIndex, InstalledPluginIndexRecord } from "./installed-plugin-index.ts";
 
 const PROVIDER_CONTRIBUTION_CONTRACTS = [
   "externalAuthProviders",

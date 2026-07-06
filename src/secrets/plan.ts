@@ -1,11 +1,11 @@
 /** Validates and normalizes serialized secrets apply plans before config mutation. */
 import { isRecord as isObjectRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { SecretProviderConfig, SecretRef } from "../config/types.secrets.js";
-import { SecretProviderSchema } from "../config/zod-schema.core.js";
-import { isValidSecretProviderAlias, isValidSecretRef } from "./ref-contract.js";
-import { parseDotPath, toDotPath } from "./shared.js";
-import { resolvePlanTargetAgainstRegistry, type ResolvedPlanTarget } from "./target-registry.js";
+import type { SecretProviderConfig, SecretRef } from "../config/types.secrets.ts";
+import { SecretProviderSchema } from "../config/zod-schema.core.ts";
+import { isValidSecretProviderAlias, isValidSecretRef } from "./ref-contract.ts";
+import { parseDotPath, toDotPath } from "./shared.ts";
+import { resolvePlanTargetAgainstRegistry, type ResolvedPlanTarget } from "./target-registry.ts";
 
 /** Registry target id accepted by a secrets apply plan. */
 export type SecretsPlanTargetType = string;
@@ -56,7 +56,6 @@ export type SecretsApplyPlan = {
   options?: {
     scrubEnv?: boolean;
     scrubAuthProfilesForProviderTargets?: boolean;
-    scrubLegacyAuthJson?: boolean;
   };
 };
 
@@ -191,6 +190,5 @@ export function normalizeSecretsPlanOptions(
   return {
     scrubEnv: options?.scrubEnv ?? true,
     scrubAuthProfilesForProviderTargets: options?.scrubAuthProfilesForProviderTargets ?? true,
-    scrubLegacyAuthJson: options?.scrubLegacyAuthJson ?? true,
   };
 }

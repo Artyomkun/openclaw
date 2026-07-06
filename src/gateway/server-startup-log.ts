@@ -2,19 +2,19 @@
 // Produces the compact ready banner with resolved model and safety state.
 import { normalizeSortedUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
 import chalk from "chalk";
-import { resolveDefaultAgentId, resolveAgentConfig } from "../agents/agent-scope.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { formatFastModeValue, resolveFastModeState } from "../agents/fast-mode.js";
-import type { ModelCatalogEntry } from "../agents/model-catalog.types.js";
-import { legacyModelKey, modelKey } from "../agents/model-selection-normalize.js";
+import { resolveDefaultAgentId, resolveAgentConfig } from "../agents/agent-scope.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { formatFastModeValue, resolveFastModeState } from "../agents/fast-mode.ts";
+import type { ModelCatalogEntry } from "../agents/model-catalog.types.ts";
+import { modelKey } from "../agents/model-selection-normalize.ts";
 import {
   buildConfiguredModelCatalog,
   resolveConfiguredModelRef,
-} from "../agents/model-selection-shared.js";
-import { resolveThinkingDefault } from "../agents/model-thinking-default.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getResolvedLoggerSettings } from "../logging.js";
-import { collectEnabledInsecureOrDangerousFlagsFromCurrentSnapshot } from "../security/dangerous-config-flags-current.js";
+} from "../agents/model-selection-shared.ts";
+import { resolveThinkingDefault } from "../agents/model-thinking-default.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getResolvedLoggerSettings } from "../logging.ts";
+import { collectEnabledInsecureOrDangerousFlagsFromCurrentSnapshot } from "../security/dangerous-config-flags-current.ts";
 
 type StartupThinkLevel =
   | "off"
@@ -100,11 +100,9 @@ function resolveExplicitStartupThinking(params: {
 }): StartupThinkLevel | undefined {
   const models = params.cfg.agents?.defaults?.models;
   const canonicalKey = modelKey(params.provider, params.model);
-  const legacyKey = legacyModelKey(params.provider, params.model);
   return (
     normalizeStartupThinkLevel(params.defaultAgentThinking) ??
     normalizeStartupThinkLevel(models?.[canonicalKey]?.params?.thinking) ??
-    normalizeStartupThinkLevel(legacyKey ? models?.[legacyKey]?.params?.thinking : undefined) ??
     normalizeStartupThinkLevel(params.cfg.agents?.defaults?.thinkingDefault)
   );
 }

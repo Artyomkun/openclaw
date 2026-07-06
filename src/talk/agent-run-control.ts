@@ -4,13 +4,13 @@
  * The shared module owns classification and message contracts; this adapter
  * binds those contracts to embedded-run abort, status, and steering primitives.
  */
-import type { EmbeddedAgentQueueMessageOutcome } from "../agents/embedded-agent-runner/runs.js";
+import type { EmbeddedAgentQueueMessageOutcome } from "../agents/embedded-agent-runner/runs.ts";
 import {
   abortEmbeddedAgentRun,
   queueEmbeddedAgentMessageWithOutcomeAsync,
   resolveActiveEmbeddedRunSessionId,
-} from "../agents/embedded-agent-runner/runs.js";
-import { getDiagnosticSessionActivitySnapshot } from "../logging/diagnostic-run-activity.js";
+} from "../agents/embedded-agent-runner/runs.ts";
+import { getDiagnosticSessionActivitySnapshot } from "../logging/diagnostic-run-activity.ts";
 import {
   buildRealtimeVoiceAgentCancelProviderResult,
   buildRealtimeVoiceAgentFollowupSteeringText,
@@ -19,8 +19,8 @@ import {
   resolveRealtimeVoiceAgentControlIntent,
   type RealtimeVoiceAgentControlResult,
   type RealtimeVoiceAgentRunActivity,
-} from "./agent-run-control-shared.js";
-import type { TalkEvent } from "./talk-events.js";
+} from "./agent-run-control-shared.ts";
+import type { TalkEvent } from "./talk-events.ts";
 
 export {
   buildRealtimeVoiceAgentCancelProviderResult,
@@ -38,7 +38,7 @@ export {
   type RealtimeVoiceAgentControlProviderResult,
   type RealtimeVoiceAgentControlResult,
   type RealtimeVoiceAgentRunActivity,
-} from "./agent-run-control-shared.js";
+} from "./agent-run-control-shared.ts";
 
 type RealtimeVoiceAgentControlDeps = {
   abortEmbeddedAgentRun: (sessionId: string) => boolean;

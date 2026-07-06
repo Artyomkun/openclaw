@@ -3,18 +3,18 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { normalizeProviderId } from "../agents/model-selection.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import { resolvePluginProviders } from "./providers.runtime.js";
-import { resolvePluginSetupProvider } from "./setup-registry.js";
+import { DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { normalizeProviderId } from "../agents/model-selection.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import { resolvePluginProviders } from "./providers.runtime.ts";
+import { resolvePluginSetupProvider } from "./setup-registry.ts";
 import type {
   ProviderAuthMethod,
   ProviderPlugin,
   ProviderPluginWizardModelPicker,
   ProviderPluginWizardSetup,
-} from "./types.js";
+} from "./types.ts";
 
 const PROVIDER_PLUGIN_CHOICE_PREFIX = "provider-plugin:";
 

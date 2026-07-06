@@ -2,12 +2,12 @@
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../../packages/gateway-protocol/src/client-info.js";
-import { callGateway } from "../../gateway/call.js";
-import type { OperatorScope } from "../../gateway/method-scopes.js";
-import { parseTimeoutMsWithFallback } from "../parse-timeout.js";
-import { withProgress } from "../progress.js";
-import type { NodesRpcOpts } from "./types.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
+import { callGateway } from "../../gateway/call.ts";
+import type { OperatorScope } from "../../gateway/method-scopes.ts";
+import { parseTimeoutMsWithFallback } from "../parse-timeout.ts";
+import { withProgress } from "../progress.ts";
+import type { NodesRpcOpts } from "./types.ts";
 
 const NODE_PAIR_APPROVAL_GATEWAY_METHODS = new Set<string>(["node.pair.list", "node.pair.approve"]);
 const DEFAULT_NODES_RPC_TIMEOUT_MS = 10_000;

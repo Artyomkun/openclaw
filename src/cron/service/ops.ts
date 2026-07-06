@@ -1,26 +1,26 @@
 /** Public cron service operations for lifecycle, CRUD, listing, and manual runs. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { enqueueCommandInLane } from "../../process/command-queue.js";
-import { CommandLane } from "../../process/lanes.js";
-import { DEFAULT_AGENT_ID } from "../../routing/session-key.js";
-import { resolveOpenClawStateSqlitePath } from "../../state/openclaw-state-db.paths.js";
+import { enqueueCommandInLane } from "../../process/command-queue.ts";
+import { CommandLane } from "../../process/lanes.ts";
+import { DEFAULT_AGENT_ID } from "../../routing/session-key.ts";
+import { resolveOpenClawStateSqlitePath } from "../../state/openclaw-state-db.paths.ts";
 import {
   completeTaskRunByRunId,
   createRunningTaskRun,
   failTaskRunByRunId,
-} from "../../tasks/detached-task-runtime.js";
+} from "../../tasks/detached-task-runtime.ts";
 import {
   clearCronJobActive,
   isCronActiveJobMarkerCurrent,
   markCronJobActive,
   type CronActiveJobMarker,
-} from "../active-jobs.js";
-import { resolveCronDeliveryPlan, resolveFailureDestination } from "../delivery-plan.js";
-import { createCronRunDiagnosticsFromError } from "../run-diagnostics.js";
-import { createCronExecutionId } from "../run-id.js";
-import type { CronJob, CronJobCreate, CronJobPatch } from "../types.js";
-import { normalizeCronRunErrorText } from "./execution-errors.js";
-import { failureNotificationDeliveryFromJobState } from "./failure-alerts.js";
+} from "../active-jobs.ts";
+import { resolveCronDeliveryPlan, resolveFailureDestination } from "../delivery-plan.ts";
+import { createCronRunDiagnosticsFromError } from "../run-diagnostics.ts";
+import { createCronExecutionId } from "../run-id.ts";
+import type { CronJob, CronJobCreate, CronJobPatch } from "../types.ts";
+import { normalizeCronRunErrorText } from "./execution-errors.ts";
+import { failureNotificationDeliveryFromJobState } from "./failure-alerts.ts";
 import {
   applyJobPatch,
   assertSupportedJobSpec,
@@ -32,7 +32,7 @@ import {
   isJobDue,
   nextWakeAtMs,
   recomputeNextRunsForMaintenance,
-} from "./jobs.js";
+} from "./jobs.ts";
 import type {
   CronJobsEnabledFilter,
   CronJobsLastRunStatusFilter,
@@ -41,12 +41,12 @@ import type {
   CronListPageOptions,
   CronListPageResult,
   CronSortDir,
-} from "./list-page-types.js";
-import { locked } from "./locked.js";
-import { normalizeOptionalAgentId } from "./normalize.js";
-import type { CronServiceState, CronWakeMode } from "./state.js";
-import { ensureLoaded, persist, warnIfDisabled } from "./store.js";
-import { CRON_TASK_RUNNING_PROGRESS_SUMMARY } from "./task-ledger.js";
+} from "./list-page-types.ts";
+import { locked } from "./locked.ts";
+import { normalizeOptionalAgentId } from "./normalize.ts";
+import type { CronServiceState, CronWakeMode } from "./state.ts";
+import { ensureLoaded, persist, warnIfDisabled } from "./store.ts";
+import { CRON_TASK_RUNNING_PROGRESS_SUMMARY } from "./task-ledger.ts";
 import {
   applyJobResult,
   armTimer,
@@ -56,8 +56,8 @@ import {
   maybeNotifyIsolatedAgentSetupTimeout,
   runMissedJobs,
   stopTimer,
-} from "./timer.js";
-import { wake } from "./wake.js";
+} from "./timer.ts";
+import { wake } from "./wake.ts";
 
 const STARTUP_INTERRUPTED_ERROR = "cron: job interrupted by gateway restart";
 

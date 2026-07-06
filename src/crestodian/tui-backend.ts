@@ -3,9 +3,9 @@ import { randomUUID } from "node:crypto";
 import type {
   SessionsPatchParams,
   SessionsPatchResult,
-} from "../../packages/gateway-protocol/src/index.js";
-import { buildAgentMainSessionKey } from "../routing/session-key.js";
-import type { RuntimeEnv } from "../runtime.js";
+} from "../../packages/gateway-protocol/src/index.ts";
+import { buildAgentMainSessionKey } from "../routing/session-key.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import type {
   ChatSendOptions,
   TuiAgentsList,
@@ -13,17 +13,17 @@ import type {
   TuiEvent,
   TuiModelChoice,
   TuiSessionList,
-} from "../tui/tui-backend.js";
-import { runTui as defaultRunTui } from "../tui/tui.js";
-import type { CrestodianAssistantPlanner } from "./assistant.js";
-import { approvalQuestion, isYes, resolveCrestodianOperation } from "./dialogue.js";
+} from "../tui/tui-backend.ts";
+import { runTui as defaultRunTui } from "../tui/tui.ts";
+import type { CrestodianAssistantPlanner } from "./assistant.ts";
+import { approvalQuestion, isYes, resolveCrestodianOperation } from "./dialogue.ts";
 import {
   executeCrestodianOperation,
   isPersistentCrestodianOperation,
   type CrestodianCommandDeps,
   type CrestodianOperation,
-} from "./operations.js";
-import { formatCrestodianStartupMessage, loadCrestodianOverview } from "./overview.js";
+} from "./operations.ts";
+import { formatCrestodianStartupMessage, loadCrestodianOverview } from "./overview.ts";
 
 type RunTui = typeof defaultRunTui;
 

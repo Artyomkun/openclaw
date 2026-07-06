@@ -7,7 +7,7 @@ export type {
   McpToolCatalogDiagnostic,
   SessionMcpRuntime,
   SessionMcpRuntimeManager,
-} from "./agent-bundle-mcp-types.js";
+} from "./agent-bundle-mcp-types.ts";
 export {
   testing,
   testing as __testing,
@@ -20,9 +20,9 @@ export {
   resolveSessionMcpConfigSummary,
   retireSessionMcpRuntime,
   retireSessionMcpRuntimeForSessionKey,
-} from "./agent-bundle-mcp-runtime.js";
+} from "./agent-bundle-mcp-runtime.ts";
 export {
   buildBundleMcpToolsFromCatalog,
   createBundleMcpToolRuntime,
   materializeBundleMcpToolsForRun,
-} from "./agent-bundle-mcp-materialize.js";
+} from "./agent-bundle-mcp-materialize.ts";

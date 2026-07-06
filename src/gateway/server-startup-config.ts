@@ -4,43 +4,43 @@ import { isDeepStrictEqual } from "node:util";
 import {
   formatInvalidConfigRecoveryHint,
   formatPluginPackagingRuntimeOutputRecoveryHint,
-} from "../cli/config-recovery-hints.js";
+} from "../cli/config-recovery-hints.ts";
 import {
   type ReadConfigFileSnapshotWithPluginMetadataResult,
   readConfigFileSnapshotWithPluginMetadata,
-} from "../config/io.js";
-import { formatConfigIssueLines } from "../config/issue-format.js";
-import { isNixMode } from "../config/paths.js";
-import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import { isPluginPackagingRuntimeOutputInvalidConfigSnapshot } from "../config/recovery-policy.js";
-import { applyConfigOverrides } from "../config/runtime-overrides.js";
-import type { GatewayAuthConfig, GatewayTailscaleConfig } from "../config/types.gateway.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.js";
-import { measureDiagnosticsTimelineSpan } from "../infra/diagnostics-timeline.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
+} from "../config/io.ts";
+import { formatConfigIssueLines } from "../config/issue-format.ts";
+import { isNixMode } from "../config/paths.ts";
+import { applyPluginAutoEnable } from "../config/plugin-auto-enable.ts";
+import { isPluginPackagingRuntimeOutputInvalidConfigSnapshot } from "../config/recovery-policy.ts";
+import { applyConfigOverrides } from "../config/runtime-overrides.ts";
+import type { GatewayAuthConfig, GatewayTailscaleConfig } from "../config/types.gateway.ts";
+import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.ts";
+import { measureDiagnosticsTimelineSpan } from "../infra/diagnostics-timeline.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
 import {
   prepareSecretsRuntimeFastPathSnapshot,
   resolveRefreshAgentDirs,
-} from "../secrets/runtime-fast-path.js";
+} from "../secrets/runtime-fast-path.ts";
 import {
   GATEWAY_AUTH_SURFACE_PATHS,
   evaluateGatewayAuthSurfaceStates,
-} from "../secrets/runtime-gateway-auth-surfaces.js";
+} from "../secrets/runtime-gateway-auth-surfaces.ts";
 import {
   activateSecretsRuntimeSnapshotState,
   getActiveSecretsRuntimeSnapshot,
   getLiveSecretsRuntimeAuthStores,
   setPreparedSecretsRuntimeSnapshotRefreshContext,
-} from "../secrets/runtime-state.js";
-import { resolveGatewayAuth } from "./auth.js";
-import { assertGatewayAuthNotKnownWeak } from "./known-weak-gateway-secrets.js";
+} from "../secrets/runtime-state.ts";
+import { resolveGatewayAuth } from "./auth.ts";
+import { assertGatewayAuthNotKnownWeak } from "./known-weak-gateway-secrets.ts";
 import {
   ensureGatewayStartupAuth,
   mergeGatewayAuthConfig,
   mergeGatewayTailscaleConfig,
-} from "./startup-auth.js";
+} from "./startup-auth.ts";
 
 type GatewayStartupLog = {
   info: (message: string) => void;
@@ -118,11 +118,6 @@ export async function loadGatewayStartupConfigSnapshot(params: {
   const configSnapshot = snapshotRead.snapshot;
   const pluginMetadataSnapshot = snapshotRead.pluginMetadataSnapshot;
   const wroteConfig = false;
-  if (configSnapshot.legacyIssues.length > 0 && isNixMode) {
-    throw new Error(
-      "Legacy config entries detected while running in Nix mode. Update your Nix config to the latest schema and restart.",
-    );
-  }
   if (configSnapshot.exists) {
     assertValidGatewayStartupConfigSnapshot(configSnapshot, { includeDoctorHint: true });
   }

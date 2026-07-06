@@ -12,7 +12,7 @@ import {
   stylePromptHint,
   stylePromptMessage,
   stylePromptTitle,
-} from "../../packages/terminal-core/src/prompt-style.js";
+} from "../../packages/terminal-core/src/prompt-style.ts";
 
 export const CONFIGURE_WIZARD_SECTIONS = [
   "workspace",

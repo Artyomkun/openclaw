@@ -10,17 +10,17 @@ import {
   validateTasksCancelParams,
   validateTasksGetParams,
   validateTasksListParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { parseAgentSessionKey } from "../../routing/session-key.js";
-import { cancelDetachedTaskRunById } from "../../tasks/detached-task-runtime.js";
-import { getTaskById, listTaskRecords } from "../../tasks/runtime-internal.js";
-import type { TaskRecord, TaskStatus } from "../../tasks/task-registry.types.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { parseAgentSessionKey } from "../../routing/session-key.ts";
+import { cancelDetachedTaskRunById } from "../../tasks/detached-task-runtime.ts";
+import { getTaskById, listTaskRecords } from "../../tasks/runtime-internal.ts";
+import type { TaskRecord, TaskStatus } from "../../tasks/task-registry.types.ts";
 import {
   TASK_STATUS_DETAIL_MAX_CHARS,
   formatTaskStatusTitle,
   sanitizeTaskStatusText,
-} from "../../tasks/task-status.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../tasks/task-status.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 const DEFAULT_TASKS_LIST_LIMIT = 100;
 const MAX_TASKS_LIST_LIMIT = 500;

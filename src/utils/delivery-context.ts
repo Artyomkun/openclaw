@@ -4,5 +4,5 @@ export {
   deliveryContextKey,
   mergeDeliveryContext,
   normalizeDeliveryContext,
-} from "./delivery-context.shared.js";
-export type { DeliveryContext } from "./delivery-context.types.js";
+} from "./delivery-context.shared.ts";
+export type { DeliveryContext } from "./delivery-context.types.ts";

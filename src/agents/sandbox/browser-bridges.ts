@@ -3,7 +3,7 @@
  *
  * The prune path uses this table to stop bridge servers when backing containers expire.
  */
-import type { BrowserBridge } from "../../plugin-sdk/browser-bridge.js";
+import type { BrowserBridge } from "../../plugin-sdk/browser-bridge.ts";
 
 export const BROWSER_BRIDGES = new Map<
   string,

@@ -19,7 +19,6 @@ export {
   resolveWhatsAppGroupRequireMention,
   resolveWhatsAppGroupToolPolicy,
 } from "./src/group-policy.js";
-export { WHATSAPP_LEGACY_OUTBOUND_SEND_DEP_KEYS } from "./src/outbound-send-deps.js";
 export {
   assertWebChannel,
   isSelfChatMode,
@@ -36,13 +35,11 @@ export {
 export {
   type WebChannelHealthState,
   type WebChannelStatus,
-  type WebInboundMsg,
   type WebMonitorTuning,
 } from "./src/auto-reply/types.js";
 export {
   type ActiveWebListener,
   type ActiveWebSendOptions,
-  type LegacyFlatWebInboundMessage,
   type WebInboundCallbackMessage,
   type WebInboundMessage,
   type WebInboundMessageInput,

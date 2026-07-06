@@ -1,6 +1,6 @@
 /** Text extraction helpers for subagent command output. */
-import { sanitizeTextContent } from "../../agents/tools/chat-history-text.js";
-import { extractTextFromChatContent } from "../../shared/chat-content.js";
+import { sanitizeTextContent } from "../../agents/tools/chat-history-text.ts";
+import { extractTextFromChatContent } from "../../shared/chat-content.ts";
 
 /** Minimal chat message shape used by subagent text extraction. */
 export type ChatMessage = {

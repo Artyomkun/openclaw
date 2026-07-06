@@ -1,15 +1,15 @@
 // TTS directive helpers parse inline speech directives from text.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.js";
-import type { SpeechProviderPlugin } from "../plugins/types.js";
-import { listSpeechProviders } from "./provider-registry.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { SpeechProviderPlugin } from "../plugins/types.ts";
+import { listSpeechProviders } from "./provider-registry.ts";
 import type {
   SpeechModelOverridePolicy,
   SpeechProviderConfig,
   SpeechProviderOverrides,
   TtsDirectiveOverrides,
   TtsDirectiveParseResult,
-} from "./provider-types.js";
+} from "./provider-types.ts";
 
 type ParseTtsDirectiveOptions = {
   cfg?: OpenClawConfig;

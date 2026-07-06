@@ -1,60 +1,60 @@
 // Gateway cron runtime service runs scheduled agent turns, heartbeat wakeups,
 // plugin hooks, notifications, and cron lifecycle cleanup.
-import { retireSessionMcpRuntime } from "../agents/agent-bundle-mcp-tools.js";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { abortAndDrainEmbeddedAgentRun } from "../agents/embedded-agent.js";
-import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import { cleanupBrowserSessionsForLifecycleEnd } from "../browser-lifecycle-cleanup.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import { getRuntimeConfig } from "../config/io.js";
+import { retireSessionMcpRuntime } from "../agents/agent-bundle-mcp-tools.ts";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { abortAndDrainEmbeddedAgentRun } from "../agents/embedded-agent.ts";
+import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import { cleanupBrowserSessionsForLifecycleEnd } from "../browser-lifecycle-cleanup.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { getRuntimeConfig } from "../config/io.ts";
 import {
   canonicalizeMainSessionAlias,
   resolveAgentIdFromSessionKey,
   resolveAgentMainSessionKey,
-} from "../config/sessions.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { runCronCommandJob } from "../cron/command-runner.js";
-import { resolveCronStoredDeliveryContext } from "../cron/delivery-context.js";
-import { resolveCronDeliveryPlan, sendCronAnnouncePayloadStrict } from "../cron/delivery.js";
-import { runCronIsolatedAgentTurn } from "../cron/isolated-agent.js";
-import { appendCronRunLog, resolveCronRunLogPruneOptions } from "../cron/run-log.js";
-import type { CronServiceContract } from "../cron/service-contract.js";
-import { CronService } from "../cron/service.js";
+} from "../config/sessions.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import type { AgentDefaultsConfig } from "../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { runCronCommandJob } from "../cron/command-runner.ts";
+import { resolveCronStoredDeliveryContext } from "../cron/delivery-context.ts";
+import { resolveCronDeliveryPlan, sendCronAnnouncePayloadStrict } from "../cron/delivery.ts";
+import { runCronIsolatedAgentTurn } from "../cron/isolated-agent.ts";
+import { appendCronRunLog, resolveCronRunLogPruneOptions } from "../cron/run-log.ts";
+import type { CronServiceContract } from "../cron/service-contract.ts";
+import { CronService } from "../cron/service.ts";
 import {
   resolveCronDeliverySessionKey,
   resolveCronSessionTargetSessionKey,
-} from "../cron/session-target.js";
-import { resolveCronJobsStorePath } from "../cron/store.js";
-import type { CronJob } from "../cron/types.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveMainScopedEventSessionKey } from "../infra/event-session-routing.js";
-import { runHeartbeatOnce } from "../infra/heartbeat-runner.js";
-import { requestHeartbeat } from "../infra/heartbeat-wake.js";
+} from "../cron/session-target.ts";
+import { resolveCronJobsStorePath } from "../cron/store.ts";
+import type { CronJob } from "../cron/types.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveMainScopedEventSessionKey } from "../infra/event-session-routing.ts";
+import { runHeartbeatOnce } from "../infra/heartbeat-runner.ts";
+import { requestHeartbeat } from "../infra/heartbeat-wake.ts";
 import {
   consumeSelectedSystemEventEntries,
   enqueueSystemEventEntry,
-} from "../infra/system-events.js";
-import { getChildLogger } from "../logging.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
+} from "../infra/system-events.ts";
+import { getChildLogger } from "../logging.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
 import type {
   PluginHookCronChangedEvent,
   PluginHookGatewayCronJob,
   PluginHookGatewayCronService,
   PluginHookGatewayContext,
-} from "../plugins/hook-types.js";
+} from "../plugins/hook-types.ts";
 import {
   normalizeAgentId,
   resolveEventSessionKey,
   toAgentStoreSessionKey,
-} from "../routing/session-key.js";
-import { defaultRuntime } from "../runtime.js";
-import { parseAgentSessionKey } from "../sessions/session-key-utils.js";
+} from "../routing/session-key.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { parseAgentSessionKey } from "../sessions/session-key-utils.ts";
 import {
   dispatchGatewayCronFinishedNotifications,
   sendGatewayCronFailureAlert,
-} from "./server-cron-notifications.js";
+} from "./server-cron-notifications.ts";
 
 export type GatewayCronState = {
   cron: CronServiceContract;

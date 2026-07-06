@@ -9,19 +9,19 @@ import {
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { parseGeminiAuth } from "../../infra/gemini-auth.js";
-import { normalizeGoogleApiBaseUrl } from "../../infra/google-api-base-url.js";
-import { streamWithPayloadPatch } from "../../llm/providers/stream-wrappers/stream-payload-utils.js";
-import type { Model } from "../../llm/types.js";
-import { buildGuardedModelFetch } from "../provider-transport-fetch.js";
-import type { StreamFn } from "../runtime/index.js";
-import { isSessionWriteLockAcquireError } from "../session-write-lock-error.js";
-import { stableStringify } from "../stable-stringify.js";
-import { stripSystemPromptCacheBoundary } from "../system-prompt-cache-boundary.js";
-import { mergeTransportHeaders, sanitizeTransportPayloadText } from "../transport-stream-shared.js";
-import { log } from "./logger.js";
-import { isGooglePromptCacheEligible, resolveCacheRetention } from "./prompt-cache-retention.js";
-import { EmbeddedAttemptSessionTakeoverError } from "./run/attempt.session-lock.js";
+import { parseGeminiAuth } from "../../infra/gemini-auth.ts";
+import { normalizeGoogleApiBaseUrl } from "../../infra/google-api-base-url.ts";
+import { streamWithPayloadPatch } from "../../llm/providers/stream-wrappers/stream-payload-utils.ts";
+import type { Model } from "../../llm/types.ts";
+import { buildGuardedModelFetch } from "../provider-transport-fetch.ts";
+import type { StreamFn } from "../runtime/index.ts";
+import { isSessionWriteLockAcquireError } from "../session-write-lock-error.ts";
+import { stableStringify } from "../stable-stringify.ts";
+import { stripSystemPromptCacheBoundary } from "../system-prompt-cache-boundary.ts";
+import { mergeTransportHeaders, sanitizeTransportPayloadText } from "../transport-stream-shared.ts";
+import { log } from "./logger.ts";
+import { isGooglePromptCacheEligible, resolveCacheRetention } from "./prompt-cache-retention.ts";
+import { EmbeddedAttemptSessionTakeoverError } from "./run/attempt.session-lock.ts";
 
 const GOOGLE_PROMPT_CACHE_CUSTOM_TYPE = "openclaw.google-prompt-cache";
 // CachedContent metadata responses are tiny (name + expireTime); cap the read so

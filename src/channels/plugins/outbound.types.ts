@@ -3,20 +3,20 @@
  *
  * Defines text/media/payload/poll contexts, presentation capabilities, and send results.
  */
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import type { ReplyToMode } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { OutboundDeliveryResult } from "../../infra/outbound/deliver-types.js";
-import type { OutboundDeliveryFormattingOptions } from "../../infra/outbound/formatting.js";
-import type { OutboundIdentity } from "../../infra/outbound/identity-types.js";
-import type { OutboundSendDeps } from "../../infra/outbound/send-deps.js";
-import type { MessagePresentation, ReplyPayloadDeliveryPin } from "../../interactive/payload.js";
-import type { OutboundMediaAccess } from "../../media/load-options.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import type { ReplyToMode } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { OutboundDeliveryResult } from "../../infra/outbound/deliver-types.ts";
+import type { OutboundDeliveryFormattingOptions } from "../../infra/outbound/formatting.ts";
+import type { OutboundIdentity } from "../../infra/outbound/identity-types.ts";
+import type { OutboundSendDeps } from "../../infra/outbound/send-deps.ts";
+import type { MessagePresentation, ReplyPayloadDeliveryPin } from "../../interactive/payload.ts";
+import type { OutboundMediaAccess } from "../../media/load-options.ts";
 import type {
   ChannelOutboundTargetMode,
   ChannelPollContext,
   ChannelPollResult,
-} from "./types.core.js";
+} from "./types.core.ts";
 
 export type ChannelOutboundContext = {
   cfg: OpenClawConfig;
@@ -200,13 +200,6 @@ export type ChannelOutboundAdapter = {
     pin: ReplyPayloadDeliveryPin;
     gatewayClientScopes?: readonly string[];
   }) => Promise<void> | void;
-  /**
-   * @deprecated Use shouldTreatDeliveredTextAsVisible instead.
-   */
-  shouldTreatRoutedTextAsVisible?: (params: {
-    kind: "tool" | "block" | "final";
-    text?: string;
-  }) => boolean;
   shouldTreatDeliveredTextAsVisible?: (params: {
     kind: "tool" | "block" | "final";
     text?: string;

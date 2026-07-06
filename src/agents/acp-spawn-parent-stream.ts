@@ -3,32 +3,32 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { readAcpSessionEntry } from "../acp/runtime/session-meta.js";
+import { readAcpSessionEntry } from "../acp/runtime/session-meta.ts";
 import {
   isAcpTagVisible,
   resolveAcpProjectionSettings,
   type AcpProjectionSettings,
-} from "../auto-reply/reply/acp-stream-settings.js";
+} from "../auto-reply/reply/acp-stream-settings.ts";
 import {
   resolveChannelStreamingProgressCommentary,
   type StreamingCompatEntry,
-} from "../channels/streaming.js";
-import { resolveSessionFilePath, resolveSessionFilePathOptions } from "../config/sessions/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { onAgentEvent } from "../infra/agent-events.js";
+} from "../channels/streaming.ts";
+import { resolveSessionFilePath, resolveSessionFilePathOptions } from "../config/sessions/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { onAgentEvent } from "../infra/agent-events.ts";
 import {
   type EventSessionRoutingPolicy,
   resolveEventSessionKeyForPolicy,
   scopedHeartbeatWakeOptionsForPolicy,
-} from "../infra/event-session-routing.js";
-import { requestHeartbeat } from "../infra/heartbeat-wake.js";
-import { appendRegularFile } from "../infra/regular-file.js";
-import { enqueueSystemEvent } from "../infra/system-events.js";
-import { resolveNormalizedAccountEntry } from "../routing/account-lookup.js";
-import { normalizeAccountId } from "../routing/session-key.js";
-import { normalizeAssistantPhase } from "../shared/chat-message-content.js";
-import { recordTaskRunProgressByRunId } from "../tasks/detached-task-runtime.js";
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
+} from "../infra/event-session-routing.ts";
+import { requestHeartbeat } from "../infra/heartbeat-wake.ts";
+import { appendRegularFile } from "../infra/regular-file.ts";
+import { enqueueSystemEvent } from "../infra/system-events.ts";
+import { resolveNormalizedAccountEntry } from "../routing/account-lookup.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
+import { normalizeAssistantPhase } from "../shared/chat-message-content.ts";
+import { recordTaskRunProgressByRunId } from "../tasks/detached-task-runtime.ts";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
 
 const DEFAULT_STREAM_FLUSH_MS = 2_500;
 const DEFAULT_NO_OUTPUT_NOTICE_MS = 60_000;
@@ -122,18 +122,11 @@ function mergeStreamingEntry(
     return base;
   }
   const overrideStreaming = asObjectRecord(override.streaming);
-  const legacyOverrideMode =
-    override.streamMode !== undefined &&
-    (override.streaming === undefined || overrideStreaming) &&
-    overrideStreaming?.mode === undefined
-      ? { mode: override.streamMode }
-      : undefined;
   return {
     ...base,
     ...override,
     streaming: mergeStreamingConfig(
-      mergeStreamingConfig(base.streaming, override.streaming),
-      legacyOverrideMode,
+      mergeStreamingConfig(base.streaming, override.streaming)
     ),
   };
 }

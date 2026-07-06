@@ -1,23 +1,23 @@
 /** Command handlers for changing ACP runtime mode and config options on live sessions. */
 import type { AcpRuntime, AcpRuntimeHandle } from "@openclaw/acp-core/runtime/types";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { AcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.js";
-import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { AcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.ts";
+import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.ts";
 import type {
   AcpSessionRuntimeOptions,
   EnsureManagerRuntimeHandle,
   ResolveManagerSession,
   WriteManagerSessionMeta,
-} from "./manager.types.js";
-import { createUnsupportedControlError, requireReadySessionMeta } from "./manager.utils.js";
+} from "./manager.types.ts";
+import { createUnsupportedControlError, requireReadySessionMeta } from "./manager.utils.ts";
 import {
   inferRuntimeOptionPatchFromConfigOption,
   mergeRuntimeOptions,
   normalizeRuntimeOptions,
   resolveRuntimeConfigOptionKey,
   resolveRuntimeOptionsFromMeta,
-} from "./runtime-options.js";
+} from "./runtime-options.ts";
 
 /** Manager services required by runtime-option command handlers. */
 export type RuntimeOptionCommandServices = {

@@ -3,18 +3,18 @@
  *
  * Routes models that need OpenClaw-managed proxy/TLS/local-service semantics onto built-in transport implementations.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { Api, Model } from "../llm/types.js";
-import { resolveProviderStreamFn } from "../plugins/provider-runtime.js";
-import { createAnthropicMessagesTransportStreamFn } from "./anthropic-transport-stream.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { Api, Model } from "../llm/types.ts";
+import { resolveProviderStreamFn } from "../plugins/provider-runtime.ts";
+import { createAnthropicMessagesTransportStreamFn } from "./anthropic-transport-stream.ts";
 import {
   createAzureOpenAIResponsesTransportStreamFn,
   createOpenAICompletionsTransportStreamFn,
   createOpenAIResponsesTransportStreamFn,
-} from "./openai-transport-stream.js";
-import { getModelProviderLocalService } from "./provider-local-service.js";
-import { getModelProviderRequestTransport } from "./provider-request-config.js";
-import type { StreamFn } from "./runtime/index.js";
+} from "./openai-transport-stream.ts";
+import { getModelProviderLocalService } from "./provider-local-service.ts";
+import { getModelProviderRequestTransport } from "./provider-request-config.ts";
+import type { StreamFn } from "./runtime/index.ts";
 
 const SUPPORTED_TRANSPORT_APIS = new Set<Api>([
   "openai-responses",

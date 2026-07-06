@@ -4,13 +4,13 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { readLatestAssistantTextFromSessionTranscript } from "../../config/sessions.js";
-import { logVerbose } from "../../globals.js";
+import { readLatestAssistantTextFromSessionTranscript } from "../../config/sessions.ts";
+import { logVerbose } from "../../globals.ts";
 import {
   canonicalizeSpeechProviderId,
   getSpeechProvider,
   listSpeechProviders,
-} from "../../tts/provider-registry.js";
+} from "../../tts/provider-registry.ts";
 import {
   getResolvedSpeechProviderConfig,
   getLastTtsAttempt,
@@ -30,11 +30,11 @@ import {
   setTtsPersona,
   setTtsProvider,
   textToSpeech,
-} from "../../tts/tts.js";
-import { isSilentReplyPayloadText } from "../tokens.js";
-import type { ReplyPayload } from "../types.js";
-import { persistSessionEntry } from "./commands-session-store.js";
-import type { CommandHandler } from "./commands-types.js";
+} from "../../tts/tts.ts";
+import { isSilentReplyPayloadText } from "../tokens.ts";
+import type { ReplyPayload } from "../types.ts";
+import { persistSessionEntry } from "./commands-session-store.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 type ParsedTtsCommand = {
   action: string;

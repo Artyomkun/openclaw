@@ -10,15 +10,15 @@ import {
   executeSqliteQuerySync,
   executeSqliteQueryTakeFirstSync,
   getNodeSqliteKysely,
-} from "../../infra/kysely-sync.js";
+} from "../../infra/kysely-sync.ts";
 import type {
   ChannelIngressEvents,
   DB as OpenClawStateKyselyDatabase,
-} from "../../state/openclaw-state-db.generated.js";
+} from "../../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../../state/openclaw-state-db.js";
+} from "../../state/openclaw-state-db.ts";
 
 /** Pending or retryable inbound channel event stored in the durable ingress queue. */
 export type ChannelIngressQueueRecord<TPayload, TMetadata = unknown> = {

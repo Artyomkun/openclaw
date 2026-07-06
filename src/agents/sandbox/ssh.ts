@@ -7,13 +7,13 @@ import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveRootPath } from "../../infra/boundary-path.js";
-import { toErrorObject } from "../../infra/errors.js";
-import { parseSshTarget } from "../../infra/ssh-tunnel.js";
-import { resolvePreferredOpenClawTmpDir } from "../../infra/tmp-openclaw-dir.js";
-import { resolveUserPath } from "../../utils.js";
-import type { SandboxBackendCommandResult } from "./backend-handle.types.js";
-import { sanitizeEnvVars } from "./sanitize-env-vars.js";
+import { resolveRootPath } from "../../infra/boundary-path.ts";
+import { toErrorObject } from "../../infra/errors.ts";
+import { parseSshTarget } from "../../infra/ssh-tunnel.ts";
+import { resolvePreferredOpenClawTmpDir } from "../../infra/tmp-openclaw-dir.ts";
+import { resolveUserPath } from "../../utils.ts";
+import type { SandboxBackendCommandResult } from "./backend-handle.types.ts";
+import { sanitizeEnvVars } from "./sanitize-env-vars.ts";
 
 export type SshSandboxSettings = {
   command: string;

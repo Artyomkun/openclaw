@@ -7,46 +7,46 @@ import {
   normalizeOptionalString,
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { listAgentIds, resolveAgentDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { AUTH_STORE_VERSION } from "../agents/auth-profiles/constants.js";
-import { loadPersistedAuthProfileStore } from "../agents/auth-profiles/persisted.js";
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { listAgentIds, resolveAgentDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { AUTH_STORE_VERSION } from "../agents/auth-profiles/constants.ts";
+import { loadPersistedAuthProfileStore } from "../agents/auth-profiles/persisted.ts";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   ManualExecSecretProviderConfig,
   SecretProviderConfig,
   SecretRef,
   SecretRefSource,
-} from "../config/types.secrets.js";
-import { isSafeExecutableValue } from "../infra/exec-safety.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { loadPluginManifestRegistry } from "../plugins/manifest-registry.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { runSecretsApply, type SecretsApplyResult } from "./apply.js";
-import { createSecretsConfigIO } from "./config-io.js";
+} from "../config/types.secrets.ts";
+import { isSafeExecutableValue } from "../infra/exec-safety.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { loadPluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { runSecretsApply, type SecretsApplyResult } from "./apply.ts";
+import { createSecretsConfigIO } from "./config-io.ts";
 import {
   buildConfigureCandidatesForScope,
   buildSecretsConfigurePlan,
   collectConfigureProviderChanges,
   hasConfigurePlanChanges,
   type ConfigureCandidate,
-} from "./configure-plan.js";
-import { getSkippedExecRefStaticError } from "./exec-resolution-policy.js";
-import type { SecretsApplyPlan } from "./plan.js";
-import { getProviderEnvVars } from "./provider-env-vars.js";
+} from "./configure-plan.ts";
+import { getSkippedExecRefStaticError } from "./exec-resolution-policy.ts";
+import type { SecretsApplyPlan } from "./plan.ts";
+import { getProviderEnvVars } from "./provider-env-vars.ts";
 import {
   listSecretProviderIntegrationPresets,
   type SecretProviderIntegrationPreset,
-} from "./provider-integrations.js";
+} from "./provider-integrations.ts";
 import {
   formatExecSecretRefIdValidationMessage,
   isValidExecSecretRefId,
   isValidSecretProviderAlias,
   resolveDefaultSecretProviderAlias,
-} from "./ref-contract.js";
-import { resolveSecretRefValue } from "./resolve.js";
-import { assertExpectedResolvedSecretValue } from "./secret-value.js";
-import { isRecord } from "./shared.js";
+} from "./ref-contract.ts";
+import { resolveSecretRefValue } from "./resolve.ts";
+import { assertExpectedResolvedSecretValue } from "./secret-value.ts";
+import { isRecord } from "./shared.ts";
 
 /** Result returned after interactive secrets configure builds and preflights an apply plan. */
 export type SecretsConfigureResult = {

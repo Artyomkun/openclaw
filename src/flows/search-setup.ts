@@ -1,31 +1,31 @@
 // Search setup flow configures web search providers and defaults.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveDefaultAgentDir } from "../agents/agent-scope-config.js";
-import { hasAuthProfileForProvider } from "../agents/tools/model-config.helpers.js";
-import type { SecretInputMode } from "../commands/onboard-types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { resolveDefaultAgentDir } from "../agents/agent-scope-config.ts";
+import { hasAuthProfileForProvider } from "../agents/tools/model-config.helpers.ts";
+import type { SecretInputMode } from "../commands/onboard-types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   DEFAULT_SECRET_PROVIDER_ALIAS,
   type SecretInput,
   type SecretRef,
   hasConfiguredSecretInput,
   normalizeSecretInputString,
-} from "../config/types.secrets.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "../plugins/config-state.js";
-import { enablePluginInConfig } from "../plugins/enable.js";
-import type { PluginWebSearchProviderEntry } from "../plugins/types.js";
+} from "../config/types.secrets.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "../plugins/config-state.ts";
+import { enablePluginInConfig } from "../plugins/enable.ts";
+import type { PluginWebSearchProviderEntry } from "../plugins/types.ts";
 import {
   resolveWebSearchInstallCatalogEntries,
   type WebSearchInstallCatalogEntry,
-} from "../plugins/web-search-install-catalog.js";
-import { resolvePluginWebSearchProviders } from "../plugins/web-search-providers.runtime.js";
-import { sortWebSearchProviders } from "../plugins/web-search-providers.shared.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { resolveWebSearchProviderId } from "../web-search/runtime.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import type { FlowContribution, FlowOption } from "./types.js";
-import { sortFlowContributionsByLabel } from "./types.js";
+} from "../plugins/web-search-install-catalog.ts";
+import { resolvePluginWebSearchProviders } from "../plugins/web-search-providers.runtime.ts";
+import { sortWebSearchProviders } from "../plugins/web-search-providers.shared.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { resolveWebSearchProviderId } from "../web-search/runtime.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import type { FlowContribution, FlowOption } from "./types.ts";
+import { sortFlowContributionsByLabel } from "./types.ts";
 
 type SearchProvider = NonNullable<
   NonNullable<NonNullable<NonNullable<OpenClawConfig["tools"]>["web"]>["search"]>["provider"]

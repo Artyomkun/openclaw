@@ -1,33 +1,33 @@
 // Shared setup wizard/types/helpers for plugin and channel setup surfaces.
 
-export type { OpenClawConfig } from "../config/config.js";
-export type { DmPolicy, GroupPolicy } from "../config/types.js";
-export type { SecretInput } from "../config/types.secrets.js";
+export type { OpenClawConfig } from "../config/config.ts";
+export type { DmPolicy, GroupPolicy } from "../config/types.ts";
+export type { SecretInput } from "../config/types.secrets.ts";
 export type {
   WizardMultiSelectParams,
   WizardProgress,
   WizardPrompter,
   WizardSelectParams,
-} from "../wizard/prompts.js";
-export { WizardCancelledError } from "../wizard/prompts.js";
-export { createSetupTranslator } from "../wizard/i18n/index.js";
-export type { SetupTranslator, WizardI18nParams } from "../wizard/i18n/index.js";
-export type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.js";
-export type { ChannelSetupInput } from "../channels/plugins/types.core.js";
+} from "../wizard/prompts.ts";
+export { WizardCancelledError } from "../wizard/prompts.ts";
+export { createSetupTranslator } from "../wizard/i18n/index.ts";
+export type { SetupTranslator, WizardI18nParams } from "../wizard/i18n/index.ts";
+export type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.ts";
+export type { ChannelSetupInput } from "../channels/plugins/types.core.ts";
 export type {
   ChannelSetupDmPolicy,
   ChannelSetupWizardAdapter,
   ChannelSetupWizard,
   ChannelSetupWizardAllowFromEntry,
   ChannelSetupWizardTextInput,
-} from "../channels/plugins/setup-wizard-types.js";
+} from "../channels/plugins/setup-wizard-types.ts";
 
-export { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
-export { formatCliCommand } from "../cli/command-format.js";
-export { detectBinary } from "../infra/detect-binary.js";
-export { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-export { hasConfiguredSecretInput, normalizeSecretInputString } from "../config/types.secrets.js";
-export { normalizeE164, pathExists } from "../utils.js";
+export { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.ts";
+export { formatCliCommand } from "../cli/command-format.ts";
+export { detectBinary } from "../infra/detect-binary.ts";
+export { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+export { hasConfiguredSecretInput, normalizeSecretInputString } from "../config/types.secrets.ts";
+export { normalizeE164, pathExists } from "../utils.ts";
 
 export {
   moveSingleAccountChannelSectionToDefaultAccount,
@@ -40,14 +40,13 @@ export {
   migrateBaseNameToDefaultAccount,
   patchScopedAccountConfig,
   prepareScopedSetupConfig,
-} from "../channels/plugins/setup-helpers.js";
+} from "../channels/plugins/setup-helpers.ts";
 export {
   addWildcardAllowFrom,
   buildSingleChannelSecretPromptState,
   createAccountScopedAllowFromSection,
   createAccountScopedGroupAccessSection,
   createAllowFromSection,
-  createLegacyCompatChannelDmPolicy,
   createNestedChannelParsedAllowFromPrompt,
   createPromptParsedAllowFromForAccount,
   createStandardChannelSetupStatus,
@@ -70,8 +69,6 @@ export {
   patchTopLevelChannelConfigSection,
   patchChannelConfigForAccount,
   promptAccountId,
-  promptLegacyChannelAllowFrom,
-  promptLegacyChannelAllowFromForAccount,
   promptParsedAllowFromForAccount,
   promptParsedAllowFromForScopedChannel,
   promptSingleChannelSecretInput,
@@ -85,7 +82,6 @@ export {
   setAccountDmAllowFromForChannel,
   setAccountGroupPolicyForChannel,
   setChannelDmPolicyWithAllowFrom,
-  setLegacyChannelDmPolicyWithAllowFrom,
   setNestedChannelAllowFrom,
   setNestedChannelDmPolicyWithAllowFrom,
   setSetupChannelEnabled,
@@ -93,20 +89,20 @@ export {
   setTopLevelChannelDmPolicyWithAllowFrom,
   setTopLevelChannelGroupPolicy,
   splitSetupEntries,
-} from "../channels/plugins/setup-wizard-helpers.js";
-export { promptChannelAccessConfig } from "../channels/plugins/setup-group-access.js";
-export { createAllowlistSetupWizardProxy } from "../channels/plugins/setup-wizard-proxy.js";
+} from "../channels/plugins/setup-wizard-helpers.ts";
+export { promptChannelAccessConfig } from "../channels/plugins/setup-group-access.ts";
+export { createAllowlistSetupWizardProxy } from "../channels/plugins/setup-wizard-proxy.ts";
 export {
   createDelegatedFinalize,
   createDelegatedPrepare,
   createDelegatedResolveConfigured,
   createDelegatedSetupWizardProxy,
-} from "../channels/plugins/setup-wizard-proxy.js";
+} from "../channels/plugins/setup-wizard-proxy.ts";
 export {
   createCliPathTextInput,
   createDelegatedSetupWizardStatusResolvers,
   createDelegatedTextInputShouldPrompt,
   createDetectedBinaryStatus,
-} from "../channels/plugins/setup-wizard-binary.js";
+} from "../channels/plugins/setup-wizard-binary.ts";
 
-export { formatResolvedUnresolvedNote } from "./resolution-notes.js";
+export { formatResolvedUnresolvedNote } from "./resolution-notes.ts";

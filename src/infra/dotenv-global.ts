@@ -3,10 +3,10 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import dotenv from "dotenv";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveConfigDir } from "../utils.js";
-import { resolveRequiredHomeDir } from "./home-dir.js";
-import { normalizeEnvVarKey } from "./host-env-security.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveConfigDir } from "../utils.ts";
+import { resolveRequiredHomeDir } from "./home-dir.ts";
+import { normalizeEnvVarKey } from "./host-env-security.ts";
 
 // Global dotenv loading imports operator-level gateway env files without
 // overriding variables already present in the process environment.

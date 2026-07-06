@@ -47,10 +47,7 @@ type SlackSelfFilterArgs = {
   message?: unknown;
 };
 
-function isConstructorFunction<
-  // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Constructor guard preserves the requested concrete Slack constructor type.
-  T extends Constructor,
->(value: unknown): value is T {
+function isConstructorFunction(value: unknown): value is Constructor {
   return typeof value === "function";
 }
 

@@ -3,10 +3,10 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveUserTimezone } from "../agents/date-time.js";
-import { normalizeChatType } from "../channels/chat-type.js";
-import { resolveSenderLabel, type SenderLabelParams } from "../channels/sender-label.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { resolveUserTimezone } from "../agents/date-time.ts";
+import { normalizeChatType } from "../channels/chat-type.ts";
+import { resolveSenderLabel, type SenderLabelParams } from "../channels/sender-label.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveTimezone,
   formatUtcTimestamp,

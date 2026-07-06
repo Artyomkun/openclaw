@@ -6,11 +6,11 @@ import {
   isDangerousHostEnvOverrideVarName,
   isDangerousHostEnvVarName,
   normalizeEnvVarKey,
-} from "../infra/host-env-security.js";
-import { collectConfigServiceEnvVars } from "./config-env-vars.js";
-import { ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV } from "./future-version-guard.js";
-import { resolveStateDir } from "./paths.js";
-import type { OpenClawConfig } from "./types.js";
+} from "../infra/host-env-security.ts";
+import { collectConfigServiceEnvVars } from "./config-env-vars.ts";
+import { ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV } from "./future-version-guard.ts";
+import { resolveStateDir } from "./paths.ts";
+import type { OpenClawConfig } from "./types.ts";
 
 function isBlockedServiceEnvVar(key: string): boolean {
   return (

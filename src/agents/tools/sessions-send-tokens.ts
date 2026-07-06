@@ -3,7 +3,7 @@
  *
  * Defines non-deliverable reply markers used by sessions_send and subagent completion delivery.
  */
-import { HEARTBEAT_TOKEN, isSilentReplyText, SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
+import { HEARTBEAT_TOKEN, isSilentReplyText, SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.ts";
 
 /** Suppresses a subagent completion announcement. */
 export const ANNOUNCE_SKIP_TOKEN = "ANNOUNCE_SKIP";

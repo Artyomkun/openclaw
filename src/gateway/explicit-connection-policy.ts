@@ -1,7 +1,7 @@
 // Explicit connection policy decides when CLI gateway calls can avoid reading
 // config because URL and auth were fully supplied by flags.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { trimToUndefined, type ExplicitGatewayAuth } from "./credentials.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { trimToUndefined, type ExplicitGatewayAuth } from "./credentials.ts";
 
 // Explicit connection policy lets CLI paths skip config IO only when the caller
 // provided both a URL and concrete auth. Cron stays a bypass path because it

@@ -1,13 +1,13 @@
 // JSON/text response helpers for Gateway service lifecycle commands.
 import { Writable } from "node:stream";
-import type { GatewayService } from "../../daemon/service.js";
+import type { GatewayService } from "../../daemon/service.ts";
 import {
   isSystemdUnavailableDetail,
   renderSystemdUnavailableHints,
-} from "../../daemon/systemd-hints.js";
-import { classifySystemdUnavailableDetail } from "../../daemon/systemd-unavailable.js";
-import { isWSL } from "../../infra/wsl.js";
-import { defaultRuntime } from "../../runtime.js";
+} from "../../daemon/systemd-hints.ts";
+import { classifySystemdUnavailableDetail } from "../../daemon/systemd-unavailable.ts";
+import { isWSL } from "../../infra/wsl.ts";
+import { defaultRuntime } from "../../runtime.ts";
 
 /** Gateway service action emitted by lifecycle commands. */
 export type DaemonAction = "install" | "uninstall" | "start" | "stop" | "restart";

@@ -25,20 +25,18 @@ export type {
   ChannelThreadingContext,
   ChannelThreadingToolContext,
   ChannelToolSend,
-} from "../channels/plugins/types.public.js";
-export type { ChannelLegacyStateMigrationPlan } from "../channels/plugins/legacy-state-migration.types.js";
+} from "../channels/plugins/types.public.ts";
 
 export type {
   ChannelDirectoryAdapter,
   ChannelDoctorAdapter,
   ChannelDoctorConfigMutation,
   ChannelDoctorEmptyAllowlistAccountContext,
-  ChannelDoctorLegacyConfigRule,
   ChannelDoctorSequenceResult,
   ChannelGatewayContext,
   ChannelOutboundAdapter,
   ChannelOutboundContext,
   ChannelOutboundPayloadHint,
   ChannelStatusAdapter,
-} from "../channels/plugins/types.adapters.js";
-export type { ChannelRuntimeSurface } from "../channels/plugins/channel-runtime-surface.types.js";
+} from "../channels/plugins/types.adapters.ts";
+export type { ChannelRuntimeSurface } from "../channels/plugins/channel-runtime-surface.types.ts";

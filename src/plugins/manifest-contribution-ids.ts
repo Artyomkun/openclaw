@@ -5,7 +5,7 @@ import {
   type LoadPluginRegistryParams,
   type PluginRegistryContributionKey,
   type PluginRegistrySnapshot,
-} from "./plugin-registry.js";
+} from "./plugin-registry.ts";
 
 /** Parameters for listing manifest contribution ids from a registry snapshot. */
 export type ListManifestContributionIdsParams = LoadPluginRegistryParams & {

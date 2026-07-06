@@ -3,10 +3,10 @@
  *
  * Caches normalized object inputs by provider compatibility so repeated inventory builds preserve identity.
  */
-import type { ModelCompatConfig } from "../config/types.models.js";
-import { shouldOmitEmptyArrayItems } from "../plugins/provider-model-compat.js";
-import { normalizeToolParameterSchema } from "./agent-tools-parameter-schema.js";
-import type { OpenAIToolProjection } from "./openai-tool-projection.js";
+import type { ModelCompatConfig } from "../config/types.models.ts";
+import { shouldOmitEmptyArrayItems } from "../plugins/provider-model-compat.ts";
+import { normalizeToolParameterSchema } from "./agent-tools-parameter-schema.ts";
+import type { OpenAIToolProjection } from "./openai-tool-projection.ts";
 
 /**
  * OpenAI strict-tool-schema normalization and diagnostics.

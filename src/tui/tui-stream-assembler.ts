@@ -4,7 +4,7 @@ import {
   extractContentFromMessage,
   extractThinkingFromMessage,
   resolveFinalAssistantText,
-} from "./tui-formatters.js";
+} from "./tui-formatters.ts";
 
 // Per-run state used to merge streaming deltas with final assistant messages.
 type RunStreamState = {

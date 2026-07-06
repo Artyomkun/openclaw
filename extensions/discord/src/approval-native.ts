@@ -23,7 +23,7 @@ import {
   isDiscordExecApprovalClientEnabled,
 } from "./exec-approvals.js";
 
-// Legacy export kept for monitor test/support surfaces; native routing now uses
+// Older export kept for monitor test/support surfaces; native routing now uses
 // the shared session-conversation fallback helper instead.
 export function extractDiscordChannelId(sessionKey?: string | null): string | null {
   if (!sessionKey) {
@@ -38,7 +38,7 @@ function extractDiscordSessionKind(sessionKey?: string | null): "channel" | "gro
     return null;
   }
   // DM session keys use the `direct` peer kind in the normalized form
-  // (`agent:<id>:discord[:account]:direct:<userId>`); legacy keys may still use
+  // (`agent:<id>:discord[:account]:direct:<userId>`); older keys may still use
   // `dm`. Treat both as the same logical kind for downstream comparisons.
   const match = sessionKey.match(/discord:(?:[^:]+:)?(channel|group|dm|direct):/);
   if (!match) {

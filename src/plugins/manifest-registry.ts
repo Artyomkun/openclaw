@@ -6,30 +6,30 @@ import {
   normalizeOptionalTrimmedStringList,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { satisfiesPluginApiRange } from "../infra/clawhub.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveCompatibilityHostVersion } from "../version.js";
-import { loadBundleManifest } from "./bundle-manifest.js";
-import { normalizePluginsConfigWithResolver } from "./config-policy.js";
-import { isBundledPluginInsideDevSourceRoot } from "./dev-source-root.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { satisfiesPluginApiRange } from "../infra/clawhub.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveCompatibilityHostVersion } from "../version.ts";
+import { loadBundleManifest } from "./bundle-manifest.ts";
+import { normalizePluginsConfigWithResolver } from "./config-policy.ts";
+import { isBundledPluginInsideDevSourceRoot } from "./dev-source-root.ts";
 import {
   discoverOpenClawPlugins,
   type PluginCandidate,
   type PluginDiscoveryResult,
-} from "./discovery.js";
-import { shouldRejectHardlinkedPluginFiles } from "./hardlink-policy.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.js";
-import type { PluginManifestCommandAlias } from "./manifest-command-aliases.js";
+} from "./discovery.ts";
+import { shouldRejectHardlinkedPluginFiles } from "./hardlink-policy.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.ts";
+import type { PluginManifestCommandAlias } from "./manifest-command-aliases.ts";
 import type {
   PluginBundleFormat,
   PluginConfigUiHint,
   PluginDiagnostic,
   PluginFormat,
-} from "./manifest-types.js";
+} from "./manifest-types.ts";
 import {
   loadPluginManifest,
   type OpenClawPackageManifest,
@@ -54,19 +54,19 @@ import {
   type PluginPackageChannel,
   type PluginPackageInstall,
   normalizeManifestChannelCommandDefaults,
-} from "./manifest.js";
-import { checkMinHostVersion } from "./min-host-version.js";
+} from "./manifest.ts";
+import { checkMinHostVersion } from "./min-host-version.ts";
 import {
   getOfficialExternalPluginCatalogEntryForPackage,
   getOfficialExternalPluginCatalogManifest,
   resolveOfficialExternalPluginId,
   resolveOfficialExternalPluginInstall,
-} from "./official-external-plugin-catalog.js";
-import { resolvePackagePluginApiRange } from "./package-compat.js";
-import { isPathInside, safeRealpathSync, safeStatSync } from "./path-safety.js";
-import type { PluginKind } from "./plugin-kind.types.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
-import type { PluginDependencySpecMap } from "./status-dependencies-core.js";
+} from "./official-external-plugin-catalog.ts";
+import { resolvePackagePluginApiRange } from "./package-compat.ts";
+import { isPathInside, safeRealpathSync, safeStatSync } from "./path-safety.ts";
+import type { PluginKind } from "./plugin-kind.types.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
+import type { PluginDependencySpecMap } from "./status-dependencies-core.ts";
 
 function resolvePluginSourcePath(sourcePath: string): string {
   if (fs.existsSync(sourcePath)) {
@@ -209,7 +209,6 @@ export type PluginManifestRecord = {
   enabledByDefault?: boolean;
   enabledByDefaultOnPlatforms?: string[];
   autoEnableWhenConfiguredProviders?: string[];
-  legacyPluginIds?: string[];
   format?: PluginFormat;
   bundleFormat?: PluginBundleFormat;
   bundleCapabilities?: string[];
@@ -496,7 +495,6 @@ function buildRecord(params: {
     enabledByDefault: params.manifest.enabledByDefault === true ? true : undefined,
     enabledByDefaultOnPlatforms: params.manifest.enabledByDefaultOnPlatforms,
     autoEnableWhenConfiguredProviders: params.manifest.autoEnableWhenConfiguredProviders,
-    legacyPluginIds: params.manifest.legacyPluginIds,
     format: params.candidate.format ?? "openclaw",
     bundleFormat: params.candidate.bundleFormat,
     kind: params.manifest.kind,
@@ -1013,19 +1011,9 @@ export function loadPluginManifestRegistry(
         candidate.packageDir ?? candidate.rootDir,
         "package.json",
       );
-      const allowLegacyBareMinHostVersion =
-        candidate.origin === "global" &&
-        matchesInstalledPluginRecord({
-          pluginId: manifest.id,
-          candidate,
-          config,
-          env,
-          installRecords: getInstallRecords(),
-        });
       const minHostVersionCheck = checkMinHostVersion({
         currentVersion: currentHostVersion,
-        minHostVersion: candidate.packageManifest?.install?.minHostVersion,
-        allowLegacyBareSemver: allowLegacyBareMinHostVersion,
+        minHostVersion: candidate.packageManifest?.install?.minHostVersion
       });
       if (!minHostVersionCheck.ok) {
         diagnostics.push({

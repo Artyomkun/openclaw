@@ -2,41 +2,41 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { MsgContext } from "../../auto-reply/templating.js";
-import { resolveStoredSessionOwnerAgentId } from "../../gateway/session-store-key.js";
-import { writeTextAtomic } from "../../infra/json-files.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.js";
+import type { MsgContext } from "../../auto-reply/templating.ts";
+import { resolveStoredSessionOwnerAgentId } from "../../gateway/session-store-key.ts";
+import { writeTextAtomic } from "../../infra/json-files.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.ts";
 import {
   deliveryContextFromChannelRoute,
   deliveryContextFromSession,
   mergeDeliveryContext,
   normalizeDeliveryContext,
   normalizeSessionDeliveryFields,
-} from "../../utils/delivery-context.shared.js";
-import type { DeliveryContext } from "../../utils/delivery-context.types.js";
-import { getFileStatSnapshot } from "../cache-utils.js";
-import { getRuntimeConfig } from "../io.js";
-import type { OpenClawConfig } from "../types.openclaw.js";
-import { formatSessionArchiveTimestamp } from "./artifacts.js";
+} from "../../utils/delivery-context.shared.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.types.ts";
+import { getFileStatSnapshot } from "../cache-utils.ts";
+import { getRuntimeConfig } from "../io.ts";
+import type { OpenClawConfig } from "../types.openclaw.ts";
+import { formatSessionArchiveTimestamp } from "./artifacts.ts";
 import {
   pruneUnreferencedSessionArtifacts,
   type SessionUnreferencedArtifactSweepResult,
-} from "./disk-budget.js";
-import { extractGeneratedTranscriptSessionId } from "./generated-transcript-session-id.js";
-import { deriveSessionMetaPatch } from "./metadata.js";
+} from "./disk-budget.ts";
+import { extractGeneratedTranscriptSessionId } from "./generated-transcript-session-id.ts";
+import { deriveSessionMetaPatch } from "./metadata.ts";
 import {
   resolveExplicitSessionFilePath,
   resolveSessionFilePath,
   resolveStorePath,
-} from "./paths.js";
+} from "./paths.ts";
 import {
   ensureSessionStorePromptBlobsForPersistence,
   isSessionSkillPromptBlobReadable,
   projectSessionStoreForPersistence,
   type SessionSkillPromptBlobProjection,
-} from "./skill-prompt-blobs.js";
+} from "./skill-prompt-blobs.ts";
 import {
   cloneSessionStoreRecord,
   dropSessionStoreObjectCache,
@@ -50,19 +50,19 @@ import {
   setSerializedSessionStore,
   takeMutableSessionStoreCache,
   writeSessionStoreCache,
-} from "./store-cache.js";
-import { resolveSessionStoreEntry } from "./store-entry.js";
+} from "./store-cache.ts";
+import { resolveSessionStoreEntry } from "./store-entry.ts";
 import {
   loadSessionStore,
   normalizeSessionStore,
   readSessionEntries,
   readSessionEntry,
-} from "./store-load.js";
+} from "./store-load.ts";
 import {
   applyFileBackedSessionStoreMaintenance,
   type SessionMaintenanceApplyReport,
-} from "./store-maintenance-operations.js";
-import { resolveMaintenanceConfig } from "./store-maintenance-runtime.js";
+} from "./store-maintenance-operations.ts";
+import { resolveMaintenanceConfig } from "./store-maintenance-runtime.ts";
 import {
   capEntryCount,
   getActiveSessionMaintenanceWarning,
@@ -71,33 +71,33 @@ import {
   type ResolvedSessionMaintenanceConfig,
   type ResolvedSessionMaintenanceConfigInput,
   type SessionMaintenanceWarning,
-} from "./store-maintenance.js";
-import { runExclusiveSessionStoreWrite } from "./store-writer.js";
+} from "./store-maintenance.ts";
+import { runExclusiveSessionStoreWrite } from "./store-writer.ts";
 import {
   mergeSessionEntry,
   mergeSessionEntryPreserveActivity,
   type SessionEntry,
   type SessionSkillPromptRef,
-} from "./types.js";
-import { CURRENT_SESSION_VERSION } from "./version.js";
+} from "./types.ts";
+import { CURRENT_SESSION_VERSION } from "./version.ts";
 
 export {
   clearSessionStoreCacheForTest,
   drainSessionStoreWriterQueuesForTest,
   getSessionStoreWriterQueueSizeForTest,
-} from "./store-writer-state.js";
+} from "./store-writer-state.ts";
 export {
   loadSessionStore,
   readSessionEntries,
   readSessionEntry,
   readSessionStoreSnapshot,
-} from "./store-load.js";
+} from "./store-load.ts";
 export type {
   SessionStoreSnapshot,
   SessionStoreSnapshotEntries,
   SessionStoreSnapshotEntry,
-} from "./store-cache.js";
-export { normalizeStoreSessionKey, resolveSessionStoreEntry } from "./store-entry.js";
+} from "./store-cache.ts";
+export { normalizeStoreSessionKey, resolveSessionStoreEntry } from "./store-entry.ts";
 
 export type SessionEntryPatchProjectionSnapshot = {
   entries: ReadonlyArray<{ sessionKey: string; entry: SessionEntry }>;
@@ -173,7 +173,7 @@ export {
   pruneStaleEntries,
   resolveMaintenanceConfig,
 };
-export type { SessionMaintenanceApplyReport } from "./store-maintenance-operations.js";
+export type { SessionMaintenanceApplyReport } from "./store-maintenance-operations.ts";
 export type {
   ResolvedSessionMaintenanceConfig,
   ResolvedSessionMaintenanceConfigInput,
@@ -254,8 +254,6 @@ export type SessionLifecycleArtifactCleanupResult = {
 export type SessionLifecycleStoreTarget = {
   /** Canonical persisted key for the entry being reset or deleted. */
   canonicalKey: string;
-  /** Canonical key plus legacy aliases that can still identify the same entry. */
-  storeKeys: string[];
 };
 
 export type SessionLifecycleArchivedTranscript = {
@@ -333,12 +331,8 @@ export type SessionEntryLifecycleMutationResult = {
 };
 
 export type DeletedAgentSessionEntryPurgeParams = {
-  /** Runtime config used to preserve legacy default-agent key ownership rules. */
-  cfg: OpenClawConfig;
   /** Deleted agent whose session entries should be purged. */
   agentId: string;
-  /** Agent id represented by the current store path for legacy unscoped keys. */
-  storeAgentId: string;
   /** Resolved session store path to mutate. */
   storePath: string;
 };
@@ -673,10 +667,6 @@ function resolveLifecyclePrimaryEntry(params: {
       params.store[params.target.canonicalKey] = freshestMatch.entry;
     }
   }
-  pruneLifecycleLegacyStoreKeys({
-    store: params.store,
-    target: params.target,
-  });
   return params.store[params.target.canonicalKey];
 }
 
@@ -696,17 +686,6 @@ function resolveFreshestLifecycleStoreMatch(params: {
     }
   }
   return freshest;
-}
-
-function pruneLifecycleLegacyStoreKeys(params: {
-  store: Record<string, SessionEntry>;
-  target: SessionLifecycleStoreTarget;
-}): void {
-  for (const key of params.target.storeKeys) {
-    if (key !== params.target.canonicalKey) {
-      delete params.store[key];
-    }
-  }
 }
 
 async function archiveLifecycleSessionTranscripts(params: {
@@ -1703,21 +1682,16 @@ async function persistResolvedSessionEntry(params: {
   returnDetached?: boolean;
   requireWriteSuccess?: boolean;
 }): Promise<SessionEntry> {
-  const entryUnchanged =
-    params.resolved.legacyKeys.length === 0 &&
-    sessionEntriesHaveSameSerializedForm(params.resolved.existing, params.next);
+  const entryUnchanged = sessionEntriesHaveSameSerializedForm(params.resolved.existing, params.next);
   const next = params.takeCacheOwnership ? cloneSessionEntry(params.next) : params.next;
   params.store[params.resolved.normalizedKey] = next;
-  for (const legacyKey of params.resolved.legacyKeys) {
-    delete params.store[legacyKey];
-  }
   await saveSessionStoreUnlocked(params.storePath, params.store, {
     activeSessionKey: params.resolved.normalizedKey,
     skipMaintenance: params.skipMaintenance,
     maintenanceConfig: params.maintenanceConfig,
     skipSerializeForUnchangedStore: entryUnchanged,
     singleEntryPersistence:
-      params.resolved.legacyKeys.length === 0 && params.resolved.existing
+      params.resolved.existing
         ? { sessionKey: params.resolved.normalizedKey, entry: next }
         : undefined,
     takeCacheOwnership: params.takeCacheOwnership,
@@ -1890,7 +1864,7 @@ export async function recordSessionMetaFromInbound(params: {
       groupResolution: params.groupResolution,
     });
     if (!patch) {
-      if (existing && resolved.legacyKeys.length > 0) {
+      if (existing) {
         return await persistResolvedSessionEntry({
           storePath,
           store,

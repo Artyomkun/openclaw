@@ -6,15 +6,15 @@ import {
   matchRootFileOpenFailure,
   openRootFile,
   openRootFileSync,
-} from "../infra/boundary-file-read.js";
-import { resolveRootPath, resolveRootPathSync } from "../infra/boundary-path.js";
-import type { PluginDiagnostic } from "./manifest-types.js";
-import { getPackageManifestMetadata, type PackageManifest } from "./manifest.js";
+} from "../infra/boundary-file-read.ts";
+import { resolveRootPath, resolveRootPathSync } from "../infra/boundary-path.ts";
+import type { PluginDiagnostic } from "./manifest-types.ts";
+import { getPackageManifestMetadata, type PackageManifest } from "./manifest.ts";
 import {
   isTypeScriptPackageEntry,
   listBuiltRuntimeEntryCandidates,
-} from "./package-entrypoints.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
+} from "./package-entrypoints.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
 
 type ExtensionEntryValidation = { ok: true; exists: boolean } | { ok: false; error: string };
 

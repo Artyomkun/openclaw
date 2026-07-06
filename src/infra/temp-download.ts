@@ -2,13 +2,13 @@
 import "./fs-safe-defaults.js";
 import crypto from "node:crypto";
 import path from "node:path";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { tempWorkspace, type TempWorkspace } from "./private-temp-workspace.js";
-import { resolvePreferredOpenClawTmpDir } from "./tmp-openclaw-dir.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { tempWorkspace, type TempWorkspace } from "./private-temp-workspace.ts";
+import { resolvePreferredOpenClawTmpDir } from "./tmp-openclaw-dir.ts";
 
 const logger = createSubsystemLogger("infra:temp-download");
 
-export { resolvePreferredOpenClawTmpDir } from "./tmp-openclaw-dir.js";
+export { resolvePreferredOpenClawTmpDir } from "./tmp-openclaw-dir.ts";
 
 // Download targets expose both a default path and a name-safe file builder so
 // callers can keep all transient files inside the same workspace.

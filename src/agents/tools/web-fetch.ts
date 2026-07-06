@@ -9,31 +9,31 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { Type } from "typebox";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { SsrFBlockedError, type LookupFn, type SsrFPolicy } from "../../infra/net/ssrf.js";
-import { logDebug } from "../../logger.js";
-import type { RuntimeWebFetchMetadata } from "../../secrets/runtime-web-tools.types.js";
-import { wrapExternalContent, wrapWebContent } from "../../security/external-content.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { isRecord } from "../../utils.js";
-import { extractReadableContent } from "../../web-fetch/content-extractors.runtime.js";
-import { resolveWebProviderConfig } from "../../../packages/web-content-core/src/provider-runtime-shared.js";
-import { stringEnum } from "../schema/string-enum.js";
-import { setToolTerminalPresentation } from "../tool-terminal-presentation.js";
-import type { AnyAgentTool } from "./common.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { SsrFBlockedError, type LookupFn, type SsrFPolicy } from "../../infra/net/ssrf.ts";
+import { logDebug } from "../../logger.ts";
+import type { RuntimeWebFetchMetadata } from "../../secrets/runtime-web-tools.types.ts";
+import { wrapExternalContent, wrapWebContent } from "../../security/external-content.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { isRecord } from "../../utils.ts";
+import { extractReadableContent } from "../../web-fetch/content-extractors.runtime.ts";
+import { resolveWebProviderConfig } from "../../../packages/web-content-core/src/provider-runtime-shared.ts";
+import { stringEnum } from "../schema/string-enum.ts";
+import { setToolTerminalPresentation } from "../tool-terminal-presentation.ts";
+import type { AnyAgentTool } from "./common.ts";
 import {
   jsonResult,
   readPositiveIntegerParam,
   readStringParam,
   scheduleToolProgress,
-} from "./common.js";
+} from "./common.ts";
 import {
   extractBasicHtmlContent,
   htmlToMarkdown,
   markdownToText,
   truncateText,
   type ExtractMode,
-} from "./web-fetch-utils.js";
+} from "./web-fetch-utils.ts";
 import {
   DEFAULT_CACHE_TTL_MINUTES,
   DEFAULT_TIMEOUT_SECONDS,
@@ -43,9 +43,9 @@ import {
   resolveCacheTtlMs,
   resolveTimeoutSeconds,
   writeCache,
-} from "./web-shared.js";
-import type { CacheEntry } from "./web-shared.js";
-import { resolveWebFetchToolRuntimeContext } from "./web-tool-runtime-context.js";
+} from "./web-shared.ts";
+import type { CacheEntry } from "./web-shared.ts";
+import { resolveWebFetchToolRuntimeContext } from "./web-tool-runtime-context.ts";
 
 const EXTRACT_MODES = ["markdown", "text"] as const;
 

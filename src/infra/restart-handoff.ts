@@ -1,16 +1,16 @@
 // Persists short-lived gateway restart handoff metadata.
 import { randomUUID } from "node:crypto";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../state/openclaw-state-db.js";
+} from "../state/openclaw-state-db.ts";
 import {
   executeSqliteQuerySync,
   executeSqliteQueryTakeFirstSync,
   getNodeSqliteKysely,
-} from "./kysely-sync.js";
+} from "./kysely-sync.ts";
 
 // Restart handoff rows let a supervisor explain a recent gateway restart after
 // the old process exits. The row is short-lived, bounded, and replaced on write.

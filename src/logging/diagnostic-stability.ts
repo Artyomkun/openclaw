@@ -3,7 +3,7 @@ import {
   onDiagnosticEvent,
   type DiagnosticEventPayload,
   type DiagnosticMemoryUsage,
-} from "../infra/diagnostic-events.js";
+} from "../infra/diagnostic-events.ts";
 
 // Ring-buffer recorder for stability diagnostics and support-bundle snapshots.
 const DEFAULT_DIAGNOSTIC_STABILITY_CAPACITY = 1000;

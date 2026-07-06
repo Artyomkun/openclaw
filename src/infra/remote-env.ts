@@ -1,5 +1,5 @@
 // Detects remote/container environments where local desktop UX is unavailable.
-import { isWSLEnv } from "./wsl.js";
+import { isWSLEnv } from "./wsl.ts";
 
 // Remote environment detection gates local UX that depends on a desktop session
 // or direct host access.

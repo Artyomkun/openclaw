@@ -1234,7 +1234,7 @@ jobs:
           const section = [
             "### Release verification",
             "",
-            `- npm package: https://www.npmjs.com/package/openclaw/v/${process.env.RELEASE_VERSION}`,
+            `- npm package: https://www.npts.com/package/openclaw/v/${process.env.RELEASE_VERSION}`,
             `- registry tarball: ${process.env.RELEASE_TARBALL}`,
             `- integrity: \`${process.env.RELEASE_INTEGRITY}\``,
             `- release SHA: \`${process.env.RELEASE_SHA}\``,

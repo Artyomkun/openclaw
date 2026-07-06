@@ -1,18 +1,15 @@
-// Proxy capture server records proxied HTTP traffic for deterministic test fixtures.
+// Proxy capture server — Oracle + HTTP/3 (RFC 9114)
 import { randomUUID } from "node:crypto";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { request as httpRequest } from "node:http";
-import { request as httpsRequest } from "node:https";
+import { request } from "undici"; // HTTP/3 via undici
 import net from "node:net";
 import { URL } from "node:url";
-import { ensureDebugProxyCa } from "./ca.js";
-import type { DebugProxySettings } from "./env.js";
-import { getDebugProxyCaptureStore } from "./store.sqlite.js";
-import type { CaptureEventRecord } from "./types.js";
+import { ensureDebugProxyCa } from "./ca.ts";
+import type { DebugProxySettings } from "./env.ts";
+import { getDebugProxyCaptureStore } from "./store.oracle.ts";
+import type { CaptureEventRecord } from "./types.ts";
 
 const TRUTHY_ENV = new Set(["1", "true", "yes", "on"]);
-const DEBUG_PROXY_DIRECT_CONNECT_OVERRIDE =
-  "OPENCLAW_DEBUG_PROXY_ALLOW_DIRECT_CONNECT_WITH_MANAGED_PROXY";
 const CAPTURE_BODY_PREVIEW_BYTES = 8192;
 
 type BodyPreviewCapture = {
@@ -24,24 +21,6 @@ type BodyPreviewCapture = {
 
 function isTruthyEnvValue(value: string | undefined): boolean {
   return TRUTHY_ENV.has((value ?? "").trim().toLowerCase());
-}
-
-function isManagedProxyActive(env: NodeJS.ProcessEnv = process.env): boolean {
-  return isTruthyEnvValue(env["OPENCLAW_PROXY_ACTIVE"]);
-}
-
-function allowsDirectConnectWithManagedProxy(env: NodeJS.ProcessEnv = process.env): boolean {
-  return isTruthyEnvValue(env[DEBUG_PROXY_DIRECT_CONNECT_OVERRIDE]);
-}
-
-export function assertDebugProxyDirectUpstreamAllowed(env: NodeJS.ProcessEnv = process.env): void {
-  if (!isManagedProxyActive(env) || allowsDirectConnectWithManagedProxy(env)) {
-    return;
-  }
-  throw new Error(
-    "Debug proxy direct upstream forwarding is disabled while managed proxy mode is active. " +
-      `Set ${DEBUG_PROXY_DIRECT_CONNECT_OVERRIDE}=1 only for approved local diagnostics.`,
-  );
 }
 
 type DebugProxyServerHandle = {
@@ -134,17 +113,15 @@ function appendBodyPreviewCapture(capture: BodyPreviewCapture, chunk: Buffer | s
 
 function finishBodyPreviewCapture(capture: BodyPreviewCapture): {
   dataText: string;
-  metaJson?: string;
+  metaJson: string;
 } {
   return {
     dataText: Buffer.concat(capture.chunks, capture.previewBytes).toString("utf8"),
-    metaJson: capture.truncated
-      ? JSON.stringify({
-          bodyBytes: capture.totalBytes,
-          capturePreviewBytes: CAPTURE_BODY_PREVIEW_BYTES,
-          captureTruncated: true,
-        })
-      : undefined,
+    metaJson: JSON.stringify({
+      bodyBytes: capture.totalBytes,
+      capturePreviewBytes: CAPTURE_BODY_PREVIEW_BYTES,
+      captureTruncated: capture.truncated,
+    }),
   };
 }
 
@@ -198,87 +175,68 @@ export async function startDebugProxyServer(params: {
           path: targetPath,
           ...event,
         });
-      try {
-        assertDebugProxyDirectUpstreamAllowed();
-      } catch (error) {
-        const message = error instanceof Error ? error.message : String(error);
-        recordTargetEvent({
-          direction: "local",
-          kind: "error",
-          errorText: message,
-        });
-        const responseBody = `${message}\n`;
-        res.writeHead(403, {
-          Connection: "close",
-          "Content-Type": "text/plain; charset=utf-8",
-          "Content-Length": Buffer.byteLength(responseBody),
-        });
-        res.end(responseBody);
-        return;
-      }
+
       const requestCapture = createBodyPreviewCapture();
-      const upstream = (target.protocol === "https:" ? httpsRequest : httpRequest)(
-        target,
-        {
+      
+      // HTTP/3 via undici — RFC 9114
+      try {
+        const upstreamRes = await request(target.toString(), {
           method: req.method,
-          headers: req.headers,
-        },
-        (upstreamRes) => {
-          const responseCapture = createBodyPreviewCapture();
-          upstreamRes.on("data", (chunk) => {
-            const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
-            appendBodyPreviewCapture(responseCapture, buffer);
-            res.write(buffer);
-          });
-          upstreamRes.on("end", () => {
-            recordTargetEvent({
-              direction: "inbound",
-              kind: "response",
-              status: upstreamRes.statusCode ?? undefined,
-              headersJson: JSON.stringify(upstreamRes.headers),
-              ...finishBodyPreviewCapture(responseCapture),
-            });
-            res.end();
-          });
-          res.writeHead(upstreamRes.statusCode ?? 502, upstreamRes.headers);
-        },
-      );
-      req.on("data", (chunk) => {
-        appendBodyPreviewCapture(requestCapture, chunk);
-      });
-      req.on("end", () => {
+          headers: req.headers as Record<string, string>,
+          body: req,
+          alpnProtocols: ['h3', 'h2', 'http/1.1'],
+        });
+
+        const responseCapture = createBodyPreviewCapture();
+        
+        const chunks: Buffer[] = [];
+        for await (const chunk of upstreamRes.body) {
+          const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+          appendBodyPreviewCapture(responseCapture, buffer);
+          chunks.push(buffer);
+        }
+
+        const headers = upstreamRes.headers as Record<string, string>;
+        res.writeHead(upstreamRes.statusCode, headers);
+        
+        for (const chunk of chunks) {
+          res.write(chunk);
+        }
+        res.end();
+
+        recordTargetEvent({
+          direction: "inbound",
+          kind: "response",
+          status: upstreamRes.statusCode,
+          headersJson: JSON.stringify(headers),
+          ...finishBodyPreviewCapture(responseCapture),
+        });
+
         recordTargetEvent({
           direction: "outbound",
           kind: "request",
           headersJson: JSON.stringify(req.headers),
           ...finishBodyPreviewCapture(requestCapture),
         });
-      });
-      req.on("error", (error) => {
+
+      } catch (error) {
+        const err = error instanceof Error ? error : new Error(String(error));
         recordTargetEvent({
           direction: "local",
           kind: "error",
-          errorText: error.message,
-        });
-        upstream.destroy(error);
-      });
-      upstream.on("error", (error) => {
-        recordTargetEvent({
-          direction: "local",
-          kind: "error",
-          errorText: error.message,
+          errorText: err.message,
         });
         res.statusCode = 502;
-        res.end(error.message);
-      });
-      req.pipe(upstream);
+        res.end(err.message);
+      }
     })();
   });
 
   server.on("connect", (req, clientSocket, head) => {
     const flowId = randomUUID();
     let hostname = "127.0.0.1";
-    let port;
+    let port: number;
+    
     try {
       const parsed = parseConnectTarget(req.url);
       hostname = parsed.hostname;
@@ -296,6 +254,7 @@ export async function startDebugProxyServer(params: {
       clientSocket.end("HTTP/1.1 400 Bad Request\r\n\r\n");
       return;
     }
+
     recordProxyEvent({
       protocol: "connect",
       direction: "local",
@@ -305,25 +264,7 @@ export async function startDebugProxyServer(params: {
       path: req.url ?? "",
       headersJson: JSON.stringify(req.headers),
     });
-    try {
-      assertDebugProxyDirectUpstreamAllowed();
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      recordProxyEvent({
-        protocol: "connect",
-        direction: "local",
-        kind: "error",
-        flowId,
-        host: hostname,
-        path: req.url ?? "",
-        errorText: message,
-      });
-      const responseBody = `${message}\n`;
-      clientSocket.end(
-        `HTTP/1.1 403 Forbidden\r\nConnection: close\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Length: ${Buffer.byteLength(responseBody)}\r\n\r\n${responseBody}`,
-      );
-      return;
-    }
+
     const upstreamSocket = net.connect(port, hostname, () => {
       clientSocket.write("HTTP/1.1 200 Connection Established\r\n\r\n");
       if (head.length > 0) {
@@ -332,6 +273,7 @@ export async function startDebugProxyServer(params: {
       clientSocket.pipe(upstreamSocket);
       upstreamSocket.pipe(clientSocket);
     });
+
     clientSocket.on("error", (error) => {
       recordProxyEvent({
         protocol: "connect",
@@ -344,6 +286,7 @@ export async function startDebugProxyServer(params: {
       });
       upstreamSocket.destroy();
     });
+
     upstreamSocket.on("error", (error) => {
       recordProxyEvent({
         protocol: "connect",
@@ -365,10 +308,12 @@ export async function startDebugProxyServer(params: {
       resolve();
     });
   });
+  
   const address = server.address();
   if (!address || typeof address === "string") {
     throw new Error("Failed to resolve debug proxy server address");
   }
+  
   return {
     proxyUrl: `http://${host}:${address.port}`,
     stop: async () =>

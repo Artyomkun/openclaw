@@ -5,14 +5,14 @@ import {
   resolvePluginInteractiveMatch,
   toPluginInteractiveRegistryKey,
   validatePluginInteractiveNamespace,
-} from "./interactive-shared.js";
+} from "./interactive-shared.ts";
 import {
   clearPluginInteractiveHandlerRegistrationsState,
   clearPluginInteractiveHandlersState,
   getPluginInteractiveHandlersState,
   type RegisteredInteractiveHandler,
-} from "./interactive-state.js";
-import type { PluginInteractiveHandlerRegistration } from "./types.js";
+} from "./interactive-state.ts";
+import type { PluginInteractiveHandlerRegistration } from "./types.ts";
 
 /** Registration result for plugin interactive namespace handlers. */
 export type InteractiveRegistrationResult = {

@@ -1,29 +1,22 @@
 /**
  * Auth profile path resolution.
- * Centralizes JSON store paths, display paths, legacy store paths, auth-state
+ * Centralizes JSON store paths, display paths, auth-state
  * paths, and cross-agent OAuth refresh lock paths.
  */
 import path from "node:path";
-import { resolveStateDir } from "../../config/paths.js";
-import { resolveUserPath } from "../../utils.js";
-import { resolveDefaultAgentDir } from "../agent-scope-config.js";
+import { resolveStateDir } from "../../config/paths.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { resolveDefaultAgentDir } from "../agent-scope-config.ts";
 import {
   AUTH_PROFILE_FILENAME,
   AUTH_STATE_FILENAME,
-  LEGACY_AUTH_FILENAME,
-} from "./path-constants.js";
-import { resolveAuthProfileDatabasePath } from "./sqlite.js";
+} from "./path-constants.ts";
+import { resolveAuthProfileDatabasePath } from "./oracle.ts";
 
 /** Resolve the persisted auth profile store path for an agent dir. */
 export function resolveAuthStorePath(agentDir?: string): string {
   const resolved = resolveUserPath(agentDir ?? resolveDefaultAgentDir({}));
   return path.join(resolved, AUTH_PROFILE_FILENAME);
-}
-
-/** Resolve the legacy auth store path used by migration code. */
-export function resolveLegacyAuthStorePath(agentDir?: string): string {
-  const resolved = resolveUserPath(agentDir ?? resolveDefaultAgentDir({}));
-  return path.join(resolved, LEGACY_AUTH_FILENAME);
 }
 
 /** Resolve the auth-state sidecar path for usage/cooldown metadata. */

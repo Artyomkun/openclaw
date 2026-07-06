@@ -7,11 +7,11 @@ export {
   chunkMarkdownTextWithMode,
   resolveChunkMode,
   resolveTextChunkLimit,
-} from "../auto-reply/chunk.js";
-export type { ChunkMode } from "../auto-reply/chunk.js";
+} from "../auto-reply/chunk.ts";
+export type { ChunkMode } from "../auto-reply/chunk.ts";
 export {
   isSilentReplyPayloadText,
   isSilentReplyText,
   SILENT_REPLY_TOKEN,
-} from "../auto-reply/tokens.js";
-export type { ReplyPayload } from "./reply-payload.js";
+} from "../auto-reply/tokens.ts";
+export type { ReplyPayload } from "./reply-payload.ts";

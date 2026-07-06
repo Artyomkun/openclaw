@@ -1,6 +1,6 @@
 /** Formats daemon runtime state into compact status lines for CLI output. */
 import { formatRuntimeStatusWithDetails } from "../infra/runtime-status.ts";
-import { getSystemdCgroupHygieneSummary } from "./service-runtime.js";
+import { getSystemdCgroupHygieneSummary } from "./service-runtime.ts";
 
 type ServiceRuntimeLike = {
   status?: string;

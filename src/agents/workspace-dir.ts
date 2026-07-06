@@ -3,7 +3,7 @@
  * filesystem roots, and provide cwd fallback for runtime callers.
  */
 import path from "node:path";
-import { resolveUserPath } from "../utils.js";
+import { resolveUserPath } from "../utils.ts";
 
 /** Normalizes a workspace directory and rejects filesystem roots. */
 export function normalizeWorkspaceDir(workspaceDir?: string): string | null {

@@ -2,8 +2,8 @@
 import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
-} from "../../packages/normalization-core/src/string-coerce.js";
-import type { CommandArgValues } from "./commands-registry.types.js";
+} from "../../packages/normalization-core/src/string-coerce.ts";
+import type { CommandArgValues } from "./commands-registry.types.ts";
 
 type CommandArgsFormatter = (values: CommandArgValues) => string | undefined;
 

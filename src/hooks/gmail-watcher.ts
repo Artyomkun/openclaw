@@ -6,12 +6,12 @@
  */
 
 import { type ChildProcess, spawn } from "node:child_process";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { hasBinary } from "../skills/loading/config.js";
-import { ensureTailscaleEndpoint } from "./gmail-setup-utils.js";
-import { isAddressInUseError } from "./gmail-watcher-errors.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { hasBinary } from "../skills/loading/config.ts";
+import { ensureTailscaleEndpoint } from "./gmail-setup-utils.ts";
+import { isAddressInUseError } from "./gmail-watcher-errors.ts";
 import {
   buildGogWatchServeLogArgs,
   buildGogWatchServeArgs,
@@ -20,7 +20,7 @@ import {
   resolveGogExecutable,
   resolveGogServeInvocation,
   resolveGmailHookRuntimeConfig,
-} from "./gmail.js";
+} from "./gmail.ts";
 
 const log = createSubsystemLogger("gmail-watcher");
 

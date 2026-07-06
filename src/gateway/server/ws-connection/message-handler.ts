@@ -12,7 +12,7 @@ import type { RawData, WebSocket } from "ws";
 import {
   GATEWAY_CLIENT_IDS,
   GATEWAY_CLIENT_MODES,
-} from "../../../../packages/gateway-protocol/src/client-info.js";
+} from "../../../../packages/gateway-protocol/src/client-info.ts";
 import {
   buildPairingConnectCloseReason,
   buildPairingConnectErrorDetails,
@@ -21,7 +21,7 @@ import {
   type ConnectPairingRequiredReason,
   resolveDeviceAuthConnectErrorDetailCode,
   resolveAuthConnectErrorDetailCode,
-} from "../../../../packages/gateway-protocol/src/connect-error-details.js";
+} from "../../../../packages/gateway-protocol/src/connect-error-details.ts";
 import {
   type ConnectParams,
   ErrorCodes,
@@ -32,16 +32,16 @@ import {
   PROTOCOL_VERSION,
   validateConnectParams,
   validateRequestFrame,
-} from "../../../../packages/gateway-protocol/src/index.js";
+} from "../../../../packages/gateway-protocol/src/index.ts";
 import {
   gatewayStartupUnavailableDetails,
   GATEWAY_STARTUP_CLOSE_CODE,
   GATEWAY_STARTUP_CLOSE_REASON,
   GATEWAY_STARTUP_PENDING_CLOSE_CAUSE,
   GATEWAY_STARTUP_RETRY_AFTER_MS,
-} from "../../../../packages/gateway-protocol/src/startup-unavailable.js";
-import { getRuntimeConfig } from "../../../config/io.js";
-import { resolveStateDir } from "../../../config/paths.js";
+} from "../../../../packages/gateway-protocol/src/startup-unavailable.ts";
+import { getRuntimeConfig } from "../../../config/io.ts";
+import { resolveStateDir } from "../../../config/paths.ts";
 import {
   getBoundDeviceBootstrapProfile,
   getDeviceBootstrapTokenProfile,
@@ -49,11 +49,11 @@ import {
   revokeDeviceBootstrapToken,
   restoreDeviceBootstrapToken,
   verifyDeviceBootstrapToken,
-} from "../../../infra/device-bootstrap.js";
+} from "../../../infra/device-bootstrap.ts";
 import {
   deriveDeviceIdFromPublicKey,
   normalizeDevicePublicKeyBase64Url,
-} from "../../../infra/device-identity.js";
+} from "../../../infra/device-identity.ts";
 import {
   approveBootstrapDevicePairing,
   approveDevicePairing,
@@ -66,15 +66,15 @@ import {
   requestDevicePairing,
   updatePairedDeviceMetadata,
   verifyDeviceToken,
-} from "../../../infra/device-pairing.js";
+} from "../../../infra/device-pairing.ts";
 import {
   emitTrustedSecurityEvent,
   type DiagnosticSecurityEventInput,
-} from "../../../infra/diagnostic-events.js";
+} from "../../../infra/diagnostic-events.ts";
 import {
   createDiagnosticTraceContext,
   runWithDiagnosticTraceContext,
-} from "../../../infra/diagnostic-trace-context.js";
+} from "../../../infra/diagnostic-trace-context.ts";
 import {
   beginNodePairingConnect,
   finalizeNodePairingCleanupClaim,
@@ -83,49 +83,49 @@ import {
   type NodePairingCleanupClaim,
   type RequestNodePairingResult,
   updatePairedNodeMetadata,
-} from "../../../infra/node-pairing.js";
-import { upsertPresence } from "../../../infra/system-presence.js";
-import { loadVoiceWakeRoutingConfig } from "../../../infra/voicewake-routing.js";
-import { loadVoiceWakeConfig } from "../../../infra/voicewake.js";
-import { rawDataToString } from "../../../infra/ws.js";
-import { logRejectedLargePayload } from "../../../logging/diagnostic-payload.js";
-import type { createSubsystemLogger } from "../../../logging/subsystem.js";
+} from "../../../infra/node-pairing.ts";
+import { upsertPresence } from "../../../infra/system-presence.ts";
+import { loadVoiceWakeRoutingConfig } from "../../../infra/voicewake-routing.ts";
+import { loadVoiceWakeConfig } from "../../../infra/voicewake.ts";
+import { rawDataToString } from "../../../infra/ws.ts";
+import { logRejectedLargePayload } from "../../../logging/diagnostic-payload.ts";
+import type { createSubsystemLogger } from "../../../logging/subsystem.ts";
 import {
   isPairingSetupBootstrapProfile,
   resolveBootstrapProfileScopesForRole,
   resolveBootstrapProfileScopesForRoles,
   type DeviceBootstrapProfile,
-} from "../../../shared/device-bootstrap-profile.js";
-import { roleScopesAllow } from "../../../shared/operator-scope-compat.js";
-import { recordRemoteNodeInfo, refreshRemoteNodeBins } from "../../../skills/runtime/remote.js";
+} from "../../../shared/device-bootstrap-profile.ts";
+import { roleScopesAllow } from "../../../shared/operator-scope-compat.ts";
+import { recordRemoteNodeInfo, refreshRemoteNodeBins } from "../../../skills/runtime/remote.ts";
 import {
   isBrowserOperatorUiClient,
   isGatewayCliClient,
   isOperatorUiClient,
   isWebchatClient,
-} from "../../../utils/message-channel.js";
-import { resolveRuntimeServiceVersion } from "../../../version.js";
-import { verifyAgentRuntimeIdentityToken } from "../../agent-runtime-identity-token.js";
-import { AUTH_RATE_LIMIT_SCOPE_NODE_PAIRING, type AuthRateLimiter } from "../../auth-rate-limit.js";
-import type { GatewayAuthResult, ResolvedGatewayAuth } from "../../auth.js";
-import { hasForwardedRequestHeaders, isLocalDirectRequest } from "../../auth.js";
-import { normalizeDeviceMetadataForAuth } from "../../device-auth.js";
-import { ADMIN_SCOPE, APPROVALS_SCOPE } from "../../method-scopes.js";
-import type { GatewayMethodRegistry } from "../../methods/registry.js";
+} from "../../../utils/message-channel.ts";
+import { resolveRuntimeServiceVersion } from "../../../version.ts";
+import { verifyAgentRuntimeIdentityToken } from "../../agent-runtime-identity-token.ts";
+import { AUTH_RATE_LIMIT_SCOPE_NODE_PAIRING, type AuthRateLimiter } from "../../auth-rate-limit.ts";
+import type { GatewayAuthResult, ResolvedGatewayAuth } from "../../auth.ts";
+import { hasForwardedRequestHeaders, isLocalDirectRequest } from "../../auth.ts";
+import { normalizeDeviceMetadataForAuth } from "../../device-auth.ts";
+import { ADMIN_SCOPE, APPROVALS_SCOPE } from "../../method-scopes.ts";
+import type { GatewayMethodRegistry } from "../../methods/registry.ts";
 import {
   isLocalishHost,
   isLoopbackAddress,
   isTrustedProxyAddress,
   resolveClientIp,
-} from "../../net.js";
-import { reconcileNodePairingOnConnect } from "../../node-connect-reconcile.js";
+} from "../../net.ts";
+import { reconcileNodePairingOnConnect } from "../../node-connect-reconcile.ts";
 import {
   resolveNodePairingClientIpSource,
   shouldAutoApproveNodePairingFromTrustedCidrs,
-} from "../../node-pairing-auto-approve.js";
-import type { NodeReapprovalCoordinator } from "../../node-reapproval-coordinator.js";
-import { isOperatorApprovalRuntimeToken } from "../../operator-approval-runtime-token.js";
-import { checkBrowserOrigin } from "../../origin-check.js";
+} from "../../node-pairing-auto-approve.ts";
+import type { NodeReapprovalCoordinator } from "../../node-reapproval-coordinator.ts";
+import { isOperatorApprovalRuntimeToken } from "../../operator-approval-runtime-token.ts";
+import { checkBrowserOrigin } from "../../origin-check.ts";
 import {
   buildPluginNodeCapabilityScopedHostUrl,
   indexPluginNodeCapabilitySurfaces,
@@ -133,36 +133,36 @@ import {
   type PluginNodeCapabilitySurface,
   resolvePluginNodeCapabilityExpiresAtMs,
   setClientPluginNodeCapability,
-} from "../../plugin-node-capability.js";
-import { withSerializedRateLimitAttempt } from "../../rate-limit-attempt-serialization.js";
-import { parseGatewayRole } from "../../role-policy.js";
+} from "../../plugin-node-capability.ts";
+import { withSerializedRateLimitAttempt } from "../../rate-limit-attempt-serialization.ts";
+import { parseGatewayRole } from "../../role-policy.ts";
 import {
   MAX_BUFFERED_BYTES,
   MAX_PAYLOAD_BYTES,
   MAX_PREAUTH_PAYLOAD_BYTES,
   TICK_INTERVAL_MS,
-} from "../../server-constants.js";
-import type { GatewayRequestContext, GatewayRequestHandlers } from "../../server-methods/types.js";
-import { formatError } from "../../server-utils.js";
-import { formatForLog, logWs } from "../../ws-log.js";
-import { truncateCloseReason } from "../close-reason.js";
+} from "../../server-constants.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers } from "../../server-methods/types.ts";
+import { formatError } from "../../server-utils.ts";
+import { formatForLog, logWs } from "../../ws-log.ts";
+import { truncateCloseReason } from "../close-reason.ts";
 import {
   buildGatewaySnapshot,
   getHealthCache,
   getHealthVersion,
   incrementPresenceVersion,
-} from "../health-state.js";
-import { resolveSharedGatewaySessionGeneration } from "../ws-shared-generation.js";
-import type { GatewayWsClient } from "../ws-types.js";
-import { resolveConnectAuthDecision, resolveConnectAuthState } from "./auth-context.js";
-import { formatGatewayAuthFailureMessage } from "./auth-messages.js";
+} from "../health-state.ts";
+import { resolveSharedGatewaySessionGeneration } from "../ws-shared-generation.ts";
+import type { GatewayWsClient } from "../ws-types.ts";
+import { resolveConnectAuthDecision, resolveConnectAuthState } from "./auth-context.ts";
+import { formatGatewayAuthFailureMessage } from "./auth-messages.ts";
 import {
   evaluateMissingDeviceIdentity,
   isTrustedProxyControlUiOperatorAuth,
   resolveControlUiAuthPolicy,
   shouldClearUnboundScopesForMissingDeviceIdentity,
   shouldSkipControlUiPairing,
-} from "./connect-policy.js";
+} from "./connect-policy.ts";
 import {
   resolveDeviceSignaturePayloadVersion,
   resolveHandshakeBrowserSecurityContext,
@@ -170,13 +170,13 @@ import {
   resolveUnauthorizedHandshakeContext,
   shouldAllowSilentLocalPairing,
   shouldSkipLocalBackendSelfPairing,
-} from "./handshake-auth-helpers.js";
+} from "./handshake-auth-helpers.ts";
 import {
   buildHandshakeAuthLogKey,
   HandshakeAuthLogLimiter,
   shouldLimitMissingCredentialAuthLog,
-} from "./handshake-auth-log-limiter.js";
-import { isUnauthorizedRoleError, UnauthorizedFloodGuard } from "./unauthorized-flood-guard.js";
+} from "./handshake-auth-log-limiter.ts";
+import { isUnauthorizedRoleError, UnauthorizedFloodGuard } from "./unauthorized-flood-guard.ts";
 
 type SubsystemLogger = ReturnType<typeof createSubsystemLogger>;
 
@@ -385,19 +385,6 @@ function resolvePinnedClientMetadata(params: {
   pinnedDeviceFamily?: string;
   refreshPairedPlatform?: string;
 } {
-  function normalizeLegacyNodeHostPlatformPin(value: string): string {
-    switch (value) {
-      case "darwin":
-      case "macos":
-        return "macos";
-      case "win32":
-      case "windows":
-        return "windows";
-      default:
-        return value;
-    }
-  }
-
   function normalizeMobileAppPlatformPin(clientId: string | undefined, value: string): string {
     if (clientId === GATEWAY_CLIENT_IDS.IOS_APP && /^(?:ios|ipados)(?:\s|$)/.test(value)) {
       return "ios-family";
@@ -414,13 +401,6 @@ function resolvePinnedClientMetadata(params: {
   const pairedDeviceFamily = normalizeDeviceMetadataForAuth(params.pairedDeviceFamily);
   const hasPinnedPlatform = pairedPlatform !== "";
   const hasPinnedDeviceFamily = pairedDeviceFamily !== "";
-  const isLegacyNodeHostPlatformPin =
-    params.clientId === GATEWAY_CLIENT_IDS.NODE_HOST &&
-    params.clientMode === GATEWAY_CLIENT_MODES.NODE &&
-    hasPinnedPlatform &&
-    claimedPlatform !== "" &&
-    normalizeLegacyNodeHostPlatformPin(claimedPlatform) ===
-      normalizeLegacyNodeHostPlatformPin(pairedPlatform);
   const isMobileAppPlatformVersionRefresh =
     hasPinnedPlatform &&
     claimedPlatform !== "" &&
@@ -430,14 +410,11 @@ function resolvePinnedClientMetadata(params: {
   const platformMismatch =
     hasPinnedPlatform &&
     claimedPlatform !== pairedPlatform &&
-    !isLegacyNodeHostPlatformPin &&
     !isMobileAppPlatformVersionRefresh;
   const deviceFamilyMismatch = hasPinnedDeviceFamily && claimedDeviceFamily !== pairedDeviceFamily;
   const pinnedPlatform =
     claimedPlatform === pairedPlatform
       ? params.pairedPlatform
-      : isLegacyNodeHostPlatformPin
-        ? normalizeLegacyNodeHostPlatformPin(pairedPlatform)
         : isMobileAppPlatformVersionRefresh
           ? params.claimedPlatform
           : undefined;

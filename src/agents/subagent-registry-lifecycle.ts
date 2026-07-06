@@ -4,48 +4,48 @@
  * Completes/fails task runs, clears delivery state, emits lifecycle events, and cleans attached resources.
  */
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import type { cleanupBrowserSessionsForLifecycleEnd } from "../browser-lifecycle-cleanup.js";
-import type { callGateway as defaultCallGateway } from "../gateway/call.js";
-import { formatErrorMessage, readErrorName } from "../infra/errors.js";
-import { defaultRuntime } from "../runtime.js";
-import { emitSessionLifecycleEvent } from "../sessions/session-lifecycle-events.js";
-import { extractTextFromChatContent } from "../shared/chat-content.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
+import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import type { cleanupBrowserSessionsForLifecycleEnd } from "../browser-lifecycle-cleanup.ts";
+import type { callGateway as defaultCallGateway } from "../gateway/call.ts";
+import { formatErrorMessage, readErrorName } from "../infra/errors.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { emitSessionLifecycleEvent } from "../sessions/session-lifecycle-events.ts";
+import { extractTextFromChatContent } from "../shared/chat-content.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
 import {
   completeTaskRunByRunId,
   failTaskRunByRunId,
   setDetachedTaskDeliveryStatusByRunId,
-} from "../tasks/detached-task-runtime.js";
+} from "../tasks/detached-task-runtime.ts";
 import {
   resolveRequiredCompletionDeliveryFailureTerminalResult,
   resolveRequiredCompletionTerminalResult,
-} from "../tasks/task-completion-contract.js";
-import { normalizeDeliveryContext } from "../utils/delivery-context.shared.js";
-import { retireSessionMcpRuntimeForSessionKey } from "./agent-bundle-mcp-tools.js";
+} from "../tasks/task-completion-contract.ts";
+import { normalizeDeliveryContext } from "../utils/delivery-context.shared.ts";
+import { retireSessionMcpRuntimeForSessionKey } from "./agent-bundle-mcp-tools.ts";
 import {
   buildAnnounceIdFromChildRun,
   buildAnnounceIdempotencyKey,
-} from "./announce-idempotency.js";
-import { removeInternalSessionEffectsTranscript } from "./internal-session-effects.js";
-import type { SubagentAnnounceDeliveryResult } from "./subagent-announce-dispatch.js";
-import { type SubagentRunOutcome, withSubagentOutcomeTiming } from "./subagent-announce-output.js";
+} from "./announce-idempotency.ts";
+import { removeInternalSessionEffectsTranscript } from "./internal-session-effects.ts";
+import type { SubagentAnnounceDeliveryResult } from "./subagent-announce-dispatch.ts";
+import { type SubagentRunOutcome, withSubagentOutcomeTiming } from "./subagent-announce-output.ts";
 import {
   clearDeliveryState,
   ensureCompletionState,
   ensureDeliveryState,
   getDeliveryLastError,
   isDeliverySuspended,
-} from "./subagent-delivery-state.js";
+} from "./subagent-delivery-state.ts";
 import {
   SUBAGENT_ENDED_REASON_COMPLETE,
   type SubagentLifecycleEndedReason,
-} from "./subagent-lifecycle-events.js";
+} from "./subagent-lifecycle-events.ts";
 import {
   resolveCleanupCompletionReason,
   resolveDeferredCleanupDecision,
-} from "./subagent-registry-cleanup.js";
-import { shouldUpdateRunOutcome } from "./subagent-registry-completion.js";
+} from "./subagent-registry-cleanup.ts";
+import { shouldUpdateRunOutcome } from "./subagent-registry-completion.ts";
 import {
   ANNOUNCE_COMPLETION_HARD_EXPIRY_MS,
   ANNOUNCE_EXPIRY_MS,
@@ -56,10 +56,10 @@ import {
   persistSubagentSessionTiming,
   resolveAnnounceRetryDelayMs,
   safeRemoveAttachmentsDir,
-} from "./subagent-registry-helpers.js";
-import type { PendingFinalDeliveryPayload, SubagentRunRecord } from "./subagent-registry.types.js";
-import { resolveSubagentRunDeadlineMs } from "./subagent-run-timeout.js";
-import { deleteSubagentSessionForCleanup } from "./subagent-session-cleanup.js";
+} from "./subagent-registry-helpers.ts";
+import type { PendingFinalDeliveryPayload, SubagentRunRecord } from "./subagent-registry.types.ts";
+import { resolveSubagentRunDeadlineMs } from "./subagent-run-timeout.ts";
+import { deleteSubagentSessionForCleanup } from "./subagent-session-cleanup.ts";
 
 type CaptureSubagentCompletionReply =
   (typeof import("./subagent-announce.js"))["captureSubagentCompletionReply"];

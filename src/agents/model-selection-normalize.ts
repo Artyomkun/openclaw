@@ -9,9 +9,9 @@ import {
 } from "@openclaw/model-catalog-core/provider-id";
 import { stripSelfProviderModelPrefix } from "@openclaw/model-catalog-core/provider-model-id-normalization";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
-import { modelKey as sharedModelKey, normalizeStaticProviderModelId } from "./model-ref-shared.js";
-import { normalizeProviderModelIdWithRuntime } from "./provider-model-normalization.runtime.js";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
+import { modelKey as sharedModelKey, normalizeStaticProviderModelId } from "./model-ref-shared.ts";
+import { normalizeProviderModelIdWithRuntime } from "./provider-model-normalization.runtime.ts";
 
 // Shared provider/model normalization facade for agent model selection. It
 // combines catalog-core provider IDs, static aliases, and optional plugin hooks.
@@ -27,18 +27,6 @@ export type ModelManifestNormalizationContext = {
 /** Build the canonical provider/model key for model selection. */
 export function modelKey(provider: string, model: string) {
   return sharedModelKey(provider, model);
-}
-
-/** Return the legacy raw key when it differs from the canonical key. */
-export function legacyModelKey(provider: string, model: string): string | null {
-  const providerId = provider.trim();
-  const modelId = model.trim();
-  if (!providerId || !modelId) {
-    return null;
-  }
-  const rawKey = `${providerId}/${modelId}`;
-  const canonicalKey = modelKey(providerId, modelId);
-  return rawKey === canonicalKey ? null : rawKey;
 }
 
 /** Normalize a provider ID using the shared catalog rules. */

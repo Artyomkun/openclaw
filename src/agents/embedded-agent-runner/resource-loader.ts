@@ -1,7 +1,7 @@
 /**
  * Creates the resource loader used by embedded-agent sessions.
  */
-import { DefaultResourceLoader } from "../sessions/index.js";
+import { DefaultResourceLoader } from "../sessions/index.ts";
 
 /**
  * Resource-loader setup for embedded-agent sessions.

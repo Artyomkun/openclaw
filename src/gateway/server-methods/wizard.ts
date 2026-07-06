@@ -9,12 +9,12 @@ import {
   validateWizardNextParams,
   validateWizardStartParams,
   validateWizardStatusParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { defaultRuntime } from "../../runtime.js";
-import { WizardSession } from "../../wizard/session.js";
-import { formatForLog } from "../ws-log.js";
-import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.js";
-import { assertValidParams } from "./validation.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { WizardSession } from "../../wizard/session.ts";
+import { formatForLog } from "../ws-log.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.ts";
+import { assertValidParams } from "./validation.ts";
 
 function readWizardStatus(session: WizardSession) {
   return {

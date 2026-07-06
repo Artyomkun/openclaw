@@ -6,9 +6,9 @@ import { stripUrlUserInfo } from "@openclaw/net-policy/url-userinfo";
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { isRecord } from "../utils.js";
-import { asBoolean } from "../utils/boolean.js";
-import type { ChannelAccountSnapshot } from "./plugins/types.core.js";
+import { isRecord } from "../utils.ts";
+import { asBoolean } from "../utils/boolean.ts";
+import type { ChannelAccountSnapshot } from "./plugins/types.core.ts";
 
 const CREDENTIAL_STATUS_KEYS = [
   "tokenStatus",

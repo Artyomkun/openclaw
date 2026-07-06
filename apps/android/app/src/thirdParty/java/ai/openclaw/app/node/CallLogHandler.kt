@@ -27,7 +27,7 @@ internal data class CallLogSearchRequest(
   val offset: Int, // Offset value
   val cachedName: String?, // Search by contact name
   val number: String?, // Search by phone number
-  val date: Long?, // Search by time (timestamp, deprecated, use dateStart/dateEnd)
+  val date: Long?, // Search by time (timestamp, use dateStart/dateEnd)
   val dateStart: Long?, // Query start time (timestamp)
   val dateEnd: Long?, // Query end time (timestamp)
   val duration: Long?, // Search by duration (seconds)

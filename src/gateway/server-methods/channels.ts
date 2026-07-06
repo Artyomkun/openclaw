@@ -8,34 +8,34 @@ import {
   validateChannelsStopParams,
   validateChannelsLogoutParams,
   validateChannelsStatusParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { buildChannelUiCatalog } from "../../channels/plugins/catalog.js";
-import { resolveChannelDefaultAccountId } from "../../channels/plugins/helpers.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { buildChannelUiCatalog } from "../../channels/plugins/catalog.ts";
+import { resolveChannelDefaultAccountId } from "../../channels/plugins/helpers.ts";
 import {
   type ChannelId,
   getChannelPlugin,
   listChannelPlugins,
   normalizeChannelId,
-} from "../../channels/plugins/index.js";
-import { buildChannelAccountSnapshot } from "../../channels/plugins/status.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.js";
-import { readConfigFileSnapshot } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getChannelActivity } from "../../infra/channel-activity.js";
-import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
-import { defaultRuntime } from "../../runtime.js";
-import { runTasksWithConcurrency } from "../../utils/run-with-concurrency.js";
+} from "../../channels/plugins/index.ts";
+import { buildChannelAccountSnapshot } from "../../channels/plugins/status.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.ts";
+import { readConfigFileSnapshot } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getChannelActivity } from "../../infra/channel-activity.ts";
+import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { runTasksWithConcurrency } from "../../utils/run-with-concurrency.ts";
 import {
   DEFAULT_CHANNEL_CONNECT_GRACE_MS,
   DEFAULT_CHANNEL_STALE_EVENT_THRESHOLD_MS,
   evaluateChannelHealth,
-} from "../channel-health-policy.js";
-import { resolveGatewayPluginConfig } from "../runtime-plugin-config.js";
-import type { ChannelRuntimeSnapshot } from "../server-channel-runtime.types.js";
-import { formatForLog } from "../ws-log.js";
-import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.js";
-import { assertValidParams, type Validator } from "./validation.js";
+} from "../channel-health-policy.ts";
+import { resolveGatewayPluginConfig } from "../runtime-plugin-config.ts";
+import type { ChannelRuntimeSnapshot } from "../server-channel-runtime.types.ts";
+import { formatForLog } from "../ws-log.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.ts";
+import { assertValidParams, type Validator } from "./validation.ts";
 
 type ChannelLogoutPayload = {
   channel: ChannelId;

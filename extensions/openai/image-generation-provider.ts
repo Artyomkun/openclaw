@@ -58,7 +58,6 @@ const OPENAI_SUPPORTED_SIZES = [
   "3840x2160",
   "2160x3840",
 ] as const;
-const OPENAI_LEGACY_IMAGE_SIZES = ["1024x1024", "1536x1024", "1024x1536"] as const;
 const OPENAI_MAX_INPUT_IMAGES = 5;
 const OPENAI_MAX_IMAGE_RESULTS = 4;
 const MAX_CODEX_IMAGE_SSE_BYTES = 64 * 1024 * 1024;
@@ -256,8 +255,6 @@ function resolveOpenAIImageRequestModel(
 function resolveNativeOpenAIImageSizesForModel(model: string): readonly string[] {
   switch (model) {
     case "gpt-image-1":
-    case "gpt-image-1-mini":
-      return OPENAI_LEGACY_IMAGE_SIZES;
     default:
       return OPENAI_SUPPORTED_SIZES;
   }

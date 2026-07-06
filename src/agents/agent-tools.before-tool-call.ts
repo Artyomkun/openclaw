@@ -6,12 +6,12 @@
 import os from "node:os";
 import path from "node:path";
 import { addTimerTimeoutGraceMs } from "@openclaw/normalization-core/number-coercion";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ToolLoopDetectionConfig } from "../config/types.tools.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ToolLoopDetectionConfig } from "../config/types.tools.ts";
 import {
   diagnosticErrorCategory,
   diagnosticHttpStatusCode,
-} from "../infra/diagnostic-error-metadata.js";
+} from "../infra/diagnostic-error-metadata.ts";
 import {
   emitTrustedDiagnosticEvent,
   emitTrustedDiagnosticEventWithPrivateData,
@@ -19,86 +19,86 @@ import {
   type DiagnosticEventPrivateData,
   type DiagnosticToolParamsSummary,
   type DiagnosticToolSource,
-} from "../infra/diagnostic-events.js";
+} from "../infra/diagnostic-events.ts";
 import {
   cloneDiagnosticContentValue,
   resolveDiagnosticModelContentCapturePolicy,
   type DiagnosticModelContentCapturePolicy,
-} from "../infra/diagnostic-llm-content.js";
+} from "../infra/diagnostic-llm-content.ts";
 import {
   createChildDiagnosticTraceContext,
   freezeDiagnosticTraceContext,
   type DiagnosticTraceContext,
-} from "../infra/diagnostic-trace-context.js";
+} from "../infra/diagnostic-trace-context.ts";
 import {
   DEFAULT_PLUGIN_APPROVAL_TIMEOUT_MS,
   MAX_PLUGIN_APPROVAL_TIMEOUT_MS,
-} from "../infra/plugin-approvals.js";
-import type { SessionState } from "../logging/diagnostic-session-state.js";
-import { redactToolDetail } from "../logging/redact.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { getGlobalHookRunnerRegistry } from "../plugins/hook-runner-global-state.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import { deriveToolParams } from "../plugins/host-tool-param-parsers.js";
-import { copyPluginToolMeta, getPluginToolMeta } from "../plugins/tools.js";
+} from "../infra/plugin-approvals.ts";
+import type { SessionState } from "../logging/diagnostic-session-state.ts";
+import { redactToolDetail } from "../logging/redact.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { getGlobalHookRunnerRegistry } from "../plugins/hook-runner-global-state.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import { deriveToolParams } from "../plugins/host-tool-param-parsers.ts";
+import { copyPluginToolMeta, getPluginToolMeta } from "../plugins/tools.ts";
 import {
   getTrustedToolPolicyDiagnosticEntries,
   hasTrustedToolPolicies,
   runTrustedToolPolicies,
-} from "../plugins/trusted-tool-policy.js";
+} from "../plugins/trusted-tool-policy.ts";
 import {
   PluginApprovalResolutions,
   type PluginApprovalResolution,
   type PluginHookBeforeToolCallResult,
   type PluginHookToolInputKind,
   type PluginHookToolKind,
-} from "../plugins/types.js";
-import { createLazyRuntimeSurface } from "../shared/lazy-runtime.js";
+} from "../plugins/types.ts";
+import { createLazyRuntimeSurface } from "../shared/lazy-runtime.ts";
 import {
   resolveSkillTelemetrySource,
   resolveSkillTelemetrySourceValue,
-} from "../skills/loading/source.js";
-import type { SkillSnapshot, SkillTelemetrySource } from "../skills/types.js";
-import { resolveSkillWorkshopToolApproval } from "../skills/workshop/policy.js";
-import { isPlainObject, truncateUtf16Safe } from "../utils.js";
+} from "../skills/loading/source.ts";
+import type { SkillSnapshot, SkillTelemetrySource } from "../skills/types.ts";
+import { resolveSkillWorkshopToolApproval } from "../skills/workshop/policy.ts";
+import { isPlainObject, truncateUtf16Safe } from "../utils.ts";
 import {
   adjustedParamsByToolCallId,
   buildAdjustedParamsKey,
   preExecutionBlockedToolCallIds,
   recordStructuredReplaySafeToolCall,
   structuredReplaySafeToolCallIds,
-} from "./agent-tools.before-tool-call.state.js";
+} from "./agent-tools.before-tool-call.state.ts";
 export {
   consumeAdjustedParamsForToolCall,
   consumePreExecutionBlockedToolCall,
   peekAdjustedParamsForToolCall,
-} from "./agent-tools.before-tool-call.state.js";
+} from "./agent-tools.before-tool-call.state.ts";
 import {
   BEFORE_TOOL_CALL_DIAGNOSTIC_OPTIONS,
   BEFORE_TOOL_CALL_HOOK_CONTEXT,
   BEFORE_TOOL_CALL_SOURCE_TOOL,
   BEFORE_TOOL_CALL_WRAPPED,
   type BeforeToolCallDiagnosticOptions,
-} from "./before-tool-call-metadata.js";
+} from "./before-tool-call-metadata.ts";
 export {
   copyBeforeToolCallHookMarker,
   isToolWrappedWithBeforeToolCallHook,
   setBeforeToolCallDiagnosticsEnabled,
-} from "./before-tool-call-metadata.js";
-import { copyChannelAgentToolMeta, getChannelAgentToolMeta } from "./channel-tools.js";
+} from "./before-tool-call-metadata.ts";
+import { copyChannelAgentToolMeta, getChannelAgentToolMeta } from "./channel-tools.ts";
 import {
   getCodeModeExecBeforeHookMetadata,
   getCodeModeExecBeforeHookMetadataForToolKind,
   normalizeCodeModeExecBeforeHookParams,
   normalizeCodeModeExecBeforeHookParamsForToolKind,
   reconcileCodeModeExecBeforeHookParams,
-} from "./code-mode-control-tools.js";
-import type { SandboxFsBridge } from "./sandbox/fs-bridge.js";
-import { normalizeToolName } from "./tool-policy.js";
-import { copyToolTerminalPresentation } from "./tool-terminal-presentation.js";
-import { getToolTerminalPresentation } from "./tool-terminal-presentation.js";
-import type { AnyAgentTool } from "./tools/common.js";
-import { callGatewayTool } from "./tools/gateway.js";
+} from "./code-mode-control-tools.ts";
+import type { SandboxFsBridge } from "./sandbox/fs-bridge.ts";
+import { normalizeToolName } from "./tool-policy.ts";
+import { copyToolTerminalPresentation } from "./tool-terminal-presentation.ts";
+import { getToolTerminalPresentation } from "./tool-terminal-presentation.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
+import { callGatewayTool } from "./tools/gateway.ts";
 
 export type ToolOutcomeObservation = {
   toolName: string;

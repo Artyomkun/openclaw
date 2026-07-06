@@ -1,5 +1,5 @@
-import type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.js";
-import type { PluginConversationBinding } from "./conversation-binding.types.js";
+import type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.ts";
+import type { PluginConversationBinding } from "./conversation-binding.types.ts";
 
 export type PluginHookMessageContext = {
   channelId: string;

@@ -1,22 +1,22 @@
 // Agent consult runtime starts agent consultation flows from talk sessions.
 import { randomUUID } from "node:crypto";
-import type { RunEmbeddedAgentParams } from "../agents/embedded-agent-runner/run/params.js";
-import { forkSessionEntryFromParent } from "../auto-reply/reply/session-fork.js";
-import { parseSessionThreadInfoFast } from "../config/sessions/thread-info.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RuntimeLogger, PluginRuntimeCore } from "../plugins/runtime/types-core.js";
-import { parseAgentSessionKey } from "../routing/session-key.js";
+import type { RunEmbeddedAgentParams } from "../agents/embedded-agent-runner/run/params.ts";
+import { forkSessionEntryFromParent } from "../auto-reply/reply/session-fork.ts";
+import { parseSessionThreadInfoFast } from "../config/sessions/thread-info.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RuntimeLogger, PluginRuntimeCore } from "../plugins/runtime/types-core.ts";
+import { parseAgentSessionKey } from "../routing/session-key.ts";
 import {
   deliveryContextFromSession,
   normalizeDeliveryContext,
   type DeliveryContext,
-} from "../utils/delivery-context.shared.js";
+} from "../utils/delivery-context.shared.ts";
 import {
   buildRealtimeVoiceAgentConsultPrompt,
   collectRealtimeVoiceAgentConsultVisibleText,
   type RealtimeVoiceAgentConsultTranscriptEntry,
-} from "./agent-consult-tool.js";
+} from "./agent-consult-tool.ts";
 
 /**
  * Agent runtime surface used by realtime voice consults.
@@ -36,7 +36,7 @@ export type RealtimeVoiceAgentConsultContextMode = "isolated" | "fork";
 export {
   resolveRealtimeVoiceAgentConsultTools,
   resolveRealtimeVoiceAgentConsultToolsAllow,
-} from "./agent-consult-tool.js";
+} from "./agent-consult-tool.ts";
 
 type RealtimeVoiceAgentConsultDeps = {
   randomUUID: typeof randomUUID;

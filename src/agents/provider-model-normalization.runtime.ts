@@ -4,7 +4,7 @@
  * once and caches the result.
  */
 import { createRequire } from "node:module";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
 
 type ProviderRuntimeModule = Pick<
   typeof import("../plugins/provider-runtime.js"),

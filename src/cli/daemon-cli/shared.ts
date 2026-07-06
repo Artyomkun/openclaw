@@ -1,21 +1,21 @@
 // Shared Gateway service CLI helpers: status styles, env filtering, port parsing, and hints.
-import { colorize, isRich, theme } from "../../../packages/terminal-core/src/theme.js";
-import { resolveIsNixMode } from "../../config/paths.js";
+import { colorize, isRich, theme } from "../../../packages/terminal-core/src/theme.ts";
+import { resolveIsNixMode } from "../../config/paths.ts";
 import {
   resolveGatewayLaunchAgentLabel,
   resolveGatewaySystemdServiceName,
   resolveGatewayWindowsTaskName,
-} from "../../daemon/constants.js";
-import { resolveDaemonContainerContext } from "../../daemon/container-context.js";
-import { formatRuntimeStatus } from "../../daemon/runtime-format.js";
+} from "../../daemon/constants.ts";
+import { resolveDaemonContainerContext } from "../../daemon/container-context.ts";
+import { formatRuntimeStatus } from "../../daemon/runtime-format.ts";
 import {
   buildPlatformRuntimeLogHints,
   buildPlatformServiceStartHints,
-} from "../../daemon/runtime-hints.js";
-import { parseInlineOptionToken } from "../../infra/inline-option-token.js";
-import { formatCliCommand } from "../command-format.js";
-import { parsePort } from "../shared/parse-port.js";
-import { createDaemonActionContext } from "./response.js";
+} from "../../daemon/runtime-hints.ts";
+import { parseInlineOptionToken } from "../../infra/inline-option-token.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { parsePort } from "../shared/parse-port.ts";
+import { createDaemonActionContext } from "./response.ts";
 
 export { formatRuntimeStatus };
 export { parsePort };

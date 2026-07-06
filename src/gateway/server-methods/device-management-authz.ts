@@ -1,5 +1,5 @@
-import type { DeviceAuthToken } from "../../infra/device-pairing.js";
-import type { GatewayClient } from "./types.js";
+import type { DeviceAuthToken } from "../../infra/device-pairing.ts";
+import type { GatewayClient } from "./types.ts";
 
 export type DeviceSessionAuthz = {
   callerDeviceId: string | null;

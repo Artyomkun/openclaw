@@ -1,8 +1,8 @@
 // Polls channel transports until they are ready for runtime work.
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import { danger } from "../globals.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { sleepWithAbort } from "./backoff.js";
+import { danger } from "../globals.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { sleepWithAbort } from "./backoff.ts";
 
 /** Result returned by one transport readiness probe attempt. */
 export type TransportReadyResult = {

@@ -292,8 +292,8 @@ function isKnownXHighCodexModel(modelId: string): boolean {
 }
 
 /**
- * Returns true for Codex models that use the modern reasoning effort enum and
- * reject the legacy CLI `minimal` default.
+ * Returns true for Codex models that use the reasoning effort enum and
+ * reject the CLI `minimal` default.
  */
 export function isModernCodexModel(modelId: string): boolean {
   const lower = modelId.trim().toLowerCase();

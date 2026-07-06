@@ -2,15 +2,15 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { createUpdateProgress } from "../cli/update-cli/progress.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { runGatewayUpdate } from "../infra/update-runner.js";
-import type { UpdateRunResult } from "../infra/update-runner.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import type { RuntimeEnv } from "../runtime.js";
-import type { DoctorOptions } from "./doctor-prompter.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { createUpdateProgress } from "../cli/update-cli/progress.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { runGatewayUpdate } from "../infra/update-runner.ts";
+import type { UpdateRunResult } from "../infra/update-runner.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { DoctorOptions } from "./doctor-prompter.ts";
 
 async function resolveComparablePath(target: string): Promise<string> {
   return await fs.realpath(target).catch(() => path.resolve(target));

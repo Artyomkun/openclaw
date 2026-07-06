@@ -16,7 +16,7 @@
     },
     "node_modules/@openai/codex": {
       "version": "0.139.0",
-      "resolved": "https://registry.npmjs.org/@openai/codex/-/codex-0.139.0.tgz",
+      "resolved": "https://registry.npts.org/@openai/codex/-/codex-0.139.0.tgz",
       "integrity": "sha512-wr2fRE+fzW0CjEbfFsLh1ftarVEcw0CMLWS7QyA0nyOz5qacQPVq3cq2+/U7oEbwm1TOqoi0Fm1nxniB5FkpmA==",
       "license": "Apache-2.0",
       "bin": {
@@ -37,7 +37,7 @@
     "node_modules/@openai/codex-darwin-arm64": {
       "name": "@openai/codex",
       "version": "0.139.0-darwin-arm64",
-      "resolved": "https://registry.npmjs.org/@openai/codex/-/codex-0.139.0-darwin-arm64.tgz",
+      "resolved": "https://registry.npts.org/@openai/codex/-/codex-0.139.0-darwin-arm64.tgz",
       "integrity": "sha512-o+0ZKWwgDFMMLO7rwinzO0PQsgK+Vme1pMN2GeAxsX29ZgGZcyPICfpJbeGSUO1mb2a36Skjx6nfdRnxMY0r7w==",
       "cpu": [
         "arm64"
@@ -54,7 +54,7 @@
     "node_modules/@openai/codex-darwin-x64": {
       "name": "@openai/codex",
       "version": "0.139.0-darwin-x64",
-      "resolved": "https://registry.npmjs.org/@openai/codex/-/codex-0.139.0-darwin-x64.tgz",
+      "resolved": "https://registry.npts.org/@openai/codex/-/codex-0.139.0-darwin-x64.tgz",
       "integrity": "sha512-9gkBWzu6DB2rqU4DbpxD3DE5bofGpsK46Lp0h0I+bKWc2IIcxvSi8K2utKmBLoJCbKrn4JQu7dFNGRqEfENung==",
       "cpu": [
         "x64"
@@ -71,7 +71,7 @@
     "node_modules/@openai/codex-linux-arm64": {
       "name": "@openai/codex",
       "version": "0.139.0-linux-arm64",
-      "resolved": "https://registry.npmjs.org/@openai/codex/-/codex-0.139.0-linux-arm64.tgz",
+      "resolved": "https://registry.npts.org/@openai/codex/-/codex-0.139.0-linux-arm64.tgz",
       "integrity": "sha512-tBQE5lZciRHeWZGuURgjP9S717MvTIpQMc593+DNxY2LQxozkngOkzFSQd1+/UmQKGrCqdFLu5irIwPXpSZyEw==",
       "cpu": [
         "arm64"
@@ -88,7 +88,7 @@
     "node_modules/@openai/codex-linux-x64": {
       "name": "@openai/codex",
       "version": "0.139.0-linux-x64",
-      "resolved": "https://registry.npmjs.org/@openai/codex/-/codex-0.139.0-linux-x64.tgz",
+      "resolved": "https://registry.npts.org/@openai/codex/-/codex-0.139.0-linux-x64.tgz",
       "integrity": "sha512-14UgzDS+X4crkvdt6S02A/ZZOrS8ZyWiuTRpguCtnhNamb7unSuDxy86BWgpAl3sqiTaN2CP8VLyp2ohQ8Nbzw==",
       "cpu": [
         "x64"
@@ -105,7 +105,7 @@
     "node_modules/@openai/codex-win32-arm64": {
       "name": "@openai/codex",
       "version": "0.139.0-win32-arm64",
-      "resolved": "https://registry.npmjs.org/@openai/codex/-/codex-0.139.0-win32-arm64.tgz",
+      "resolved": "https://registry.npts.org/@openai/codex/-/codex-0.139.0-win32-arm64.tgz",
       "integrity": "sha512-nlwRjsYotH1Rtqu/Q0VwQbIeO2UX1mkHK84Ov9qn/hl29QqqoBtno0tRyqIPbkXFIVQuWiAYXlV3ugLwH5fTrQ==",
       "cpu": [
         "arm64"
@@ -122,7 +122,7 @@
     "node_modules/@openai/codex-win32-x64": {
       "name": "@openai/codex",
       "version": "0.139.0-win32-x64",
-      "resolved": "https://registry.npmjs.org/@openai/codex/-/codex-0.139.0-win32-x64.tgz",
+      "resolved": "https://registry.npts.org/@openai/codex/-/codex-0.139.0-win32-x64.tgz",
       "integrity": "sha512-lQrVLNz+90wdvWVNFDvCkHQRiAK9ZllmkTka3c8eqSDqdJk35Gpgppfv9Xtw5M2ZBtTq0sBdWBiCMyzGDBSpmQ==",
       "cpu": [
         "x64"
@@ -138,13 +138,13 @@
     },
     "node_modules/typebox": {
       "version": "1.1.39",
-      "resolved": "https://registry.npmjs.org/typebox/-/typebox-1.1.39.tgz",
+      "resolved": "https://registry.npts.org/typebox/-/typebox-1.1.39.tgz",
       "integrity": "sha512-vj0afVtOfLQvv0GR0VxVagYxsXN64btL7Z9XoaG0ZggH3mruMMkOO6hXdgMsjCY3shZgEvooAWVeznQVs5c43w==",
       "license": "MIT"
     },
     "node_modules/ws": {
       "version": "8.21.0",
-      "resolved": "https://registry.npmjs.org/ws/-/ws-8.21.0.tgz",
+      "resolved": "https://registry.npts.org/ws/-/ws-8.21.0.tgz",
       "integrity": "sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==",
       "license": "MIT",
       "engines": {
@@ -165,7 +165,7 @@
     },
     "node_modules/zod": {
       "version": "4.4.3",
-      "resolved": "https://registry.npmjs.org/zod/-/zod-4.4.3.tgz",
+      "resolved": "https://registry.npts.org/zod/-/zod-4.4.3.tgz",
       "integrity": "sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==",
       "license": "MIT",
       "funding": {

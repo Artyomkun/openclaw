@@ -4,13 +4,13 @@
  * and same-origin header handling around the MCP SDK fetch contract.
  */
 import fs from "node:fs";
-import type { FetchLike } from "@modelcontextprotocol/sdk/shared/transport.js";
-import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.js";
+import type { FetchLike } from "@modelcontextprotocol/sdk/shared/transport.ts";
+import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.ts";
 import {
   ssrfPolicyFromHttpBaseUrlAllowedOrigin,
   type PinnedDispatcherPolicy,
-} from "../infra/net/ssrf.js";
-import { loadUndiciRuntimeDeps } from "../infra/net/undici-runtime.js";
+} from "../infra/net/ssrf.ts";
+import { loadUndiciRuntimeDeps } from "../infra/net/undici-runtime.ts";
 
 /** Default MCP HTTP fetch backed by lazy-loaded undici runtime deps. */
 const fetchWithUndici: FetchLike = async (url, init) =>

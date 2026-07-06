@@ -5,45 +5,45 @@ import os from "node:os";
 import path from "node:path";
 import { collectManifestModelIdNormalizationPolicies } from "@openclaw/model-catalog-core/provider-model-id-normalization";
 import JSON5 from "json5";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope-config.js";
-import { ensureOwnerDisplaySecret } from "../agents/owner-display.js";
-import { isVerbose } from "../global-state.js";
-import { loadDotEnv } from "../infra/dotenv.js";
-import { isTruthyEnvValue } from "../infra/env.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope-config.ts";
+import { ensureOwnerDisplaySecret } from "../agents/owner-display.ts";
+import { isVerbose } from "../global-state.ts";
+import { loadDotEnv } from "../infra/dotenv.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
 import {
   collectErrorGraphCandidates,
   extractErrorCode,
   formatErrorMessage,
-} from "../infra/errors.js";
-import { resolveRequiredHomeDir } from "../infra/home-dir.js";
-import { replaceFileAtomic, replaceFileAtomicSync } from "../infra/replace-file.js";
+} from "../infra/errors.ts";
+import { resolveRequiredHomeDir } from "../infra/home-dir.ts";
+import { replaceFileAtomic, replaceFileAtomicSync } from "../infra/replace-file.ts";
 import {
   loadShellEnvFallback,
   resolveShellEnvFallbackTimeoutMs,
   shouldDeferShellEnvFallback,
   shouldEnableShellEnvFallback,
-} from "../infra/shell-env.js";
-import { createConfigValidationMetadataPluginIdScope } from "../plugins/gateway-startup-plugin-ids.js";
+} from "../infra/shell-env.ts";
+import { createConfigValidationMetadataPluginIdScope } from "../plugins/gateway-startup-plugin-ids.ts";
 import {
   loadInstalledPluginIndexInstallRecordsSync,
   writePersistedInstalledPluginIndexInstallRecordsSync,
-} from "../plugins/installed-plugin-index-records.js";
+} from "../plugins/installed-plugin-index-records.ts";
 import {
   resolvePluginMetadataSnapshot,
   type PluginMetadataSnapshot,
-} from "../plugins/plugin-metadata-snapshot.js";
-import { isRecord } from "../utils.js";
-import { VERSION } from "../version.js";
-import { DuplicateAgentDirError, findDuplicateAgentDirs } from "./agent-dirs.js";
-import { maintainConfigBackups } from "./backup-rotation.js";
-import { EnvRefArrayMutationError, restoreEnvVarRefs } from "./env-preserve.js";
+} from "../plugins/plugin-metadata-snapshot.ts";
+import { isRecord } from "../utils.ts";
+import { VERSION } from "../version.ts";
+import { DuplicateAgentDirError, findDuplicateAgentDirs } from "./agent-dirs.ts";
+import { maintainConfigBackups } from "./backup-rotation.ts";
+import { EnvRefArrayMutationError, restoreEnvVarRefs } from "./env-preserve.ts";
 import {
   type EnvSubstitutionWarning,
   containsEnvVarReference,
   resolveConfigEnvVars,
-} from "./env-substitution.js";
-import { applyConfigEnvVars, cloneEnvWithPlatformSemantics } from "./env-vars.js";
+} from "./env-substitution.ts";
+import { applyConfigEnvVars, cloneEnvWithPlatformSemantics } from "./env-vars.ts";
 import {
   ConfigIncludeError,
   hashConfigIncludeRaw,
@@ -51,7 +51,7 @@ import {
   readConfigIncludeFileWithGuards,
   resolveConfigIncludeWritePath,
   resolveConfigIncludes,
-} from "./includes.js";
+} from "./includes.ts";
 import {
   appendConfigAuditRecord,
   appendConfigAuditRecordSync,
@@ -60,25 +60,25 @@ import {
   formatConfigOverwriteLogMessage,
   snapshotConfigAuditProcessInfo,
   type ConfigWriteAuditResult,
-} from "./io.audit.js";
-import { persistBoundedClobberedConfigSnapshot } from "./io.clobber-snapshot.js";
+} from "./io.audit.ts";
+import { persistBoundedClobberedConfigSnapshot } from "./io.clobber-snapshot.ts";
 import {
   readConfigHealthStateFromStore,
   writeConfigHealthStateToStore,
   type ConfigHealthEntry,
   type ConfigHealthFingerprint,
   type ConfigHealthState,
-} from "./io.health-state.js";
-import { throwInvalidConfig } from "./io.invalid-config.js";
-import { stampConfigWriteMetadata } from "./io.meta.js";
+} from "./io.health-state.ts";
+import { throwInvalidConfig } from "./io.invalid-config.ts";
+import { stampConfigWriteMetadata } from "./io.meta.ts";
 import {
   maybeRecoverSuspiciousConfigRead as maybeRecoverSuspiciousConfigReadWithDeps,
   maybeRecoverSuspiciousConfigReadSync as maybeRecoverSuspiciousConfigReadSyncWithDeps,
   promoteConfigSnapshotToLastKnownGood as promoteConfigSnapshotToLastKnownGoodWithDeps,
   recoverConfigFromLastKnownGood as recoverConfigFromLastKnownGoodWithDeps,
-} from "./io.observe-recovery.js";
-import { resolveConfigObserveSuspiciousReasons } from "./io.observe-suspicious.js";
-import { retainGeneratedOwnerDisplaySecret } from "./io.owner-display-secret.js";
+} from "./io.observe-recovery.ts";
+import { resolveConfigObserveSuspiciousReasons } from "./io.observe-suspicious.ts";
+import { retainGeneratedOwnerDisplaySecret } from "./io.owner-display-secret.ts";
 import {
   collectChangedPaths,
   createMergePatch,
@@ -89,21 +89,21 @@ import {
   resolvePersistCandidateForWrite,
   resolveManagedUnsetPathsForWrite,
   resolveWriteEnvSnapshotForPath,
-} from "./io.write-prepare.js";
+} from "./io.write-prepare.ts";
 import {
   asResolvedSourceConfig,
   asRuntimeConfig,
   materializeRuntimeConfig,
-} from "./materialize.js";
-import { applyMergePatch } from "./merge-patch.js";
-import { ConfigMutationConflictError } from "./mutation-conflict.js";
-import { assertConfigWriteAllowedInCurrentMode } from "./nix-mode-write-guard.js";
-import { resolveConfigPath, resolveIncludeRoots, resolveStateDir } from "./paths.js";
+} from "./materialize.ts";
+import { applyMergePatch } from "./merge-patch.ts";
+import { ConfigMutationConflictError } from "./mutation-conflict.ts";
+import { assertConfigWriteAllowedInCurrentMode } from "./nix-mode-write-guard.ts";
+import { resolveConfigPath, resolveIncludeRoots, resolveStateDir } from "./paths.ts";
 import {
   extractShippedPluginInstallConfigRecords,
   stripShippedPluginInstallConfigRecords,
-} from "./plugin-install-config-migration.js";
-import { applyConfigOverrides } from "./runtime-overrides.js";
+} from "./plugin-install-config-migration.ts";
+import { applyConfigOverrides } from "./runtime-overrides.ts";
 import {
   clearRuntimeConfigSnapshot as clearRuntimeConfigSnapshotState,
   createRuntimeConfigWriteNotification,
@@ -124,15 +124,15 @@ import {
   type ConfigWriteAfterWrite,
   type RuntimeConfigSnapshotRefreshOptions,
   type RuntimeConfigWriteNotification,
-} from "./runtime-snapshot.js";
-export { projectConfigOntoRuntimeSourceSnapshot } from "./runtime-source-projection.js";
-import { resolveShellEnvExpectedKeys } from "./shell-env-expected-keys.js";
-import type { OpenClawConfig, ConfigFileSnapshot, LegacyConfigIssue } from "./types.js";
+} from "./runtime-snapshot.ts";
+export { projectConfigOntoRuntimeSourceSnapshot } from "./runtime-source-projection.ts";
+import { resolveShellEnvExpectedKeys } from "./shell-env-expected-keys.ts";
+import type { OpenClawConfig, ConfigFileSnapshot } from "./types.ts";
 import {
   validateConfigObjectRawWithPlugins,
   validateConfigObjectWithPlugins,
-} from "./validation.js";
-import { shouldWarnOnTouchedVersion } from "./version.js";
+} from "./validation.ts";
+import { shouldWarnOnTouchedVersion } from "./version.ts";
 
 export {
   clearRuntimeConfigSnapshotState as clearRuntimeConfigSnapshot,
@@ -147,9 +147,9 @@ export {
 };
 
 // Re-export for backwards compatibility
-export { CircularIncludeError, ConfigIncludeError } from "./includes.js";
-export { MissingEnvVarError } from "./env-substitution.js";
-export { resolveShellEnvExpectedKeys } from "./shell-env-expected-keys.js";
+export { CircularIncludeError, ConfigIncludeError } from "./includes.ts";
+export { MissingEnvVarError } from "./env-substitution.ts";
+export { resolveShellEnvExpectedKeys } from "./shell-env-expected-keys.ts";
 
 type ShippedPluginInstallConfigWriteMigration =
   | {
@@ -232,11 +232,6 @@ export type ConfigWriteOptions = {
    */
   allowDestructiveWrite?: boolean;
   /**
-   * Allow an intentional large config size drop while keeping other destructive
-   * guards active. Used by repair flows that remove stale or legacy config.
-   */
-  allowConfigSizeDrop?: boolean;
-  /**
    * Suppress human-readable output logs (overwrite/anomaly messages).
    * Useful when the caller wants machine-readable output only (--json mode).
    */
@@ -246,18 +241,6 @@ export type ConfigWriteOptions = {
    * Omitted means the observer should use its normal reload plan.
    */
   afterWrite?: ConfigWriteAfterWrite;
-  /**
-   * Legacy root keys to preserve on disk while excluding them from write validation.
-   * This is for doctor repair of historical config metadata that should not become
-   * part of the public schema contract again.
-   */
-  preservedLegacyRootKeys?: readonly string[];
-  /**
-   * Skip plugin-aware validation before writing. Use only for safe partial
-   * migrations (e.g. legacy key removal) where the base schema is valid but
-   * an unrelated plugin rule prevents the full write from succeeding.
-   */
-  skipPluginValidation?: boolean;
   /**
    * Preserve an older writer version for update handoff writes that must be
    * readable by the parent process after a candidate doctor repair.
@@ -932,7 +915,6 @@ export type ConfigSnapshotReadOptions = {
     current: OpenClawConfig,
   ) => boolean | Promise<boolean>;
   skipPluginValidation?: boolean;
-  preservedLegacyRootKeys?: readonly string[];
   suppressFutureVersionWarning?: boolean;
 };
 
@@ -1078,7 +1060,7 @@ async function persistPrefixedConfigRecovery(params: {
   );
 }
 
-async function recoverConfigFromJsonRootSuffixWithDeps(params: {
+async function recoverConfigFrotsonRootSuffixWithDeps(params: {
   deps: Required<ConfigIoDeps>;
   configPath: string;
   snapshot: ConfigFileSnapshot;
@@ -1331,7 +1313,6 @@ function createConfigFileSnapshot(params: {
   hash?: string;
   issues: ConfigFileSnapshot["issues"];
   warnings: ConfigFileSnapshot["warnings"];
-  legacyIssues: LegacyConfigIssue[];
 }): ConfigFileSnapshot {
   const sourceConfig = asResolvedSourceConfig(params.sourceConfig);
   const runtimeConfig = asRuntimeConfig(params.runtimeConfig);
@@ -1348,7 +1329,6 @@ function createConfigFileSnapshot(params: {
     hash: params.hash,
     issues: params.issues,
     warnings: params.warnings,
-    legacyIssues: params.legacyIssues,
   };
 }
 
@@ -1363,22 +1343,9 @@ async function finalizeReadConfigSnapshotInternalResult(
   return result;
 }
 
-async function collectInvalidConfigLegacyIssues(
-  raw: unknown,
-  sourceRaw: unknown,
-): Promise<LegacyConfigIssue[]> {
-  if (!raw || typeof raw !== "object") {
-    return [];
-  }
-  const { findDoctorLegacyConfigIssues } =
-    await import("../commands/doctor/shared/legacy-config-issues.js");
-  return findDoctorLegacyConfigIssues(raw, sourceRaw);
-}
-
 export function createConfigIO(
   overrides: ConfigIoDeps & {
     pluginValidation?: "full" | "skip";
-    preservedLegacyRootKeys?: readonly string[];
     shellEnvFallback?: "load" | "defer";
   } = {},
 ) {
@@ -1642,8 +1609,7 @@ export function createConfigIO(
         env: candidateEnv,
         pluginValidation: overrides.pluginValidation,
         loadPluginMetadataSnapshot: validationPluginMetadata.load,
-        sourceRaw: parsed,
-        preservedLegacyRootKeys: overrides.preservedLegacyRootKeys,
+        sourceRaw: parsed
       });
       return validated.ok ? coerceConfig(effectiveConfigRaw) : null;
     } catch {
@@ -1707,7 +1673,6 @@ export function createConfigIO(
             hash,
             issues: [],
             warnings: [],
-            legacyIssues: [],
           }),
         });
         return {};
@@ -1731,7 +1696,6 @@ export function createConfigIO(
         pluginValidation: overrides.pluginValidation,
         loadPluginMetadataSnapshot: validationPluginMetadata.load,
         sourceRaw: snapshotParsed,
-        preservedLegacyRootKeys: overrides.preservedLegacyRootKeys,
       });
       if (!validated.ok) {
         observeLoadConfigSnapshot({
@@ -1746,7 +1710,6 @@ export function createConfigIO(
             hash,
             issues: validated.issues,
             warnings: validated.warnings,
-            legacyIssues: [],
           }),
         });
         throwInvalidConfig({
@@ -1807,8 +1770,7 @@ export function createConfigIO(
           runtimeConfig: cfg,
           hash,
           issues: [],
-          warnings: validated.warnings,
-          legacyIssues: [],
+          warnings: validated.warnings
         }),
       });
       return finalizeLoadedRuntimeConfig(cfg);
@@ -1843,7 +1805,6 @@ export function createConfigIO(
     if (!exists) {
       const hash = hashConfigRaw(null);
       const config = {};
-      const legacyIssues: LegacyConfigIssue[] = [];
       return await finalizeReadConfigSnapshotInternalResult(deps, {
         snapshot: createConfigFileSnapshot({
           path: configPath,
@@ -1856,7 +1817,6 @@ export function createConfigIO(
           hash,
           issues: [],
           warnings: [],
-          legacyIssues,
         }),
       });
     }
@@ -1892,7 +1852,6 @@ export function createConfigIO(
             hash: rawHash,
             issues: [{ path: "", message: `JSON5 parse failed: ${parsedRes.error}` }],
             warnings: [],
-            legacyIssues: [],
           }),
         });
       }
@@ -1934,8 +1893,7 @@ export function createConfigIO(
             runtimeConfig: coerceConfig(effectiveParsed),
             hash,
             issues: [{ path: "", message }],
-            warnings: [],
-            legacyIssues: [],
+            warnings: []
           }),
           includeFileHashesForWrite,
           includeFileTargetsForWrite,
@@ -1981,14 +1939,10 @@ export function createConfigIO(
           env: deps.env,
           pluginValidation: overrides.pluginValidation,
           loadPluginMetadataSnapshot: validationPluginMetadata.load,
-          sourceRaw: effectiveParsed,
-          preservedLegacyRootKeys: overrides.preservedLegacyRootKeys,
+          sourceRaw: effectiveParsed
         }),
       );
       if (!validated.ok) {
-        const legacyIssues = await deps.measure("config.snapshot.read.legacy-issues", () =>
-          collectInvalidConfigLegacyIssues(effectiveConfigRaw, effectiveParsed),
-        );
         return await finalizeReadConfigSnapshotInternalResult(deps, {
           snapshot: createConfigFileSnapshot({
             path: configPath,
@@ -2000,8 +1954,7 @@ export function createConfigIO(
             runtimeConfig: coerceConfig(effectiveConfigRaw),
             hash: snapshotHash,
             issues: validated.issues,
-            warnings: [...validated.warnings, ...envVarWarnings],
-            legacyIssues,
+            warnings: [...validated.warnings, ...envVarWarnings]
           }),
           envSnapshotForRestore: readResolution.envSnapshotForRestore,
           includeFileHashesForWrite,
@@ -2080,8 +2033,7 @@ export function createConfigIO(
               runtimeConfig: snapshotConfig,
               hash: snapshotHash,
               issues: [],
-              warnings: [...validated.warnings, ...envVarWarnings],
-              legacyIssues: [],
+              warnings: [...validated.warnings, ...envVarWarnings]
             }),
             envSnapshotForRestore: readResolution.envSnapshotForRestore,
             includeFileHashesForWrite,
@@ -2123,7 +2075,6 @@ export function createConfigIO(
           hash: fallbackHash,
           issues: [{ path: "", message }],
           warnings: [],
-          legacyIssues: [],
         }),
         envSnapshotForRestore: fallbackEnvSnapshotForRestore,
         includeFileHashesForWrite,
@@ -2178,10 +2129,10 @@ export function createConfigIO(
     });
   }
 
-  async function recoverConfigFromJsonRootSuffixLocal(
+  async function recoverConfigFrotsonRootSuffixLocal(
     snapshot: ConfigFileSnapshot,
   ): Promise<boolean> {
-    return await recoverConfigFromJsonRootSuffixWithDeps({
+    return await recoverConfigFrotsonRootSuffixWithDeps({
       deps,
       configPath,
       snapshot,
@@ -2355,8 +2306,7 @@ export function createConfigIO(
       : validationSourceCandidate;
     const validated = validateConfigObjectRawWithPlugins(validationCandidate, {
       env: deps.env,
-      pluginValidation: options.skipPluginValidation ? "skip" : "full",
-      preservedLegacyRootKeys: options.preservedLegacyRootKeys,
+      pluginValidation: "full",
     });
     if (!validated.ok) {
       const issue = validated.issues[0];
@@ -2382,8 +2332,6 @@ export function createConfigIO(
     // validated.config, because plugin/channel AJV validation may inject schema
     // defaults (e.g., enrichGroupParticipantsFromContacts) that should not be
     // persisted to disk (issue #56772).
-    // Apply legacy web-search normalization so that migration results are still
-    // persisted even though we bypass validated.config.
     let cfgToWrite = persistCandidate as OpenClawConfig;
     try {
       if (deps.fs.existsSync(configPath)) {
@@ -2667,7 +2615,7 @@ export function createConfigIO(
     readConfigFileSnapshotForWrite: readConfigFileSnapshotForWriteLocal,
     promoteConfigSnapshotToLastKnownGood: promoteConfigSnapshotToLastKnownGoodLocal,
     recoverConfigFromLastKnownGood: recoverConfigFromLastKnownGoodLocal,
-    recoverConfigFromJsonRootSuffix: recoverConfigFromJsonRootSuffixLocal,
+    recoverConfigFrotsonRootSuffix: recoverConfigFrotsonRootSuffixLocal,
     writeConfigFile: writeConfigFileLocal,
   };
 }
@@ -2747,9 +2695,6 @@ export async function readConfigFileSnapshot(
     ...(options.lowerPrecedenceEnv ? { lowerPrecedenceEnv: options.lowerPrecedenceEnv } : {}),
     ...(options.skipPluginValidation ? { pluginValidation: "skip" } : {}),
     ...(options.suppressFutureVersionWarning ? { suppressFutureVersionWarning: true } : {}),
-    ...(options.preservedLegacyRootKeys
-      ? { preservedLegacyRootKeys: options.preservedLegacyRootKeys }
-      : {}),
   }).readConfigFileSnapshot({
     recoverSuspicious: options.recoverSuspicious === true,
     allowSuspiciousRecovery: options.allowSuspiciousRecovery,
@@ -2791,10 +2736,10 @@ export async function recoverConfigFromLastKnownGood(params: {
   return await createConfigIO().recoverConfigFromLastKnownGood(params);
 }
 
-export async function recoverConfigFromJsonRootSuffix(
+export async function recoverConfigFrotsonRootSuffix(
   snapshot: ConfigFileSnapshot,
 ): Promise<boolean> {
-  return await createConfigIO().recoverConfigFromJsonRootSuffix(snapshot);
+  return await createConfigIO().recoverConfigFrotsonRootSuffix(snapshot);
 }
 
 export async function readSourceConfigSnapshot(): Promise<ConfigFileSnapshot> {
@@ -2831,9 +2776,6 @@ export async function writeConfigFile(
   const io = createConfigIO({
     ...(options.ownedConfigPathForWrite ? { configPath: options.ownedConfigPathForWrite } : {}),
     ...(options.skipPluginValidation ? { pluginValidation: "skip" as const } : {}),
-    ...(options.preservedLegacyRootKeys
-      ? { preservedLegacyRootKeys: options.preservedLegacyRootKeys }
-      : {}),
   });
   assertConfigWriteAllowedInCurrentMode({ configPath: io.configPath });
   let nextCfg = cfg;
@@ -2873,7 +2815,6 @@ export async function writeConfigFile(
     skipRuntimeSnapshotRefresh: options.skipRuntimeSnapshotRefresh,
     skipOutputLogs: options.skipOutputLogs,
     skipPluginValidation: options.skipPluginValidation,
-    preservedLegacyRootKeys: options.preservedLegacyRootKeys,
     lastTouchedVersionOverride: options.lastTouchedVersionOverride,
     preCommitRuntimePreflight: async (sourceConfig) => {
       runtimePreflightResult = await preflightRuntimeSnapshotWrite({
@@ -2900,7 +2841,7 @@ export async function writeConfigFile(
   // path next picks up an external edit. Without this, the in-process write
   // path emits `nextCfg` (the pre-write source merge) while the file-watcher
   // path emits a sourceConfig that has additionally been shaped by include/
-  // env resolution, legacy migration, and the shipped-plugin-install strip.
+  // env resolution, and the shipped-plugin-install strip.
   // The two diverge on schema-derived defaults that the read pipeline adds
   // but `nextCfg` never sees, so the gateway reload pump's
   // currentCompareConfig drifts permanently from on-disk state and diffs out

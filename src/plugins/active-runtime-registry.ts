@@ -1,14 +1,14 @@
 // Stores active runtime plugin registry state and activation metadata.
 import { normalizeSortedUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveCompatibleRuntimePluginRegistry, type PluginLoadOptions } from "./loader.js";
-import type { PluginRegistry } from "./registry-types.js";
+import { resolveCompatibleRuntimePluginRegistry, type PluginLoadOptions } from "./loader.ts";
+import type { PluginRegistry } from "./registry-types.ts";
 import {
   collectLivePluginRegistries,
   getActivePluginChannelRegistry,
   getActivePluginHttpRouteRegistry,
   getActivePluginRegistry,
   getActivePluginRegistryWorkspaceDir,
-} from "./runtime.js";
+} from "./runtime.ts";
 
 export type ActiveRuntimePluginRegistrySurface = "active" | "channel" | "http-route";
 

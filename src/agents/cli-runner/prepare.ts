@@ -3,95 +3,95 @@
  * MCP, auth epoch, and reusable session metadata.
  */
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { getRuntimeConfig } from "../../config/config.js";
+import { getRuntimeConfig } from "../../config/config.ts";
 import {
   assertContextEngineHostSupport,
   buildGenericCliContextEngineHostSupport,
-} from "../../context-engine/host-compat.js";
-import { ensureContextEnginesInitialized } from "../../context-engine/init.js";
-import { resolveContextEngine } from "../../context-engine/registry.js";
-import { ensureMcpLoopbackServer } from "../../gateway/mcp-http.js";
+} from "../../context-engine/host-compat.ts";
+import { ensureContextEnginesInitialized } from "../../context-engine/init.ts";
+import { resolveContextEngine } from "../../context-engine/registry.ts";
+import { ensureMcpLoopbackServer } from "../../gateway/mcp-http.ts";
 import {
   createMcpLoopbackServerConfig,
   getActiveMcpLoopbackRuntime,
   resolveMcpLoopbackBearerToken,
-} from "../../gateway/mcp-http.loopback-runtime.js";
-import { resolveMcpLoopbackScopedTools } from "../../gateway/mcp-http.runtime.js";
-import { isClaudeCliProvider } from "../../plugin-sdk/anthropic-cli.js";
+} from "../../gateway/mcp-http.loopback-runtime.ts";
+import { resolveMcpLoopbackScopedTools } from "../../gateway/mcp-http.runtime.ts";
+import { isClaudeCliProvider } from "../../plugin-sdk/anthropic-cli.ts";
 import type {
   CliBackendAuthEpochMode,
   CliBackendPreparedExecution,
-} from "../../plugins/cli-backend.types.js";
-import { buildAgentHookContextChannelFields } from "../../plugins/hook-agent-context.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import { isSubagentSessionKey } from "../../routing/session-key.js";
-import { annotateInterSessionPromptText } from "../../sessions/input-provenance.js";
-import { resolveSkillsPromptForRun } from "../../skills/loading/workspace.js";
-import { resolveEmbeddedRunSkillEntries } from "../../skills/runtime/embedded-run-entries.js";
-import { resolveUserPath } from "../../utils.js";
-import { normalizeMessageChannel } from "../../utils/message-channel.js";
-import { resolveAgentDir, resolveSessionAgentIds } from "../agent-scope.js";
-import { externalCliDiscoveryForProviderAuth } from "../auth-profiles/external-cli-discovery.js";
-import { resolveApiKeyForProfile } from "../auth-profiles/oauth.js";
-import { resolveAuthProfileOrder } from "../auth-profiles/order.js";
-import { loadAuthProfileStoreForRuntime } from "../auth-profiles/store.js";
-import type { AuthProfileCredential, AuthProfileStore } from "../auth-profiles/types.js";
+} from "../../plugins/cli-backend.types.ts";
+import { buildAgentHookContextChannelFields } from "../../plugins/hook-agent-context.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import { isSubagentSessionKey } from "../../routing/session-key.ts";
+import { annotateInterSessionPromptText } from "../../sessions/input-provenance.ts";
+import { resolveSkillsPromptForRun } from "../../skills/loading/workspace.ts";
+import { resolveEmbeddedRunSkillEntries } from "../../skills/runtime/embedded-run-entries.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { normalizeMessageChannel } from "../../utils/message-channel.ts";
+import { resolveAgentDir, resolveSessionAgentIds } from "../agent-scope.ts";
+import { externalCliDiscoveryForProviderAuth } from "../auth-profiles/external-cli-discovery.ts";
+import { resolveApiKeyForProfile } from "../auth-profiles/oauth.ts";
+import { resolveAuthProfileOrder } from "../auth-profiles/order.ts";
+import { loadAuthProfileStoreForRuntime } from "../auth-profiles/store.ts";
+import type { AuthProfileCredential, AuthProfileStore } from "../auth-profiles/types.ts";
 import {
   buildBootstrapInjectionStats,
   buildBootstrapPromptWarning,
   buildBootstrapTruncationReportMeta,
   analyzeBootstrapBudget,
-} from "../bootstrap-budget.js";
+} from "../bootstrap-budget.ts";
 import {
   makeBootstrapWarn as makeBootstrapWarnImpl,
   resolveBootstrapContextForRun as resolveBootstrapContextForRunImpl,
-} from "../bootstrap-files.js";
-import { CLI_AUTH_EPOCH_VERSION, resolveCliAuthEpoch } from "../cli-auth-epoch.js";
-import { resolveCliBackendConfig } from "../cli-backends.js";
-import { hashCliSessionText, resolveCliSessionReuse } from "../cli-session.js";
+} from "../bootstrap-files.ts";
+import { CLI_AUTH_EPOCH_VERSION, resolveCliAuthEpoch } from "../cli-auth-epoch.ts";
+import { resolveCliBackendConfig } from "../cli-backends.ts";
+import { hashCliSessionText, resolveCliSessionReuse } from "../cli-session.ts";
 import {
   claudeCliSessionTranscriptHasContent,
   claudeCliSessionTranscriptHasOrphanedToolUse,
-} from "../command/attempt-execution.helpers.js";
-import { resolveContextWindowInfo } from "../context-window-guard.js";
-import { resolveContextTokensForModel } from "../context.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../defaults.js";
+} from "../command/attempt-execution.helpers.ts";
+import { resolveContextWindowInfo } from "../context-window-guard.ts";
+import { resolveContextTokensForModel } from "../context.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../defaults.ts";
 import {
   resolveBootstrapMaxChars,
   resolveBootstrapPromptTruncationWarningMode,
   resolveBootstrapTotalMaxChars,
-} from "../embedded-agent-helpers.js";
-import { resolvePromptBuildHookResult } from "../embedded-agent-runner/run/attempt.prompt-helpers.js";
+} from "../embedded-agent-helpers.ts";
+import { resolvePromptBuildHookResult } from "../embedded-agent-runner/run/attempt.prompt-helpers.ts";
 import {
   prependSystemPromptAddition,
   resolveAttemptMediaTaskSystemPromptAddition,
-} from "../embedded-agent-runner/run/attempt.prompt-helpers.js";
-import { composeSystemPromptWithHookContext } from "../embedded-agent-runner/run/attempt.thread-helpers.js";
-import { buildCurrentInboundPrompt } from "../embedded-agent-runner/run/runtime-context-prompt.js";
+} from "../embedded-agent-runner/run/attempt.prompt-helpers.ts";
+import { composeSystemPromptWithHookContext } from "../embedded-agent-runner/run/attempt.thread-helpers.ts";
+import { buildCurrentInboundPrompt } from "../embedded-agent-runner/run/runtime-context-prompt.ts";
 import {
   mapSandboxSkillEntriesForPrompt,
   resolveSandboxSkillRuntimeInputs,
-} from "../embedded-agent-runner/sandbox-skills.js";
-import { resolveHeartbeatPromptForSystemPrompt } from "../heartbeat-system-prompt.js";
-import { applyPluginTextReplacements } from "../plugin-text-transforms.js";
-import { collectRuntimeChannelCapabilities } from "../runtime-capabilities.js";
-import { ensureSandboxWorkspaceForSession } from "../sandbox.js";
-import { ensureSystemPromptCacheBoundary } from "../system-prompt-cache-boundary.js";
-import { buildSystemPromptReport } from "../system-prompt-report.js";
-import { appendModelIdentitySystemPrompt, buildModelIdentityPromptLine } from "../system-prompt.js";
-import { redactRunIdentifier, resolveRunWorkspaceDir } from "../workspace-run.js";
-import { prepareCliBundleMcpConfig } from "./bundle-mcp.js";
-import { prepareClaudeCliSkillsPlugin } from "./claude-skills-plugin.js";
-import { buildCliAgentSystemPrompt, normalizeCliModel } from "./helpers.js";
-import { cliBackendLog } from "./log.js";
+} from "../embedded-agent-runner/sandbox-skills.ts";
+import { resolveHeartbeatPromptForSystemPrompt } from "../heartbeat-system-prompt.ts";
+import { applyPluginTextReplacements } from "../plugin-text-transforms.ts";
+import { collectRuntimeChannelCapabilities } from "../runtime-capabilities.ts";
+import { ensureSandboxWorkspaceForSession } from "../sandbox.ts";
+import { ensureSystemPromptCacheBoundary } from "../system-prompt-cache-boundary.ts";
+import { buildSystemPromptReport } from "../system-prompt-report.ts";
+import { appendModelIdentitySystemPrompt, buildModelIdentityPromptLine } from "../system-prompt.ts";
+import { redactRunIdentifier, resolveRunWorkspaceDir } from "../workspace-run.ts";
+import { prepareCliBundleMcpConfig } from "./bundle-mcp.ts";
+import { prepareClaudeCliSkillsPlugin } from "./claude-skills-plugin.ts";
+import { buildCliAgentSystemPrompt, normalizeCliModel } from "./helpers.ts";
+import { cliBackendLog } from "./log.ts";
 import {
   buildCliSessionHistoryPrompt,
   hasCliSessionTranscript,
   loadCliSessionHistoryMessages,
   loadCliSessionReseedMessages,
   resolveAutoCliSessionReseedHistoryChars,
-} from "./session-history.js";
-import type { CliReusableSession, PreparedCliRunContext, RunCliAgentParams } from "./types.js";
+} from "./session-history.ts";
+import type { CliReusableSession, PreparedCliRunContext, RunCliAgentParams } from "./types.ts";
 
 const prepareDeps = {
   makeBootstrapWarn: makeBootstrapWarnImpl,
@@ -904,22 +904,6 @@ export async function prepareCliRunContext(
       agentId: params.agentId,
     });
     const contextEngineAgentDir = resolveAgentDir(contextEngineConfig, contextEngineSessionAgentId);
-    const resolvedContextEngine = await resolveContextEngine(contextEngineConfig, {
-      agentDir: contextEngineAgentDir,
-      workspaceDir,
-    });
-    const contextEngine =
-      resolvedContextEngine.info.id !== "legacy" ? resolvedContextEngine : undefined;
-    if (contextEngine) {
-      assertContextEngineHostSupport({
-        contextEngine,
-        operation: "agent-run",
-        host: buildGenericCliContextEngineHostSupport({
-          backendId: backendResolved.id,
-          capabilities: backendResolved.contextEngineHostCapabilities,
-        }),
-      });
-    }
     const hadSessionFile = await hasCliSessionTranscript({
       sessionId: params.sessionId,
       sessionFile: params.sessionFile,
@@ -946,7 +930,6 @@ export async function prepareCliRunContext(
       reusableCliSession,
       hadSessionFile,
       contextEngineConfig,
-      contextEngine,
       contextEngineTurnPrompt,
       modelId,
       normalizedModel,

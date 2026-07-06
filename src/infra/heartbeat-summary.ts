@@ -1,15 +1,15 @@
 // Summarizes heartbeat config for CLI and UI display.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentConfig, resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { resolveAgentConfig, resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   DEFAULT_HEARTBEAT_ACK_MAX_CHARS,
   DEFAULT_HEARTBEAT_EVERY,
   resolveHeartbeatPrompt as resolveHeartbeatPromptText,
-} from "../auto-reply/heartbeat.js";
-import { parseDurationMs } from "../cli/parse-duration.js";
-import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId } from "../routing/session-key.js";
+} from "../auto-reply/heartbeat.ts";
+import { parseDurationMs } from "../cli/parse-duration.ts";
+import type { AgentDefaultsConfig } from "../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
 
 // Heartbeat summaries merge default and per-agent heartbeat config for CLI/UI
 // display without scheduling any work.

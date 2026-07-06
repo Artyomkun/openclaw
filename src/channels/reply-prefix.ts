@@ -1,12 +1,12 @@
 // Reply-prefix context helpers shared by channel reply dispatchers.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentIdentity, resolveEffectiveMessagesConfig } from "../agents/identity.js";
-import type { GetReplyOptions } from "../auto-reply/get-reply-options.types.js";
+import { resolveAgentIdentity, resolveEffectiveMessagesConfig } from "../agents/identity.ts";
+import type { GetReplyOptions } from "../auto-reply/get-reply-options.types.ts";
 import {
   extractShortModelName,
   type ResponsePrefixContext,
-} from "../auto-reply/reply/response-prefix-template.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../auto-reply/reply/response-prefix-template.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 type ModelSelectionContext = Parameters<NonNullable<GetReplyOptions["onModelSelected"]>>[0];
 

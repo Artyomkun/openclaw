@@ -1,7 +1,7 @@
 /** Session extension that prunes stale context blocks before model calls. */
-import type { ContextEvent, ExtensionAPI, ExtensionContext } from "../../sessions/index.js";
-import { pruneContextMessages } from "./pruner.js";
-import { getContextPruningRuntime } from "./runtime.js";
+import type { ContextEvent, ExtensionAPI, ExtensionContext } from "../../sessions/index.ts";
+import { pruneContextMessages } from "./pruner.ts";
+import { getContextPruningRuntime } from "./runtime.ts";
 
 // Session extension that prunes context messages before model calls according to
 // the active context-pruning runtime settings.

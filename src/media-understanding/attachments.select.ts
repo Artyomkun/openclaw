@@ -1,12 +1,12 @@
 // Attachment selection applies per-capability filters, ordering preferences,
 // and max-count policy before provider execution.
-import type { MediaUnderstandingAttachmentsConfig } from "../config/types.tools.js";
+import type { MediaUnderstandingAttachmentsConfig } from "../config/types.tools.ts";
 import {
   isAudioAttachment,
   isImageAttachment,
   isVideoAttachment,
-} from "./attachments.normalize.js";
-import type { MediaAttachment, MediaUnderstandingCapability } from "./types.js";
+} from "./attachments.normalize.ts";
+import type { MediaAttachment, MediaUnderstandingCapability } from "./types.ts";
 
 const DEFAULT_MAX_ATTACHMENTS = 1;
 

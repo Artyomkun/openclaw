@@ -3,8 +3,8 @@
  *
  * Coordinates preview updates, final flushes, clears, and deletion callbacks for channel drafts.
  */
-import { formatErrorMessage } from "../infra/errors.js";
-import { createDraftStreamLoop } from "./draft-stream-loop.js";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createDraftStreamLoop } from "./draft-stream-loop.ts";
 
 /**
  * Mutable finalization flags shared by draft stream controls and channel adapters.

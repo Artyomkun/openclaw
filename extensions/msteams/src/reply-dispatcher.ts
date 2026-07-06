@@ -181,8 +181,7 @@ export function createMSTeamsReplyDispatcher(params: {
   streamCanceledRef.current = () => streamController.wasCanceled();
 
   // Resolve block-streaming preference from new-shape config first
-  // (`streaming.mode = "block"` or `streaming.block.enabled = true`), falling
-  // back to the legacy `blockStreaming` boolean.
+  // (`streaming.mode = "block"` or `streaming.block.enabled = true`).
   const teamsStreamMode = resolveChannelPreviewStreamMode(msteamsCfg, "partial");
   const blockStreamingResolved =
     teamsStreamMode === "block" ? true : resolveChannelStreamingBlockEnabled(msteamsCfg);
@@ -560,10 +559,8 @@ export function createMSTeamsReplyDispatcher(params: {
       ...(shouldSuppressDefaultToolProgressMessages
         ? { suppressDefaultToolProgressMessages: true }
         : {}),
-      // Pass-through to the reply pipeline. `false` = "use block streaming"
-      // (the default when streaming.mode=block or streaming.block.enabled=true,
-      // or the legacy blockStreaming=true boolean). `true` = "do not use it".
-      // `undefined` = "no preference" — let the pipeline decide.
+      // Pass-through to the reply pipeline. `false` = "use block streaming". 
+      // `true` = "do not use it".`undefined` = "no preference" — let the pipeline decide.
       disableBlockStreaming: blockStreamingResolved == null ? undefined : !blockStreamingResolved,
       onModelSelected,
     },

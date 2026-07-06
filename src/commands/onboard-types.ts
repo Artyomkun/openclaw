@@ -4,19 +4,17 @@
  * These types model CLI flags plus plugin-defined dynamic auth options used by
  * interactive and non-interactive setup.
  */
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { SecretInputMode } from "../plugins/provider-auth-types.js";
-import type { GatewayDaemonRuntime } from "./daemon-runtime.js";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { SecretInputMode } from "../plugins/provider-auth-types.ts";
+import type { GatewayDaemonRuntime } from "./daemon-runtime.ts";
 
 export type OnboardMode = "local" | "remote";
 
 /**
- * Auth choices are plugin-owned contract ids plus a few legacy aliases that
+ * Auth choices are plugin-owned contract ids plus a few aliases that
  * are normalized elsewhere (for example `oauth` -> `setup-token`).
  */
-type BuiltInAuthChoice =
-  /** @deprecated Use `setup-token`. */
-  "oauth" | "setup-token" | "token" | "apiKey" | "custom-api-key" | "skip";
+type BuiltInAuthChoice = "oauth" | "token" | "apiKey" | "custom-api-key" | "skip";
 export type AuthChoice = BuiltInAuthChoice | (string & {});
 
 /** Auth choice groups are plugin-owned ids plus the core `custom` bucket. */
@@ -27,7 +25,7 @@ export type GatewayBind = "loopback" | "lan" | "auto" | "custom" | "tailnet";
 export type TailscaleMode = "off" | "serve" | "funnel";
 export type NodeManagerChoice = "npm" | "pnpm" | "bun";
 export type ChannelChoice = ChannelId;
-export type { SecretInputMode } from "../plugins/provider-auth-types.js";
+export type { SecretInputMode } from "../plugins/provider-auth-types.ts";
 
 type OnboardDynamicProviderOptions = {
   /**
@@ -80,8 +78,6 @@ export type OnboardOptions = OnboardDynamicProviderOptions & {
   installDaemon?: boolean;
   daemonRuntime?: GatewayDaemonRuntime;
   skipChannels?: boolean;
-  /** @deprecated Legacy alias for `skipChannels`. */
-  skipProviders?: boolean;
   skipSkills?: boolean;
   skipBootstrap?: boolean;
   skipSearch?: boolean;

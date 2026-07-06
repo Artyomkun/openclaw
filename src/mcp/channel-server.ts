@@ -1,11 +1,11 @@
 // Channel MCP server wires channel bridge tools into an MCP server instance.
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { VERSION } from "../version.js";
-import { OpenClawChannelBridge } from "./channel-bridge.js";
-import { ClaudePermissionRequestSchema, type ClaudeChannelMode } from "./channel-shared.js";
-import { getChannelMcpCapabilities, registerChannelMcpTools } from "./channel-tools.js";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.ts";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { VERSION } from "../version.ts";
+import { OpenClawChannelBridge } from "./channel-bridge.ts";
+import { ClaudePermissionRequestSchema, type ClaudeChannelMode } from "./channel-shared.ts";
+import { getChannelMcpCapabilities, registerChannelMcpTools } from "./channel-tools.ts";
 
 /**
  * MCP stdio server assembly for OpenClaw channel conversations.
@@ -13,7 +13,7 @@ import { getChannelMcpCapabilities, registerChannelMcpTools } from "./channel-to
  * This module wires config, the Gateway bridge, protocol notifications, and
  * registered tools into a lifecycle that callers can either embed or serve.
  */
-export { OpenClawChannelBridge } from "./channel-bridge.js";
+export { OpenClawChannelBridge } from "./channel-bridge.ts";
 
 /** Options accepted by the channel MCP server factory and stdio entry point. */
 type OpenClawMcpServeOptions = {

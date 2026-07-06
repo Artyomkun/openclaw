@@ -4,7 +4,7 @@ import type {
   TaskRegistrySummary,
   TaskRuntimeCounts,
   TaskStatusCounts,
-} from "./task-registry.types.js";
+} from "./task-registry.types.ts";
 
 // Summary helpers keep task status/runtime counters stable for UI and plugin views.
 function createEmptyTaskStatusCounts(): TaskStatusCounts {

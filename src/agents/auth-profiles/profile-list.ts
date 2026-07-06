@@ -4,8 +4,8 @@
  * ordering, repair, and profile mutation paths.
  */
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveProviderIdForAuth } from "../provider-auth-aliases.js";
-import type { AuthProfileStore } from "./types.js";
+import { resolveProviderIdForAuth } from "../provider-auth-aliases.ts";
+import type { AuthProfileStore } from "./types.ts";
 
 /** Deduplicates profile ids while preserving first-seen order. */
 export function dedupeProfileIds(profileIds: string[]): string[] {

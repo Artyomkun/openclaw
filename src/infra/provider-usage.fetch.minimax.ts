@@ -1,15 +1,15 @@
 // Fetches and normalizes MiniMax provider usage records.
 import { asDateTimestampMs } from "@openclaw/normalization-core/number-coercion";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { isRecord } from "../utils.js";
+import { isRecord } from "../utils.ts";
 import {
   buildUsageHttpErrorSnapshot,
   discardUsageResponseBody,
   fetchJson,
   parseFiniteNumber,
-} from "./provider-usage.fetch.shared.js";
-import { clampPercent, PROVIDER_LABELS } from "./provider-usage.shared.js";
-import type { ProviderUsageSnapshot, UsageWindow } from "./provider-usage.types.js";
+} from "./provider-usage.fetch.shared.ts";
+import { clampPercent, PROVIDER_LABELS } from "./provider-usage.shared.ts";
+import type { ProviderUsageSnapshot, UsageWindow } from "./provider-usage.types.ts";
 
 type MinimaxBaseResp = {
   status_code?: number;

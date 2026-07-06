@@ -1,6 +1,6 @@
 // Fetch timeout helpers wrap fetch calls with timeout and abort behavior.
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveSafeTimeoutDelayMs } from "./timer-delay.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveSafeTimeoutDelayMs } from "./timer-delay.ts";
 
 const log = createSubsystemLogger("fetch-timeout");
 const LOG_URL_MAX_CHARS = 500;

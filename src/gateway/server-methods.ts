@@ -1,19 +1,19 @@
 // Gateway method registry aggregator wires core and plugin RPC descriptors to
 // lazy-loaded handler families, role checks, scopes, and control-plane budgets.
-import { ErrorCodes, errorShape } from "../../packages/gateway-protocol/src/index.js";
+import { ErrorCodes, errorShape } from "../../packages/gateway-protocol/src/index.ts";
 import {
   gatewayStartupUnavailableDetails,
   GATEWAY_STARTUP_RETRY_AFTER_MS,
-} from "../../packages/gateway-protocol/src/startup-unavailable.js";
-import { getPluginRegistryState } from "../plugins/runtime-state.js";
-import { withPluginRuntimeGatewayRequestScope } from "../plugins/runtime/gateway-request-scope.js";
-import { formatControlPlaneActor, resolveControlPlaneActor } from "./control-plane-audit.js";
-import { consumeControlPlaneWriteBudget } from "./control-plane-rate-limit.js";
+} from "../../packages/gateway-protocol/src/startup-unavailable.ts";
+import { getPluginRegistryState } from "../plugins/runtime-state.ts";
+import { withPluginRuntimeGatewayRequestScope } from "../plugins/runtime/gateway-request-scope.ts";
+import { formatControlPlaneActor, resolveControlPlaneActor } from "./control-plane-audit.ts";
+import { consumeControlPlaneWriteBudget } from "./control-plane-rate-limit.ts";
 import {
   ADMIN_SCOPE,
   authorizeOperatorScopesForMethod,
   authorizeOperatorScopesForRequiredScope,
-} from "./method-scopes.js";
+} from "./method-scopes.ts";
 import {
   createCoreGatewayMethodDescriptors,
   createGatewayMethodDescriptorsFromHandlers,
@@ -21,15 +21,15 @@ import {
   createPluginGatewayMethodDescriptors,
   isCoreGatewayMethodClassified,
   type GatewayMethodRegistry,
-} from "./methods/registry.js";
-import { isOperatorScope } from "./operator-scopes.js";
-import { isRoleAuthorizedForMethod, parseGatewayRole } from "./role-policy.js";
+} from "./methods/registry.ts";
+import { isOperatorScope } from "./operator-scopes.ts";
+import { isRoleAuthorizedForMethod, parseGatewayRole } from "./role-policy.ts";
 import type {
   GatewayRequestHandler,
   GatewayRequestHandlerOptions,
   GatewayRequestHandlers,
   GatewayRequestOptions,
-} from "./server-methods/types.js";
+} from "./server-methods/types.ts";
 
 function lazyHandlerModule<T>(
   loadModule: () => Promise<T>,

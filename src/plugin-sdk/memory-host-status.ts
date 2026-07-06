@@ -3,4 +3,4 @@
  * `openclaw/plugin-sdk/memory-core-host-status` instead.
  */
 
-export * from "./memory-core-host-status.js";
+export * from "./memory-core-host-status.ts";

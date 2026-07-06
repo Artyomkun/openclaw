@@ -1,11 +1,11 @@
 /**
  * Repairs persisted signed-thinking replay state after provider-confirmed rejection.
  */
-import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { log } from "./logger.js";
-import { stripThinkingBlocksFromMessage } from "./thinking.js";
-import { rewriteTranscriptEntriesInSessionManager } from "./transcript-rewrite.js";
+import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { log } from "./logger.ts";
+import { stripThinkingBlocksFromMessage } from "./thinking.ts";
+import { rewriteTranscriptEntriesInSessionManager } from "./transcript-rewrite.ts";
 
 type RewritableSessionManager = Parameters<
   typeof rewriteTranscriptEntriesInSessionManager

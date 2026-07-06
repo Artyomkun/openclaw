@@ -1,16 +1,16 @@
 // Local notification command for paired nodes.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { randomIdempotencyKey } from "../../gateway/call.js";
-import { defaultRuntime } from "../../runtime.js";
-import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
+import { randomIdempotencyKey } from "../../gateway/call.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { getNodesTheme, runNodesCommand } from "./cli-utils.ts";
 import {
   callGatewayCli,
   nodesCallOpts,
   parseOptionalNodePositiveInteger,
   resolveNodeId,
-} from "./rpc.js";
-import type { NodesRpcOpts } from "./types.js";
+} from "./rpc.ts";
+import type { NodesRpcOpts } from "./types.ts";
 
 /** Register node notification command. */
 export function registerNodesNotifyCommand(nodes: Command) {

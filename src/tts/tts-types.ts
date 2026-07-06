@@ -1,13 +1,13 @@
 // TTS shared types describe speech requests, responses, and runtime config.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   ResolvedTtsPersona,
   TtsAutoMode,
   TtsConfig,
   TtsMode,
   TtsProvider,
-} from "../config/types.tts.js";
-import type { SpeechModelOverridePolicy, SpeechProviderConfig } from "./provider-types.js";
+} from "../config/types.tts.ts";
+import type { SpeechModelOverridePolicy, SpeechProviderConfig } from "./provider-types.ts";
 
 /** Resolved directive override policy after config defaults are applied. */
 export type ResolvedTtsModelOverrides = SpeechModelOverridePolicy;

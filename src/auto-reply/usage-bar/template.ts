@@ -1,9 +1,9 @@
 import { type FSWatcher, readFileSync, watch } from "node:fs";
 import { homedir } from "node:os";
 import { isAbsolute, resolve } from "node:path";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { DEFAULT_USAGE_BAR_TEMPLATE } from "./default-template.js";
-import type { UsageBarTemplate } from "./translator.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { DEFAULT_USAGE_BAR_TEMPLATE } from "./default-template.ts";
+import type { UsageBarTemplate } from "./translator.ts";
 
 export type UsageTemplateConfig = string | Record<string, unknown> | undefined;
 

@@ -3,17 +3,17 @@
  * Used by manager, external CLI overlays, and persistence paths to decide when
  * incoming runtime credentials may replace or bootstrap stored profiles.
  */
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
-import { cloneAuthProfileStore } from "./clone.js";
-import { hasUsableOAuthCredential as hasUsableStoredOAuthCredential } from "./credential-state.js";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
+import { cloneAuthProfileStore } from "./clone.ts";
+import { hasUsableOAuthCredential as hasUsableStoredOAuthCredential } from "./credential-state.ts";
 import {
   isSafeToCopyOAuthIdentity,
   normalizeAuthEmailToken,
   normalizeAuthIdentityToken,
-} from "./oauth-identity.js";
-import type { AuthProfileStore, OAuthCredential } from "./types.js";
+} from "./oauth-identity.ts";
+import type { AuthProfileStore, OAuthCredential } from "./types.ts";
 
-export { normalizeAuthEmailToken, normalizeAuthIdentityToken } from "./oauth-identity.js";
+export { normalizeAuthEmailToken, normalizeAuthIdentityToken } from "./oauth-identity.ts";
 
 /** OAuth profile imported from a runtime external CLI source. */
 export type RuntimeExternalOAuthProfile = {

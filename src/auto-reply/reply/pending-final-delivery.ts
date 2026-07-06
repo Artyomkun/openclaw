@@ -6,8 +6,8 @@ import {
   startsWithSilentToken,
   stripLeadingSilentToken,
   stripSilentToken,
-} from "../tokens.js";
-import { stripInternalMetadataForDisplay } from "./display-text-sanitize.js";
+} from "../tokens.ts";
+import { stripInternalMetadataForDisplay } from "./display-text-sanitize.ts";
 
 /** Sanitizes final pending-delivery text and removes silent control tokens. */
 export function sanitizePendingFinalDeliveryText(text: string): string {

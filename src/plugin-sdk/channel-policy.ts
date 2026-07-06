@@ -2,19 +2,19 @@
 import {
   normalizeStringEntries,
   uniqueStrings,
-} from "../../packages/normalization-core/src/string-normalization.js";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { createAllowlistProviderRestrictSendersWarningCollector } from "../channels/plugins/group-policy-warnings.js";
-import type { ChannelSecurityAdapter } from "../channels/plugins/types.adapters.js";
-import { collectProviderDangerousNameMatchingScopes } from "../config/dangerous-name-matching.js";
-import type { GroupPolicy } from "../config/types.base.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createScopedDmSecurityResolver } from "./channel-config-helpers.js";
+} from "../../packages/normalization-core/src/string-normalization.ts";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { createAllowlistProviderRestrictSendersWarningCollector } from "../channels/plugins/group-policy-warnings.ts";
+import type { ChannelSecurityAdapter } from "../channels/plugins/types.adapters.ts";
+import { collectProviderDangerousNameMatchingScopes } from "../config/dangerous-name-matching.ts";
+import type { GroupPolicy } from "../config/types.base.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createScopedDmSecurityResolver } from "./channel-config-helpers.ts";
 /** Shared policy warnings and DM/group policy helpers for channel plugins. */
 export type {
   GroupToolPolicyBySenderConfig,
   GroupToolPolicyConfig,
-} from "../config/types.tools.js";
+} from "../config/types.tools.ts";
 export {
   composeAccountWarningCollectors,
   buildOpenGroupPolicyConfigureRouteAllowlistWarning,
@@ -39,15 +39,15 @@ export {
   projectConfigAccountIdWarningCollector,
   projectConfigWarningCollector,
   projectWarningCollector,
-} from "../channels/plugins/group-policy-warnings.js";
-export { buildAccountScopedDmSecurityPolicy } from "../channels/plugins/helpers.js";
+} from "../channels/plugins/group-policy-warnings.ts";
+export { buildAccountScopedDmSecurityPolicy } from "../channels/plugins/helpers.ts";
 export {
   resolveChannelGroupPolicy,
   resolveChannelGroupRequireMention,
   resolveChannelGroupToolsPolicy,
   resolveToolsBySender,
   type ChannelGroupPolicy,
-} from "../config/group-policy.js";
+} from "../config/group-policy.ts";
 export {
   DM_GROUP_ACCESS_REASON,
   readStoreAllowFromForDmPolicy,
@@ -55,12 +55,12 @@ export {
   resolveDmGroupAccessWithLists,
   resolveEffectiveAllowFromLists,
   resolveOpenDmAllowlistAccess,
-} from "./channel-access-compat.js";
+} from "./channel-access-compat.ts";
 export {
   evaluateGroupRouteAccessForPolicy,
   evaluateSenderGroupAccessForPolicy,
   resolveSenderScopedGroupPolicy,
-} from "./group-access.js";
+} from "./group-access.ts";
 export { createAllowlistProviderRestrictSendersWarningCollector };
 
 /** Normalizes allowFrom entries into trimmed unique string identifiers. */

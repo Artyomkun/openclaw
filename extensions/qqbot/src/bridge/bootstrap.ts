@@ -20,7 +20,7 @@
  *
  * Synchronous dependencies (`secret-input`, `temp-path`) are imported
  * statically at the top level so they work reliably in both production and
- * vitest (which resolves bare specifiers via `resolve.alias`, not Node CJS).
+ * vitest (which resolves bare specifiers via `resolve.alias`, not Node ts).
  */
 
 import {

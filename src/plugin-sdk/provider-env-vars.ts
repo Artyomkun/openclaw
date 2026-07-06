@@ -5,4 +5,4 @@ export {
   listKnownProviderAuthEnvVarNames,
   omitEnvKeysCaseInsensitive,
   resolveProviderAuthEnvVarCandidates,
-} from "../secrets/provider-env-vars.js";
+} from "../secrets/provider-env-vars.ts";

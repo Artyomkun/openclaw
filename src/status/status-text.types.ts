@@ -4,10 +4,10 @@ import type {
   ReasoningLevel,
   ThinkLevel,
   VerboseLevel,
-} from "../auto-reply/thinking.js";
-import type { SessionEntry, SessionScope } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { MediaUnderstandingDecision } from "../media-understanding/types.js";
+} from "../auto-reply/thinking.ts";
+import type { SessionEntry, SessionScope } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { MediaUnderstandingDecision } from "../media-understanding/types.ts";
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
 
 // Input contract for buildStatusText. Most fields are already resolved by the

@@ -4,9 +4,9 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.js";
-import { defaultRuntime } from "../../runtime.js";
-import { shortenHomePath } from "../../utils.js";
+import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { shortenHomePath } from "../../utils.ts";
 import {
   type CameraFacing,
   cameraTempPath,
@@ -14,9 +14,9 @@ import {
   parseCameraSnapPayload,
   writeCameraPayloadToFile,
   writeCameraClipPayloadToFile,
-} from "../nodes-camera.js";
-import { parseDurationMs } from "../parse-duration.js";
-import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
+} from "../nodes-camera.ts";
+import { parseDurationMs } from "../parse-duration.ts";
+import { getNodesTheme, runNodesCommand } from "./cli-utils.ts";
 import {
   buildNodeInvokeParams,
   callGatewayCli,
@@ -26,8 +26,8 @@ import {
   parseOptionalNodePositiveInteger,
   resolveNode,
   resolveNodeId,
-} from "./rpc.js";
-import type { NodesRpcOpts } from "./types.js";
+} from "./rpc.ts";
+import type { NodesRpcOpts } from "./types.ts";
 
 const parseFacing = (value: string): CameraFacing => {
   const v = normalizeLowercaseStringOrEmpty(normalizeOptionalString(value) ?? "");

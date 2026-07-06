@@ -3,8 +3,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { VERSION } from "../version.js";
-import { assertFutureConfigActionAllowed } from "./future-config-guard.js";
+import { VERSION } from "../version.ts";
+import { assertFutureConfigActionAllowed } from "./future-config-guard.ts";
 import {
   installLaunchAgent,
   isLaunchAgentLoaded,
@@ -14,7 +14,7 @@ import {
   stageLaunchAgent,
   stopLaunchAgent,
   uninstallLaunchAgent,
-} from "./launchd.js";
+} from "./launchd.ts";
 import {
   installScheduledTask,
   isScheduledTaskInstalled,
@@ -24,8 +24,8 @@ import {
   stageScheduledTask,
   stopScheduledTask,
   uninstallScheduledTask,
-} from "./schtasks.js";
-import type { GatewayServiceRuntime } from "./service-runtime.js";
+} from "./schtasks.ts";
+import type { GatewayServiceRuntime } from "./service-runtime.ts";
 import type {
   GatewayServiceCommandConfig,
   GatewayServiceControlArgs,
@@ -38,7 +38,7 @@ import type {
   GatewayServiceStartResult,
   GatewayServiceStageArgs,
   GatewayServiceState,
-} from "./service-types.js";
+} from "./service-types.ts";
 import {
   installSystemdService,
   isSystemdServiceEnabled,
@@ -48,7 +48,7 @@ import {
   stageSystemdService,
   stopSystemdService,
   uninstallSystemdService,
-} from "./systemd.js";
+} from "./systemd.ts";
 export type {
   GatewayServiceCommandConfig,
   GatewayServiceControlArgs,
@@ -61,7 +61,7 @@ export type {
   GatewayServiceStartResult,
   GatewayServiceStageArgs,
   GatewayServiceState,
-} from "./service-types.js";
+} from "./service-types.ts";
 
 // Platform service adapter used by CLI commands across launchd, systemd, and schtasks.
 function ignoreServiceWriteResult<TArgs extends GatewayServiceInstallArgs>(

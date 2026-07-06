@@ -3,10 +3,10 @@
  * Emits bounded, sanitized logs when allow/deny policy filters remove tools or
  * block sandbox tool execution.
  */
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import type { SandboxConfig } from "./sandbox/types.js";
-import { isToolAllowedByPolicyName } from "./tool-policy-match.js";
-import { normalizeToolList, normalizeToolName, type ToolPolicyLike } from "./tool-policy.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import type { SandboxConfig } from "./sandbox/types.ts";
+import { isToolAllowedByPolicyName } from "./tool-policy-match.ts";
+import { normalizeToolList, normalizeToolName, type ToolPolicyLike } from "./tool-policy.ts";
 
 // Emits bounded audit logs when tool allow/deny policies remove or block tools.
 // Sanitizing here keeps logs single-line and safe for arbitrary tool names.

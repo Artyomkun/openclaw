@@ -4,10 +4,10 @@
  * logging for failed tool calls.
  */
 import { createHash } from "node:crypto";
-import { logDebug, logError } from "../logger.js";
-import { redactToolDetail } from "../logging/redact.js";
-import { isPlainObject } from "../utils.js";
-import type { HookContext } from "./agent-tools.before-tool-call.js";
+import { logDebug, logError } from "../logger.ts";
+import { redactToolDetail } from "../logging/redact.ts";
+import { isPlainObject } from "../utils.ts";
+import type { HookContext } from "./agent-tools.before-tool-call.ts";
 import {
   buildBlockedToolResult,
   isToolWrappedWithBeforeToolCallHook,
@@ -15,18 +15,18 @@ import {
   recordAdjustedParamsForToolCall,
   recordStructuredReplayTrustForToolCall,
   runBeforeToolCallHook,
-} from "./agent-tools.before-tool-call.js";
+} from "./agent-tools.before-tool-call.ts";
 import {
   getCodeModeExecBeforeHookMetadata,
   normalizeCodeModeExecBeforeHookParams,
   reconcileCodeModeExecBeforeHookParams,
-} from "./code-mode-control-tools.js";
-import { sanitizeForConsole } from "./console-sanitize.js";
-import type { ClientToolDefinition } from "./embedded-agent-runner/run/params.js";
-import type { AgentTool, AgentToolResult, AgentToolUpdateCallback } from "./runtime/index.js";
-import type { ToolDefinition } from "./sessions/index.js";
-import { normalizeToolName } from "./tool-policy.js";
-import { jsonResult, payloadTextResult } from "./tools/common.js";
+} from "./code-mode-control-tools.ts";
+import { sanitizeForConsole } from "./console-sanitize.ts";
+import type { ClientToolDefinition } from "./embedded-agent-runner/run/params.ts";
+import type { AgentTool, AgentToolResult, AgentToolUpdateCallback } from "./runtime/index.ts";
+import type { ToolDefinition } from "./sessions/index.ts";
+import { normalizeToolName } from "./tool-policy.ts";
+import { jsonResult, payloadTextResult } from "./tools/common.ts";
 
 type AnyAgentTool = AgentTool;
 type BeforeToolCallPreparingTool = AnyAgentTool & {
@@ -44,17 +44,10 @@ type ToolExecuteArgsCurrent = [
   AgentToolUpdateCallback | undefined,
   unknown,
 ];
-type ToolExecuteArgsLegacy = [
-  string,
-  unknown,
-  AgentToolUpdateCallback | undefined,
-  unknown,
-  AbortSignal | undefined,
-];
 type ToolExecuteArgs = ToolDefinition["execute"] extends (...args: infer P) => unknown
   ? P
   : ToolExecuteArgsCurrent;
-type ToolExecuteArgsAny = ToolExecuteArgs | ToolExecuteArgsLegacy | ToolExecuteArgsCurrent;
+type ToolExecuteArgsAny = ToolExecuteArgs | ToolExecuteArgsCurrent;
 const TOOL_ERROR_PARAM_PREVIEW_MAX_CHARS = 600;
 const TOOL_ERROR_EXEC_COMMAND_HASH_CHARS = 16;
 const SENSITIVE_EXEC_ENV_VALUE = "[omitted exec env value]";
@@ -70,15 +63,6 @@ type ClientToolCallRecorder =
 
 function isAbortSignal(value: unknown): value is AbortSignal {
   return typeof value === "object" && value !== null && "aborted" in value;
-}
-
-function isLegacyToolExecuteArgs(args: ToolExecuteArgsAny): args is ToolExecuteArgsLegacy {
-  const third = args[2];
-  const fifth = args[4];
-  if (typeof third === "function") {
-    return true;
-  }
-  return isAbortSignal(fifth);
 }
 
 function describeToolExecutionError(err: unknown): {
@@ -264,7 +248,7 @@ function splitToolExecuteArgs(args: ToolExecuteArgsAny): {
   onUpdate: AgentToolUpdateCallback | undefined;
   signal: AbortSignal | undefined;
 } {
-  if (isLegacyToolExecuteArgs(args)) {
+  if (args) {
     const [toolCallId, params, onUpdate, _ctx, signal] = args;
     return {
       toolCallId,

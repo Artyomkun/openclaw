@@ -8,29 +8,29 @@
  */
 
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { resolveEffectiveMessagesConfig } from "../../agents/identity.js";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import { getBundledChannelPlugin } from "../../channels/plugins/bundled.js";
-import { getLoadedChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
-import { normalizeChatChannelId } from "../../channels/registry.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { buildOutboundSessionContext } from "../../infra/outbound/session-context.js";
-import { hasReplyPayloadContent } from "../../interactive/payload.js";
-import { normalizeAccountId } from "../../routing/account-id.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.js";
-import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.js";
-import { getReplyPayloadMetadata, type ReplyDeliveryContext } from "../reply-payload.js";
-import type { OriginatingChannelType } from "../templating.js";
-import type { ReplyPayload } from "../types.js";
-import { normalizeReplyPayload } from "./normalize-reply.js";
-import type { ReplyDispatchKind } from "./reply-dispatcher.types.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { resolveEffectiveMessagesConfig } from "../../agents/identity.ts";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import { getBundledChannelPlugin } from "../../channels/plugins/bundled.ts";
+import { getLoadedChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.ts";
+import { normalizeChatChannelId } from "../../channels/registry.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { buildOutboundSessionContext } from "../../infra/outbound/session-context.ts";
+import { hasReplyPayloadContent } from "../../interactive/payload.ts";
+import { normalizeAccountId } from "../../routing/account-id.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.ts";
+import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.ts";
+import { getReplyPayloadMetadata, type ReplyDeliveryContext } from "../reply-payload.ts";
+import type { OriginatingChannelType } from "../templating.ts";
+import type { ReplyPayload } from "../types.ts";
+import { normalizeReplyPayload } from "./normalize-reply.ts";
+import type { ReplyDispatchKind } from "./reply-dispatcher.types.ts";
 import {
   formatBtwTextForExternalDelivery,
   shouldSuppressReasoningPayload,
-} from "./reply-payloads.js";
+} from "./reply-payloads.ts";
 
 const messageRuntimeLoader = createLazyImportLoader(
   () => import("../../channels/message/runtime.js"),

@@ -6,20 +6,20 @@ import {
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { CHANNEL_MESSAGE_ACTION_NAMES } from "../channels/plugins/message-action-names.js";
-import type { ChannelMessageActionName } from "../channels/plugins/types.public.js";
-import { resolveCommandConfigWithSecrets } from "../cli/command-config-resolution.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { getScopedChannelsCommandSecretTargets } from "../cli/command-secret-targets.js";
-import { resolveMessageSecretScope } from "../cli/message-secret-scope.js";
-import { createOutboundSendDeps, type CliDeps } from "../cli/outbound-send-deps.js";
-import { withProgress } from "../cli/progress.js";
-import { getRuntimeConfig } from "../config/config.js";
-import type { OutboundSendDeps } from "../infra/outbound/deliver.js";
-import { runMessageAction } from "../infra/outbound/message-action-runner.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { CHANNEL_MESSAGE_ACTION_NAMES } from "../channels/plugins/message-action-names.ts";
+import type { ChannelMessageActionName } from "../channels/plugins/types.public.ts";
+import { resolveCommandConfigWithSecrets } from "../cli/command-config-resolution.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { getScopedChannelsCommandSecretTargets } from "../cli/command-secret-targets.ts";
+import { resolveMessageSecretScope } from "../cli/message-secret-scope.ts";
+import { createOutboundSendDeps, type CliDeps } from "../cli/outbound-send-deps.ts";
+import { withProgress } from "../cli/progress.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OutboundSendDeps } from "../infra/outbound/deliver.ts";
+import { runMessageAction } from "../infra/outbound/message-action-runner.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
 
 function extractMessageId(payload: unknown): string | undefined {
   if (!payload || typeof payload !== "object") {

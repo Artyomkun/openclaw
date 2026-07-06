@@ -1,31 +1,31 @@
 // Release-era repair for configs that imply official plugin installs before install records existed.
 import { normalizeNullableString as normalizeId } from "@openclaw/normalization-core/string-coerce";
-import { collectConfiguredAgentHarnessRuntimes } from "../../../agents/harness-runtimes.js";
-import { listPotentialConfiguredChannelPresenceSignals } from "../../../channels/config-presence.js";
-import { normalizeChatChannelId } from "../../../channels/registry.js";
-import { isChannelConfigured } from "../../../config/channel-configured.js";
-import { detectPluginAutoEnableCandidates } from "../../../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { compareOpenClawVersions } from "../../../config/version.js";
+import { collectConfiguredAgentHarnessRuntimes } from "../../../agents/harness-runtimes.ts";
+import { listPotentialConfiguredChannelPresenceSignals } from "../../../channels/config-presence.ts";
+import { normalizeChatChannelId } from "../../../channels/registry.ts";
+import { isChannelConfigured } from "../../../config/channel-configured.ts";
+import { detectPluginAutoEnableCandidates } from "../../../config/plugin-auto-enable.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { compareOpenClawVersions } from "../../../config/version.ts";
 import {
   createDeferredConfiguredPluginRepairDoctorResult,
   type UpdatePostInstallDoctorResult,
-} from "../../../infra/update-doctor-result.js";
-import { collectConfiguredSpeechProviderIds } from "../../../plugins/gateway-startup-speech-providers.js";
+} from "../../../infra/update-doctor-result.ts";
+import { collectConfiguredSpeechProviderIds } from "../../../plugins/gateway-startup-speech-providers.ts";
 import {
   getOfficialExternalPluginCatalogEntry,
   resolveOfficialExternalProviderContractPluginIds,
   resolveOfficialExternalWebProviderContractPluginIdsForEnv,
-} from "../../../plugins/official-external-plugin-catalog.js";
+} from "../../../plugins/official-external-plugin-catalog.ts";
 import {
   resolveWebSearchInstallCatalogEntriesForEnv,
   resolveWebSearchInstallCatalogEntry,
-} from "../../../plugins/web-search-install-catalog.js";
-import { VERSION } from "../../../version.js";
-import { collectConfiguredProviderPluginIds } from "./configured-provider-plugin-installs.js";
-import { repairMissingPluginInstallsForIds } from "./missing-configured-plugin-install.js";
-import { asObjectRecord } from "./object.js";
-import { shouldDeferConfiguredPluginInstallRepair } from "./update-phase.js";
+} from "../../../plugins/web-search-install-catalog.ts";
+import { VERSION } from "../../../version.ts";
+import { collectConfiguredProviderPluginIds } from "./configured-provider-plugin-installs.ts";
+import { repairMissingPluginInstallsForIds } from "./missing-configured-plugin-install.ts";
+import { asObjectRecord } from "./object.ts";
+import { shouldDeferConfiguredPluginInstallRepair } from "./update-phase.ts";
 
 export const CONFIGURED_PLUGIN_INSTALL_RELEASE_VERSION = "2026.5.2-beta.1";
 

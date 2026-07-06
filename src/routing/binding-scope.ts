@@ -1,8 +1,8 @@
 // Binding scope helpers normalize route binding scope values.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatChannelId } from "../channels/ids.js";
-import type { AgentRouteBinding } from "../config/types.agents.js";
-import { normalizeAccountId, normalizeAgentId } from "./session-key.js";
+import { normalizeChatChannelId } from "../channels/ids.ts";
+import type { AgentRouteBinding } from "../config/types.agents.ts";
+import { normalizeAccountId, normalizeAgentId } from "./session-key.ts";
 
 // Route binding scopes constrain a configured agent/account binding to a guild,
 // team, group space, and optionally channel/platform role ids.

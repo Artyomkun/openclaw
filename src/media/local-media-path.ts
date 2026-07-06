@@ -1,7 +1,7 @@
 import path from "node:path";
 import { isPassThroughRemoteMediaSource } from "@openclaw/media-core/media-source-url";
-import { safeFileURLToPath } from "../infra/local-file-access.js";
-import { resolveUserPath } from "../utils.js";
+import { safeFileURLToPath } from "../infra/local-file-access.ts";
+import { resolveUserPath } from "../utils.ts";
 
 const DATA_URL_RE = /^data:/i;
 const WINDOWS_DRIVE_RE = /^[A-Za-z]:[\\/]/;

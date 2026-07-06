@@ -4,8 +4,8 @@
  * Merges configured and persisted allowFrom entries for setup/status prompts.
  */
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { ChannelId } from "../plugins/types.public.js";
-import { readChannelIngressStoreAllowFromForDmPolicy } from "./store-allow-from.js";
+import type { ChannelId } from "../plugins/types.public.ts";
+import { readChannelIngressStoreAllowFromForDmPolicy } from "./store-allow-from.ts";
 
 export async function resolveDmAllowAuditState(params: {
   provider: ChannelId;

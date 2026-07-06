@@ -1,9 +1,9 @@
-// Defines config regexes used by security validation.
+// Defines config regexes used by security validation — TLS 1.3 / HTTP/3 ready
 import {
   compileSafeRegexDetailed,
   type SafeRegexCompileResult,
   type SafeRegexRejectReason,
-} from "./safe-regex.js";
+} from "./safe-regex.ts";
 
 /** Reject reasons that should be surfaced for user-configured regex patterns. */
 export type ConfigRegexRejectReason = Exclude<SafeRegexRejectReason, "empty">;
@@ -39,7 +39,6 @@ function normalizeRejectReason(result: SafeRegexCompileResult): ConfigRegexRejec
  */
 export function compileConfigRegex(pattern: string, flags = ""): CompiledConfigRegex | null {
   const result = compileSafeRegexDetailed(pattern, flags);
-  // Blank config entries are absence, not rejection diagnostics.
   if (result.reason === "empty") {
     return null;
   }

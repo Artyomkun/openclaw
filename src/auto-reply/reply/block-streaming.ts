@@ -1,12 +1,12 @@
 // Owns block-streaming policy and buffered delivery state for reply runs.
-import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
-import { resolveChannelStreamingBlockCoalesce } from "../../channels/streaming.js";
-import type { BlockStreamingCoalesceConfig } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveAccountEntry } from "../../routing/account-lookup.js";
-import { normalizeAccountId } from "../../routing/session-key.js";
-import { normalizeMessageChannel } from "../../utils/message-channel.js";
-import { resolveChunkMode, resolveTextChunkLimit, type TextChunkProvider } from "../chunk.js";
+import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.ts";
+import { resolveChannelStreamingBlockCoalesce } from "../../channels/streaming.ts";
+import type { BlockStreamingCoalesceConfig } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveAccountEntry } from "../../routing/account-lookup.ts";
+import { normalizeAccountId } from "../../routing/session-key.ts";
+import { normalizeMessageChannel } from "../../utils/message-channel.ts";
+import { resolveChunkMode, resolveTextChunkLimit, type TextChunkProvider } from "../chunk.ts";
 
 const DEFAULT_BLOCK_STREAM_MIN = 800;
 const DEFAULT_BLOCK_STREAM_MAX = 1200;

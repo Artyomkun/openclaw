@@ -6,33 +6,33 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveContextTokensForModel } from "../agents/context.js";
-import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { resolveExtraParams } from "../agents/embedded-agent-runner/extra-params.js";
-import { resolveFastModeState } from "../agents/fast-mode.js";
-import { resolveModelAuthMode } from "../agents/model-auth.js";
+import { resolveContextTokensForModel } from "../agents/context.ts";
+import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { resolveExtraParams } from "../agents/embedded-agent-runner/extra-params.ts";
+import { resolveFastModeState } from "../agents/fast-mode.ts";
+import { resolveModelAuthMode } from "../agents/model-auth.ts";
 import {
   areRuntimeModelRefsEquivalent,
   shouldPreferActiveRuntimeAliasAuthLabel,
-} from "../agents/model-runtime-aliases.js";
+} from "../agents/model-runtime-aliases.ts";
 import {
   buildModelAliasIndex,
   resolveConfiguredModelRef,
   resolveModelRefFromString,
-} from "../agents/model-selection.js";
-import { resolveOpenAITextVerbosity } from "../agents/openai-text-verbosity.js";
-import { resolveSandboxRuntimeStatus } from "../agents/sandbox.js";
+} from "../agents/model-selection.ts";
+import { resolveOpenAITextVerbosity } from "../agents/openai-text-verbosity.ts";
+import { resolveSandboxRuntimeStatus } from "../agents/sandbox.ts";
 import {
   formatProviderModelRef,
   resolveSelectedAndActiveModel,
-} from "../auto-reply/model-runtime.js";
+} from "../auto-reply/model-runtime.ts";
 import type {
   ElevatedLevel,
   ReasoningLevel,
   ThinkLevel,
   VerboseLevel,
-} from "../auto-reply/thinking.js";
-import { resolveChannelModelOverride } from "../channels/model-overrides.js";
+} from "../auto-reply/thinking.ts";
+import { resolveChannelModelOverride } from "../channels/model-overrides.ts";
 import {
   resolveMainSessionKey,
   resolveFreshSessionTotalTokens,
@@ -42,31 +42,31 @@ import {
   resolveSessionPluginTraceLines,
   type SessionEntry,
   type SessionScope,
-} from "../config/sessions.js";
-import { resolveSessionLifecycleTimestamps } from "../config/sessions/lifecycle.js";
-import { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { readRecentSessionUsageFromTranscript } from "../gateway/session-transcript-readers.js";
+} from "../config/sessions.ts";
+import { resolveSessionLifecycleTimestamps } from "../config/sessions/lifecycle.ts";
+import { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { readRecentSessionUsageFromTranscript } from "../gateway/session-transcript-readers.ts";
 import { formatDurationCompact } from "../infra/format-time/format-duration.ts";
 import { formatTimeAgo } from "../infra/format-time/format-relative.ts";
-import { resolveCommitHash } from "../infra/git-commit.js";
+import { resolveCommitHash } from "../infra/git-commit.ts";
 import {
   findDecisionReason,
   summarizeDecisionReason,
-} from "../media-understanding/runner.entries.js";
-import type { MediaUnderstandingDecision } from "../media-understanding/types.js";
-import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
-import { formatFastModeStatusValue } from "../shared/fast-mode.js";
-import { resolveStatusTtsSnapshot } from "../tts/status-config.js";
+} from "../media-understanding/runner.entries.ts";
+import type { MediaUnderstandingDecision } from "../media-understanding/types.ts";
+import { resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
+import { formatFastModeStatusValue } from "../shared/fast-mode.ts";
+import { resolveStatusTtsSnapshot } from "../tts/status-config.ts";
 import {
   estimateUsageCost,
   formatTokenCount,
   formatUsd,
   resolveModelCostConfig,
-} from "../utils/usage-format.js";
-import { VERSION } from "../version.js";
-import { resolveAgentRuntimeLabel } from "./agent-runtime-label.js";
-import { resolveActiveFallbackState } from "./fallback-notice-state.js";
+} from "../utils/usage-format.ts";
+import { VERSION } from "../version.ts";
+import { resolveAgentRuntimeLabel } from "./agent-runtime-label.ts";
+import { resolveActiveFallbackState } from "./fallback-notice-state.ts";
 
 type AgentDefaults = NonNullable<NonNullable<OpenClawConfig["agents"]>["defaults"]>;
 type AgentConfig = Partial<AgentDefaults> & {
@@ -630,11 +630,6 @@ export function buildStatusMessage(args: StatusArgs): string {
     const runtimeMatchesSelectedModel =
       normalizeLowercaseStringOrEmpty(runtimeModelRaw) ===
       normalizeLowercaseStringOrEmpty(modelRefs.selected.label || "unknown");
-    // Legacy fallback sessions can persist provider-qualified runtime ids
-    // without a separate modelProvider field. Preserve provider-aware lookup
-    // when the stored slash id is the selected model or the active fallback
-    // target; otherwise keep the raw model-only lookup for OpenRouter-style
-    // slash ids.
     if (
       (fallbackMatchesRuntimeModel || runtimeMatchesSelectedModel) &&
       embeddedProvider === normalizeLowercaseStringOrEmpty(activeProvider)
@@ -652,8 +647,6 @@ export function buildStatusMessage(args: StatusArgs): string {
   let cacheRead = entry?.cacheRead;
   let cacheWrite = entry?.cacheWrite;
   const freshTotalTokens = resolveFreshSessionTotalTokens(entry);
-  // Undefined freshness is legacy, not stale: keep persisted totals for /status,
-  // but let a fresh transcript prompt snapshot replace them when available.
   const allowTranscriptContextUsage = entry?.totalTokensFresh !== false;
   let totalTokens = freshTotalTokens;
 

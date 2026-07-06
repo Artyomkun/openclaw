@@ -4,20 +4,20 @@ import {
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import { getChannelPlugin } from "../channels/plugins/index.js";
-import { resolveInstallableChannelPlugin } from "../commands/channel-setup/channel-plugin-resolution.js";
-import { getRuntimeConfig, readConfigFileSnapshot, replaceConfigFile } from "../config/config.js";
-import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import { danger } from "../globals.js";
-import { resolveMessageChannelSelection } from "../infra/outbound/channel-selection.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { defaultRuntime } from "../runtime.js";
-import { formatHelpExamples } from "./help-format.js";
-import { commitConfigWithPendingPluginInstalls } from "./plugins-install-record-commit.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
+import { getChannelPlugin } from "../channels/plugins/index.ts";
+import { resolveInstallableChannelPlugin } from "../commands/channel-setup/channel-plugin-resolution.ts";
+import { getRuntimeConfig, readConfigFileSnapshot, replaceConfigFile } from "../config/config.ts";
+import { applyPluginAutoEnable } from "../config/plugin-auto-enable.ts";
+import { danger } from "../globals.ts";
+import { resolveMessageChannelSelection } from "../infra/outbound/channel-selection.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { formatHelpExamples } from "./help-format.ts";
+import { commitConfigWithPendingPluginInstalls } from "./plugins-install-record-commit.ts";
 
 function parseLimit(value: unknown): number | null {
   if (value === undefined || value === null || value === "") {

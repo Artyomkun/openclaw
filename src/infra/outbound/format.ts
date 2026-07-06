@@ -1,10 +1,10 @@
 // Outbound delivery formatting produces human CLI summaries for direct and
 // gateway send results.
-import { getChatChannelMeta } from "../../channels/chat-meta.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import { normalizeChatChannelId } from "../../channels/registry.js";
-import type { OutboundDeliveryResult } from "./deliver.js";
+import { getChatChannelMeta } from "../../channels/chat-meta.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import { normalizeChatChannelId } from "../../channels/registry.ts";
+import type { OutboundDeliveryResult } from "./deliver.ts";
 
 /**
  * Machine-readable delivery result emitted by outbound send commands.
@@ -29,7 +29,7 @@ const resolveChannelLabel = (channel: string) => {
   if (pluginLabel) {
     return pluginLabel;
   }
-  // Some legacy chat channels are not plugins; keep their human labels for CLI output.
+  // Some older chat channels are not plugins; keep their human labels for CLI output.
   const normalized = normalizeChatChannelId(channel);
   if (normalized) {
     return getChatChannelMeta(normalized).label;

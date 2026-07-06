@@ -4,10 +4,10 @@
  * Harnesses use this to dispatch after-tool-call and before-message-write hooks
  * while isolating hook failures from the runtime path.
  */
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import { consumeAdjustedParamsForToolCall } from "../agent-tools.before-tool-call.js";
-import type { AgentMessage } from "../runtime/index.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import { consumeAdjustedParamsForToolCall } from "../agent-tools.before-tool-call.ts";
+import type { AgentMessage } from "../runtime/index.ts";
 
 const log = createSubsystemLogger("agents/harness");
 

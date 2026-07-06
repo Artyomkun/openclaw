@@ -1,16 +1,16 @@
 /** Shared command registry builders used by browser-safe and runtime command lists. */
-import { formatFastModeAutoLabel, resolveFastModeModelAutoOnSeconds } from "../shared/fast-mode.js";
-import { normalizeOptionalLowercaseString } from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.js";
-import { COMMAND_ARG_FORMATTERS } from "./commands-args.js";
+import { formatFastModeAutoLabel, resolveFastModeModelAutoOnSeconds } from "../shared/fast-mode.ts";
+import { normalizeOptionalLowercaseString } from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.ts";
+import { COMMAND_ARG_FORMATTERS } from "./commands-args.ts";
 import type {
   ChatCommandDefinition,
   CommandArgChoiceContext,
   CommandCategory,
   CommandScope,
   CommandTier,
-} from "./commands-registry.types.js";
-import { BASE_THINKING_LEVELS, type ThinkLevel } from "./thinking.shared.js";
+} from "./commands-registry.types.ts";
+import { BASE_THINKING_LEVELS, type ThinkLevel } from "./thinking.shared.ts";
 
 type ListThinkingLevels = (
   provider?: string | null,

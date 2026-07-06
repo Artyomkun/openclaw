@@ -1,11 +1,11 @@
 // Registers music generation provider runtimes by normalized provider id.
-import type { OpenClawConfig } from "../config/types.js";
-import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { resolvePluginCapabilityProviders } from "../plugins/capability-provider-runtime.ts";
 import {
   buildCapabilityProviderMaps,
   normalizeCapabilityProviderId,
-} from "../plugins/provider-registry-shared.js";
-import type { MusicGenerationProviderPlugin } from "../plugins/types.js";
+} from "../plugins/provider-registry-shared.ts";
+import type { MusicGenerationProviderPlugin } from "../plugins/types.ts";
 
 /**
  * Registry for music generation providers.

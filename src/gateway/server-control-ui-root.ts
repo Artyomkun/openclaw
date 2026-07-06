@@ -6,9 +6,9 @@ import {
   isPackageProvenControlUiRootSync,
   resolveControlUiRootOverrideSync,
   resolveControlUiRootSync,
-} from "../infra/control-ui-assets.js";
-import type { RuntimeEnv } from "../runtime.js";
-import type { ControlUiRootState } from "./control-ui.js";
+} from "../infra/control-ui-assets.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { ControlUiRootState } from "./control-ui.ts";
 
 function startControlUiAssetsBuild(params: {
   gatewayRuntime: RuntimeEnv;

@@ -2,12 +2,12 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { build } from "tsdown";
+import { execSync } from "node:child_process";
 import {
   buildPluginSdkEntrySources,
   pluginSdkEntrypoints,
   publicPluginSdkEntrypoints,
-} from "./lib/plugin-sdk-entries.mjs";
+} from "./lib/plugin-sdk-entries.ts";
 
 const RUNTIME_SHIMS: Partial<Record<string, string>> = {
   "webhook-path": [
@@ -89,22 +89,10 @@ const flatDeclarationEntrypoints = shouldBuildPrivateQaEntries
 const flatDeclarationEntrypointSet = new Set(flatDeclarationEntrypoints);
 
 try {
-  await build({
-    clean: true,
-    config: false,
-    deps: { neverBundle: (id) => isBareImportSpecifier(id) },
-    dts: true,
-    entry: buildPluginSdkEntrySources(flatDeclarationEntrypoints),
-    failOnWarn: false,
-    fixedExtension: false,
-    format: "esm",
-    logLevel: "error",
-    outDir: flatDeclarationTempDir,
-    outExtensions: () => ({ js: ".js", dts: ".d.ts" }),
-    platform: "node",
-    report: false,
-    tsconfig: "tsconfig.plugin-sdk.dts.json",
-  });
+  execSync(
+    `tsc -p tsconfig.plugin-sdk.dts.json --declaration --emitDeclarationOnly --outDir ${flatDeclarationTempDir}`,
+    { stdio: "inherit" }
+  );
 
   removeExistingFlatDeclarations(distPluginSdkDir);
   copyFlatDeclarations(flatDeclarationTempDir, distPluginSdkDir);

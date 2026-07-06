@@ -1,25 +1,25 @@
 /**
  * Sanitizes and validates replayed session history before model calls.
  */
-import { stripInternalMetadataForDisplay } from "../../auto-reply/reply/display-text-sanitize.js";
-import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
+import { stripInternalMetadataForDisplay } from "../../auto-reply/reply/display-text-sanitize.ts";
+import { isSilentReplyPayloadText, SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
 import {
   sanitizeProviderReplayHistoryWithPlugin,
   validateProviderReplayTurnsWithPlugin,
-} from "../../plugins/provider-runtime.js";
+} from "../../plugins/provider-runtime.ts";
 import type {
   ProviderReplaySessionEntry,
   ProviderReplaySessionState,
-} from "../../plugins/types.js";
+} from "../../plugins/types.ts";
 import {
   annotateInterSessionPromptText,
   hasInterSessionUserProvenance,
   normalizeInputProvenance,
-} from "../../sessions/input-provenance.js";
-import { isTranscriptOnlyOpenClawAssistantMessage } from "../../shared/transcript-only-openclaw-assistant.js";
-import { stripStaleAssistantUsageBeforeLatestCompaction } from "../compaction-usage.js";
+} from "../../sessions/input-provenance.ts";
+import { isTranscriptOnlyOpenClawAssistantMessage } from "../../shared/transcript-only-openclaw-assistant.ts";
+import { stripStaleAssistantUsageBeforeLatestCompaction } from "../compaction-usage.ts";
 import {
   downgradeOpenAIFunctionCallReasoningPairs,
   downgradeOpenAIReasoningBlocks,
@@ -28,42 +28,42 @@ import {
   sanitizeSessionMessagesImages,
   validateAnthropicTurns,
   validateGeminiTurns,
-} from "../embedded-agent-helpers.js";
-import { resolveImageSanitizationLimits } from "../image-sanitization.js";
-import { isReasoningOnlyLengthAssistantTurn } from "../replay-turn-classification.js";
-import type { AgentMessage } from "../runtime/index.js";
+} from "../embedded-agent-helpers.ts";
+import { resolveImageSanitizationLimits } from "../image-sanitization.ts";
+import { isReasoningOnlyLengthAssistantTurn } from "../replay-turn-classification.ts";
+import type { AgentMessage } from "../runtime/index.ts";
 import {
   sanitizeToolCallInputs,
   sanitizeToolUseResultPairing,
   stripToolResultDetails,
-} from "../session-transcript-repair.js";
-import type { SessionManager } from "../sessions/index.js";
-import { STREAM_ERROR_FALLBACK_TEXT } from "../stream-message-shared.js";
+} from "../session-transcript-repair.ts";
+import type { SessionManager } from "../sessions/index.ts";
+import { STREAM_ERROR_FALLBACK_TEXT } from "../stream-message-shared.ts";
 import {
   extractToolCallsFromAssistant,
   extractToolResultId,
   sanitizeToolCallIdsForCloudCodeAssist,
-} from "../tool-call-id.js";
-import type { TranscriptPolicy } from "../transcript-policy.js";
+} from "../tool-call-id.ts";
+import type { TranscriptPolicy } from "../transcript-policy.ts";
 import {
   providerRequiresSignedThinking,
   resolveTranscriptPolicy,
   shouldAllowProviderOwnedThinkingReplay,
-} from "../transcript-policy.js";
+} from "../transcript-policy.ts";
 import {
   makeZeroUsageSnapshot,
   normalizeUsage,
   type AssistantUsageSnapshot,
   type UsageLike,
-} from "../usage.js";
-import { isZeroUsageEmptyStopAssistantTurn } from "./empty-assistant-turn.js";
+} from "../usage.ts";
+import { isZeroUsageEmptyStopAssistantTurn } from "./empty-assistant-turn.ts";
 import {
   dropReasoningFromHistory,
   dropThinkingBlocks,
   shouldPreserveLatestAssistantThinking,
   stripInvalidThinkingSignatures,
   stripStaleThinkingSignaturesForCompactionReplay,
-} from "./thinking.js";
+} from "./thinking.ts";
 
 const MODEL_SNAPSHOT_CUSTOM_TYPE = "model-snapshot";
 type CustomEntryLike = { type?: unknown; customType?: unknown; data?: unknown };

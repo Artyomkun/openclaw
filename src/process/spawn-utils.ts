@@ -1,7 +1,7 @@
 // Spawn utilities configure child processes and normalize spawned process handles.
 import type { ChildProcess, SpawnOptions } from "node:child_process";
 import { spawn } from "node:child_process";
-import { toErrorObject } from "../infra/errors.js";
+import { toErrorObject } from "../infra/errors.ts";
 
 export type SpawnFallback = {
   label: string;

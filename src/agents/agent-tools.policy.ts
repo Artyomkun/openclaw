@@ -8,24 +8,24 @@ import {
   normalizeUniqueSingleOrTrimmedStringList,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { getLoadedChannelPlugin } from "../channels/plugins/index.js";
-import { resolveSessionConversation } from "../channels/plugins/session-conversation.js";
-import { resolveChannelGroupToolsPolicy } from "../config/group-policy.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { AgentToolsConfig } from "../config/types.tools.js";
-import { logWarn } from "../logger.js";
-import { normalizeAgentId } from "../routing/session-key.js";
+import { getLoadedChannelPlugin } from "../channels/plugins/index.ts";
+import { resolveSessionConversation } from "../channels/plugins/session-conversation.ts";
+import { resolveChannelGroupToolsPolicy } from "../config/group-policy.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { AgentToolsConfig } from "../config/types.tools.ts";
+import { logWarn } from "../logger.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
 import {
   parseRawSessionConversationRef,
   parseThreadSessionSuffix,
-} from "../sessions/session-key-utils.js";
-import { normalizeMessageChannel } from "../utils/message-channel.js";
-import { resolveAgentConfig, resolveAgentIdFromSessionKey } from "./agent-scope.js";
-import type { AnyAgentTool } from "./agent-tools.types.js";
-import { resolveProviderToolPolicy } from "./provider-tool-policy.js";
-import { pickSandboxToolPolicy } from "./sandbox-tool-policy.js";
-import type { SandboxToolPolicy } from "./sandbox.js";
-import { resolveSandboxToolPolicyForAgent } from "./sandbox/tool-policy.js";
+} from "../sessions/session-key-utils.ts";
+import { normalizeMessageChannel } from "../utils/message-channel.ts";
+import { resolveAgentConfig, resolveAgentIdFromSessionKey } from "./agent-scope.ts";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
+import { resolveProviderToolPolicy } from "./provider-tool-policy.ts";
+import { pickSandboxToolPolicy } from "./sandbox-tool-policy.ts";
+import type { SandboxToolPolicy } from "./sandbox.ts";
+import { resolveSandboxToolPolicyForAgent } from "./sandbox/tool-policy.ts";
 import {
   resolveSubagentCapabilityStore,
   resolveStoredSubagentInheritedToolAllowlist,
@@ -33,13 +33,13 @@ import {
   resolveStoredSubagentCapabilities,
   type SessionCapabilityStore,
   type SubagentSessionRole,
-} from "./subagent-capabilities.js";
-import { isToolAllowedByPolicyName } from "./tool-policy-match.js";
+} from "./subagent-capabilities.ts";
+import { isToolAllowedByPolicyName } from "./tool-policy-match.ts";
 import {
   mergeAlsoAllowPolicy,
   normalizeToolName,
   resolveToolProfilePolicy,
-} from "./tool-policy.js";
+} from "./tool-policy.ts";
 
 export { resolveProviderToolPolicy };
 

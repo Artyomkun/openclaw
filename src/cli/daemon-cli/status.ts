@@ -1,9 +1,9 @@
 // Gateway service status command entrypoint: gathers status, prints it, and handles probe failures.
-import { colorize, isRich, theme } from "../../../packages/terminal-core/src/theme.js";
-import { defaultRuntime } from "../../runtime.js";
-import { gatherDaemonStatus } from "./status.gather.js";
-import { printDaemonStatus } from "./status.print.js";
-import type { DaemonStatusOptions } from "./types.js";
+import { colorize, isRich, theme } from "../../../packages/terminal-core/src/theme.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { gatherDaemonStatus } from "./status.gather.ts";
+import { printDaemonStatus } from "./status.print.ts";
+import type { DaemonStatusOptions } from "./types.ts";
 
 /** Run Gateway status diagnostics and apply --require-rpc exit behavior. */
 export async function runDaemonStatus(opts: DaemonStatusOptions) {

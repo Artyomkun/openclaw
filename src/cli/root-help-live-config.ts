@@ -1,5 +1,5 @@
 // Root-help config probe for plugin-sensitive help rendering.
-import type { RootHelpRenderOptions } from "./program/root-help.js";
+import type { RootHelpRenderOptions } from "./program/root-help.ts";
 
 function hasEntries(value: object | undefined): boolean {
   return value !== undefined && Object.keys(value).length > 0;

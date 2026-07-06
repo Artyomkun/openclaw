@@ -4,8 +4,8 @@
  * Bridges extension-style ToolDefinition objects and core runtime AgentTool objects.
  */
 import type { TSchema } from "typebox";
-import type { AgentTool } from "../../runtime/index.js";
-import type { ExtensionContext, ToolDefinition } from "../extensions/types.js";
+import type { AgentTool } from "../../runtime/index.ts";
+import type { ExtensionContext, ToolDefinition } from "../extensions/types.ts";
 
 /** Wrap a ToolDefinition into an AgentTool for the core runtime. */
 export function wrapToolDefinition<

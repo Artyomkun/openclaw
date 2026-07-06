@@ -12,11 +12,10 @@ import type {
   AcpRuntimeHandle,
   AcpRuntimeStatus,
 } from "@openclaw/acp-core/runtime/types";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { withAcpRuntimeErrorBoundary } from "../runtime/errors.js";
-import type { SessionAcpMeta, SessionEntry } from "./manager.types.js";
-import { hasLegacyAcpIdentityProjection } from "./manager.utils.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { withAcpRuntimeErrorBoundary } from "../runtime/errors.ts";
+import type { SessionAcpMeta, SessionEntry } from "./manager.types.ts";
 
 /** Reconciles runtime-reported session identifiers into persisted ACP session metadata. */
 export async function reconcileManagerRuntimeSessionIdentifiers(params: {
@@ -109,7 +108,7 @@ export async function reconcileManagerRuntimeSessionIdentifiers(params: {
   }
 
   const metaChanged =
-    !identityEquals(currentIdentity, nextIdentity) || hasLegacyAcpIdentityProjection(params.meta);
+    !identityEquals(currentIdentity, nextIdentity);
   if (!metaChanged) {
     return {
       handle: nextHandle,

@@ -1,9 +1,9 @@
 // Applies fast-lane reply directives before normal delivery processing.
-import type { ReplyPayload } from "../types.js";
-import { isDirectiveOnly } from "./directive-handling.directive-only.js";
-import { handleDirectiveOnly } from "./directive-handling.impl.js";
-import { resolveCurrentDirectiveLevels } from "./directive-handling.levels.js";
-import type { ApplyInlineDirectivesFastLaneParams } from "./directive-handling.params.js";
+import type { ReplyPayload } from "../types.ts";
+import { isDirectiveOnly } from "./directive-handling.directive-only.ts";
+import { handleDirectiveOnly } from "./directive-handling.impl.ts";
+import { resolveCurrentDirectiveLevels } from "./directive-handling.levels.ts";
+import type { ApplyInlineDirectivesFastLaneParams } from "./directive-handling.params.ts";
 
 export async function applyInlineDirectivesFastLane(
   params: ApplyInlineDirectivesFastLaneParams,

@@ -172,11 +172,6 @@ export function buildDeprecatedFlatWhatsAppInboundAdmission(
   msg: DeprecatedFlatWhatsAppInboundAdmissionInput,
 ): WhatsAppInboundAdmission {
   const conversationId = msg.conversationId || msg.from;
-  if (!conversationId || !msg.accountId || !msg.chatType) {
-    throw new Error(
-      "WhatsApp legacy flat inbound messages must include deprecated top-level admission fields.",
-    );
-  }
   const accountId = msg.accountId;
   const admitted = msg.accessControlPassed !== false;
   const platformSender = msg.platform?.sender;
@@ -210,7 +205,6 @@ export function buildDeprecatedFlatWhatsAppInboundAdmission(
       ingress: {
         admission: admitted ? "dispatch" : "drop",
         decision: admitted ? "allow" : "block",
-        decisiveGateId: "legacy-flat-compat",
         reasonCode,
       },
       senderAccess: {

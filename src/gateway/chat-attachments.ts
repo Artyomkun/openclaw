@@ -4,11 +4,11 @@ import { estimateBase64DecodedBytes } from "@openclaw/media-core/base64";
 import { MAX_IMAGE_BYTES } from "@openclaw/media-core/constants";
 import { extensionForMime, mimeTypeFromFilePath } from "@openclaw/media-core/mime";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { PromptImageOrderEntry } from "../media/prompt-image-order.js";
-import { sniffMimeFromBase64 } from "../media/sniff-mime-from-base64.js";
-import { deleteMediaBuffer, saveMediaBuffer } from "../media/store.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { PromptImageOrderEntry } from "../media/prompt-image-order.ts";
+import { sniffMimeFromBase64 } from "../media/sniff-mime-from-base64.ts";
+import { deleteMediaBuffer, saveMediaBuffer } from "../media/store.ts";
 
 export type ChatAttachment = {
   type?: string;

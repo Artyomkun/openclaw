@@ -1,7 +1,6 @@
 // Imessage API module exposes the plugin public contract.
 import type {
   ChannelDoctorConfigMutation,
-  ChannelDoctorLegacyConfigRule,
 } from "openclaw/plugin-sdk/channel-contract";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 
@@ -33,16 +32,6 @@ function imessageEntryHasRetiredCatchup(entry: unknown): boolean {
       isRecord(account) && Object.hasOwn(account, "catchup") && !isEnabledCatchup(account.catchup),
   );
 }
-
-export const legacyConfigRules: ChannelDoctorLegacyConfigRule[] = [
-  {
-    path: ["channels", "imessage"],
-    message:
-      "disabled channels.imessage.catchup config is retired; iMessage now recovers via always-on inbound dedupe and a stale-backlog age fence. " +
-      'Run "openclaw doctor --fix" to remove disabled catchup blocks.',
-    match: (value) => imessageEntryHasRetiredCatchup(value),
-  },
-];
 
 export function normalizeCompatibilityConfig({
   cfg,

@@ -1,17 +1,17 @@
 // Post-selection model/auth sanity checks shown during onboarding and agent setup.
-import { ensureAuthProfileStore, listProfilesForProvider } from "../agents/auth-profiles.js";
-import type { AuthProfileCredential } from "../agents/auth-profiles/types.js";
-import { resolveAgentHarnessPolicy } from "../agents/harness/policy.js";
-import { hasUsableCustomProviderApiKey, resolveEnvApiKey } from "../agents/model-auth.js";
-import { loadModelCatalog } from "../agents/model-catalog.js";
-import { resolveDefaultModelForAgent } from "../agents/model-selection.js";
+import { ensureAuthProfileStore, listProfilesForProvider } from "../agents/auth-profiles.ts";
+import type { AuthProfileCredential } from "../agents/auth-profiles/types.ts";
+import { resolveAgentHarnessPolicy } from "../agents/harness/policy.ts";
+import { hasUsableCustomProviderApiKey, resolveEnvApiKey } from "../agents/model-auth.ts";
+import { loadModelCatalog } from "../agents/model-catalog.ts";
+import { resolveDefaultModelForAgent } from "../agents/model-selection.ts";
 import {
   listOpenAIAuthProfileProvidersForAgentRuntime,
   openAIProviderUsesCodexRuntimeByDefault,
-} from "../agents/openai-routing.js";
-import { buildProviderAuthRecoveryHint } from "../agents/provider-auth-recovery-hint.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+} from "../agents/openai-routing.ts";
+import { buildProviderAuthRecoveryHint } from "../agents/provider-auth-recovery-hint.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 
 function resolveAuthProviderCandidates(params: {
   config: OpenClawConfig;

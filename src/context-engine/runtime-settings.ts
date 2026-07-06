@@ -1,10 +1,10 @@
-import type { ContextEngineHostSupport } from "./host-compat.js";
+import type { ContextEngineHostSupport } from "./host-compat.ts";
 import type {
   ContextEngineRuntimeReasonCode,
   ContextEngineSelectionSource,
   ContextEngineRuntimeMode,
   ContextEngineRuntimeSettings,
-} from "./types.js";
+} from "./types.ts";
 
 type OptionalString = string | null | undefined;
 type OptionalReason = string | null | undefined;

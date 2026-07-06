@@ -1,6 +1,6 @@
 // Context-engine public types define the pluggable context-management lifecycle.
-import type { AgentMessage } from "../agents/runtime/index.js";
-import type { MemoryCitationsMode } from "../config/types.memory.js";
+import type { AgentMessage } from "../agents/runtime/index.ts";
+import type { MemoryCitationsMode } from "../config/types.memory.ts";
 
 // Result types
 
@@ -31,7 +31,7 @@ export type AssembleResult = {
    * Context engines that return `thread_bootstrap` ask the host to inject the
    * assembled context once for the supplied epoch, then reuse the backend
    * thread until the epoch changes. Engines that omit this field retain the
-   * legacy per-turn projection behavior.
+   * older per-turn projection behavior.
    */
   contextProjection?: ContextEngineProjection;
 };

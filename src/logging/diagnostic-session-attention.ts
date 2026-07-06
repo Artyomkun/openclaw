@@ -1,6 +1,6 @@
 // Diagnostic session attention helpers summarize active work for session diagnostics.
-import type { DiagnosticSessionActiveWorkKind } from "../infra/diagnostic-events.js";
-import type { DiagnosticSessionActivitySnapshot } from "./diagnostic-run-activity.js";
+import type { DiagnosticSessionActiveWorkKind } from "../infra/diagnostic-events.ts";
+import type { DiagnosticSessionActivitySnapshot } from "./diagnostic-run-activity.ts";
 
 export type SessionAttentionClassification =
   | {

@@ -1,14 +1,14 @@
 /**
  * Shared process-local state for active and abandoned embedded-agent runs.
  */
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
 import {
   getActiveReplyRunCount,
   listActiveReplyRunSessionKeys,
   listActiveReplyRunSessionIds,
   resolveActiveReplyRunSessionId,
-} from "../../auto-reply/reply/reply-run-registry.js";
-import { resolveGlobalSingleton } from "../../shared/global-singleton.js";
+} from "../../auto-reply/reply/reply-run-registry.ts";
+import { resolveGlobalSingleton } from "../../shared/global-singleton.ts";
 
 /**
  * Shared process state for embedded-agent runs, queues, and snapshots.

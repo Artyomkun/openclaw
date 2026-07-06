@@ -5,10 +5,10 @@
  */
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SandboxSshSettings } from "../../config/types.sandbox.js";
-import { normalizeSecretInputString } from "../../config/types.secrets.js";
-import { resolveAgentConfig } from "../agent-scope.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SandboxSshSettings } from "../../config/types.sandbox.ts";
+import { normalizeSecretInputString } from "../../config/types.secrets.ts";
+import { resolveAgentConfig } from "../agent-scope.ts";
 import {
   DEFAULT_SANDBOX_BROWSER_AUTOSTART_TIMEOUT_MS,
   DEFAULT_SANDBOX_BROWSER_CDP_PORT,
@@ -23,8 +23,8 @@ import {
   DEFAULT_SANDBOX_MAX_AGE_DAYS,
   DEFAULT_SANDBOX_WORKDIR,
   DEFAULT_SANDBOX_WORKSPACE_ROOT,
-} from "./constants.js";
-import { resolveSandboxToolPolicyForAgent } from "./tool-policy.js";
+} from "./constants.ts";
+import { resolveSandboxToolPolicyForAgent } from "./tool-policy.ts";
 import type {
   SandboxBrowserConfig,
   SandboxConfig,
@@ -32,7 +32,7 @@ import type {
   SandboxPruneConfig,
   SandboxScope,
   SandboxSshConfig,
-} from "./types.js";
+} from "./types.ts";
 
 export const DANGEROUS_SANDBOX_DOCKER_BOOLEAN_KEYS = [
   "dangerouslyAllowReservedContainerTargets",
@@ -239,37 +239,24 @@ export function resolveSandboxConfigForAgent(
   if (agentConfig?.sandbox) {
     agentSandbox = agentConfig.sandbox;
   }
-  const legacyAgentSandbox = agentSandbox as
-    | (typeof agentSandbox & { perSession?: boolean })
-    | undefined;
-  const legacyDefaultSandbox = agent as (typeof agent & { perSession?: boolean }) | undefined;
-
-  const scope = resolveSandboxScope({
-    scope: agentSandbox?.scope ?? agent?.scope,
-    perSession: legacyAgentSandbox?.perSession ?? legacyDefaultSandbox?.perSession,
-  });
 
   const toolPolicy = resolveSandboxToolPolicyForAgent(cfg, agentId);
 
   return {
     mode: agentSandbox?.mode ?? agent?.mode ?? "off",
     backend: agentSandbox?.backend?.trim() || agent?.backend?.trim() || "docker",
-    scope,
     workspaceAccess: agentSandbox?.workspaceAccess ?? agent?.workspaceAccess ?? "none",
     workspaceRoot:
       agentSandbox?.workspaceRoot ?? agent?.workspaceRoot ?? DEFAULT_SANDBOX_WORKSPACE_ROOT,
     docker: resolveSandboxDockerConfig({
-      scope,
       globalDocker: agent?.docker,
       agentDocker: agentSandbox?.docker,
     }),
     ssh: resolveSandboxSshConfig({
-      scope,
       globalSsh: agent?.ssh,
       agentSsh: agentSandbox?.ssh,
     }),
     browser: resolveSandboxBrowserConfig({
-      scope,
       globalBrowser: agent?.browser,
       agentBrowser: agentSandbox?.browser,
     }),
@@ -278,7 +265,6 @@ export function resolveSandboxConfigForAgent(
       deny: toolPolicy.deny,
     },
     prune: resolveSandboxPruneConfig({
-      scope,
       globalPrune: agent?.prune,
       agentPrune: agentSandbox?.prune,
     }),

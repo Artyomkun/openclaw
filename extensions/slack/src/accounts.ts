@@ -86,21 +86,14 @@ function asStreamingConfigObject(value: unknown): SlackStreamingConfig | undefin
     : undefined;
 }
 
-function asLegacyStreamingScalar(value: unknown): boolean | string | undefined {
-  return typeof value === "boolean" || typeof value === "string" ? value : undefined;
-}
-
 function mergeSlackStreamingConfig(
   base: unknown,
   account: unknown,
 ): SlackStreamingConfigValue | undefined {
   const accountObject = asStreamingConfigObject(account);
-  if (account !== undefined && !accountObject) {
-    return asLegacyStreamingScalar(account);
-  }
   const baseObject = asStreamingConfigObject(base);
   if (base !== undefined && !baseObject) {
-    return accountObject ?? asLegacyStreamingScalar(base);
+    return accountObject;
   }
   const baseConfig = baseObject;
   const accountConfig = accountObject;

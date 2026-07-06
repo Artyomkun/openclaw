@@ -3,8 +3,8 @@ import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/s
 import type {
   ActivePluginChannelRegistration,
   ActivePluginChannelRegistry,
-} from "../plugins/channel-registry-state.types.js";
-import { getActivePluginChannelRegistrySnapshotFromState } from "../plugins/runtime-channel-state.js";
+} from "../plugins/channel-registry-state.types.ts";
+import { getActivePluginChannelRegistrySnapshotFromState } from "../plugins/runtime-channel-state.ts";
 
 type RegisteredChannelPluginEntry = ActivePluginChannelRegistration & {
   plugin: ActivePluginChannelRegistration["plugin"] & {

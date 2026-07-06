@@ -4,22 +4,22 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { CliDeps } from "../cli/deps.types.js";
-import type { CronFailureDestinationConfig } from "../config/types.cron.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { CliDeps } from "../cli/deps.types.ts";
+import type { CronFailureDestinationConfig } from "../config/types.cron.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveCronDeliveryPlan,
   resolveFailureDestination,
   sendCronAnnouncePayloadStrict,
   sendFailureNotificationAnnounce,
-} from "../cron/delivery.js";
-import type { CronEvent } from "../cron/service.js";
-import { resolveCronDeliverySessionKey } from "../cron/session-target.js";
-import type { CronJob, CronMessageChannel } from "../cron/types.js";
-import { normalizeHttpWebhookUrl } from "../cron/webhook-url.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.js";
-import { SsrFBlockedError } from "../infra/net/ssrf.js";
+} from "../cron/delivery.ts";
+import type { CronEvent } from "../cron/service.ts";
+import { resolveCronDeliverySessionKey } from "../cron/session-target.ts";
+import type { CronJob, CronMessageChannel } from "../cron/types.ts";
+import { normalizeHttpWebhookUrl } from "../cron/webhook-url.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.ts";
+import { SsrFBlockedError } from "../infra/net/ssrf.ts";
 
 const CRON_WEBHOOK_TIMEOUT_MS = 10_000;
 

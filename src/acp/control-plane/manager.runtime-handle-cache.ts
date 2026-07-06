@@ -9,13 +9,13 @@ import type {
   AcpRuntimeStatus,
 } from "@openclaw/acp-core/runtime/types";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import type { ActiveTurnState, SessionAcpMeta } from "./manager.types.js";
-import { normalizeActorKey, resolveRuntimeIdleTtlMs } from "./manager.utils.js";
-import { RuntimeCache, type CachedRuntimeState } from "./runtime-cache.js";
-import { normalizeText } from "./runtime-options.js";
-import type { SessionActorQueue } from "./session-actor-queue.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import type { ActiveTurnState, SessionAcpMeta } from "./manager.types.ts";
+import { normalizeActorKey, resolveRuntimeIdleTtlMs } from "./manager.utils.ts";
+import { RuntimeCache, type CachedRuntimeState } from "./runtime-cache.ts";
+import { normalizeText } from "./runtime-options.ts";
+import type { SessionActorQueue } from "./session-actor-queue.ts";
 
 /** Process-local cache of live ACP runtime handles keyed by canonical session actor. */
 export class ManagerRuntimeHandleCache {

@@ -3,8 +3,8 @@
  *
  * Describes the minimal async boundary used by channel delivery code.
  */
-import type { ChannelId } from "../channel-id.types.js";
-import type { ChannelOutboundAdapter } from "../outbound.types.js";
+import type { ChannelId } from "../channel-id.types.ts";
+import type { ChannelOutboundAdapter } from "../outbound.types.ts";
 
 /**
  * Lazy loader contract for channel outbound adapters.

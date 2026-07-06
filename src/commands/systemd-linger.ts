@@ -1,13 +1,13 @@
 // Systemd lingering setup helpers for gateway install/start flows.
 // Lingering keeps user services alive after logout on Linux hosts.
 
-import { note } from "../../packages/terminal-core/src/note.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
 import {
   enableSystemdUserLinger,
   isSystemdUserServiceAvailable,
   readSystemdUserLingerStatus,
-} from "../daemon/systemd.js";
-import type { RuntimeEnv } from "../runtime.js";
+} from "../daemon/systemd.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 
 type LingerPrompter = {
   confirm?: (params: { message: string; initialValue?: boolean }) => Promise<boolean>;

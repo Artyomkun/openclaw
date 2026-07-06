@@ -1,19 +1,32 @@
-// State database path helpers resolve shared OpenClaw state DB paths.
-import os from "node:os";
-import path from "node:path";
+// State database connection helpers resolve shared OpenClaw state DB connection config.
 import { isMainThread, threadId } from "node:worker_threads";
-import { resolveStateDir } from "../config/paths.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
 
 /**
- * Path helpers for the shared OpenClaw SQLite state database.
+ * Connection helpers for the shared OpenClaw Oracle state database.
  *
- * Tests get worker-scoped temp state roots unless they explicitly provide
- * `OPENCLAW_STATE_DIR`, which prevents parallel Vitest workers from sharing WAL files.
+ * Tests get worker-scoped schemas unless they explicitly provide
+ * `OPENCLAW_STATE_SCHEMA`, which prevents parallel Vitest workers from sharing tables.
  */
-function resolveOpenClawStateRootDir(env: NodeJS.ProcessEnv): string {
-  if (env.OPENCLAW_STATE_DIR?.trim()) {
-    return resolveStateDir(env);
+
+/** Default Oracle connection config from environment. */
+export function resolveOpenClawOracleConnectionConfig(env: NodeJS.ProcessEnv = process.env): {
+  user: string;
+  password: string;
+  connectionString: string;
+} {
+  return {
+    user: env.OPENCLAW_ORACLE_USER ?? "openclaw",
+    password: env.OPENCLAW_ORACLE_PASSWORD ?? "openclaw",
+    connectionString:
+      env.OPENCLAW_ORACLE_CONNECTION_STRING ?? "localhost:1521/XEPDB1",
+  };
+}
+
+/** Resolve the schema name for the shared state tables. */
+export function resolveOpenClawStateSchema(env: NodeJS.ProcessEnv = process.env): string {
+  if (env.OPENCLAW_STATE_SCHEMA?.trim()) {
+    return env.OPENCLAW_STATE_SCHEMA.trim();
   }
   if (env.VITEST || env.NODE_ENV === "test") {
     const workerId = parseStrictNonNegativeInteger(
@@ -21,21 +34,24 @@ function resolveOpenClawStateRootDir(env: NodeJS.ProcessEnv): string {
     );
     const shardSuffix =
       workerId !== undefined
-        ? `${process.pid}-${workerId}`
+        ? `${process.pid}_${workerId}`
         : isMainThread
           ? String(process.pid)
-          : `${process.pid}-${threadId}`;
-    return path.join(os.tmpdir(), "openclaw-test-state", shardSuffix);
+          : `${process.pid}_${threadId}`;
+    return `OPENCLAW_TEST_${shardSuffix}`;
   }
-  return resolveStateDir(env);
+  return "OPENCLAW";
 }
 
-/** Resolve the directory that contains the shared state SQLite file. */
-export function resolveOpenClawStateSqliteDir(env: NodeJS.ProcessEnv = process.env): string {
-  return path.join(resolveOpenClawStateRootDir(env), "state");
-}
-
-/** Resolve the shared state SQLite file path. */
-export function resolveOpenClawStateSqlitePath(env: NodeJS.ProcessEnv = process.env): string {
-  return path.join(resolveOpenClawStateSqliteDir(env), "openclaw.sqlite");
+/** Resolve the full connection config including schema. */
+export function resolveOpenClawStateConnectionConfig(env: NodeJS.ProcessEnv = process.env): {
+  user: string;
+  password: string;
+  connectionString: string;
+  schema: string;
+} {
+  return {
+    ...resolveOpenClawOracleConnectionConfig(env),
+    schema: resolveOpenClawStateSchema(env),
+  };
 }

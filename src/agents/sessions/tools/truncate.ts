@@ -14,4 +14,4 @@ export {
   truncateTail,
   type TruncationOptions,
   type TruncationResult,
-} from "../../../../packages/agent-core/src/harness/utils/truncate.js";
+} from "../../../../packages/agent-core/src/harness/utils/truncate.ts";

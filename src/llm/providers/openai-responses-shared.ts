@@ -12,8 +12,8 @@ import type {
   ResponseOutputMessage,
   ResponseReasoningItem,
   ResponseStreamEvent,
-} from "openai/resources/responses/responses.js";
-import { stripSystemPromptCacheBoundary } from "../../agents/system-prompt-cache-boundary.js";
+} from "openai/resources/responses/responses.ts";
+import { stripSystemPromptCacheBoundary } from "../../agents/system-prompt-cache-boundary.ts";
 import {
   AZURE_RESPONSES_TEXT_CONTENT_PART_TYPE,
   OPENAI_RESPONSES_OUTPUT_TEXT_CONTENT_PART_TYPE,
@@ -22,8 +22,8 @@ import {
   isAzureResponsesTextDeltaEvent,
   isResponsesTextContentPartType,
   resolveResponsesMessageSnapshotCollapse,
-} from "../../shared/openai-responses-stream-compat.js";
-import { calculateCost, clampThinkingLevel } from "../model-utils.js";
+} from "../../shared/openai-responses-stream-compat.ts";
+import { calculateCost, clampThinkingLevel } from "../model-utils.ts";
 import type {
   Api,
   AssistantMessage,
@@ -38,14 +38,14 @@ import type {
   ThinkingContent,
   ToolCall,
   Usage,
-} from "../types.js";
-import type { AssistantMessageEventStream } from "../utils/event-stream.js";
-import { shortHash } from "../utils/hash.js";
-import { headersToRecord } from "../utils/headers.js";
-import { parseStreamingJson } from "../utils/json-parse.js";
-import { sanitizeSurrogates } from "../utils/sanitize-unicode.js";
-import { convertResponsesToolPayload, convertResponsesTools } from "./openai-responses-tools.js";
-import { transformMessages } from "./transform-messages.js";
+} from "../types.ts";
+import type { AssistantMessageEventStream } from "../utils/event-stream.ts";
+import { shortHash } from "../utils/hash.ts";
+import { headersToRecord } from "../utils/headers.ts";
+import { parseStreamingJson } from "../utils/json-parse.ts";
+import { sanitizeSurrogates } from "../utils/sanitize-unicode.ts";
+import { convertResponsesToolPayload, convertResponsesTools } from "./openai-responses-tools.ts";
+import { transformMessages } from "./transform-messages.ts";
 
 // =============================================================================
 // Utilities
@@ -132,7 +132,7 @@ function parseTextSignature(
         return undefined;
       }
     } catch {
-      // Fall through to legacy plain-string handling.
+      // Fall through to older plain-string handling.
     }
   }
   return { id: signature };
@@ -169,7 +169,7 @@ export interface ConvertResponsesMessagesOptions {
   replayResponsesItemIds?: boolean;
 }
 export { convertResponsesToolPayload, convertResponsesTools };
-export type { ConvertResponsesToolsOptions } from "./openai-responses-tools.js";
+export type { ConvertResponsesToolsOptions } from "./openai-responses-tools.ts";
 
 type ResponsesRequestOptions = {
   signal?: AbortSignal;

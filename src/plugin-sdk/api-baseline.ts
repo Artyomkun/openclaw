@@ -10,7 +10,7 @@ import {
   type PluginSdkDocCategory,
   type PluginSdkDocEntrypoint,
 } from "../../scripts/lib/plugin-sdk-doc-metadata.ts";
-import { publicPluginSdkEntrypoints } from "../../scripts/lib/plugin-sdk-entries.mjs";
+import { publicPluginSdkEntrypoints } from "../../scripts/lib/plugin-sdk-entries.ts";
 
 /** Declaration kind recorded for each public SDK export in the API baseline. */
 export type PluginSdkApiExportKind =

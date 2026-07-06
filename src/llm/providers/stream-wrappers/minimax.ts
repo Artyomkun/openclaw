@@ -1,6 +1,6 @@
-import type { StreamFn } from "../../../agents/runtime/index.js";
-import type { ThinkLevel } from "../../../auto-reply/thinking.js";
-import { streamSimple } from "../../stream.js";
+import type { StreamFn } from "../../../agents/runtime/index.ts";
+import type { ThinkLevel } from "../../../auto-reply/thinking.ts";
+import { streamSimple } from "../../stream.ts";
 
 const MINIMAX_FAST_MODEL_IDS = new Map<string, string>([
   ["MiniMax-M2.7", "MiniMax-M2.7-highspeed"],
@@ -29,7 +29,7 @@ function isMinimaxAnthropicMessagesModel(model: { api?: unknown; provider?: unkn
  * return an empty content array with `stop_reason: "end_turn"` and 1 output
  * token, observed against `https://api.minimax.io/anthropic/v1/messages`.
  *
- * The legacy MiniMax-M2.x family still needs the disable-thinking shim
+ * The older MiniMax-M2.x family still needs the disable-thinking shim
  * because their Anthropic-compat streams leak `reasoning_content` in
  * OpenAI-style deltas (see {@link createMinimaxThinkingDisabledWrapper}).
  */
@@ -62,32 +62,8 @@ function resolvePositiveMaxTokens(value: unknown): number | undefined {
     : undefined;
 }
 
-/** @deprecated MiniMax provider-owned stream helper; do not use from third-party plugins. */
-export function createMinimaxFastModeWrapper(
-  baseStreamFn: StreamFn | undefined,
-  fastMode: DynamicFastMode,
-): StreamFn {
-  const underlying = baseStreamFn ?? streamSimple;
-  return (model, context, options) => {
-    if (
-      (typeof fastMode === "function" ? fastMode() : fastMode) !== true ||
-      model.api !== "anthropic-messages" ||
-      (model.provider !== "minimax" && model.provider !== "minimax-portal")
-    ) {
-      return underlying(model, context, options);
-    }
-
-    const fastModelId = resolveMinimaxFastModelId(model.id);
-    if (!fastModelId) {
-      return underlying(model, context, options);
-    }
-
-    return underlying({ ...model, id: fastModelId }, context, options);
-  };
-}
-
 /**
- * Legacy MiniMax (M2.x) Anthropic-compatible streaming endpoint returns
+ * Olders MiniMax (M2.x) Anthropic-compatible streaming endpoint returns
  * reasoning_content in OpenAI-style delta chunks ({delta: {content: "",
  * reasoning_content: "..."}}) rather than the native Anthropic thinking
  * block format. The shared Anthropic provider cannot process this format

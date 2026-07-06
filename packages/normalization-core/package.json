@@ -6,36 +6,36 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./number-coercion": {
-      "types": "./dist/number-coercion.d.mts",
-      "import": "./dist/number-coercion.mjs",
-      "default": "./dist/number-coercion.mjs"
+      "types": "./dist/number-coercion.d.ts",
+      "import": "./dist/number-coercion.ts",
+      "default": "./dist/number-coercion.ts"
     },
     "./record-coerce": {
-      "types": "./dist/record-coerce.d.mts",
-      "import": "./dist/record-coerce.mjs",
-      "default": "./dist/record-coerce.mjs"
+      "types": "./dist/record-coerce.d.ts",
+      "import": "./dist/record-coerce.ts",
+      "default": "./dist/record-coerce.ts"
     },
     "./string-coerce": {
-      "types": "./dist/string-coerce.d.mts",
-      "import": "./dist/string-coerce.mjs",
-      "default": "./dist/string-coerce.mjs"
+      "types": "./dist/string-coerce.d.ts",
+      "import": "./dist/string-coerce.ts",
+      "default": "./dist/string-coerce.ts"
     },
     "./string-normalization": {
-      "types": "./dist/string-normalization.d.mts",
-      "import": "./dist/string-normalization.mjs",
-      "default": "./dist/string-normalization.mjs"
+      "types": "./dist/string-normalization.d.ts",
+      "import": "./dist/string-normalization.ts",
+      "default": "./dist/string-normalization.ts"
     }
   },
   "scripts": {
-    "build": "tsdown src/index.ts src/number-coercion.ts src/record-coerce.ts src/string-coerce.ts src/string-normalization.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
+    "build": "tsc src/index.ts src/number-coercion.ts src/record-coerce.ts src/string-coerce.ts src/string-normalization.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
   }
 }

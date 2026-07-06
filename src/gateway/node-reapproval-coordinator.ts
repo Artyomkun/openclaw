@@ -7,14 +7,14 @@ import {
   type NodePairingRequestInput,
   type NodePairingSupersededRequest,
   type RequestNodePairingResult,
-} from "../infra/node-pairing.js";
+} from "../infra/node-pairing.ts";
 import {
   AUTH_RATE_LIMIT_SCOPE_NODE_REAPPROVAL,
   buildRateLimitIdentityKey,
   createAuthRateLimiter,
   type RateLimitConfig,
-} from "./auth-rate-limit.js";
-import { withSerializedKeyedAttempt } from "./rate-limit-attempt-serialization.js";
+} from "./auth-rate-limit.ts";
+import { withSerializedKeyedAttempt } from "./rate-limit-attempt-serialization.ts";
 
 type ReapprovalRequestParams = {
   input: NodePairingRequestInput;

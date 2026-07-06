@@ -1,18 +1,18 @@
 // Defines agent default configuration types shared by runtime schemas.
-import type { SilentReplyPolicyShape } from "../shared/silent-reply-policy.js";
+import type { SilentReplyPolicyShape } from "../shared/silent-reply-policy.ts";
 import type {
   AgentModelConfig,
   AgentToolModelConfig,
   AgentRuntimePolicyConfig,
   AgentSandboxConfig,
-} from "./types.agents-shared.js";
+} from "./types.agents-shared.ts";
 import type {
   BlockStreamingChunkConfig,
   BlockStreamingCoalesceConfig,
   HumanDelayConfig,
   TypingMode,
-} from "./types.base.js";
-import type { MemorySearchConfig } from "./types.tools.js";
+} from "./types.base.ts";
+import type { MemorySearchConfig } from "./types.tools.ts";
 
 /** Workspace bootstrap-file injection policy for agent system prompts. */
 export type AgentContextInjection = "always" | "continuation-skip" | "never";
@@ -224,11 +224,6 @@ export type AgentDefaultsConfig = {
   params?: Record<string, unknown>;
   /** Primary model and fallbacks (provider/model). Accepts string or {primary,fallbacks}. */
   model?: AgentModelConfig;
-  /**
-   * @deprecated Legacy raw config accepted only by doctor/migration repair.
-   * Normal schema parsing rejects this key; use per-model agentRuntime instead.
-   */
-  agentRuntime?: AgentRuntimePolicyConfig;
   /** Optional image-capable model and fallbacks (provider/model). Accepts string or {primary,fallbacks}. */
   imageModel?: AgentToolModelConfig;
   /** Optional image-generation model and fallbacks (provider/model). Accepts string or {primary,fallbacks}. */
@@ -535,7 +530,7 @@ export type AgentCompactionConfig = {
   /**
    * H2/H3 section names from AGENTS.md to inject after compaction.
    * Disabled when unset or [].
-   * Explicit ["Session Startup", "Red Lines"] preserves legacy fallback headings.
+   * Explicit ["Session Startup", "Red Lines"] preserves older fallback headings.
    */
   postCompactionSections?: string[];
   /** Optional provider/model or configured bare alias for compaction summarization.

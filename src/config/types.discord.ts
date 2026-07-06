@@ -7,19 +7,19 @@ import type {
   MarkdownConfig,
   OutboundRetryConfig,
   ReplyToMode,
-} from "./types.base.js";
+} from "./types.base.ts";
 import type {
   ChannelHealthMonitorConfig,
   ChannelHeartbeatVisibilityConfig,
-} from "./types.channel-health.js";
+} from "./types.channel-health.ts";
 import type {
   DmConfig,
   MentionPatternsPolicyConfig,
   ProviderCommandsConfig,
-} from "./types.messages.js";
-import type { SecretInput } from "./types.secrets.js";
-import type { GroupToolPolicyBySenderConfig, GroupToolPolicyConfig } from "./types.tools.js";
-import type { TtsConfig } from "./types.tts.js";
+} from "./types.messages.ts";
+import type { SecretInput } from "./types.secrets.ts";
+import type { GroupToolPolicyBySenderConfig, GroupToolPolicyConfig } from "./types.tools.ts";
+import type { TtsConfig } from "./types.tts.ts";
 
 export type DiscordStreamMode = "off" | "partial" | "block" | "progress";
 export type DiscordChannelStreamingConfig = ChannelPreviewStreamingConfig;
@@ -159,8 +159,6 @@ export type DiscordVoiceRealtimeConfig = {
   speakerVoice?: string;
   /** Provider realtime output voice id. */
   speakerVoiceId?: string;
-  /** @deprecated Use speakerVoice. */
-  voice?: string;
   /** System instructions passed to the realtime provider. */
   instructions?: string;
   /** Tool policy for bidi realtime consult calls. */
@@ -283,14 +281,6 @@ export type DiscordThreadBindingsConfig = {
    * Default: "fork".
    */
   defaultSpawnContext?: "isolated" | "fork";
-  /**
-   * @deprecated Use spawnSessions instead.
-   */
-  spawnSubagentSessions?: boolean;
-  /**
-   * @deprecated Use spawnSessions instead.
-   */
-  spawnAcpSessions?: boolean;
 };
 
 export type DiscordSlashCommandConfig = {
@@ -386,7 +376,7 @@ export type DiscordAccountConfig = {
    * Explicit `embeds` payloads are still sent normally.
    */
   suppressEmbeds?: boolean;
-  /** Streaming + chunking settings. Prefer this nested shape over legacy flat keys. */
+  /** Streaming + chunking settings. Prefer this nested shape over older flat keys. */
   streaming?: DiscordChannelStreamingConfig;
   /**
    * Soft max line count per Discord message.
@@ -408,16 +398,6 @@ export type DiscordAccountConfig = {
   replyToMode?: ReplyToMode;
   /** Thread session behavior. */
   thread?: DiscordThreadConfig;
-  /**
-   * Canonical DM policy key. Doctor migrates legacy channels.discord.dm.policy here.
-   * Legacy key: channels.discord.dm.policy.
-   */
-  dmPolicy?: DmPolicy;
-  /**
-   * Canonical DM allowlist. Doctor migrates legacy channels.discord.dm.allowFrom here.
-   * Legacy key: channels.discord.dm.allowFrom.
-   */
-  allowFrom?: string[];
   /** Default delivery target for CLI --deliver when no explicit --reply-to is provided. */
   defaultTo?: string;
   dm?: DiscordDmConfig;
@@ -462,17 +442,6 @@ export type DiscordAccountConfig = {
   activityType?: 0 | 1 | 2 | 3 | 4 | 5;
   /** Streaming URL (Twitch/YouTube). Required when activityType=1. */
   activityUrl?: string;
-  /**
-   * Legacy compatibility block. Discord no longer enforces channel-owned
-   * timeouts for queued inbound agent runs.
-   */
-  inboundWorker?: {
-    /**
-     * Ignored. Queued Discord agent runs are governed by the session/tool/runtime
-     * lifecycle, not by Discord channel config.
-     */
-    runTimeoutMs?: number;
-  };
   /**
    * Discord EventQueue configuration. Controls how Discord gateway events are processed.
    * `listenerTimeout` only covers gateway listener work such as normalization and enqueue.

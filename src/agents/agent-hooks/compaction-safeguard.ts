@@ -1,23 +1,23 @@
 /** Extension that safeguards compaction with structured summaries and quality repair. */
 import fs from "node:fs";
 import path from "node:path";
-import { extractSections } from "../../auto-reply/reply/post-compaction-context.js";
-import { openRootFile } from "../../infra/boundary-file-read.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { isAbortError } from "../../infra/unhandled-rejections.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import { extractSections } from "../../auto-reply/reply/post-compaction-context.ts";
+import { openRootFile } from "../../infra/boundary-file-read.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { isAbortError } from "../../infra/unhandled-rejections.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import {
   getCompactionProvider,
   type CompactionProvider,
-} from "../../plugins/compaction-provider.js";
+} from "../../plugins/compaction-provider.ts";
 import {
   buildHistoryPrunePlanWithWorker,
   computeAdaptiveChunkRatioWithWorker,
-} from "../compaction-planning-worker.js";
+} from "../compaction-planning-worker.ts";
 import {
   hasMeaningfulConversationContent,
   isRealConversationMessage,
-} from "../compaction-real-conversation.js";
+} from "../compaction-real-conversation.ts";
 import {
   BASE_CHUNK_RATIO,
   MIN_CHUNK_RATIO,
@@ -27,19 +27,19 @@ import {
   isOversizedForSummary,
   resolveContextWindowTokens,
   summarizeInStages,
-} from "../compaction.js";
-import { collectTextContentBlocks } from "../content-blocks.js";
-import { buildCopilotDynamicHeaders, hasCopilotVisionInput } from "../copilot-dynamic-headers.js";
-import { isTimeoutError } from "../failover-error.js";
-import { stripRuntimeContextCustomMessages } from "../internal-runtime-context.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { repairToolUseResultPairing } from "../session-transcript-repair.js";
-import type { ExtensionAPI, ExtensionContext, FileOperations } from "../sessions/index.js";
-import { extractToolCallsFromAssistant, extractToolResultId } from "../tool-call-id.js";
+} from "../compaction.ts";
+import { collectTextContentBlocks } from "../content-blocks.ts";
+import { buildCopilotDynamicHeaders, hasCopilotVisionInput } from "../copilot-dynamic-headers.ts";
+import { isTimeoutError } from "../failover-error.ts";
+import { stripRuntimeContextCustomMessages } from "../internal-runtime-context.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { repairToolUseResultPairing } from "../session-transcript-repair.ts";
+import type { ExtensionAPI, ExtensionContext, FileOperations } from "../sessions/index.ts";
+import { extractToolCallsFromAssistant, extractToolResultId } from "../tool-call-id.ts";
 import {
   composeSplitTurnInstructions,
   resolveCompactionInstructions,
-} from "./compaction-instructions.js";
+} from "./compaction-instructions.ts";
 import {
   appendSummarySection,
   auditSummaryQuality,
@@ -47,11 +47,11 @@ import {
   buildStructuredFallbackSummary,
   extractOpaqueIdentifiers,
   wrapUntrustedInstructionBlock,
-} from "./compaction-safeguard-quality.js";
+} from "./compaction-safeguard-quality.ts";
 import {
   getCompactionSafeguardRuntime,
   setCompactionSafeguardCancelReason,
-} from "./compaction-safeguard-runtime.js";
+} from "./compaction-safeguard-runtime.ts";
 
 const log = createSubsystemLogger("compaction-safeguard");
 
@@ -824,7 +824,7 @@ function extractLatestUserAsk(messages: AgentMessage[]): string | null {
 /**
  * Read and format critical workspace context for compaction summary.
  * Uses explicitly configured AGENTS.md section names only.
- * The default "Session Startup" / "Red Lines" pair preserves the legacy
+ * The default "Session Startup" / "Red Lines" pair preserves the older
  * "Every Session" / "Safety" fallback.
  * Limited to 2000 chars to avoid bloating the summary.
  */

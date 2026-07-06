@@ -13,4 +13,4 @@ export {
   replaceSubagentRunAfterSteer,
   resolveRequesterForChildSession,
   shouldIgnorePostCompletionAnnounceForSession,
-} from "./subagent-registry-runtime.js";
+} from "./subagent-registry-runtime.ts";

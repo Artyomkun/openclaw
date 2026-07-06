@@ -1,7 +1,7 @@
 // Renders the standard `openclaw status` report from prebuilt section data.
 // Report data assembly stays separate so tests can validate rows without terminal formatting.
 
-import type { RenderTableOptions, TableColumn } from "../../packages/terminal-core/src/table.js";
+import type { RenderTableOptions, TableColumn } from "../../packages/terminal-core/src/table.ts";
 import {
   buildStatusChannelsTableSection,
   buildStatusHealthSection,
@@ -9,8 +9,8 @@ import {
   buildStatusSessionsSection,
   buildStatusSystemEventsSection,
   buildStatusUsageSection,
-} from "./status-all/report-sections.js";
-import { appendStatusReportSections } from "./status-all/text-report.js";
+} from "./status-all/report-sections.ts";
+import { appendStatusReportSections } from "./status-all/text-report.ts";
 
 /** Builds terminal lines for the standard status report. */
 export async function buildStatusCommandReportLines(params: {

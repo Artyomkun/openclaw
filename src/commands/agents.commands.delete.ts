@@ -1,30 +1,30 @@
 // Implements agent deletion with gateway delegation and local cleanup fallback.
-import { findOverlappingWorkspaceAgentIds } from "../agents/agent-delete-safety.js";
-import { resolveAgentDir, resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
+import { findOverlappingWorkspaceAgentIds } from "../agents/agent-delete-safety.ts";
+import { resolveAgentDir, resolveAgentWorkspaceDir } from "../agents/agent-scope.ts";
 import {
   resolveWorkspaceAttestationPaths,
   shouldRemoveWorkspaceAttestation,
-} from "../agents/workspace.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { replaceConfigFile } from "../config/config.js";
-import { logConfigUpdated } from "../config/logging.js";
+} from "../agents/workspace.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { replaceConfigFile } from "../config/config.ts";
+import { logConfigUpdated } from "../config/logging.ts";
 import {
   purgeAgentSessionStoreEntries,
   resolveSessionTranscriptsDirForAgent,
-} from "../config/sessions.js";
+} from "../config/sessions.ts";
 import {
   callGateway,
   isGatewayCredentialsRequiredError,
   isGatewayTransportError,
-} from "../gateway/call.js";
-import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
-import { createClackPrompter } from "../wizard/clack-prompter.js";
-import { createQuietRuntime, requireValidConfigFileSnapshot } from "./agents.command-shared.js";
-import { findAgentEntryIndex, listAgentEntries, pruneAgentConfig } from "./agents.config.js";
-import { moveToTrash } from "./onboard-helpers.js";
+} from "../gateway/call.ts";
+import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.ts";
+import { createClackPrompter } from "../wizard/clack-prompter.ts";
+import { createQuietRuntime, requireValidConfigFileSnapshot } from "./agents.command-shared.ts";
+import { findAgentEntryIndex, listAgentEntries, pruneAgentConfig } from "./agents.config.ts";
+import { moveToTrash } from "./onboard-helpers.ts";
 
 type AgentsDeleteOptions = {
   id: string;

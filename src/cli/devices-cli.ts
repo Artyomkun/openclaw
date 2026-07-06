@@ -1,6 +1,6 @@
 // Commander registration for device pairing and auth-token commands.
 import type { Command } from "commander";
-import { applyParentDefaultHelpAction } from "./program/parent-default-help.js";
+import { applyParentDefaultHelpAction } from "./program/parent-default-help.ts";
 
 type DevicesRpcOpts = {
   url?: string;

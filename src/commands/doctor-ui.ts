@@ -1,16 +1,16 @@
 /** Doctor checks and repairs for Control UI assets after gateway protocol changes. */
 import fs from "node:fs/promises";
 import path from "node:path";
-import { note } from "../../packages/terminal-core/src/note.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.ts";
 import {
   resolveControlUiDistIndexHealth,
   resolveControlUiDistIndexPathForRoot,
-} from "../infra/control-ui-assets.js";
-import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import type { RuntimeEnv } from "../runtime.js";
-import type { DoctorPrompter } from "./doctor-prompter.js";
+} from "../infra/control-ui-assets.ts";
+import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { DoctorPrompter } from "./doctor-prompter.ts";
 
 export type UiProtocolFreshnessIssue =
   | {

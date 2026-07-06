@@ -41,10 +41,6 @@ type DecodedFeishuCardAction =
       envelope: FeishuCardInteractionEnvelope;
     }
   | {
-      kind: "legacy";
-      text: string;
-    }
-  | {
       kind: "invalid";
       reason: FeishuCardInteractionReason;
     };
@@ -90,68 +86,8 @@ export function decodeFeishuCardAction(params: {
   event: FeishuCardActionEventLike;
   now?: number;
 }): DecodedFeishuCardAction {
-  const { event, now = Date.now() } = params;
+  const { event } = params;
   const actionValue = event.action.value;
-  if (!isRecord(actionValue) || actionValue.oc !== FEISHU_CARD_INTERACTION_VERSION) {
-    return {
-      kind: "legacy",
-      text: buildFeishuCardActionTextFallback(event),
-    };
-  }
-
-  if (!isInteractionKind(actionValue.k) || typeof actionValue.a !== "string" || !actionValue.a) {
-    return { kind: "invalid", reason: "malformed" };
-  }
-
-  if (actionValue.q !== undefined && typeof actionValue.q !== "string") {
-    return { kind: "invalid", reason: "malformed" };
-  }
-
-  if (actionValue.m !== undefined) {
-    if (!isRecord(actionValue.m)) {
-      return { kind: "invalid", reason: "malformed" };
-    }
-    for (const value of Object.values(actionValue.m)) {
-      if (!isMetadataValue(value)) {
-        return { kind: "invalid", reason: "malformed" };
-      }
-    }
-  }
-
-  if (actionValue.c !== undefined) {
-    if (!isRecord(actionValue.c)) {
-      return { kind: "invalid", reason: "malformed" };
-    }
-    if (actionValue.c.u !== undefined && typeof actionValue.c.u !== "string") {
-      return { kind: "invalid", reason: "malformed" };
-    }
-    if (actionValue.c.h !== undefined && typeof actionValue.c.h !== "string") {
-      return { kind: "invalid", reason: "malformed" };
-    }
-    if (actionValue.c.s !== undefined && typeof actionValue.c.s !== "string") {
-      return { kind: "invalid", reason: "malformed" };
-    }
-    if (actionValue.c.e !== undefined && !Number.isFinite(actionValue.c.e)) {
-      return { kind: "invalid", reason: "malformed" };
-    }
-    if (actionValue.c.t !== undefined && actionValue.c.t !== "p2p" && actionValue.c.t !== "group") {
-      return { kind: "invalid", reason: "malformed" };
-    }
-
-    if (typeof actionValue.c.e === "number" && actionValue.c.e < now) {
-      return { kind: "invalid", reason: "stale" };
-    }
-
-    const expectedUser = actionValue.c.u?.trim();
-    if (expectedUser && expectedUser !== (event.operator.open_id ?? "").trim()) {
-      return { kind: "invalid", reason: "wrong_user" };
-    }
-
-    const expectedChat = actionValue.c.h?.trim();
-    if (expectedChat && expectedChat !== (event.context.chat_id ?? "").trim()) {
-      return { kind: "invalid", reason: "wrong_conversation" };
-    }
-  }
 
   return {
     kind: "structured",

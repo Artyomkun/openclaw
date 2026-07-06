@@ -3,7 +3,7 @@
  *
  * Creates and classifies persisted send records after delivery interruptions.
  */
-import type { DurableMessageSendIntent, MessageReceipt } from "./types.js";
+import type { DurableMessageSendIntent, MessageReceipt } from "./types.ts";
 
 /** Durable send state stored for recovery and operator-visible delivery status. */
 export type DurableMessageSendState =

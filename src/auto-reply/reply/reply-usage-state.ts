@@ -1,8 +1,8 @@
-import { resolveAgentIdentity } from "../../agents/identity.js";
-import { deriveContextPromptTokens, type NormalizedUsage } from "../../agents/usage.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import type { PluginHookReplyUsageState } from "../../plugins/hook-types.js";
-import { estimateUsageCost, resolveModelCostConfig } from "../../utils/usage-format.js";
+import { resolveAgentIdentity } from "../../agents/identity.ts";
+import { deriveContextPromptTokens, type NormalizedUsage } from "../../agents/usage.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import type { PluginHookReplyUsageState } from "../../plugins/hook-types.ts";
+import { estimateUsageCost, resolveModelCostConfig } from "../../utils/usage-format.ts";
 
 const TTL_MS = 5 * 60_000;
 

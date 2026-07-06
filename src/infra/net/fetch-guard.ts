@@ -1,23 +1,18 @@
-// Guarded fetch runtime enforces SSRF checks, DNS pinning, redirect policy, and
-// trusted proxy modes around provider/network requests.
+// Guarded fetch runtime — HTTP/3 ONLY (RFC 9114)
 import type { Dispatcher } from "undici";
-import { logWarn } from "../../logger.js";
-import { buildTimeoutAbortSignal } from "../../utils/fetch-timeout.js";
+import { logWarn } from "../../logger.ts";
+import { buildTimeoutAbortSignal } from "../../utils/fetch-timeout.ts";
 import {
   normalizeHeadersInitForFetch,
   normalizeRequestInitHeadersForFetch,
-} from "../fetch-headers.js";
+} from "../fetch-headers.ts";
 import {
   shouldUseConfiguredLocalOriginManagedProxyBypass,
   type ConfiguredLocalOriginManagedProxyBypass,
-} from "./configured-local-origin-bypass.js";
-import { hasProxyEnvConfigured, shouldUseEnvHttpProxyForUrl } from "./proxy-env.js";
-import { retainSafeHeadersForCrossOriginRedirect as retainSafeRedirectHeaders } from "./redirect-headers.js";
-import {
-  fetchWithRuntimeDispatcher,
-  isMockedFetch,
-  type DispatcherAwareRequestInit,
-} from "./runtime-fetch.js";
+} from "./configured-local-origin-bypass.ts";
+import { hasProxyEnvConfigured, shouldUseEnvHttpProxyForUrl } from "./proxy-env.ts";
+import { retainSafeHeadersForCrossOriginRedirect as retainSafeRedirectHeaders } from "./redirect-headers.ts";
+import { fetchWithRuntimeDispatcher } from "./runtime-fetch.ts";
 import {
   assertHostnameAllowedWithPolicy,
   closeDispatcher,
@@ -29,20 +24,18 @@ import {
   type PinnedDispatcherPolicy,
   SsrFBlockedError,
   type SsrFPolicy,
-} from "./ssrf.js";
-import { globalUndiciStreamTimeoutMs } from "./undici-global-dispatcher.js";
+} from "./ssrf.ts";
+import { globalUndiciStreamTimeoutMs } from "./undici-global-dispatcher.ts";
 import {
-  createHttp1Agent,
-  createHttp1EnvHttpProxyAgent,
-  createHttp1ProxyAgent,
-} from "./undici-runtime.js";
+  createHttp3Agent,
+  createEnvHttp3ProxyAgent,
+  createHttp3ProxyAgent,
+} from "./undici-runtime.ts";
 
 function resolveDispatcherTimeoutMs(fromParams: number | undefined): number | undefined {
   if (fromParams !== undefined) {
     return fromParams;
   }
-  // Fall back to module-level bridge set by ensureGlobalUndiciStreamTimeouts
-  // (avoids reading Undici's non-public `.options` field)
   if (globalUndiciStreamTimeoutMs !== undefined) {
     return globalUndiciStreamTimeoutMs;
   }
@@ -70,11 +63,6 @@ export type GuardedFetchOptions = {
         meta?: Record<string, unknown>;
       };
   maxRedirects?: number;
-  /**
-   * Allow replaying unsafe request methods and bodies across cross-origin redirects.
-   * Sensitive cross-origin headers (for example Authorization/Cookie) are still stripped.
-   * Defaults to false.
-   */
   allowCrossOriginUnsafeRedirectReplay?: boolean;
   timeoutMs?: number;
   signal?: AbortSignal;
@@ -85,11 +73,7 @@ export type GuardedFetchOptions = {
   retainAuthorizationRedirectHostnameAllowlist?: string[];
   mode?: GuardedFetchMode;
   pinDns?: boolean;
-  /** @deprecated use `mode: "trusted_env_proxy"` for trusted/operator-controlled URLs. */
   proxy?: "env";
-  /**
-   * @deprecated use `mode: "trusted_env_proxy"` instead.
-   */
   dangerouslyAllowEnvProxyWithoutPinnedDns?: boolean;
   auditContext?: string;
 };
@@ -104,7 +88,6 @@ export type GuardedFetchResult = {
 type GuardedFetchInternalOptions = GuardedFetchOptions & {
   managedProxyBypass?: ConfiguredLocalOriginManagedProxyBypass;
   resolveDispatcherPolicy?: (url: URL) => PinnedDispatcherPolicy | undefined;
-  /** Preserve ambient Undici env-proxy routing for each eligible URL while keeping strict checks otherwise. */
   useEnvProxyForEligibleUrls?: boolean;
 };
 
@@ -145,8 +128,6 @@ export function withTrustedExplicitProxyGuardedFetchMode(
 }
 
 function resolveGuardedFetchMode(params: GuardedFetchOptions): GuardedFetchMode {
-  // Legacy proxy flags map to the explicit trusted env-proxy mode; strict is the
-  // default for user-influenced URLs.
   if (params.mode) {
     return params.mode;
   }
@@ -184,17 +165,18 @@ function createPolicyDispatcherWithoutPinnedDns(
     return null;
   }
 
+  const connectOpts = dispatcherPolicy.connect
+    ? { connect: { ...dispatcherPolicy.connect, alpnProtocols: ["h3"] } }
+    : { connect: { alpnProtocols: ["h3"] } };
+
   if (dispatcherPolicy.mode === "direct") {
-    return createHttp1Agent(
-      dispatcherPolicy.connect ? { connect: { ...dispatcherPolicy.connect } } : undefined,
-      timeoutMs,
-    );
+    return createHttp3Agent(connectOpts, timeoutMs);
   }
 
   if (dispatcherPolicy.mode === "env-proxy") {
-    return createHttp1EnvHttpProxyAgent(
+    return createEnvHttp3ProxyAgent(
       {
-        ...(dispatcherPolicy.connect ? { connect: { ...dispatcherPolicy.connect } } : {}),
+        ...connectOpts,
         ...(dispatcherPolicy.proxyTls ? { proxyTls: { ...dispatcherPolicy.proxyTls } } : {}),
       },
       timeoutMs,
@@ -203,12 +185,12 @@ function createPolicyDispatcherWithoutPinnedDns(
 
   const proxyUrl = dispatcherPolicy.proxyUrl.trim();
   if (dispatcherPolicy.proxyTls) {
-    return createHttp1ProxyAgent(
+    return createHttp3ProxyAgent(
       { uri: proxyUrl, requestTls: { ...dispatcherPolicy.proxyTls } },
       timeoutMs,
     );
   }
-  return createHttp1ProxyAgent({ uri: proxyUrl }, timeoutMs);
+  return createHttp3ProxyAgent({ uri: proxyUrl }, timeoutMs);
 }
 
 async function assertExplicitProxyAllowed(
@@ -216,8 +198,6 @@ async function assertExplicitProxyAllowed(
   lookupFn: LookupFn | undefined,
   policy: SsrFPolicy | undefined,
 ): Promise<void> {
-  // Explicit proxies are operator-configured, but the proxy host still needs
-  // basic URL and private-network validation before target validation proceeds.
   if (!dispatcherPolicy || dispatcherPolicy.mode !== "explicit-proxy") {
     return;
   }
@@ -234,9 +214,6 @@ async function assertExplicitProxyAllowed(
     policy || dispatcherPolicy.allowPrivateProxy === true
       ? {
           ...policy,
-          // The proxy hostname is operator-configured, not user input. Target-scoped
-          // allowlists must not reject a configured proxy host before the request
-          // target gets checked against that same allowlist below.
           hostnameAllowlist: undefined,
           ...(dispatcherPolicy.allowPrivateProxy === true ? { allowPrivateNetwork: true } : {}),
         }
@@ -409,7 +386,7 @@ function rewriteRedirectInitForCrossOrigin(params: {
   };
 }
 
-export { fetchWithRuntimeDispatcher } from "./runtime-fetch.js";
+export { fetchWithRuntimeDispatcher } from "./runtime-fetch.ts";
 
 export async function fetchWithSsrFGuard(params: GuardedFetchOptions): Promise<GuardedFetchResult> {
   const { managedProxyBypass: _ignoredManagedProxyBypass, ...publicParams } =
@@ -439,7 +416,6 @@ async function fetchWithSsrFGuardInternal(
   if (!defaultFetch) {
     throw new Error("fetch is not available");
   }
-  const isUsingMockedFetch = isMockedFetch(defaultFetch);
 
   const maxRedirects =
     typeof params.maxRedirects === "number" && Number.isFinite(params.maxRedirects)
@@ -489,7 +465,6 @@ async function fetchWithSsrFGuardInternal(
     }
 
     let dispatcher: Dispatcher | null = null;
-    // Resolve inside the redirect loop so exact-origin trust never carries across origins.
     const policyForUrl = resolveSsrFPolicyForUrl(parsedUrl, params.policy);
     const dispatcherPolicy = params.resolveDispatcherPolicy?.(parsedUrl) ?? params.dispatcherPolicy;
     try {
@@ -510,7 +485,6 @@ async function fetchWithSsrFGuardInternal(
         !dispatcherPolicy &&
         shouldUseEnvHttpProxyForUrl(parsedUrl.toString());
       const canUseMockedFetchWithoutDns =
-        isUsingMockedFetch &&
         params.lookupFn === undefined &&
         !canUseTrustedEnvProxy &&
         !canUseManagedProxy &&
@@ -518,14 +492,12 @@ async function fetchWithSsrFGuardInternal(
         params.pinDns !== false;
       const timeoutMs = resolveDispatcherTimeoutMs(params.timeoutMs);
 
-      // Trusted env-proxy and pinDns=false can skip local DNS pinning, so keep
-      // the pre-DNS hostname/IP policy checks from the pinned path.
       if (canUseTrustedEnvProxy || params.pinDns === false) {
         assertHostnameAllowedWithPolicy(parsedUrl.hostname, policyForUrl);
       }
 
       if (canUseTrustedEnvProxy) {
-        dispatcher = createHttp1EnvHttpProxyAgent(undefined, timeoutMs);
+        dispatcher = createEnvHttp3ProxyAgent(undefined, timeoutMs);
       } else if (canUseManagedProxy) {
         const pinned = await resolvePinnedHostnameWithPolicy(parsedUrl.hostname, {
           lookupFn: params.lookupFn,
@@ -537,15 +509,11 @@ async function fetchWithSsrFGuardInternal(
           resolvedAddresses: pinned.addresses,
         })
           ? createPinnedDispatcher(pinned, dispatcherPolicy, policyForUrl, timeoutMs)
-          : createHttp1EnvHttpProxyAgent(undefined, timeoutMs);
+          : createEnvHttp3ProxyAgent(undefined, timeoutMs);
       } else if (usesTrustedExplicitProxyMode) {
-        // Explicit proxy targets are still checked against the caller's hostname
-        // policy, but the proxy does the DNS resolution for the final target.
         assertHostnameAllowedWithPolicy(parsedUrl.hostname, policyForUrl);
         dispatcher = createPolicyDispatcherWithoutPinnedDns(dispatcherPolicy, timeoutMs);
       } else if (canUseMockedFetchWithoutDns) {
-        // Test-installed fetch mocks should stay hermetic. Host/IP policy still runs;
-        // real fetches continue through pinned DNS below.
         assertHostnameAllowedWithPolicy(parsedUrl.hostname, policyForUrl);
       } else if (params.pinDns === false) {
         await resolvePinnedHostnameWithPolicy(parsedUrl.hostname, {
@@ -561,28 +529,16 @@ async function fetchWithSsrFGuardInternal(
         dispatcher = createPinnedDispatcher(pinned, dispatcherPolicy, policyForUrl, timeoutMs);
       }
 
-      const init: DispatcherAwareRequestInit = {
-        ...(currentInit ? { ...currentInit } : {}),
-        redirect: "manual",
-        ...(dispatcher ? { dispatcher } : {}),
-        ...(signal ? { signal } : {}),
-      };
-
       const supportsDispatcherInit =
-        (params.fetchImpl !== undefined &&
-          !isAmbientGlobalFetch({
-            fetchImpl: params.fetchImpl,
-            globalFetch: globalThis.fetch,
-          })) ||
-        isUsingMockedFetch;
-      // Explicit caller stubs and test-installed fetch mocks should win.
-      // Otherwise, fall back to undici's fetch whenever we attach a dispatcher,
-      // because the default global fetch path will not honor per-request
-      // dispatchers.
+        params.fetchImpl !== undefined &&
+        !isAmbientGlobalFetch({
+          fetchImpl: params.fetchImpl,
+          globalFetch: globalThis.fetch,
+        });
       const shouldUseRuntimeFetch = Boolean(dispatcher) && !supportsDispatcherInit;
       const response = shouldUseRuntimeFetch
-        ? await fetchWithRuntimeDispatcher(parsedUrl.toString(), init)
-        : await defaultFetch(parsedUrl.toString(), init);
+        ? await fetchWithRuntimeDispatcher(parsedUrl.toString())
+        : await defaultFetch(parsedUrl.toString());
       const capturedByGlobalFetchPatch =
         !shouldUseRuntimeFetch &&
         isAmbientGlobalFetch({
@@ -639,7 +595,14 @@ async function fetchWithSsrFGuardInternal(
           throw new Error("Redirect loop detected");
         }
         visited.add(nextVisitKey);
-        void response.body?.cancel();
+        try {
+          await response.body?.cancel();
+        } catch (err) {
+          const errorMsg = err instanceof Error ? err.message : String(err);
+          logWarn(
+            `Failed to cancel response body during redirect: ${errorMsg} (url=${currentUrl}, status=${response.status})`,
+          );
+        }
         await closeDispatcher(dispatcher);
         currentUrl = nextUrl;
         continue;

@@ -1,5 +1,5 @@
 // Materializes normalized config into runtime-ready settings.
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
 import {
   applyCompactionDefaults,
   applyContextPruningDefaults,
@@ -10,10 +10,10 @@ import {
   applyModelDefaults,
   applySessionDefaults,
   applyTalkConfigNormalization,
-} from "./defaults.js";
-import { normalizeExecSafeBinProfilesInConfig } from "./normalize-exec-safe-bin.js";
-import { normalizeConfigPaths } from "./normalize-paths.js";
-import type { OpenClawConfig, ResolvedSourceConfig, RuntimeConfig } from "./types.js";
+} from "./defaults.ts";
+import { normalizeExecSafeBinProfilesInConfig } from "./normalize-exec-safe-bin.ts";
+import { normalizeConfigPaths } from "./normalize-paths.ts";
+import type { OpenClawConfig, ResolvedSourceConfig, RuntimeConfig } from "./types.ts";
 
 type ConfigMaterializationMode = "load" | "missing" | "snapshot";
 

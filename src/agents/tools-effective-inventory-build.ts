@@ -4,29 +4,29 @@
  * policy, with plugin/channel ownership preserved.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
-import { getActivePluginRegistry } from "../plugins/runtime.js";
-import { buildPluginToolMetadataKey, getPluginToolMeta } from "../plugins/tools.js";
-import { getChannelAgentToolMeta } from "./channel-tools.js";
-import { normalizeAgentRuntimeTools } from "./runtime-plan/tools.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
+import { getActivePluginRegistry } from "../plugins/runtime.ts";
+import { buildPluginToolMetadataKey, getPluginToolMeta } from "../plugins/tools.ts";
+import { getChannelAgentToolMeta } from "./channel-tools.ts";
+import { normalizeAgentRuntimeTools } from "./runtime-plan/tools.ts";
 import {
   filterProviderNormalizableTools,
   filterRuntimeCompatibleTools,
   type RuntimeToolSchemaDiagnostic,
-} from "./tool-schema-projection.js";
+} from "./tool-schema-projection.ts";
 import {
   disambiguateEffectiveToolLabels,
   resolveEffectiveToolLabel,
   resolveEffectiveToolRawDescription,
   summarizeEffectiveToolDescription,
-} from "./tools-effective-inventory-shared.js";
+} from "./tools-effective-inventory-shared.ts";
 import type {
   EffectiveToolInventoryEntry,
   EffectiveToolInventoryNotice,
   EffectiveToolSource,
-} from "./tools-effective-inventory.types.js";
-import type { AnyAgentTool } from "./tools/common.js";
+} from "./tools-effective-inventory.types.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 // Tool metadata may be attached to the normalized tool or the raw fallback
 // before schema projection. Check both so owner attribution survives cloning.

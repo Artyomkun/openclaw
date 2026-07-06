@@ -4,18 +4,18 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { getRuntimeConfig } from "../config/config.js";
-import type { GatewayAuthMode } from "../config/types.gateway.js";
-import { defaultRuntime } from "../runtime.js";
-import { runSecurityAudit } from "../security/audit.js";
-import { fixSecurityFootguns } from "../security/fix.js";
-import { shortenHomeInString, shortenHomePath } from "../utils.js";
-import { formatCliCommand } from "./command-format.js";
-import { resolveCommandSecretRefsViaGateway } from "./command-secret-gateway.js";
-import { getSecurityAuditCommandSecretTargetIds } from "./command-secret-targets.js";
-import { formatHelpExamples } from "./help-format.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { GatewayAuthMode } from "../config/types.gateway.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { runSecurityAudit } from "../security/audit.ts";
+import { fixSecurityFootguns } from "../security/fix.ts";
+import { shortenHomeInString, shortenHomePath } from "../utils.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { resolveCommandSecretRefsViaGateway } from "./command-secret-gateway.ts";
+import { getSecurityAuditCommandSecretTargetIds } from "./command-secret-targets.ts";
+import { formatHelpExamples } from "./help-format.ts";
 
 type SecurityAuditOptions = {
   json?: boolean;

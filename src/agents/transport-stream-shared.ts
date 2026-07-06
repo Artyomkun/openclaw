@@ -3,9 +3,9 @@
  *
  * Sanitizes provider payloads, merges metadata, and formats streamed assistant events.
  */
-import { createAssistantMessageEventStream } from "../llm/utils/event-stream.js";
-import { redactSensitiveText } from "../logging/redact.js";
-import { truncateErrorDetail } from "./provider-http-errors.js";
+import { createAssistantMessageEventStream } from "../llm/utils/event-stream.ts";
+import { redactSensitiveText } from "../logging/redact.ts";
+import { truncateErrorDetail } from "./provider-http-errors.ts";
 
 type TransportUsage = {
   input: number;

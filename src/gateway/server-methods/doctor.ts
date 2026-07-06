@@ -3,8 +3,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { asOptionalRecord } from "@openclaw/normalization-core/record-coerce";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   resolveMemoryDeepDreamingConfig,
   resolveMemoryLightDreamingConfig,
@@ -12,10 +12,10 @@ import {
   resolveMemoryDreamingConfig,
   resolveMemoryDreamingWorkspaces,
   resolveMemoryRemDreamingConfig,
-} from "../../memory-host-sdk/dreaming.js";
-import { getActiveMemorySearchManager } from "../../plugins/memory-runtime.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { formatError } from "../server-utils.js";
+} from "../../memory-host-sdk/dreaming.ts";
+import { getActiveMemorySearchManager } from "../../plugins/memory-runtime.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { formatError } from "../server-utils.ts";
 import {
   dedupeDreamDiaryEntries,
   loadShortTermPromotionDreamingStats,
@@ -25,9 +25,9 @@ import {
   removeGroundedShortTermCandidates,
   repairDreamingArtifacts,
   writeBackfillDiaryEntries,
-} from "./doctor.memory-core-runtime.js";
-import { normalizeTrimmedString } from "./record-shared.js";
-import type { GatewayRequestContext, GatewayRequestHandlers } from "./types.js";
+} from "./doctor.memory-core-runtime.ts";
+import { normalizeTrimmedString } from "./record-shared.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers } from "./types.ts";
 
 const MANAGED_DEEP_SLEEP_CRON_NAME = "Memory Dreaming Promotion";
 const MANAGED_DEEP_SLEEP_CRON_TAG = "[managed-by=memory-core.short-term-promotion]";

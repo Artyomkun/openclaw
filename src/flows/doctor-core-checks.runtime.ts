@@ -1,53 +1,53 @@
 // Doctor runtime checks inspect tool names, browser residue, and runtime state.
 import { redactSensitiveUrlLikeString } from "@openclaw/net-policy/redact-sensitive-url";
-import { TOOL_NAME_SEPARATOR } from "../agents/agent-bundle-mcp-names.js";
+import { TOOL_NAME_SEPARATOR } from "../agents/agent-bundle-mcp-names.ts";
 import {
   type McpToolCatalogDiagnostic,
   createBundleMcpToolRuntime,
-} from "../agents/agent-bundle-mcp-tools.js";
+} from "../agents/agent-bundle-mcp-tools.ts";
 import {
   listAgentEntries,
   listAgentIds,
   resolveDefaultAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
-import { createOpenClawCodingTools } from "../agents/agent-tools.js";
-import { resolveEffectiveToolPolicy } from "../agents/agent-tools.policy.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { applyFinalEffectiveToolPolicy } from "../agents/embedded-agent-runner/effective-tool-policy.js";
-import { shouldCreateBundleMcpRuntimeForAttempt } from "../agents/embedded-agent-runner/run/attempt-tool-construction-plan.js";
+} from "../agents/agent-scope.ts";
+import { createOpenClawCodingTools } from "../agents/agent-tools.ts";
+import { resolveEffectiveToolPolicy } from "../agents/agent-tools.policy.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { applyFinalEffectiveToolPolicy } from "../agents/embedded-agent-runner/effective-tool-policy.ts";
+import { shouldCreateBundleMcpRuntimeForAttempt } from "../agents/embedded-agent-runner/run/attempt-tool-construction-plan.ts";
 import {
   findModelInCatalog,
   loadModelCatalog,
   type ModelCatalogEntry,
-} from "../agents/model-catalog.js";
-import { resolveDefaultModelForAgent } from "../agents/model-selection.js";
-import { supportsModelTools } from "../agents/model-tool-support.js";
-import { normalizeAgentRuntimeTools } from "../agents/runtime-plan/tools.js";
-import { collectExplicitAllowlist, normalizeToolName } from "../agents/tool-policy.js";
+} from "../agents/model-catalog.ts";
+import { resolveDefaultModelForAgent } from "../agents/model-selection.ts";
+import { supportsModelTools } from "../agents/model-tool-support.ts";
+import { normalizeAgentRuntimeTools } from "../agents/runtime-plan/tools.ts";
+import { collectExplicitAllowlist, normalizeToolName } from "../agents/tool-policy.ts";
 import {
   inspectRuntimeToolInputSchemas,
   type RuntimeToolSchemaDiagnostic,
-} from "../agents/tool-schema-projection.js";
-import type { AnyAgentTool } from "../agents/tools/common.js";
-import { probeGatewayStatus } from "../cli/daemon-cli/probe.js";
-import { collectUnavailableAgentSkills } from "../commands/doctor-skills-core.js";
-import { gatewayProbeResultSawGateway } from "../commands/gateway-health-auth-diagnostic.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../agents/tool-schema-projection.ts";
+import type { AnyAgentTool } from "../agents/tools/common.ts";
+import { probeGatewayStatus } from "../cli/daemon-cli/probe.ts";
+import { collectUnavailableAgentSkills } from "../commands/doctor-skills-core.ts";
+import { gatewayProbeResultSawGateway } from "../commands/gateway-health-auth-diagnostic.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   getSystemdCgroupHygieneSummary,
   type GatewayServiceRuntime,
-} from "../daemon/service-runtime.js";
-import { resolveGatewayService, readGatewayServiceState } from "../daemon/service.js";
-import { buildGatewayProbeConnectionDetails } from "../gateway/call.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
-import { getPluginToolMeta, setPluginToolMeta } from "../plugins/tools.js";
-import type { ProviderCatalogOrder, ProviderPlugin } from "../plugins/types.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { buildWorkspaceSkillStatus, type SkillStatusEntry } from "../skills/discovery/status.js";
-import type { HealthCheckContext, HealthFinding } from "./health-checks.js";
+} from "../daemon/service-runtime.ts";
+import { resolveGatewayService, readGatewayServiceState } from "../daemon/service.ts";
+import { buildGatewayProbeConnectionDetails } from "../gateway/call.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
+import { getPluginToolMeta, setPluginToolMeta } from "../plugins/tools.ts";
+import type { ProviderCatalogOrder, ProviderPlugin } from "../plugins/types.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { buildWorkspaceSkillStatus, type SkillStatusEntry } from "../skills/discovery/status.ts";
+import type { HealthCheckContext, HealthFinding } from "./health-checks.ts";
 
 type BundleMcpToolRuntime = Awaited<ReturnType<typeof createBundleMcpToolRuntime>>;
 const PROVIDER_CATALOG_ORDERS = ["simple", "profile", "paired", "late"] as const;

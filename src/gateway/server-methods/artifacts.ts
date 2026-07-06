@@ -11,26 +11,26 @@ import {
   validateArtifactsDownloadParams,
   validateArtifactsGetParams,
   validateArtifactsListParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   normalizeAgentId,
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
   toAgentStoreSessionKey,
-} from "../../routing/session-key.js";
-import { getTaskSessionLookupByIdForStatus } from "../../tasks/task-status-access.js";
-import { resolveSessionKeyForRun } from "../server-session-key.js";
+} from "../../routing/session-key.ts";
+import { getTaskSessionLookupByIdForStatus } from "../../tasks/task-status-access.ts";
+import { resolveSessionKeyForRun } from "../server-session-key.ts";
 import {
   resolveSessionStoreAgentId,
   resolveSessionStoreKey,
   resolveStoredSessionKeyForAgentStore,
-} from "../session-store-key.js";
-import { visitSessionMessagesAsync } from "../session-transcript-readers.js";
-import { loadSessionEntry } from "../session-utils.js";
-import type { GatewayRequestHandlers, RespondFn } from "./types.js";
-import { assertValidParams } from "./validation.js";
+} from "../session-store-key.ts";
+import { visitSessionMessagesAsync } from "../session-transcript-readers.ts";
+import { loadSessionEntry } from "../session-utils.ts";
+import type { GatewayRequestHandlers, RespondFn } from "./types.ts";
+import { assertValidParams } from "./validation.ts";
 
 type ArtifactDownloadMode = ArtifactSummary["download"]["mode"];
 

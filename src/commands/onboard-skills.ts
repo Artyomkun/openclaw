@@ -4,17 +4,17 @@
  * It reports workspace skill readiness, offers safe dependency installs, and
  * records per-skill API keys entered during setup.
  */
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveBrewExecutable } from "../infra/brew.js";
-import { isContainerEnvironment } from "../infra/container-environment.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { patchSkillConfigEntry } from "../skills/config/mutations.js";
-import { buildWorkspaceSkillStatus } from "../skills/discovery/status.js";
-import { installSkill } from "../skills/lifecycle/install.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import { detectBinary, resolveNodeManagerOptions } from "./onboard-helpers.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveBrewExecutable } from "../infra/brew.ts";
+import { isContainerEnvironment } from "../infra/container-environment.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { patchSkillConfigEntry } from "../skills/config/mutations.ts";
+import { buildWorkspaceSkillStatus } from "../skills/discovery/status.ts";
+import { installSkill } from "../skills/lifecycle/install.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import { detectBinary, resolveNodeManagerOptions } from "./onboard-helpers.ts";
 
 const HOMEBREW_PROMPT_PLATFORMS = new Set(["darwin", "linux"]);
 

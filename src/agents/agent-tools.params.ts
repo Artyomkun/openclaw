@@ -3,7 +3,7 @@
  * Converts malformed file-tool arguments into retryable errors and fixes the
  * specific XML suffix and Office-extension corruption seen in path arguments.
  */
-import type { AnyAgentTool } from "./agent-tools.types.js";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
 
 export type RequiredParamGroup = {
   keys: readonly string[];

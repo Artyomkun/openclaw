@@ -7,16 +7,16 @@ import {
   resolveSessionStoreEntry,
   type SessionEntry,
   updateSessionStore,
-} from "../../config/sessions.js";
-import { deriveSessionTitle } from "../../gateway/session-utils.js";
-import { parseSessionLabel } from "../../sessions/session-label.js";
-import { rejectUnauthorizedCommand } from "./command-gates.js";
-import { markCommandSessionMetadataChanged } from "./command-session-metadata.js";
+} from "../../config/sessions.ts";
+import { deriveSessionTitle } from "../../gateway/session-utils.ts";
+import { parseSessionLabel } from "../../sessions/session-label.ts";
+import { rejectUnauthorizedCommand } from "./command-gates.ts";
+import { markCommandSessionMetadataChanged } from "./command-session-metadata.ts";
 import type {
   CommandHandler,
   CommandHandlerResult,
   HandleCommandsParams,
-} from "./commands-types.js";
+} from "./commands-types.ts";
 
 const NAME_COMMAND_PREFIX = "/name";
 
@@ -53,7 +53,6 @@ type NameWriteResult =
       label: string;
       sessionKey: string;
       entry: SessionEntry;
-      hadLegacyAliases: boolean;
     }
   | { ok: false; error: string };
 
@@ -101,7 +100,7 @@ export const handleNameCommand: CommandHandler = async (params, allowTextCommand
   // cross-store uniqueness rule enforced by the web/admin `sessions.patch`
   // path so chat naming behaves identically to the session manager. Resolve the
   // session via `resolveSessionStoreEntry` so renames land on the canonical
-  // entry even when the store still holds a legacy/case-folded key alias, and
+  // entry even when the store still holds a case-folded key alias, and
   // exclude those aliases from the uniqueness scan to avoid false conflicts.
   const result = await updateSessionStore<NameWriteResult>(
     storePath,
@@ -118,7 +117,7 @@ export const handleNameCommand: CommandHandler = async (params, allowTextCommand
       if (!validated.ok) {
         return { ok: false, error: validated.error };
       }
-      const aliasKeys = new Set<string>([resolved.normalizedKey, ...resolved.legacyKeys]);
+      const aliasKeys = new Set<string>([resolved.normalizedKey]);
       for (const [key, other] of Object.entries(store)) {
         if (!aliasKeys.has(key) && other?.label === validated.label) {
           return { ok: false, error: `label already in use: ${validated.label}` };
@@ -126,26 +125,20 @@ export const handleNameCommand: CommandHandler = async (params, allowTextCommand
       }
       entry.label = validated.label;
       entry.updatedAt = Math.max(entry.updatedAt ?? 0, Date.now());
-      // Persist through the canonical key and drop any legacy/case-folded
+      // Persist through the canonical key and drop any case-folded
       // aliases, mirroring `persistResolvedSessionEntry`.
       store[resolved.normalizedKey] = entry;
-      for (const legacyKey of resolved.legacyKeys) {
-        delete store[legacyKey];
-      }
       return {
         ok: true,
         label: validated.label,
         sessionKey: resolved.normalizedKey,
-        entry,
-        hadLegacyAliases: resolved.legacyKeys.length > 0,
+        entry
       };
     },
     {
       skipSaveWhenResult: (value) => !value.ok,
       resolveSingleEntryPersistence: (value) =>
-        value.ok && !value.hadLegacyAliases
-          ? { sessionKey: value.sessionKey, entry: value.entry }
-          : null,
+        value.ok || { sessionKey: value.sessionKey, entry: value.entry },
     },
   );
 

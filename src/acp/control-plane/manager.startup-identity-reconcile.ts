@@ -4,8 +4,8 @@ import {
   isSessionIdentityPending,
   resolveSessionIdentityFromMeta,
 } from "@openclaw/acp-core/runtime/session-identity";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
 import type {
   AcpSessionManagerDeps,
   AcpStartupIdentityReconcileResult,
@@ -13,7 +13,7 @@ import type {
   ReconcileManagerRuntimeSessionIdentifiers,
   ResolveManagerSession,
   WithManagerSessionActor,
-} from "./manager.types.js";
+} from "./manager.types.ts";
 
 /** Resolves pending ACP session identities opportunistically during manager startup. */
 export async function runManagerStartupIdentityReconcile(params: {

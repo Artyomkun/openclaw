@@ -9,7 +9,6 @@ import { normalizeOptionalString } from "openclaw/plugin-sdk/string-coerce-runti
 import type { MatrixClient } from "../sdk.js";
 import { resolveValidatedMatrixHomeserverUrl } from "./config.js";
 import {
-  maybeMigrateLegacyStorage,
   resolveMatrixStoragePaths,
   writeStorageMeta,
 } from "./storage.js";
@@ -69,10 +68,6 @@ export async function createMatrixClient(params: {
     : null;
 
   if (storagePaths) {
-    await maybeMigrateLegacyStorage({
-      storagePaths,
-      env: process.env,
-    });
     fs.mkdirSync(storagePaths.rootDir, { recursive: true });
     writeStorageMeta({
       storagePaths,

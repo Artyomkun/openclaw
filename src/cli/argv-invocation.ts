@@ -4,7 +4,7 @@ import {
   getPrimaryCommand,
   isHelpOrVersionInvocation,
   isRootHelpInvocation,
-} from "./argv.js";
+} from "./argv.ts";
 
 export type CliArgvInvocation = {
   argv: string[];

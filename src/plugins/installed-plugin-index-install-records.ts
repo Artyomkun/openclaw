@@ -1,9 +1,9 @@
 /** Normalizes durable plugin install records into installed-index metadata and back. */
-import type { PluginInstallRecord } from "../config/types.plugins.js";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
 import type {
   InstalledPluginIndex,
   InstalledPluginInstallRecordInfo,
-} from "./installed-plugin-index-types.js";
+} from "./installed-plugin-index-types.ts";
 
 function setInstallStringField<Key extends keyof Omit<InstalledPluginInstallRecordInfo, "source">>(
   target: InstalledPluginInstallRecordInfo,
@@ -152,7 +152,7 @@ function restoreInstallRecordMap(
   return restored;
 }
 
-/** Extracts raw plugin install records from either current or legacy installed-index shapes. */
+/** Extracts raw plugin install records from either current or older installed-index shapes. */
 export function extractPluginInstallRecordsFromInstalledPluginIndex(
   index: InstalledPluginIndex | null | undefined,
 ): Record<string, PluginInstallRecord> {

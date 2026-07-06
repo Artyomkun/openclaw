@@ -29,18 +29,11 @@ type QaAuthProfileCredential =
       projectId?: string;
       accountId?: string;
       chatgptPlanType?: string;
-      oauthRef?: QaLegacyOAuthRef;
     };
 
 type QaSecretRef = {
   source: "env" | "file" | "exec";
   provider?: string;
-  id: string;
-};
-
-type QaLegacyOAuthRef = {
-  source: "openclaw-credentials";
-  provider: "openai";
   id: string;
 };
 
@@ -124,8 +117,7 @@ function isQaAuthProfileRecord(value: unknown): value is QaAuthProfileCredential
         isOptionalString(value.projectId) &&
         isOptionalString(value.accountId) &&
         isOptionalString(value.chatgptPlanType) &&
-        isOptionalFiniteNumber(value.expires) &&
-        isOptionalLegacyOAuthRef(value.oauthRef)
+        isOptionalFiniteNumber(value.expires)
       );
     default:
       return false;
@@ -156,20 +148,6 @@ function isQaSecretRef(value: unknown): value is QaSecretRef {
       (typeof value.provider === "string" && value.provider.trim().length > 0)) &&
     typeof value.id === "string" &&
     value.id.trim().length > 0
-  );
-}
-
-function isOptionalLegacyOAuthRef(value: unknown): boolean {
-  return value === undefined || isQaLegacyOAuthRef(value);
-}
-
-function isQaLegacyOAuthRef(value: unknown): value is QaLegacyOAuthRef {
-  return (
-    isRecord(value) &&
-    value.source === "openclaw-credentials" &&
-    value.provider === "openai" &&
-    typeof value.id === "string" &&
-    /^[a-f0-9]{32}$/.test(value.id)
   );
 }
 

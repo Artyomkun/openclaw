@@ -1,8 +1,8 @@
 /** Active-run queue admission for prepared reply turns. */
-import { logVerbose } from "../../globals.js";
-import type { ReplyPayload } from "../types.js";
-import type { ActiveRunQueueAction } from "./queue-policy.js";
-import type { QueueSettings } from "./queue.js";
+import { logVerbose } from "../../globals.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { ActiveRunQueueAction } from "./queue-policy.ts";
+import type { QueueSettings } from "./queue.ts";
 
 /** Snapshot of the active reply run state used by queue admission. */
 type ReplyRunQueueBusyState = {

@@ -1,27 +1,27 @@
 // Hook install runtime helpers resolve archive install behavior behind runtime imports.
-import { resolveArchiveKind } from "../infra/archive.js";
-import { pathExists } from "../infra/fs-safe.js";
-import { resolveExistingInstallPath, withExtractedArchiveRoot } from "../infra/install-flow.js";
-import { installFromValidatedNpmSpecArchive } from "../infra/install-from-npm-spec.js";
+import { resolveArchiveKind } from "../infra/archive.ts";
+import { pathExists } from "../infra/fs-safe.ts";
+import { resolveExistingInstallPath, withExtractedArchiveRoot } from "../infra/install-flow.ts";
+import { installFromValidatedNpmSpecArchive } from "../infra/install-from-npm-spec.ts";
 import {
   resolveInstallModeOptions,
   resolveTimedInstallModeOptions,
-} from "../infra/install-mode-options.js";
+} from "../infra/install-mode-options.ts";
 import {
   installPackageDir,
   installPackageDirWithManifestDeps,
-} from "../infra/install-package-dir.js";
+} from "../infra/install-package-dir.ts";
 import {
   type NpmIntegrityDrift,
   type NpmSpecResolution,
   resolveArchiveSourcePath,
-} from "../infra/install-source-utils.js";
+} from "../infra/install-source-utils.ts";
 import {
   ensureInstallTargetAvailable,
   resolveCanonicalInstallTarget,
-} from "../infra/install-target.js";
-import { readJson } from "../infra/json-files.js";
-import { isPathInside, isPathInsideWithRealpath } from "../security/scan-paths.js";
+} from "../infra/install-target.ts";
+import { readJson } from "../infra/json-files.ts";
+import { isPathInside, isPathInsideWithRealpath } from "../security/scan-paths.ts";
 
 /** Runtime-only install dependencies for hook install/update paths. */
 export type { NpmIntegrityDrift, NpmSpecResolution };

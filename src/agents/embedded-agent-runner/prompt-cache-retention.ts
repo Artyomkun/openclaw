@@ -1,63 +1,97 @@
-/**
- * Resolves provider/model prompt-cache retention behavior.
- */
+import { z } from "zod";
+import { createClient, RedisClientType } from "redis";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveAnthropicCacheRetentionFamily } from "../../llm/providers/stream-wrappers/anthropic-family-cache-semantics.js";
 
-type CacheRetention = "none" | "short" | "long";
+// ============================================
+// SCHEMAS
+// ============================================
 
-export function isGooglePromptCacheEligible(params: {
-  modelApi?: string;
-  modelId?: string;
-}): boolean {
-  if (params.modelApi !== "google-generative-ai") {
-    return false;
+const CacheRetentionSchema = z.enum(["none", "short", "long"]);
+type CacheRetention = z.infer<typeof CacheRetentionSchema>;
+
+// ============================================
+// REDIS CLIENT
+// ============================================
+
+let redisClient: RedisClientType | null = null;
+
+export async function getRedisClient(): Promise<RedisClientType> {
+  if (!redisClient) {
+    redisClient = createClient({
+      url: process.env.REDIS_URL,
+    });
+    await redisClient.connect();
   }
-  const normalizedModelId = normalizeLowercaseStringOrEmpty(params.modelId);
-  return normalizedModelId.startsWith("gemini-2.5") || normalizedModelId.startsWith("gemini-3");
+  return redisClient;
 }
 
-export function resolveCacheRetention(
+// ============================================
+// MAIN
+// ============================================
+
+export async function resolveCacheRetention(
   extraParams: Record<string, unknown> | undefined,
   provider: string,
   modelApi?: string,
   modelId?: string,
   supportsPromptCacheKey?: boolean,
-): CacheRetention | undefined {
-  const hasExplicitCacheConfig =
-    extraParams?.cacheRetention !== undefined || extraParams?.cacheControlTtl !== undefined;
-  const family = resolveAnthropicCacheRetentionFamily({
-    provider,
-    modelApi,
-    modelId,
-    hasExplicitCacheConfig,
-  });
-  const googleEligible = isGooglePromptCacheEligible({ modelApi, modelId });
-  // OpenAI-compatible completions backends (oMLX, llama.cpp, etc.) opt into
-  // prompt caching via `compat.supportsPromptCacheKey: true`. Without that
-  // flag they sit outside the anthropic/google family gates, so issue #81281
-  // dropped the user's explicit `cacheRetention` before the transport layer
-  // could emit it. Proxies that route non-cacheable models via the same
-  // openai-completions wire (amazon-bedrock + amazon.* nova models) leave
-  // the flag unset, so the existing family gate still applies to them.
-  const cacheKeyEligible = supportsPromptCacheKey === true;
-
-  if (!family && !googleEligible && !cacheKeyEligible) {
-    return undefined;
+): Promise<CacheRetention | undefined> {
+  const explicit = extraParams?.cacheRetention;
+  if (explicit === "none" || explicit === "short" || explicit === "long") {
+    return explicit;
   }
 
-  const newVal = extraParams?.cacheRetention;
-  if (newVal === "none" || newVal === "short" || newVal === "long") {
-    return newVal;
+  try {
+    const redis = await getRedisClient();
+    const cacheKey = `prompt:cache:${provider}:${modelApi || "default"}:${modelId || "default"}`;
+    const cached = await redis.get(cacheKey);
+    if (cached) {
+      const { retention, ttl } = JSON.parse(cached);
+      if (ttl > Date.now()) {
+        return retention;
+      }
+    }
+  } catch (error) {
+    console.error("Redis cache check failed:", error);
   }
 
-  const legacy = extraParams?.cacheControlTtl;
-  if (legacy === "5m" && (family || googleEligible)) {
+  if (modelApi === "google-generative-ai") {
+    const normalizedId = normalizeLowercaseStringOrEmpty(modelId);
+    if (normalizedId.startsWith("gemini-2.5") || normalizedId.startsWith("gemini-3")) {
+      return "long";
+    }
+  }
+
+  if (provider === "anthropic") {
     return "short";
   }
-  if (legacy === "1h" && (family || googleEligible)) {
-    return "long";
+
+  if (supportsPromptCacheKey === true) {
+    return "short";
   }
 
-  return family === "anthropic-direct" ? "short" : undefined;
+  return undefined;
+}
+
+// ============================================
+// SET CACHE
+// ============================================
+
+export async function setCacheRetention(
+  provider: string,
+  modelApi: string | undefined,
+  modelId: string | undefined,
+  retention: CacheRetention,
+  ttlSeconds: number = 3600,
+): Promise<void> {
+  try {
+    const redis = await getRedisClient();
+    const cacheKey = `prompt:cache:${provider}:${modelApi || "default"}:${modelId || "default"}`;
+    await redis.setEx(cacheKey, ttlSeconds, JSON.stringify({
+      retention,
+      ttl: Date.now() + ttlSeconds * 1000,
+    }));
+  } catch (error) {
+    console.error("Failed to set cache retention:", error);
+  }
 }

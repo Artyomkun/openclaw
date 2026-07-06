@@ -41,7 +41,6 @@ import {
   isJsonObject,
   type CodexDynamicToolFunctionSpec,
   type CodexDynamicToolSpec,
-  type CodexLegacyDynamicToolFunctionSpec,
   type CodexSandboxPolicy,
   type CodexThreadResumeParams,
   type CodexThreadStartParams,
@@ -435,36 +434,6 @@ export async function startOrResumeThread(params: {
       preserveExistingBinding = true;
     } else {
       embeddedAgentLog.debug("codex app-server MCP config changed; starting a new thread", {
-        threadId: binding.threadId,
-      });
-      await clearCodexAppServerBinding(params.params.sessionFile);
-    }
-    binding = undefined;
-  }
-  // A transient native-tool restriction must not replace a legacy binding just
-  // because that binding predates search fingerprints. Explicit persistent
-  // search denial still rotates first so the restricted thread can persist.
-  const deferLegacyWebSearchRotationToTransientNativeSurface =
-    params.nativeCodeModeEnabled === false &&
-    binding?.webSearchThreadConfigFingerprint === undefined &&
-    !persistentWebSearchRestriction;
-  if (
-    binding?.threadId &&
-    webSearchBindingChanged &&
-    !deferLegacyWebSearchRotationToTransientNativeSurface
-  ) {
-    if (transientWebSearchRestriction) {
-      embeddedAgentLog.debug(
-        "codex app-server web search restricted for turn; starting transient thread",
-        {
-          threadId: binding.threadId,
-        },
-      );
-      preserveExistingBinding = true;
-    } else {
-      // Codex can ignore resume overrides for a loaded thread, so persistent
-      // search-policy changes and legacy bindings without metadata rotate first.
-      embeddedAgentLog.debug("codex app-server web search config changed; starting a new thread", {
         threadId: binding.threadId,
       });
       await clearCodexAppServerBinding(params.params.sessionFile);
@@ -1129,31 +1098,9 @@ export function buildThreadStartParams(
     developerInstructions:
       options.developerInstructions ??
       buildDeveloperInstructions(params, { dynamicTools: options.dynamicTools }),
-    dynamicTools: toCodexThreadStartDynamicTools(options.dynamicTools),
     experimentalRawEvents: true,
     persistExtendedHistory: true,
   };
-}
-
-function toCodexThreadStartDynamicTools(
-  dynamicTools: readonly CodexDynamicToolSpec[],
-): CodexLegacyDynamicToolFunctionSpec[] {
-  // Managed stable Codex still accepts the legacy flat start payload. Keep
-  // OpenClaw namespaces internally, but omit `type` on the wire so Codex does
-  // not reject a mixed canonical/legacy shape before thread creation.
-  return dynamicTools.flatMap((tool) =>
-    tool.type === "namespace"
-      ? tool.tools.map((child) => toCodexLegacyDynamicTool(child, tool.name))
-      : [toCodexLegacyDynamicTool(tool)],
-  );
-}
-
-function toCodexLegacyDynamicTool(
-  tool: CodexDynamicToolFunctionSpec,
-  namespace?: string,
-): CodexLegacyDynamicToolFunctionSpec {
-  const { type: _type, ...legacyTool } = tool;
-  return namespace ? { ...legacyTool, namespace } : legacyTool;
 }
 
 export function buildThreadResumeParams(
@@ -1670,7 +1617,6 @@ export function buildDeveloperInstructions(
 ): string {
   const nativeCommandGuidance = listRegisteredPluginAgentPromptGuidance({
     surface: "codex_app_server",
-    includeLegacyGlobalGuidance: false,
   }).join("\n");
   const sections = [
     "You are a personal agent running inside OpenClaw. OpenClaw has dynamic tools for OpenClaw-owned messaging, cron, sessions, media, gateway, and nodes.",
@@ -1757,7 +1703,7 @@ export function resolveCodexAppServerModelProvider(params: {
   const normalizedLower = normalized.toLowerCase();
   if (!normalized || normalizedLower === "codex") {
     // `codex` is OpenClaw's virtual provider; let Codex app-server keep its
-    // native provider/auth selection instead of forcing the legacy OpenAI path.
+    // native provider/auth selection instead of forcing the OpenAI path.
     return undefined;
   }
   if (isCodexAppServerNativeAuthProfile(params) && normalizedLower === "openai") {

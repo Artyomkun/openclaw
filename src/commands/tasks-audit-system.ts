@@ -5,17 +5,17 @@ import type {
   TaskFlowAuditCode,
   TaskFlowAuditFinding,
   TaskFlowAuditSeverity,
-} from "../tasks/task-flow-registry.audit.js";
-import { summarizeTaskFlowAuditFindings } from "../tasks/task-flow-registry.audit.js";
-import type { TaskFlowRecord } from "../tasks/task-flow-registry.types.js";
+} from "../tasks/task-flow-registry.audit.ts";
+import { summarizeTaskFlowAuditFindings } from "../tasks/task-flow-registry.audit.ts";
+import type { TaskFlowRecord } from "../tasks/task-flow-registry.types.ts";
 import type {
   TaskAuditCode,
   TaskAuditFinding,
   TaskAuditSeverity,
-} from "../tasks/task-registry.audit.js";
-import { summarizeTaskAuditFindings } from "../tasks/task-registry.audit.js";
-import { compareTaskAuditFindingSortKeys } from "../tasks/task-registry.audit.shared.js";
-import type { TaskRecord } from "../tasks/task-registry.types.js";
+} from "../tasks/task-registry.audit.ts";
+import { summarizeTaskAuditFindings } from "../tasks/task-registry.audit.ts";
+import { compareTaskAuditFindingSortKeys } from "../tasks/task-registry.audit.shared.ts";
+import type { TaskRecord } from "../tasks/task-registry.types.ts";
 
 export type TaskSystemAuditCode = TaskAuditCode | TaskFlowAuditCode;
 export type TaskSystemAuditSeverity = TaskAuditSeverity | TaskFlowAuditSeverity;
@@ -114,11 +114,9 @@ export function buildTaskSystemAuditJsonPayload(
     limit?: number;
   },
 ) {
-  const { allFindings, filteredFindings, taskFindings, summary } = result;
+  const { allFindings, filteredFindings, summary } = result;
   const limit = typeof params.limit === "number" && params.limit > 0 ? params.limit : undefined;
   const displayed = limit ? filteredFindings.slice(0, limit) : filteredFindings;
-  // Preserve the legacy task-only summary while adding combined task-flow counts.
-  const legacySummary = summarizeTaskAuditFindings(taskFindings);
   return {
     count: allFindings.length,
     filteredCount: filteredFindings.length,
@@ -129,7 +127,6 @@ export function buildTaskSystemAuditJsonPayload(
       limit: limit ?? null,
     },
     summary: {
-      ...legacySummary,
       taskFlows: summary.taskFlows,
       combined: {
         total: summary.total,

@@ -9,7 +9,7 @@ import {
   CORE_TOOL_GROUPS,
   resolveCoreToolProfilePolicy,
   type ToolProfileId,
-} from "./tool-catalog.js";
+} from "./tool-catalog.ts";
 
 type ToolProfilePolicy = {
   allow?: string[];

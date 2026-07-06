@@ -1,11 +1,11 @@
 // Detects ACP commands that should bypass normal agent dispatch.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { hasControlCommand } from "../command-detection.js";
-import { isCommandEnabled } from "../commands-registry-list.js";
-import { maybeResolveTextAlias } from "../commands-registry-normalize.js";
-import { shouldHandleTextCommands } from "../commands-text-routing.js";
-import type { FinalizedMsgContext } from "../templating.js";
-import { resolveCommandContextText } from "./context-text.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { hasControlCommand } from "../command-detection.ts";
+import { isCommandEnabled } from "../commands-registry-list.ts";
+import { maybeResolveTextAlias } from "../commands-registry-normalize.ts";
+import { shouldHandleTextCommands } from "../commands-text-routing.ts";
+import type { FinalizedMsgContext } from "../templating.ts";
+import { resolveCommandContextText } from "./context-text.ts";
 
 function isResetCommandCandidate(text: string): boolean {
   return /^\/(?:new|reset)(?:\s|$)/i.test(text);

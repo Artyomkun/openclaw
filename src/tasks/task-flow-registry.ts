@@ -1,21 +1,21 @@
 // Coordinates managed task-flow creation, updates, ownership, and snapshots.
 import crypto from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { formatErrorMessage } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   getTaskFlowRegistryObservers,
   getTaskFlowRegistryStore,
   resetTaskFlowRegistryRuntimeForTests,
   type TaskFlowRegistryObserverEvent,
-} from "./task-flow-registry.store.js";
+} from "./task-flow-registry.store.ts";
 import type {
   TaskFlowRecord,
   TaskFlowStatus,
   TaskFlowSyncMode,
   JsonValue,
-} from "./task-flow-registry.types.js";
-import type { TaskNotifyPolicy, TaskRecord } from "./task-registry.types.js";
+} from "./task-flow-registry.types.ts";
+import type { TaskNotifyPolicy, TaskRecord } from "./task-registry.types.ts";
 
 const log = createSubsystemLogger("tasks/task-flow-registry");
 const flows = new Map<string, TaskFlowRecord>();
@@ -128,7 +128,7 @@ function normalizeRestoredFlowRecord(record: TaskFlowRecord): TaskFlowRecord {
   const syncMode = record.syncMode === "task_mirrored" ? "task_mirrored" : "managed";
   const controllerId =
     syncMode === "managed"
-      ? (normalizeOptionalString(record.controllerId) ?? "core/legacy-restored")
+      ? (normalizeOptionalString(record.controllerId))
       : undefined;
   return {
     ...record,

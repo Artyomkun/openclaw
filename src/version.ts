@@ -2,8 +2,9 @@
 import { createRequire } from "node:module";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 
-// oxlint-disable-next-line eslint/no-underscore-dangle -- Bundled builds replace this compile-time define identifier.
-declare const __OPENCLAW_VERSION__: string | undefined;
+declare global {
+  const __OPENCLAW_VERSION__: string | undefined;
+}
 const CORE_PACKAGE_NAME = "openclaw";
 
 const PACKAGE_JSON_CANDIDATES = [
@@ -19,7 +20,7 @@ const BUILD_INFO_CANDIDATES = [
   "./build-info.json",
 ] as const;
 
-function readVersionFromJsonCandidates(
+function readVersionFrotsonCandidates(
   moduleUrl: string,
   candidates: readonly string[],
   opts: { requirePackageName?: boolean } = {},
@@ -62,13 +63,13 @@ function readInjectedVersion(): string | undefined {
 }
 
 export function readVersionFromPackageJsonForModuleUrl(moduleUrl: string): string | null {
-  return readVersionFromJsonCandidates(moduleUrl, PACKAGE_JSON_CANDIDATES, {
+  return readVersionFrotsonCandidates(moduleUrl, PACKAGE_JSON_CANDIDATES, {
     requirePackageName: true,
   });
 }
 
 export function readVersionFromBuildInfoForModuleUrl(moduleUrl: string): string | null {
-  return readVersionFromJsonCandidates(moduleUrl, BUILD_INFO_CANDIDATES);
+  return readVersionFrotsonCandidates(moduleUrl, BUILD_INFO_CANDIDATES);
 }
 
 export function resolveVersionFromModuleUrl(moduleUrl: string): string | null {

@@ -1,46 +1,20 @@
-// Telegram helper module supports normalize behavior.
+/**
+ * Telegram - Target Normalization
+ */
+
 import { normalizeLowercaseStringOrEmpty } from "openclaw/plugin-sdk/string-coerce-runtime";
-import { normalizeTelegramLookupTarget, parseTelegramTarget } from "./targets.js";
 
 const TELEGRAM_PREFIX_RE = /^(telegram|tg):/i;
 
-function normalizeTelegramTargetBody(raw: string): string | undefined {
-  const trimmed = raw.trim();
-  if (!trimmed) {
-    return undefined;
-  }
-
-  const prefixStripped = trimmed.replace(TELEGRAM_PREFIX_RE, "").trim();
-  if (!prefixStripped) {
-    return undefined;
-  }
-
-  const parsed = parseTelegramTarget(trimmed);
-  const normalizedChatId = normalizeTelegramLookupTarget(parsed.chatId);
-  if (!normalizedChatId) {
-    return undefined;
-  }
-
-  const keepLegacyGroupPrefix = /^group:/i.test(prefixStripped);
-  const hasTopicSuffix = /:topic:\d+$/i.test(prefixStripped);
-  const chatSegment = keepLegacyGroupPrefix ? `group:${normalizedChatId}` : normalizedChatId;
-  if (parsed.messageThreadId == null) {
-    return chatSegment;
-  }
-  const threadSuffix = hasTopicSuffix
-    ? `:topic:${parsed.messageThreadId}`
-    : `:${parsed.messageThreadId}`;
-  return `${chatSegment}${threadSuffix}`;
-}
-
 export function normalizeTelegramMessagingTarget(raw: string): string | undefined {
-  const normalizedBody = normalizeTelegramTargetBody(raw);
-  if (!normalizedBody) {
-    return undefined;
-  }
-  return normalizeLowercaseStringOrEmpty(`telegram:${normalizedBody}`);
+  if (!raw?.trim()) return undefined;
+  const cleaned = raw.trim().replace(TELEGRAM_PREFIX_RE, "").trim();
+  if (!cleaned) return undefined;
+  
+  return normalizeLowercaseStringOrEmpty(`telegram:${cleaned}`);
 }
 
 export function looksLikeTelegramTargetId(raw: string): boolean {
-  return normalizeTelegramTargetBody(raw) !== undefined;
+  if (!raw?.trim()) return false;
+  return raw.trim().replace(TELEGRAM_PREFIX_RE, "").trim().length > 0;
 }

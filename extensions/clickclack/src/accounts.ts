@@ -152,7 +152,7 @@ export function resolveClickClackAccount(params: {
 
 /**
  * Returns all enabled accounts, including the implicit default account when
- * legacy top-level ClickClack config is present.
+ * top-level ClickClack config is present.
  */
 export function listEnabledClickClackAccounts(cfg: CoreConfig): ResolvedClickClackAccount[] {
   return listClickClackAccountIds(cfg)

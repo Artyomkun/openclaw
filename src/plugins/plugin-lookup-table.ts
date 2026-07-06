@@ -1,17 +1,17 @@
 /** Builds plugin lookup tables keyed by manifest ids, channels, providers, and commands. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   createGatewayStartupMetadataPluginIdScope,
   isMetadataSnapshotScopedForGatewayStartup,
   resolveGatewayStartupPluginPlanFromRegistry,
   type GatewayStartupPluginPlan,
-} from "./channel-plugin-ids.js";
+} from "./channel-plugin-ids.ts";
 import {
   isPluginMetadataSnapshotCompatible,
   resolvePluginMetadataSnapshot,
   type PluginMetadataSnapshot,
-} from "./plugin-metadata-snapshot.js";
-import type { PluginRegistrySnapshot } from "./plugin-registry-snapshot.js";
+} from "./plugin-metadata-snapshot.ts";
+import type { PluginRegistrySnapshot } from "./plugin-registry-snapshot.ts";
 
 export type PluginLookUpTableMetrics = PluginMetadataSnapshot["metrics"] & {
   startupPlanMs: number;

@@ -1,5 +1,5 @@
 // Health check registry stores doctor health checks by identifier.
-import type { HealthCheck } from "./health-checks.js";
+import type { HealthCheck } from "./health-checks.ts";
 
 // Process-local registry populated by core and plugin doctor checks.
 const REGISTRY = new Map<string, HealthCheck>();

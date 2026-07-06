@@ -4,7 +4,7 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ToolPolicyConfig } from "../config/types.tools.js";
+import type { ToolPolicyConfig } from "../config/types.tools.ts";
 
 export function normalizeToolProviderPolicyKey(value: string): string {
   const normalized = normalizeLowercaseStringOrEmpty(value);

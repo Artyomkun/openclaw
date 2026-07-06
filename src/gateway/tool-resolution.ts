@@ -1,21 +1,21 @@
 // Gateway-scoped tool resolution for HTTP and loopback tool surfaces.
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
   resolveInheritedToolPolicyForSession,
   resolveSubagentToolPolicyForSession,
-} from "../agents/agent-tools.policy.js";
-import { createOpenClawTools } from "../agents/openclaw-tools.js";
+} from "../agents/agent-tools.policy.ts";
+import { createOpenClawTools } from "../agents/openclaw-tools.ts";
 import {
   isSubagentEnvelopeSession,
   resolveSubagentCapabilityStore,
-} from "../agents/subagent-capabilities.js";
-import { buildDeclaredToolAllowlistContext } from "../agents/tool-policy-declared-context.js";
+} from "../agents/subagent-capabilities.ts";
+import { buildDeclaredToolAllowlistContext } from "../agents/tool-policy-declared-context.ts";
 import {
   applyToolPolicyPipeline,
   buildDefaultToolPolicyPipelineSteps,
-} from "../agents/tool-policy-pipeline.js";
+} from "../agents/tool-policy-pipeline.ts";
 import {
   collectExplicitAllowlist,
   collectExplicitDenylist,
@@ -23,21 +23,21 @@ import {
   mergeAlsoAllowPolicy,
   replaceWithEffectiveToolAllowlist,
   resolveToolProfilePolicy,
-} from "../agents/tool-policy.js";
-import type { AnyAgentTool } from "../agents/tools/common.js";
+} from "../agents/tool-policy.ts";
+import type { AnyAgentTool } from "../agents/tools/common.ts";
 import {
   replaceWithEffectiveCronCreatorToolAllowlist,
   type CronCreatorToolAllowlistEntry,
-} from "../agents/tools/cron-tool.js";
-import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.js";
-import type { InboundEventKind } from "../channels/inbound-event/kind.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { logWarn } from "../logger.js";
-import { getPluginToolMeta } from "../plugins/tools.js";
+} from "../agents/tools/cron-tool.ts";
+import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.ts";
+import type { InboundEventKind } from "../channels/inbound-event/kind.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { logWarn } from "../logger.ts";
+import { getPluginToolMeta } from "../plugins/tools.ts";
 import {
   DEFAULT_GATEWAY_HTTP_TOOL_DENY,
   GATEWAY_OWNER_ONLY_CORE_TOOLS,
-} from "../security/dangerous-tools.js";
+} from "../security/dangerous-tools.ts";
 
 type GatewayScopedToolSurface = "http" | "loopback";
 

@@ -10,18 +10,18 @@ import {
   validatePluginsSessionActionResult,
   validatePluginsUiDescriptorsParams,
   validatePluginsUiDescriptorsResult,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { isPluginJsonValue } from "../../plugins/host-hooks.js";
-import { getActivePluginRegistry } from "../../plugins/runtime.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { isPluginJsonValue } from "../../plugins/host-hooks.ts";
+import { getActivePluginRegistry } from "../../plugins/runtime.ts";
 import {
   validateJsonSchemaValue,
   type JsonSchemaValidationError,
   type JsonSchemaValue,
-} from "../../plugins/schema-validator.js";
-import { ADMIN_SCOPE, READ_SCOPE, WRITE_SCOPE } from "../operator-scopes.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../plugins/schema-validator.ts";
+import { ADMIN_SCOPE, READ_SCOPE, WRITE_SCOPE } from "../operator-scopes.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 const log = createSubsystemLogger("gateway/plugin-host-hooks");
 

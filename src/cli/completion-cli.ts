@@ -2,13 +2,13 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { Command, Option } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { routeLogsToStderr } from "../logging/console.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { routeLogsToStderr } from "../logging/console.ts";
 import {
   buildFishOptionCompletionLine,
   buildFishSubcommandCompletionLine,
-} from "./completion-fish.js";
+} from "./completion-fish.ts";
 import {
   COMPLETION_SHELLS,
   COMPLETION_SKIP_PLUGIN_COMMANDS_ENV,
@@ -17,10 +17,10 @@ import {
   resolveCompletionCachePath,
   resolveShellFromEnv,
   type CompletionShell,
-} from "./completion-runtime.js";
-import { getCoreCliCommandNames, registerCoreCliByName } from "./program/command-registry-core.js";
-import { getProgramContext } from "./program/program-context.js";
-import { getSubCliEntries, registerSubCliByName } from "./program/register.subclis-core.js";
+} from "./completion-runtime.ts";
+import { getCoreCliCommandNames, registerCoreCliByName } from "./program/command-registry-core.ts";
+import { getProgramContext } from "./program/program-context.ts";
+import { getSubCliEntries, registerSubCliByName } from "./program/register.subclis-core.ts";
 
 export function getCompletionScript(shell: CompletionShell, program: Command): string {
   if (shell === "zsh") {

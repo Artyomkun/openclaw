@@ -3,21 +3,21 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { getFinishedSession, getSession } from "../../agents/bash-process-registry.js";
-import { createExecTool } from "../../agents/bash-tools.js";
-import { resolveSandboxRuntimeStatus } from "../../agents/sandbox.js";
-import { isCommandFlagEnabled } from "../../config/commands.flags.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { clampInt } from "../../utils.js";
-import type { MsgContext } from "../templating.js";
-import type { ReplyPayload } from "../types.js";
-import { buildDisabledCommandReply } from "./command-gates.js";
-import { formatElevatedUnavailableMessage } from "./elevated-unavailable.js";
-import { stripMentions, stripStructuralPrefixes } from "./mentions.js";
-import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { getFinishedSession, getSession } from "../../agents/bash-process-registry.ts";
+import { createExecTool } from "../../agents/bash-tools.ts";
+import { resolveSandboxRuntimeStatus } from "../../agents/sandbox.ts";
+import { isCommandFlagEnabled } from "../../config/commands.flags.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { clampInt } from "../../utils.ts";
+import type { MsgContext } from "../templating.ts";
+import type { ReplyPayload } from "../types.ts";
+import { buildDisabledCommandReply } from "./command-gates.ts";
+import { formatElevatedUnavailableMessage } from "./elevated-unavailable.ts";
+import { stripMentions, stripStructuralPrefixes } from "./mentions.ts";
+import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.ts";
 
 const CHAT_BASH_SCOPE_KEY = "chat:bash";
 const DEFAULT_FOREGROUND_MS = 2000;

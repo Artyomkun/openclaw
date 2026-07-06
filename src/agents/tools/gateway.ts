@@ -10,25 +10,25 @@ import {
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../../packages/gateway-protocol/src/client-info.js";
-import { getRuntimeConfig, resolveGatewayPort } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { mintAgentRuntimeIdentityToken } from "../../gateway/agent-runtime-identity-token.js";
-import { callGateway } from "../../gateway/call.js";
-import { resolveGatewayCredentialsFromConfig, trimToUndefined } from "../../gateway/credentials.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
+import { getRuntimeConfig, resolveGatewayPort } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { mintAgentRuntimeIdentityToken } from "../../gateway/agent-runtime-identity-token.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { resolveGatewayCredentialsFromConfig, trimToUndefined } from "../../gateway/credentials.ts";
 import {
   resolveLeastPrivilegeOperatorScopesForMethod,
   type OperatorScope,
-} from "../../gateway/method-scopes.js";
-import { getOperatorApprovalRuntimeToken } from "../../gateway/operator-approval-runtime-token.js";
+} from "../../gateway/method-scopes.ts";
+import { getOperatorApprovalRuntimeToken } from "../../gateway/operator-approval-runtime-token.ts";
 import {
   loadDeviceIdentityIfPresent,
   loadOrCreateDeviceIdentity,
   type DeviceIdentity,
-} from "../../infra/device-identity.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { readPositiveIntegerParam, readStringParam } from "./common.js";
-import { getGatewayToolCallerIdentity } from "./gateway-caller-context.js";
+} from "../../infra/device-identity.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { readPositiveIntegerParam, readStringParam } from "./common.ts";
+import { getGatewayToolCallerIdentity } from "./gateway-caller-context.ts";
 
 /** Optional gateway connection overrides accepted by agent tools. */
 export type GatewayCallOptions = {

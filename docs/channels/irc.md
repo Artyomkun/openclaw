@@ -187,7 +187,7 @@ Notes:
 
 - `toolsBySender` keys should use `id:` for IRC sender identity values:
   `id:eigen` or `id:eigen!~eigen@174.127.248.171` for stronger matching.
-- Legacy unprefixed keys are still accepted and matched as `id:` only.
+- Older unprefixed keys are still accepted and matched as `id:` only.
 - The first matching sender policy wins; `"*"` is the wildcard fallback.
 
 For more on group access vs mention-gating (and how they interact), see: [/channels/groups](/channels/groups).

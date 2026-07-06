@@ -11,20 +11,20 @@ import path from "node:path";
 import {
   resolveAgentIdByWorkspacePath,
   resolveAgentWorkspaceDir,
-} from "../../../agents/agent-scope.js";
-import { resolveStateDir } from "../../../config/paths.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { root } from "../../../infra/fs-safe.js";
-import { createSubsystemLogger } from "../../../logging/subsystem.js";
+} from "../../../agents/agent-scope.ts";
+import { resolveStateDir } from "../../../config/paths.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { root } from "../../../infra/fs-safe.ts";
+import { createSubsystemLogger } from "../../../logging/subsystem.ts";
 import {
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
   toAgentStoreSessionKey,
-} from "../../../routing/session-key.js";
-import { resolveHookConfig } from "../../config.js";
-import type { HookHandler } from "../../hooks.js";
-import { generateSlugViaLLM } from "../../llm-slug-generator.js";
-import { findPreviousSessionFile, getRecentSessionContentWithResetFallback } from "./transcript.js";
+} from "../../../routing/session-key.ts";
+import { resolveHookConfig } from "../../config.ts";
+import type { HookHandler } from "../../hooks.ts";
+import { generateSlugViaLLM } from "../../llm-slug-generator.ts";
+import { findPreviousSessionFile, getRecentSessionContentWithResetFallback } from "./transcript.ts";
 
 const log = createSubsystemLogger("hooks/session-memory");
 

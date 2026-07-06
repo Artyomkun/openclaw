@@ -3,22 +3,22 @@ import {
   listAgentEntries,
   resolveAgentEffectiveModelPrimary,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
+} from "../agents/agent-scope.ts";
 import {
   OPENCLAW_DOCS_URL,
   OPENCLAW_SOURCE_URL,
   resolveOpenClawReferencePaths,
-} from "../agents/docs-path.js";
+} from "../agents/docs-path.ts";
 import {
   readConfigFileSnapshot,
   resolveConfigPath,
   resolveGatewayPort,
   type ConfigFileSnapshot,
   type OpenClawConfig,
-} from "../config/config.js";
-import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { probeGatewayUrl, probeLocalCommand, type LocalCommandProbe } from "./probes.js";
+} from "../config/config.ts";
+import { resolveAgentModelPrimaryValue } from "../config/model-input.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { probeGatewayUrl, probeLocalCommand, type LocalCommandProbe } from "./probes.ts";
 
 type CrestodianAgentSummary = {
   id: string;

@@ -4,14 +4,14 @@ import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-pay
 import {
   mergeReactionDirectiveChannelData,
   parseReplyDirectives,
-} from "../../auto-reply/reply/reply-directives.js";
+} from "../../auto-reply/reply/reply-directives.ts";
 import {
   formatBtwTextForExternalDelivery,
   isRenderablePayload,
   shouldSuppressReasoningPayload,
-} from "../../auto-reply/reply/reply-payloads.js";
-import type { ReplyPayload } from "../../auto-reply/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../auto-reply/reply/reply-payloads.ts";
+import type { ReplyPayload } from "../../auto-reply/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   hasInteractiveReplyBlocks,
   hasMessagePresentationBlocks,
@@ -22,9 +22,9 @@ import {
   type InteractiveReply,
   type MessagePresentation,
   type ReplyPayloadDelivery,
-} from "../../interactive/payload.js";
-import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.js";
-import { stripUnsupportedCitationControlMarkers } from "../../shared/text/citation-control-markers.js";
+} from "../../interactive/payload.ts";
+import type { SilentReplyConversationType } from "../../shared/silent-reply-policy.ts";
+import { stripUnsupportedCitationControlMarkers } from "../../shared/text/citation-control-markers.ts";
 
 /** Runtime-ready outbound payload after text/media/rich-content normalization. */
 export type NormalizedOutboundPayload = {

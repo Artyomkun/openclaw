@@ -4,17 +4,17 @@ import {
   loadWebMedia as loadWebMediaImpl,
   loadWebMediaRaw as loadWebMediaRawImpl,
   optimizeImageToJpeg as optimizeImageToJpegImpl,
-} from "../../media/web-media.js";
+} from "../../media/web-media.ts";
 import {
   createPluginModuleLoaderCache,
   type PluginModuleLoaderCache,
-} from "../plugin-module-loader-cache.js";
-import type { PluginOrigin } from "../plugin-origin.types.js";
+} from "../plugin-module-loader-cache.ts";
+import type { PluginOrigin } from "../plugin-origin.types.ts";
 import {
   loadPluginBoundaryModule,
   resolvePluginRuntimeRecordByEntryBaseNames,
   resolvePluginRuntimeModulePath,
-} from "./runtime-plugin-boundary.js";
+} from "./runtime-plugin-boundary.ts";
 
 type WebChannelPluginRecord = {
   origin?: PluginOrigin;
@@ -36,7 +36,6 @@ type WebChannelLightRuntimeModule = {
   logWebSelfId: (authDir?: string, runtime?: unknown, includeChannelPrefix?: boolean) => void;
   logoutWeb: (params: {
     authDir?: string;
-    isLegacyAuthDir?: boolean;
     runtime?: unknown;
   }) => Promise<boolean>;
   readWebSelfId: (authDir?: string) => {

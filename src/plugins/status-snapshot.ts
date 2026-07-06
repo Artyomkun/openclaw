@@ -1,15 +1,15 @@
 /** Builds plugin status reports from persisted metadata without importing full plugin runtimes. */
-import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { loadPluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { loadPluginMetadataSnapshot } from "./plugin-metadata-snapshot.ts";
 import {
   loadPluginRegistrySnapshotWithMetadata,
   type PluginRegistrySnapshotDiagnostic,
   type PluginRegistrySnapshotSource,
-} from "./plugin-registry.js";
-import { createEmptyPluginRegistry, type PluginRecord, type PluginRegistry } from "./registry.js";
-import { buildPluginDependencyStatus } from "./status-dependencies-core.js";
-import type { PluginLogger } from "./types.js";
+} from "./plugin-registry.ts";
+import { createEmptyPluginRegistry, type PluginRecord, type PluginRegistry } from "./registry.ts";
+import { buildPluginDependencyStatus } from "./status-dependencies-core.ts";
+import type { PluginLogger } from "./types.ts";
 
 /** Control-plane plugin status shape used by `openclaw plugins status` style surfaces. */
 export type PluginRegistryStatusReport = PluginRegistry & {

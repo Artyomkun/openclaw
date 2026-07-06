@@ -1,19 +1,19 @@
 // Gateway HTTP endpoint helpers.
 // Wraps common POST JSON method, auth, scope, and body handling.
 import type { IncomingMessage, ServerResponse } from "node:http";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth.js";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth.ts";
 import {
   readJsonBodyOrError,
   sendMethodNotAllowed,
   sendMissingScopeForbidden,
-} from "./http-common.js";
+} from "./http-common.ts";
 import {
   authorizeGatewayHttpRequestOrReply,
   type AuthorizedGatewayHttpRequest,
   resolveTrustedHttpOperatorScopes,
-} from "./http-utils.js";
-import { authorizeOperatorScopesForMethod } from "./method-scopes.js";
+} from "./http-utils.ts";
+import { authorizeOperatorScopesForMethod } from "./method-scopes.ts";
 
 /** Handles a gateway POST JSON endpoint and returns the parsed body when authorized. */
 export async function handleGatewayPostJsonEndpoint(

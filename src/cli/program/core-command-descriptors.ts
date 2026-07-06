@@ -1,6 +1,6 @@
 // Core root-command descriptor catalog used for help placeholders and lazy registration.
-import { defineCommandDescriptorCatalog } from "./command-descriptor-utils.js";
-import type { NamedCommandDescriptor } from "./command-group-descriptors.js";
+import { defineCommandDescriptorCatalog } from "./command-descriptor-utils.ts";
+import type { NamedCommandDescriptor } from "./command-group-descriptors.ts";
 
 /** Descriptor shape for root commands owned by the core CLI. */
 export type CoreCliCommandDescriptor = NamedCommandDescriptor;

@@ -1,22 +1,22 @@
 /** Builds embedded-agent settings snapshots from global, bundle, and project settings. */
 import path from "node:path";
-import { applyMergePatch } from "../config/merge-patch.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { readRootJsonObjectSync } from "../infra/json-files.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import type { BundleMcpServerConfig } from "../plugins/bundle-mcp.js";
+import { applyMergePatch } from "../config/merge-patch.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { readRootJsonObjectSync } from "../infra/json-files.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import type { BundleMcpServerConfig } from "../plugins/bundle-mcp.ts";
 import {
   normalizePluginsConfigWithResolver,
   resolveEffectivePluginActivationState,
-} from "../plugins/config-policy.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
+} from "../plugins/config-policy.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
 import {
   isPluginMetadataSnapshotCompatible,
   loadPluginMetadataSnapshot,
   type PluginMetadataSnapshot,
-} from "../plugins/plugin-metadata-snapshot.js";
-import { loadEmbeddedAgentMcpConfig } from "./embedded-agent-mcp.js";
-import type { SettingsManager } from "./sessions/index.js";
+} from "../plugins/plugin-metadata-snapshot.ts";
+import { loadEmbeddedAgentMcpConfig } from "./embedded-agent-mcp.ts";
+import type { SettingsManager } from "./sessions/index.ts";
 
 const log = createSubsystemLogger("embedded-agent-settings");
 

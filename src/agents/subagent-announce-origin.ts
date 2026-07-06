@@ -4,24 +4,24 @@
  * Merges requester and session delivery context while avoiding stale thread ids after retargeting.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { getLoadedChannelPluginForRead } from "../channels/plugins/registry-loaded-read.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
+import { getLoadedChannelPluginForRead } from "../channels/plugins/registry-loaded-read.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
 import {
   stripTargetKindPrefix,
   stripTargetProviderPrefix,
   stripTargetTopicSuffix,
-} from "../infra/outbound/channel-target-prefix.js";
+} from "../infra/outbound/channel-target-prefix.ts";
 import {
   deliveryContextFromSession,
   mergeDeliveryContext,
   normalizeDeliveryContext,
-} from "../utils/delivery-context.shared.js";
+} from "../utils/delivery-context.shared.ts";
 import type {
   DeliveryContext,
   DeliveryContextSessionSource,
-} from "../utils/delivery-context.types.js";
-import { isInternalMessageChannel } from "../utils/message-channel.js";
-export type { DeliveryContext } from "../utils/delivery-context.types.js";
+} from "../utils/delivery-context.types.ts";
+import { isInternalMessageChannel } from "../utils/message-channel.ts";
+export type { DeliveryContext } from "../utils/delivery-context.types.ts";
 
 function normalizeAnnounceRouteTarget(context?: DeliveryContext): string | undefined {
   const rawTo = normalizeOptionalString(context?.to);

@@ -1,8 +1,8 @@
 // Channel streaming config normalization and progress-draft formatting helpers.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { formatToolDetail, resolveToolDisplay } from "../agents/tool-display.js";
-import { formatToolAggregate } from "../auto-reply/tool-meta.js";
+import { formatToolDetail, resolveToolDisplay } from "../agents/tool-display.ts";
+import { formatToolAggregate } from "../auto-reply/tool-meta.ts";
 import type {
   BlockStreamingChunkConfig,
   BlockStreamingCoalesceConfig,
@@ -11,8 +11,8 @@ import type {
   ChannelStreamingConfig,
   StreamingMode,
   TextChunkMode,
-} from "../config/types.base.js";
-import { asBoolean } from "../utils/boolean.js";
+} from "../config/types.base.ts";
+import { asBoolean } from "../utils/boolean.ts";
 
 export type {
   ChannelDeliveryStreamingConfig,
@@ -24,28 +24,8 @@ export type {
   ChannelStreamingPreviewConfig,
   StreamingMode,
   TextChunkMode,
-} from "../config/types.base.js";
-export type { SlackChannelStreamingConfig } from "../config/types.slack.js";
-
-export type StreamingCompatEntry = {
-  /** Canonical nested streaming config or legacy preview mode string. */
-  streaming?: unknown;
-  /** Legacy preview stream mode. */
-  streamMode?: unknown;
-  /** Legacy text chunking mode. */
-  chunkMode?: unknown;
-  /** Legacy block delivery toggle. */
-  blockStreaming?: unknown;
-  /** Legacy preview chunk config. */
-  draftChunk?: unknown;
-  /** Legacy block coalescing config. */
-  blockStreamingCoalesce?: unknown;
-  /** Legacy native streaming transport toggle. */
-  nativeStreaming?: unknown;
-};
-
-// Config reads accept legacy flat keys and current nested streaming config so
-// channel plugins can consume one normalized API surface.
+} from "../config/types.base.ts";
+export type { SlackChannelStreamingConfig } from "../config/types.slack.ts";
 
 function asObjectRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === "object" && !Array.isArray(value)
@@ -489,7 +469,7 @@ export function formatChannelProgressDraftLine(
 
 export function resolveChannelProgressDraftLineOptions(
   /** Channel streaming config source for command-text defaults. */
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   /** Caller-supplied line formatting overrides. */
   options?: ChannelProgressLineOptions,
 ): ChannelProgressLineOptions {
@@ -501,7 +481,7 @@ export function resolveChannelProgressDraftLineOptions(
 
 export function buildChannelProgressDraftLineForEntry(
   /** Channel streaming config source for command-text defaults. */
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   /** Structured progress event to render as one draft line. */
   input: ChannelProgressDraftLineInput,
   /** Formatting options for tool details and command text. */
@@ -515,7 +495,7 @@ export function buildChannelProgressDraftLineForEntry(
 
 export function formatChannelProgressDraftLineForEntry(
   /** Channel streaming config source for command-text defaults. */
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   /** Structured progress event to render as one draft line. */
   input: ChannelProgressDraftLineInput,
   /** Formatting options for tool details and command text. */
@@ -757,14 +737,14 @@ export function createChannelProgressDraftGate(params: {
 }
 
 export function getChannelStreamingConfigObject(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
 ): ChannelStreamingConfig | undefined {
   const streaming = asObjectRecord(entry?.streaming);
   return streaming ? (streaming as ChannelStreamingConfig) : undefined;
 }
 
 export function resolveChannelStreamingChunkMode(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
 ): TextChunkMode | undefined {
   return (
     asTextChunkMode(getChannelStreamingConfigObject(entry)?.chunkMode) ??
@@ -773,14 +753,14 @@ export function resolveChannelStreamingChunkMode(
 }
 
 export function resolveChannelStreamingBlockEnabled(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
 ): boolean | undefined {
   const config = getChannelStreamingConfigObject(entry);
   return asBoolean(config?.block?.enabled) ?? asBoolean(entry?.blockStreaming);
 }
 
 export function resolveChannelStreamingBlockCoalesce(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
 ): BlockStreamingCoalesceConfig | undefined {
   const config = getChannelStreamingConfigObject(entry);
   return (
@@ -790,7 +770,7 @@ export function resolveChannelStreamingBlockCoalesce(
 }
 
 export function resolveChannelStreamingPreviewChunk(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
 ): BlockStreamingChunkConfig | undefined {
   const config = getChannelStreamingConfigObject(entry);
   return (
@@ -800,7 +780,7 @@ export function resolveChannelStreamingPreviewChunk(
 }
 
 export function resolveChannelStreamingPreviewToolProgress(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   defaultValue = true,
 ): boolean {
   const config = getChannelStreamingConfigObject(entry);
@@ -815,7 +795,7 @@ export function resolveChannelStreamingPreviewToolProgress(
 }
 
 export function resolveChannelStreamingProgressCommentary(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   defaultValue = false,
 ): boolean {
   const config = getChannelStreamingConfigObject(entry);
@@ -827,7 +807,7 @@ export function resolveChannelStreamingProgressCommentary(
 }
 
 export function resolveChannelStreamingPreviewCommandText(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   defaultValue: ChannelStreamingCommandTextMode = "raw",
 ): ChannelStreamingCommandTextMode {
   const config = getChannelStreamingConfigObject(entry);
@@ -839,7 +819,7 @@ export function resolveChannelStreamingPreviewCommandText(
 }
 
 export function resolveChannelStreamingSuppressDefaultToolProgressMessages(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   options?: {
     draftStreamActive?: boolean;
     previewToolProgressEnabled?: boolean;
@@ -863,14 +843,14 @@ export function resolveChannelStreamingSuppressDefaultToolProgressMessages(
 }
 
 export function resolveChannelStreamingNativeTransport(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
 ): boolean | undefined {
   const config = getChannelStreamingConfigObject(entry);
   return asBoolean(config?.nativeTransport) ?? asBoolean(entry?.nativeStreaming);
 }
 
 export function resolveChannelPreviewStreamMode(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   defaultMode: "off" | "partial",
 ): StreamingMode {
   const parsedStreaming = parsePreviewStreamingMode(
@@ -879,11 +859,6 @@ export function resolveChannelPreviewStreamMode(
   if (parsedStreaming) {
     return parsedStreaming;
   }
-
-  const legacy = parsePreviewStreamingMode(entry?.streamMode);
-  if (legacy) {
-    return legacy;
-  }
   if (typeof entry?.streaming === "boolean") {
     return entry.streaming ? "partial" : "off";
   }
@@ -891,7 +866,7 @@ export function resolveChannelPreviewStreamMode(
 }
 
 export function resolveChannelProgressDraftConfig(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
 ): ChannelStreamingProgressConfig {
   return asProgressConfig(getChannelStreamingConfigObject(entry)?.progress) ?? {};
 }
@@ -914,7 +889,7 @@ function hashProgressSeed(seed: string): number {
 }
 
 export function resolveChannelProgressDraftLabel(params: {
-  entry?: StreamingCompatEntry | null;
+  entry?: null;
   seed?: string;
   random?: () => number;
 }): string | undefined {
@@ -936,7 +911,7 @@ export function resolveChannelProgressDraftLabel(params: {
 }
 
 export function resolveChannelProgressDraftMaxLines(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   defaultValue = 8,
 ): number {
   const configured = asInteger(resolveChannelProgressDraftConfig(entry).maxLines);
@@ -944,7 +919,7 @@ export function resolveChannelProgressDraftMaxLines(
 }
 
 export function resolveChannelProgressDraftMaxLineChars(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   defaultValue = DEFAULT_PROGRESS_DRAFT_MAX_LINE_CHARS,
 ): number {
   const configured = asInteger(resolveChannelProgressDraftConfig(entry).maxLineChars);
@@ -952,7 +927,7 @@ export function resolveChannelProgressDraftMaxLineChars(
 }
 
 export function resolveChannelProgressDraftRender(
-  entry: StreamingCompatEntry | null | undefined,
+  entry: null | undefined,
   defaultValue: ChannelProgressDraftRenderMode = "text",
 ): ChannelProgressDraftRenderMode {
   const configured = resolveChannelProgressDraftConfig(entry).render;

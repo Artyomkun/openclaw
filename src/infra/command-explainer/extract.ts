@@ -1,7 +1,7 @@
 // Rich shell command explainer walks tree-sitter-bash nodes into command steps,
 // nested wrapper payloads, source spans, and risk annotations.
 import type { Node as TreeSitterNode } from "web-tree-sitter";
-import type { InterpreterInlineEvalHit } from "../command-analysis/inline-eval.js";
+import type { InterpreterInlineEvalHit } from "../command-analysis/inline-eval.ts";
 import {
   detectCarriedShellBuiltinArgv,
   detectCarrierInlineEvalArgv as detectSharedCarrierInlineEvalArgv,
@@ -9,16 +9,16 @@ import {
   detectInlineEvalArgv,
   detectShellWrapperThroughCarrierArgv,
   SOURCE_EXECUTABLES,
-} from "../command-analysis/risks.js";
-import { normalizeExecutableToken } from "../exec-wrapper-resolution.js";
+} from "../command-analysis/risks.ts";
+import { normalizeExecutableToken } from "../exec-wrapper-resolution.ts";
 import {
   extractShellWrapperCommand,
   extractShellWrapperInlineCommand,
   isShellWrapperExecutable,
   POSIX_SHELL_WRAPPERS,
   resolveShellWrapperTransportArgv,
-} from "../shell-wrapper-resolution.js";
-import { parseBashForCommandExplanation } from "./tree-sitter-runtime.js";
+} from "../shell-wrapper-resolution.ts";
+import { parseBashForCommandExplanation } from "./tree-sitter-runtime.ts";
 import type {
   CommandContext,
   CommandExplanation,
@@ -28,7 +28,7 @@ import type {
   CommandShape,
   CommandStep,
   SourceSpan,
-} from "./types.js";
+} from "./types.ts";
 
 type MutableExplanation = {
   shapes: Set<CommandShape>;

@@ -14,46 +14,46 @@ import {
   validateTalkConfigParams,
   validateTalkModeParams,
   validateTalkSpeakParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   withSpeakerSelectionCompat,
   withSpeakerSelectionFallbackCompat,
-} from "../../../packages/speech-core/speaker.js";
-import { readConfigFileSnapshot } from "../../config/config.js";
-import { redactConfigObject } from "../../config/redact-snapshot.js";
+} from "../../../packages/speech-core/speaker.ts";
+import { readConfigFileSnapshot } from "../../config/config.ts";
+import { redactConfigObject } from "../../config/redact-snapshot.ts";
 import {
   buildTalkConfigResponse,
   normalizeTalkSection,
   resolveActiveTalkProviderConfig,
-} from "../../config/talk.js";
-import type { TalkConfigResponse, TalkProviderConfig } from "../../config/types.gateway.js";
-import type { OpenClawConfig, TtsConfig, TtsProviderConfigMap } from "../../config/types.js";
-import { listRealtimeTranscriptionProviders } from "../../realtime-transcription/provider-registry.js";
+} from "../../config/talk.ts";
+import type { TalkConfigResponse, TalkProviderConfig } from "../../config/types.gateway.ts";
+import type { OpenClawConfig, TtsConfig, TtsProviderConfigMap } from "../../config/types.ts";
+import { listRealtimeTranscriptionProviders } from "../../realtime-transcription/provider-registry.ts";
 import {
   canonicalizeRealtimeVoiceProviderId,
   listRealtimeVoiceProviders,
-} from "../../talk/provider-registry.js";
+} from "../../talk/provider-registry.ts";
 import {
   canonicalizeSpeechProviderId,
   getSpeechProvider,
   listSpeechProviders,
-} from "../../tts/provider-registry.js";
+} from "../../tts/provider-registry.ts";
 import {
   getResolvedSpeechProviderConfig,
   resolveTtsConfig,
   synthesizeSpeech,
   type TtsDirectiveOverrides,
-} from "../../tts/tts.js";
-import { ADMIN_SCOPE, TALK_SECRETS_SCOPE } from "../operator-scopes.js";
-import { formatForLog } from "../ws-log.js";
-import { talkClientHandlers } from "./talk-client.js";
-import { talkSessionHandlers } from "./talk-session.js";
+} from "../../tts/tts.ts";
+import { ADMIN_SCOPE, TALK_SECRETS_SCOPE } from "../operator-scopes.ts";
+import { formatForLog } from "../ws-log.ts";
+import { talkClientHandlers } from "./talk-client.ts";
+import { talkSessionHandlers } from "./talk-session.ts";
 import {
   buildTalkRealtimeConfig,
   configuredOrFalse,
   getVoiceCallStreamingConfig,
-} from "./talk-shared.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "./talk-shared.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 type TalkSpeakReason =
   | "talk_unconfigured"

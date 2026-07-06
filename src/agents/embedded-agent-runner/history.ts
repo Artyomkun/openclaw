@@ -3,8 +3,8 @@
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { AgentMessage } from "../runtime/index.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { AgentMessage } from "../runtime/index.ts";
 
 const THREAD_SUFFIX_REGEX = /^(.*)(?::(?:thread|topic):\d+)$/i;
 
@@ -103,7 +103,7 @@ export function getHistoryLimitFromSessionKey(
   }
 
   // For DM sessions: per-DM override -> dmHistoryLimit.
-  // Accept both "direct" (new) and "dm" (legacy) for backward compat.
+  // Accept both "direct" for backward compat.
   if (kind === "dm" || kind === "direct") {
     if (userId && providerConfig.dms?.[userId]?.historyLimit !== undefined) {
       return providerConfig.dms[userId].historyLimit;

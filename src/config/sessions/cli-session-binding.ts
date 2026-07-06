@@ -1,11 +1,9 @@
 // CLI session binding lookup shared by session lifecycle and agent runtime code.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { CliSessionBinding, SessionEntry } from "./types.js";
+import type { CliSessionBinding, SessionEntry } from "./types.ts";
 
-const CLAUDE_CLI_BACKEND_ID = "claude-cli";
-
-/** Read the stored CLI session binding for a provider, including legacy Claude state. */
+/** Read the stored CLI session binding for a provider. */
 export function getCliSessionBinding(
   entry: SessionEntry | undefined,
   provider: string,
@@ -35,13 +33,6 @@ export function getCliSessionBinding(
   const normalizedFromMap = normalizeOptionalString(fromMap);
   if (normalizedFromMap) {
     return { sessionId: normalizedFromMap };
-  }
-  if (normalized === CLAUDE_CLI_BACKEND_ID) {
-    // Keep accepting the shipped Claude-only field until stored sessions migrate.
-    const legacy = normalizeOptionalString(entry.claudeCliSessionId);
-    if (legacy) {
-      return { sessionId: legacy };
-    }
   }
   return undefined;
 }

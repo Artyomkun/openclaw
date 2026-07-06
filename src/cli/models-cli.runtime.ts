@@ -1,8 +1,8 @@
 // Runtime helpers for model CLI commands and shared agent option handling.
 import type { Command } from "commander";
-import { defaultRuntime } from "../runtime.js";
-import { resolveOptionFromCommand, runCommandWithRuntime } from "./cli-utils.js";
-import { formatCliCommand } from "./command-format.js";
+import { defaultRuntime } from "../runtime.ts";
+import { resolveOptionFromCommand, runCommandWithRuntime } from "./cli-utils.ts";
+import { formatCliCommand } from "./command-format.ts";
 
 export { defaultRuntime };
 

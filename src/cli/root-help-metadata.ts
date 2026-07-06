@@ -1,5 +1,5 @@
 // Cached startup metadata readers for precomputed root and subcommand help text.
-import { readCliStartupMetadata } from "./startup-metadata.js";
+import { readCliStartupMetadata } from "./startup-metadata.ts";
 
 export type PrecomputedSubcommandHelpName =
   | "doctor"

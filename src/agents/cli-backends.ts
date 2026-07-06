@@ -4,15 +4,15 @@
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { CliBackendConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ContextEngineHostCapability } from "../context-engine/types.js";
-import { resolveRuntimeCliBackends } from "../plugins/cli-backends.runtime.js";
+import type { CliBackendConfig } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ContextEngineHostCapability } from "../context-engine/types.ts";
+import { resolveRuntimeCliBackends } from "../plugins/cli-backends.runtime.ts";
 import {
   resolvePluginSetupCliBackend,
   resolvePluginSetupRegistry,
-} from "../plugins/setup-registry.js";
-import { resolveRuntimeTextTransforms } from "../plugins/text-transforms.runtime.js";
+} from "../plugins/setup-registry.ts";
+import { resolveRuntimeTextTransforms } from "../plugins/text-transforms.runtime.ts";
 import type {
   CliBackendAuthEpochMode,
   CliBackendNormalizeConfigContext,
@@ -21,8 +21,8 @@ import type {
   CliBackendNativeToolMode,
   CliBackendSideQuestionToolMode,
   PluginTextTransforms,
-} from "../plugins/types.js";
-import { mergePluginTextTransforms } from "./plugin-text-transforms.js";
+} from "../plugins/types.ts";
+import { mergePluginTextTransforms } from "./plugin-text-transforms.ts";
 
 type CliBackendsDeps = {
   resolvePluginSetupCliBackend: typeof resolvePluginSetupCliBackend;

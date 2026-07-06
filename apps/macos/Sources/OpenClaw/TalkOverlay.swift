@@ -1,120 +1,121 @@
 import AppKit
-import Observation
 import OSLog
+import Observation
 import SwiftUI
 
 @MainActor
 @Observable
 final class TalkOverlayController {
-    static let shared = TalkOverlayController()
-    static let overlaySize: CGFloat = 440
-    static let orbSize: CGFloat = 96
-    static let orbPadding: CGFloat = 12
-    static let orbHitSlop: CGFloat = 10
+  static let shared = TalkOverlayController()
+  static let overlaySize: CGFloat = 440
+  static let orbSize: CGFloat = 96
+  static let orbPadding: CGFloat = 12
+  static let orbHitSlop: CGFloat = 10
 
-    private let logger = Logger(subsystem: "ai.openclaw", category: "talk.overlay")
+  private let logger = Logger(subsystem: "ai.openclaw", category: "talk.overlay")
 
-    struct Model {
-        var isVisible: Bool = false
-        var phase: TalkModePhase = .idle
-        var isPaused: Bool = false
-        var level: Double = 0
+  struct Model {
+    var isVisible: Bool = false
+    var phase: TalkModePhase = .idle
+    var isPaused: Bool = false
+    var level: Double = 0
+  }
+
+  var model = Model()
+  private var window: NSPanel?
+  private var hostingView: NSHostingView<TalkOverlayView>?
+  private let screenInset: CGFloat = 0
+
+  func present() {
+    self.ensureWindow()
+    self.hostingView?.rootView = TalkOverlayView(controller: self)
+    let target = self.targetFrame()
+    let isFirst = !self.model.isVisible
+    if isFirst { self.model.isVisible = true }
+    OverlayPanelFactory.present(
+      window: self.window,
+      isFirstPresent: isFirst,
+      target: target
+    ) { window in
+      window.setFrame(target, display: true)
+      window.orderFrontRegardless()
+    }
+  }
+
+  func dismiss() {
+    guard let window else {
+      self.model.isVisible = false
+      return
     }
 
-    var model = Model()
-    private var window: NSPanel?
-    private var hostingView: NSHostingView<TalkOverlayView>?
-    private let screenInset: CGFloat = 0
-
-    func present() {
-        self.ensureWindow()
-        self.hostingView?.rootView = TalkOverlayView(controller: self)
-        let target = self.targetFrame()
-        let isFirst = !self.model.isVisible
-        if isFirst { self.model.isVisible = true }
-        OverlayPanelFactory.present(
-            window: self.window,
-            isFirstPresent: isFirst,
-            target: target)
-        { window in
-            window.setFrame(target, display: true)
-            window.orderFrontRegardless()
-        }
+    OverlayPanelFactory.animateDismiss(window: window) {
+      Task { @MainActor in
+        window.orderOut(nil)
+        self.model.isVisible = false
+      }
     }
+  }
 
-    func dismiss() {
-        guard let window else {
-            self.model.isVisible = false
-            return
-        }
+  func updatePhase(_ phase: TalkModePhase) {
+    guard self.model.phase != phase else { return }
+    self.logger.info("talk overlay phase=\(phase.rawValue, privacy: .public)")
+    self.model.phase = phase
+  }
 
-        OverlayPanelFactory.animateDismiss(window: window) {
-            Task { @MainActor in
-                window.orderOut(nil)
-                self.model.isVisible = false
-            }
-        }
-    }
+  func updatePaused(_ paused: Bool) {
+    guard self.model.isPaused != paused else { return }
+    self.logger.info("talk overlay paused=\(paused)")
+    self.model.isPaused = paused
+  }
 
-    func updatePhase(_ phase: TalkModePhase) {
-        guard self.model.phase != phase else { return }
-        self.logger.info("talk overlay phase=\(phase.rawValue, privacy: .public)")
-        self.model.phase = phase
-    }
+  func updateLevel(_ level: Double) {
+    guard self.model.isVisible else { return }
+    self.model.level = max(0, min(1, level))
+  }
 
-    func updatePaused(_ paused: Bool) {
-        guard self.model.isPaused != paused else { return }
-        self.logger.info("talk overlay paused=\(paused)")
-        self.model.isPaused = paused
-    }
+  func currentWindowOrigin() -> CGPoint? {
+    self.window?.frame.origin
+  }
 
-    func updateLevel(_ level: Double) {
-        guard self.model.isVisible else { return }
-        self.model.level = max(0, min(1, level))
-    }
+  func setWindowOrigin(_ origin: CGPoint) {
+    guard let window else { return }
+    window.setFrameOrigin(origin)
+  }
 
-    func currentWindowOrigin() -> CGPoint? {
-        self.window?.frame.origin
-    }
+  // MARK: - Private
 
-    func setWindowOrigin(_ origin: CGPoint) {
-        guard let window else { return }
-        window.setFrameOrigin(origin)
-    }
+  private func ensureWindow() {
+    if self.window != nil { return }
+    let panel = OverlayPanelFactory.makePanel(
+      contentRect: NSRect(x: 0, y: 0, width: Self.overlaySize, height: Self.overlaySize),
+      level: NSWindow.Level(rawValue: NSWindow.Level.popUpMenu.rawValue - 4),
+      hasShadow: false,
+      acceptsMouseMovedEvents: true)
 
-    // MARK: - Private
+    let host = TalkOverlayHostingView(rootView: TalkOverlayView(controller: self))
+    host.translatesAutoresizingMaskIntoConstraints = false
+    panel.contentView = host
+    self.hostingView = host
+    self.window = panel
+  }
 
-    private func ensureWindow() {
-        if self.window != nil { return }
-        let panel = OverlayPanelFactory.makePanel(
-            contentRect: NSRect(x: 0, y: 0, width: Self.overlaySize, height: Self.overlaySize),
-            level: NSWindow.Level(rawValue: NSWindow.Level.popUpMenu.rawValue - 4),
-            hasShadow: false,
-            acceptsMouseMovedEvents: true)
-
-        let host = TalkOverlayHostingView(rootView: TalkOverlayView(controller: self))
-        host.translatesAutoresizingMaskIntoConstraints = false
-        panel.contentView = host
-        self.hostingView = host
-        self.window = panel
-    }
-
-    private func targetFrame() -> NSRect {
-        let screen = self.window?.screen
-            ?? NSScreen.main
-            ?? NSScreen.screens.first
-        guard let screen else { return .zero }
-        let size = NSSize(width: Self.overlaySize, height: Self.overlaySize)
-        let visible = screen.visibleFrame
-        let origin = CGPoint(
-            x: visible.maxX - size.width - self.screenInset,
-            y: visible.maxY - size.height - self.screenInset)
-        return NSRect(origin: origin, size: size)
-    }
+  private func targetFrame() -> NSRect {
+    let screen =
+      self.window?.screen
+      ?? NSScreen.main
+      ?? NSScreen.screens.first
+    guard let screen else { return .zero }
+    let size = NSSize(width: Self.overlaySize, height: Self.overlaySize)
+    let visible = screen.visibleFrame
+    let origin = CGPoint(
+      x: visible.maxX - size.width - self.screenInset,
+      y: visible.maxY - size.height - self.screenInset)
+    return NSRect(origin: origin, size: size)
+  }
 }
 
 private final class TalkOverlayHostingView: NSHostingView<TalkOverlayView> {
-    override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
-        true
-    }
+  override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
+    true
+  }
 }

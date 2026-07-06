@@ -6,14 +6,14 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { channelRouteDedupeKey } from "../plugin-sdk/channel-route.js";
-import { sanitizeInboundSystemTags } from "../security/system-tags.js";
-import { resolveGlobalMap } from "../shared/global-singleton.js";
+import { channelRouteDedupeKey } from "../plugin-sdk/channel-route.ts";
+import { sanitizeInboundSystemTags } from "../security/system-tags.ts";
+import { resolveGlobalMap } from "../shared/global-singleton.ts";
 import {
   mergeDeliveryContext,
   normalizeDeliveryContext,
-} from "../utils/delivery-context.shared.js";
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
+} from "../utils/delivery-context.shared.ts";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
 
 export type SystemEvent = {
   text: string;

@@ -3,7 +3,7 @@
  *
  * Provides null/empty defaults for plugins without directory support.
  */
-import type { ChannelDirectoryAdapter } from "./types.adapters.js";
+import type { ChannelDirectoryAdapter } from "./types.adapters.ts";
 
 export const nullChannelDirectorySelf: NonNullable<ChannelDirectoryAdapter["self"]> = async () =>
   null;

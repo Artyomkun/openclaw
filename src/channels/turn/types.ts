@@ -1,35 +1,35 @@
 // Type contracts for channel turn normalization, admission, dispatch, and delivery.
-import type { CommandTurnKind } from "../../auto-reply/command-turn-context.js";
-import type { GetReplyOptions } from "../../auto-reply/get-reply-options.types.js";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import type { DispatchFromConfigResult } from "../../auto-reply/reply/dispatch-from-config.types.js";
-import type { GetReplyFromConfig } from "../../auto-reply/reply/get-reply.types.js";
-import type { HistoryEntry, HistoryMediaEntry } from "../../auto-reply/reply/history.types.js";
-import type { DispatchReplyWithBufferedBlockDispatcher } from "../../auto-reply/reply/provider-dispatcher.types.js";
-import type { ReplyDispatcherWithTypingOptions } from "../../auto-reply/reply/reply-dispatcher.js";
-import type { ReplyDispatchKind } from "../../auto-reply/reply/reply-dispatcher.types.js";
+import type { CommandTurnKind } from "../../auto-reply/command-turn-context.ts";
+import type { GetReplyOptions } from "../../auto-reply/get-reply-options.types.ts";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import type { DispatchFromConfigResult } from "../../auto-reply/reply/dispatch-from-config.types.ts";
+import type { GetReplyFromConfig } from "../../auto-reply/reply/get-reply.types.ts";
+import type { HistoryEntry, HistoryMediaEntry } from "../../auto-reply/reply/history.types.ts";
+import type { DispatchReplyWithBufferedBlockDispatcher } from "../../auto-reply/reply/provider-dispatcher.types.ts";
+import type { ReplyDispatcherWithTypingOptions } from "../../auto-reply/reply/reply-dispatcher.ts";
+import type { ReplyDispatchKind } from "../../auto-reply/reply/reply-dispatcher.types.ts";
 import type {
   FinalizedMsgContext,
   InboundSourceModality,
   MentionSource,
   MsgContext,
   SupplementalContextFacts,
-} from "../../auto-reply/templating.js";
-import type { GroupKeyResolution } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../auto-reply/templating.ts";
+import type { GroupKeyResolution } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import type {
   DeliverOutboundPayloadsParams,
   DurableFinalDeliveryRequirements,
   OutboundDeliveryQueuePolicy,
-} from "../../infra/outbound/deliver.js";
-import type { InboundEventKind } from "../inbound-event/kind.js";
-import type { CreateChannelReplyPipelineParams } from "../message/reply-pipeline.js";
-import type { MessageReceipt } from "../message/types.js";
-import type { InboundLastRouteUpdate, RecordInboundSession } from "../session.types.js";
-import type { ChannelBotLoopProtectionFacts } from "./bot-loop-protection.js";
+} from "../../infra/outbound/deliver.ts";
+import type { InboundEventKind } from "../inbound-event/kind.ts";
+import type { CreateChannelReplyPipelineParams } from "../message/reply-pipeline.ts";
+import type { MessageReceipt } from "../message/types.ts";
+import type { InboundLastRouteUpdate, RecordInboundSession } from "../session.types.ts";
+import type { ChannelBotLoopProtectionFacts } from "./bot-loop-protection.ts";
 
-export type { InboundEventKind } from "../inbound-event/kind.js";
-export type { SupplementalContextFacts } from "../../auto-reply/templating.js";
+export type { InboundEventKind } from "../inbound-event/kind.ts";
+export type { SupplementalContextFacts } from "../../auto-reply/templating.ts";
 
 /** Admission decision for an inbound channel event before agent dispatch. */
 export type ChannelTurnAdmission =
@@ -149,22 +149,12 @@ export type AccessFacts = {
   dm?: {
     decision: "allow" | "pairing" | "deny";
     reason?: string;
-    /**
-     * @deprecated Shared ingress projections redact allowlist entries and return an empty compat list.
-     * Use allowlist diagnostics instead.
-     */
-    allowFrom: string[];
     allowlist?: ProjectedAllowlistAccessFacts;
   };
   group?: {
     policy: "open" | "allowlist" | "disabled";
     routeAllowed: boolean;
     senderAllowed: boolean;
-    /**
-     * @deprecated Shared ingress projections redact allowlist entries and return an empty compat list.
-     * Use allowlist diagnostics instead.
-     */
-    allowFrom: string[];
     requireMention: boolean;
     allowlist?: ProjectedAllowlistAccessFacts;
   };
@@ -175,11 +165,6 @@ export type AccessFacts = {
     useAccessGroups: boolean;
     allowTextCommands: boolean;
     modeWhenAccessGroupsOff?: "allow" | "deny" | "configured";
-    /**
-     * @deprecated Shared ingress projections do not expose raw authorizer lists.
-     * Use authorized and reasonCode instead.
-     */
-    authorizers: Array<{ configured: boolean; allowed: boolean }>;
   };
   event?: ProjectedEventAccessFacts;
   mentions?: {

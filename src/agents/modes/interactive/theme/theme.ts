@@ -9,10 +9,10 @@ import { getCapabilities } from "@earendil-works/pi-tui";
 import chalk from "chalk";
 import { type Static, Type } from "typebox";
 import { Compile } from "typebox/compile";
-import { getCustomThemesDir, getThemesDir } from "../../../config.js";
-import type { SourceInfo } from "../../../sessions/source-info.js";
-import { closeWatcher, watchWithErrorHandler } from "../../../utils/fs-watch.js";
-import { highlight, supportsLanguage } from "../../../utils/syntax-highlight.js";
+import { getCustomThemesDir, getThemesDir } from "../../../config.ts";
+import type { SourceInfo } from "../../../sessions/source-info.ts";
+import { closeWatcher, watchWithErrorHandler } from "../../../utils/fs-watch.ts";
+import { highlight, supportsLanguage } from "../../../utils/syntax-highlight.ts";
 
 // ============================================================================
 // Types & Schema
@@ -784,8 +784,6 @@ export function getLanguageFromPath(filePath: string): string | undefined {
     tsx: "typescript",
     js: "javascript",
     jsx: "javascript",
-    mjs: "javascript",
-    cjs: "javascript",
     py: "python",
     rb: "ruby",
     rs: "rust",

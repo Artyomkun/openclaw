@@ -1,7 +1,7 @@
 // Config evaluation helpers load dynamic config modules with guarded evaluation.
 import fs from "node:fs";
 import path from "node:path";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
 
 /** Normalizes primitive config values into the truthiness rules used by requirements checks. */
 export function isTruthy(value: unknown): boolean {

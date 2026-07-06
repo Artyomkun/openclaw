@@ -2,9 +2,9 @@
 import { isAbsolute } from "node:path";
 import { normalizeText } from "@openclaw/acp-core/normalize-text";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { AcpSessionRuntimeOptions, SessionAcpMeta } from "../../config/sessions/types.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
-import { AcpRuntimeError } from "../runtime/errors.js";
+import type { AcpSessionRuntimeOptions, SessionAcpMeta } from "../../config/sessions/types.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
+import { AcpRuntimeError } from "../runtime/errors.ts";
 
 export { normalizeText } from "@openclaw/acp-core/normalize-text";
 

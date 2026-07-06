@@ -1,32 +1,32 @@
 // Implements guided and non-interactive `openclaw channels add` account setup.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import { getBundledChannelSetupPlugin } from "../../channels/plugins/bundled.js";
-import { parseOptionalDelimitedEntries } from "../../channels/plugins/helpers.js";
-import { getLoadedChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
-import { moveSingleAccountChannelSectionToDefaultAccount } from "../../channels/plugins/setup-helpers.js";
-import type { ChannelSetupPlugin } from "../../channels/plugins/setup-wizard-types.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelId, ChannelSetupInput } from "../../channels/plugins/types.public.js";
-import { formatCliCommand } from "../../cli/command-format.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import { getBundledChannelSetupPlugin } from "../../channels/plugins/bundled.ts";
+import { parseOptionalDelimitedEntries } from "../../channels/plugins/helpers.ts";
+import { getLoadedChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.ts";
+import { moveSingleAccountChannelSectionToDefaultAccount } from "../../channels/plugins/setup-helpers.ts";
+import type { ChannelSetupPlugin } from "../../channels/plugins/setup-wizard-types.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelId, ChannelSetupInput } from "../../channels/plugins/types.public.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
 import {
   formatUnknownChannelMessage,
   formatUnsupportedChannelActionMessage,
-} from "../../cli/error-format.js";
-import { commitConfigWithPendingPluginInstalls } from "../../cli/plugins-install-record-commit.js";
-import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-registry-refresh.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import { parseStrictNonNegativeInteger } from "../../infra/parse-finite-number.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
-import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { createClackPrompter } from "../../wizard/clack-prompter.js";
-import { WizardCancelledError } from "../../wizard/prompts.js";
-import { applyAgentBindings, describeBinding } from "../agents.bindings.js";
-import type { ChannelChoice } from "../onboard-types.js";
-import { applyAccountName, applyChannelAccountConfig } from "./add-mutators.js";
-import { channelLabel } from "./runtime-label.js";
-import { requireValidConfigFileSnapshot, shouldUseWizard } from "./shared.js";
+} from "../../cli/error-format.ts";
+import { commitConfigWithPendingPluginInstalls } from "../../cli/plugins-install-record-commit.ts";
+import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-registry-refresh.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import { parseStrictNonNegativeInteger } from "../../infra/parse-finite-number.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.ts";
+import { defaultRuntime, type RuntimeEnv } from "../../runtime.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { createClackPrompter } from "../../wizard/clack-prompter.ts";
+import { WizardCancelledError } from "../../wizard/prompts.ts";
+import { applyAgentBindings, describeBinding } from "../agents.bindings.ts";
+import type { ChannelChoice } from "../onboard-types.ts";
+import { applyAccountName, applyChannelAccountConfig } from "./add-mutators.ts";
+import { channelLabel } from "./runtime-label.ts";
+import { requireValidConfigFileSnapshot, shouldUseWizard } from "./shared.ts";
 
 type ChannelSetupPluginInstallModule = typeof import("../channel-setup/plugin-install.js");
 type OnboardChannelsModule = typeof import("../onboard-channels.js");

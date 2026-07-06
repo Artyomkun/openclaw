@@ -1,8 +1,8 @@
 /**
  * Public SDK facade for Anthropic Vertex implicit provider discovery and config helpers.
  */
-import type { ModelProviderConfig } from "../config/types.js";
-import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-runtime.js";
+import type { ModelProviderConfig } from "../config/types.ts";
+import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-runtime.ts";
 
 type FacadeModule = {
   resolveAnthropicVertexClientRegion: (params?: {

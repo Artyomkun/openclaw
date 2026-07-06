@@ -1,19 +1,19 @@
 // Doctor checks and repairs for exec safeBins profiles and trusted binary directories.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { resolveCommandResolutionFromArgv } from "../../../infra/exec-command-resolution.js";
+import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { resolveCommandResolutionFromArgv } from "../../../infra/exec-command-resolution.ts";
 import {
   listInterpreterLikeSafeBins,
   resolveMergedSafeBinProfileFixtures,
-} from "../../../infra/exec-safe-bin-runtime-policy.js";
-import { listRiskyConfiguredSafeBins } from "../../../infra/exec-safe-bin-semantics.js";
+} from "../../../infra/exec-safe-bin-runtime-policy.ts";
+import { listRiskyConfiguredSafeBins } from "../../../infra/exec-safe-bin-semantics.ts";
 import {
   getTrustedSafeBinDirs,
   isTrustedSafeBinPath,
   normalizeTrustedSafeBinDirs,
-} from "../../../infra/exec-safe-bin-trust.js";
-import { asObjectRecord } from "./object.js";
+} from "../../../infra/exec-safe-bin-trust.ts";
+import { asObjectRecord } from "./object.ts";
 
 export type ExecSafeBinCoverageHit = {
   /** Config scope that owns the safeBins entry. */

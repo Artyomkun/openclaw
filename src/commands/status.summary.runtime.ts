@@ -6,18 +6,18 @@ import {
   normalizeOptionalString,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import { readAcpSessionMeta } from "../acp/runtime/session-meta.js";
-import { resolveModelAgentRuntimeMetadata } from "../agents/agent-runtime-metadata.js";
-import { resolveConfiguredProviderFallback } from "../agents/configured-provider-fallback.js";
-import { resolveContextTokensForModelFromCache as resolveContextTokensForModel } from "../agents/context-resolution.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { parseModelRef, resolvePersistedSelectedModelRef } from "../agents/model-selection.js";
-import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { resolveStoredSessionKeyForAgentStore } from "../gateway/session-store-key.js";
-import { classifySessionKind } from "../sessions/classify-session-kind.js";
-import { resolveAgentRuntimeLabel } from "../status/agent-runtime-label.js";
+import { readAcpSessionMeta } from "../acp/runtime/session-meta.ts";
+import { resolveModelAgentRuntimeMetadata } from "../agents/agent-runtime-metadata.ts";
+import { resolveConfiguredProviderFallback } from "../agents/configured-provider-fallback.ts";
+import { resolveContextTokensForModelFromCache as resolveContextTokensForModel } from "../agents/context-resolution.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { parseModelRef, resolvePersistedSelectedModelRef } from "../agents/model-selection.ts";
+import { resolveAgentModelPrimaryValue } from "../config/model-input.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { resolveStoredSessionKeyForAgentStore } from "../gateway/session-store-key.ts";
+import { classifySessionKind } from "../sessions/classify-session-kind.ts";
+import { resolveAgentRuntimeLabel } from "../status/agent-runtime-label.ts";
 
 function resolveStatusModelRefFromRaw(params: {
   cfg: OpenClawConfig;

@@ -4,19 +4,19 @@ import {
   normalizeOptionalString,
   normalizeOptionalThreadValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { parseAbsoluteTimeMs } from "../parse.js";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { parseAbsoluteTimeMs } from "../parse.ts";
 import {
   coerceFiniteScheduleNumber,
   computeNextRunAtMs,
   computePreviousRunAtMs,
-} from "../schedule.js";
-import { assertSafeCronSessionTargetId } from "../session-target.js";
+} from "../schedule.ts";
+import { assertSafeCronSessionTargetId } from "../session-target.ts";
 import {
   normalizeCronStaggerMs,
   resolveCronStaggerMs,
   resolveDefaultCronStaggerMs,
-} from "../stagger.js";
+} from "../stagger.ts";
 import type {
   CronDelivery,
   CronDeliveryPatch,
@@ -26,15 +26,15 @@ import type {
   CronJobPatch,
   CronPayload,
   CronPayloadPatch,
-} from "../types.js";
-import { normalizeHttpWebhookUrl } from "../webhook-url.js";
-import { resolveInitialCronDelivery } from "./initial-delivery.js";
+} from "../types.ts";
+import { normalizeHttpWebhookUrl } from "../webhook-url.ts";
+import { resolveInitialCronDelivery } from "./initial-delivery.ts";
 import {
   normalizeOptionalAgentId,
   normalizePayloadToSystemText,
   normalizeRequiredName,
-} from "./normalize.js";
-import type { CronServiceState } from "./state.js";
+} from "./normalize.ts";
+import type { CronServiceState } from "./state.ts";
 
 const STUCK_RUN_MS = 2 * 60 * 60 * 1000;
 const STAGGER_OFFSET_CACHE_MAX = 4096;

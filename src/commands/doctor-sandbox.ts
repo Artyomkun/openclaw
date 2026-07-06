@@ -1,29 +1,18 @@
 /** Doctor checks and repairs for Docker sandbox images, namespaces, and registry state. */
 import fs from "node:fs";
 import path from "node:path";
-import { note } from "../../packages/terminal-core/src/note.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
 import {
   DEFAULT_SANDBOX_BROWSER_IMAGE,
   DEFAULT_SANDBOX_COMMON_IMAGE,
   DEFAULT_SANDBOX_IMAGE,
   isDockerDaemonUnavailable,
   resolveSandboxScope,
-} from "../agents/sandbox.js";
-import {
-  inspectLegacySandboxRegistryFiles,
-  migrateLegacySandboxRegistryFiles,
-  type LegacySandboxRegistryInspection,
-  type LegacySandboxRegistryMigrationResult,
-} from "../agents/sandbox/registry.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { HealthFinding, HealthRepairEffect } from "../flows/health-checks.js";
-import { runCommandWithTimeout, runExec } from "../process/exec.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { shortenHomePath } from "../utils.js";
-import type { DoctorPrompter } from "./doctor-prompter.js";
-
-const SANDBOX_REGISTRY_FILES_CHECK_ID = "core/doctor/sandbox/registry-files";
+} from "../agents/sandbox.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { runCommandWithTimeout, runExec } from "../process/exec.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { DoctorPrompter } from "./doctor-prompter.ts";
 
 type SandboxScriptInfo = {
   scriptPath: string;
@@ -357,95 +346,6 @@ export async function maybeRepairSandboxImages(
   }
 
   return next;
-}
-
-function formatLegacyRegistryInspectionLine(file: LegacySandboxRegistryInspection): string {
-  const status = file.valid ? `${file.entries} entr${file.entries === 1 ? "y" : "ies"}` : "invalid";
-  const sourcePath = legacySandboxRegistryInspectionSourcePath(file);
-  return `- ${file.kind} ${file.source}: ${shortenHomePath(sourcePath)} (${status})`;
-}
-
-function legacySandboxRegistryInspectionSourcePath(file: LegacySandboxRegistryInspection): string {
-  return file.source === "sharded" ? file.shardedDir : file.registryPath;
-}
-
-function formatLegacyRegistryMigrationLine(result: LegacySandboxRegistryMigrationResult): string {
-  if (result.status === "migrated") {
-    return `- Migrated ${result.kind} registry into ${result.entries} SQLite row${result.entries === 1 ? "" : "s"}.`;
-  }
-  if (result.status === "removed-empty") {
-    return `- Removed empty legacy ${result.kind} registry files.`;
-  }
-  if (result.status === "quarantined-invalid") {
-    const sourcePath = result.source === "sharded" ? result.shardedDir : result.registryPath;
-    const file = shortenHomePath(sourcePath);
-    const quarantine = result.quarantinePath ? ` to ${shortenHomePath(result.quarantinePath)}` : "";
-    return `- Quarantined invalid legacy ${result.kind} registry ${file}${quarantine}.`;
-  }
-  return "";
-}
-
-export async function detectLegacySandboxRegistryFileIssues(): Promise<
-  readonly LegacySandboxRegistryInspection[]
-> {
-  return (await inspectLegacySandboxRegistryFiles()).filter((file) => file.exists);
-}
-
-export function legacySandboxRegistryInspectionToHealthFinding(
-  file: LegacySandboxRegistryInspection,
-): HealthFinding {
-  return {
-    checkId: SANDBOX_REGISTRY_FILES_CHECK_ID,
-    severity: "warning",
-    message: `Legacy sandbox registry file detected.
-${formatLegacyRegistryInspectionLine(file)}`,
-    path: legacySandboxRegistryInspectionSourcePath(file),
-    fixHint: `Run ${formatCliCommand("openclaw doctor --fix")} to migrate valid entries to SQLite.`,
-  };
-}
-
-export function legacySandboxRegistryInspectionToRepairEffect(
-  file: LegacySandboxRegistryInspection,
-): HealthRepairEffect {
-  const action = !file.valid
-    ? "would-quarantine-legacy-sandbox-registry"
-    : file.entries === 0
-      ? "would-remove-empty-legacy-sandbox-registry"
-      : "would-migrate-legacy-sandbox-registry";
-  return {
-    kind: "state",
-    action,
-    target: legacySandboxRegistryInspectionSourcePath(file),
-    dryRunSafe: false,
-  };
-}
-
-/** Migrates legacy sandbox registry files and directories. */
-export async function maybeRepairSandboxRegistryFiles(prompter: DoctorPrompter): Promise<void> {
-  const legacyFiles = await detectLegacySandboxRegistryFileIssues();
-  if (legacyFiles.length === 0) {
-    return;
-  }
-
-  if (!prompter.shouldRepair) {
-    note(
-      [
-        "Legacy sandbox registry files detected.",
-        ...legacyFiles.map(formatLegacyRegistryInspectionLine),
-        `Run ${formatCliCommand("openclaw doctor --fix")} to migrate them to SQLite.`,
-      ].join("\n"),
-      "Sandbox",
-    );
-    return;
-  }
-
-  const results = (await migrateLegacySandboxRegistryFiles())
-    .filter((result) => result.status !== "missing")
-    .map(formatLegacyRegistryMigrationLine)
-    .filter((line) => line.length > 0);
-  if (results.length > 0) {
-    note(results.join("\n"), "Doctor changes");
-  }
 }
 
 /** Warns when agent sandbox overrides are ignored because sandbox scope resolves to shared. */

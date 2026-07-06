@@ -12,47 +12,47 @@ import {
   validateMessageActionParams,
   validatePollParams,
   validateSendParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { sendDurableMessageBatch } from "../../channels/message/runtime.js";
-import { dispatchChannelMessageAction } from "../../channels/plugins/message-action-dispatch.js";
-import { createOutboundSendDeps } from "../../cli/deps.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { sendDurableMessageBatch } from "../../channels/message/runtime.ts";
+import { dispatchChannelMessageAction } from "../../channels/plugins/message-action-dispatch.ts";
+import { createOutboundSendDeps } from "../../cli/deps.ts";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
   selectApplicableRuntimeConfig,
-} from "../../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveOutboundChannelPlugin } from "../../infra/outbound/channel-resolution.js";
-import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.js";
+} from "../../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveOutboundChannelPlugin } from "../../infra/outbound/channel-resolution.ts";
+import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.ts";
 import {
   hydrateAttachmentParamsForAction,
   resolveAttachmentMediaPolicy,
-} from "../../infra/outbound/message-action-params.js";
+} from "../../infra/outbound/message-action-params.ts";
 import {
   ensureOutboundSessionEntry,
   resolveOutboundSessionRoute,
-} from "../../infra/outbound/outbound-session.js";
+} from "../../infra/outbound/outbound-session.ts";
 import {
   createOutboundPayloadPlan,
   projectOutboundPayloadPlanForMirror,
-} from "../../infra/outbound/payloads.js";
-import { buildOutboundSessionContext } from "../../infra/outbound/session-context.js";
-import { mirrorDeliveredSourceReplyToTranscript } from "../../infra/outbound/source-reply-mirror.js";
-import { maybeResolveIdLikeTarget } from "../../infra/outbound/target-resolver.js";
-import { resolveOutboundTarget } from "../../infra/outbound/targets.js";
-import { getAgentScopedMediaLocalRoots } from "../../media/local-roots.js";
-import { extractToolPayload } from "../../plugin-sdk/tool-payload.js";
-import { normalizePollInput } from "../../polls.js";
+} from "../../infra/outbound/payloads.ts";
+import { buildOutboundSessionContext } from "../../infra/outbound/session-context.ts";
+import { mirrorDeliveredSourceReplyToTranscript } from "../../infra/outbound/source-reply-mirror.ts";
+import { maybeResolveIdLikeTarget } from "../../infra/outbound/target-resolver.ts";
+import { resolveOutboundTarget } from "../../infra/outbound/targets.ts";
+import { getAgentScopedMediaLocalRoots } from "../../media/local-roots.ts";
+import { extractToolPayload } from "../../plugin-sdk/tool-payload.ts";
+import { normalizePollInput } from "../../polls.ts";
 import {
   normalizeSessionKeyPreservingOpaquePeerIds,
   parseThreadSessionSuffix,
-} from "../../sessions/session-key-utils.js";
-import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.js";
-import { ADMIN_SCOPE } from "../operator-scopes.js";
-import { resolveGatewayPluginConfig } from "../runtime-plugin-config.js";
-import { formatForLog } from "../ws-log.js";
-import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.js";
+} from "../../sessions/session-key-utils.ts";
+import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.ts";
+import { ADMIN_SCOPE } from "../operator-scopes.ts";
+import { resolveGatewayPluginConfig } from "../runtime-plugin-config.ts";
+import { formatForLog } from "../ws-log.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.ts";
 
 type InflightResult = {
   ok: boolean;

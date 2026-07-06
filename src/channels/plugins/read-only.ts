@@ -10,46 +10,46 @@ import {
   sortUniqueStrings,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import { resolveRuntimeConfigCacheKey } from "../../config/runtime-snapshot.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { isBlockedObjectKey } from "../../infra/prototype-keys.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import { resolveRuntimeConfigCacheKey } from "../../config/runtime-snapshot.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { isBlockedObjectKey } from "../../infra/prototype-keys.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import {
   hasExplicitChannelConfig,
   listConfiguredChannelIdsForReadOnlyScope,
   resolveDiscoverableScopedChannelPluginIds,
-} from "../../plugins/channel-plugin-ids.js";
+} from "../../plugins/channel-plugin-ids.ts";
 import {
   channelPluginIdBelongsToManifest,
   resolveSetupChannelRegistration,
-} from "../../plugins/loader-channel-setup.js";
-import type { PluginManifestRecord } from "../../plugins/manifest-registry.js";
-import type { PluginDiagnostic } from "../../plugins/manifest-types.js";
-import { registerPluginMetadataProcessMemoLifecycleClear } from "../../plugins/plugin-metadata-lifecycle.js";
-import { resolvePluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.js";
+} from "../../plugins/loader-channel-setup.ts";
+import type { PluginManifestRecord } from "../../plugins/manifest-registry.ts";
+import type { PluginDiagnostic } from "../../plugins/manifest-types.ts";
+import { registerPluginMetadataProcessMemoLifecycleClear } from "../../plugins/plugin-metadata-lifecycle.ts";
+import { resolvePluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.ts";
 import {
   getCachedPluginModuleLoader,
   type PluginModuleLoaderCache,
-} from "../../plugins/plugin-module-loader-cache.js";
-import { getActivePluginChannelRegistryVersion } from "../../plugins/runtime.js";
-import { resolveNormalizedAccountEntry } from "../../routing/account-lookup.js";
+} from "../../plugins/plugin-module-loader-cache.ts";
+import { getActivePluginChannelRegistryVersion } from "../../plugins/runtime.ts";
+import { resolveNormalizedAccountEntry } from "../../routing/account-lookup.ts";
 import {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   normalizeOptionalAccountId,
-} from "../../routing/session-key.js";
-import { getBundledChannelSetupPlugin } from "./bundled.js";
+} from "../../routing/session-key.ts";
+import { getBundledChannelSetupPlugin } from "./bundled.ts";
 import {
   isSafeManifestChannelId,
   normalizeChannelCommandDefaults,
   readOwnRecordValue,
   resolveReadOnlyChannelCommandDefaults,
-} from "./read-only-command-defaults.js";
-import { listChannelPlugins } from "./registry.js";
-import type { ChannelPlugin } from "./types.plugin.js";
+} from "./read-only-command-defaults.ts";
+import { listChannelPlugins } from "./registry.ts";
+import type { ChannelPlugin } from "./types.plugin.ts";
 
 const SOURCE_PLUGIN_LOADER_MODULE_CANDIDATES = [
   "../../plugins/loader.js",

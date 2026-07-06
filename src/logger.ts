@@ -1,13 +1,16 @@
 // Provides root logger helpers and themed terminal output.
-import { theme } from "../packages/terminal-core/src/theme.js";
-import { isVerbose } from "./global-state.js";
-import { getLogger } from "./logging/logger.js";
-import { createSubsystemLogger } from "./logging/subsystem.js";
-import { defaultRuntime, type RuntimeEnv } from "./runtime.js";
+import { theme } from "../packages/terminal-core/src/theme.ts";
+import { isVerbose } from "./global-state.ts";
+import { getLogger } from "./logging/logger.ts";
+import { createSubsystemLogger } from "./logging/subsystem.ts";
+import { defaultRuntime, type RuntimeEnv } from "./runtime.ts";
 
 const subsystemPrefixRe = /^([a-z][a-z0-9-]{1,20}):\s+(.*)$/i;
 
 function splitSubsystem(message: string) {
+  if (!message || typeof message !== 'string') {
+    throw new Error('Invalid message for subsystem parsing');
+  }
   const match = message.match(subsystemPrefixRe);
   if (!match) {
     return null;
@@ -27,13 +30,37 @@ function logWithSubsystem(params: {
   loggerMethod: LogMethod;
   subsystemMethod: LogMethod;
 }) {
-  const parsed = params.runtime === defaultRuntime ? splitSubsystem(params.message) : null;
+  if (!params.message || typeof params.message !== 'string') {
+    throw new Error(`Invalid log message: ${params.message}`);
+  }
+  let parsed = null;
+  if (params.runtime === defaultRuntime) {
+    parsed = splitSubsystem(params.message);
+  }
+
   if (parsed) {
-    createSubsystemLogger(parsed.subsystem)[params.subsystemMethod](parsed.rest);
+    const subsystemLogger = createSubsystemLogger(parsed.subsystem);
+    if (!subsystemLogger) {
+      throw new Error(`Failed to create subsystem logger for: ${parsed.subsystem}`);
+    }
+    const method = subsystemLogger[params.subsystemMethod];
+    if (typeof method !== 'function') {
+      throw new Error(`Subsystem logger method "${params.subsystemMethod}" not found for: ${parsed.subsystem}`);
+    }
+    method.call(subsystemLogger, parsed.rest);
     return;
   }
-  params.runtime[params.runtimeMethod](params.runtimeFormatter(params.message));
-  getLogger()[params.loggerMethod](params.message);
+  const formatted = params.runtimeFormatter(params.message);
+  params.runtime[params.runtimeMethod](formatted);
+  const logger = getLogger();
+  if (!logger) {
+    throw new Error('Failed to get logger instance');
+  }
+  const logMethod = logger[params.loggerMethod];
+  if (typeof logMethod !== 'function') {
+    throw new Error(`Logger method "${params.loggerMethod}" not found`);
+  }
+  logMethod.call(logger, params.message);
 }
 
 const info = theme.info;
@@ -42,6 +69,9 @@ const success = theme.success;
 const danger = theme.error;
 
 export function logInfo(message: string, runtime: RuntimeEnv = defaultRuntime) {
+  if (!message) {
+    throw new Error('logInfo: message is required');
+  }
   logWithSubsystem({
     message,
     runtime,
@@ -53,6 +83,9 @@ export function logInfo(message: string, runtime: RuntimeEnv = defaultRuntime) {
 }
 
 export function logWarn(message: string, runtime: RuntimeEnv = defaultRuntime) {
+  if (!message) {
+    throw new Error('logWarn: message is required');
+  }
   logWithSubsystem({
     message,
     runtime,
@@ -64,6 +97,9 @@ export function logWarn(message: string, runtime: RuntimeEnv = defaultRuntime) {
 }
 
 export function logSuccess(message: string, runtime: RuntimeEnv = defaultRuntime) {
+  if (!message) {
+    throw new Error('logSuccess: message is required');
+  }
   logWithSubsystem({
     message,
     runtime,
@@ -75,6 +111,9 @@ export function logSuccess(message: string, runtime: RuntimeEnv = defaultRuntime
 }
 
 export function logError(message: string, runtime: RuntimeEnv = defaultRuntime) {
+  if (!message) {
+    throw new Error('logError: message is required');
+  }
   logWithSubsystem({
     message,
     runtime,
@@ -86,9 +125,22 @@ export function logError(message: string, runtime: RuntimeEnv = defaultRuntime) 
 }
 
 export function logDebug(message: string) {
-  // Always emit to file logger (level-filtered); console only when verbose.
-  getLogger().debug(message);
+  if (!message) {
+    throw new Error('logDebug: message is required');
+  }
+  const logger = getLogger();
+  if (!logger) {
+    throw new Error('Failed to get logger instance for debug');
+  }
+  if (typeof logger.debug !== 'function') {
+    throw new Error('Logger debug method not found');
+  }
+  logger.debug(message);
   if (isVerbose()) {
-    console.log(theme.muted(message));
+    const muted = theme.muted;
+    if (typeof muted !== 'function') {
+      throw new Error('theme.muted is not a function');
+    }
+    console.log(muted(message));
   }
 }

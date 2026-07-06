@@ -1,2 +1,2 @@
 // Public barrel for node-management CLI registration.
-export { registerNodesCli } from "./nodes-cli/register.js";
+export { registerNodesCli } from "./nodes-cli/register.ts";

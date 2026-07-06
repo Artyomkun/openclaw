@@ -1,10 +1,10 @@
 // Detects safe executable names or paths without shell evaluation.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { resolveUserPath } from "../utils.js";
-import { isSafeExecutableValue } from "./exec-safety.js";
-import { getWindowsSystem32ExePath } from "./windows-install-roots.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { resolveUserPath } from "../utils.ts";
+import { isSafeExecutableValue } from "./exec-safety.ts";
+import { getWindowsSystem32ExePath } from "./windows-install-roots.ts";
 
 // Binary detection accepts safe executable names or explicit paths and avoids
 // shell evaluation when probing PATH.

@@ -1,6 +1,6 @@
 // Diagnostic payload helpers emit structured diagnostic events with normalized fields.
-import { emitInternalDiagnosticEvent as emitDiagnosticEvent } from "../infra/diagnostic-events.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
+import { emitInternalDiagnosticEvent as emitDiagnosticEvent } from "../infra/diagnostic-events.ts";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
 
 // Diagnostic helpers for oversized payload decisions across channels/providers.
 type LargePayloadBase = {

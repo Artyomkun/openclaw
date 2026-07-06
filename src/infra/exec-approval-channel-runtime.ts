@@ -1,24 +1,24 @@
 // Runs the gateway-backed runtime that delivers native approval events.
-import { readConnectErrorDetailCode } from "../../packages/gateway-protocol/src/connect-error-details.js";
-import type { EventFrame } from "../../packages/gateway-protocol/src/index.js";
-import { startGatewayClientWhenEventLoopReady } from "../gateway/client-start-readiness.js";
-import type { GatewayClient, GatewayReconnectPausedInfo } from "../gateway/client.js";
-import { isApprovalMethod } from "../gateway/method-scopes.js";
-import { createOperatorApprovalsGatewayClient } from "../gateway/operator-approvals-client.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { formatErrorMessage } from "./errors.js";
+import { readConnectErrorDetailCode } from "../../packages/gateway-protocol/src/connect-error-details.ts";
+import type { EventFrame } from "../../packages/gateway-protocol/src/index.ts";
+import { startGatewayClientWhenEventLoopReady } from "../gateway/client-start-readiness.ts";
+import type { GatewayClient, GatewayReconnectPausedInfo } from "../gateway/client.ts";
+import { isApprovalMethod } from "../gateway/method-scopes.ts";
+import { createOperatorApprovalsGatewayClient } from "../gateway/operator-approvals-client.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { formatErrorMessage } from "./errors.ts";
 import type {
   ExecApprovalChannelRuntime,
   ExecApprovalChannelRuntimeAdapter,
   ExecApprovalChannelRuntimeEventKind,
-} from "./exec-approval-channel-runtime.types.js";
-import type { ExecApprovalRequest, ExecApprovalResolved } from "./exec-approvals.js";
-import type { PluginApprovalRequest, PluginApprovalResolved } from "./plugin-approvals.js";
+} from "./exec-approval-channel-runtime.types.ts";
+import type { ExecApprovalRequest, ExecApprovalResolved } from "./exec-approvals.ts";
+import type { PluginApprovalRequest, PluginApprovalResolved } from "./plugin-approvals.ts";
 export type {
   ExecApprovalChannelRuntime,
   ExecApprovalChannelRuntimeAdapter,
   ExecApprovalChannelRuntimeEventKind,
-} from "./exec-approval-channel-runtime.types.js";
+} from "./exec-approval-channel-runtime.types.ts";
 
 type ApprovalRequestEvent = ExecApprovalRequest | PluginApprovalRequest;
 type ApprovalResolvedEvent = ExecApprovalResolved | PluginApprovalResolved;

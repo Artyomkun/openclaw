@@ -880,15 +880,12 @@ class OpenAIRealtimeVoiceBridge implements RealtimeVoiceBridge {
 
   private buildAzureDeploymentSessionUpdate(): RealtimeAzureDeploymentSessionUpdate {
     const cfg = this.config;
-    const format = this.resolveLegacyRealtimeAudioFormat();
     return {
       type: "session.update",
       session: {
         modalities: ["text", "audio"],
         instructions: cfg.instructions,
         voice: cfg.voice ?? "alloy",
-        input_audio_format: format,
-        output_audio_format: format,
         input_audio_transcription: { model: "whisper-1" },
         turn_detection: {
           type: "server_vad",
@@ -912,10 +909,6 @@ class OpenAIRealtimeVoiceBridge implements RealtimeVoiceBridge {
     return this.audioFormat.encoding === "pcm16"
       ? { type: "audio/pcm", rate: 24000 }
       : { type: "audio/pcmu" };
-  }
-
-  private resolveLegacyRealtimeAudioFormat(): "g711_ulaw" | "pcm16" {
-    return this.audioFormat.encoding === "pcm16" ? "pcm16" : "g711_ulaw";
   }
 
   private handleEvent(event: RealtimeEvent): void {

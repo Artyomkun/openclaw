@@ -1,11 +1,11 @@
 // Determines whether a channel is configured from bootstrap and plugin state.
-import { getBootstrapChannelPlugin } from "../channels/plugins/bootstrap-registry.js";
-import { hasBundledChannelConfiguredState } from "../channels/plugins/configured-state.js";
+import { getBootstrapChannelPlugin } from "../channels/plugins/bootstrap-registry.ts";
+import { hasBundledChannelConfiguredState } from "../channels/plugins/configured-state.ts";
 import {
   hasMeaningfulChannelConfigShallow,
   resolveChannelConfigRecord,
-} from "./channel-configured-shared.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+} from "./channel-configured-shared.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 /** Resolves whether a channel has enough config, env, or plugin state to be considered setup. */
 export function isChannelConfigured(

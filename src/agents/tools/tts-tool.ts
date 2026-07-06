@@ -4,12 +4,12 @@
  * Converts explicit speech requests into generated audio and safe transcript content.
  */
 import { Type } from "typebox";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { textToSpeech } from "../../tts/tts.js";
-import type { GatewayMessageChannel } from "../../utils/message-channel.js";
-import type { AnyAgentTool } from "./common.js";
-import { readPositiveIntegerParam, readStringParam } from "./common.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { textToSpeech } from "../../tts/tts.ts";
+import type { GatewayMessageChannel } from "../../utils/message-channel.ts";
+import type { AnyAgentTool } from "./common.ts";
+import { readPositiveIntegerParam, readStringParam } from "./common.ts";
 
 const TtsToolSchema = Type.Object({
   text: Type.String({ description: "Text to speak." }),

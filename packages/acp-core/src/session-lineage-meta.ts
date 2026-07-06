@@ -12,7 +12,6 @@ export type AcpSessionLineageMeta = {
   sessionKey: string;
   kind?: string;
   channel?: string;
-  /** Best available parent session id, preferring explicit parentSessionKey over legacy spawnedBy. */
   parentSessionId?: string;
   spawnedBy?: string;
   spawnDepth?: number;

@@ -1,16 +1,16 @@
 // Skill environment override helpers expose safe env vars requested by active skills.
-import { sanitizeEnvVars, validateEnvVarValue } from "../../agents/sandbox/sanitize-env-vars.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeResolvedSecretInputString } from "../../config/types.secrets.js";
+import { sanitizeEnvVars, validateEnvVarValue } from "../../agents/sandbox/sanitize-env-vars.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeResolvedSecretInputString } from "../../config/types.secrets.ts";
 import {
   isDangerousHostEnvOverrideVarName,
   isDangerousHostEnvVarName,
-} from "../../infra/host-env-security.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { resolveSkillConfig } from "../loading/config.js";
-import { resolveSkillKey } from "../loading/frontmatter.js";
-import { resolveSkillRuntimeConfig } from "../loading/runtime-config.js";
-import type { SkillEntry, SkillSnapshot } from "../types.js";
+} from "../../infra/host-env-security.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { resolveSkillConfig } from "../loading/config.ts";
+import { resolveSkillKey } from "../loading/frontmatter.ts";
+import { resolveSkillRuntimeConfig } from "../loading/runtime-config.ts";
+import type { SkillEntry, SkillSnapshot } from "../types.ts";
 
 const log = createSubsystemLogger("env-overrides");
 

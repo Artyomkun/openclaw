@@ -1,7 +1,7 @@
 // Skill index helpers map normalized skill names to loaded skill entries.
-import { resolveSkillKey } from "../loading/frontmatter.js";
-import { resolveSkillSource } from "../loading/source.js";
-import type { SkillEntry } from "../types.js";
+import { resolveSkillKey } from "../loading/frontmatter.ts";
+import { resolveSkillSource } from "../loading/source.ts";
+import type { SkillEntry } from "../types.ts";
 
 /** Indexed skill metadata used for runtime visibility and command lookup. */
 export type SkillIndexEntry = {

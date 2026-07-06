@@ -1,6 +1,6 @@
 /** Builds normalized environment plans for managed daemon service rendering. */
-import { normalizeEnvVarKey } from "../infra/host-env-security.js";
-import type { GatewayServiceEnvironmentValueSource } from "./service-types.js";
+import { normalizeEnvVarKey } from "../infra/host-env-security.ts";
+import type { GatewayServiceEnvironmentValueSource } from "./service-types.ts";
 
 /** Provenance labels for environment values rendered into managed services. */
 export type ServiceEnvSource =

@@ -4,15 +4,15 @@
  */
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveDefaultAgentDir } from "../agents/agent-scope-config.js";
-import { modelKey, normalizeModelRef, normalizeProviderId } from "../agents/model-selection.js";
-import type { NormalizedUsage } from "../agents/usage.js";
-import type { ModelProviderConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getGatewayModelPricingCacheFingerprint } from "../gateway/model-pricing-cache-state.js";
-import { getCachedGatewayModelPricing } from "../gateway/model-pricing-cache.js";
-import { tryReadJsonSync } from "../infra/json-files.js";
-export { formatTokenCount } from "./token-format.js";
+import { resolveDefaultAgentDir } from "../agents/agent-scope-config.ts";
+import { modelKey, normalizeModelRef, normalizeProviderId } from "../agents/model-selection.ts";
+import type { NormalizedUsage } from "../agents/usage.ts";
+import type { ModelProviderConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getGatewayModelPricingCacheFingerprint } from "../gateway/model-pricing-cache-state.ts";
+import { getCachedGatewayModelPricing } from "../gateway/model-pricing-cache.ts";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+export { formatTokenCount } from "./token-format.ts";
 
 /**
  * A single tier in a tiered-pricing schedule.  Prices are expressed as

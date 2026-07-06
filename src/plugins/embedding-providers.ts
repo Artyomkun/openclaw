@@ -2,8 +2,8 @@
 import type {
   EmbeddingProviderAdapter,
   RegisteredEmbeddingProvider,
-} from "./embedding-provider-types.js";
-import { openAICompatibleEmbeddingProviderAdapter } from "./openai-compatible-embedding-provider.js";
+} from "./embedding-provider-types.ts";
+import { openAICompatibleEmbeddingProviderAdapter } from "./openai-compatible-embedding-provider.ts";
 
 export type {
   EmbeddingInput,
@@ -15,7 +15,7 @@ export type {
   EmbeddingProviderIndexIdentity,
   EmbeddingProviderRuntime,
   RegisteredEmbeddingProvider,
-} from "./embedding-provider-types.js";
+} from "./embedding-provider-types.ts";
 
 const EMBEDDING_PROVIDERS_KEY = Symbol.for("openclaw.embeddingProviders");
 const CORE_EMBEDDING_PROVIDERS: RegisteredEmbeddingProvider[] = [

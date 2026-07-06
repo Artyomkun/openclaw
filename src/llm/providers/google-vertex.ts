@@ -6,9 +6,9 @@ import {
   ResourceScope,
   ThinkingLevel as VertexThinkingLevel,
 } from "@google/genai";
-import type { Context, Model, SimpleStreamOptions, StreamFunction } from "../types.js";
-import { AssistantMessageEventStream } from "../utils/event-stream.js";
-import type { GoogleThinkingLevel } from "./google-shared.js";
+import type { Context, Model, SimpleStreamOptions, StreamFunction } from "../types.ts";
+import { AssistantMessageEventStream } from "../utils/event-stream.ts";
+import type { GoogleThinkingLevel } from "./google-shared.ts";
 import {
   buildGoogleGenerateContentParams,
   buildGoogleSimpleThinking,
@@ -16,8 +16,8 @@ import {
   getDisabledGoogleThinkingConfig,
   type GoogleProviderOptions,
   runGoogleGenerateContentLifecycle,
-} from "./google-shared.js";
-import { buildBaseOptions } from "./simple-options.js";
+} from "./google-shared.ts";
+import { buildBaseOptions } from "./simple-options.ts";
 
 export interface GoogleVertexOptions extends GoogleProviderOptions {
   project?: string;

@@ -3,8 +3,8 @@
  *
  * Keeps tool factories, renderers, and callers aligned on typed payload and metadata shapes.
  */
-import type { Edit } from "./edit-diff.js";
-import type { TruncationResult } from "./truncate.js";
+import type { Edit } from "./edit-diff.ts";
+import type { TruncationResult } from "./truncate.ts";
 
 export interface BashToolInput {
   command: string;

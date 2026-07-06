@@ -1,6 +1,6 @@
 // Gateway control-reply text classifier.
 // Suppresses internal auto-reply tokens before they leak to chat surfaces.
-import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
+import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
 
 const SUPPRESSED_CONTROL_REPLY_TOKENS = [
   SILENT_REPLY_TOKEN,

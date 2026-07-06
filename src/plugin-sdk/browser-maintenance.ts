@@ -4,8 +4,8 @@
 import {
   canLoadActivatedBundledPluginPublicSurface,
   tryLoadActivatedBundledPluginPublicSurfaceModuleSync,
-} from "./facade-runtime.js";
-export { movePathToTrash, type MovePathToTrashOptions } from "./browser-trash.js";
+} from "./facade-runtime.ts";
+export { movePathToTrash, type MovePathToTrashOptions } from "./browser-trash.ts";
 
 type CloseTrackedBrowserTabsParams = {
   sessionKeys: Array<string | undefined>;

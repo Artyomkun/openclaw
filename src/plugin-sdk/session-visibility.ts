@@ -2,11 +2,11 @@
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeTrimmedStringList } from "../../packages/normalization-core/src/string-normalization.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway as defaultCallGateway } from "../gateway/call.js";
-import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
+} from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeTrimmedStringList } from "../../packages/normalization-core/src/string-normalization.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway as defaultCallGateway } from "../gateway/call.ts";
+import { resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
 
 type GatewayCaller = typeof defaultCallGateway;
 

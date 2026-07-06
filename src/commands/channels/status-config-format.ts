@@ -1,23 +1,23 @@
 // Config-only channel status formatter used when the gateway is unreachable.
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
 import {
   hasConfiguredUnavailableCredentialStatus,
   hasResolvedCredentialValue,
-} from "../../channels/account-snapshot-fields.js";
-import { normalizeChannelId } from "../../channels/plugins/index.js";
-import { listReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read-only.js";
+} from "../../channels/account-snapshot-fields.ts";
+import { normalizeChannelId } from "../../channels/plugins/index.ts";
+import { listReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read-only.ts";
 import {
   buildChannelAccountSnapshot,
   buildReadOnlySourceChannelAccountSnapshot,
-} from "../../channels/plugins/status.js";
-import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import { listExplicitConfiguredChannelIdsForConfig } from "../../plugins/channel-plugin-ids.js";
+} from "../../channels/plugins/status.ts";
+import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import { listExplicitConfiguredChannelIdsForConfig } from "../../plugins/channel-plugin-ids.ts";
 import {
   type OfficialExternalPluginRepairHint,
   resolveMissingOfficialExternalChannelPluginRepairHint,
-} from "../../plugins/official-external-plugin-repair-hints.js";
+} from "../../plugins/official-external-plugin-repair-hints.ts";
 import {
   appendBaseUrlBit,
   appendEnabledConfiguredLinkedBits,
@@ -25,7 +25,7 @@ import {
   appendTokenSourceBits,
   buildChannelAccountLine,
   type ChatChannel,
-} from "./shared.js";
+} from "./shared.ts";
 
 type ChannelStatusPluginLabel = {
   id: ChatChannel;

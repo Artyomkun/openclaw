@@ -1,15 +1,15 @@
 /** Human-readable formatter for `openclaw message` action results. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.js";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { getLoadedChannelPlugin } from "../channels/plugins/index.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { OutboundDeliveryResult } from "../infra/outbound/deliver.js";
-import { formatGatewaySummary, formatOutboundDeliverySummary } from "../infra/outbound/format.js";
-import type { MessageActionRunResult } from "../infra/outbound/message-action-runner.js";
-import { formatTargetDisplay } from "../infra/outbound/target-resolver.js";
-import { shortenText } from "./text-format.js";
+import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.ts";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { getLoadedChannelPlugin } from "../channels/plugins/index.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { OutboundDeliveryResult } from "../infra/outbound/deliver.ts";
+import { formatGatewaySummary, formatOutboundDeliverySummary } from "../infra/outbound/format.ts";
+import type { MessageActionRunResult } from "../infra/outbound/message-action-runner.ts";
+import { formatTargetDisplay } from "../infra/outbound/target-resolver.ts";
+import { shortenText } from "./text-format.ts";
 
 const resolveChannelLabel = (channel: ChannelId) =>
   getLoadedChannelPlugin(channel)?.meta.label ?? channel;

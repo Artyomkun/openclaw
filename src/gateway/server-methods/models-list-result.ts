@@ -6,28 +6,28 @@ import {
   resolveAgentEffectiveModelPrimary,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope.js";
+} from "../../agents/agent-scope.ts";
 import {
   ensureAuthProfileStoreWithoutExternalProfiles,
   resolveAuthProfileOrder,
   type AuthProfileCredential,
   type AuthProfileStore,
-} from "../../agents/auth-profiles.js";
-import { DEFAULT_PROVIDER } from "../../agents/defaults.js";
-import { hasRuntimeAvailableProviderAuth } from "../../agents/model-auth.js";
+} from "../../agents/auth-profiles.ts";
+import { DEFAULT_PROVIDER } from "../../agents/defaults.ts";
+import { hasRuntimeAvailableProviderAuth } from "../../agents/model-auth.ts";
 import {
   loadModelCatalogForBrowse,
   type ModelCatalogBrowseView,
-} from "../../agents/model-catalog-browse.js";
+} from "../../agents/model-catalog-browse.ts";
 import {
   isCodexRoutableOpenAIPlatformCatalogEntry,
   resolveVisibleModelCatalog,
-} from "../../agents/model-catalog-visibility.js";
-import type { ModelCatalogEntry } from "../../agents/model-catalog.types.js";
-import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { isSecretRef } from "../../config/types.secrets.js";
-import type { GatewayRequestContext } from "./types.js";
+} from "../../agents/model-catalog-visibility.ts";
+import type { ModelCatalogEntry } from "../../agents/model-catalog.types.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { isSecretRef } from "../../config/types.secrets.ts";
+import type { GatewayRequestContext } from "./types.ts";
 
 type ModelsListView = ModelCatalogBrowseView;
 type ModelsListEntry = ModelCatalogEntry & { available?: boolean };

@@ -1,5 +1,5 @@
 // Decides when config recovery should use snapshots, backups, or defaults.
-import type { ConfigFileSnapshot, ConfigValidationIssue } from "./types.openclaw.js";
+import type { ConfigFileSnapshot, ConfigValidationIssue } from "./types.openclaw.ts";
 
 const PLUGIN_ENTRY_PATH_PREFIX = "plugins.entries.";
 const PLUGIN_POLICY_PATHS = new Set(["plugins.allow", "plugins.deny"]);
@@ -63,10 +63,10 @@ function extractPluginNotFoundIssuePluginId(issue: ConfigValidationIssue): strin
  * This lets callers show plugin repair hints instead of treating user config as corrupted.
  */
 export function isPluginPackagingRuntimeOutputInvalidConfigSnapshot(
-  snapshot: Pick<ConfigFileSnapshot, "valid" | "issues" | "legacyIssues"> &
+  snapshot: Pick<ConfigFileSnapshot, "valid" | "issues"> &
     Partial<Pick<ConfigFileSnapshot, "warnings">>,
 ): boolean {
-  if (snapshot.valid || (snapshot.legacyIssues?.length ?? 0) > 0 || snapshot.issues.length === 0) {
+  if (snapshot.valid || snapshot.issues.length === 0) {
     return false;
   }
   const packagingIssues = [...snapshot.issues, ...(snapshot.warnings ?? [])].filter(
@@ -95,9 +95,9 @@ export function isPluginPackagingRuntimeOutputInvalidConfigSnapshot(
  * Whole-file recovery is skipped for these snapshots so plugin cleanup can preserve user config.
  */
 export function isPluginLocalInvalidConfigSnapshot(
-  snapshot: Pick<ConfigFileSnapshot, "valid" | "issues" | "legacyIssues">,
+  snapshot: Pick<ConfigFileSnapshot, "valid" | "issues">,
 ): boolean {
-  if (snapshot.valid || snapshot.legacyIssues.length > 0 || snapshot.issues.length === 0) {
+  if (snapshot.valid || snapshot.issues.length === 0) {
     return false;
   }
   return snapshot.issues.every((issue) => isPluginEntryIssue(issue) || isPluginPolicyIssue(issue));
@@ -108,7 +108,7 @@ export function isPluginLocalInvalidConfigSnapshot(
  * Plugin-local failures stay on the current file so targeted plugin cleanup can run.
  */
 export function shouldAttemptLastKnownGoodRecovery(
-  snapshot: Pick<ConfigFileSnapshot, "valid" | "issues" | "legacyIssues">,
+  snapshot: Pick<ConfigFileSnapshot, "valid" | "issues">,
 ): boolean {
   if (snapshot.valid) {
     return false;

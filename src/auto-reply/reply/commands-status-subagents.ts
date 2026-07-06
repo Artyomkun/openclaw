@@ -1,7 +1,7 @@
 // Formats subagent status rows for the status command response.
-import type { SubagentRunRecord } from "../../agents/subagent-registry.types.js";
+import type { SubagentRunRecord } from "../../agents/subagent-registry.types.ts";
 import { formatDurationCompact } from "../../infra/format-time/format-duration.ts";
-import { formatRunLabel, sortSubagentRuns } from "./subagents-utils.js";
+import { formatRunLabel, sortSubagentRuns } from "./subagents-utils.ts";
 
 function formatActiveSubagentDetail(params: {
   entry: SubagentRunRecord;

@@ -13,7 +13,6 @@ import { resolveMatrixSqliteStateEnv } from "./sqlite-state.js";
 
 const STATE_KEY = "current";
 const RECOVERY_KEY_NAMESPACE = "recovery-key";
-const LEGACY_CRYPTO_MIGRATION_NAMESPACE = "legacy-crypto-migration";
 const IDB_SNAPSHOT_NAMESPACE = "idb-snapshot";
 const SMALL_STATE_MAX_ENTRIES = 10;
 const IDB_SNAPSHOT_MAX_ENTRIES = 20_000;
@@ -21,29 +20,7 @@ const IDB_SNAPSHOT_MAX_CHUNKS = Math.floor((IDB_SNAPSHOT_MAX_ENTRIES - 1) / 2);
 const IDB_SNAPSHOT_CHUNK_BYTES = 24_000;
 
 export const MATRIX_RECOVERY_KEY_FILENAME = "recovery-key.json";
-export const MATRIX_LEGACY_CRYPTO_MIGRATION_FILENAME = "legacy-crypto-migration.json";
 export const MATRIX_IDB_SNAPSHOT_FILENAME = "crypto-idb-snapshot.json";
-
-export type MatrixLegacyCryptoCounts = {
-  total: number;
-  backedUp: number;
-};
-
-export type MatrixLegacyCryptoMigrationState = {
-  version: 1;
-  source?: "matrix-bot-sdk-rust";
-  accountId: string;
-  deviceId?: string | null;
-  roomKeyCounts: MatrixLegacyCryptoCounts | null;
-  backupVersion?: string | null;
-  decryptionKeyImported?: boolean;
-  restoreStatus: "pending" | "completed" | "manual-action-required";
-  detectedAt?: string;
-  restoredAt?: string;
-  importedCount?: number;
-  totalCount?: number;
-  lastError?: string | null;
-};
 
 type MatrixIdbSnapshotMeta = {
   kind: "meta";
@@ -72,14 +49,6 @@ type SyncStore<T> = Pick<
 export function openMatrixRecoveryKeyStoreOptions(storageRootDir: string) {
   return {
     namespace: RECOVERY_KEY_NAMESPACE,
-    maxEntries: SMALL_STATE_MAX_ENTRIES,
-    env: resolveMatrixSqliteStateEnv({ stateDir: storageRootDir }),
-  };
-}
-
-export function openMatrixLegacyCryptoMigrationStoreOptions(storageRootDir: string) {
-  return {
-    namespace: LEGACY_CRYPTO_MIGRATION_NAMESPACE,
     maxEntries: SMALL_STATE_MAX_ENTRIES,
     env: resolveMatrixSqliteStateEnv({ stateDir: storageRootDir }),
   };
@@ -173,46 +142,6 @@ export async function writeMatrixRecoveryKeyStateToStore(params: {
   await params.store.register(STATE_KEY, payload);
 }
 
-export function readMatrixLegacyCryptoMigrationState(
-  storageRootDir: string,
-): MatrixLegacyCryptoMigrationState | null {
-  return normalizeMatrixLegacyCryptoMigrationState(
-    openSyncStore<MatrixLegacyCryptoMigrationState>(
-      openMatrixLegacyCryptoMigrationStoreOptions(storageRootDir),
-    ).lookup(STATE_KEY),
-  );
-}
-
-export function writeMatrixLegacyCryptoMigrationState(params: {
-  storageRootDir: string;
-  state: MatrixLegacyCryptoMigrationState;
-}): void {
-  const state = normalizeMatrixLegacyCryptoMigrationState(params.state);
-  if (!state) {
-    throw new Error("Invalid Matrix legacy crypto migration state");
-  }
-  openSyncStore<MatrixLegacyCryptoMigrationState>(
-    openMatrixLegacyCryptoMigrationStoreOptions(params.storageRootDir),
-  ).register(STATE_KEY, state);
-}
-
-export async function hasMatrixLegacyCryptoMigrationStateInStore(params: {
-  store: Pick<PluginStateKeyedStore<MatrixLegacyCryptoMigrationState>, "lookup">;
-}): Promise<boolean> {
-  return normalizeMatrixLegacyCryptoMigrationState(await params.store.lookup(STATE_KEY)) !== null;
-}
-
-export async function writeMatrixLegacyCryptoMigrationStateToStore(params: {
-  state: MatrixLegacyCryptoMigrationState;
-  store: Pick<PluginStateKeyedStore<MatrixLegacyCryptoMigrationState>, "register">;
-}): Promise<void> {
-  const state = normalizeMatrixLegacyCryptoMigrationState(params.state);
-  if (!state) {
-    throw new Error("Invalid Matrix legacy crypto migration state");
-  }
-  await params.store.register(STATE_KEY, state);
-}
-
 export function readMatrixIdbSnapshotJson(storageRootDir: string): string | null {
   return readIdbSnapshotJsonFromStore(
     openSyncStore<MatrixIdbSnapshotRecord>(openMatrixIdbSnapshotStoreOptions(storageRootDir)),
@@ -264,86 +193,6 @@ export async function writeMatrixIdbSnapshotJsonToStore(params: {
   }
 }
 
-export function migrateLegacyMatrixRecoveryKeyFileToStore(storageRootDir: string): boolean {
-  return migrateLegacyMatrixRecoveryKeyFilePathToStore(
-    path.join(storageRootDir, MATRIX_RECOVERY_KEY_FILENAME),
-  );
-}
-
-export function migrateLegacyMatrixRecoveryKeyFilePathToStore(recoveryKeyPath: string): boolean {
-  const existing = readMatrixRecoveryKeyStateForPath(recoveryKeyPath);
-  const legacy = readLegacyMatrixRecoveryKeyFile(recoveryKeyPath);
-  if (!existing && legacy) {
-    writeMatrixRecoveryKeyStateForPath({ recoveryKeyPath, payload: legacy });
-  }
-  return archiveLegacyStateFileIfPossible(recoveryKeyPath);
-}
-
-export function migrateLegacyMatrixLegacyCryptoMigrationFileToStore(
-  storageRootDir: string,
-): boolean {
-  const existing = readMatrixLegacyCryptoMigrationState(storageRootDir);
-  const legacy = readLegacyMatrixLegacyCryptoMigrationState(storageRootDir);
-  if (!existing && legacy) {
-    writeMatrixLegacyCryptoMigrationState({ storageRootDir, state: legacy });
-  }
-  return archiveLegacyStateFileIfPossible(
-    path.join(storageRootDir, MATRIX_LEGACY_CRYPTO_MIGRATION_FILENAME),
-  );
-}
-
-export function readLegacyMatrixRecoveryKeyState(
-  storageRootDir: string,
-): MatrixStoredRecoveryKey | null {
-  return readLegacyMatrixRecoveryKeyFile(path.join(storageRootDir, MATRIX_RECOVERY_KEY_FILENAME));
-}
-
-export function readLegacyMatrixRecoveryKeyFile(filePath: string): MatrixStoredRecoveryKey | null {
-  return readJsonFileSync(filePath, normalizeMatrixStoredRecoveryKey);
-}
-
-export function readLegacyMatrixLegacyCryptoMigrationState(
-  storageRootDir: string,
-): MatrixLegacyCryptoMigrationState | null {
-  return readJsonFileSync(
-    path.join(storageRootDir, MATRIX_LEGACY_CRYPTO_MIGRATION_FILENAME),
-    normalizeMatrixLegacyCryptoMigrationState,
-  );
-}
-
-export function scoreMatrixCryptoStateInStore(storageRootDir: string): number {
-  if (!matrixCryptoStateDatabaseExists(storageRootDir)) {
-    return 0;
-  }
-  let score = 0;
-  try {
-    if (readMatrixLegacyCryptoMigrationState(storageRootDir)) {
-      score += 3;
-    }
-  } catch {
-    // Storage root scoring must stay best-effort; unreadable state should not block startup.
-  }
-  try {
-    if (readMatrixRecoveryKeyState(storageRootDir)) {
-      score += 2;
-    }
-  } catch {
-    // Storage root scoring must stay best-effort; unreadable state should not block startup.
-  }
-  try {
-    if (hasMatrixIdbSnapshotState(storageRootDir)) {
-      score += 2;
-    }
-  } catch {
-    // Storage root scoring must stay best-effort; unreadable state should not block startup.
-  }
-  return score;
-}
-
-function matrixCryptoStateDatabaseExists(storageRootDir: string): boolean {
-  return fs.existsSync(path.join(storageRootDir, "state", "openclaw.sqlite"));
-}
-
 function resolveRecoveryKeyStateKeyForPath(recoveryKeyPath: string): string {
   const basename = path.basename(recoveryKeyPath);
   if (basename === MATRIX_RECOVERY_KEY_FILENAME) {
@@ -383,79 +232,12 @@ export function normalizeMatrixStoredRecoveryKey(value: unknown): MatrixStoredRe
   };
 }
 
-export function normalizeMatrixLegacyCryptoMigrationState(
-  value: unknown,
-): MatrixLegacyCryptoMigrationState | null {
-  if (!isRecord(value) || value.version !== 1 || typeof value.accountId !== "string") {
-    return null;
-  }
-  if (
-    value.restoreStatus !== "pending" &&
-    value.restoreStatus !== "completed" &&
-    value.restoreStatus !== "manual-action-required"
-  ) {
-    return null;
-  }
-  const roomKeyCounts =
-    isRecord(value.roomKeyCounts) &&
-    typeof value.roomKeyCounts.total === "number" &&
-    typeof value.roomKeyCounts.backedUp === "number"
-      ? {
-          total: value.roomKeyCounts.total,
-          backedUp: value.roomKeyCounts.backedUp,
-        }
-      : null;
-  return {
-    version: 1,
-    ...(value.source === "matrix-bot-sdk-rust" ? { source: value.source } : {}),
-    accountId: value.accountId,
-    ...(typeof value.deviceId === "string" || value.deviceId === null
-      ? { deviceId: value.deviceId }
-      : {}),
-    roomKeyCounts,
-    ...(typeof value.backupVersion === "string" || value.backupVersion === null
-      ? { backupVersion: value.backupVersion }
-      : {}),
-    ...(typeof value.decryptionKeyImported === "boolean"
-      ? { decryptionKeyImported: value.decryptionKeyImported }
-      : {}),
-    restoreStatus: value.restoreStatus,
-    ...(typeof value.detectedAt === "string" ? { detectedAt: value.detectedAt } : {}),
-    ...(typeof value.restoredAt === "string" ? { restoredAt: value.restoredAt } : {}),
-    ...(typeof value.importedCount === "number" ? { importedCount: value.importedCount } : {}),
-    ...(typeof value.totalCount === "number" ? { totalCount: value.totalCount } : {}),
-    ...(typeof value.lastError === "string" || value.lastError === null
-      ? { lastError: value.lastError }
-      : {}),
-  };
-}
-
 function openSyncStore<T>(options: {
   namespace: string;
   maxEntries: number;
   env?: NodeJS.ProcessEnv;
 }): PluginStateSyncKeyedStore<T> {
   return getMatrixRuntime().state.openSyncKeyedStore<T>(options);
-}
-
-function readJsonFileSync<T>(filePath: string, normalize: (value: unknown) => T | null): T | null {
-  try {
-    return normalize(JSON.parse(fs.readFileSync(filePath, "utf8")) as unknown);
-  } catch {
-    return null;
-  }
-}
-
-function archiveLegacyStateFileIfPossible(filePath: string): boolean {
-  if (!fs.existsSync(filePath)) {
-    return false;
-  }
-  const archivedPath = `${filePath}.migrated`;
-  if (fs.existsSync(archivedPath)) {
-    return false;
-  }
-  fs.renameSync(filePath, archivedPath);
-  return true;
 }
 
 function readIdbSnapshotJsonFromStore(store: Pick<SyncStore<MatrixIdbSnapshotRecord>, "lookup">) {

@@ -4,10 +4,10 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { parseStrictInteger } from "./parse-finite-number.js";
-import { isTailnetIPv4 } from "./tailnet.js";
-import { resolveWideAreaDiscoveryDomain } from "./widearea-dns.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { parseStrictInteger } from "./parse-finite-number.ts";
+import { isTailnetIPv4 } from "./tailnet.ts";
+import { resolveWideAreaDiscoveryDomain } from "./widearea-dns.ts";
 
 export type GatewayBonjourBeacon = {
   instanceName: string;

@@ -3,10 +3,10 @@ import { createHash } from "node:crypto";
 import { normalizeText } from "@openclaw/acp-core/normalize-text";
 import type { AcpRuntimeSessionMode } from "@openclaw/acp-core/runtime/types";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { SessionBindingRecord } from "../infra/outbound/session-binding-service.js";
-import { normalizeAccountId, resolveAgentIdFromSessionKey } from "../routing/session-key.js";
-import { sanitizeAgentId } from "../routing/session-key.js";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { SessionBindingRecord } from "../infra/outbound/session-binding-service.ts";
+import { normalizeAccountId, resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
+import { sanitizeAgentId } from "../routing/session-key.ts";
 
 export { normalizeText } from "@openclaw/acp-core/normalize-text";
 

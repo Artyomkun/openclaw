@@ -8,15 +8,15 @@ import {
   clampPositiveTimerTimeoutMs,
   resolvePositiveTimerTimeoutMs,
 } from "@openclaw/normalization-core/number-coercion";
-import type { ModelProviderLocalServiceConfig } from "../config/types.models.js";
-import { toErrorObject } from "../infra/errors.js";
-import type { Model } from "../llm/types.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import type { ModelProviderLocalServiceConfig } from "../config/types.models.ts";
+import { toErrorObject } from "../infra/errors.ts";
+import type { Model } from "../llm/types.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   forceKillChildProcessTree,
   signalChildProcessTree,
   shouldDetachChildForProcessTree,
-} from "../process/child-process-tree.js";
+} from "../process/child-process-tree.ts";
 
 const log = createSubsystemLogger("provider-local-service");
 const DEFAULT_READY_TIMEOUT_MS = 120_000;

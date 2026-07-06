@@ -5,32 +5,32 @@
  */
 import fsSync, { promises as fs } from "node:fs";
 import path from "node:path";
-import { DEFAULT_SUBAGENT_ARCHIVE_AFTER_MINUTES } from "../config/agent-limits.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { patchSessionEntry } from "../config/sessions/session-accessor.js";
-import { resolveAgentIdFromSessionKey, resolveStorePath } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { defaultRuntime } from "../runtime.js";
-import { withSubagentOutcomeTiming } from "./subagent-announce-output.js";
-import { getDeliveryAttemptCount, getDeliveryLastError } from "./subagent-delivery-state.js";
-import { SUBAGENT_ENDED_REASON_ERROR } from "./subagent-lifecycle-events.js";
-import { shouldUpdateRunOutcome } from "./subagent-registry-completion.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+import { DEFAULT_SUBAGENT_ARCHIVE_AFTER_MINUTES } from "../config/agent-limits.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { patchSessionEntry } from "../config/sessions/session-accessor.ts";
+import { resolveAgentIdFromSessionKey, resolveStorePath } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { withSubagentOutcomeTiming } from "./subagent-announce-output.ts";
+import { getDeliveryAttemptCount, getDeliveryLastError } from "./subagent-delivery-state.ts";
+import { SUBAGENT_ENDED_REASON_ERROR } from "./subagent-lifecycle-events.ts";
+import { shouldUpdateRunOutcome } from "./subagent-registry-completion.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 import {
   resolveSubagentRunOrphanReason,
   type SubagentRunOrphanReason,
-} from "./subagent-session-reconciliation.js";
+} from "./subagent-session-reconciliation.ts";
 import {
   getSubagentSessionRuntimeMs,
   getSubagentSessionStartedAt,
   resolveSubagentSessionStatus,
-} from "./subagent-session-metrics.js";
+} from "./subagent-session-metrics.ts";
 
 export {
   getSubagentSessionRuntimeMs,
   getSubagentSessionStartedAt,
   resolveSubagentSessionStatus,
-} from "./subagent-session-metrics.js";
+} from "./subagent-session-metrics.ts";
 
 export const MIN_ANNOUNCE_RETRY_DELAY_MS = 1_000;
 const MAX_ANNOUNCE_RETRY_DELAY_MS = 8_000;

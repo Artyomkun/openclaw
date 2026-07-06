@@ -8,9 +8,9 @@ import { asOptionalRecord } from "@openclaw/normalization-core/record-coerce";
 import {
   emitTrustedDiagnosticEvent,
   type DiagnosticEventInput,
-} from "../infra/diagnostic-events.js";
-import { firstFiniteTalkEventNumber } from "./event-metrics.js";
-import type { TalkEvent } from "./talk-events.js";
+} from "../infra/diagnostic-events.ts";
+import { firstFiniteTalkEventNumber } from "./event-metrics.ts";
+import type { TalkEvent } from "./talk-events.ts";
 
 type TalkDiagnosticEventInput = Extract<DiagnosticEventInput, { type: "talk.event" }>;
 

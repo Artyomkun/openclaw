@@ -7,35 +7,35 @@ import {
   normalizeTrimmedStringList,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { resolveSandboxPath } from "../../agents/sandbox-paths.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { walkDirectorySync } from "../../infra/fs-safe.js";
-import { resolveOsHomeDir } from "../../infra/home-dir.js";
-import { isPathInside } from "../../infra/path-guards.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { CONFIG_DIR, resolveConfigDir, resolveUserPath } from "../../utils.js";
+import { resolveSandboxPath } from "../../agents/sandbox-paths.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { walkDirectorySync } from "../../infra/fs-safe.ts";
+import { resolveOsHomeDir } from "../../infra/home-dir.ts";
+import { isPathInside } from "../../infra/path-guards.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { CONFIG_DIR, resolveConfigDir, resolveUserPath } from "../../utils.ts";
 import {
   resolveEffectiveAgentSkillFilter,
   resolveEffectiveAgentSkillsLimits,
-} from "../discovery/agent-filter.js";
-import { normalizeSkillFilter } from "../discovery/filter.js";
-import { filterPromptVisibleSkillEntries } from "../discovery/skill-index.js";
+} from "../discovery/agent-filter.ts";
+import { normalizeSkillFilter } from "../discovery/filter.ts";
+import { filterPromptVisibleSkillEntries } from "../discovery/skill-index.ts";
 import type {
   OpenClawSkillMetadata,
   ParsedSkillFrontmatter,
   SkillEligibilityContext,
   SkillEntry,
   SkillSnapshot,
-} from "../types.js";
-import { WORKSPACE_SKILLS_PROMPT_FORMAT_VERSION } from "../types.js";
-import { resolveBundledSkillsDir } from "./bundled-dir.js";
-import { resolveBundledAllowlist, shouldIncludeSkill } from "./config.js";
-import { resolveOpenClawMetadata, resolveSkillInvocationPolicy } from "./frontmatter.js";
-import { loadSkillsFromDirSafe, readSkillFrontmatterSafe } from "./local-loader.js";
-import { resolvePluginSkillDirs } from "./plugin-skills.js";
-import { serializeByKey } from "./serialize.js";
-import { formatSkillsForPrompt, type Skill } from "./skill-contract.js";
-import { resolveAllowedSkillSymlinkTargetRealPaths, tryRealpath } from "./symlink-targets.js";
+} from "../types.ts";
+import { WORKSPACE_SKILLS_PROMPT_FORMAT_VERSION } from "../types.ts";
+import { resolveBundledSkillsDir } from "./bundled-dir.ts";
+import { resolveBundledAllowlist, shouldIncludeSkill } from "./config.ts";
+import { resolveOpenClawMetadata, resolveSkillInvocationPolicy } from "./frontmatter.ts";
+import { loadSkillsFromDirSafe, readSkillFrontmatterSafe } from "./local-loader.ts";
+import { resolvePluginSkillDirs } from "./plugin-skills.ts";
+import { serializeByKey } from "./serialize.ts";
+import { formatSkillsForPrompt, type Skill } from "./skill-contract.ts";
+import { resolveAllowedSkillSymlinkTargetRealPaths, tryRealpath } from "./symlink-targets.ts";
 
 const fsp = fs.promises;
 const skillsLogger = createSubsystemLogger("skills");
@@ -1254,9 +1254,6 @@ function loadSkillEntries(
         invocation,
         exposure: {
           includeInRuntimeRegistry: true,
-          // Freshly loaded entries preserve the documented disable-model-invocation
-          // contract, while legacy entries without exposure metadata still use
-          // the centralized prompt visibility fallback.
           includeInAvailableSkillsPrompt: !invocation.disableModelInvocation,
           userInvocable: invocation.userInvocable ?? true,
         },

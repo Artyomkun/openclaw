@@ -65,7 +65,7 @@ node --import tsx scripts/repro/tsx-name-repro.ts
 
   ```bash
   pnpm tsgo
-  node openclaw.mjs status
+  node openclaw.ts status
   ```
 
 - Historical note: `tsc` was used here while debugging this Node/tsx issue, but repo type-check lanes now use `tsgo`.

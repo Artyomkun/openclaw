@@ -192,10 +192,10 @@ jobs:
 
           if [ "${{ github.event_name }}" = "push" ]; then
             BASE="${{ github.event.before }}"
-            node scripts/ci-changed-scope.mjs --base "$BASE" --head HEAD
+            node scripts/ci-changed-scope.ts --base "$BASE" --head HEAD
           else
             BASE="${{ github.event.pull_request.base.sha }}"
-            node scripts/ci-changed-scope.mjs --base "$BASE" --head HEAD --merge-head-first-parent
+            node scripts/ci-changed-scope.ts --base "$BASE" --head HEAD --merge-head-first-parent
           fi
 
       - name: Build CI manifest
@@ -221,10 +221,10 @@ jobs:
           import { appendFileSync } from "node:fs";
           import {
             createNodeTestShardBundles,
-          } from "./scripts/lib/ci-node-test-plan.mjs";
+          } from "./scripts/lib/ci-node-test-plan.ts";
           import {
             createChannelContractTestShards,
-          } from "./scripts/lib/channel-contract-test-plan.mjs";
+          } from "./scripts/lib/channel-contract-test-plan.ts";
 
           const parseBoolean = (value, fallback = false) => {
             if (value === undefined) return fallback;
@@ -235,7 +235,7 @@ jobs:
           };
 
           const { createPluginContractTestShards } = await import(
-            "./scripts/lib/plugin-contract-test-plan.mjs"
+            "./scripts/lib/plugin-contract-test-plan.ts"
           ).catch((error) => {
             if (error?.code !== "ERR_MODULE_NOT_FOUND") {
               throw error;
@@ -243,7 +243,7 @@ jobs:
             return {
               createPluginContractTestShards: () => [
                 {
-                  checkName: "checks-fast-contracts-plugins-legacy",
+                  checkName: "checks-fast-contracts-plugins-deprecaty",
                   includePatterns: ["src/plugins/contracts/**/*.test.ts"],
                   runtime: "node",
                   task: "contracts-plugins",
@@ -527,7 +527,7 @@ jobs:
           openclaw_ensure_node "$REQUESTED_NODE_VERSION"
 
       - name: Audit production dependencies
-        run: node scripts/pre-commit/pnpm-audit-prod.mjs --audit-level=high
+        run: node scripts/pre-commit/pnpm-audit-prod.ts --audit-level=high
 
   # Warm the lockfile- and pnpm-pinned store without blocking Linux Node shards.
   # On a cold key this job owns the save for later workflow runs.
@@ -664,7 +664,7 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: .artifacts/build-all-cache
-          key: ${{ runner.os }}-build-all-v3-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'npm-shrinkwrap.json', 'packages/plugin-sdk/package.json', 'packages/llm-core/package.json', 'packages/model-catalog-core/package.json', 'packages/memory-host-sdk/package.json', 'scripts/build-all.mjs', 'scripts/write-plugin-sdk-entry-dts.ts', 'scripts/lib/plugin-sdk-entries.mjs', 'tsconfig.json', 'tsconfig.plugin-sdk.dts.json', 'src/plugin-sdk/**', 'packages/llm-core/src/**', 'packages/model-catalog-core/src/**', 'packages/memory-host-sdk/src/**', 'src/types/**', 'src/video-generation/dashscope-compatible.ts', 'src/video-generation/types.ts', 'scripts/copy-export-html-templates.ts', 'scripts/lib/copy-assets.ts', 'src/auto-reply/reply/export-html/**') }}
+          key: ${{ runner.os }}-build-all-v3-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'npm-shrinkwrap.json', 'packages/plugin-sdk/package.json', 'packages/llm-core/package.json', 'packages/model-catalog-core/package.json', 'packages/memory-host-sdk/package.json', 'scripts/build-all.ts', 'scripts/write-plugin-sdk-entry-dts.ts', 'scripts/lib/plugin-sdk-entries.ts', 'tsconfig.json', 'tsconfig.plugin-sdk.dts.json', 'src/plugin-sdk/**', 'packages/llm-core/src/**', 'packages/model-catalog-core/src/**', 'packages/memory-host-sdk/src/**', 'src/types/**', 'src/video-generation/dashscope-compatible.ts', 'src/video-generation/types.ts', 'scripts/copy-export-html-templates.ts', 'scripts/lib/copy-assets.ts', 'src/auto-reply/reply/export-html/**') }}
           restore-keys: |
             ${{ runner.os }}-build-all-v3-
 
@@ -710,10 +710,10 @@ jobs:
           retention-days: 1
 
       - name: Smoke test CLI launcher help
-        run: node openclaw.mjs --help
+        run: node openclaw.ts --help
 
       - name: Smoke test CLI launcher status json
-        run: node openclaw.mjs status --json --timeout 1
+        run: node openclaw.ts status --json --timeout 1
 
       - name: Smoke test built bundled plugin singleton
         run: pnpm test:build:singleton
@@ -780,7 +780,7 @@ jobs:
             start_check "core-support-boundary" env \
               NODE_OPTIONS=--max-old-space-size=8192 \
               OPENCLAW_VITEST_MAX_WORKERS=2 \
-              node scripts/run-vitest.mjs run --config test/vitest/vitest.full-core-support-boundary.config.ts
+              node scripts/run-vitest.ts run --config test/vitest/vitest.full-core-support-boundary.config.ts
           fi
 
           for index in "${!pids[@]}"; do
@@ -802,8 +802,8 @@ jobs:
 
           if [ "$RUN_GATEWAY_WATCH" = "true" ]; then
             log="${RUNNER_TEMP}/gateway-watch.log"
-            echo "starting gateway-watch: node scripts/check-gateway-watch-regression.mjs --skip-build"
-            if node scripts/check-gateway-watch-regression.mjs --skip-build >"$log" 2>&1; then
+            echo "starting gateway-watch: node scripts/check-gateway-watch-regression.ts --skip-build"
+            if node scripts/check-gateway-watch-regression.ts --skip-build >"$log" 2>&1; then
               result="success"
             else
               result="failure"
@@ -859,7 +859,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 12
-      matrix: ${{ fromJson(needs.preflight.outputs.checks_fast_core_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.checks_fast_core_matrix) }}
     steps:
       - name: Checkout
         shell: bash
@@ -929,7 +929,7 @@ jobs:
               export OPENCLAW_DISABLE_BUNDLED_PLUGINS=0
               export OPENCLAW_QA_REDACT_PUBLIC_METADATA=1
               export OPENCLAW_QA_TRANSPORT_READY_TIMEOUT_MS=180000
-              NODE_OPTIONS=--max-old-space-size=8192 node scripts/build-all.mjs qaRuntime
+              NODE_OPTIONS=--max-old-space-size=8192 node scripts/build-all.ts qaRuntime
               qa_exit_code=0
               pnpm openclaw qa run \
                 --repo-root . \
@@ -978,7 +978,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 12
-      matrix: ${{ fromJson(needs.preflight.outputs.plugin_contracts_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.plugin_contracts_matrix) }}
     steps:
       - name: Checkout
         shell: bash
@@ -1059,7 +1059,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 12
-      matrix: ${{ fromJson(needs.preflight.outputs.channel_contracts_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.channel_contracts_matrix) }}
     steps:
       - name: Checkout
         shell: bash
@@ -1197,8 +1197,8 @@ jobs:
         run: |
           pnpm build
           pnpm ui:build
-          node openclaw.mjs --help
-          node openclaw.mjs status --json --timeout 1
+          node openclaw.ts --help
+          node openclaw.ts status --json --timeout 1
           pnpm test:build:singleton
 
   checks-node-core-test-nondist-shard:
@@ -1214,7 +1214,7 @@ jobs:
       # The canonical main path waits for the admission debounce above, so
       # widen this large matrix within the current runner-registration budget.
       max-parallel: 24
-      matrix: ${{ fromJson(needs.preflight.outputs.checks_node_core_nondist_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.checks_node_core_nondist_matrix) }}
     steps:
       - name: Checkout
         shell: bash
@@ -1328,7 +1328,7 @@ jobs:
             }
             const result = spawnSync(
               "pnpm",
-              ["exec", "node", "scripts/test-projects.mjs", ...configs],
+              ["exec", "node", "scripts/test-projects.ts", ...configs],
               {
                 env: childEnv,
                 stdio: "inherit",
@@ -1438,14 +1438,14 @@ jobs:
               pnpm dup:check:coverage
               if [ -n "$PR_BASE_SHA" ]; then
                 git fetch --no-tags --depth=1 origin "+${PR_BASE_SHA}:refs/remotes/origin/pr-base"
-                node scripts/report-test-temp-creations.mjs --base refs/remotes/origin/pr-base --head HEAD --no-merge-base
+                node scripts/report-test-temp-creations.ts --base refs/remotes/origin/pr-base --head HEAD --no-merge-base
               fi
               pnpm deps:patches:check
               pnpm lint:webhook:no-low-level-body-read
               pnpm lint:auth:no-pairing-store-group
               pnpm lint:auth:pairing-account-scope
               pnpm check:import-cycles
-              # build-artifacts already runs the tsdown/runtime build for the same Node-relevant changes.
+              # build-artifacts already runs the tsc/runtime build for the same Node-relevant changes.
               NODE_OPTIONS=--max-old-space-size=8192 pnpm build:plugin-sdk:strict-smoke
               ;;
             shrinkwrap)
@@ -1582,7 +1582,7 @@ jobs:
             packages/plugin-sdk/dist
             extensions/*/dist/.boundary-tsc.tsbuildinfo
             extensions/*/dist/.boundary-tsc.stamp
-          key: ${{ runner.os }}-extension-package-boundary-v1-${{ hashFiles('tsconfig.json', 'tsconfig.plugin-sdk.dts.json', 'packages/plugin-sdk/tsconfig.json', 'packages/llm-core/package.json', 'packages/model-catalog-core/package.json', 'scripts/check-extension-package-tsc-boundary.mjs', 'scripts/prepare-extension-package-boundary-artifacts.mjs', 'scripts/write-plugin-sdk-entry-dts.ts', 'scripts/lib/plugin-sdk-entrypoints.json', 'scripts/lib/plugin-sdk-entries.mjs', 'src/plugin-sdk/**', 'src/plugins/types.ts', 'src/auto-reply/**', 'packages/llm-core/src/**', 'packages/model-catalog-core/src/**', 'src/video-generation/dashscope-compatible.ts', 'src/video-generation/types.ts', 'src/types/**', 'extensions/**', 'extensions/tsconfig.package-boundary*.json', 'package.json', 'pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-extension-package-boundary-v1-${{ hashFiles('tsconfig.json', 'tsconfig.plugin-sdk.dts.json', 'packages/plugin-sdk/tsconfig.json', 'packages/llm-core/package.json', 'packages/model-catalog-core/package.json', 'scripts/check-extension-package-tsc-boundary.ts', 'scripts/prepare-extension-package-boundary-artifacts.ts', 'scripts/write-plugin-sdk-entry-dts.ts', 'scripts/lib/plugin-sdk-entrypoints.json', 'scripts/lib/plugin-sdk-entries.ts', 'src/plugin-sdk/**', 'src/plugins/types.ts', 'src/auto-reply/**', 'packages/llm-core/src/**', 'packages/model-catalog-core/src/**', 'src/video-generation/dashscope-compatible.ts', 'src/video-generation/types.ts', 'src/types/**', 'extensions/**', 'extensions/tsconfig.package-boundary*.json', 'package.json', 'pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-extension-package-boundary-v1-
 
@@ -1594,19 +1594,19 @@ jobs:
           find extensions \
             -path '*/dist' -prune -o \
             -path '*/node_modules' -prune -o \
-            -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.mts' -o -name '*.cts' -o -name '*.js' -o -name '*.mjs' -o -name '*.json' \) \
+            -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.ts' -o -name '*.json' \) \
             -exec touch -t 200001010000 {} +
           find src \
-            -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.mts' -o -name '*.cts' -o -name '*.js' -o -name '*.mjs' -o -name '*.json' \) \
+            -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.ts' -o -name '*.json' \) \
             -exec touch -t 200001010000 {} +
           if [ -d packages/llm-core/src ]; then
             find packages/llm-core/src \
-              -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.mts' -o -name '*.cts' -o -name '*.js' -o -name '*.mjs' -o -name '*.json' \) \
+              -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.ts' -o -name '*.json' \) \
               -exec touch -t 200001010000 {} +
           fi
           if [ -d packages/model-catalog-core/src ]; then
             find packages/model-catalog-core/src \
-              -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.mts' -o -name '*.cts' -o -name '*.js' -o -name '*.mjs' -o -name '*.json' \) \
+              -type f \( -name '*.ts' -o -name '*.tsx'  -o -name '*.js' -o -name '*.ts' -o -name '*.json' \) \
               -exec touch -t 200001010000 {} +
           fi
           cache_inputs=(
@@ -1615,11 +1615,11 @@ jobs:
             packages/plugin-sdk/tsconfig.json \
             packages/llm-core/package.json \
             packages/model-catalog-core/package.json \
-            scripts/check-extension-package-tsc-boundary.mjs \
-            scripts/prepare-extension-package-boundary-artifacts.mjs \
+            scripts/check-extension-package-tsc-boundary.ts \
+            scripts/prepare-extension-package-boundary-artifacts.ts \
             scripts/write-plugin-sdk-entry-dts.ts \
             scripts/lib/plugin-sdk-entrypoints.json \
-            scripts/lib/plugin-sdk-entries.mjs \
+            scripts/lib/plugin-sdk-entries.ts \
             package.json \
             pnpm-lock.yaml
           )
@@ -1658,10 +1658,10 @@ jobs:
 
           case "$ADDITIONAL_CHECK_GROUP" in
             boundaries)
-              node scripts/run-additional-boundary-checks.mjs
+              node scripts/run-additional-boundary-checks.ts
               ;;
             session-accessor-boundary)
-              if [ ! -f scripts/check-session-accessor-boundary.mjs ]; then
+              if [ ! -f scripts/check-session-accessor-boundary.ts ]; then
                 echo "[skip] session accessor boundary check is not present in this checkout"
               elif ! node -e 'const pkg = require("./package.json"); process.exit(pkg.scripts?.["lint:tmp:session-accessor-boundary"] ? 0 : 1);'; then
                 echo "[skip] session accessor boundary script is not present in package.json"
@@ -1670,7 +1670,7 @@ jobs:
               fi
               ;;
             session-transcript-reader-boundary)
-              if [ ! -f scripts/check-session-transcript-reader-boundary.mjs ]; then
+              if [ ! -f scripts/check-session-transcript-reader-boundary.ts ]; then
                 echo "[skip] session transcript reader boundary check is not present in this checkout"
               elif ! node -e 'const pkg = require("./package.json"); process.exit(pkg.scripts?.["lint:tmp:session-transcript-reader-boundary"] ? 0 : 1);'; then
                 echo "[skip] session transcript reader boundary script is not present in package.json"
@@ -1842,22 +1842,6 @@ jobs:
           fetch_checkout_ref
           git -C "$GITHUB_WORKSPACE" checkout --detach refs/remotes/origin/checkout
 
-      - name: Setup Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
-        with:
-          python-version: "3.12"
-
-      - name: Install Python tooling
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pytest ruff pyyaml
-
-      - name: Lint Python skill scripts
-        run: python -m ruff check --config skills/pyproject.toml skills
-
-      - name: Test skill Python scripts
-        run: python -m pytest -q -c skills/pyproject.toml skills
-
   checks-windows:
     permissions:
       contents: read
@@ -1877,7 +1861,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 2
-      matrix: ${{ fromJson(needs.preflight.outputs.checks_windows_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.checks_windows_matrix) }}
     steps:
       - name: Checkout
         env:
@@ -1998,7 +1982,7 @@ jobs:
     timeout-minutes: 20
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.preflight.outputs.macos_node_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.macos_node_matrix) }}
     steps:
       - name: Checkout
         env:
@@ -2277,7 +2261,7 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 2
-      matrix: ${{ fromJson(needs.preflight.outputs.android_matrix) }}
+      matrix: ${{ frotson(needs.preflight.outputs.android_matrix) }}
     steps:
       - name: Checkout
         shell: bash
@@ -2437,7 +2421,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          node scripts/ci-run-timings.mjs "$GITHUB_RUN_ID" --limit 25 > ci-timings-summary.txt
+          node scripts/ci-run-timings.ts "$GITHUB_RUN_ID" --limit 25 > ci-timings-summary.txt
           cat ci-timings-summary.txt >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload CI timing summary

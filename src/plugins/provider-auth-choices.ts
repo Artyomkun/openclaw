@@ -1,15 +1,15 @@
 // Builds provider auth choice lists from plugin setup metadata.
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { resolveProviderIdForAuth } from "../agents/provider-auth-aliases.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
-import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { resolveProviderIdForAuth } from "../agents/provider-auth-aliases.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.ts";
+import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
 import {
   getOfficialExternalPluginCatalogManifest,
   listOfficialExternalProviderCatalogEntries,
-} from "./official-external-plugin-catalog.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
+} from "./official-external-plugin-catalog.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
 
 export type ProviderAuthChoiceMetadata = {
   pluginId: string;

@@ -1,274 +1,119 @@
-// Memory Core plugin module implements cli behavior.
+/**
+ * Memory Core - CLI Commands
+ */
+
 import type { Command } from "commander";
-import {
-  formatDocsLink,
-  formatHelpExamples,
-  theme,
-} from "openclaw/plugin-sdk/memory-core-host-runtime-cli";
-import {
-  parseStrictNonNegativeInteger,
-  parseStrictPositiveInteger,
-} from "openclaw/plugin-sdk/number-runtime";
-import type {
-  MemoryCommandOptions,
-  MemoryPromoteCommandOptions,
-  MemoryPromoteExplainOptions,
-  MemoryRemBackfillOptions,
-  MemoryRemHarnessOptions,
-  MemorySearchCommandOptions,
-} from "./cli.types.js";
-import {
-  DEFAULT_PROMOTION_MIN_RECALL_COUNT,
-  DEFAULT_PROMOTION_MIN_SCORE,
-  DEFAULT_PROMOTION_MIN_UNIQUE_QUERIES,
-} from "./short-term-promotion.js";
+import { formatDocsLink, formatHelpExamples, theme } from "openclaw/plugin-sdk/memory-core-host-runtime-cli";
 
-type MemoryCliRuntime = typeof import("./cli.runtime.js");
+let runtimePromise: Promise<any> | null = null;
 
-let memoryCliRuntimePromise: Promise<MemoryCliRuntime> | null = null;
-
-async function loadMemoryCliRuntime(): Promise<MemoryCliRuntime> {
-  memoryCliRuntimePromise ??= import("./cli.runtime.js");
-  return await memoryCliRuntimePromise;
+async function loadRuntime() {
+  runtimePromise ??= import("./cli.runtime.ts");
+  return await runtimePromise;
 }
 
-const DECIMAL_NUMBER_RE = /^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/;
-
-export async function runMemoryStatus(opts: MemoryCommandOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryStatus(opts);
+async function runCommand(name: string, opts: any) {
+  const runtime = await loadRuntime();
+  const fn = runtime[`runMemory${name}`];
+  if (!fn) throw new Error(`Unknown command: ${name}`);
+  return fn(opts);
 }
 
-async function runMemoryIndex(opts: MemoryCommandOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryIndex(opts);
+function parseNumber(value: string): number {
+  const num = Number(value);
+  if (!Number.isFinite(num)) throw new Error(`Invalid number: ${value}`);
+  return num;
 }
 
-async function runMemorySearch(queryArg: string | undefined, opts: MemorySearchCommandOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemorySearch(queryArg, opts);
-}
-
-async function runMemoryPromote(opts: MemoryPromoteCommandOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryPromote(opts);
-}
-
-async function runMemoryPromoteExplain(
-  selectorArg: string | undefined,
-  opts: MemoryPromoteExplainOptions,
-) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryPromoteExplain(selectorArg, opts);
-}
-
-async function runMemoryRemHarness(opts: MemoryRemHarnessOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryRemHarness(opts);
-}
-
-async function runMemoryRemBackfill(opts: MemoryRemBackfillOptions) {
-  const runtime = await loadMemoryCliRuntime();
-  await runtime.runMemoryRemBackfill(opts);
-}
-
-function invalidCliArgument(message: string): Error & { code: string; exitCode: number } {
-  const error = new Error(message) as Error & { code: string; exitCode: number };
-  error.name = "InvalidArgumentError";
-  // Commander recognizes parser failures by code; keep the import type-only for bundled plugin deps.
-  error.code = "commander.invalidArgument";
-  error.exitCode = 1;
-  return error;
-}
-
-function parseMemoryCliNumberOption(value: string, flag: string): number {
-  const trimmed = value.trim();
-  const parsed = DECIMAL_NUMBER_RE.test(trimmed) ? Number(trimmed) : Number.NaN;
-  if (!Number.isFinite(parsed)) {
-    throw invalidCliArgument(`${flag} must be a finite number.`);
-  }
-  return parsed;
-}
-
-function parseMemoryCliPositiveIntegerOption(value: string, flag: string): number {
-  const parsed = parseStrictPositiveInteger(value);
-  if (parsed === undefined) {
-    throw invalidCliArgument(`${flag} must be a positive integer.`);
-  }
-  return parsed;
-}
-
-function parseMemoryCliNonNegativeIntegerOption(value: string, flag: string): number {
-  const parsed = parseStrictNonNegativeInteger(value);
-  if (parsed === undefined) {
-    throw invalidCliArgument(`${flag} must be a non-negative integer.`);
-  }
-  return parsed;
+function parsePositiveInt(value: string): number {
+  const num = parseInt(value, 10);
+  if (num <= 0) throw new Error(`Must be positive: ${value}`);
+  return num;
 }
 
 export function registerMemoryCli(program: Command) {
   const memory = program
     .command("memory")
     .description("Search, inspect, and reindex memory files")
-    .addHelpText(
-      "after",
-      () =>
-        `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw memory status", "Show index and provider status."],
-          [
-            "openclaw memory status --fix",
-            "Repair stale recall locks and normalize promotion metadata.",
-          ],
-          ["openclaw memory status --deep", "Probe embedding provider readiness."],
-          ["openclaw memory index --force", "Force a full reindex."],
-          ['openclaw memory search "meeting notes"', "Quick search using positional query."],
-          [
-            'openclaw memory search --query "deployment" --max-results 20',
-            "Limit results for focused troubleshooting.",
-          ],
-          [
-            `openclaw memory promote --limit 10 --min-score ${DEFAULT_PROMOTION_MIN_SCORE}`,
-            "Review weighted short-term candidates for long-term memory.",
-          ],
-          [
-            "openclaw memory promote --apply",
-            "Append top-ranked short-term candidates into MEMORY.md.",
-          ],
-          [
-            'openclaw memory promote-explain "router vlan"',
-            "Explain why a specific candidate would or would not promote.",
-          ],
-          [
-            "openclaw memory rem-harness --json",
-            "Preview REM reflections, candidate truths, and deep promotion output.",
-          ],
-          [
-            "openclaw memory rem-backfill --path ./memory",
-            "Write grounded historical REM entries into DREAMS.md for UI review.",
-          ],
-          [
-            "openclaw memory rem-backfill --path ./memory --stage-short-term",
-            "Also seed durable grounded candidates into the live short-term promotion store.",
-          ],
-          ["openclaw memory status --json", "Output machine-readable JSON (good for scripts)."],
-        ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.openclaw.ai/cli/memory")}\n`,
+    .addHelpText("after", () =>
+      `\n${theme.heading("Examples:")}\n${formatHelpExamples([
+        ["openclaw memory status", "Show index status"],
+        ["openclaw memory index --force", "Force full reindex"],
+        ['openclaw memory search "meeting"', "Search memory"],
+        ["openclaw memory promote --apply", "Promote candidates to MEMORY.md"],
+        ["openclaw memory status --json", "JSON output for scripts"],
+      ])}\n\n${theme.muted("Docs:")} ${formatDocsLink("/cli/memory", "docs.openclaw.ai/cli/memory")}\n`
     );
 
+  // Status
   memory
     .command("status")
-    .description("Show memory search index status")
-    .option("--agent <id>", "Agent id (default: default agent)")
+    .description("Show memory index status")
+    .option("--agent <id>", "Agent id")
     .option("--json", "Print JSON")
-    .option("--deep", "Probe embedding provider availability")
-    .option("--index", "Reindex if dirty (implies --deep)")
-    .option("--fix", "Repair stale recall locks and normalize promotion metadata")
-    .option("--verbose", "Verbose logging", false)
-    .action(async (opts: MemoryCommandOptions & { force?: boolean }) => {
-      await runMemoryStatus(opts);
-    });
+    .option("--deep", "Probe embedding")
+    .option("--fix", "Repair stale locks")
+    .action(async (opts) => { await runCommand("Status", opts); });
 
+  // Index
   memory
     .command("index")
     .description("Reindex memory files")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--force", "Force full reindex", false)
-    .option("--verbose", "Verbose logging", false)
-    .action(async (opts: MemoryCommandOptions) => {
-      await runMemoryIndex(opts);
-    });
+    .option("--agent <id>", "Agent id")
+    .option("--force", "Force full reindex")
+    .action(async (opts) => { await runCommand("Index", opts); });
 
+  // Search
   memory
     .command("search")
-    .description("Search memory files")
+    .description("Search memory")
     .argument("[query]", "Search query")
-    .option("--query <text>", "Search query (alternative to positional argument)")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--max-results <n>", "Max results", (value: string) =>
-      parseMemoryCliPositiveIntegerOption(value, "--max-results"),
-    )
-    .option("--min-score <n>", "Minimum score", (value: string) =>
-      parseMemoryCliNumberOption(value, "--min-score"),
-    )
+    .option("--query <text>", "Search query (alternative)")
+    .option("--agent <id>", "Agent id")
+    .option("--max-results <n>", "Max results", parsePositiveInt)
+    .option("--min-score <n>", "Min score", parseNumber)
     .option("--json", "Print JSON")
-    .action(async (queryArg: string | undefined, opts: MemorySearchCommandOptions) => {
-      await runMemorySearch(queryArg, opts);
-    });
+    .action(async (queryArg, opts) => { await runCommand("Search", { ...opts, query: queryArg || opts.query }); });
 
+  // Promote
   memory
     .command("promote")
-    .description("Rank short-term recalls and optionally append top entries to MEMORY.md")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--limit <n>", "Max candidates", (value: string) =>
-      parseMemoryCliPositiveIntegerOption(value, "--limit"),
-    )
-    .option(
-      "--min-score <n>",
-      `Minimum weighted score (default: ${DEFAULT_PROMOTION_MIN_SCORE})`,
-      (value: string) => parseMemoryCliNumberOption(value, "--min-score"),
-    )
-    .option(
-      "--min-recall-count <n>",
-      `Minimum recall count (default: ${DEFAULT_PROMOTION_MIN_RECALL_COUNT})`,
-      (value: string) => parseMemoryCliNonNegativeIntegerOption(value, "--min-recall-count"),
-    )
-    .option(
-      "--min-unique-queries <n>",
-      `Minimum distinct query count (default: ${DEFAULT_PROMOTION_MIN_UNIQUE_QUERIES})`,
-      (value: string) => parseMemoryCliNonNegativeIntegerOption(value, "--min-unique-queries"),
-    )
-    .option("--apply", "Append selected candidates to MEMORY.md", false)
-    .option("--include-promoted", "Include already promoted candidates", false)
+    .description("Rank and promote short-term recalls")
+    .option("--agent <id>", "Agent id")
+    .option("--limit <n>", "Max candidates", parsePositiveInt)
+    .option("--min-score <n>", "Min score", parseNumber)
+    .option("--apply", "Append to MEMORY.md")
     .option("--json", "Print JSON")
-    .action(async (opts: MemoryPromoteCommandOptions) => {
-      await runMemoryPromote(opts);
-    });
+    .action(async (opts) => { await runCommand("Promote", opts); });
 
+  // Promote Explain
   memory
     .command("promote-explain")
-    .description("Explain a specific promotion candidate and its score breakdown")
-    .argument("<selector>", "Candidate key, path fragment, or snippet fragment")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--include-promoted", "Include already promoted candidates", false)
+    .description("Explain promotion candidate")
+    .argument("<selector>", "Candidate key or snippet")
+    .option("--agent <id>", "Agent id")
     .option("--json", "Print JSON")
-    .action(async (selectorArg: string | undefined, opts: MemoryPromoteExplainOptions) => {
-      await runMemoryPromoteExplain(selectorArg, opts);
-    });
+    .action(async (selector, opts) => { await runCommand("PromoteExplain", { ...opts, selector }); });
 
+  // REM Harness
   memory
     .command("rem-harness")
-    .description("Preview REM reflections, candidate truths, and deep promotions without writing")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--path <file-or-dir>", "Seed the harness from historical daily memory file(s)")
-    .option("--grounded", "Also render a grounded day-level REM preview")
-    .option("--include-promoted", "Include already promoted deep candidates", false)
+    .description("Preview REM reflections")
+    .option("--agent <id>", "Agent id")
+    .option("--path <file-or-dir>", "Historical files")
+    .option("--grounded", "Render grounded preview")
     .option("--json", "Print JSON")
-    .action(async (opts: MemoryRemHarnessOptions) => {
-      await runMemoryRemHarness(opts);
-    });
+    .action(async (opts) => { await runCommand("RemHarness", opts); });
 
+  // REM Backfill
   memory
     .command("rem-backfill")
-    .description("Write grounded historical REM summaries into DREAMS.md for UI review")
-    .option("--agent <id>", "Agent id (default: default agent)")
-    .option("--path <file-or-dir>", "Historical daily memory file(s) or directory")
-    .option("--rollback", "Remove previously written grounded REM backfill entries", false)
-    .option(
-      "--stage-short-term",
-      "Also seed grounded durable candidates into the short-term promotion store",
-      false,
-    )
-    .option(
-      "--rollback-short-term",
-      "Remove previously seeded grounded short-term candidates",
-      false,
-    )
+    .description("Write historical REM entries to DREAMS.md")
+    .option("--agent <id>", "Agent id")
+    .option("--path <file-or-dir>", "Historical files")
+    .option("--rollback", "Remove entries")
     .option("--json", "Print JSON")
-    .action(async (opts: MemoryRemBackfillOptions) => {
-      await runMemoryRemBackfill(opts);
-    });
+    .action(async (opts) => { await runCommand("RemBackfill", opts); });
 
-  memory.action(() => {
-    memory.outputHelp();
-    process.exitCode = 0;
-  });
+  memory.action(() => { memory.outputHelp(); process.exitCode = 0; });
 }

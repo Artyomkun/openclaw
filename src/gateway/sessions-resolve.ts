@@ -6,18 +6,18 @@ import {
   type ErrorShape,
   errorShape,
   type SessionsResolveParams,
-} from "../../packages/gateway-protocol/src/index.js";
-import { canonicalizeSessionEntryAliases, type SessionEntry } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSessionIdMatchSelection } from "../sessions/session-id-resolution.js";
-import { parseSessionLabel } from "../sessions/session-label.js";
+} from "../../packages/gateway-protocol/src/index.ts";
+import { canonicalizeSessionEntryAliases, type SessionEntry } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSessionIdMatchSelection } from "../sessions/session-id-resolution.ts";
+import { parseSessionLabel } from "../sessions/session-label.ts";
 import {
   filterAndSortSessionEntries,
   listSessionsFromStore,
   loadCombinedSessionStoreForGateway,
   resolveDeletedAgentIdFromSessionKey,
   resolveGatewaySessionStoreTargetWithStore,
-} from "./session-utils.js";
+} from "./session-utils.ts";
 
 export type SessionsResolveResult =
   | { ok: true; key: string }
@@ -127,8 +127,6 @@ export async function resolveSessionKeyFromResolveParams(params: {
   }
 
   if (hasKey) {
-    // Key lookups may hit legacy store aliases. Migrate/prune before returning
-    // the canonical key so later calls operate on one store identity.
     const target = resolveGatewaySessionStoreTargetWithStore({ cfg, key, clone: false });
     const store = target.store;
     if (store[target.canonicalKey]) {
@@ -153,10 +151,6 @@ export async function resolveSessionKeyFromResolveParams(params: {
       }
       return { ok: true, key: target.canonicalKey };
     }
-    const legacyKey = target.storeKeys.find((candidate) => store[candidate]);
-    if (!legacyKey) {
-      return noSessionFoundResult({ p, message: `No session found: ${key}` });
-    }
     await canonicalizeSessionEntryAliases({
       storePath: target.storePath,
       target: {
@@ -178,15 +172,6 @@ export async function resolveSessionKeyFromResolveParams(params: {
       })
     ) {
       return noSessionFoundResult({ p, message: `No session found: ${key}` });
-    }
-    const agentCheckLegacy = validateSessionAgentExists(
-      cfg,
-      refreshedTarget.canonicalKey,
-      refreshedTarget.store[refreshedTarget.canonicalKey],
-      { acpMetadataSessionKey: refreshedTarget.canonicalKey },
-    );
-    if (agentCheckLegacy) {
-      return agentCheckLegacy;
     }
     return { ok: true, key: refreshedTarget.canonicalKey };
   }

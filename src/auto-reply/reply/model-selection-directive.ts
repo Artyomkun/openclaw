@@ -1,9 +1,9 @@
 // Normalizes model selection directives into provider and model ids.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { splitTrailingAuthProfile } from "../../agents/model-ref-profile.js";
-import { modelKey } from "../../agents/model-ref-shared.js";
-import { isModelKeyAllowedBySet } from "../../agents/model-selection-shared.js";
+import { splitTrailingAuthProfile } from "../../agents/model-ref-profile.ts";
+import { modelKey } from "../../agents/model-ref-shared.ts";
+import { isModelKeyAllowedBySet } from "../../agents/model-selection-shared.ts";
 export { modelKey };
 
 /** Alias lookup tables used by `/model` directive resolution. */

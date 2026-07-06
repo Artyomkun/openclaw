@@ -4,8 +4,8 @@
 import {
   freezeDiagnosticTraceContext,
   type DiagnosticTraceContext,
-} from "../../../infra/diagnostic-trace-context.js";
-import type { EmbeddedRunTrigger } from "./params.js";
+} from "../../../infra/diagnostic-trace-context.ts";
+import type { EmbeddedRunTrigger } from "./params.ts";
 
 /**
  * Builds the stable tool-run context forwarded into an embedded-attempt execution.

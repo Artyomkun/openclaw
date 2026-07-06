@@ -1,22 +1,22 @@
 // Channel selection chooses a deliverable message channel from explicit input,
 // tool context fallback, or configured plugin accounts.
-import { listChannelPlugins } from "../../channels/plugins/index.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { listChannelPlugins } from "../../channels/plugins/index.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   type OfficialExternalPluginRepairHint,
   resolveMissingOfficialExternalChannelPluginRepairHint,
-} from "../../plugins/official-external-plugin-repair-hints.js";
-import { defaultRuntime } from "../../runtime.js";
-import { isAccountEnabled } from "../../shared/account-enabled.js";
+} from "../../plugins/official-external-plugin-repair-hints.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { isAccountEnabled } from "../../shared/account-enabled.ts";
 import {
   listDeliverableMessageChannels,
   type DeliverableMessageChannel,
   isDeliverableMessageChannel,
   normalizeMessageChannel,
-} from "../../utils/message-channel.js";
-import { formatErrorMessage } from "../errors.js";
-import { resolveOutboundChannelPlugin } from "./channel-resolution.js";
+} from "../../utils/message-channel.ts";
+import { formatErrorMessage } from "../errors.ts";
+import { resolveOutboundChannelPlugin } from "./channel-resolution.ts";
 
 /** Deliverable message channel id that can be selected for message actions. */
 export type MessageChannelId = DeliverableMessageChannel;

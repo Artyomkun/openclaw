@@ -4,8 +4,8 @@
  * Formats status metadata and finds enabled/configured account ids for diagnostics.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { isRecord } from "../../../utils.js";
-import type { ChannelAccountSnapshot, ChannelStatusIssue } from "../types.public.js";
+import { isRecord } from "../../../utils.ts";
+import type { ChannelAccountSnapshot, ChannelStatusIssue } from "../types.public.ts";
 export { isRecord };
 
 /**

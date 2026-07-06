@@ -67,11 +67,6 @@
       "class": "default-runtime-initially",
       "risk": ["provider-sdk", "network"]
     },
-    "@openclaw/fs-safe": {
-      "owner": "core:filesystem-safety",
-      "class": "core-runtime",
-      "risk": ["filesystem", "path-safety"]
-    },
     "chalk": {
       "owner": "core:cli",
       "class": "core-runtime",

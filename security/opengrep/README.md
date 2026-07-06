@@ -15,7 +15,7 @@ check and as a manual full-repository audit.
 ## Editing rules
 
 `precise.yml` is the checked-in compiled rulepack. Prefer changing source rule
-YAML and rerunning `security/opengrep/compile-rules.mjs` instead of hand-editing
+YAML and rerunning `security/opengrep/compile-rules.ts` instead of hand-editing
 compiled rules. The compiler appends new rule IDs by default; use
 `--replace-precise` only when intentionally rebuilding the rulepack from a
 complete source folder. Direct edits are discouraged because they can bypass ID,
@@ -40,7 +40,7 @@ Every rule's id is rewritten to `<source-id>.<original-id>`. Every rule's
 
 ```bash
 # from the openclaw repo root
-node security/opengrep/compile-rules.mjs \
+node security/opengrep/compile-rules.ts \
   --rules-dir <folder-with-source-rule-yaml>
 ```
 

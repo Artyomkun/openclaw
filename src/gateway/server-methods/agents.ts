@@ -14,15 +14,15 @@ import {
   validateAgentsFilesSetParams,
   validateAgentsListParams,
   validateAgentsUpdateParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { findOverlappingWorkspaceAgentIds } from "../../agents/agent-delete-safety.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { findOverlappingWorkspaceAgentIds } from "../../agents/agent-delete-safety.ts";
 import {
   listAgentIds,
   resolveAgentDir,
   resolveAgentWorkspaceDir,
-} from "../../agents/agent-scope.js";
-import { mergeIdentityMarkdownContent } from "../../agents/identity-file.js";
-import { resolveAgentIdentity } from "../../agents/identity.js";
+} from "../../agents/agent-scope.ts";
+import { mergeIdentityMarkdownContent } from "../../agents/identity-file.ts";
+import { resolveAgentIdentity } from "../../agents/identity.ts";
 import {
   DEFAULT_AGENTS_FILENAME,
   DEFAULT_BOOTSTRAP_FILENAME,
@@ -36,28 +36,28 @@ import {
   isWorkspaceSetupCompleted,
   resolveWorkspaceAttestationPaths,
   shouldRemoveWorkspaceAttestation,
-} from "../../agents/workspace.js";
-import { applyAgentConfig } from "../../commands/agents.config.js";
+} from "../../agents/workspace.ts";
+import { applyAgentConfig } from "../../commands/agents.config.ts";
 import {
   purgeAgentSessionStoreEntries,
   resolveSessionTranscriptsDirForAgent,
-} from "../../config/sessions.js";
-import type { IdentityConfig } from "../../config/types.base.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { root, FsSafeError, type ReadResult } from "../../infra/fs-safe.js";
-import { movePathToTrash } from "../../plugin-sdk/browser-maintenance.js";
-import { DEFAULT_AGENT_ID, normalizeAgentId } from "../../routing/session-key.js";
-import { resolveUserPath } from "../../utils.js";
-import { listAgentsForGateway } from "../session-utils.js";
+} from "../../config/sessions.ts";
+import type { IdentityConfig } from "../../config/types.base.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { root, FsSafeError, type ReadResult } from "../../infra/fs-safe.ts";
+import { movePathToTrash } from "../../plugin-sdk/browser-maintenance.ts";
+import { DEFAULT_AGENT_ID, normalizeAgentId } from "../../routing/session-key.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { listAgentsForGateway } from "../session-utils.ts";
 import {
   AgentConfigPreconditionError,
   createAgentConfigEntry,
   deleteAgentConfigEntry,
   isConfiguredAgent,
   updateAgentConfigEntry,
-} from "./agents-config-mutations.js";
-import { loadOptionalServerMethodModelCatalog } from "./optional-model-catalog.js";
-import type { GatewayRequestHandlers, RespondFn } from "./types.js";
+} from "./agents-config-mutations.ts";
+import { loadOptionalServerMethodModelCatalog } from "./optional-model-catalog.ts";
+import type { GatewayRequestHandlers, RespondFn } from "./types.ts";
 
 const BOOTSTRAP_FILE_NAMES = [
   DEFAULT_AGENTS_FILENAME,

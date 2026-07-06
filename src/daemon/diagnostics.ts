@@ -1,6 +1,6 @@
 /** Reads recent gateway service logs for actionable daemon restart diagnostics. */
 import fs from "node:fs/promises";
-import { resolveGatewayLogPaths, resolveGatewaySupervisorLogPaths } from "./restart-logs.js";
+import { resolveGatewayLogPaths, resolveGatewaySupervisorLogPaths } from "./restart-logs.ts";
 
 // Error patterns worth surfacing from gateway service logs after failed starts.
 const GATEWAY_LOG_ERROR_PATTERNS = [

@@ -3,11 +3,11 @@
  * This bypasses shared model runtime's content type system which does not have a "document" type.
  */
 
-import { readResponseBodySnippet } from "../../infra/http-error-body.js";
-import { normalizeProviderTransportWithPlugin } from "../../plugins/provider-runtime.js";
-import { isRecord } from "../../utils.js";
-import { normalizeSecretInput } from "../../utils/normalize-secret-input.js";
-import { resolveAnthropicMessagesUrl } from "../anthropic-transport-stream.js";
+import { readResponseBodySnippet } from "../../infra/http-error-body.ts";
+import { normalizeProviderTransportWithPlugin } from "../../plugins/provider-runtime.ts";
+import { isRecord } from "../../utils.ts";
+import { normalizeSecretInput } from "../../utils/normalize-secret-input.ts";
+import { resolveAnthropicMessagesUrl } from "../anthropic-transport-stream.ts";
 
 type PdfInput = {
   base64: string;

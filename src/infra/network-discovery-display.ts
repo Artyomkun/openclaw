@@ -1,7 +1,7 @@
 // Formats network discovery details for startup and config output.
-import type { GatewayBindMode } from "../config/types.js";
-import { pickPrimaryLanIPv4, resolveGatewayBindHost } from "../gateway/net.js";
-import { pickPrimaryTailnetIPv4 } from "./tailnet.js";
+import type { GatewayBindMode } from "../config/types.ts";
+import { pickPrimaryLanIPv4, resolveGatewayBindHost } from "../gateway/net.ts";
+import { pickPrimaryTailnetIPv4 } from "./tailnet.ts";
 
 // Display helpers are best-effort wrappers around network discovery. Startup
 // and config output should keep rendering even when interface probes fail.

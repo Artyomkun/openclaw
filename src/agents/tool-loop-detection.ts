@@ -8,12 +8,12 @@ import {
   normalizeNullableString as nonEmptyStringField,
   normalizeOptionalString as normalizeRunId,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ToolLoopDetectionConfig } from "../config/types.tools.js";
-import type { SessionState, ToolCallRecord } from "../logging/diagnostic-session-state.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { isPlainObject } from "../utils.js";
-import { isMessagingToolSendAction } from "./embedded-agent-messaging.js";
-import { stableStringify } from "./stable-stringify.js";
+import type { ToolLoopDetectionConfig } from "../config/types.tools.ts";
+import type { SessionState, ToolCallRecord } from "../logging/diagnostic-session-state.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { isPlainObject } from "../utils.ts";
+import { isMessagingToolSendAction } from "./embedded-agent-messaging.ts";
+import { stableStringify } from "./stable-stringify.ts";
 
 const log = createSubsystemLogger("agents/loop-detection");
 

@@ -1,10 +1,10 @@
 /** Commands for listing, adding, and removing model aliases. */
-import { formatCliCommand } from "../../cli/command-format.js";
-import { logConfigUpdated } from "../../config/logging.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { normalizeAlias } from "./alias-name.js";
-import { loadModelsConfig } from "./load-config.js";
-import { ensureFlagCompatibility, resolveModelTarget, updateConfig } from "./shared.js";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { logConfigUpdated } from "../../config/logging.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { normalizeAlias } from "./alias-name.ts";
+import { loadModelsConfig } from "./load-config.ts";
+import { ensureFlagCompatibility, resolveModelTarget, updateConfig } from "./shared.ts";
 
 /** Lists configured model aliases as JSON, plain pairs, or human-readable rows. */
 export async function modelsAliasesListCommand(

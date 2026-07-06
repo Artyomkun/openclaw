@@ -1,7 +1,7 @@
 /**
  * Runtime seam for command poll backoff cleanup.
  */
-import { pruneStaleCommandPolls as pruneStaleCommandPollsImpl } from "./command-poll-backoff.js";
+import { pruneStaleCommandPolls as pruneStaleCommandPollsImpl } from "./command-poll-backoff.ts";
 
 type PruneStaleCommandPolls = typeof import("./command-poll-backoff.js").pruneStaleCommandPolls;
 

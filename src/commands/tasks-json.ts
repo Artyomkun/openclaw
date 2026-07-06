@@ -1,19 +1,19 @@
 // JSON-only task command helpers.
 // These paths avoid maintenance reconciliation so short-lived JSON CLI processes stay read-only and exit cleanly.
 
-import type { RuntimeEnv } from "../runtime.js";
-import { writeRuntimeJson } from "../runtime.js";
-import { listTaskRecords } from "../tasks/runtime-internal.js";
-import { listTaskFlowAuditFindings } from "../tasks/task-flow-registry.audit.js";
-import { listTaskFlowRecords } from "../tasks/task-flow-runtime-internal.js";
-import { listTaskAuditFindings } from "../tasks/task-registry.audit.js";
-import type { TaskRecord } from "../tasks/task-registry.types.js";
+import type { RuntimeEnv } from "../runtime.ts";
+import { writeRuntimeJson } from "../runtime.ts";
+import { listTaskRecords } from "../tasks/runtime-internal.ts";
+import { listTaskFlowAuditFindings } from "../tasks/task-flow-registry.audit.ts";
+import { listTaskFlowRecords } from "../tasks/task-flow-runtime-internal.ts";
+import { listTaskAuditFindings } from "../tasks/task-registry.audit.ts";
+import type { TaskRecord } from "../tasks/task-registry.types.ts";
 import {
   buildTaskSystemAuditJsonPayload,
   buildTaskSystemAuditFindings,
   type TaskSystemAuditCode,
   type TaskSystemAuditSeverity,
-} from "./tasks-audit-system.js";
+} from "./tasks-audit-system.ts";
 
 function listTaskJsonRecords(): TaskRecord[] {
   // Keep the routed JSON path a read-only store snapshot; maintenance reconciliation imports

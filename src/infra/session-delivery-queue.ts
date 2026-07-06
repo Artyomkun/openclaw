@@ -6,15 +6,15 @@ export {
   failSessionDelivery,
   loadPendingSessionDelivery,
   loadPendingSessionDeliveries,
-} from "./session-delivery-queue-storage.js";
+} from "./session-delivery-queue-storage.ts";
 export type {
   QueuedSessionDelivery,
   QueuedSessionDeliveryPayload,
   SessionDeliveryRoute,
-} from "./session-delivery-queue-storage.js";
+} from "./session-delivery-queue-storage.ts";
 export {
   drainPendingSessionDeliveries,
   isSessionDeliveryEligibleForRetry,
   recoverPendingSessionDeliveries,
-} from "./session-delivery-queue-recovery.js";
-export type { SessionDeliveryRecoveryLogger } from "./session-delivery-queue-recovery.js";
+} from "./session-delivery-queue-recovery.ts";
+export type { SessionDeliveryRecoveryLogger } from "./session-delivery-queue-recovery.ts";

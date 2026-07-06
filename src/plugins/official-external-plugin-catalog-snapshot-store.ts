@@ -4,19 +4,19 @@ import {
   executeSqliteQuerySync,
   executeSqliteQueryTakeFirstSync,
   getNodeSqliteKysely,
-} from "../infra/kysely-sync.js";
-import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.js";
+} from "../infra/kysely-sync.ts";
+import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
   type OpenClawStateDatabaseOptions,
-} from "../state/openclaw-state-db.js";
-import { resolveOpenClawStateSqlitePath } from "../state/openclaw-state-db.paths.js";
+} from "../state/openclaw-state-db.ts";
+import { resolveOpenClawStateSqlitePath } from "../state/openclaw-state-db.paths.ts";
 import type {
   HostedOfficialExternalPluginCatalogMetadata,
   HostedOfficialExternalPluginCatalogSnapshot,
   HostedOfficialExternalPluginCatalogSnapshotStore,
-} from "./official-external-plugin-catalog.js";
+} from "./official-external-plugin-catalog.ts";
 
 export type HostedOfficialExternalPluginCatalogSnapshotStoreOptions = {
   env?: NodeJS.ProcessEnv;

@@ -2,17 +2,17 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig, SecurityConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import type { OpenClawConfig, SecurityConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   forceKillChildProcessTree,
   shouldDetachChildForProcessTree,
-} from "../process/child-process-tree.js";
-import { normalizePositiveInt, normalizePositiveTimerMs } from "../secrets/shared.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveRuntimeServiceVersion } from "../version.js";
-import { inspectPathPermissions, safeStat } from "./audit-fs.js";
-import { isPathInside } from "./scan-paths.js";
+} from "../process/child-process-tree.ts";
+import { normalizePositiveInt, normalizePositiveTimerMs } from "../secrets/shared.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveRuntimeServiceVersion } from "../version.ts";
+import { inspectPathPermissions, safeStat } from "./audit-fs.ts";
+import { isPathInside } from "./scan-paths.ts";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 const DEFAULT_MAX_OUTPUT_BYTES = 1024 * 1024;
@@ -38,7 +38,7 @@ const POLICY_INTERPRETER_NAMES = new Set([
   "sh",
   "zsh",
 ]);
-const POLICY_SCRIPT_ARG_PATTERN = /\.(?:bash|cjs|cts|js|mjs|mts|pl|ps1|py|rb|sh|ts|zsh)$/i;
+const POLICY_SCRIPT_ARG_PATTERN = /\.(?:bash|ts|cts|js|ts|mts|pl|ps1|py|rb|sh|ts|zsh)$/i;
 
 export type InstallPolicyTarget = "skill" | "plugin";
 export type InstallPolicyRequestKind =
@@ -96,7 +96,7 @@ export type InstallPolicyRequest = {
     installId: string;
     installSpec?: {
       id?: string;
-      kind: "brew" | "node" | "go" | "uv" | "download";
+      kind: "brew" | "node" | "download";
       label?: string;
       bins?: string[];
       os?: string[];

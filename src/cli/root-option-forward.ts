@@ -1,5 +1,5 @@
 // Root-option forwarding helper for subcommand dispatchers that reparse argv later.
-import { consumeRootOptionToken } from "../infra/cli-root-options.js";
+import { consumeRootOptionToken } from "../infra/cli-root-options.ts";
 
 /** Copy one consumed root option and its value tokens into `out`, returning token count. */
 export function forwardConsumedCliRootOption(

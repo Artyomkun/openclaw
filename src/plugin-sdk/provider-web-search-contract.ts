@@ -1,18 +1,18 @@
 // Public contract-safe web-search registration helpers for provider plugins.
 
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   WebSearchCredentialResolutionSource,
   WebSearchProviderSetupContext,
   WebSearchProviderPlugin,
   WebSearchProviderToolDefinition,
   WebSearchProviderToolExecutionContext,
-} from "../plugins/types.js";
-import { enablePluginInConfig } from "./provider-enable-config.js";
+} from "../plugins/types.ts";
+import { enablePluginInConfig } from "./provider-enable-config.ts";
 import {
   createBaseWebSearchProviderContractFields,
   type CreateWebSearchProviderContractFieldsOptions,
-} from "./provider-web-search-contract-fields.js";
+} from "./provider-web-search-contract-fields.ts";
 export {
   getScopedCredentialValue,
   getTopLevelCredentialValue,
@@ -21,8 +21,8 @@ export {
   setScopedCredentialValue,
   setProviderWebSearchPluginConfigValue,
   setTopLevelCredentialValue,
-} from "../agents/tools/web-search-provider-config.js";
-export { enablePluginInConfig } from "./provider-enable-config.js";
+} from "../agents/tools/web-search-provider-config.ts";
+export { enablePluginInConfig } from "./provider-enable-config.ts";
 export type {
   WebSearchCredentialResolutionSource,
   WebSearchProviderSetupContext,
@@ -35,7 +35,7 @@ export type {
   WebSearchProviderConfiguredCredential,
   WebSearchProviderContractCredential,
   WebSearchProviderContractFields,
-} from "./provider-web-search-contract-fields.js";
+} from "./provider-web-search-contract-fields.ts";
 
 type CreateWebSearchProviderSelectionOptions = CreateWebSearchProviderContractFieldsOptions & {
   /** Plugin id to enable when this provider is selected through setup/configuration flows. */

@@ -9,14 +9,14 @@ import {
   normalizeOptionalString,
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import type { AgentMessage } from "./runtime/index.js";
-import { isThinkingLikeBlock } from "./thinking-block.js";
+import type { AgentMessage } from "./runtime/index.ts";
+import { isThinkingLikeBlock } from "./thinking-block.ts";
 import {
   extractToolCallsFromAssistant,
   extractToolResultId,
   extractToolResultIds,
-} from "./tool-call-id.js";
-import { isAllowedToolCallName, normalizeAllowedToolNames } from "./tool-call-shared.js";
+} from "./tool-call-id.ts";
+import { isAllowedToolCallName, normalizeAllowedToolNames } from "./tool-call-shared.ts";
 
 type RawToolCallBlock = {
   type?: unknown;
@@ -261,22 +261,6 @@ function normalizeToolResultName(
   return message;
 }
 
-function normalizeLegacyToolResultId(
-  message: Extract<AgentMessage, { role: "toolResult" }>,
-  toolCalls: Array<{ id: string; name?: string }>,
-): Extract<AgentMessage, { role: "toolResult" }> {
-  if (extractToolResultId(message) || toolCalls.length !== 1) {
-    return message;
-  }
-  const [toolCall] = toolCalls;
-  const toolResultName = normalizeOptionalString((message as { toolName?: unknown }).toolName);
-  const toolCallName = normalizeOptionalString(toolCall.name);
-  if (toolResultName && toolCallName && toolResultName !== toolCallName) {
-    return message;
-  }
-  return { ...message, toolCallId: toolCall.id, isError: true };
-}
-
 export { makeMissingToolResult };
 
 type ToolCallInputRepairReport = {
@@ -338,15 +322,6 @@ function collectFollowingToolResults(
     if (message.role === "assistant" && assistantHasToolCalls(message)) {
       break;
     }
-    if (message.role === "toolResult") {
-      const normalizedLegacyResult = normalizeLegacyToolResultId(message, currentToolCalls);
-      const resultIds = extractToolResultIds(normalizedLegacyResult);
-      for (const id of resultIds) {
-        ids.add(id);
-      }
-      displaced ||= resultIds.length > 0 && sawNonToolResult;
-      continue;
-    }
     sawNonToolResult = true;
   }
   return { ids, displaced };
@@ -384,7 +359,7 @@ function repairToolCallInputs(
     ) {
       // Signed Anthropic thinking blocks must remain byte-for-byte stable on
       // replay. Preserve the turn when every sibling tool call is already valid;
-      // the later pairing repair can synthesize missing legacy tool results
+      // the later pairing repair can synthesize missing older tool results
       // without mutating provider-owned assistant content.
       const replaySafeToolCalls = extractToolCallsFromAssistant(msg);
       const followingToolResults = collectFollowingToolResults(messages, index);
@@ -441,7 +416,7 @@ function repairToolCallInputs(
           continue;
         }
 
-        // Legacy generic Responses transport persisted successful toolUse turns
+        // Older generic Responses transport persisted successful toolUse turns
         // with the scratch buffer intact. Strip it only when terminal state and
         // the provider-specific finalized shape both prove completion.
         const stripped = { ...block };
@@ -562,21 +537,11 @@ function collectLaterMatchingToolResults(params: {
   seenToolResultIds: Set<string>;
 }): Map<string, Extract<AgentMessage, { role: "toolResult" }>> {
   const resultsById = new Map<string, Extract<AgentMessage, { role: "toolResult" }>>();
-  const toolCallIds = new Set(params.toolCalls.map((toolCall) => toolCall.id));
   for (let index = params.startIndex; index < params.messages.length; index += 1) {
     const candidate = params.messages[index];
     if (!candidate || typeof candidate !== "object" || candidate.role !== "toolResult") {
       continue;
     }
-    const normalizedLegacyResult = normalizeLegacyToolResultId(candidate, params.toolCalls);
-    const id = extractToolResultId(normalizedLegacyResult);
-    if (!id || !toolCallIds.has(id) || params.seenToolResultIds.has(id) || resultsById.has(id)) {
-      continue;
-    }
-    resultsById.set(
-      id,
-      normalizeToolResultName(normalizedLegacyResult, params.toolNamesById.get(id)),
-    );
   }
   return resultsById;
 }
@@ -688,45 +653,6 @@ export function repairToolUseResultPairing(
         }
         remainder.push(next);
         continue;
-      }
-
-      if (nextRole === "toolResult") {
-        const toolResult = normalizeLegacyToolResultId(
-          next as Extract<AgentMessage, { role: "toolResult" }>,
-          toolCalls,
-        );
-        const id = extractToolResultId(toolResult);
-        if (id && seenToolResultIds.has(id)) {
-          pushToolResult(normalizeToolResultName(toolResult, toolCallNamesById.get(id)));
-          continue;
-        }
-        if (id && toolCallIds.has(id)) {
-          if (toolResult !== next) {
-            changed = true;
-          }
-          const normalizedToolResult = normalizeToolResultName(
-            toolResult,
-            toolCallNamesById.get(id),
-          );
-          if (normalizedToolResult !== toolResult) {
-            changed = true;
-          }
-          const existingSpan = spanResultsById.get(id);
-          if (!existingSpan) {
-            spanResultsById.set(id, normalizedToolResult);
-          } else if (
-            isSyntheticMissingToolResult(existingSpan) &&
-            !isSyntheticMissingToolResult(normalizedToolResult)
-          ) {
-            spanResultsById.set(id, normalizedToolResult);
-            droppedDuplicateCount += 1;
-            changed = true;
-          } else {
-            droppedDuplicateCount += 1;
-            changed = true;
-          }
-          continue;
-        }
       }
 
       // Drop tool results that don't match the current assistant tool calls.

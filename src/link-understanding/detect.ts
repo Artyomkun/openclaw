@@ -1,6 +1,6 @@
 // Link detection extracts unique safe bare HTTP(S) URLs from inbound text while filtering SSRF targets.
-import { isBlockedHostnameOrIp } from "../infra/net/ssrf.js";
-import { DEFAULT_MAX_LINKS } from "./defaults.js";
+import { isBlockedHostnameOrIp } from "../infra/net/ssrf.ts";
+import { DEFAULT_MAX_LINKS } from "./defaults.ts";
 
 // Remove markdown link syntax so only bare URLs are considered.
 // The link-text portion allows "]" that is not the closing "](" boundary so

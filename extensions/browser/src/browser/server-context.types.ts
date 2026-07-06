@@ -74,7 +74,6 @@ export type BrowserRouteContext = {
   state: () => BrowserServerState;
   forProfile: (profileName?: string) => ProfileContext;
   listProfiles: () => Promise<ProfileStatus[]>;
-  // Legacy methods delegate to default profile for backward compatibility
   mapTabError: (err: unknown) => { status: number; message: string } | null;
 } & BrowserProfileActions;
 

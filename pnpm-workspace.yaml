@@ -8,7 +8,6 @@ minimumReleaseAge: 2880
 
 minimumReleaseAgeExclude:
   - "@openclaw/crabline@0.1.0"
-  - "@openclaw/fs-safe@0.3.0"
   - "@openclaw/proxyline@0.3.3"
   - "acpx"
   - "tokenjuice"
@@ -44,10 +43,17 @@ minimumReleaseAgeExclude:
   - "@microsoft/teams.cards@2.0.12"
   - "@microsoft/teams.common@2.0.12"
   - "@microsoft/teams.graph@2.0.12"
+  - "@mistralai/mistralai@2.4.1"
+  - "iconv-lite@0.7.3"
   - "@openai/codex"
   - "@openai/codex-*"
   - "@pierre/diffs@1.2.3"
   - "@smithy/shared-ini-file-loader@4.5.4"
+  - "@shikijs/core@4.3.1"
+  - "@shikijs/langs@4.3.1"
+  - "@shikijs/primitive@4.3.1"
+  - "@shikijs/transformers@4.3.1"
+  - "@shikijs/types@4.3.1"
   - "@typescript/native-preview*"
   - "@types/node"
   - "@rolldown/*"
@@ -85,8 +91,8 @@ minimumReleaseAgeExclude:
   - "@esbuild/win32-ia32@0.28.1"
   - "@esbuild/win32-x64@0.28.1"
   - "rolldown"
-  - "sqlite-vec"
-  - "sqlite-vec-*"
+  - "oracle-vec"
+  - "oracle-vec-*"
   - "rastermill"
   - "clawpdf"
 
@@ -99,6 +105,7 @@ overrides:
   "@aws-sdk/core": 3.974.13
   "@aws-sdk/credential-provider-node": 3.972.52
   "@aws-sdk/xml-builder": 3.972.25
+  apache-arrow: "18.1.0"
   hono: 4.12.25
   "@hono/node-server": 1.19.14
   axios: 1.16.0
@@ -112,6 +119,7 @@ overrides:
   file-type: 22.0.1
   form-data: 2.5.6
   ip-address: 10.2.0
+  ini: "^4.0.0"
   minimatch: 10.2.5
   path-to-regexp: 8.4.0
   qs: 6.15.2
@@ -124,7 +132,6 @@ overrides:
   uuid: 14.0.0
 
 allowBuilds:
-  "@openclaw/fs-safe": true
   "@google/genai": true
   "@lydell/node-pty": true
   "@matrix-org/matrix-sdk-crypto-nodejs": true
@@ -149,6 +156,3 @@ packageExtensions:
     peerDependenciesMeta:
       sharp:
         optional: true
-
-patchedDependencies:
-  "@agentclientprotocol/claude-agent-acp@0.39.0": patches/@agentclientprotocol__claude-agent-acp@0.39.0.patch

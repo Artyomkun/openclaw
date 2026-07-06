@@ -2,20 +2,20 @@
 import { normalizeModelCatalog } from "@openclaw/model-catalog-core/model-catalog-normalize";
 import { normalizeModelCatalogProviderId } from "@openclaw/model-catalog-core/model-catalog-refs";
 import type { ModelCatalogProvider } from "@openclaw/model-catalog-core/model-catalog-types";
-import { asFiniteNumber } from "../../../packages/normalization-core/src/number-coercion.js";
-import { normalizeOptionalString } from "../../../packages/normalization-core/src/string-coerce.js";
-import { normalizeUniqueTrimmedStringList } from "../../../packages/normalization-core/src/string-normalization.js";
-import { parseClawHubPluginSpec } from "../../infra/clawhub-spec.js";
-import { parseRegistryNpmSpec } from "../../infra/npm-registry-spec.js";
-import { isBlockedObjectKey } from "../../infra/prototype-keys.js";
-import { isRecord } from "../../utils.js";
+import { asFiniteNumber } from "../../../packages/normalization-core/src/number-coercion.ts";
+import { normalizeOptionalString } from "../../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeUniqueTrimmedStringList } from "../../../packages/normalization-core/src/string-normalization.ts";
+import { parseClawHubPluginSpec } from "../../infra/clawhub-spec.ts";
+import { parseRegistryNpmSpec } from "../../infra/npm-registry-spec.ts";
+import { isBlockedObjectKey } from "../../infra/prototype-keys.ts";
+import { isRecord } from "../../utils.ts";
 import type {
   OpenClawProviderIndex,
   OpenClawProviderIndexPluginInstall,
   OpenClawProviderIndexPlugin,
   OpenClawProviderIndexProviderAuthChoice,
   OpenClawProviderIndexProvider,
-} from "./types.js";
+} from "./types.ts";
 
 // Provider-index normalization accepts generated discovery metadata from the
 // bundled index and rejects malformed or prototype-polluting entries.

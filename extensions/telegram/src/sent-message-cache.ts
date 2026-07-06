@@ -1,6 +1,5 @@
 // Telegram plugin module implements sent message cache behavior.
 import { createHash } from "node:crypto";
-import fs from "node:fs";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import type { PluginStateSyncKeyedStore } from "openclaw/plugin-sdk/plugin-state-runtime";
 import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
@@ -63,10 +62,6 @@ function createSentMessageStore(): SentMessageStore {
   return new Map<string, Map<string, number>>();
 }
 
-function resolveSentMessageStorePath(cfg?: Pick<OpenClawConfig, "session">): string {
-  return `${resolveStorePath(cfg?.session?.store)}.telegram-sent-messages.json`;
-}
-
 function resolveSentMessageScopeKey(cfg?: Pick<OpenClawConfig, "session">): string {
   const storePath = resolveStorePath(cfg?.session?.store);
   return createHash("sha256").update(storePath, "utf8").digest("hex").slice(0, 24);
@@ -102,34 +97,6 @@ function cleanupExpired(
   }
   if (entry.size === 0) {
     store.delete(scopeKey);
-  }
-}
-
-function readLegacySentMessages(filePath: string): SentMessageStore {
-  try {
-    const raw = fs.readFileSync(filePath, "utf-8");
-    const parsed = JSON.parse(raw) as Record<string, Record<string, number>>;
-    const now = Date.now();
-    const store = createSentMessageStore();
-    for (const [chatId, entry] of Object.entries(parsed)) {
-      const messages = new Map<string, number>();
-      for (const [messageId, timestamp] of Object.entries(entry)) {
-        if (
-          typeof timestamp === "number" &&
-          Number.isFinite(timestamp) &&
-          now - timestamp <= TTL_MS
-        ) {
-          messages.set(messageId, timestamp);
-        }
-      }
-      if (messages.size > 0) {
-        store.set(chatId, messages);
-      }
-    }
-    return store;
-  } catch (error) {
-    logVerbose(`telegram: failed to read sent-message cache: ${String(error)}`);
-    return createSentMessageStore();
   }
 }
 
@@ -257,22 +224,4 @@ export function setTelegramSentMessageStoreForTest(
   } else {
     delete globalStore[TELEGRAM_SENT_MESSAGES_STORE_FOR_TEST_KEY];
   }
-}
-
-export function listTelegramLegacySentMessageCacheEntries(params: {
-  cfg?: Pick<OpenClawConfig, "session">;
-  persistedPath?: string;
-}): Array<{ key: string; value: PersistedSentMessage; ttlMs?: number }> {
-  const scopeKey = resolveSentMessageScopeKey(params.cfg);
-  const filePath = params.persistedPath ?? resolveSentMessageStorePath(params.cfg);
-  const legacy = fs.existsSync(filePath)
-    ? readLegacySentMessages(filePath)
-    : createSentMessageStore();
-  return [...legacy.entries()].flatMap(([chatId, messages]) =>
-    [...messages.entries()].map(([messageId, timestamp]) => ({
-      key: sentMessageEntryKey(scopeKey, chatId, messageId),
-      value: { scopeKey, chatId, messageId, timestamp },
-      ttlMs: Math.max(1, TTL_MS - Math.max(0, Date.now() - timestamp)),
-    })),
-  );
 }

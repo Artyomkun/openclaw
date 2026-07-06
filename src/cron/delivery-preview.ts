@@ -1,10 +1,10 @@
 /** Builds dry-run cron delivery labels for CLI/UI list surfaces. */
-import { resolveDefaultAgentId } from "../agents/agent-scope-config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { hasExplicitCronDeliveryTarget, resolveCronDeliveryPlan } from "./delivery-plan.js";
-import { resolveDeliveryTarget } from "./isolated-agent/delivery-target.js";
-import { resolveCronDeliverySessionKey } from "./session-target.js";
-import type { CronDeliveryPreview, CronJob } from "./types.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope-config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { hasExplicitCronDeliveryTarget, resolveCronDeliveryPlan } from "./delivery-plan.ts";
+import { resolveDeliveryTarget } from "./isolated-agent/delivery-target.ts";
+import { resolveCronDeliverySessionKey } from "./session-target.ts";
+import type { CronDeliveryPreview, CronJob } from "./types.ts";
 
 function formatTarget(channel?: string, to?: string | null): string {
   if (!channel) {

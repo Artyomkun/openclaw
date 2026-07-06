@@ -9,7 +9,7 @@ import {
   validateWebPushTestParams,
   validateWebPushUnsubscribeParams,
   validateWebPushVapidPublicKeyParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   clearApnsRegistrationIfCurrent,
   loadApnsRegistration,
@@ -18,16 +18,16 @@ import {
   resolveApnsRelayConfigFromEnv,
   sendApnsAlert,
   shouldClearStoredApnsRegistration,
-} from "../../infra/push-apns.js";
+} from "../../infra/push-apns.ts";
 import {
   broadcastWebPush,
   clearWebPushSubscriptionByEndpoint,
   registerWebPushSubscription,
   resolveVapidKeys,
-} from "../../infra/push-web.js";
-import { respondInvalidParams, respondUnavailableOnThrow } from "./nodes.helpers.js";
-import { normalizeTrimmedString } from "./record-shared.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../infra/push-web.ts";
+import { respondInvalidParams, respondUnavailableOnThrow } from "./nodes.helpers.ts";
+import { normalizeTrimmedString } from "./record-shared.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 export const pushHandlers: GatewayRequestHandlers = {
   "push.test": async ({ params, respond, context }) => {

@@ -1,5 +1,5 @@
 /** Coordinates plugin metadata snapshot and process memo cache lifecycle resets. */
-import { clearCurrentPluginMetadataSnapshotState } from "./current-plugin-metadata-state.js";
+import { clearCurrentPluginMetadataSnapshotState } from "./current-plugin-metadata-state.ts";
 
 const pluginMetadataProcessMemoClears = new Set<() => void>();
 

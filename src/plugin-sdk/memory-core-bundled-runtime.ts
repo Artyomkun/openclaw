@@ -1,13 +1,13 @@
 // Manual facade. Keep loader boundary explicit.
-import { createPluginStateKeyedStore } from "../plugin-state/plugin-state-store.js";
+import { createPluginStateKeyedStore } from "../plugin-state/plugin-state-store.ts";
 // Memory core bundled runtime helpers load the internal memory plugin through SDK facades.
-import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
+import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.ts";
 import type {
   MemoryEmbeddingProvider,
   MemoryEmbeddingProviderCreateOptions,
   MemoryEmbeddingProviderRuntime,
-} from "./memory-core-host-engine-embeddings.js";
-import type { OpenKeyedStoreOptions, PluginStateKeyedStore } from "./plugin-state-runtime.js";
+} from "./memory-core-host-engine-embeddings.ts";
+import type { OpenKeyedStoreOptions, PluginStateKeyedStore } from "./plugin-state-runtime.ts";
 
 type EmbeddingProviderResult = {
   provider: MemoryEmbeddingProvider | null;

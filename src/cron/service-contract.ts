@@ -1,5 +1,5 @@
 /** Public cron service interface shared by callers and implementations. */
-import type { CronListPageOptions, CronListPageResult } from "./service/list-page-types.js";
+import type { CronListPageOptions, CronListPageResult } from "./service/list-page-types.ts";
 import type {
   CronAddInput,
   CronAddResult,
@@ -11,8 +11,8 @@ import type {
   CronUpdateInput,
   CronUpdateResult,
   CronWakeMode,
-} from "./service/state.js";
-import type { CronJob } from "./types.js";
+} from "./service/state.ts";
+import type { CronJob } from "./types.ts";
 
 type CronWakeResult = { ok: true } | { ok: false; reason?: "unwakeable-session-key" };
 

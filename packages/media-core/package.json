@@ -6,63 +6,63 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./base64": {
-      "types": "./dist/base64.d.mts",
-      "import": "./dist/base64.mjs",
-      "default": "./dist/base64.mjs"
+      "types": "./dist/base64.d.ts",
+      "import": "./dist/base64.ts",
+      "default": "./dist/base64.ts"
     },
     "./constants": {
-      "types": "./dist/constants.d.mts",
-      "import": "./dist/constants.mjs",
-      "default": "./dist/constants.mjs"
+      "types": "./dist/constants.d.ts",
+      "import": "./dist/constants.ts",
+      "default": "./dist/constants.ts"
     },
     "./content-length": {
-      "types": "./dist/content-length.d.mts",
-      "import": "./dist/content-length.mjs",
-      "default": "./dist/content-length.mjs"
+      "types": "./dist/content-length.d.ts",
+      "import": "./dist/content-length.ts",
+      "default": "./dist/content-length.ts"
     },
     "./file-name": {
-      "types": "./dist/file-name.d.mts",
-      "import": "./dist/file-name.mjs",
-      "default": "./dist/file-name.mjs"
+      "types": "./dist/file-name.d.ts",
+      "import": "./dist/file-name.ts",
+      "default": "./dist/file-name.ts"
     },
     "./inbound-path-policy": {
-      "types": "./dist/inbound-path-policy.d.mts",
-      "import": "./dist/inbound-path-policy.mjs",
-      "default": "./dist/inbound-path-policy.mjs"
+      "types": "./dist/inbound-path-policy.d.ts",
+      "import": "./dist/inbound-path-policy.ts",
+      "default": "./dist/inbound-path-policy.ts"
     },
     "./inline-image-data-url": {
-      "types": "./dist/inline-image-data-url.d.mts",
-      "import": "./dist/inline-image-data-url.mjs",
-      "default": "./dist/inline-image-data-url.mjs"
+      "types": "./dist/inline-image-data-url.d.ts",
+      "import": "./dist/inline-image-data-url.ts",
+      "default": "./dist/inline-image-data-url.ts"
     },
     "./media-source-url": {
-      "types": "./dist/media-source-url.d.mts",
-      "import": "./dist/media-source-url.mjs",
-      "default": "./dist/media-source-url.mjs"
+      "types": "./dist/media-source-url.d.ts",
+      "import": "./dist/media-source-url.ts",
+      "default": "./dist/media-source-url.ts"
     },
     "./mime": {
-      "types": "./dist/mime.d.mts",
-      "import": "./dist/mime.mjs",
-      "default": "./dist/mime.mjs"
+      "types": "./dist/mime.d.ts",
+      "import": "./dist/mime.ts",
+      "default": "./dist/mime.ts"
     },
     "./read-byte-stream-with-limit": {
-      "types": "./dist/read-byte-stream-with-limit.d.mts",
-      "import": "./dist/read-byte-stream-with-limit.mjs",
-      "default": "./dist/read-byte-stream-with-limit.mjs"
+      "types": "./dist/read-byte-stream-with-limit.d.ts",
+      "import": "./dist/read-byte-stream-with-limit.ts",
+      "default": "./dist/read-byte-stream-with-limit.ts"
     },
     "./read-response-with-limit": {
-      "types": "./dist/read-response-with-limit.d.mts",
-      "import": "./dist/read-response-with-limit.mjs",
-      "default": "./dist/read-response-with-limit.mjs"
+      "types": "./dist/read-response-with-limit.d.ts",
+      "import": "./dist/read-response-with-limit.ts",
+      "default": "./dist/read-response-with-limit.ts"
     }
   },
   "dependencies": {
@@ -70,6 +70,6 @@
     "file-type": "22.0.1"
   },
   "scripts": {
-    "build": "tsdown src/index.ts src/base64.ts src/constants.ts src/content-length.ts src/file-name.ts src/inbound-path-policy.ts src/inline-image-data-url.ts src/media-source-url.ts src/mime.ts src/read-byte-stream-with-limit.ts src/read-response-with-limit.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
+    "build": "tsc src/index.ts src/base64.ts src/constants.ts src/content-length.ts src/file-name.ts src/inbound-path-policy.ts src/inline-image-data-url.ts src/media-source-url.ts src/mime.ts src/read-byte-stream-with-limit.ts src/read-response-with-limit.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
   }
 }

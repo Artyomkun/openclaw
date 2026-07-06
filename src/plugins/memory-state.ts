@@ -1,7 +1,7 @@
 /** Registry state for plugin memory runtimes, prompt supplements, and flush planning. */
-import type { MemoryCitationsMode } from "../config/types.memory.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { MemorySearchManager } from "../memory-host-sdk/host/types.js";
+import type { MemoryCitationsMode } from "../config/types.memory.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { MemorySearchManager } from "../memory-host-sdk/host/types.ts";
 
 export type MemoryPromptSectionBuilder = (params: {
   availableTools: Set<string>;
@@ -154,8 +154,6 @@ export type MemoryPluginCapabilityRegistration = {
   capability: MemoryPluginCapability;
 };
 
-const LEGACY_MEMORY_COMPAT_PLUGIN_ID = "legacy-memory-v1";
-
 type MemoryPluginState = {
   capability?: MemoryPluginCapabilityRegistration;
   corpusSupplements: MemoryCorpusSupplementRegistration[];
@@ -220,11 +218,6 @@ export function listMemoryCorpusSupplements(): MemoryCorpusSupplementRegistratio
   return [...memoryPluginState.corpusSupplements];
 }
 
-/** @deprecated Use registerMemoryCapability(pluginId, { promptBuilder }) instead. */
-export function registerMemoryPromptSection(builder: MemoryPromptSectionBuilder): void {
-  registerMemoryPromptSectionForPlugin(LEGACY_MEMORY_COMPAT_PLUGIN_ID, builder);
-}
-
 export function registerMemoryPromptSectionForPlugin(
   pluginId: string,
   builder: MemoryPromptSectionBuilder,
@@ -268,11 +261,6 @@ export function listMemoryPromptSupplements(): MemoryPromptSupplementRegistratio
   return [...memoryPluginState.promptSupplements];
 }
 
-/** @deprecated Use registerMemoryCapability(pluginId, { flushPlanResolver }) instead. */
-export function registerMemoryFlushPlanResolver(resolver: MemoryFlushPlanResolver): void {
-  registerMemoryFlushPlanResolverForPlugin(LEGACY_MEMORY_COMPAT_PLUGIN_ID, resolver);
-}
-
 export function registerMemoryFlushPlanResolverForPlugin(
   pluginId: string,
   resolver: MemoryFlushPlanResolver,
@@ -285,11 +273,6 @@ export function resolveMemoryFlushPlan(params: {
   nowMs?: number;
 }): MemoryFlushPlan | null {
   return memoryPluginState.capability?.capability.flushPlanResolver?.(params) ?? null;
-}
-
-/** @deprecated Use registerMemoryCapability(pluginId, { runtime }) instead. */
-export function registerMemoryRuntime(runtime: MemoryPluginRuntime): void {
-  registerMemoryRuntimeForPlugin(LEGACY_MEMORY_COMPAT_PLUGIN_ID, runtime);
 }
 
 export function registerMemoryRuntimeForPlugin(

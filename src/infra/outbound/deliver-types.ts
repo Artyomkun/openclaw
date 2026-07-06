@@ -1,7 +1,7 @@
 // Delivery result types define the normalized channel send contract plus
 // partial-failure metadata for multi-payload outbound sends.
-import type { MessageReceipt } from "../../channels/message/types.js";
-import type { ChannelId } from "../../channels/plugins/channel-id.types.js";
+import type { MessageReceipt } from "../../channels/message/types.ts";
+import type { ChannelId } from "../../channels/plugins/channel-id.types.ts";
 
 /** Successful channel send result normalized for core delivery accounting. */
 export type OutboundDeliveryResult = {

@@ -5,11 +5,11 @@ import {
   envInvocationUsesModifiers,
   parseEnvInvocationPrelude,
   unwrapEnvInvocation,
-} from "./command-carriers.js";
-import { normalizeExecutableToken } from "./exec-wrapper-tokens.js";
-import { parseInlineOptionToken } from "./inline-option-token.js";
+} from "./command-carriers.ts";
+import { normalizeExecutableToken } from "./exec-wrapper-tokens.ts";
+import { parseInlineOptionToken } from "./inline-option-token.ts";
 
-export { unwrapEnvInvocation } from "./command-carriers.js";
+export { unwrapEnvInvocation } from "./command-carriers.ts";
 
 export const MAX_DISPATCH_WRAPPER_DEPTH = 4;
 

@@ -3,10 +3,10 @@
  *
  * Handles provider listing, task status, and duplicate-guard output for the image generation tool.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { listRuntimeImageGenerationProviders } from "../../image-generation/runtime.js";
-import type { ImageGenerationProvider } from "../../image-generation/types.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { listRuntimeImageGenerationProviders } from "../../image-generation/runtime.ts";
+import type { ImageGenerationProvider } from "../../image-generation/types.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
 import {
   buildImageGenerationTaskStatusListDetails,
   buildImageGenerationTaskStatusListText,
@@ -15,13 +15,13 @@ import {
   findActiveImageGenerationTaskForSession,
   findDuplicateGuardImageGenerationTaskForSession,
   listActiveImageGenerationTasksForSession,
-} from "../image-generation-task-status.js";
+} from "../image-generation-task-status.ts";
 import {
   createMediaGenerateDuplicateGuardResult,
   createMediaGenerateProviderListActionResult,
   createMediaGenerateTaskStatusActions,
   type MediaGenerateActionResult,
-} from "./media-generate-tool-actions-shared.js";
+} from "./media-generate-tool-actions-shared.ts";
 
 type ImageGenerateActionResult = MediaGenerateActionResult;
 

@@ -3,17 +3,17 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   hasConfiguredUnavailableCredentialStatus,
   hasResolvedCredentialValue,
-} from "../channels/account-snapshot-fields.js";
-import { resolveDmAllowAuditState } from "../channels/message-access/dm-allow-state.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import { inspectReadOnlyChannelAccount } from "../channels/read-only-account-inspect.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { isDangerousNameMatchingEnabled } from "../config/dangerous-name-matching.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { SecurityAuditFinding, SecurityAuditSeverity } from "./audit.types.js";
+} from "../channels/account-snapshot-fields.ts";
+import { resolveDmAllowAuditState } from "../channels/message-access/dm-allow-state.ts";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import { inspectReadOnlyChannelAccount } from "../channels/read-only-account-inspect.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { isDangerousNameMatchingEnabled } from "../config/dangerous-name-matching.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { SecurityAuditFinding, SecurityAuditSeverity } from "./audit.types.ts";
 
 /** Classify free-form channel warnings into audit severities. */
 function classifyChannelWarningSeverity(message: string): SecurityAuditSeverity {

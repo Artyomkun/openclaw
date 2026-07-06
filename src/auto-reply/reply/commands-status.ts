@@ -1,12 +1,12 @@
 /** Builds /status replies using the command's authorized channel context. */
-import { logVerbose } from "../../globals.js";
-import { formatDetailedPluginHealth } from "../../status/status-plugin-health.js";
-import { buildStatusText } from "../../status/status-text.js";
-import type { BuildStatusTextParams } from "../../status/status-text.types.js";
-import type { ReplyPayload } from "../types.js";
-import { requireCommandFlagEnabled } from "./command-gates.js";
-import type { CommandContext } from "./commands-types.js";
-export { buildStatusText } from "../../status/status-text.js";
+import { logVerbose } from "../../globals.ts";
+import { formatDetailedPluginHealth } from "../../status/status-plugin-health.ts";
+import { buildStatusText } from "../../status/status-text.ts";
+import type { BuildStatusTextParams } from "../../status/status-text.types.ts";
+import type { ReplyPayload } from "../types.ts";
+import { requireCommandFlagEnabled } from "./command-gates.ts";
+import type { CommandContext } from "./commands-types.ts";
+export { buildStatusText } from "../../status/status-text.ts";
 
 type BuildStatusReplyParams = Omit<BuildStatusTextParams, "statusChannel"> & {
   command: CommandContext;

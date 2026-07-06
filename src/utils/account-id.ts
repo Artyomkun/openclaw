@@ -1,5 +1,5 @@
 // Account id helpers normalize routing account identifiers for utility callers.
-import { normalizeOptionalAccountId } from "../routing/account-id.js";
+import { normalizeOptionalAccountId } from "../routing/account-id.ts";
 
 /**
  * Compatibility wrapper for account-id normalization.

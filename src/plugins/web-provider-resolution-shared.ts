@@ -1,9 +1,9 @@
 // Shares web-provider plugin resolution helpers without eager runtime imports.
-import { resolveBundledPluginCompatibleLoadValues } from "./activation-context.js";
-import type { PluginLoadOptions } from "./loader.js";
-import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import { createPluginIdScopeSet, normalizePluginIdScope } from "./plugin-scope.js";
+import { resolveBundledPluginCompatibleLoadValues } from "./activation-context.ts";
+import type { PluginLoadOptions } from "./loader.ts";
+import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import { createPluginIdScopeSet, normalizePluginIdScope } from "./plugin-scope.ts";
 
 export type WebProviderContract = "webSearchProviders" | "webFetchProviders";
 export type WebProviderConfigKey = "webSearch" | "webFetch";
@@ -157,7 +157,7 @@ function resolveBundledWebProviderCompatPluginIds(params: {
     .toSorted((left, right) => left.localeCompare(right));
 }
 
-/** Builds bundled-plugin activation config for provider families with legacy enablement defaults. */
+/** Builds bundled-plugin activation config for provider families with older enablement defaults. */
 export function resolveBundledWebProviderResolutionConfig(params: {
   contract: WebProviderContract;
   config?: PluginLoadOptions["config"];

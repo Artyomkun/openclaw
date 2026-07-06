@@ -1,15 +1,15 @@
 // Loaded-target resolution uses only already-loaded plugins so hot send paths
 // can avoid triggering channel discovery.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { getLoadedChannelPluginForRead } from "../../channels/plugins/registry-loaded-read.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { GatewayMessageChannel } from "../../utils/message-channel.js";
+import { getLoadedChannelPluginForRead } from "../../channels/plugins/registry-loaded-read.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelOutboundTargetMode } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { GatewayMessageChannel } from "../../utils/message-channel.ts";
 import {
   resolveOutboundTargetWithPlugin,
   type OutboundTargetResolution,
-} from "./targets-resolve-shared.js";
+} from "./targets-resolve-shared.ts";
 
 function resolveLoadedOutboundChannelPlugin(channel: string): ChannelPlugin | undefined {
   const normalized = normalizeOptionalString(channel);

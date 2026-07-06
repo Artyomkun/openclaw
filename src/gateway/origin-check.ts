@@ -5,7 +5,7 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isLoopbackHost, normalizeHostHeader, resolveHostName } from "./net.js";
+import { isLoopbackHost, normalizeHostHeader, resolveHostName } from "./net.ts";
 
 type OriginCheckResult =
   | {

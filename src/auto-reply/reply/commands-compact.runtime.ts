@@ -4,12 +4,12 @@ export {
   compactEmbeddedAgentSession,
   isEmbeddedAgentRunAbortableForCompaction,
   waitForEmbeddedAgentRunEnd,
-} from "../../agents/embedded-agent.js";
+} from "../../agents/embedded-agent.ts";
 export {
   resolveFreshSessionTotalTokens,
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
-} from "../../config/sessions.js";
-export { enqueueSystemEvent } from "../../infra/system-events.js";
-export { formatContextUsageShort, formatTokenCount } from "../status.js";
-export { incrementCompactionCount } from "./session-updates.js";
+} from "../../config/sessions.ts";
+export { enqueueSystemEvent } from "../../infra/system-events.ts";
+export { formatContextUsageShort, formatTokenCount } from "../status.ts";
+export { incrementCompactionCount } from "./session-updates.ts";

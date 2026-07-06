@@ -3,9 +3,9 @@
  * announce delivery code on normalized registry snapshots instead of reaching
  * into persistence or mutation paths.
  */
-import { normalizeDeliveryContext } from "../utils/delivery-context.shared.js";
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
-import { subagentRuns } from "./subagent-registry-memory.js";
+import { normalizeDeliveryContext } from "../utils/delivery-context.shared.ts";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
+import { subagentRuns } from "./subagent-registry-memory.ts";
 import {
   countPendingDescendantRunsExcludingRunFromRuns,
   countPendingDescendantRunsFromRuns,
@@ -13,9 +13,9 @@ import {
   listRunsForRequesterFromRuns,
   resolveRequesterForChildSessionFromRuns,
   shouldIgnorePostCompletionAnnounceForSessionFromRuns,
-} from "./subagent-registry-queries.js";
-import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "./subagent-registry-queries.ts";
+import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 /** Resolves the requester session and origin for a child subagent session. */
 export function resolveRequesterForChildSession(childSessionKey: string): {

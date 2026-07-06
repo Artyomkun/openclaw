@@ -23,7 +23,6 @@ import { wrapQwenProviderStream } from "./stream.js";
 import { buildQwenVideoGenerationProvider } from "./video-generation-provider.js";
 
 const PROVIDER_ID = "qwen";
-const LEGACY_PROVIDER_ID = "modelstudio";
 const QWEN_OAUTH_AUTH_PROVIDER_IDS = [QWEN_OAUTH_PROVIDER_ID, "qwen-portal", "qwen-cli"] as const;
 
 function normalizeProviderId(value: string): string {
@@ -39,7 +38,7 @@ function resolveConfiguredQwenBaseUrl(
   }
   for (const [providerId, provider] of Object.entries(providers)) {
     const normalized = normalizeProviderId(providerId);
-    if (normalized !== PROVIDER_ID && normalized !== LEGACY_PROVIDER_ID) {
+    if (normalized !== PROVIDER_ID) {
       continue;
     }
     const baseUrl = provider?.baseUrl?.trim();

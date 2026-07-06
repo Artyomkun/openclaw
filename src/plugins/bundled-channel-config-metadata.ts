@@ -4,33 +4,32 @@ import path from "node:path";
 import {
   buildChannelConfigSchema,
   buildJsonChannelConfigSchema,
-} from "../channels/plugins/config-schema.js";
-import type { ChannelConfigRuntimeSchema } from "../channels/plugins/types.config.js";
-import type { JsonSchemaObject } from "../shared/json-schema.types.js";
+} from "../channels/plugins/config-schema.ts";
+import type { ChannelConfigRuntimeSchema } from "../channels/plugins/types.config.ts";
+import type { JsonSchemaObject } from "../shared/json-schema.types.ts";
 import {
   normalizeBundledPluginStringList,
   trimBundledPluginString,
-} from "./bundled-plugin-scan.js";
-import type { PluginConfigUiHint } from "./manifest-types.js";
+} from "./bundled-plugin-scan.ts";
+import type { PluginConfigUiHint } from "./manifest-types.ts";
 import type {
   OpenClawPackageManifest,
   PluginManifest,
   PluginManifestChannelConfig,
-} from "./manifest.js";
+} from "./manifest.ts";
 import {
   createPluginModuleLoaderCache,
   getCachedPluginModuleLoader,
   type PluginModuleLoaderCache,
-} from "./plugin-module-loader-cache.js";
-import { PUBLIC_SURFACE_SOURCE_EXTENSIONS } from "./public-surface-runtime.js";
+} from "./plugin-module-loader-cache.ts";
+import { PUBLIC_SURFACE_SOURCE_EXTENSIONS } from "./public-surface-runtime.ts";
 
 const SOURCE_CONFIG_SCHEMA_CANDIDATES = [
   path.join("src", "config-schema.ts"),
   path.join("src", "config-schema.js"),
-  path.join("src", "config-schema.mts"),
-  path.join("src", "config-schema.mjs"),
-  path.join("src", "config-schema.cts"),
-  path.join("src", "config-schema.cjs"),
+  path.join("src", "config-schema.ts"),
+  path.join("src", "config-schema.ts"),
+  path.join("src", "config-schema.ts"),
 ] as const;
 const PUBLIC_CONFIG_SURFACE_BASENAMES = ["channel-config-api"] as const;
 

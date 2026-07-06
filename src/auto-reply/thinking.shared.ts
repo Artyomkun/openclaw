@@ -4,7 +4,7 @@ import {
   normalizeFastMode,
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
-} from "../../packages/normalization-core/src/string-coerce.js";
+} from "../../packages/normalization-core/src/string-coerce.ts";
 
 export { normalizeFastMode };
 export type { FastMode };

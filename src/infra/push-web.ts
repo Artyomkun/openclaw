@@ -1,8 +1,8 @@
 // Stores and verifies web push subscriptions and delivery payloads.
 import { createHash, randomUUID } from "node:crypto";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import { createAsyncLock, tryReadJson, writeJson } from "./json-files.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { createAsyncLock, tryReadJson, writeJson } from "./json-files.ts";
 
 // --- Types ---
 

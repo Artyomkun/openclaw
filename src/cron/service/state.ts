@@ -1,8 +1,8 @@
 /** Cron service dependency, event, state, and public result types. */
-import type { CronConfig } from "../../config/types.cron.js";
-import type { HeartbeatRunResult, HeartbeatWakeRequest } from "../../infra/heartbeat-wake.js";
-import type { DeliveryContext } from "../../utils/delivery-context.types.js";
-import type { QuarantinedCronConfigJob } from "../store.js";
+import type { CronConfig } from "../../config/types.cron.ts";
+import type { HeartbeatRunResult, HeartbeatWakeRequest } from "../../infra/heartbeat-wake.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.types.ts";
+import type { QuarantinedCronConfigJob } from "../store.ts";
 import type {
   CronAgentExecutionPhaseUpdate,
   CronAgentExecutionStarted,
@@ -18,7 +18,7 @@ import type {
   CronRunStatus,
   CronRunTelemetry,
   CronStoreFile,
-} from "../types.js";
+} from "../types.ts";
 
 /** Event payload emitted for cron lifecycle changes and completed runs. */
 export type CronEvent = {
@@ -240,8 +240,6 @@ export type CronWakeMode = "now" | "next-heartbeat";
 /** Lightweight service status returned to gateway/control surfaces. */
 export type CronStatusSummary = {
   enabled: boolean;
-  /** @deprecated Legacy partition key; actual storage is SQLite. Use `sqlitePath`. */
-  storePath: string;
   /** Storage backend identifier. */
   storage: "sqlite";
   /** Resolved path to the shared state SQLite database. */

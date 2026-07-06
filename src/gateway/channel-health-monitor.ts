@@ -1,16 +1,16 @@
 // Gateway channel health monitor.
 // Periodically evaluates channel account health and restarts stale runtimes.
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
 import {
   DEFAULT_CHANNEL_CONNECT_GRACE_MS,
   DEFAULT_CHANNEL_STALE_EVENT_THRESHOLD_MS,
   evaluateChannelHealth,
   resolveChannelRestartReason,
   type ChannelHealthPolicy,
-} from "./channel-health-policy.js";
-import type { ChannelManager } from "./server-channels.js";
+} from "./channel-health-policy.ts";
+import type { ChannelManager } from "./server-channels.ts";
 
 const log = createSubsystemLogger("gateway/health-monitor");
 
@@ -35,12 +35,6 @@ type ChannelHealthTimingPolicy = {
 type ChannelHealthMonitorDeps = {
   channelManager: ChannelManager;
   checkIntervalMs?: number;
-  /** @deprecated use timing.monitorStartupGraceMs */
-  startupGraceMs?: number;
-  /** @deprecated use timing.channelConnectGraceMs */
-  channelStartupGraceMs?: number;
-  /** @deprecated use timing.staleEventThresholdMs */
-  staleEventThresholdMs?: number;
   timing?: Partial<ChannelHealthTimingPolicy>;
   cooldownCycles?: number;
   maxRestartsPerHour?: number;

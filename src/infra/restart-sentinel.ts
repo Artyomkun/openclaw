@@ -2,19 +2,19 @@
 import { readFile, rm } from "node:fs/promises";
 import path from "node:path";
 import { isRecord as isPlainRecord } from "@openclaw/normalization-core/record-coerce";
-import { formatCliCommand } from "../cli/command-format.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../state/openclaw-state-db.js";
-import { resolveRuntimeServiceVersion } from "../version.js";
+} from "../state/openclaw-state-db.ts";
+import { resolveRuntimeServiceVersion } from "../version.ts";
 import {
   executeSqliteQuerySync,
   executeSqliteQueryTakeFirstSync,
   getNodeSqliteKysely,
-} from "./kysely-sync.js";
+} from "./kysely-sync.ts";
 
 export type RestartSentinelLog = {
   stdoutTail?: string | null;
@@ -77,7 +77,6 @@ export type RestartSentinel = {
 };
 
 const RESTART_SENTINEL_KEY = "current";
-const LEGACY_RESTART_SENTINEL_FILENAME = "restart-sentinel.json";
 type GatewayRestartSentinelDatabase = Pick<OpenClawStateKyselyDatabase, "gateway_restart_sentinel">;
 
 export function formatDoctorNonInteractiveHint(
@@ -142,7 +141,6 @@ export async function writeRestartSentinel(
     },
     { env },
   );
-  await removeLegacyRestartSentinel(env);
 }
 
 function cloneRestartSentinelPayload(payload: RestartSentinelPayload): RestartSentinelPayload {
@@ -225,37 +223,6 @@ export async function clearRestartSentinel(env: NodeJS.ProcessEnv = process.env)
       { env },
     );
   } catch {}
-  await removeLegacyRestartSentinel(env);
-}
-
-function resolveLegacyRestartSentinelPath(env: NodeJS.ProcessEnv): string {
-  return path.join(resolveStateDir(env), LEGACY_RESTART_SENTINEL_FILENAME);
-}
-
-async function removeLegacyRestartSentinel(env: NodeJS.ProcessEnv): Promise<void> {
-  try {
-    await rm(resolveLegacyRestartSentinelPath(env), { force: true });
-  } catch {}
-}
-
-async function importLegacyRestartSentinel(
-  env: NodeJS.ProcessEnv = process.env,
-): Promise<RestartSentinel | null> {
-  const legacyPath = resolveLegacyRestartSentinelPath(env);
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(await readFile(legacyPath, "utf-8")) as unknown;
-  } catch {
-    return null;
-  }
-  if (!isPlainRecord(parsed) || parsed.version !== 1 || !isPlainRecord(parsed.payload)) {
-    await removeLegacyRestartSentinel(env);
-    return null;
-  }
-  const payload = parsed.payload as RestartSentinelPayload;
-  await writeRestartSentinel(payload, env);
-  await removeLegacyRestartSentinel(env);
-  return { version: 1, payload };
 }
 
 export function buildRestartSuccessContinuation(params: {
@@ -282,9 +249,6 @@ export async function readRestartSentinel(
         .select(["version", "payload_json"])
         .where("sentinel_key", "=", RESTART_SENTINEL_KEY),
     );
-    if (!row) {
-      return await importLegacyRestartSentinel(env);
-    }
     let payload: RestartSentinelPayload | undefined;
     try {
       payload = JSON.parse(row.payload_json) as RestartSentinelPayload | undefined;
@@ -316,7 +280,6 @@ export async function hasRestartSentinel(env: NodeJS.ProcessEnv = process.env): 
     if (row) {
       return true;
     }
-    return Boolean(await importLegacyRestartSentinel(env));
   } catch {
     return false;
   }

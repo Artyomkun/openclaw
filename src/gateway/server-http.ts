@@ -9,38 +9,38 @@ import {
 import { createServer as createHttpsServer } from "node:https";
 import type { TlsOptions } from "node:tls";
 import type { WebSocketServer } from "ws";
-import { resolveBundledChannelGatewayAuthBypassPaths } from "../channels/plugins/gateway-auth-bypass.js";
-import { getRuntimeConfig } from "../config/io.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { resolveBundledChannelGatewayAuthBypassPaths } from "../channels/plugins/gateway-auth-bypass.ts";
+import { getRuntimeConfig } from "../config/io.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   createDiagnosticTraceContext,
   runWithDiagnosticTraceContext,
-} from "../infra/diagnostic-trace-context.js";
-import { resolveAssistantIdentity } from "./assistant-identity.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
+} from "../infra/diagnostic-trace-context.ts";
+import { resolveAssistantIdentity } from "./assistant-identity.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
 import {
   authorizeHttpGatewayConnect,
   isLocalDirectRequest,
   type GatewayAuthResult,
   type ResolvedGatewayAuth,
-} from "./auth.js";
-import type { ControlUiRootState } from "./control-ui.js";
-import type { AuthorizedGatewayHttpRequest } from "./http-auth-utils.js";
-import { sendGatewayAuthFailure, setDefaultSecurityHeaders } from "./http-common.js";
-import { resolveRequestClientIp } from "./net.js";
+} from "./auth.ts";
+import type { ControlUiRootState } from "./control-ui.ts";
+import type { AuthorizedGatewayHttpRequest } from "./http-auth-utils.ts";
+import { sendGatewayAuthFailure, setDefaultSecurityHeaders } from "./http-common.ts";
+import { resolveRequestClientIp } from "./net.ts";
 import {
   normalizePluginNodeCapabilityScopedUrl,
   type PluginNodeCapabilitySurface,
-} from "./plugin-node-capability.js";
-import type { HooksRequestHandler } from "./server/hooks-request-handler.js";
+} from "./plugin-node-capability.ts";
+import type { HooksRequestHandler } from "./server/hooks-request-handler.ts";
 import {
   isProtectedPluginRoutePathFromContext,
   resolvePluginRoutePathContext,
   type PluginRoutePathContext,
-} from "./server/plugins-http/path-context.js";
-import type { PreauthConnectionBudget } from "./server/preauth-connection-budget.js";
-import type { ReadinessChecker } from "./server/readiness.js";
-import type { GatewayWsClient } from "./server/ws-types.js";
+} from "./server/plugins-http/path-context.ts";
+import type { PreauthConnectionBudget } from "./server/preauth-connection-budget.ts";
+import type { ReadinessChecker } from "./server/readiness.ts";
+import type { GatewayWsClient } from "./server/ws-types.ts";
 
 type PluginHttpRequestHandler = (
   req: IncomingMessage,

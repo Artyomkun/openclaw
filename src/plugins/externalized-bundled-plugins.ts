@@ -18,8 +18,6 @@ export type ExternalizedBundledPluginBridge = {
   bundledDirName?: string;
   /** Previous bundled manifest default enablement from the persisted registry. */
   enabledByDefault?: boolean;
-  /** Legacy ids that should be treated as this plugin during enablement checks. */
-  legacyPluginIds?: readonly string[];
   /** Channel ids that imply this plugin is enabled when configured. */
   channelIds?: readonly string[];
   /** Plugin ids this external package supersedes for channel selection. */
@@ -74,18 +72,10 @@ export function getExternalizedBundledPluginLookupIds(
       [
         bridge.bundledPluginId,
         bridge.pluginId,
-        ...(bridge.legacyPluginIds ?? []),
         ...(bridge.channelIds ?? []),
       ]
         .map(normalizePluginId)
         .filter(Boolean),
     ),
   );
-}
-
-export function getExternalizedBundledPluginLegacyPathSuffix(
-  bridge: ExternalizedBundledPluginBridge,
-): string {
-  const bundledDirName = bridge.bundledDirName ?? bridge.bundledPluginId;
-  return ["extensions", bundledDirName].join("/");
 }

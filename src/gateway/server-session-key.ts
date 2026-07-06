@@ -4,19 +4,19 @@ import {
   asDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { getRuntimeConfig } from "../config/io.js";
-import type { SessionEntry } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { getAgentRunContext } from "../infra/agent-events.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { getRuntimeConfig } from "../config/io.ts";
+import type { SessionEntry } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { getAgentRunContext } from "../infra/agent-events.ts";
 import {
   normalizeAgentId,
   parseAgentSessionKey,
   toAgentRequestSessionKey,
-} from "../routing/session-key.js";
-import { resolvePreferredSessionKeyForSessionIdMatches } from "../sessions/session-id-resolution.js";
-import { resolveSessionStoreAgentId, resolveSessionStoreKey } from "./session-store-key.js";
-import { loadCombinedSessionStoreForGateway } from "./session-utils.js";
+} from "../routing/session-key.ts";
+import { resolvePreferredSessionKeyForSessionIdMatches } from "../sessions/session-id-resolution.ts";
+import { resolveSessionStoreAgentId, resolveSessionStoreKey } from "./session-store-key.ts";
+import { loadCombinedSessionStoreForGateway } from "./session-utils.ts";
 
 const RUN_LOOKUP_CACHE_LIMIT = 256;
 const RUN_LOOKUP_MISS_TTL_MS = 1_000;

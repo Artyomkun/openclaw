@@ -3,7 +3,7 @@
  *
  * Creates directory and outbound adapters whose methods delegate to lazily resolved runtimes.
  */
-import type { ChannelDirectoryAdapter, ChannelOutboundAdapter } from "./types.adapters.js";
+import type { ChannelDirectoryAdapter, ChannelOutboundAdapter } from "./types.adapters.ts";
 
 type MaybePromise<T> = T | Promise<T>;
 

@@ -3,7 +3,7 @@
  * Produces short adjective/noun IDs with numbered and random fallbacks when
  * collisions are reported by the session store.
  */
-import { generateSecureInt } from "../infra/secure-random.js";
+import { generateSecureInt } from "../infra/secure-random.ts";
 
 const SLUG_ADJECTIVES = [
   "amber",

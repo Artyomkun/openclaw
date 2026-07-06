@@ -15,64 +15,64 @@ import type { Command } from "commander";
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { resolveAgentDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { resolveAgentDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   listProfilesForProvider,
   loadAuthProfileStoreForRuntime,
-} from "../agents/auth-profiles.js";
-import { updateAuthProfileStoreWithLock } from "../agents/auth-profiles/store.js";
-import { buildExplicitSessionIdSessionKey } from "../agents/command/session.js";
-import { DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { resolveMemorySearchConfig } from "../agents/memory-search.js";
-import { resolveApiKeyForProvider } from "../agents/model-auth.js";
-import { loadModelCatalog } from "../agents/model-catalog.js";
-import { canonicalizeCaseOnlyCatalogModelRef } from "../agents/model-selection.js";
+} from "../agents/auth-profiles.ts";
+import { updateAuthProfileStoreWithLock } from "../agents/auth-profiles/store.ts";
+import { buildExplicitSessionIdSessionKey } from "../agents/command/session.ts";
+import { DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { resolveMemorySearchConfig } from "../agents/memory-search.ts";
+import { resolveApiKeyForProvider } from "../agents/model-auth.ts";
+import { loadModelCatalog } from "../agents/model-catalog.ts";
+import { canonicalizeCaseOnlyCatalogModelRef } from "../agents/model-selection.ts";
 import {
   completeWithPreparedSimpleCompletionModel,
   prepareSimpleCompletionModelForAgent,
-} from "../agents/simple-completion-runtime.js";
-import { normalizeThinkLevel, type ThinkLevel } from "../auto-reply/thinking.js";
+} from "../agents/simple-completion-runtime.ts";
+import { normalizeThinkLevel, type ThinkLevel } from "../auto-reply/thinking.ts";
 import {
   getRuntimeConfig,
   getRuntimeConfigSourceSnapshot,
   setRuntimeConfigSnapshot,
-} from "../config/config.js";
-import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway, randomIdempotencyKey } from "../gateway/call.js";
-import { buildGatewayConnectionDetailsWithResolvers } from "../gateway/connection-details.js";
-import { isLoopbackHost } from "../gateway/net.js";
-import { ADMIN_SCOPE } from "../gateway/operator-scopes.js";
-import { generateImage, listRuntimeImageGenerationProviders } from "../image-generation/runtime.js";
+} from "../config/config.ts";
+import { resolveAgentModelPrimaryValue } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway, randomIdempotencyKey } from "../gateway/call.ts";
+import { buildGatewayConnectionDetailsWithResolvers } from "../gateway/connection-details.ts";
+import { isLoopbackHost } from "../gateway/net.ts";
+import { ADMIN_SCOPE } from "../gateway/operator-scopes.ts";
+import { generateImage, listRuntimeImageGenerationProviders } from "../image-generation/runtime.ts";
 import type {
   ImageGenerationBackground,
   ImageGenerationOpenAIModeration,
   ImageGenerationOutputFormat,
   ImageGenerationQuality,
-} from "../image-generation/types.js";
+} from "../image-generation/types.ts";
 import {
   parseStrictFiniteNumber,
   parseStrictPositiveInteger,
-} from "../infra/parse-finite-number.js";
-import { buildMediaUnderstandingRegistry } from "../media-understanding/provider-registry.js";
-import type { RunMediaUnderstandingFileResult } from "../media-understanding/runtime-types.js";
+} from "../infra/parse-finite-number.ts";
+import { buildMediaUnderstandingRegistry } from "../media-understanding/provider-registry.ts";
+import type { RunMediaUnderstandingFileResult } from "../media-understanding/runtime-types.ts";
 import {
   describeImageFile,
   describeImageFileWithModel,
   describeVideoFile,
   transcribeAudioFile,
-} from "../media-understanding/runtime.js";
-import { convertHeicToJpeg, getImageMetadata } from "../media/media-services.js";
-import { saveMediaBuffer } from "../media/store.js";
-import { createEmbeddingProvider } from "../plugin-sdk/memory-core-bundled-runtime.js";
-import { listEmbeddingProviders } from "../plugins/embedding-provider-runtime.js";
-import { listMemoryEmbeddingProviders } from "../plugins/memory-embedding-providers.js";
-import { writeRuntimeJson, defaultRuntime, type RuntimeEnv } from "../runtime.js";
-import { getProviderEnvVars } from "../secrets/provider-env-vars.js";
-import { canonicalizeSpeechProviderId, listSpeechProviders } from "../tts/provider-registry.js";
+} from "../media-understanding/runtime.ts";
+import { convertHeicToJpeg, getImageMetadata } from "../media/media-services.ts";
+import { saveMediaBuffer } from "../media/store.ts";
+import { createEmbeddingProvider } from "../plugin-sdk/memory-core-bundled-runtime.ts";
+import { listEmbeddingProviders } from "../plugins/embedding-provider-runtime.ts";
+import { listMemoryEmbeddingProviders } from "../plugins/memory-embedding-providers.ts";
+import { writeRuntimeJson, defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+import { getProviderEnvVars } from "../secrets/provider-env-vars.ts";
+import { canonicalizeSpeechProviderId, listSpeechProviders } from "../tts/provider-registry.ts";
 import {
   getTtsProvider,
   getTtsPersona,
@@ -85,31 +85,31 @@ import {
   setTtsPersona,
   setTtsProvider,
   textToSpeech,
-} from "../tts/tts.js";
-import { generateVideo, listRuntimeVideoGenerationProviders } from "../video-generation/runtime.js";
-import type { VideoGenerationResolution } from "../video-generation/types.js";
+} from "../tts/tts.ts";
+import { generateVideo, listRuntimeVideoGenerationProviders } from "../video-generation/runtime.ts";
+import type { VideoGenerationResolution } from "../video-generation/types.ts";
 import {
   isWebFetchProviderConfigured,
   resolveWebFetchDefinition,
   listWebFetchProviders,
-} from "../web-fetch/runtime.js";
+} from "../web-fetch/runtime.ts";
 import {
   isWebSearchProviderConfigured,
   listWebSearchProviders,
   runWebSearch,
-} from "../web-search/runtime.js";
-import { runCommandWithRuntime } from "./cli-utils.js";
-import { resolveCommandConfigWithSecrets } from "./command-config-resolution.js";
+} from "../web-search/runtime.ts";
+import { runCommandWithRuntime } from "./cli-utils.ts";
+import { resolveCommandConfigWithSecrets } from "./command-config-resolution.ts";
 import {
   getCapabilityWebFetchCommandSecretTargets,
   getCapabilityWebSearchCommandSecretTargets,
   getMemoryEmbeddingCommandSecretTargetIds,
   getModelsCommandSecretTargetIds,
   getTtsCommandSecretTargetIds,
-} from "./command-secret-targets.js";
-import { parseTimeoutMsWithFallback } from "./parse-timeout.js";
-import { removeCommandByName } from "./program/command-tree.js";
-import { collectOption } from "./program/helpers.js";
+} from "./command-secret-targets.ts";
+import { parseTimeoutMsWithFallback } from "./parse-timeout.ts";
+import { removeCommandByName } from "./program/command-tree.ts";
+import { collectOption } from "./program/helpers.ts";
 
 type CapabilityTransport = "local" | "gateway";
 const IMAGE_OUTPUT_FORMATS = ["png", "jpeg", "webp"] as const;

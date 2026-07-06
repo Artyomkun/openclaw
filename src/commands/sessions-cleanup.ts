@@ -4,9 +4,9 @@
  * It can delegate cleanup to a live gateway or run local store maintenance,
  * with dry-run tables that explain every planned pruning action.
  */
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { getRuntimeConfig } from "../config/config.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   resolveSessionCleanupAction,
   runSessionsCleanup,
@@ -14,13 +14,13 @@ import {
   type SessionCleanupSummary,
   type SessionsCleanupOptions,
   type SessionsCleanupResult,
-} from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway, isGatewayTransportError } from "../gateway/call.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
-import { resolveSessionStoreTargetsOrExit } from "./session-store-targets.js";
-import { resolveSessionDisplayModel } from "./sessions-display-model.js";
+} from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway, isGatewayTransportError } from "../gateway/call.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.ts";
+import { resolveSessionStoreTargetsOrExit } from "./session-store-targets.ts";
+import { resolveSessionDisplayModel } from "./sessions-display-model.ts";
 import {
   formatSessionAgeCell,
   formatSessionFlagsCell,
@@ -30,7 +30,7 @@ import {
   SESSION_KEY_PAD,
   SESSION_MODEL_PAD,
   toSessionDisplayRows,
-} from "./sessions-table.js";
+} from "./sessions-table.ts";
 
 const ACTION_PAD = "repair-session-file".length;
 

@@ -7,19 +7,19 @@ import { normalizeStringEntries } from "@openclaw/normalization-core/string-norm
 import {
   getLoadedChannelPluginById,
   listLoadedChannelPlugins,
-} from "../channels/plugins/registry-loaded.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import { normalizeAnyChannelId } from "../channels/registry.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../channels/plugins/registry-loaded.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import { normalizeAnyChannelId } from "../channels/registry.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isInternalMessageChannel,
   normalizeMessageChannel,
-} from "../utils/message-channel.js";
-import { isNativeCommandTurn, resolveCommandTurnContext } from "./command-turn-context.js";
-import { shouldUseFromAsSenderFallback } from "./sender-identity.js";
-import type { MsgContext } from "./templating.js";
+} from "../utils/message-channel.ts";
+import { isNativeCommandTurn, resolveCommandTurnContext } from "./command-turn-context.ts";
+import { shouldUseFromAsSenderFallback } from "./sender-identity.ts";
+import type { MsgContext } from "./templating.ts";
 
 export type CommandAuthorization = {
   providerId?: ChannelId;

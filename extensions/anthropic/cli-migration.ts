@@ -1,5 +1,5 @@
 /**
- * Claude CLI setup migration helpers. They rewrite legacy Claude CLI model refs
+ * Claude CLI setup helpers. They rewrite Claude CLI model refs
  * to Anthropic refs while preserving runtime allowlist entries for CLI execution.
  */
 import {

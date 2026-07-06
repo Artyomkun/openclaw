@@ -1,16 +1,16 @@
 // Route-first CLI entry point for commands that can run before full Commander setup.
-import { FLAG_TERMINATOR, isValueToken } from "../infra/cli-root-options.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { type LogLevel, tryParseLogLevel } from "../logging/levels.js";
-import { defaultRuntime } from "../runtime.js";
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import { hasFlag } from "./argv.js";
+import { FLAG_TERMINATOR, isValueToken } from "../infra/cli-root-options.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { type LogLevel, tryParseLogLevel } from "../logging/levels.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
+import { hasFlag } from "./argv.ts";
 import {
   applyCliExecutionStartupPresentation,
   ensureCliExecutionBootstrap,
   resolveCliExecutionStartupContext,
-} from "./command-execution-startup.js";
-import { findRoutedCommand } from "./program/routes.js";
+} from "./command-execution-startup.ts";
+import { findRoutedCommand } from "./program/routes.ts";
 
 const LOG_LEVEL_FLAG = "--log-level";
 const LOG_LEVEL_EQUALS_PREFIX = `${LOG_LEVEL_FLAG}=`;

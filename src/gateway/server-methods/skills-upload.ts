@@ -8,18 +8,18 @@ import {
   validateSkillsUploadBeginParams,
   validateSkillsUploadChunkParams,
   validateSkillsUploadCommitParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import type { ErrorShape } from "../../../packages/gateway-protocol/src/index.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import type { ErrorShape } from "../../../packages/gateway-protocol/src/index.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   areUploadedSkillArchivesEnabled,
   UPLOADED_SKILL_ARCHIVES_DISABLED_MESSAGE,
-} from "../../skills/lifecycle/upload-install.js";
+} from "../../skills/lifecycle/upload-install.ts";
 import {
   defaultSkillUploadStore,
   SkillUploadRequestError,
-} from "../../skills/lifecycle/upload-store.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../skills/lifecycle/upload-store.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 function uploadErrorShape(
   prefix: string,

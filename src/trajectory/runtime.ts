@@ -1,17 +1,17 @@
 // Trajectory runtime records runtime events into trajectory log files.
 import fs from "node:fs";
 import path from "node:path";
-import { sanitizeDiagnosticPayload } from "../agents/payload-redaction.js";
+import { sanitizeDiagnosticPayload } from "../agents/payload-redaction.ts";
 import type {
   QueuedFileWriter,
   QueuedFileWriterDiagnostics,
-} from "../agents/queued-file-writer.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { assertNoSymlinkParents, writeSiblingTempFile } from "../infra/fs-safe-advanced.js";
-import { readRegularFileSync } from "../infra/fs-safe.js";
-import { redactSecrets } from "../logging/redact.js";
-import { parseBooleanValue } from "../utils/boolean.js";
-import { safeJsonStringify } from "../utils/safe-json.js";
+} from "../agents/queued-file-writer.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { assertNoSymlinkParents, writeSiblingTempFile } from "../infra/fs-safe-advanced.ts";
+import { readRegularFileSync } from "../infra/fs-safe.ts";
+import { redactSecrets } from "../logging/redact.ts";
+import { parseBooleanValue } from "../utils/boolean.ts";
+import { safeJsonStringify } from "../utils/safe-json.ts";
 import {
   TRAJECTORY_RUNTIME_CAPTURE_MAX_BYTES,
   TRAJECTORY_RUNTIME_EVENT_MAX_BYTES,
@@ -19,8 +19,8 @@ import {
   resolveTrajectoryFilePath,
   resolveTrajectoryPointerFilePath,
   resolveTrajectoryPointerOpenFlags,
-} from "./paths.js";
-import type { TrajectoryEvent, TrajectoryToolDefinition } from "./types.js";
+} from "./paths.ts";
+import type { TrajectoryEvent, TrajectoryToolDefinition } from "./types.ts";
 
 type TrajectoryRuntimeInit = {
   cfg?: OpenClawConfig;
@@ -274,7 +274,7 @@ function describeTrajectoryWriterFlushState(writer: TrajectoryRuntimeWriter): st
   return parts.join(" ");
 }
 
-function trimJsonlWindow(lines: string[], maxBytes: number): number {
+function tritsonlWindow(lines: string[], maxBytes: number): number {
   let bytes = 0;
   for (const line of lines) {
     bytes += Buffer.byteLength(line, "utf8");
@@ -343,7 +343,7 @@ function readTrajectoryWindowLines(filePath: string, maxBytes: number): string[]
       .split(/\r?\n/u)
       .filter((line) => line.length > 0)
       .map((line) => `${line}\n`);
-    trimJsonlWindow(lines, maxBytes);
+    tritsonlWindow(lines, maxBytes);
     return lines;
   } catch {
     return [];
@@ -368,7 +368,7 @@ async function replaceTrajectoryWindow(params: {
   const lines = readTrajectoryWindowLines(params.filePath, params.maxFileBytes);
   lines.push(...params.appendedLines);
   lines.sort(compareTrajectoryWindowLines);
-  trimJsonlWindow(lines, params.maxFileBytes);
+  tritsonlWindow(lines, params.maxFileBytes);
   await writeSiblingTempFile({
     dir,
     chmodDir: false,
@@ -424,7 +424,7 @@ function createTrajectoryWindowWriter(
       }
       pendingLines.push(line);
       queuedBytes += lineBytes;
-      queuedBytes = trimJsonlWindow(pendingLines, maxFileBytes);
+      queuedBytes = tritsonlWindow(pendingLines, maxFileBytes);
       pendingWrites = 1;
       return "queued";
     },

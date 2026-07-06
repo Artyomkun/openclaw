@@ -2,13 +2,13 @@
 import { spawnSync } from "node:child_process";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { parseCmdScriptCommandLine } from "../daemon/cmd-argv.js";
-import { parseStrictPositiveInteger } from "./parse-finite-number.js";
+import { parseCmdScriptCommandLine } from "../daemon/cmd-argv.ts";
+import { parseStrictPositiveInteger } from "./parse-finite-number.ts";
 import {
   getWindowsPowerShellExePath,
   getWindowsSystem32ExePath,
   getWindowsWmicExePath,
-} from "./windows-install-roots.js";
+} from "./windows-install-roots.ts";
 
 const DEFAULT_TIMEOUT_MS = 5_000;
 

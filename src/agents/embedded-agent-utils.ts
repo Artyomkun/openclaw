@@ -3,24 +3,24 @@
  * Extracts visible assistant text, reasoning summaries, thinking-tag blocks,
  * and compact tool metadata for channel delivery and transcript replay.
  */
-import type { AssistantMessage } from "../llm/types.js";
-import { extractTextFromChatContent } from "../shared/chat-content.js";
+import type { AssistantMessage } from "../llm/types.ts";
+import { extractTextFromChatContent } from "../shared/chat-content.ts";
 import {
   normalizeAssistantPhase,
   parseAssistantTextSignature,
   type AssistantPhase,
-} from "../shared/chat-message-content.js";
-import { sanitizeAssistantVisibleText } from "../shared/text/assistant-visible-text.js";
-import { stripReasoningTagsFromText } from "../shared/text/reasoning-tags.js";
-import { sanitizeUserFacingText } from "./embedded-agent-helpers/sanitize-user-facing-text.js";
-import type { AgentMessage } from "./runtime/index.js";
-import { formatToolDetail, resolveToolDisplay } from "./tool-display.js";
+} from "../shared/chat-message-content.ts";
+import { sanitizeAssistantVisibleText } from "../shared/text/assistant-visible-text.ts";
+import { stripReasoningTagsFromText } from "../shared/text/reasoning-tags.ts";
+import { sanitizeUserFacingText } from "./embedded-agent-helpers/sanitize-user-facing-text.ts";
+import type { AgentMessage } from "./runtime/index.ts";
+import { formatToolDetail, resolveToolDisplay } from "./tool-display.ts";
 
 export {
   stripDowngradedToolCallText,
   stripMinimaxToolCallXml,
-} from "../shared/text/assistant-visible-text.js";
-export { stripModelSpecialTokens } from "../shared/text/model-special-tokens.js";
+} from "../shared/text/assistant-visible-text.ts";
+export { stripModelSpecialTokens } from "../shared/text/model-special-tokens.ts";
 
 /** Narrow an agent message to an assistant message. */
 export function isAssistantMessage(msg: AgentMessage | undefined): msg is AssistantMessage {

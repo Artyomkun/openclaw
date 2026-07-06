@@ -1,12 +1,12 @@
 // Gateway auth token resolution applies explicit/config/SecretRef/env
 // precedence with caller-controlled env fallback behavior.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { trimToUndefined } from "./credentials.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { trimToUndefined } from "./credentials.ts";
 import {
   resolveConfiguredSecretInputString,
   type SecretInputUnresolvedReasonStyle,
-} from "./resolve-configured-secret-input-string.js";
+} from "./resolve-configured-secret-input-string.ts";
 
 // Single-token resolver for local gateway auth consumers that need to know
 // whether the winning token came from explicit args, config, SecretRef, or env.

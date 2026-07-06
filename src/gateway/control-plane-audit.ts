@@ -1,7 +1,7 @@
 // Gateway control-plane audit helpers.
 // Extracts stable actor identity and compact changed-path summaries for audit logs.
-import { normalizeControlPlaneIdentityPart } from "./control-plane-identity.js";
-import type { GatewayClient } from "./server-methods/types.js";
+import { normalizeControlPlaneIdentityPart } from "./control-plane-identity.ts";
+import type { GatewayClient } from "./server-methods/types.ts";
 
 /** Stable actor fields included in control-plane audit and rate-limit logs. */
 export type ControlPlaneActor = {

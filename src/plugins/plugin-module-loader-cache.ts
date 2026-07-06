@@ -3,16 +3,16 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import type { createJiti } from "jiti";
-import { toSafeImportPath } from "../shared/import-specifier.js";
-import { tryNativeRequireJavaScriptModule } from "./native-module-require.js";
-import { PluginLruCache } from "./plugin-cache-primitives.js";
-import { installOpenClawInternalCorePackageNativeResolver } from "./plugin-sdk-native-resolver.js";
+import { toSafeImportPath } from "../shared/import-specifier.ts";
+import { tryNativeRequireJavaScriptModule } from "./native-module-require.ts";
+import { PluginLruCache } from "./plugin-cache-primitives.ts";
+import { installOpenClawInternalCorePackageNativeResolver } from "./plugin-sdk-native-resolver.ts";
 import {
   buildPluginLoaderJitiOptions,
   createPluginLoaderModuleCacheKey,
   resolvePluginLoaderModuleConfig,
   type PluginSdkResolutionPreference,
-} from "./sdk-alias.js";
+} from "./sdk-alias.ts";
 
 /** Jiti-based module loader used for plugin source/runtime imports. */
 export type PluginModuleLoader = ReturnType<typeof createJiti>;

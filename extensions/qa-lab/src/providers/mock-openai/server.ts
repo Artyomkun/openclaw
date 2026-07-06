@@ -716,7 +716,7 @@ function normalizePromptPathCandidate(candidate: string) {
   const normalized = trimmed.replace(/^\.\//, "");
   if (
     normalized.includes("/") ||
-    /\.(?:md|json|ts|tsx|js|mjs|cjs|txt|yaml|yml)$/i.test(normalized)
+    /\.(?:md|json|ts|tsx|js|ts|ts|txt|yaml|yml)$/i.test(normalized)
   ) {
     return normalized;
   }
@@ -743,7 +743,7 @@ function readTargetFromPrompt(prompt: string) {
     return repoScoped;
   }
 
-  const loosePath = /\b[A-Za-z0-9._-]+\.(?:md|json|ts|tsx|js|mjs|cjs|txt|yaml|yml)\b/i
+  const loosePath = /\b[A-Za-z0-9._-]+\.(?:md|json|ts|tsx|js|ts|ts|txt|yaml|yml)\b/i
     .exec(prompt)?.[0]
     ?.trim();
   if (loosePath) {

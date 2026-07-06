@@ -1,7 +1,6 @@
 // Node match helpers score and select nodes from names, ids, and addresses.
 import {
   normalizeLowercaseStringOrEmpty,
-  normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 
@@ -22,8 +21,6 @@ export type NodeMatchCandidate = {
   remoteIp?: string;
   /** Connected nodes win only after the strongest match type is chosen. */
   connected?: boolean;
-  /** Client id used to prefer current OpenClaw nodes over legacy migration ties. */
-  clientId?: string;
 };
 
 type ScoredNodeMatch = {
@@ -53,37 +50,7 @@ function listKnownNodes(nodes: NodeMatchCandidate[]): string {
 function formatNodeCandidateLabel(node: NodeMatchCandidate): string {
   const label = node.displayName || node.remoteIp || node.nodeId;
   const details = [`node=${node.nodeId}`];
-  const clientId = normalizeOptionalString(node.clientId);
-  if (clientId) {
-    details.push(`client=${clientId}`);
-  }
   return `${label} [${details.join(", ")}]`;
-}
-
-function isCurrentOpenClawClient(clientId: string | undefined): boolean {
-  const normalized = normalizeOptionalLowercaseString(clientId) ?? "";
-  return normalized.startsWith("openclaw-");
-}
-
-function isLegacyClawdbotClient(clientId: string | undefined): boolean {
-  const normalized = normalizeOptionalLowercaseString(clientId) ?? "";
-  return normalized.startsWith("clawdbot-") || normalized.startsWith("moldbot-");
-}
-
-function pickPreferredLegacyMigrationMatch(
-  matches: NodeMatchCandidate[],
-): NodeMatchCandidate | undefined {
-  const current = matches.filter((match) => isCurrentOpenClawClient(match.clientId));
-  if (current.length !== 1) {
-    return undefined;
-  }
-  const legacyCount = matches.filter((match) => isLegacyClawdbotClient(match.clientId)).length;
-  if (legacyCount === 0 || current.length + legacyCount !== matches.length) {
-    return undefined;
-  }
-  // During Clawdbot -> OpenClaw migration, a unique current client should win only
-  // when every other tie is a known legacy client for the same human-facing node.
-  return current[0];
 }
 
 function resolveMatchScore(
@@ -112,11 +79,6 @@ function scoreNodeCandidate(node: NodeMatchCandidate, matchScore: number): numbe
   let score = matchScore;
   if (node.connected === true) {
     score += 100;
-  }
-  if (isCurrentOpenClawClient(node.clientId)) {
-    score += 10;
-  } else if (isLegacyClawdbotClient(node.clientId)) {
-    score -= 10;
   }
   return score;
 }
@@ -170,11 +132,6 @@ export function resolveNodeIdFromCandidates(nodes: NodeMatchCandidate[], query: 
   const matches = strongestMatches.filter((match) => match.selectionScore === topSelectionScore);
   if (matches.length === 1) {
     return matches[0]?.node.nodeId ?? "";
-  }
-
-  const preferred = pickPreferredLegacyMigrationMatch(matches.map((match) => match.node));
-  if (preferred) {
-    return preferred.nodeId;
   }
 
   throw new Error(

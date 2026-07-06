@@ -3,17 +3,17 @@
  *
  * Defines normalized conversation facts, binding records, and stateful target descriptors.
  */
-import type { AgentBinding } from "../../config/types.js";
+import type { AgentBinding } from "../../config/types.ts";
 import type {
   ConversationRef,
   SessionBindingRecord,
-} from "../../infra/outbound/session-binding-service.js";
-import type { ChannelConfiguredBindingConversationRef } from "./types.adapters.js";
+} from "../../infra/outbound/session-binding-service.ts";
+import type { ChannelConfiguredBindingConversationRef } from "./types.adapters.ts";
 import type {
   ChannelConfiguredBindingMatch,
   ChannelConfiguredBindingProvider,
-} from "./types.adapters.js";
-import type { ChannelId } from "./types.public.js";
+} from "./types.adapters.ts";
+import type { ChannelId } from "./types.public.ts";
 
 /**
  * Normalized conversation facts used to match configured channel bindings.

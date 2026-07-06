@@ -2,8 +2,8 @@
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import { writeJson } from "../infra/json-files.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { writeJson } from "../infra/json-files.ts";
 
 /**
  * Persistent node-host identity/config file helpers.

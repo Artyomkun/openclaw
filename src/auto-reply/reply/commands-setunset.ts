@@ -1,6 +1,6 @@
 /** Shared parsing helpers for commands with set/unset subcommands. */
-import { parseSlashCommandOrNull } from "./commands-slash-parse.js";
-import { parseConfigValue } from "./config-value.js";
+import { parseSlashCommandOrNull } from "./commands-slash-parse.ts";
+import { parseConfigValue } from "./config-value.ts";
 
 /** Parsed set/unset action or a user-facing parse error. */
 export type SetUnsetParseResult =

@@ -1,12 +1,12 @@
 // Runtime config helpers expose scoped OpenClaw config reads to plugin runtimes.
-import { getRuntimeConfig } from "../../config/config.js";
+import { getRuntimeConfig } from "../../config/config.ts";
 import {
   mutateConfigFile as mutateConfigFileInternal,
   replaceConfigFile as replaceConfigFileInternal,
-} from "../../config/mutate.js";
-import { logWarn } from "../../logger.js";
-import { getPluginRuntimeGatewayRequestScope } from "./gateway-request-scope.js";
-import type { PluginRuntime } from "./types.js";
+} from "../../config/mutate.ts";
+import { logWarn } from "../../logger.ts";
+import { getPluginRuntimeGatewayRequestScope } from "./gateway-request-scope.ts";
+import type { PluginRuntime } from "./types.ts";
 
 const RUNTIME_CONFIG_LOAD_WRITE_COMPAT_CODE = "runtime-config-load-write";
 

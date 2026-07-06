@@ -9,16 +9,16 @@
 import { createHash, randomUUID } from "node:crypto";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { resolveIntegerOption } from "@openclaw/normalization-core/number-coercion";
-import { isClientToolNameConflictError } from "../agents/agent-tool-definition-adapter.js";
-import type { ImageContent } from "../agents/command/types.js";
-import type { ClientToolDefinition } from "../agents/embedded-agent-runner/run/params.js";
-import { createDefaultDeps } from "../cli/deps.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import { agentCommandFromIngress } from "../commands/agent.js";
-import type { GatewayHttpResponsesConfig } from "../config/types.gateway.js";
-import { emitAgentEvent, onAgentEvent } from "../infra/agent-events.js";
-import { logWarn } from "../logger.js";
-import { renderFileContextBlock } from "../media/file-context.js";
+import { isClientToolNameConflictError } from "../agents/agent-tool-definition-adapter.ts";
+import type { ImageContent } from "../agents/command/types.ts";
+import type { ClientToolDefinition } from "../agents/embedded-agent-runner/run/params.ts";
+import { createDefaultDeps } from "../cli/deps.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { agentCommandFromIngress } from "../commands/agent.ts";
+import type { GatewayHttpResponsesConfig } from "../config/types.gateway.ts";
+import { emitAgentEvent, onAgentEvent } from "../infra/agent-events.ts";
+import { logWarn } from "../logger.ts";
+import { renderFileContextBlock } from "../media/file-context.ts";
 import {
   DEFAULT_INPUT_IMAGE_MAX_BYTES,
   DEFAULT_INPUT_IMAGE_MIMES,
@@ -31,23 +31,23 @@ import {
   type InputFileLimits,
   type InputImageLimits,
   type InputImageSource,
-} from "../media/input-files.js";
-import { defaultRuntime } from "../runtime.js";
+} from "../media/input-files.ts";
+import { defaultRuntime } from "../runtime.ts";
 import {
   isReplaceableAssistantStreamEvent,
   resolveAssistantStreamDeltaText,
   resolveAssistantStreamSnapshotText,
-} from "./agent-event-assistant-text.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth.js";
+} from "./agent-event-assistant-text.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth.ts";
 import {
   sendJson,
   sendMissingScopeForbidden,
   setSseHeaders,
   watchClientDisconnect,
   writeDone,
-} from "./http-common.js";
-import { handleGatewayPostJsonEndpoint } from "./http-endpoint-helpers.js";
+} from "./http-common.ts";
+import { handleGatewayPostJsonEndpoint } from "./http-endpoint-helpers.ts";
 import {
   authorizeOpenAiCompatibleHttpModelOverride,
   getBearerToken,
@@ -58,8 +58,8 @@ import {
   resolveGatewayRequestContext,
   resolveOpenAiCompatModelOverride,
   resolveOpenAiCompatibleHttpOperatorScopes,
-} from "./http-utils.js";
-import { normalizeInputHostnameAllowlist } from "./input-allowlist.js";
+} from "./http-utils.ts";
+import { normalizeInputHostnameAllowlist } from "./input-allowlist.ts";
 import {
   CreateResponseBodySchema,
   type CreateResponseBody,
@@ -67,17 +67,17 @@ import {
   type ResponseResource,
   type StreamingEvent,
   type Usage,
-} from "./open-responses.schema.js";
-import { resolveOpenAiCompatError } from "./openai-compat-errors.js";
+} from "./open-responses.schema.ts";
+import { resolveOpenAiCompatError } from "./openai-compat-errors.ts";
 import {
   isToolChoiceConstraintSatisfied,
   resolveUnsatisfiedToolChoiceMessage,
   toolChoiceConstraintPrompt,
   type ToolChoiceConstraint,
-} from "./openai-tool-choice.js";
-import { wrapUntrustedFileContent } from "./openresponses-file-content.js";
-import { buildAgentPrompt } from "./openresponses-prompt.js";
-import { createAssistantOutputItem, createFunctionCallOutputItem } from "./openresponses-shape.js";
+} from "./openai-tool-choice.ts";
+import { wrapUntrustedFileContent } from "./openresponses-file-content.ts";
+import { buildAgentPrompt } from "./openresponses-prompt.ts";
+import { createAssistantOutputItem, createFunctionCallOutputItem } from "./openresponses-shape.ts";
 
 type OpenResponsesHttpOptions = {
   auth: ResolvedGatewayAuth;
@@ -337,7 +337,7 @@ function applyToolChoice(params: {
   return { tools };
 }
 
-export { buildAgentPrompt } from "./openresponses-prompt.js";
+export { buildAgentPrompt } from "./openresponses-prompt.ts";
 
 function createEmptyUsage(): Usage {
   return { input_tokens: 0, output_tokens: 0, total_tokens: 0 };

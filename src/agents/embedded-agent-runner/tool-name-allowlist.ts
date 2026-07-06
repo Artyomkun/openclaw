@@ -1,8 +1,8 @@
 /**
  * Builds session tool allowlists from registered and core tool names.
  */
-import type { AgentTool } from "../runtime/index.js";
-import type { ClientToolDefinition } from "./run/params.js";
+import type { AgentTool } from "../runtime/index.ts";
+import type { ClientToolDefinition } from "./run/params.ts";
 
 /**
  * OpenClaw built-in tools that remain present in the embedded runtime even when

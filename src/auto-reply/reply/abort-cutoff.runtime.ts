@@ -1,7 +1,7 @@
 /** Runtime persistence helper for clearing abort-cutoff state from sessions. */
-import { patchSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import { applyAbortCutoffToSessionEntry, hasAbortCutoff } from "./abort-cutoff.js";
+import { patchSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import { applyAbortCutoffToSessionEntry, hasAbortCutoff } from "./abort-cutoff.ts";
 
 /** Clears abort cutoff state in memory and persisted session storage. */
 export async function clearAbortCutoffInSessionRuntime(params: {

@@ -4,24 +4,24 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getAcpSessionManager } from "../../../acp/control-plane/manager.js";
-import { toAcpRuntimeError } from "../../../acp/runtime/errors.js";
-import { getAcpRuntimeBackend, requireAcpRuntimeBackend } from "../../../acp/runtime/registry.js";
-import { listAcpSessionEntries } from "../../../acp/runtime/session-meta.js";
-import type { SessionEntry } from "../../../config/sessions/types.js";
-import type { SessionAcpMeta } from "../../../config/sessions/types.js";
-import { getSessionBindingService } from "../../../infra/outbound/session-binding-service.js";
-import type { CommandHandlerResult, HandleCommandsParams } from "../commands-types.js";
-import { resolveAcpCommandBindingContext } from "./context.js";
-import { resolveAcpInstallCommandHint } from "./install-hints.js";
+import { getAcpSessionManager } from "../../../acp/control-plane/manager.ts";
+import { toAcpRuntimeError } from "../../../acp/runtime/errors.ts";
+import { getAcpRuntimeBackend, requireAcpRuntimeBackend } from "../../../acp/runtime/registry.ts";
+import { listAcpSessionEntries } from "../../../acp/runtime/session-meta.ts";
+import type { SessionEntry } from "../../../config/sessions/types.ts";
+import type { SessionAcpMeta } from "../../../config/sessions/types.ts";
+import { getSessionBindingService } from "../../../infra/outbound/session-binding-service.ts";
+import type { CommandHandlerResult, HandleCommandsParams } from "../commands-types.ts";
+import { resolveAcpCommandBindingContext } from "./context.ts";
+import { resolveAcpInstallCommandHint } from "./install-hints.ts";
 import {
   ACP_DOCTOR_USAGE,
   ACP_INSTALL_USAGE,
   ACP_SESSIONS_USAGE,
   formatAcpCapabilitiesText,
   stopWithText,
-} from "./shared.js";
-import { resolveBoundAcpThreadSessionKey } from "./targets.js";
+} from "./shared.ts";
+import { resolveBoundAcpThreadSessionKey } from "./targets.ts";
 
 function isBackendPluginBlockedByAllowlist(params: {
   cfg: HandleCommandsParams["cfg"];

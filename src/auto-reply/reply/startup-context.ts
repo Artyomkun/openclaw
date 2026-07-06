@@ -2,9 +2,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { formatDateStamp, resolveUserTimezone } from "../../agents/date-time.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import { openRootFile } from "../../infra/boundary-file-read.js";
+import { formatDateStamp, resolveUserTimezone } from "../../agents/date-time.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import { openRootFile } from "../../infra/boundary-file-read.ts";
 
 const STARTUP_MEMORY_FILE_MAX_BYTES = 16_384;
 const STARTUP_MEMORY_FILE_MAX_CHARS = 1_200;

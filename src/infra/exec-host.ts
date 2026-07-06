@@ -1,6 +1,6 @@
 // Sends HMAC-protected exec host requests over the local socket.
 import crypto from "node:crypto";
-import { requestJsonlSocket } from "./jsonl-socket.js";
+import { requestJsonlSocket } from "./jsonl-socket.ts";
 
 // Exec host requests cross the local JSONL socket boundary into a privileged
 // runner, so payloads stay explicit and HMAC-protected.

@@ -11,14 +11,14 @@ import {
   SILENT_REPLY_TOKEN,
   startsWithSilentToken,
   stripLeadingSilentToken,
-} from "../../auto-reply/tokens.js";
-import { resolveToolUseId, type ToolContentBlock } from "../../chat/tool-content.js";
+} from "../../auto-reply/tokens.ts";
+import { resolveToolUseId, type ToolContentBlock } from "../../chat/tool-content.ts";
 import {
   type ClaudeCliFallbackSeed,
   readClaudeCliFallbackSeed,
-} from "../../gateway/cli-session-history.js";
-import { cliBackendLog } from "../cli-runner/log.js";
-import { resolveClaudeCliProjectDirForWorkspace } from "./claude-cli-project-dir.js";
+} from "../../gateway/cli-session-history.ts";
+import { cliBackendLog } from "../cli-runner/log.ts";
+import { resolveClaudeCliProjectDirForWorkspace } from "./claude-cli-project-dir.ts";
 
 const SESSION_FILE_MAX_RECORDS = 500;
 

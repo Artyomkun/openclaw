@@ -1,15 +1,15 @@
 /** Shared inbound message context types used by prompt templating and reply dispatch. */
-import type { InboundEventKind } from "../channels/inbound-event/kind.js";
+import type { InboundEventKind } from "../channels/inbound-event/kind.ts";
 import type {
   MediaUnderstandingDecision,
   MediaUnderstandingOutput,
-} from "../media-understanding/types.js";
-import type { PluginHookChannelContext } from "../plugins/hook-channel-context.types.js";
-import type { InputProvenance } from "../sessions/input-provenance.js";
-import type { CommandTurnContext } from "./command-turn-context.js";
-import type { CommandArgs } from "./commands-args.types.js";
-import type { HistoryEntry } from "./reply/history.types.js";
-import type { ReplyThreadingPolicy } from "./types.js";
+} from "../media-understanding/types.ts";
+import type { PluginHookChannelContext } from "../plugins/hook-channel-context.types.ts";
+import type { InputProvenance } from "../sessions/input-provenance.ts";
+import type { CommandTurnContext } from "./command-turn-context.ts";
+import type { CommandArgs } from "./commands-args.types.ts";
+import type { HistoryEntry } from "./reply/history.types.ts";
+import type { ReplyThreadingPolicy } from "./types.ts";
 
 /** Valid message channels for routing. */
 export type OriginatingChannelType = string & { readonly __originatingChannelBrand?: never };
@@ -91,14 +91,7 @@ export type MsgContext = {
    */
   InboundHistory?: HistoryEntry[];
   /**
-   * @deprecated Use CommandBody.
-   *
-   * Raw message body without structural context (history, sender labels).
-   * Legacy alias for CommandBody. Falls back to Body if not set.
-   */
-  RawBody?: string;
-  /**
-   * Prefer for command detection; RawBody is treated as legacy alias.
+   * Prefer for command detection; RawBody is treated as older alias.
    */
   CommandBody?: string;
   /**

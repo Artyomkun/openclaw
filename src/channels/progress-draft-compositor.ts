@@ -1,9 +1,9 @@
 // Stateful progress-draft compositor for channel streaming previews.
 // It merges tool, reasoning, and commentary updates until the final reply replaces them.
-import { formatReasoningMessage } from "../agents/embedded-agent-utils.js";
-import { findCodeRegions, isInsideCode } from "../shared/text/code-regions.js";
-import { stripInlineDirectiveTagsForDelivery } from "../utils/directive-tags.js";
-import { removeChannelProgressDraftLine } from "./progress-draft-lines.js";
+import { formatReasoningMessage } from "../agents/embedded-agent-utils.ts";
+import { findCodeRegions, isInsideCode } from "../shared/text/code-regions.ts";
+import { stripInlineDirectiveTagsForDelivery } from "../utils/directive-tags.ts";
+import { removeChannelProgressDraftLine } from "./progress-draft-lines.ts";
 import {
   createChannelProgressDraftGate,
   type ChannelProgressDraftLine,
@@ -18,7 +18,7 @@ import {
   resolveChannelStreamingSuppressDefaultToolProgressMessages,
   type StreamingCompatEntry,
   type StreamingMode,
-} from "./streaming.js";
+} from "./streaming.ts";
 
 // Composes transient channel progress drafts from tool, reasoning, and
 // commentary updates. It owns draft lifecycle state before the final reply wins.

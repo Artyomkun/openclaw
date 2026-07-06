@@ -1,7 +1,7 @@
 // Respawn child runner restarts child processes after configured exits.
 import type { ChildProcess, spawn } from "node:child_process";
-import type { attachChildProcessBridge } from "./child-process-bridge.js";
-import { signalProcessTree } from "./kill-tree.js";
+import type { attachChildProcessBridge } from "./child-process-bridge.ts";
+import { signalProcessTree } from "./kill-tree.ts";
 
 const RESPAWN_SIGNAL_EXIT_GRACE_MS = 1_000;
 const RESPAWN_SIGNAL_FORCE_KILL_GRACE_MS = 1_000;

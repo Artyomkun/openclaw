@@ -1,4 +1,4 @@
-import { normalizeSqliteNumber } from "../../infra/sqlite-number.js";
+import { normalizeSqliteNumber } from "../../infra/sqlite-number.ts";
 
 /** Parses a JSON object column, returning the fallback for malformed or non-object values. */
 export function parseJsonObject<T>(raw: string, fallback: T): T {
@@ -38,7 +38,7 @@ export function serializeJson(value: unknown): string | null {
   return value == null ? null : JSON.stringify(value);
 }
 
-/** Parses a JSON string-array column and drops non-string entries from legacy data. */
+/** Parses a JSON string-array column and drops non-string entries from older data. */
 export function parseJsonArray(raw: string | null): string[] | undefined {
   if (!raw) {
     return undefined;

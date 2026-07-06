@@ -2,12 +2,6 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { OLLAMA_CLOUD_BASE_URL, OLLAMA_CLOUD_PROVIDER_ID } from "./defaults.js";
 
-type LegacyConfigRule = {
-  path: Array<string | number>;
-  message: string;
-  match: (value: unknown) => boolean;
-};
-
 function asRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === "object" && !Array.isArray(value)
     ? (value as Record<string, unknown>)
@@ -38,15 +32,6 @@ function findRetiredOllamaCloudBaseUrl(provider: unknown): { key: "baseUrl" | "b
   }
   return null;
 }
-
-export const legacyConfigRules: LegacyConfigRule[] = [
-  {
-    path: ["models", "providers", OLLAMA_CLOUD_PROVIDER_ID],
-    message:
-      'models.providers.ollama-cloud.baseUrl="https://ai.ollama.com" is retired; use "https://ollama.com". Run "openclaw doctor --fix".',
-    match: (value) => findRetiredOllamaCloudBaseUrl(value) !== null,
-  },
-];
 
 export function migrateOllamaCloudRetiredBaseUrl(config: OpenClawConfig): {
   config: OpenClawConfig;

@@ -1,9 +1,9 @@
 // Media reference helpers resolve media refs to file, URL, or inline payloads.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { safeFileURLToPath } from "../infra/local-file-access.js";
-import { resolveUserPath } from "../utils.js";
-import { getMediaDir, resolveMediaBufferPath } from "./store.js";
+import { safeFileURLToPath } from "../infra/local-file-access.ts";
+import { resolveUserPath } from "../utils.ts";
+import { getMediaDir, resolveMediaBufferPath } from "./store.ts";
 
 type MediaReferenceErrorCode = "invalid-path" | "path-not-allowed";
 
@@ -30,7 +30,7 @@ type InboundMediaUri = {
   normalizedSource: string;
 };
 
-/** Strips legacy MEDIA: prefixes while preserving canonical media:// references. */
+/** Strips olders MEDIA: prefixes while preserving canonical media:// references. */
 export function normalizeMediaReferenceSource(source: string): string {
   const trimmed = source.trim();
   if (/^media:\/\//i.test(trimmed)) {

@@ -20,8 +20,8 @@
       "./index.ts"
     ],
     "assetScripts": {
-      "build": "node scripts/bundle-a2ui.mjs",
-      "copy": "node scripts/copy-a2ui.mjs"
+      "build": "node scripts/bundle-a2ui.ts",
+      "copy": "node scripts/copy-a2ui.ts"
     }
   }
 }

@@ -9,26 +9,26 @@ import {
   normalizeStringEntries,
   sortUniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { normalizeEnvVarKey } from "../infra/host-env-security.js";
-import { parseTcpPort } from "../infra/tcp-port.js";
-import { VERSION } from "../version.js";
-import { resolveLaunchAgentPlistPath } from "./launchd.js";
-import { isBunRuntime, isNodeRuntime } from "./runtime-binary.js";
+import { normalizeEnvVarKey } from "../infra/host-env-security.ts";
+import { parseTcpPort } from "../infra/tcp-port.ts";
+import { VERSION } from "../version.ts";
+import { resolveLaunchAgentPlistPath } from "./launchd.ts";
+import { isBunRuntime, isNodeRuntime } from "./runtime-binary.ts";
 import {
   isSystemNodePath,
   isVersionManagedNodePath,
   resolveSystemNodePath,
-} from "./runtime-paths.js";
-import { getMinimalServicePathPartsFromEnv } from "./service-env.js";
-import { SERVICE_PROXY_ENV_KEYS } from "./service-env.js";
+} from "./runtime-paths.ts";
+import { getMinimalServicePathPartsFromEnv } from "./service-env.ts";
+import { SERVICE_PROXY_ENV_KEYS } from "./service-env.ts";
 import {
   collectInlineManagedServiceEnvKeys,
   hasInlineEnvironmentSource,
   isEnvironmentFileOnlySource,
-} from "./service-managed-env.js";
-import { isNonMinimalServicePathEntry, normalizeServicePathEntry } from "./service-path-policy.js";
-import type { GatewayServiceEnvironmentValueSource } from "./service-types.js";
-import { resolveSystemdUserUnitPath } from "./systemd.js";
+} from "./service-managed-env.ts";
+import { isNonMinimalServicePathEntry, normalizeServicePathEntry } from "./service-path-policy.ts";
+import type { GatewayServiceEnvironmentValueSource } from "./service-types.ts";
+import { resolveSystemdUserUnitPath } from "./systemd.ts";
 
 export type GatewayServiceCommand = {
   programArguments: string[];

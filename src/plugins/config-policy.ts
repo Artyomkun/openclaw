@@ -1,12 +1,12 @@
 // Evaluates plugin config policy without activating plugin runtime code.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveMemorySlotDecisionShared,
   resolvePluginActivationDecisionShared,
   toPluginActivationState,
   type PluginActivationSource,
   type PluginActivationStateLike,
-} from "./config-activation-shared.js";
+} from "./config-activation-shared.ts";
 import {
   hasExplicitPluginConfig as hasExplicitPluginConfigShared,
   identityNormalizePluginId,
@@ -14,9 +14,9 @@ import {
   normalizePluginsConfigWithResolver as normalizePluginsConfigWithResolverShared,
   type NormalizePluginId,
   type NormalizedPluginsConfig as SharedNormalizedPluginsConfig,
-} from "./config-normalization-shared.js";
-import type { PluginKind } from "./plugin-kind.types.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
+} from "./config-normalization-shared.ts";
+import type { PluginKind } from "./plugin-kind.types.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
 
 export type { PluginActivationSource };
 export type PluginActivationState = PluginActivationStateLike;

@@ -1,18 +1,18 @@
 /** Loads, normalizes, quarantines, and persists cron service store state. */
-import { normalizeCronJobIdentityFields } from "../normalize-job-identity.js";
-import { normalizeCronJobInput } from "../normalize.js";
-import { getInvalidPersistedCronJobReason } from "../persisted-shape.js";
-import { cronSchedulingInputsEqual } from "../schedule-identity.js";
-import { isInvalidCronSessionTargetIdError } from "../session-target.js";
+import { normalizeCronJobIdentityFields } from "../normalize-job-identity.ts";
+import { normalizeCronJobInput } from "../normalize.ts";
+import { getInvalidPersistedCronJobReason } from "../persisted-shape.ts";
+import { cronSchedulingInputsEqual } from "../schedule-identity.ts";
+import { isInvalidCronSessionTargetIdError } from "../session-target.ts";
 import {
   loadCronJobsStoreWithConfigJobs,
   saveCronQuarantineFile,
   saveCronJobsStore,
   type QuarantinedCronConfigJob,
-} from "../store.js";
-import type { CronJob } from "../types.js";
-import { recomputeNextRuns } from "./jobs.js";
-import type { CronServiceState } from "./state.js";
+} from "../store.ts";
+import type { CronJob } from "../types.ts";
+import { recomputeNextRuns } from "./jobs.ts";
+import type { CronServiceState } from "./state.ts";
 
 function invalidateStaleNextRunOnScheduleChange(params: {
   previousJobsById: ReadonlyMap<string, CronJob>;

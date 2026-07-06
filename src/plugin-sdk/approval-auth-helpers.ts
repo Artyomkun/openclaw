@@ -1,6 +1,6 @@
 // Approval auth helpers resolve actor and channel identity for approval requests.
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
-import type { OpenClawConfig } from "./config-runtime.js";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
+import type { OpenClawConfig } from "./config-runtime.ts";
 
 type ApprovalKind = "exec" | "plugin";
 type ApprovalAuthorizationResult = {

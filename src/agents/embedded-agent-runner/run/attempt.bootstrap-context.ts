@@ -2,8 +2,8 @@
  * Maps bootstrap context files into the attempt workspace.
  */
 import path from "node:path";
-import { isAcpSessionKey, isSubagentSessionKey } from "../../../routing/session-key.js";
-import type { EmbeddedContextFile } from "../../embedded-agent-helpers.js";
+import { isAcpSessionKey, isSubagentSessionKey } from "../../../routing/session-key.ts";
+import type { EmbeddedContextFile } from "../../embedded-agent-helpers.ts";
 
 /**
  * Returns whether a session should receive primary bootstrap context. Subagents

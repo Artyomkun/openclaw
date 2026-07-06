@@ -16,14 +16,14 @@ import {
   validateTalkSessionSteerParams,
   validateTalkSessionSubmitToolResultParams,
   validateTalkSessionTurnParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { REALTIME_VOICE_AGENT_CONSULT_TOOL } from "../../talk/agent-consult-tool.js";
-import { REALTIME_VOICE_AGENT_CONTROL_TOOL } from "../../talk/agent-run-control-shared.js";
-import { controlRealtimeVoiceAgentRun } from "../../talk/agent-run-control.js";
-import { resolveConfiguredRealtimeVoiceProvider } from "../../talk/provider-resolver.js";
-import type { TalkBrain, TalkMode, TalkTransport } from "../../talk/talk-events.js";
-import { ADMIN_SCOPE } from "../operator-scopes.js";
-import { resolveSessionKeyFromResolveParams } from "../sessions-resolve.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { REALTIME_VOICE_AGENT_CONSULT_TOOL } from "../../talk/agent-consult-tool.ts";
+import { REALTIME_VOICE_AGENT_CONTROL_TOOL } from "../../talk/agent-run-control-shared.ts";
+import { controlRealtimeVoiceAgentRun } from "../../talk/agent-run-control.ts";
+import { resolveConfiguredRealtimeVoiceProvider } from "../../talk/provider-resolver.ts";
+import type { TalkBrain, TalkMode, TalkTransport } from "../../talk/talk-events.ts";
+import { ADMIN_SCOPE } from "../operator-scopes.ts";
+import { resolveSessionKeyFromResolveParams } from "../sessions-resolve.ts";
 import {
   cancelTalkHandoffTurn,
   createTalkHandoff,
@@ -33,7 +33,7 @@ import {
   revokeTalkHandoff,
   startTalkHandoffTurn,
   type TalkHandoffTurnResult,
-} from "../talk-handoff.js";
+} from "../talk-handoff.ts";
 import {
   cancelTalkRealtimeRelayTurn,
   createTalkRealtimeRelaySession,
@@ -41,21 +41,21 @@ import {
   steerTalkRealtimeRelayAgentRun,
   stopTalkRealtimeRelaySession,
   submitTalkRealtimeRelayToolResult,
-} from "../talk-realtime-relay.js";
+} from "../talk-realtime-relay.ts";
 import {
   forgetUnifiedTalkSession,
   getUnifiedTalkSession,
   rememberUnifiedTalkSession,
   requireUnifiedTalkSessionConn,
   type UnifiedTalkSessionRecord,
-} from "../talk-session-registry.js";
+} from "../talk-session-registry.ts";
 import {
   cancelTalkTranscriptionRelayTurn,
   createTalkTranscriptionRelaySession,
   sendTalkTranscriptionRelayAudio,
   stopTalkTranscriptionRelaySession,
-} from "../talk-transcription-relay.js";
-import { formatForLog } from "../ws-log.js";
+} from "../talk-transcription-relay.ts";
+import { formatForLog } from "../ws-log.ts";
 import {
   broadcastTalkRoomEvents,
   buildRealtimeInstructions,
@@ -66,9 +66,9 @@ import {
   resolveConfiguredRealtimeTranscriptionProvider,
   talkHandoffErrorCode,
   withRealtimeBrowserOverrides,
-} from "./talk-shared.js";
-import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.js";
-import { assertValidParams } from "./validation.js";
+} from "./talk-shared.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers, RespondFn } from "./types.ts";
+import { assertValidParams } from "./validation.ts";
 
 /**
  * Gateway-managed Talk session methods for managed rooms and audio relays.

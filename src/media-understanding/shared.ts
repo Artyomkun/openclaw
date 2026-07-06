@@ -5,12 +5,12 @@ import {
   assertOkOrThrowHttpError,
   createProviderHttpError,
   readProviderJsonObjectResponse,
-} from "../agents/provider-http-errors.js";
+} from "../agents/provider-http-errors.ts";
 export {
   assertOkOrThrowHttpError,
   readProviderJsonObjectResponse,
   readProviderJsonResponse,
-} from "../agents/provider-http-errors.js";
+} from "../agents/provider-http-errors.ts";
 import {
   resolveDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
@@ -19,26 +19,26 @@ import {
 import type {
   ProviderRequestCapability,
   ProviderRequestTransport,
-} from "../agents/provider-attribution.js";
+} from "../agents/provider-attribution.ts";
 import {
   buildProviderRequestDispatcherPolicy,
   resolveProviderRequestPolicyConfig,
   type ModelProviderRequestTransportOverrides,
   type ResolvedProviderRequestConfig,
-} from "../agents/provider-request-config.js";
-import type { GuardedFetchMode, GuardedFetchResult } from "../infra/net/fetch-guard.js";
-import { fetchWithSsrFGuard, GUARDED_FETCH_MODE } from "../infra/net/fetch-guard.js";
-import { shouldUseEnvHttpProxyForUrl } from "../infra/net/proxy-env.js";
-import type { LookupFn, PinnedDispatcherPolicy, SsrFPolicy } from "../infra/net/ssrf.js";
+} from "../agents/provider-request-config.ts";
+import type { GuardedFetchMode, GuardedFetchResult } from "../infra/net/fetch-guard.ts";
+import { fetchWithSsrFGuard, GUARDED_FETCH_MODE } from "../infra/net/fetch-guard.ts";
+import { shouldUseEnvHttpProxyForUrl } from "../infra/net/proxy-env.ts";
+import type { LookupFn, PinnedDispatcherPolicy, SsrFPolicy } from "../infra/net/ssrf.ts";
 import {
   executeProviderOperationWithRetry,
   type ProviderOperationRetryStage,
   type TransientProviderRetryConfig,
-} from "../provider-runtime/operation-retry.js";
-import { fetchWithTimeout } from "../utils/fetch-timeout.js";
+} from "../provider-runtime/operation-retry.ts";
+import { fetchWithTimeout } from "../utils/fetch-timeout.ts";
 export { fetchWithTimeout };
-export { normalizeBaseUrl } from "../agents/provider-request-config.js";
-export { sanitizeConfiguredModelProviderRequest } from "../agents/provider-request-config.js";
+export { normalizeBaseUrl } from "../agents/provider-request-config.ts";
+export { sanitizeConfiguredModelProviderRequest } from "../agents/provider-request-config.ts";
 
 const DEFAULT_GUARDED_HTTP_TIMEOUT_MS = 60_000;
 const MAX_AUDIT_CONTEXT_CHARS = 80;

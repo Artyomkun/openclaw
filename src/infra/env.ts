@@ -1,6 +1,6 @@
 // Normalizes env flag values and logs env warnings lazily.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { SubsystemLogger } from "../logging/subsystem.js";
+import type { SubsystemLogger } from "../logging/subsystem.ts";
 
 let log: SubsystemLogger | null = null;
 let logPromise: Promise<SubsystemLogger> | null = null;
@@ -57,13 +57,6 @@ export function logAcceptedEnvOption(option: AcceptedEnvOption): void {
     .catch(() => {
       // Best-effort diagnostics only.
     });
-}
-
-/** Normalizes the legacy Z_AI_API_KEY spelling into the canonical ZAI_API_KEY env var. */
-export function normalizeZaiEnv(env: NodeJS.ProcessEnv = process.env): void {
-  if (!env.ZAI_API_KEY?.trim() && env.Z_AI_API_KEY?.trim()) {
-    env.ZAI_API_KEY = env.Z_AI_API_KEY;
-  }
 }
 
 /** Expands env keys to include aliases that process-wide normalization treats as equivalent. */

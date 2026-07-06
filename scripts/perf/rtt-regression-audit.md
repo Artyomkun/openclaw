@@ -9,7 +9,7 @@ Status: branch-local checkpoint, not release notes.
 - Downloaded fast/slow Discord artifacts showed the old "fast" run included
   observed message `triggerTimestamp` and `timestamp`, while newer redacted runs
   kept only scenario metadata.
-- `openclaw-rtt` `scripts/import-discord-rtt.mjs` falls back to whole summary
+- `openclaw-rtt` `scripts/import-discord-rtt.ts` falls back to whole summary
   duration when observed-message timestamps are missing. That made a redaction
   shape change look like transport RTT regression.
 - Slack and WhatsApp RSS rows showed recurring first-sample max RSS outliers
@@ -29,10 +29,10 @@ Status: branch-local checkpoint, not release notes.
 ## Proof so far
 
 - Focused local wrapper:
-  `node scripts/run-vitest.mjs extensions/qa-lab/src/live-transports/discord/discord-live.runtime.test.ts`
+  `node scripts/run-vitest.ts extensions/qa-lab/src/live-transports/discord/discord-live.runtime.test.ts`
   passed 30 tests.
 - Focused local wrapper:
-  `node scripts/run-vitest.mjs extensions/qa-lab/src/suite.test.ts extensions/qa-lab/src/suite.summary-json.test.ts extensions/qa-lab/src/live-transports/discord/discord-live.runtime.test.ts`
+  `node scripts/run-vitest.ts extensions/qa-lab/src/suite.test.ts extensions/qa-lab/src/suite.summary-json.test.ts extensions/qa-lab/src/live-transports/discord/discord-live.runtime.test.ts`
   passed 52 tests after the final rebase.
 - Testbox `tbx_01krvces8y0c99nzra2a90jg13` ran
   `pnpm openclaw qa suite --scenario channel-chat-baseline` and emitted gateway
@@ -57,9 +57,9 @@ Status: branch-local checkpoint, not release notes.
   changed-gate lanes in the delegated checkout, so it covered typecheck, lint,
   and runtime import-cycle checks rather than only the narrow qa-lab diff.
 - Follow-up branch `perf/discord-rtt-summary-import` in `openclaw-rtt` updates
-  `scripts/import-discord-rtt.mjs` to prefer the new summary `rttMs` field
+  `scripts/import-discord-rtt.ts` to prefer the new summary `rttMs` field
   before observed-message or summary-duration fallback, and teaches Discord and
-  live-transport importers to ingest gateway RSS summary metrics. `npm test -- scripts/import-discord-rtt.test.mjs scripts/import-live-transport-rtt.test.mjs`
+  live-transport importers to ingest gateway RSS summary metrics. `npm test -- scripts/import-discord-rtt.test.ts scripts/import-live-transport-rtt.test.ts`
   passed 19 tests and `npm run check` passed.
 
 ## Still weak

@@ -1,30 +1,30 @@
 /** Resolves plugin capability providers through manifest contracts, bundled compat, and runtime registries. */
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveVoiceModelRefs } from "../../packages/speech-core/voice-models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
-import { loadBundledCapabilityRuntimeRegistry } from "./bundled-capability-runtime.js";
+import { resolveVoiceModelRefs } from "../../packages/speech-core/voice-models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.ts";
+import { loadBundledCapabilityRuntimeRegistry } from "./bundled-capability-runtime.ts";
 import {
   withBundledPluginEnablementCompat,
   withBundledPluginVitestCompat,
-} from "./bundled-compat.js";
+} from "./bundled-compat.ts";
 import {
   resolvePluginRegistryLoadCacheKey,
   resolveRuntimePluginRegistry,
   type PluginLoadOptions,
-} from "./loader.js";
+} from "./loader.ts";
 import {
   hasManifestContractValue,
   isManifestPluginAvailableForControlPlane,
   loadManifestContractSnapshot,
   listAvailableManifestContractValues,
-} from "./manifest-contract-eligibility.js";
+} from "./manifest-contract-eligibility.ts";
 import {
   resolveConfigScopedRuntimeCacheValue,
   type ConfigScopedRuntimeCache,
-} from "./plugin-cache-primitives.js";
-import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.types.js";
-import type { PluginRegistry } from "./registry-types.js";
+} from "./plugin-cache-primitives.ts";
+import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.types.ts";
+import type { PluginRegistry } from "./registry-types.ts";
 
 type CapabilityProviderRegistryKey =
   | "embeddingProviders"

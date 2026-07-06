@@ -1,11 +1,11 @@
 /** Formats plugin source paths for user-facing status output. */
 import path from "node:path";
-import { isPathInside } from "../infra/path-guards.js";
-import { shortenHomeInString } from "../utils.js";
-import type { PluginRecord } from "./registry.js";
-import type { PluginSourceRoots } from "./roots.js";
-export { resolvePluginSourceRoots } from "./roots.js";
-export type { PluginSourceRoots } from "./roots.js";
+import { isPathInside } from "../infra/path-guards.ts";
+import { shortenHomeInString } from "../utils.ts";
+import type { PluginRecord } from "./registry.ts";
+import type { PluginSourceRoots } from "./roots.ts";
+export { resolvePluginSourceRoots } from "./roots.ts";
+export type { PluginSourceRoots } from "./roots.ts";
 
 function tryRelative(root: string, filePath: string): string | null {
   if (!isPathInside(root, filePath)) {

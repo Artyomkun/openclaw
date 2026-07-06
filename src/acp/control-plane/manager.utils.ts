@@ -4,16 +4,16 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import {
   canonicalizeMainSessionAlias,
   resolveMainSessionKey,
-} from "../../config/sessions/main-session.js";
-import type { SessionAcpMeta } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { toErrorObject } from "../../infra/errors.js";
+} from "../../config/sessions/main-session.ts";
+import type { SessionAcpMeta } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { toErrorObject } from "../../infra/errors.ts";
 import {
   normalizeAgentId,
   normalizeMainKey,
   parseAgentSessionKey,
-} from "../../routing/session-key.js";
-import type { AcpSessionResolution } from "./manager.types.js";
+} from "../../routing/session-key.ts";
+import type { AcpSessionResolution } from "./manager.types.ts";
 
 /** Resolves the agent id encoded in an ACP session key. */
 export function resolveAcpAgentFromSessionKey(sessionKey: string, fallback = "main"): string {
@@ -120,13 +120,4 @@ export function resolveRuntimeIdleTtlMs(cfg: OpenClawConfig): number {
     return 0;
   }
   return Math.round(ttlMinutes * 60 * 1000);
-}
-
-export function hasLegacyAcpIdentityProjection(meta: SessionAcpMeta): boolean {
-  const raw = meta as Record<string, unknown>;
-  return (
-    Object.hasOwn(raw, "backendSessionId") ||
-    Object.hasOwn(raw, "agentSessionId") ||
-    Object.hasOwn(raw, "sessionIdsProvisional")
-  );
 }

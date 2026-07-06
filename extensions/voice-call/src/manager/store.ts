@@ -51,11 +51,6 @@ type CallRecordStateStores = {
   chunks: PluginStateSyncKeyedStore<CallRecordEventChunk>;
 };
 
-/** Return the pre-SQLite JSONL call log path for migration/compat checks. */
-export function resolveVoiceCallLegacyCallLogPath(storePath: string): string {
-  return path.join(storePath, "calls.jsonl");
-}
-
 /** Build env for plugin state stores rooted at the voice-call store path. */
 function resolvePluginStateEnv(storePath: string): NodeJS.ProcessEnv {
   return { ...process.env, OPENCLAW_STATE_DIR: storePath };
@@ -97,11 +92,6 @@ function buildChunkKey(eventKey: string, index: number): string {
   return `${eventKey}:chunk:${String(index).padStart(4, "0")}`;
 }
 
-/** Build a deterministic key for one legacy JSONL line. */
-export function buildVoiceCallLegacyJsonlEventKey(line: string, index: number): string {
-  return `jsonl:${String(index).padStart(8, "0")}:${createHash("sha256").update(line).digest("hex")}`;
-}
-
 /** Allocate monotonic ordering metadata for newly persisted call records. */
 function nextCallRecordOrder(): { persistedAt: number; sequence: number } {
   const sequence = callRecordEventSequence;
@@ -120,7 +110,7 @@ function parseEventKeySequence(key: string): number {
   return match ? Number.parseInt(match[1], 10) : 0;
 }
 
-/** Parse a stored call record line from v2 envelope or legacy raw-call JSON. */
+/** Parse a stored call record line from v2 envelope or raw-call JSON. */
 export function parseVoiceCallRecordLine(line: string, sequence = 0): PersistedCallRecord | null {
   if (!line.trim()) {
     return null;

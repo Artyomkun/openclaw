@@ -1,15 +1,15 @@
 // Configure wizard helper for removing channel config sections safely.
-import { note } from "../../packages/terminal-core/src/note.js";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { listChatChannels } from "../channels/chat-meta.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { CONFIG_PATH } from "../config/config.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { shortenHomePath } from "../utils.js";
-import { confirm, select } from "./configure.shared.js";
-import { guardCancel } from "./onboard-helpers.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { listChatChannels } from "../channels/chat-meta.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { CONFIG_PATH } from "../config/config.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { shortenHomePath } from "../utils.ts";
+import { confirm, select } from "./configure.shared.ts";
+import { guardCancel } from "./onboard-helpers.ts";
 
 type ConfiguredChannelRemovalChoice = {
   id: string;

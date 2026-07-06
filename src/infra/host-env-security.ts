@@ -1,7 +1,7 @@
 // Filters host environment variables before passing them to runtimes.
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { HOST_ENV_SECURITY_POLICY } from "./host-env-security-policy.js";
-import { markOpenClawExecEnv } from "./openclaw-exec-env.js";
+import { HOST_ENV_SECURITY_POLICY } from "./host-env-security-policy.ts";
+import { markOpenClawExecEnv } from "./openclaw-exec-env.ts";
 
 const PORTABLE_ENV_VAR_KEY = /^[A-Za-z_][A-Za-z0-9_]*$/;
 const WINDOWS_COMPAT_OVERRIDE_ENV_VAR_KEY = /^[A-Za-z_][A-Za-z0-9_()]*$/;
@@ -43,7 +43,6 @@ const HOST_DANGEROUS_OVERRIDE_ENV_KEYS = new Set<string>(HOST_DANGEROUS_OVERRIDE
 const HOST_SHELL_WRAPPER_ALLOWED_OVERRIDE_ENV_KEYS = new Set<string>(
   HOST_SHELL_WRAPPER_ALLOWED_OVERRIDE_ENV_KEY_VALUES,
 );
-const CARGO_TARGET_EXECUTABLE_OVERRIDE_ENV_KEY = /^CARGO_TARGET_[A-Z0-9_]+_(?:LINKER|RUNNER)$/;
 const GIT_ALLOW_PROTOCOL_ENV_KEY = "GIT_ALLOW_PROTOCOL";
 const GIT_PROTOCOL_FROM_USER_ENV_KEY = "GIT_PROTOCOL_FROM_USER";
 const GIT_PROTOCOL_FROM_USER_DISABLED_VALUE = "0";
@@ -130,9 +129,6 @@ export function isDangerousHostEnvOverrideVarName(rawKey: string): boolean {
   }
   const upper = key.toUpperCase();
   if (HOST_DANGEROUS_OVERRIDE_ENV_KEYS.has(upper)) {
-    return true;
-  }
-  if (CARGO_TARGET_EXECUTABLE_OVERRIDE_ENV_KEY.test(upper)) {
     return true;
   }
   return HOST_DANGEROUS_OVERRIDE_ENV_PREFIXES.some((prefix) => upper.startsWith(prefix));

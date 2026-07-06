@@ -1,15 +1,15 @@
 // Webhook CLI registrations, currently Gmail Pub/Sub setup and service runner commands.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { danger } from "../globals.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { danger } from "../globals.ts";
 import {
   type GmailRunOptions,
   type GmailSetupOptions,
   runGmailService,
   runGmailSetup,
-} from "../hooks/gmail-ops.js";
+} from "../hooks/gmail-ops.ts";
 import {
   DEFAULT_GMAIL_LABEL,
   DEFAULT_GMAIL_MAX_BYTES,
@@ -19,10 +19,10 @@ import {
   DEFAULT_GMAIL_SERVE_PORT,
   DEFAULT_GMAIL_SUBSCRIPTION,
   DEFAULT_GMAIL_TOPIC,
-} from "../hooks/gmail.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { defaultRuntime } from "../runtime.js";
-import { formatCliCommand } from "./command-format.js";
+} from "../hooks/gmail.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { formatCliCommand } from "./command-format.ts";
 
 /** Register webhook-related subcommands on the root Commander program. */
 export function registerWebhooksCli(program: Command) {

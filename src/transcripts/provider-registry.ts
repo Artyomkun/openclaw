@@ -1,14 +1,14 @@
 // Registers transcript providers and resolves enabled source runtimes.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolvePluginCapabilityProvider,
   resolvePluginCapabilityProviders,
-} from "../plugins/capability-provider-runtime.js";
+} from "../plugins/capability-provider-runtime.ts";
 import {
   buildCapabilityProviderMaps,
   normalizeCapabilityProviderId,
-} from "../plugins/provider-registry-shared.js";
-import type { TranscriptSourceProvider } from "./provider-types.js";
+} from "../plugins/provider-registry-shared.ts";
+import type { TranscriptSourceProvider } from "./provider-types.ts";
 
 /**
  * Transcript source provider registry.

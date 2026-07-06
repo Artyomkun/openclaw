@@ -6,26 +6,26 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { ErrorCodes } from "../../../packages/gateway-protocol/src/index.js";
+import { ErrorCodes } from "../../../packages/gateway-protocol/src/index.ts";
 import {
   getVoiceProviderConfig,
   providerMatchesId,
   resolveSupportedVoiceModelRefs,
   type VoiceModelProvider,
-} from "../../../packages/speech-core/voice-models.js";
-import type { OpenClawConfig } from "../../config/types.js";
-import { listRealtimeTranscriptionProviders } from "../../realtime-transcription/provider-registry.js";
-import type { RealtimeTranscriptionProviderConfig } from "../../realtime-transcription/provider-types.js";
-import { REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME } from "../../talk/agent-consult-tool.js";
-import { REALTIME_VOICE_AGENT_CONTROL_TOOL_NAME } from "../../talk/agent-run-control-shared.js";
-import { listRealtimeVoiceProviders } from "../../talk/provider-registry.js";
+} from "../../../packages/speech-core/voice-models.ts";
+import type { OpenClawConfig } from "../../config/types.ts";
+import { listRealtimeTranscriptionProviders } from "../../realtime-transcription/provider-registry.ts";
+import type { RealtimeTranscriptionProviderConfig } from "../../realtime-transcription/provider-types.ts";
+import { REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME } from "../../talk/agent-consult-tool.ts";
+import { REALTIME_VOICE_AGENT_CONTROL_TOOL_NAME } from "../../talk/agent-run-control-shared.ts";
+import { listRealtimeVoiceProviders } from "../../talk/provider-registry.ts";
 import type {
   RealtimeVoiceBrowserSession,
   RealtimeVoiceProviderConfig,
-} from "../../talk/provider-types.js";
-import type { TalkEvent } from "../../talk/talk-events.js";
-import { ADMIN_SCOPE } from "../operator-scopes.js";
-import type { TalkHandoffTurnResult } from "../talk-handoff.js";
+} from "../../talk/provider-types.ts";
+import type { TalkEvent } from "../../talk/talk-events.ts";
+import { ADMIN_SCOPE } from "../operator-scopes.ts";
+import type { TalkHandoffTurnResult } from "../talk-handoff.ts";
 
 export function canUseTalkDirectTools(client: { connect?: { scopes?: string[] } } | null): boolean {
   const scopes = Array.isArray(client?.connect?.scopes) ? client.connect.scopes : [];
@@ -173,8 +173,6 @@ export function buildTalkRealtimeConfig(config: OpenClawConfig, requestedProvide
   const configuredProvider =
     explicitProvider ?? singleConfiguredProvider ?? voiceCallRealtime.provider;
   const selectedProvider = configuredProvider ?? singleConfiguredProvider;
-  // Talk-local realtime config wins over the legacy voice-call plugin config,
-  // while the legacy config remains a bridge for existing installations.
   const providerConfigs = {
     ...voiceCallRealtime.providers,
     ...talkRealtimeProviderConfigs,

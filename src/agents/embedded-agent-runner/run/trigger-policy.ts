@@ -1,7 +1,7 @@
 /**
  * Resolves trigger-specific prompt injection behavior.
  */
-import type { EmbeddedRunTrigger } from "./params.js";
+import type { EmbeddedRunTrigger } from "./params.ts";
 
 type EmbeddedRunTriggerPolicy = {
   injectHeartbeatPrompt: boolean;

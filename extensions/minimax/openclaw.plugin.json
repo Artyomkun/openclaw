@@ -5,7 +5,6 @@
     "onStartup": false
   },
   "enabledByDefault": true,
-  "legacyPluginIds": ["minimax-portal-auth"],
   "providers": ["minimax", "minimax-portal"],
   "providerCatalogEntry": "./provider-discovery.ts",
   "autoEnableWhenConfiguredProviders": ["minimax", "minimax-portal"],

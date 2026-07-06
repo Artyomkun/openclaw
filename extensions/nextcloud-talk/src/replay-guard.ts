@@ -21,8 +21,6 @@ type NextcloudTalkReplayGuardOptions = {
   ttlMs?: number;
   memoryMaxSize?: number;
   stateMaxEntries?: number;
-  /** @deprecated Use stateMaxEntries. */
-  fileMaxEntries?: number;
   onDiskError?: (error: unknown) => void;
 };
 

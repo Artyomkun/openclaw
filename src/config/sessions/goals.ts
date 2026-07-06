@@ -1,9 +1,9 @@
 // Session goal state tracks objective progress and token budgets in the session store.
 import crypto from "node:crypto";
-import { formatTokenCount } from "../../utils/token-format.js";
-import { getSessionEntry, patchSessionEntry } from "./store.js";
-import { resolveFreshSessionTotalTokens } from "./types.js";
-import type { SessionEntry, SessionGoal, SessionGoalStatus } from "./types.js";
+import { formatTokenCount } from "../../utils/token-format.ts";
+import { getSessionEntry, patchSessionEntry } from "./store.ts";
+import { resolveFreshSessionTotalTokens } from "./types.ts";
+import type { SessionEntry, SessionGoal, SessionGoalStatus } from "./types.ts";
 
 export type SessionGoalSnapshot = {
   status: "missing" | "found";

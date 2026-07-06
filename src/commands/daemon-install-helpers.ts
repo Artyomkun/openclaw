@@ -2,56 +2,56 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { collectDurableServiceEnvVarSources } from "../config/state-dir-dotenv.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { resolveSecretInputRef, type SecretRef } from "../config/types.secrets.js";
-import { resolveGatewayLaunchAgentLabel } from "../daemon/constants.js";
-import { resolveGatewayStateDir, resolveGatewayTaskScriptPath } from "../daemon/paths.js";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { collectDurableServiceEnvVarSources } from "../config/state-dir-dotenv.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { resolveSecretInputRef, type SecretRef } from "../config/types.secrets.ts";
+import { resolveGatewayLaunchAgentLabel } from "../daemon/constants.ts";
+import { resolveGatewayStateDir, resolveGatewayTaskScriptPath } from "../daemon/paths.ts";
 import {
   OPENCLAW_WRAPPER_ENV_KEY,
   resolveGatewayProgramArguments,
   resolveOpenClawWrapperPath,
-} from "../daemon/program-args.js";
+} from "../daemon/program-args.ts";
 import {
   addServiceEnvPlanEntries,
   compactServiceEnvPlanValueSources,
   createMutableServiceEnvPlan,
-} from "../daemon/service-env-plan.js";
-import { applyManagedServiceEnvRenderPolicy } from "../daemon/service-env-render-policy.js";
-import { buildServiceEnvironment } from "../daemon/service-env.js";
+} from "../daemon/service-env-plan.ts";
+import { applyManagedServiceEnvRenderPolicy } from "../daemon/service-env-render-policy.ts";
+import { buildServiceEnvironment } from "../daemon/service-env.ts";
 import {
   formatManagedServiceEnvKeys,
   readManagedServiceEnvKeysFromEnvironment,
-} from "../daemon/service-managed-env.js";
-import { isNonMinimalServicePathEntry } from "../daemon/service-path-policy.js";
-import type { GatewayServiceEnvironmentValueSource } from "../daemon/service-types.js";
+} from "../daemon/service-managed-env.ts";
+import { isNonMinimalServicePathEntry } from "../daemon/service-path-policy.ts";
+import type { GatewayServiceEnvironmentValueSource } from "../daemon/service-types.ts";
 import {
   isDangerousHostEnvOverrideVarName,
   isDangerousHostEnvVarName,
   normalizeEnvVarKey,
-} from "../infra/host-env-security.js";
+} from "../infra/host-env-security.ts";
 import {
   loadPluginManifestRegistry,
   type PluginManifestRegistry,
-} from "../plugins/manifest-registry.js";
+} from "../plugins/manifest-registry.ts";
 import {
   isPluginIntegrationSecretProviderConfig,
   resolveSecretProviderIntegrationConfig,
-} from "../secrets/provider-integrations.js";
-import { collectPluginConfigAssignments } from "../secrets/runtime-config-collectors-plugins.js";
-import { createResolverContext } from "../secrets/runtime-shared.js";
-import { discoverConfigSecretTargets } from "../secrets/target-registry.js";
+} from "../secrets/provider-integrations.ts";
+import { collectPluginConfigAssignments } from "../secrets/runtime-config-collectors-plugins.ts";
+import { createResolverContext } from "../secrets/runtime-shared.ts";
+import { discoverConfigSecretTargets } from "../secrets/target-registry.ts";
 import {
   emitDaemonInstallRuntimeWarning,
   resolveDaemonInstallRuntimeInputs,
   resolveDaemonServicePathDirs,
-} from "./daemon-install-plan.shared.js";
-import type { DaemonInstallWarnFn } from "./daemon-install-runtime-warning.js";
-import type { GatewayDaemonRuntime } from "./daemon-runtime.js";
+} from "./daemon-install-plan.shared.ts";
+import type { DaemonInstallWarnFn } from "./daemon-install-runtime-warning.ts";
+import type { GatewayDaemonRuntime } from "./daemon-runtime.ts";
 
-export { resolveGatewayDevMode } from "./daemon-install-plan.shared.js";
+export { resolveGatewayDevMode } from "./daemon-install-plan.shared.ts";
 
 type GatewayInstallPlan = {
   programArguments: string[];
@@ -395,7 +395,7 @@ function mergeServicePath(
         return undefined;
       }
     } catch {
-      // Legacy PATH entries may no longer exist; keep filtering best-effort.
+      // PATH entries may no longer exist; keep filtering best-effort.
     }
     return normalized;
   };

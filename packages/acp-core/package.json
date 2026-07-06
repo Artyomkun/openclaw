@@ -6,84 +6,84 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./normalize-text": {
-      "types": "./dist/normalize-text.d.mts",
-      "import": "./dist/normalize-text.mjs",
-      "default": "./dist/normalize-text.mjs"
+      "types": "./dist/normalize-text.d.ts",
+      "import": "./dist/normalize-text.ts",
+      "default": "./dist/normalize-text.ts"
     },
     "./meta": {
-      "types": "./dist/meta.d.mts",
-      "import": "./dist/meta.mjs",
-      "default": "./dist/meta.mjs"
+      "types": "./dist/meta.d.ts",
+      "import": "./dist/meta.ts",
+      "default": "./dist/meta.ts"
     },
     "./numeric-options": {
-      "types": "./dist/numeric-options.d.mts",
-      "import": "./dist/numeric-options.mjs",
-      "default": "./dist/numeric-options.mjs"
+      "types": "./dist/numeric-options.d.ts",
+      "import": "./dist/numeric-options.ts",
+      "default": "./dist/numeric-options.ts"
     },
     "./record-shared": {
-      "types": "./dist/record-shared.d.mts",
-      "import": "./dist/record-shared.mjs",
-      "default": "./dist/record-shared.mjs"
+      "types": "./dist/record-shared.d.ts",
+      "import": "./dist/record-shared.ts",
+      "default": "./dist/record-shared.ts"
     },
     "./session": {
-      "types": "./dist/session.d.mts",
-      "import": "./dist/session.mjs",
-      "default": "./dist/session.mjs"
+      "types": "./dist/session.d.ts",
+      "import": "./dist/session.ts",
+      "default": "./dist/session.ts"
     },
     "./session-interaction-mode": {
-      "types": "./dist/session-interaction-mode.d.mts",
-      "import": "./dist/session-interaction-mode.mjs",
-      "default": "./dist/session-interaction-mode.mjs"
+      "types": "./dist/session-interaction-mode.d.ts",
+      "import": "./dist/session-interaction-mode.ts",
+      "default": "./dist/session-interaction-mode.ts"
     },
     "./session-lineage-meta": {
-      "types": "./dist/session-lineage-meta.d.mts",
-      "import": "./dist/session-lineage-meta.mjs",
-      "default": "./dist/session-lineage-meta.mjs"
+      "types": "./dist/session-lineage-meta.d.ts",
+      "import": "./dist/session-lineage-meta.ts",
+      "default": "./dist/session-lineage-meta.ts"
     },
     "./types": {
-      "types": "./dist/types.d.mts",
-      "import": "./dist/types.mjs",
-      "default": "./dist/types.mjs"
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.ts",
+      "default": "./dist/types.ts"
     },
     "./runtime/error-text": {
-      "types": "./dist/runtime/error-text.d.mts",
-      "import": "./dist/runtime/error-text.mjs",
-      "default": "./dist/runtime/error-text.mjs"
+      "types": "./dist/runtime/error-text.d.ts",
+      "import": "./dist/runtime/error-text.ts",
+      "default": "./dist/runtime/error-text.ts"
     },
     "./runtime/errors": {
-      "types": "./dist/runtime/errors.d.mts",
-      "import": "./dist/runtime/errors.mjs",
-      "default": "./dist/runtime/errors.mjs"
+      "types": "./dist/runtime/errors.d.ts",
+      "import": "./dist/runtime/errors.ts",
+      "default": "./dist/runtime/errors.ts"
     },
     "./runtime/session-identifiers": {
-      "types": "./dist/runtime/session-identifiers.d.mts",
-      "import": "./dist/runtime/session-identifiers.mjs",
-      "default": "./dist/runtime/session-identifiers.mjs"
+      "types": "./dist/runtime/session-identifiers.d.ts",
+      "import": "./dist/runtime/session-identifiers.ts",
+      "default": "./dist/runtime/session-identifiers.ts"
     },
     "./runtime/session-identity": {
-      "types": "./dist/runtime/session-identity.d.mts",
-      "import": "./dist/runtime/session-identity.mjs",
-      "default": "./dist/runtime/session-identity.mjs"
+      "types": "./dist/runtime/session-identity.d.ts",
+      "import": "./dist/runtime/session-identity.ts",
+      "default": "./dist/runtime/session-identity.ts"
     },
     "./runtime/types": {
-      "types": "./dist/runtime/types.d.mts",
-      "import": "./dist/runtime/types.mjs",
-      "default": "./dist/runtime/types.mjs"
+      "types": "./dist/runtime/types.d.ts",
+      "import": "./dist/runtime/types.ts",
+      "default": "./dist/runtime/types.ts"
     }
   },
   "dependencies": {
     "@openclaw/normalization-core": "workspace:*"
   },
   "scripts": {
-    "build": "tsdown src/index.ts src/error-format.ts src/meta.ts src/normalize-text.ts src/numeric-options.ts src/record-shared.ts src/session.ts src/session-interaction-mode.ts src/session-lineage-meta.ts src/types.ts src/runtime/error-text.ts src/runtime/errors.ts src/runtime/session-identifiers.ts src/runtime/session-identity.ts src/runtime/types.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
+    "build": "tsc src/index.ts src/error-format.ts src/meta.ts src/normalize-text.ts src/numeric-options.ts src/record-shared.ts src/session.ts src/session-interaction-mode.ts src/session-lineage-meta.ts src/types.ts src/runtime/error-text.ts src/runtime/errors.ts src/runtime/session-identifiers.ts src/runtime/session-identity.ts src/runtime/types.ts --no-config --platform node --format esm --dts --out-dir dist --clean"
   }
 }

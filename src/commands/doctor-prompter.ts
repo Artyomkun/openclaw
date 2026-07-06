@@ -3,17 +3,17 @@ import { confirm, select } from "@clack/prompts";
 import {
   stylePromptHint,
   stylePromptMessage,
-} from "../../packages/terminal-core/src/prompt-style.js";
-import type { RuntimeEnv } from "../runtime.js";
+} from "../../packages/terminal-core/src/prompt-style.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import {
   resolveDoctorRepairMode,
   shouldAutoApproveDoctorFix,
   type DoctorRepairMode,
-} from "./doctor-repair-mode.js";
-import type { DoctorOptions } from "./doctor.types.js";
-import { guardCancel } from "./onboard-helpers.js";
+} from "./doctor-repair-mode.ts";
+import type { DoctorOptions } from "./doctor.types.ts";
+import { guardCancel } from "./onboard-helpers.ts";
 
-export type { DoctorOptions } from "./doctor.types.js";
+export type { DoctorOptions } from "./doctor.types.ts";
 
 type DoctorConfirmParams = Parameters<typeof confirm>[0];
 type DoctorRuntimeRepairConfirmParams = DoctorConfirmParams & {

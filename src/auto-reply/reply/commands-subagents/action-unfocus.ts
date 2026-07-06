@@ -1,10 +1,10 @@
 // Clears active subagent focus for a session or scoped target.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeConversationRef } from "../../../infra/outbound/session-binding-normalization.js";
-import { getSessionBindingService } from "../../../infra/outbound/session-binding-service.js";
-import type { CommandHandlerResult } from "../commands-types.js";
-import { resolveConversationBindingContextFromAcpCommand } from "../conversation-binding-input.js";
-import { type SubagentsCommandContext, stopWithText } from "./shared.js";
+import { normalizeConversationRef } from "../../../infra/outbound/session-binding-normalization.ts";
+import { getSessionBindingService } from "../../../infra/outbound/session-binding-service.ts";
+import type { CommandHandlerResult } from "../commands-types.ts";
+import { resolveConversationBindingContextFromAcpCommand } from "../conversation-binding-input.ts";
+import { type SubagentsCommandContext, stopWithText } from "./shared.ts";
 
 export async function handleSubagentsUnfocusAction(
   ctx: SubagentsCommandContext,

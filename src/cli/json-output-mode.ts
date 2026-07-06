@@ -1,5 +1,5 @@
 // Early JSON-output detection and console-log routing for parseable CLI stdout.
-import { loggingState } from "../logging/state.js";
+import { loggingState } from "../logging/state.ts";
 
 /** Detects CLI JSON mode before Commander parses options, stopping at the argv sentinel. */
 export function hasJsonOutputFlag(argv: readonly string[]): boolean {

@@ -3,15 +3,15 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import {
   getChannelPlugin,
   resolveChannelApprovalCapability,
-} from "../../channels/plugins/index.js";
-import { logVerbose } from "../../globals.js";
-import { isApprovalNotFoundError } from "../../infra/approval-errors.js";
-import { resolveApprovalOverGateway } from "../../infra/approval-gateway-resolver.js";
-import { resolveApprovalCommandAuthorization } from "../../infra/channel-approval-auth.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { resolveChannelAccountId } from "./channel-context.js";
-import { requireGatewayClientScope } from "./command-gates.js";
-import type { CommandHandler } from "./commands-types.js";
+} from "../../channels/plugins/index.ts";
+import { logVerbose } from "../../globals.ts";
+import { isApprovalNotFoundError } from "../../infra/approval-errors.ts";
+import { resolveApprovalOverGateway } from "../../infra/approval-gateway-resolver.ts";
+import { resolveApprovalCommandAuthorization } from "../../infra/channel-approval-auth.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { resolveChannelAccountId } from "./channel-context.ts";
+import { requireGatewayClientScope } from "./command-gates.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 const COMMAND_REGEX = /^\/?approve(?:\s|$)/i;
 const FOREIGN_COMMAND_MENTION_REGEX = /^\/approve@([^\s]+)(?:\s|$)/i;

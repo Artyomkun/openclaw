@@ -1,5 +1,5 @@
 /** Applies ACP session-key metadata overrides to agent runtime classification. */
-import { isAcpSessionKey } from "../routing/session-key.js";
+import { isAcpSessionKey } from "../routing/session-key.ts";
 
 /**
  * Leaf type for agent runtime classification. Defined here so that

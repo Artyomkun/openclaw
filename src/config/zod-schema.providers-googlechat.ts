@@ -1,7 +1,7 @@
 // Defines Google Chat provider schema fragments.
 import { z } from "zod";
-import { ChannelBotLoopProtectionSchema } from "./zod-schema.channels-config.js";
-import { ChannelHealthMonitorSchema } from "./zod-schema.channels.js";
+import { ChannelBotLoopProtectionSchema } from "./zod-schema.channels-config.ts";
+import { ChannelHealthMonitorSchema } from "./zod-schema.channels.ts";
 import {
   BlockStreamingCoalesceSchema,
   DmConfigSchema,
@@ -11,8 +11,8 @@ import {
   SecretRefSchema,
   requireAllowlistAllowFrom,
   requireOpenAllowFrom,
-} from "./zod-schema.core.js";
-import { sensitive } from "./zod-schema.sensitive.js";
+} from "./zod-schema.core.ts";
+import { sensitive } from "./zod-schema.sensitive.ts";
 
 /** DM policy schema for Google Chat accounts. */
 export const GoogleChatDmSchema = z

@@ -1,8 +1,8 @@
 // Builds plugin API objects from config, registries, and runtime helpers.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { attachPluginApiFacades, type OpenClawPluginApiWithoutFacades } from "./api-facades.js";
-import type { PluginRuntime } from "./runtime/types.js";
-import type { OpenClawPluginApi, PluginLogger } from "./types.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { attachPluginApiFacades, type OpenClawPluginApiWithoutFacades } from "./api-facades.ts";
+import type { PluginRuntime } from "./runtime/types.ts";
+import type { OpenClawPluginApi, PluginLogger } from "./types.ts";
 
 export type BuildPluginApiParams = {
   id: string;

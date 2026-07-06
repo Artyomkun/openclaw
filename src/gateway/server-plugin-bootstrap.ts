@@ -1,27 +1,27 @@
 // Gateway plugin bootstrap helpers.
 // Applies activation config, installs runtime bindings, loads and pins plugins.
-import { primeConfiguredBindingRegistry } from "../channels/plugins/binding-registry.js";
-import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginLookUpTable } from "../plugins/plugin-lookup-table.js";
-import type { PluginRegistryParams } from "../plugins/registry-types.js";
-import type { PluginRegistry } from "../plugins/registry.js";
+import { primeConfiguredBindingRegistry } from "../channels/plugins/binding-registry.ts";
+import { applyPluginAutoEnable } from "../config/plugin-auto-enable.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginLookUpTable } from "../plugins/plugin-lookup-table.ts";
+import type { PluginRegistryParams } from "../plugins/registry-types.ts";
+import type { PluginRegistry } from "../plugins/registry.ts";
 import {
   pinActivePluginChannelRegistry,
   pinActivePluginSessionExtensionRegistry,
-} from "../plugins/runtime.js";
+} from "../plugins/runtime.ts";
 import {
   setGatewayNodesRuntime,
   setGatewaySubagentRuntime,
-} from "../plugins/runtime/gateway-bindings.js";
-import { mergeActivationSectionsIntoRuntimeConfig } from "./plugin-activation-runtime-config.js";
-import type { GatewayRequestHandler } from "./server-methods/types.js";
+} from "../plugins/runtime/gateway-bindings.ts";
+import { mergeActivationSectionsIntoRuntimeConfig } from "./plugin-activation-runtime-config.ts";
+import type { GatewayRequestHandler } from "./server-methods/types.ts";
 import {
   createGatewayNodesRuntime,
   createGatewaySubagentRuntime,
   loadGatewayPlugins,
   setPluginSubagentOverridePolicies,
-} from "./server-plugins.js";
+} from "./server-plugins.ts";
 
 // Gateway plugin bootstrap applies activation/auto-enable config, installs
 // plugin runtime bindings, loads plugins, primes channel bindings, and pins the

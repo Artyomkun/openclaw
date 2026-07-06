@@ -1,19 +1,19 @@
 // Applies parsed directives to session state, config overrides, and run options.
-import type { SessionEntry, SessionScope } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { enqueueSystemEvent } from "../../infra/system-events.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { MsgContext } from "../templating.js";
-import type { ElevatedLevel } from "../thinking.js";
-import type { ReplyPayload } from "../types.js";
-import type { CommandContext } from "./commands-types.js";
-import { isDirectiveOnly } from "./directive-handling.directive-only.js";
-import { resolveModelSelectionFromDirective } from "./directive-handling.model-selection.js";
-import type { ApplyInlineDirectivesFastLaneParams } from "./directive-handling.params.js";
-import type { InlineDirectives } from "./directive-handling.parse.js";
-import { clearInlineDirectives } from "./get-reply-directives-utils.js";
-import type { createModelSelectionState } from "./model-selection.js";
-import type { TypingController } from "./typing.js";
+import type { SessionEntry, SessionScope } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { enqueueSystemEvent } from "../../infra/system-events.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { MsgContext } from "../templating.ts";
+import type { ElevatedLevel } from "../thinking.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { CommandContext } from "./commands-types.ts";
+import { isDirectiveOnly } from "./directive-handling.directive-only.ts";
+import { resolveModelSelectionFromDirective } from "./directive-handling.model-selection.ts";
+import type { ApplyInlineDirectivesFastLaneParams } from "./directive-handling.params.ts";
+import type { InlineDirectives } from "./directive-handling.parse.ts";
+import { clearInlineDirectives } from "./get-reply-directives-utils.ts";
+import type { createModelSelectionState } from "./model-selection.ts";
+import type { TypingController } from "./typing.ts";
 
 type AgentDefaults = NonNullable<OpenClawConfig["agents"]>["defaults"];
 type AgentEntry = NonNullable<NonNullable<OpenClawConfig["agents"]>["list"]>[number];

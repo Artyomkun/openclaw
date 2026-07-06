@@ -3,47 +3,47 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isAcpTurnActive } from "../acp/control-plane/active-turns.js";
-import { getAcpSessionManager } from "../acp/control-plane/manager.js";
+import { isAcpTurnActive } from "../acp/control-plane/active-turns.ts";
+import { getAcpSessionManager } from "../acp/control-plane/manager.ts";
 import {
   listAcpSessionEntries,
   readAcpSessionEntry,
   type AcpSessionStoreEntry,
-} from "../acp/runtime/session-meta.js";
+} from "../acp/runtime/session-meta.ts";
 import {
   formatSubagentRecoveryWedgedReason,
   isSubagentRecoveryWedgedEntry,
-} from "../agents/subagent-recovery-state.js";
-import { loadSessionStore, resolveStorePath } from "../config/sessions.js";
-import type { SessionEntry } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isCronJobActive } from "../cron/active-jobs.js";
-import { readCronRunLogEntriesSync } from "../cron/run-log.js";
-import type { CronRunLogEntry } from "../cron/run-log.js";
-import { loadCronJobsStoreSync, resolveCronJobsStorePath } from "../cron/store.js";
-import type { CronJob, CronStoreFile } from "../cron/types.js";
-import { getAgentRunContext } from "../infra/agent-events.js";
-import { getSessionBindingService } from "../infra/outbound/session-binding-service.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../agents/subagent-recovery-state.ts";
+import { loadSessionStore, resolveStorePath } from "../config/sessions.ts";
+import type { SessionEntry } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isCronJobActive } from "../cron/active-jobs.ts";
+import { readCronRunLogEntriesSync } from "../cron/run-log.ts";
+import type { CronRunLogEntry } from "../cron/run-log.ts";
+import { loadCronJobsStoreSync, resolveCronJobsStorePath } from "../cron/store.ts";
+import type { CronJob, CronStoreFile } from "../cron/types.ts";
+import { getAgentRunContext } from "../infra/agent-events.ts";
+import { getSessionBindingService } from "../infra/outbound/session-binding-service.ts";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   isPluginStateDatabaseOpen,
   sweepExpiredPluginStateEntries,
-} from "../plugin-state/plugin-state-store.js";
-import { parseAgentSessionKey } from "../routing/session-key.js";
+} from "../plugin-state/plugin-state-store.ts";
+import { parseAgentSessionKey } from "../routing/session-key.ts";
 import {
   deriveSessionChatTypeFromKey,
   type SessionKeyChatType,
-} from "../sessions/session-chat-type-shared.js";
-import { CODEX_NATIVE_SUBAGENT_STALE_ERROR } from "./codex-native-subagent-task.js";
+} from "../sessions/session-chat-type-shared.ts";
+import { CODEX_NATIVE_SUBAGENT_STALE_ERROR } from "./codex-native-subagent-task.ts";
 import {
   getDetachedTaskLifecycleRuntime,
   tryRecoverTaskBeforeMarkLost,
-} from "./detached-task-runtime.js";
+} from "./detached-task-runtime.ts";
 import {
   isChildlessNativeSubagentTask,
   resolveChildlessNativeSubagentTaskDefinition,
-} from "./native-subagent-task.js";
+} from "./native-subagent-task.ts";
 import {
   deleteTaskRecordById,
   ensureTaskRegistryReady,
@@ -55,20 +55,20 @@ import {
   maybeDeliverTaskTerminalUpdate,
   resolveTaskForLookupToken,
   setTaskCleanupAfterById,
-} from "./runtime-internal.js";
+} from "./runtime-internal.ts";
 import {
   configureTaskAuditTaskProvider,
   listTaskAuditFindings,
   summarizeTaskAuditFindings,
-} from "./task-registry.audit.js";
-import type { TaskAuditFinding, TaskAuditSummary } from "./task-registry.audit.js";
-import { summarizeTaskRecords } from "./task-registry.summary.js";
-import type { TaskRecord, TaskRegistrySummary, TaskStatus } from "./task-registry.types.js";
+} from "./task-registry.audit.ts";
+import type { TaskAuditFinding, TaskAuditSummary } from "./task-registry.audit.ts";
+import { summarizeTaskRecords } from "./task-registry.summary.ts";
+import type { TaskRecord, TaskRegistrySummary, TaskStatus } from "./task-registry.types.ts";
 import {
   resolveEffectiveTaskCleanupAfter,
   resolveTaskCleanupAfter,
   resolveTaskRetentionMs,
-} from "./task-retention.js";
+} from "./task-retention.ts";
 
 const log = createSubsystemLogger("tasks/task-registry-maintenance");
 const TASK_RECONCILE_GRACE_MS = 5 * 60_000;

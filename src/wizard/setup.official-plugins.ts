@@ -1,17 +1,17 @@
 // Official plugin setup helpers install and configure bundled onboarding plugins.
-import { ensureOnboardingPluginInstalled } from "../commands/onboarding-plugin-install.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginPackageInstall } from "../plugins/manifest.js";
+import { ensureOnboardingPluginInstalled } from "../commands/onboarding-plugin-install.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginPackageInstall } from "../plugins/manifest.ts";
 import {
   getOfficialExternalPluginCatalogManifest,
   listOfficialExternalPluginCatalogEntries,
   resolveOfficialExternalPluginId,
   resolveOfficialExternalPluginInstall,
   resolveOfficialExternalPluginLabel,
-} from "../plugins/official-external-plugin-catalog.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { t } from "./i18n/index.js";
-import type { WizardPrompter } from "./prompts.js";
+} from "../plugins/official-external-plugin-catalog.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { t } from "./i18n/index.ts";
+import type { WizardPrompter } from "./prompts.ts";
 
 const SKIP_VALUE = "__skip__";
 

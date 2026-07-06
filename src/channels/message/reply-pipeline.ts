@@ -3,26 +3,26 @@
  *
  * Resolves source delivery mode, reply prefixing, typing callbacks, and payload transforms.
  */
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
 import {
   resolveSourceReplyDeliveryMode,
   type SourceReplyDeliveryModeContext,
-} from "../../auto-reply/reply/source-reply-delivery-mode.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getLoadedChannelPluginForRead } from "../plugins/registry-loaded-read.js";
-import { normalizeAnyChannelId } from "../registry-normalize.js";
+} from "../../auto-reply/reply/source-reply-delivery-mode.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getLoadedChannelPluginForRead } from "../plugins/registry-loaded-read.ts";
+import { normalizeAnyChannelId } from "../registry-normalize.ts";
 import {
   createReplyPrefixContext,
   createReplyPrefixOptions,
   type ReplyPrefixContextBundle,
   type ReplyPrefixOptions,
-} from "../reply-prefix.js";
+} from "../reply-prefix.ts";
 import {
   createTypingCallbacks,
   type CreateTypingCallbacksParams,
   type TypingCallbacks,
-} from "../typing.js";
+} from "../typing.ts";
 
 export type ReplyPrefixContext = ReplyPrefixContextBundle["prefixContext"];
 export type { ReplyPrefixContextBundle, ReplyPrefixOptions };

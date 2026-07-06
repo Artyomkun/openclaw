@@ -1,7 +1,7 @@
 // Resolves trusted system binaries from platform-managed directories.
 import fs from "node:fs";
 import path from "node:path";
-import { getWindowsInstallRoots, getWindowsProgramFilesRoots } from "./windows-install-roots.js";
+import { getWindowsInstallRoots, getWindowsProgramFilesRoots } from "./windows-install-roots.ts";
 
 /**
  * Trust level for system binary resolution.

@@ -1,5 +1,5 @@
 // Small file-system helpers for optional media attachment paths.
-import { pathExists } from "../infra/fs-safe.js";
+import { pathExists } from "../infra/fs-safe.ts";
 
 /** Safely checks optional media file paths without throwing on empty input. */
 export async function fileExists(filePath?: string | null): Promise<boolean> {

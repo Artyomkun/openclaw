@@ -12,47 +12,47 @@ import type {
   GatewayBindMode,
   GatewayTailscaleMode,
   ReadConfigFileSnapshotWithPluginMetadataResult,
-} from "../../config/config.js";
-import { ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV } from "../../config/future-version-guard.js";
+} from "../../config/config.ts";
+import { ALLOW_OLDER_BINARY_DESTRUCTIVE_ACTIONS_ENV } from "../../config/future-version-guard.ts";
 import {
   CONFIG_PATH,
   normalizeStateDirEnv,
   resolveGatewayPort,
   resolveStateDir,
-} from "../../config/paths.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { hasConfiguredSecretInput } from "../../config/types.secrets.js";
-import { GATEWAY_SERVICE_RUNTIME_PID_ENV } from "../../daemon/constants.js";
+} from "../../config/paths.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { hasConfiguredSecretInput } from "../../config/types.secrets.ts";
+import { GATEWAY_SERVICE_RUNTIME_PID_ENV } from "../../daemon/constants.ts";
 import {
   defaultGatewayBindMode,
   isContainerEnvironment,
   isLoopbackHost,
   resolveGatewayBindHost,
-} from "../../gateway/net.js";
-import type { GatewayWsLogStyle } from "../../gateway/ws-logging.js";
-import { setGatewayWsLogStyle } from "../../gateway/ws-logging.js";
-import { setVerbose } from "../../globals.js";
-import { isTruthyEnvValue } from "../../infra/env.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { GatewayLockError } from "../../infra/gateway-lock.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
-import type { RespawnSupervisor } from "../../infra/supervisor-markers.js";
-import { setConsoleSubsystemFilter, setConsoleTimestampPrefix } from "../../logging/console.js";
-import { withDiagnosticPhase } from "../../logging/diagnostic-phase.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { defaultRuntime } from "../../runtime.js";
-import { formatCliCommand } from "../command-format.js";
-import { formatInvalidConfigPort, formatInvalidPortOption } from "../error-format.js";
-import { withProgress } from "../progress.js";
-import { parsePort } from "../shared/parse-port.js";
+} from "../../gateway/net.ts";
+import type { GatewayWsLogStyle } from "../../gateway/ws-logging.ts";
+import { setGatewayWsLogStyle } from "../../gateway/ws-logging.ts";
+import { setVerbose } from "../../globals.ts";
+import { isTruthyEnvValue } from "../../infra/env.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { GatewayLockError } from "../../infra/gateway-lock.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
+import type { RespawnSupervisor } from "../../infra/supervisor-markers.ts";
+import { setConsoleSubsystemFilter, setConsoleTimestampPrefix } from "../../logging/console.ts";
+import { withDiagnosticPhase } from "../../logging/diagnostic-phase.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { formatInvalidConfigPort, formatInvalidPortOption } from "../error-format.ts";
+import { withProgress } from "../progress.ts";
+import { parsePort } from "../shared/parse-port.ts";
 import {
   enforceGatewayRunFutureConfigGuard,
   isGatewayRunFutureConfigAllowed,
-} from "./future-config-guard.js";
-import { installQaParentWatchdog } from "./qa-parent-watchdog.js";
-import { runGatewayLoop } from "./run-loop.js";
-import type { GatewayRunOpts } from "./run-options.js";
-import type { GatewayRunRuntimeHooks } from "./runtime-hooks.js";
+} from "./future-config-guard.ts";
+import { installQaParentWatchdog } from "./qa-parent-watchdog.ts";
+import { runGatewayLoop } from "./run-loop.ts";
+import type { GatewayRunOpts } from "./run-options.ts";
+import type { GatewayRunRuntimeHooks } from "./runtime-hooks.ts";
 
 const gatewayLog = createSubsystemLogger("gateway");
 

@@ -213,11 +213,6 @@ process.exit(prereleaseOrder < 0 ? 0 : 1);
 NODE
 }
 
-allow_legacy_update_warning() {
-  [[ "${OPENCLAW_INSTALL_ALLOW_LEGACY_UPDATE_WARNING:-0}" == "1" ]] && return 0
-  is_version_before "$UPDATE_BASELINE_VERSION" "$SELF_UPDATE_WARNING_FIXED_VERSION"
-}
-
 npm_install_global() {
   local label="$1"
   shift
@@ -372,9 +367,6 @@ run_update_smoke() {
     NPM_CONFIG_OMIT=optional
     OPENCLAW_ALLOW_ROOT=1
   )
-  if allow_legacy_update_warning; then
-    update_env+=(OPENCLAW_UPDATE_IN_PROGRESS=1)
-  fi
   update_stderr_file="$(mktemp)"
   set +e
   UPDATE_JSON="$(
@@ -389,20 +381,6 @@ run_update_smoke() {
   printf "%s\n" "$UPDATE_JSON"
   if [[ -n "$update_stderr" ]]; then
     printf "%s\n" "$update_stderr" >&2
-  fi
-  if [[ "$update_stderr" == *"config was written by version"* ]] && allow_legacy_update_warning; then
-    echo "WARN: legacy baseline emitted a self-update version-skew warning; fixed baselines must not" >&2
-  elif [[ "$update_stderr" == *"config was written by version"* ]]; then
-    echo "ERROR: openclaw update emitted a self-update version-skew warning" >&2
-    return 1
-  fi
-  if [[ "$update_status" -ne 0 ]]; then
-    if is_self_swapped_package_process_exit "$update_stderr"; then
-      echo "WARN: legacy updater process exited after self-swap; validating update JSON and installed CLI" >&2
-    else
-      echo "ERROR: openclaw update failed with exit code $update_status" >&2
-      return "$update_status"
-    fi
   fi
 
   UPDATE_JSON="$UPDATE_JSON" \

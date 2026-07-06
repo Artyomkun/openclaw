@@ -1,16 +1,16 @@
 // Tool plugin contracts describe plugin-provided tools, schemas, and invocation hooks.
 import { Type, type Static, type TSchema } from "typebox";
-import type { AgentToolResult, AgentToolUpdateCallback } from "../agents/runtime/index.js";
-import { jsonResult, textResult } from "../agents/tools/common.js";
-import type { PluginManifestActivation } from "../plugins/manifest.js";
-import type { JsonSchemaObject } from "../shared/json-schema.types.js";
+import type { AgentToolResult, AgentToolUpdateCallback } from "../agents/runtime/index.ts";
+import { jsonResult, textResult } from "../agents/tools/common.ts";
+import type { PluginManifestActivation } from "../plugins/manifest.ts";
+import type { JsonSchemaObject } from "../shared/json-schema.types.ts";
 import {
   buildJsonPluginConfigSchema,
   definePluginEntry,
   type AnyAgentTool,
   type OpenClawPluginApi,
   type OpenClawPluginToolContext,
-} from "./plugin-entry.js";
+} from "./plugin-entry.ts";
 
 const EMPTY_TOOL_PLUGIN_CONFIG_SCHEMA = Type.Object({}, { additionalProperties: false });
 

@@ -1,11 +1,11 @@
 // MCP stdio server exposes OpenClaw tools over the MCP stdio transport.
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import type { AnyAgentTool } from "../agents/tools/common.js";
-import { routeLogsToStderr } from "../logging/console.js";
-import { VERSION } from "../version.js";
-import { createPluginToolsMcpHandlers } from "./plugin-tools-handlers.js";
+import { Server } from "@modelcontextprotocol/sdk/server/index.ts";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.ts";
+import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.ts";
+import type { AnyAgentTool } from "../agents/tools/common.ts";
+import { routeLogsToStderr } from "../logging/console.ts";
+import { VERSION } from "../version.ts";
+import { createPluginToolsMcpHandlers } from "./plugin-tools-handlers.ts";
 
 export function createToolsMcpServer(params: { name: string; tools: AnyAgentTool[] }): Server {
   const handlers = createPluginToolsMcpHandlers(params.tools);

@@ -1,14 +1,14 @@
 /** Control-plane provider discovery helpers that keep runtime imports lazy until catalog hooks run. */
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { normalizeProviderId } from "../agents/model-selection.js";
-import type { ModelProviderConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { listManifestProviderContributionIds } from "./manifest-contribution-ids.js";
-import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.js";
-import type { LoadPluginRegistryParams, PluginRegistrySnapshot } from "./plugin-registry.js";
-import { copyProviderCatalogResultProjection } from "./provider-catalog-result.js";
-import type { ProviderDiscoveryOrder, ProviderPlugin } from "./types.js";
+import { normalizeProviderId } from "../agents/model-selection.ts";
+import type { ModelProviderConfig } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { listManifestProviderContributionIds } from "./manifest-contribution-ids.ts";
+import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.ts";
+import type { LoadPluginRegistryParams, PluginRegistrySnapshot } from "./plugin-registry.ts";
+import { copyProviderCatalogResultProjection } from "./provider-catalog-result.ts";
+import type { ProviderDiscoveryOrder, ProviderPlugin } from "./types.ts";
 
 const DISCOVERY_ORDER: readonly ProviderDiscoveryOrder[] = ["simple", "profile", "paired", "late"];
 const DANGEROUS_PROVIDER_KEYS = new Set(["__proto__", "prototype", "constructor"]);

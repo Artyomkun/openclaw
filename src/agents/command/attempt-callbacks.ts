@@ -1,7 +1,7 @@
 /**
  * Lifecycle callback state helpers for a single agent attempt.
  */
-import type { AgentMessage } from "../runtime/index.js";
+import type { AgentMessage } from "../runtime/index.ts";
 
 /** Mutable lifecycle flags observed while a single agent attempt runs. */
 export type AgentAttemptLifecycleState = {

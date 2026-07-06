@@ -1,37 +1,37 @@
 /**
  * Shared types for preparing and executing CLI-backed agent runs.
  */
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ReplyOperation } from "../../auto-reply/reply/reply-run-registry.js";
-import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import type { FastMode } from "../../auto-reply/thinking.shared.js";
-import type { InboundEventKind } from "../../channels/inbound-event/kind.js";
-import type { CliSessionBinding, SessionEntry } from "../../config/sessions.js";
-import type { SessionSystemPromptReport } from "../../config/sessions/types.js";
-import type { CliBackendConfig } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ContextEngine } from "../../context-engine/types.js";
-import type { ImageContent } from "../../llm/types.js";
-import type { PromptImageOrderEntry } from "../../media/prompt-image-order.js";
-import type { CliBackendExecutionMode } from "../../plugins/cli-backend.types.js";
-import type { PluginHookChannelContext } from "../../plugins/hook-types.js";
-import type { InputProvenance } from "../../sessions/input-provenance.js";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ReplyOperation } from "../../auto-reply/reply/reply-run-registry.ts";
+import type { ThinkLevel } from "../../auto-reply/thinking.ts";
+import type { FastMode } from "../../auto-reply/thinking.shared.ts";
+import type { InboundEventKind } from "../../channels/inbound-event/kind.ts";
+import type { CliSessionBinding, SessionEntry } from "../../config/sessions.ts";
+import type { SessionSystemPromptReport } from "../../config/sessions/types.ts";
+import type { CliBackendConfig } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ContextEngine } from "../../context-engine/types.ts";
+import type { ImageContent } from "../../llm/types.ts";
+import type { PromptImageOrderEntry } from "../../media/prompt-image-order.ts";
+import type { CliBackendExecutionMode } from "../../plugins/cli-backend.types.ts";
+import type { PluginHookChannelContext } from "../../plugins/hook-types.ts";
+import type { InputProvenance } from "../../sessions/input-provenance.ts";
 import type {
   PersistedUserTurnMessage,
   UserTurnTranscriptRecorder,
-} from "../../sessions/user-turn-transcript.types.js";
-import type { SkillSnapshot } from "../../skills/types.js";
-import type { BootstrapContextMode } from "../bootstrap-files.js";
-import type { ResolvedCliBackend } from "../cli-backends.js";
-import type { ContextWindowInfo } from "../context-window-guard.js";
-import type { FailoverReason } from "../embedded-agent-helpers.js";
-import type { EmbeddedAgentExecutionPhase } from "../embedded-agent-runner/execution-phase.js";
+} from "../../sessions/user-turn-transcript.types.ts";
+import type { SkillSnapshot } from "../../skills/types.ts";
+import type { BootstrapContextMode } from "../bootstrap-files.ts";
+import type { ResolvedCliBackend } from "../cli-backends.ts";
+import type { ContextWindowInfo } from "../context-window-guard.ts";
+import type { FailoverReason } from "../embedded-agent-helpers.ts";
+import type { EmbeddedAgentExecutionPhase } from "../embedded-agent-runner/execution-phase.ts";
 import type {
   CurrentInboundPromptContext,
   EmbeddedRunTrigger,
-} from "../embedded-agent-runner/run/params.js";
-import type { FastModeAutoProgressState } from "../fast-mode.js";
-import type { SilentReplyPromptMode } from "../system-prompt.types.js";
+} from "../embedded-agent-runner/run/params.ts";
+import type { FastModeAutoProgressState } from "../fast-mode.ts";
+import type { SilentReplyPromptMode } from "../system-prompt.types.ts";
 
 /** Input contract for one CLI-backed agent run. */
 export type RunCliAgentParams = {

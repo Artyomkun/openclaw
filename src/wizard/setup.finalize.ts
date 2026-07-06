@@ -1,23 +1,23 @@
 // Setup finalize helpers write onboarding output and follow-up state.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { restoreTerminalState } from "../../packages/terminal-core/src/restore.js";
-import { resolveDefaultAgentDir } from "../agents/agent-scope-config.js";
-import { describeCodexNativeWebSearch } from "../agents/codex-native-web-search.shared.js";
-import { hasAuthProfileForProvider } from "../agents/tools/model-config.helpers.js";
-import { DEFAULT_BOOTSTRAP_FILENAME } from "../agents/workspace.js";
-import { formatCliCommand } from "../cli/command-format.js";
+import { restoreTerminalState } from "../../packages/terminal-core/src/restore.ts";
+import { resolveDefaultAgentDir } from "../agents/agent-scope-config.ts";
+import { describeCodexNativeWebSearch } from "../agents/codex-native-web-search.shared.ts";
+import { hasAuthProfileForProvider } from "../agents/tools/model-config.helpers.ts";
+import { DEFAULT_BOOTSTRAP_FILENAME } from "../agents/workspace.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
 import {
   buildGatewayInstallPlan,
   gatewayInstallErrorHint,
-} from "../commands/daemon-install-helpers.js";
+} from "../commands/daemon-install-helpers.ts";
 import {
   DEFAULT_GATEWAY_DAEMON_RUNTIME,
   GATEWAY_DAEMON_RUNTIME_OPTIONS,
-} from "../commands/daemon-runtime.js";
-import { resolveGatewayInstallToken } from "../commands/gateway-install-token.js";
-import { formatHealthCheckFailure } from "../commands/health-format.js";
-import { healthCommand } from "../commands/health.js";
+} from "../commands/daemon-runtime.ts";
+import { resolveGatewayInstallToken } from "../commands/gateway-install-token.ts";
+import { formatHealthCheckFailure } from "../commands/health-format.ts";
+import { healthCommand } from "../commands/health.ts";
 import {
   detectBrowserOpenSupport,
   formatControlUiSshHint,
@@ -25,22 +25,22 @@ import {
   probeGatewayReachable,
   waitForGatewayReachable,
   resolveControlUiLinks,
-} from "../commands/onboard-helpers.js";
-import type { OnboardOptions } from "../commands/onboard-types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { describeGatewayServiceRestart, resolveGatewayService } from "../daemon/service.js";
-import { isSystemdUserServiceAvailable } from "../daemon/systemd.js";
-import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { launchTuiCli } from "../tui/tui-launch.js";
-import { resolveUserPath } from "../utils.js";
-import { listConfiguredWebSearchProviders } from "../web-search/runtime.js";
-import { t } from "./i18n/index.js";
-import type { WizardPrompter } from "./prompts.js";
-import { setupWizardShellCompletion } from "./setup.completion.js";
-import { resolveSetupSecretInputString } from "./setup.secret-input.js";
-import type { GatewayWizardSettings, WizardFlow } from "./setup.types.js";
+} from "../commands/onboard-helpers.ts";
+import type { OnboardOptions } from "../commands/onboard-types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { describeGatewayServiceRestart, resolveGatewayService } from "../daemon/service.ts";
+import { isSystemdUserServiceAvailable } from "../daemon/systemd.ts";
+import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { launchTuiCli } from "../tui/tui-launch.ts";
+import { resolveUserPath } from "../utils.ts";
+import { listConfiguredWebSearchProviders } from "../web-search/runtime.ts";
+import { t } from "./i18n/index.ts";
+import type { WizardPrompter } from "./prompts.ts";
+import { setupWizardShellCompletion } from "./setup.completion.ts";
+import { resolveSetupSecretInputString } from "./setup.secret-input.ts";
+import type { GatewayWizardSettings, WizardFlow } from "./setup.types.ts";
 
 type FinalizeOnboardingOptions = {
   flow: WizardFlow;
@@ -695,21 +695,7 @@ export async function finalizeSetupWizard(
       );
     }
   } else {
-    // Legacy configs may have a working key (e.g. apiKey or BRAVE_API_KEY) without
-    // an explicit provider. Runtime auto-detects these, so avoid saying "skipped".
-    const { hasExistingKey, hasKeyInEnv } = await loadOnboardSearchModule();
-    const legacyDetected = configuredSearchProviders.find(
-      (e) => hasExistingKey(nextConfig, e.id) || hasKeyInEnv(e),
-    );
-    if (legacyDetected) {
-      await prompter.note(
-        [
-          t("wizard.finalize.webSearchAutoDetected", { provider: legacyDetected.label }),
-          t("wizard.finalize.webDocs"),
-        ].join("\n"),
-        t("wizard.finalize.webSearchTitle"),
-      );
-    } else if (codexNativeSummary) {
+    if (codexNativeSummary) {
       await prompter.note(
         [
           t("wizard.finalize.managedWebSearchSkipped"),

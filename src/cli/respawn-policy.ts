@@ -1,6 +1,6 @@
 // CLI respawn skip policy for help, interactive TTY commands, and foreground Gateway runs.
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import { getCommandPositionalsWithRootOptions } from "./argv.js";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
+import { getCommandPositionalsWithRootOptions } from "./argv.ts";
 
 const GATEWAY_RUN_BOOLEAN_FLAGS = [
   "--allow-unconfigured",

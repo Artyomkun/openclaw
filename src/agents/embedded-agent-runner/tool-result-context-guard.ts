@@ -5,12 +5,12 @@ import type {
   ContextEngine,
   ContextEngineRuntimeContext,
   ContextEngineRuntimeSettings,
-} from "../../context-engine/types.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { formatContextLimitTruncationNotice } from "./context-truncation-notice.js";
-import { log } from "./logger.js";
-import { MidTurnPrecheckSignal, type MidTurnPrecheckRequest } from "./run/midturn-precheck.js";
-import { shouldPreemptivelyCompactBeforePrompt } from "./run/preemptive-compaction.js";
+} from "../../context-engine/types.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { formatContextLimitTruncationNotice } from "./context-truncation-notice.ts";
+import { log } from "./logger.ts";
+import { MidTurnPrecheckSignal, type MidTurnPrecheckRequest } from "./run/midturn-precheck.ts";
+import { shouldPreemptivelyCompactBeforePrompt } from "./run/preemptive-compaction.ts";
 import {
   CHARS_PER_TOKEN_ESTIMATE,
   TOOL_RESULT_CHARS_PER_TOKEN_ESTIMATE,
@@ -21,7 +21,7 @@ import {
   getToolResultText,
   invalidateMessageCharsCacheEntry,
   isToolResultMessage,
-} from "./tool-result-char-estimator.js";
+} from "./tool-result-char-estimator.ts";
 
 const SINGLE_TOOL_RESULT_CONTEXT_SHARE = 0.5;
 const PREEMPTIVE_OVERFLOW_RATIO = 0.9;
@@ -55,7 +55,7 @@ type MidTurnPrecheckOptions = {
 export {
   CONTEXT_LIMIT_TRUNCATION_NOTICE,
   formatContextLimitTruncationNotice,
-} from "./context-truncation-notice.js";
+} from "./context-truncation-notice.ts";
 
 export function markTranscriptPromptText(message: AgentMessage, text: string): void {
   Object.defineProperty(message, TRANSCRIPT_PROMPT_TEXT_KEY, {

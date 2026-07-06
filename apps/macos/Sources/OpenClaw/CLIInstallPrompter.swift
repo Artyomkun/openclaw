@@ -4,81 +4,81 @@ import OSLog
 
 @MainActor
 final class CLIInstallPrompter {
-    static let shared = CLIInstallPrompter()
-    private let logger = Logger(subsystem: "ai.openclaw", category: "cli.prompt")
-    private var isPrompting = false
+  static let shared = CLIInstallPrompter()
+  private let logger = Logger(subsystem: "ai.openclaw", category: "cli.prompt")
+  private var isPrompting = false
 
-    func checkAndPromptIfNeeded(reason: String) {
-        guard self.shouldPrompt() else { return }
-        guard let version = Self.appVersion() else { return }
-        self.isPrompting = true
-        UserDefaults.standard.set(version, forKey: cliInstallPromptedVersionKey)
+  func checkAndPromptIfNeeded(reason: String) {
+    guard self.shouldPrompt() else { return }
+    guard let version = Self.appVersion() else { return }
+    self.isPrompting = true
+    UserDefaults.standard.set(version, forKey: cliInstallPromptedVersionKey)
 
-        let alert = NSAlert()
-        alert.messageText = "Install OpenClaw CLI?"
-        alert.informativeText = "Local mode needs the CLI so launchd can run the gateway."
-        alert.addButton(withTitle: "Install CLI")
-        alert.addButton(withTitle: "Not now")
-        alert.addButton(withTitle: "Open Settings")
-        let response = alert.runModal()
+    let alert = NSAlert()
+    alert.messageText = "Install OpenClaw CLI?"
+    alert.informativeText = "Local mode needs the CLI so launchd can run the gateway."
+    alert.addButton(withTitle: "Install CLI")
+    alert.addButton(withTitle: "Not now")
+    alert.addButton(withTitle: "Open Settings")
+    let response = alert.runModal()
 
-        switch response {
-        case .alertFirstButtonReturn:
-            Task { await self.installCLI() }
-        case .alertThirdButtonReturn:
-            self.openSettings(tab: .connection)
-        default:
-            break
-        }
-
-        self.logger.debug("cli install prompt handled reason=\(reason, privacy: .public)")
-        self.isPrompting = false
+    switch response {
+    case .alertFirstButtonReturn:
+      Task { await self.installCLI() }
+    case .alertThirdButtonReturn:
+      self.openSettings(tab: .connection)
+    default:
+      break
     }
 
-    private func shouldPrompt() -> Bool {
-        guard !self.isPrompting else { return false }
-        guard AppStateStore.shared.onboardingSeen else { return false }
-        guard AppStateStore.shared.connectionMode == .local else { return false }
-        guard CLIInstaller.installedLocation() == nil else { return false }
-        guard let version = Self.appVersion() else { return false }
-        let lastPrompt = UserDefaults.standard.string(forKey: cliInstallPromptedVersionKey)
-        return lastPrompt != version
-    }
+    self.logger.debug("cli install prompt handled reason=\(reason, privacy: .public)")
+    self.isPrompting = false
+  }
 
-    private func installCLI() async {
-        let status = StatusBox()
-        await CLIInstaller.install { message in
-            await status.set(message)
-        }
-        if let message = await status.get() {
-            let alert = NSAlert()
-            alert.messageText = "CLI install finished"
-            alert.informativeText = message
-            alert.runModal()
-        }
-    }
+  private func shouldPrompt() -> Bool {
+    guard !self.isPrompting else { return false }
+    guard AppStateStore.shared.onboardingSeen else { return false }
+    guard AppStateStore.shared.connectionMode == .local else { return false }
+    guard CLIInstaller.installedLocation() == nil else { return false }
+    guard let version = Self.appVersion() else { return false }
+    let lastPrompt = UserDefaults.standard.string(forKey: cliInstallPromptedVersionKey)
+    return lastPrompt != version
+  }
 
-    private func openSettings(tab: SettingsTab) {
-        SettingsTabRouter.request(tab)
-        SettingsWindowOpener.shared.open()
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: .openclawSelectSettingsTab, object: tab)
-        }
+  private func installCLI() async {
+    let status = StatusBox()
+    await CLIInstaller.install { message in
+      await status.set(message)
     }
+    if let message = await status.get() {
+      let alert = NSAlert()
+      alert.messageText = "CLI install finished"
+      alert.informativeText = message
+      alert.runModal()
+    }
+  }
 
-    private static func appVersion() -> String? {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+  private func openSettings(tab: SettingsTab) {
+    SettingsTabRouter.request(tab)
+    SettingsWindowOpener.shared.open()
+    DispatchQueue.main.async {
+      NotificationCenter.default.post(name: .openclawSelectSettingsTab, object: tab)
     }
+  }
+
+  private static func appVersion() -> String? {
+    Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+  }
 }
 
 private actor StatusBox {
-    private var value: String?
+  private var value: String?
 
-    func set(_ value: String) {
-        self.value = value
-    }
+  func set(_ value: String) {
+    self.value = value
+  }
 
-    func get() -> String? {
-        self.value
-    }
+  func get() -> String? {
+    self.value
+  }
 }

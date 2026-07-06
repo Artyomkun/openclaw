@@ -3,9 +3,9 @@
  *
  * Reads generated channel catalog entries for current package/cache scope.
  */
-import { listChannelCatalogEntries } from "../../plugins/channel-catalog-registry.js";
-import type { PluginDiscoveryResult } from "../../plugins/discovery.js";
-import { resolveBundledChannelRootScope } from "./bundled-root.js";
+import { listChannelCatalogEntries } from "../../plugins/channel-catalog-registry.ts";
+import type { PluginDiscoveryResult } from "../../plugins/discovery.ts";
+import { resolveBundledChannelRootScope } from "./bundled-root.ts";
 
 /**
  * Lists bundled channel plugin ids for a package root/cache scope.

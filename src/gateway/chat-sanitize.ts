@@ -4,9 +4,9 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import {
   stripInternalMetadataForDisplay,
   stripUserEnvelopeForDisplay,
-} from "../auto-reply/reply/display-text-sanitize.js";
-import { extractInboundSenderLabel } from "../auto-reply/reply/strip-inbound-meta.js";
-import { stripEnvelope } from "../shared/chat-envelope.js";
+} from "../auto-reply/reply/display-text-sanitize.ts";
+import { extractInboundSenderLabel } from "../auto-reply/reply/strip-inbound-meta.ts";
+import { stripEnvelope } from "../shared/chat-envelope.ts";
 
 // Gateway chat history display strips internal/user envelopes while preserving
 // sender labels for UI rows. The helpers return original object identities when

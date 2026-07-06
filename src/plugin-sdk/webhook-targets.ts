@@ -1,12 +1,12 @@
 // Webhook target helpers resolve and validate plugin webhook destinations.
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { registerPluginHttpRoute } from "../plugins/http-registry.js";
-import type { FixedWindowRateLimiter } from "./webhook-memory-guards.js";
-import { normalizeWebhookPath } from "./webhook-path.js";
+import { registerPluginHttpRoute } from "../plugins/http-registry.ts";
+import type { FixedWindowRateLimiter } from "./webhook-memory-guards.ts";
+import { normalizeWebhookPath } from "./webhook-path.ts";
 import {
   beginWebhookRequestPipelineOrReject,
   type WebhookInFlightLimiter,
-} from "./webhook-request-guards.js";
+} from "./webhook-request-guards.ts";
 
 /** Registration handle returned for one live webhook target. */
 export type RegisteredWebhookTarget<T> = {

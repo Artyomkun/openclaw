@@ -1,9 +1,9 @@
 /** Ensures the managed gateway is available before commands that need it run. */
-import type { DaemonStatus } from "../cli/daemon-cli/status.gather.js";
-import { promptYesNo } from "../cli/prompt.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { gatewayProbeResultSawGateway } from "./gateway-health-auth-diagnostic.js";
+import type { DaemonStatus } from "../cli/daemon-cli/status.gather.ts";
+import { promptYesNo } from "../cli/prompt.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { gatewayProbeResultSawGateway } from "./gateway-health-auth-diagnostic.ts";
 
 const daemonStatusModuleLoader = createLazyImportLoader(
   () => import("../cli/daemon-cli/status.gather.js"),

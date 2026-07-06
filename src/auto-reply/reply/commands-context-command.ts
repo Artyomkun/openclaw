@@ -1,7 +1,7 @@
 // Implements context inspection commands for the active reply session.
-import { logVerbose } from "../../globals.js";
-import { buildContextReply } from "./commands-context-report.js";
-import type { CommandHandler } from "./commands-types.js";
+import { logVerbose } from "../../globals.ts";
+import { buildContextReply } from "./commands-context-report.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 export const handleContextCommand: CommandHandler = async (params, allowTextCommands) => {
   if (!allowTextCommands) {

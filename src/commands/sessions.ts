@@ -8,31 +8,31 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { readAcpSessionMetaForEntry } from "../acp/runtime/session-meta.js";
-import { resolveModelAgentRuntimeMetadata } from "../agents/agent-runtime-metadata.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../agents/defaults.js";
-import { resolveRuntimePolicySessionKey } from "../auto-reply/reply/runtime-policy-session-key.js";
-import { normalizeChatType } from "../channels/chat-type.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { resolveSessionTotalTokens } from "../config/sessions.js";
-import { listSessionEntries } from "../config/sessions/session-accessor.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveStoredSessionKeyForAgentStore } from "../gateway/session-store-key.js";
-import { info } from "../globals.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { parseAgentSessionKey } from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { classifySessionKind, type SessionKind } from "../sessions/classify-session-kind.js";
-import { isAcpSessionKey } from "../sessions/session-key-utils.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { resolveAgentRuntimeLabel } from "../status/agent-runtime-label.js";
-import { resolveSessionStoreTargetsOrExit } from "./session-store-targets.js";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { readAcpSessionMetaForEntry } from "../acp/runtime/session-meta.ts";
+import { resolveModelAgentRuntimeMetadata } from "../agents/agent-runtime-metadata.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../agents/defaults.ts";
+import { resolveRuntimePolicySessionKey } from "../auto-reply/reply/runtime-policy-session-key.ts";
+import { normalizeChatType } from "../channels/chat-type.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { resolveSessionTotalTokens } from "../config/sessions.ts";
+import { listSessionEntries } from "../config/sessions/session-accessor.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveStoredSessionKeyForAgentStore } from "../gateway/session-store-key.ts";
+import { info } from "../globals.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { parseAgentSessionKey } from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { classifySessionKind, type SessionKind } from "../sessions/classify-session-kind.ts";
+import { isAcpSessionKey } from "../sessions/session-key-utils.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { resolveAgentRuntimeLabel } from "../status/agent-runtime-label.ts";
+import { resolveSessionStoreTargetsOrExit } from "./session-store-targets.ts";
 import {
   resolveSessionDisplayModelRef,
   resolveSessionDisplayDefaults,
-} from "./sessions-display-model.js";
+} from "./sessions-display-model.ts";
 import {
   formatSessionAgeCell,
   formatSessionFlagsCell,
@@ -43,7 +43,7 @@ import {
   SESSION_MODEL_PAD,
   type SessionDisplayRow,
   toSessionDisplayRow,
-} from "./sessions-table.js";
+} from "./sessions-table.ts";
 
 type SessionRow = SessionDisplayRow & {
   agentId: string;

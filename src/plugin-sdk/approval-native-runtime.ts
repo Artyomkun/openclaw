@@ -13,7 +13,7 @@ export {
   type ChannelApprovalExplicitTargetEligibilityParams,
   type ChannelApprovalForwardingEligibilityParams,
   type ChannelApprovalPotentialRouteParams,
-} from "./approval-native-helpers.js";
+} from "./approval-native-helpers.ts";
 export {
   resolveApprovalRequestSessionConversation,
   resolveApprovalRequestOriginTarget,
@@ -21,10 +21,10 @@ export {
   resolveExecApprovalSessionTarget,
   type ApprovalRequestSessionConversation,
   type ExecApprovalSessionTarget,
-} from "../infra/exec-approval-session-target.js";
-export { buildChannelApprovalNativeTargetKey } from "../infra/approval-native-target-key.js";
+} from "../infra/exec-approval-session-target.ts";
+export { buildChannelApprovalNativeTargetKey } from "../infra/approval-native-target-key.ts";
 export {
   doesApprovalRequestMatchChannelAccount,
   resolveApprovalRequestAccountId,
   resolveApprovalRequestChannelAccountId,
-} from "../infra/approval-request-account-binding.js";
+} from "../infra/approval-request-account-binding.ts";

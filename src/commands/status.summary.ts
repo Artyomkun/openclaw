@@ -1,28 +1,28 @@
 // Builds the status summary used by human and JSON status output.
 // It aggregates sessions, tasks, heartbeat, channel summary, and model/runtime metadata.
 
-import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { areRuntimeModelRefsEquivalent } from "../agents/model-runtime-aliases.js";
-import { getRuntimeConfig, projectConfigOntoRuntimeSourceSnapshot } from "../config/config.js";
-import { resolveMainSessionKey } from "../config/sessions/main-session.js";
-import { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import { listSessionEntries } from "../config/sessions/session-accessor.js";
-import { resolveSessionTotalTokens, type SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { resolveCronJobsStorePath } from "../cron/store.js";
-import { listGatewayAgentsBasic } from "../gateway/agent-list.js";
-import { resolveHeartbeatSummaryForAgent } from "../infra/heartbeat-summary.js";
-import { peekSystemEvents } from "../infra/system-events.js";
-import { parseAgentSessionKey } from "../routing/session-key.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { createLazyRuntimeSurface } from "../shared/lazy-runtime.js";
+import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { areRuntimeModelRefsEquivalent } from "../agents/model-runtime-aliases.ts";
+import { getRuntimeConfig, projectConfigOntoRuntimeSourceSnapshot } from "../config/config.ts";
+import { resolveMainSessionKey } from "../config/sessions/main-session.ts";
+import { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import { listSessionEntries } from "../config/sessions/session-accessor.ts";
+import { resolveSessionTotalTokens, type SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { resolveCronJobsStorePath } from "../cron/store.ts";
+import { listGatewayAgentsBasic } from "../gateway/agent-list.ts";
+import { resolveHeartbeatSummaryForAgent } from "../infra/heartbeat-summary.ts";
+import { peekSystemEvents } from "../infra/system-events.ts";
+import { parseAgentSessionKey } from "../routing/session-key.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { createLazyRuntimeSurface } from "../shared/lazy-runtime.ts";
 import {
   summarizeActionableTaskAuditFindings,
   summarizeRetainedLostTaskAuditFindings,
-} from "../tasks/task-registry.audit.js";
-import { resolveRuntimeServiceVersion } from "../version.js";
-import type { HeartbeatStatus, SessionStatus, StatusSummary } from "./status.types.js";
+} from "../tasks/task-registry.audit.ts";
+import { resolveRuntimeServiceVersion } from "../version.ts";
+import type { HeartbeatStatus, SessionStatus, StatusSummary } from "./status.types.ts";
 
 const RECENT_SESSION_LIMIT = 10;
 

@@ -13,29 +13,29 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   findCapabilityProviderById,
   resolveCapabilityModelRefForProviders,
-} from "../../../packages/media-generation-core/src/capability-model-ref.js";
-import type { AgentModelConfig } from "../../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SsrFPolicy } from "../../infra/net/ssrf.js";
-import type { Model } from "../../llm/types.js";
-import { resolveChannelInboundAttachmentRootsForChannel } from "../../media/channel-inbound-roots.js";
-import { getDefaultLocalRoots } from "../../media/local-media-access.js";
-import { readSnakeCaseParamRaw } from "../../param-key.js";
-import { loadCapabilityManifestSnapshot } from "../../plugins/capability-provider-runtime.js";
-import { listAvailableManifestContractValues } from "../../plugins/manifest-contract-eligibility.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
-import { normalizeModelRef } from "../model-selection.js";
+} from "../../../packages/media-generation-core/src/capability-model-ref.ts";
+import type { AgentModelConfig } from "../../config/types.agents-shared.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SsrFPolicy } from "../../infra/net/ssrf.ts";
+import type { Model } from "../../llm/types.ts";
+import { resolveChannelInboundAttachmentRootsForChannel } from "../../media/channel-inbound-roots.ts";
+import { getDefaultLocalRoots } from "../../media/local-media-access.ts";
+import { readSnakeCaseParamRaw } from "../../param-key.ts";
+import { loadCapabilityManifestSnapshot } from "../../plugins/capability-provider-runtime.ts";
+import { listAvailableManifestContractValues } from "../../plugins/manifest-contract-eligibility.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
+import { normalizeModelRef } from "../model-selection.ts";
 import {
   ToolInputError,
   readPositiveIntegerParam,
   readStringArrayParam,
   readStringParam,
-} from "./common.js";
-import type { ImageModelConfig } from "./image-tool.helpers.js";
+} from "./common.ts";
+import type { ImageModelConfig } from "./image-tool.helpers.ts";
 import {
   getCurrentCapabilityMetadataSnapshot,
   hasSnapshotCapabilityAvailability,
-} from "./manifest-capability-availability.js";
+} from "./manifest-capability-availability.ts";
 import {
   buildToolModelConfigFromCandidates,
   coerceToolModelConfig,
@@ -43,8 +43,8 @@ import {
   hasToolModelConfig,
   resolveDefaultModelRef,
   type ToolModelConfig,
-} from "./model-config.helpers.js";
-import { getApiKeyForModel, normalizeWorkspaceDir, requireApiKey } from "./tool-runtime.helpers.js";
+} from "./model-config.helpers.ts";
+import { getApiKeyForModel, normalizeWorkspaceDir, requireApiKey } from "./tool-runtime.helpers.ts";
 
 type TextToolAttempt = {
   provider: string;

@@ -2,24 +2,24 @@
 import fs from "node:fs";
 import path from "node:path";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveDefaultAgentDir } from "../agents/agent-scope-config.js";
-import { buildAuthProfileId } from "../agents/auth-profiles/identity.js";
-import { upsertAuthProfile, upsertAuthProfileWithLock } from "../agents/auth-profiles/profiles.js";
-import { resolveProviderIdForAuth } from "../agents/provider-auth-aliases.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { resolveDefaultAgentDir } from "../agents/agent-scope-config.ts";
+import { buildAuthProfileId } from "../agents/auth-profiles/identity.ts";
+import { upsertAuthProfile, upsertAuthProfileWithLock } from "../agents/auth-profiles/profiles.ts";
+import { resolveProviderIdForAuth } from "../agents/provider-auth-aliases.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   coerceSecretRef,
   DEFAULT_SECRET_PROVIDER_ALIAS,
   parseEnvTemplateSecretRef,
   type SecretInput,
   type SecretRef,
-} from "../config/types.secrets.js";
-import type { OAuthCredentials } from "../llm/oauth.js";
-import { getProviderEnvVars } from "../secrets/provider-env-vars.js";
-import { isValidSecretRef } from "../secrets/ref-contract.js";
-import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
-import type { SecretInputMode } from "./provider-auth-types.js";
+} from "../config/types.secrets.ts";
+import type { OAuthCredentials } from "../llm/oauth.ts";
+import { getProviderEnvVars } from "../secrets/provider-env-vars.ts";
+import { isValidSecretRef } from "../secrets/ref-contract.ts";
+import { normalizeSecretInput } from "../utils/normalize-secret-input.ts";
+import type { SecretInputMode } from "./provider-auth-types.ts";
 
 type UpsertAuthProfileParams = Parameters<typeof upsertAuthProfileWithLock>[0];
 

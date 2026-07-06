@@ -2,22 +2,22 @@
 import path from "node:path";
 import { isPassThroughRemoteMediaSource } from "@openclaw/media-core/media-source-url";
 import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { resolvePathFromInput, toRelativeWorkspacePath } from "../../agents/path-policy.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { resolvePathFromInput, toRelativeWorkspacePath } from "../../agents/path-policy.ts";
 import {
   assertMediaNotDataUrl,
   resolveAllowedManagedMediaPath,
   resolveSandboxedMediaSource,
-} from "../../agents/sandbox-paths.js";
-import { ensureSandboxWorkspaceForSession } from "../../agents/sandbox.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { resolveChannelAccountMediaMaxMb } from "../../media/configured-max-bytes.js";
-import { resolveOutboundAttachmentFromUrl } from "../../media/outbound-attachment.js";
-import { resolveAgentScopedOutboundMediaAccess } from "../../media/read-capability.js";
-import { MEDIA_MAX_BYTES } from "../../media/store.js";
-import { appendReplyMediaFailureWarning, copyReplyPayloadMetadata } from "../reply-payload.js";
-import type { ReplyPayload } from "../types.js";
+} from "../../agents/sandbox-paths.ts";
+import { ensureSandboxWorkspaceForSession } from "../../agents/sandbox.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { resolveChannelAccountMediaMaxMb } from "../../media/configured-max-bytes.ts";
+import { resolveOutboundAttachmentFromUrl } from "../../media/outbound-attachment.ts";
+import { resolveAgentScopedOutboundMediaAccess } from "../../media/read-capability.ts";
+import { MEDIA_MAX_BYTES } from "../../media/store.ts";
+import { appendReplyMediaFailureWarning, copyReplyPayloadMetadata } from "../reply-payload.ts";
+import type { ReplyPayload } from "../types.ts";
 
 const FILE_URL_RE = /^file:\/\//i;
 const WINDOWS_DRIVE_RE = /^[a-zA-Z]:[\\/]/;

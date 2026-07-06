@@ -2,23 +2,23 @@
 import path from "node:path";
 import type { NormalizedModelCatalogRow } from "@openclaw/model-catalog-core/model-catalog-types";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { sortUniqueStrings } from "../../packages/normalization-core/src/string-normalization.js";
-import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { planManifestModelCatalogRows } from "../model-catalog/manifest-planner.js";
-import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import { clearNativeRequireJavaScriptModuleCache } from "./native-module-require.js";
-import { withProfile } from "./plugin-load-profile.js";
-import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.js";
-import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.js";
+import { sortUniqueStrings } from "../../packages/normalization-core/src/string-normalization.ts";
+import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { planManifestModelCatalogRows } from "../model-catalog/manifest-planner.ts";
+import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import { clearNativeRequireJavaScriptModuleCache } from "./native-module-require.ts";
+import { withProfile } from "./plugin-load-profile.ts";
+import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.ts";
+import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.ts";
 import {
   createPluginModuleLoaderCache,
   getCachedPluginModuleLoader,
-} from "./plugin-module-loader-cache.js";
-import { resolveDiscoveredProviderPluginIds } from "./providers.js";
-import { resolvePluginProviders } from "./providers.runtime.js";
-import type { ProviderPlugin } from "./types.js";
+} from "./plugin-module-loader-cache.ts";
+import { resolveDiscoveredProviderPluginIds } from "./providers.ts";
+import { resolvePluginProviders } from "./providers.runtime.ts";
+import type { ProviderPlugin } from "./types.ts";
 
 type ProviderDiscoveryModule =
   | ProviderPlugin

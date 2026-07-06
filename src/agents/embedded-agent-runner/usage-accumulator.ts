@@ -1,7 +1,7 @@
 /**
  * Accumulates and normalizes per-call token usage across embedded runs.
  */
-import type { NormalizedUsage } from "../usage.js";
+import type { NormalizedUsage } from "../usage.ts";
 
 export type UsageAccumulator = {
   input: number;

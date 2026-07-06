@@ -5,10 +5,10 @@
  * history persisted on disk.
  */
 
-export { default } from "./context-pruning/extension.js";
+export { default } from "./context-pruning/extension.ts";
 
-export { pruneContextMessages } from "./context-pruning/pruner.js";
+export { pruneContextMessages } from "./context-pruning/pruner.ts";
 export {
   computeEffectiveSettings,
   DEFAULT_CONTEXT_PRUNING_SETTINGS,
-} from "./context-pruning/settings.js";
+} from "./context-pruning/settings.ts";

@@ -8,12 +8,12 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { Type } from "typebox";
-import type { AssistantMessage, Message, Tool } from "../llm/types.js";
-import { extractAssistantText } from "./embedded-agent-utils.js";
+import type { AssistantMessage, Message, Tool } from "../llm/types.ts";
+import { extractAssistantText } from "./embedded-agent-utils.ts";
 import {
   LIVE_CACHE_REGRESSION_BASELINE,
   type LiveCacheFloor,
-} from "./live-cache-regression-baseline.js";
+} from "./live-cache-regression-baseline.ts";
 import {
   buildAssistantHistoryTurn,
   buildStableCachePrefix,
@@ -25,8 +25,8 @@ import {
   logLiveCache,
   resolveLiveDirectModelPool,
   withLiveDirectModelApiKey,
-} from "./live-cache-test-support.js";
-import { shouldSkipLiveProviderDrift } from "./live-test-provider-drift.js";
+} from "./live-cache-test-support.ts";
+import { shouldSkipLiveProviderDrift } from "./live-test-provider-drift.ts";
 
 const OPENAI_TIMEOUT_MS = 120_000;
 const ANTHROPIC_TIMEOUT_MS = 120_000;

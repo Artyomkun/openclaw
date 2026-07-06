@@ -1,20 +1,20 @@
 // Link-understanding runner fetches allowed URLs and invokes configured commands with bounded content.
 import { readResponseWithLimit } from "@openclaw/media-core/read-response-with-limit";
-import type { MsgContext } from "../auto-reply/templating.js";
-import { applyTemplate } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { LinkModelConfig, LinkToolsConfig } from "../config/types.tools.js";
-import { logVerbose, shouldLogVerbose } from "../globals.js";
-import { fetchWithSsrFGuard, GUARDED_FETCH_MODE } from "../infra/net/fetch-guard.js";
-import { CLI_OUTPUT_MAX_BUFFER } from "../media-understanding/defaults.js";
-import { resolveTimeoutMs } from "../media-understanding/resolve.js";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import { applyTemplate } from "../auto-reply/templating.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { LinkModelConfig, LinkToolsConfig } from "../config/types.tools.ts";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
+import { fetchWithSsrFGuard, GUARDED_FETCH_MODE } from "../infra/net/fetch-guard.ts";
+import { CLI_OUTPUT_MAX_BUFFER } from "../media-understanding/defaults.ts";
+import { resolveTimeoutMs } from "../media-understanding/resolve.ts";
 import {
   normalizeMediaUnderstandingChatType,
   resolveMediaUnderstandingScope,
-} from "../media-understanding/scope.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { DEFAULT_LINK_TIMEOUT_SECONDS } from "./defaults.js";
-import { extractLinksFromMessage } from "./detect.js";
+} from "../media-understanding/scope.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { DEFAULT_LINK_TIMEOUT_SECONDS } from "./defaults.ts";
+import { extractLinksFromMessage } from "./detect.ts";
 
 type LinkUnderstandingResult = {
   urls: string[];

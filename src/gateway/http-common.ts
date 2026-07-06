@@ -4,9 +4,9 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import {
   logRejectedLargePayload,
   parseContentLengthHeader,
-} from "../logging/diagnostic-payload.js";
-import type { GatewayAuthResult } from "./auth.js";
-import { readJsonBody } from "./hooks.js";
+} from "../logging/diagnostic-payload.ts";
+import type { GatewayAuthResult } from "./auth.ts";
+import { readJsonBody } from "./hooks.ts";
 
 /**
  * Apply baseline security headers that are safe for all response types (API JSON,

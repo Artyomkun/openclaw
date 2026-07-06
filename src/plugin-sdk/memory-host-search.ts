@@ -1,8 +1,8 @@
 /**
  * Lazy public SDK facade for active memory search manager lifecycle operations.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RegisteredMemorySearchManager } from "../plugins/memory-state.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RegisteredMemorySearchManager } from "../plugins/memory-state.ts";
 
 type ActiveMemorySearchPurpose = "default" | "status";
 

@@ -4,7 +4,7 @@
  * and returns normalized file contents with a trailing newline.
  */
 import fs from "node:fs/promises";
-import { formatErrorMessage } from "../infra/errors.js";
+import { formatErrorMessage } from "../infra/errors.ts";
 
 type UpdateFileChunk = {
   changeContext?: string;

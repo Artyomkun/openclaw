@@ -4,12 +4,12 @@
  * Sends annotated inter-session messages through in-process or Gateway execution and reads the assistant reply.
  */
 import crypto from "node:crypto";
-import { callGateway } from "../../gateway/call.js";
-import { annotateInterSessionPromptText } from "../../sessions/input-provenance.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "../../utils/message-channel.js";
-import { retireSessionMcpRuntimeForSessionKey } from "../agent-bundle-mcp-tools.js";
-import { resolveNestedAgentLaneForSession } from "../lanes.js";
-import { waitForAgentRunAndReadUpdatedAssistantReply } from "../run-wait.js";
+import { callGateway } from "../../gateway/call.ts";
+import { annotateInterSessionPromptText } from "../../sessions/input-provenance.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "../../utils/message-channel.ts";
+import { retireSessionMcpRuntimeForSessionKey } from "../agent-bundle-mcp-tools.ts";
+import { resolveNestedAgentLaneForSession } from "../lanes.ts";
+import { waitForAgentRunAndReadUpdatedAssistantReply } from "../run-wait.ts";
 
 type GatewayCaller = typeof callGateway;
 type AgentCommandRunner = typeof import("../../commands/agent.js").agentCommandFromIngress;

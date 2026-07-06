@@ -5,31 +5,31 @@ import type {
   AcpRuntimeHandle,
   AcpRuntimeStatus,
 } from "@openclaw/acp-core/runtime/types";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { toErrorObject } from "../../infra/errors.js";
-import { isAcpSessionKey } from "../../sessions/session-key-utils.js";
-import { AcpRuntimeError } from "../runtime/errors.js";
-import { runManagerCancelSession } from "./manager.cancel-session.js";
-import { runManagerCloseSession } from "./manager.close-session.js";
-import { reconcileManagerRuntimeSessionIdentifiers } from "./manager.identity-reconcile.js";
-import { runManagerInitializeSession } from "./manager.initialize-session.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { toErrorObject } from "../../infra/errors.ts";
+import { isAcpSessionKey } from "../../sessions/session-key-utils.ts";
+import { AcpRuntimeError } from "../runtime/errors.ts";
+import { runManagerCancelSession } from "./manager.cancel-session.ts";
+import { runManagerCloseSession } from "./manager.close-session.ts";
+import { reconcileManagerRuntimeSessionIdentifiers } from "./manager.identity-reconcile.ts";
+import { runManagerInitializeSession } from "./manager.initialize-session.ts";
 import {
   applyManagerRuntimeControls,
   resolveManagerRuntimeCapabilities,
-} from "./manager.runtime-controls.js";
-import { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.js";
-import { ensureManagerRuntimeHandle } from "./manager.runtime-handle-ensure.js";
+} from "./manager.runtime-controls.ts";
+import { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.ts";
+import { ensureManagerRuntimeHandle } from "./manager.runtime-handle-ensure.ts";
 import {
   runResetManagerSessionRuntimeOptions,
   runSetManagerSessionConfigOption,
   runSetManagerSessionRuntimeMode,
   runUpdateManagerSessionRuntimeOptions,
   type RuntimeOptionCommandServices,
-} from "./manager.runtime-options-commands.js";
-import { runManagerStartupIdentityReconcile } from "./manager.startup-identity-reconcile.js";
-import { runManagerGetSessionStatus } from "./manager.status.js";
-import { runManagerTurn } from "./manager.turn-runner.js";
+} from "./manager.runtime-options-commands.ts";
+import { runManagerStartupIdentityReconcile } from "./manager.startup-identity-reconcile.ts";
+import { runManagerGetSessionStatus } from "./manager.status.ts";
+import { runManagerTurn } from "./manager.turn-runner.ts";
 import {
   type AcpCloseSessionInput,
   type AcpCloseSessionResult,
@@ -46,20 +46,20 @@ import {
   type SessionAcpMeta,
   type SessionEntry,
   type TurnLatencyStats,
-} from "./manager.types.js";
+} from "./manager.types.ts";
 import {
   canonicalizeAcpSessionKey,
   normalizeAcpErrorCode,
   normalizeActorKey,
   resolveMissingMetaError,
-} from "./manager.utils.js";
+} from "./manager.utils.ts";
 import {
   normalizeText,
   validateRuntimeConfigOptionInput,
   validateRuntimeModeInput,
   validateRuntimeOptionPatch,
-} from "./runtime-options.js";
-import { SessionActorQueue } from "./session-actor-queue.js";
+} from "./runtime-options.ts";
+import { SessionActorQueue } from "./session-actor-queue.ts";
 
 /** Coordinates ACP session metadata, runtime handles, per-session queues, and turn execution. */
 export class AcpSessionManager {

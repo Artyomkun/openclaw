@@ -2,8 +2,8 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { note } from "../../../../packages/terminal-core/src/note.js";
-import { shortenHomePath } from "../../../utils.js";
+import { note } from "../../../../packages/terminal-core/src/note.ts";
+import { shortenHomePath } from "../../../utils.ts";
 
 const PLUGIN_RUNTIME_DEPS_MARKER = "plugin-runtime-deps";
 const MAX_REPORTED = 6;

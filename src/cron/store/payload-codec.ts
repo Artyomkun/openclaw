@@ -1,5 +1,5 @@
 /** SQLite column codec for cron payload variants. */
-import type { CronPayload } from "../types.js";
+import type { CronPayload } from "../types.ts";
 import {
   booleanToInteger,
   integerToBoolean,
@@ -7,8 +7,8 @@ import {
   parseJsonArray,
   parseJsonValue,
   serializeJson,
-} from "./scalar-codec.js";
-import type { CronJobInsert, CronJobRow } from "./schema.js";
+} from "./scalar-codec.ts";
+import type { CronJobInsert, CronJobRow } from "./schema.ts";
 
 function parseExternalContentSource(raw: string | null): "gmail" | "webhook" | undefined {
   const parsed = raw ? parseJsonValue<unknown>(raw, undefined) : undefined;

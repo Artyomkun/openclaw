@@ -2,18 +2,18 @@
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { Chalk } from "chalk";
 import type { Logger as TsLogger } from "tslog";
-import { clearActiveProgressLine } from "../../packages/terminal-core/src/progress-line.js";
-import { isVerbose } from "../global-state.js";
-import { defaultRuntime, type OutputRuntimeEnv, type RuntimeEnv } from "../runtime.js";
+import { clearActiveProgressLine } from "../../packages/terminal-core/src/progress-line.ts";
+import { isVerbose } from "../global-state.ts";
+import { defaultRuntime, type OutputRuntimeEnv, type RuntimeEnv } from "../runtime.ts";
 import {
   formatConsoleTimestamp,
   getConsoleSettings,
   shouldLogSubsystemToConsole,
-} from "./console.js";
-import { type LogLevel, levelToMinLevel } from "./levels.js";
-import { getChildLogger, isFileLogLevelEnabled } from "./logger.js";
-import { redactSensitiveText } from "./redact.js";
-import { loggingState } from "./state.js";
+} from "./console.ts";
+import { type LogLevel, levelToMinLevel } from "./levels.ts";
+import { getChildLogger, isFileLogLevelEnabled } from "./logger.ts";
+import { redactSensitiveText } from "./redact.ts";
+import { loggingState } from "./state.ts";
 
 type LogObj = { date?: Date } & Record<string, unknown>;
 

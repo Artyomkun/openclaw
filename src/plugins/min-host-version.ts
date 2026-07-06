@@ -1,12 +1,11 @@
 // Checks plugin minimum host version compatibility.
-import { isAtLeast, parseSemver } from "../infra/runtime-guard.js";
+import { isAtLeast, parseSemver } from "../infra/runtime-guard.ts";
 
 /** Validation message for plugin minHostVersion manifest fields. */
 export const MIN_HOST_VERSION_FORMAT =
   'openclaw.install.minHostVersion must use a semver floor in the form ">=x.y.z[-prerelease][+build]"';
 const SEMVER_LABEL_RE = String.raw`\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?`;
 const MIN_HOST_VERSION_RE = new RegExp(`^>=(${SEMVER_LABEL_RE})$`);
-const LEGACY_MIN_HOST_VERSION_RE = /^(\d+)\.(\d+)\.(\d+)$/;
 
 /** Parsed plugin minimum host version requirement. */
 export type MinHostVersionRequirement = {
@@ -31,7 +30,6 @@ export type MinHostVersionCheckResult =
 /** Parses a plugin minHostVersion manifest field. */
 export function parseMinHostVersionRequirement(
   raw: unknown,
-  options: { allowLegacyBareSemver?: boolean } = {},
 ): MinHostVersionRequirement | null {
   if (typeof raw !== "string") {
     return null;
@@ -40,9 +38,7 @@ export function parseMinHostVersionRequirement(
   if (!trimmed) {
     return null;
   }
-  const match =
-    trimmed.match(MIN_HOST_VERSION_RE) ??
-    (options.allowLegacyBareSemver ? trimmed.match(LEGACY_MIN_HOST_VERSION_RE) : null);
+  const match = trimmed.match(MIN_HOST_VERSION_RE);
   if (!match) {
     return null;
   }
@@ -60,14 +56,11 @@ export function parseMinHostVersionRequirement(
 export function checkMinHostVersion(params: {
   currentVersion: string | undefined;
   minHostVersion: unknown;
-  allowLegacyBareSemver?: boolean;
 }): MinHostVersionCheckResult {
   if (params.minHostVersion === undefined) {
     return { ok: true, requirement: null };
   }
-  const requirement = parseMinHostVersionRequirement(params.minHostVersion, {
-    allowLegacyBareSemver: params.allowLegacyBareSemver,
-  });
+  const requirement = parseMinHostVersionRequirement(params.minHostVersion);
   if (!requirement) {
     return { ok: false, kind: "invalid", error: MIN_HOST_VERSION_FORMAT };
   }

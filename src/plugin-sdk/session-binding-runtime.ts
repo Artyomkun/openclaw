@@ -7,4 +7,4 @@ export {
   registerSessionBindingAdapter,
   type SessionBindingRecord,
   type SessionBindingService,
-} from "../infra/outbound/session-binding-service.js";
+} from "../infra/outbound/session-binding-service.ts";

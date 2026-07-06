@@ -4,18 +4,18 @@ import {
   DEFAULT_AGENT_ID,
   normalizeAgentId,
   resolveAgentIdFromSessionKey,
-} from "../../routing/session-key.js";
+} from "../../routing/session-key.ts";
 import {
   completeTaskRunByRunId,
   createRunningTaskRun,
   failTaskRunByRunId,
-} from "../../tasks/detached-task-runtime.js";
-import { resolveCronAgentSessionKey } from "../isolated-agent/session-key.js";
-import { createCronExecutionId } from "../run-id.js";
-import type { CronJob, CronRunStatus } from "../types.js";
-import { normalizeCronRunErrorText, timeoutErrorMessage } from "./execution-errors.js";
-import type { CronServiceState } from "./state.js";
-import { CRON_TASK_RUNNING_PROGRESS_SUMMARY } from "./task-ledger.js";
+} from "../../tasks/detached-task-runtime.ts";
+import { resolveCronAgentSessionKey } from "../isolated-agent/session-key.ts";
+import { createCronExecutionId } from "../run-id.ts";
+import type { CronJob, CronRunStatus } from "../types.ts";
+import { normalizeCronRunErrorText, timeoutErrorMessage } from "./execution-errors.ts";
+import type { CronServiceState } from "./state.ts";
+import { CRON_TASK_RUNNING_PROGRESS_SUMMARY } from "./task-ledger.ts";
 
 /** Converts cron ids into bounded session-key path segments with a fallback for empty input. */
 export function normalizeCronLaneSegment(value: string | undefined, fallback: string): string {

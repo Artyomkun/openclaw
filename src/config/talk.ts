@@ -3,17 +3,17 @@ import {
   normalizeFastMode,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeThinkLevel } from "../auto-reply/thinking.js";
-import { isRecord } from "../utils.js";
+import { normalizeThinkLevel } from "../auto-reply/thinking.ts";
+import { isRecord } from "../utils.ts";
 import type {
   ResolvedTalkConfig,
   TalkConfig,
   TalkConfigResponse,
   TalkProviderConfig,
   TalkRealtimeConfig,
-} from "./types.gateway.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
-import { coerceSecretRef } from "./types.secrets.js";
+} from "./types.gateway.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
+import { coerceSecretRef } from "./types.secrets.ts";
 
 function normalizeTalkSecretInput(value: unknown): TalkProviderConfig["apiKey"] | undefined {
   if (typeof value === "string") {
@@ -28,22 +28,6 @@ function normalizeSilenceTimeoutMs(value: unknown): number | undefined {
     return undefined;
   }
   return value;
-}
-
-function buildLegacyTalkProviderCompat(
-  value: Record<string, unknown>,
-): TalkProviderConfig | undefined {
-  const provider: TalkProviderConfig = {};
-  for (const key of ["voiceId", "voiceAliases", "modelId", "outputFormat"] as const) {
-    if (value[key] !== undefined) {
-      provider[key] = value[key];
-    }
-  }
-  const apiKey = normalizeTalkSecretInput(value.apiKey);
-  if (apiKey !== undefined) {
-    provider.apiKey = apiKey;
-  }
-  return Object.keys(provider).length > 0 ? provider : undefined;
 }
 
 function normalizeTalkProviderConfig(value: unknown): TalkProviderConfig | undefined {
@@ -168,7 +152,6 @@ function activeProviderFromTalk(talk: TalkConfig): string | undefined {
 
 /**
  * Normalize persisted Talk config into the canonical provider/providers shape.
- * Legacy flat provider fields are ignored here so core config stays provider-agnostic.
  */
 export function normalizeTalkSection(value: TalkConfig | undefined): TalkConfig | undefined {
   if (!isRecord(value)) {
@@ -263,8 +246,7 @@ export function buildTalkConfigResponse(value: unknown): TalkConfigResponse | un
     return undefined;
   }
   const normalized = normalizeTalkSection(value as TalkConfig);
-  const legacyCompat = buildLegacyTalkProviderCompat(value);
-  if (!normalized && !legacyCompat) {
+  if (!normalized) {
     return undefined;
   }
 
@@ -290,12 +272,7 @@ export function buildTalkConfigResponse(value: unknown): TalkConfigResponse | un
   if (normalized?.realtime && Object.keys(normalized.realtime).length > 0) {
     payload.realtime = normalized.realtime;
   }
-
-  // Keep legacy flat ElevenLabs fields readable for clients while migration moves writes to
-  // talk.provider/providers; normalizeTalkSection intentionally excludes those provider details.
-  const resolved =
-    resolveActiveTalkProviderConfig(normalized) ??
-    (legacyCompat ? { provider: "elevenlabs", config: legacyCompat } : undefined);
+  const resolved = resolveActiveTalkProviderConfig(normalized);
   const activeProvider = resolved?.provider;
   if (activeProvider) {
     payload.provider = activeProvider;

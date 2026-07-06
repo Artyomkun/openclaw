@@ -1,15 +1,15 @@
 // Talk provider registry stores realtime voice provider factories.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolvePluginCapabilityProvider,
   resolvePluginCapabilityProviders,
-} from "../plugins/capability-provider-runtime.js";
+} from "../plugins/capability-provider-runtime.ts";
 import {
   buildCapabilityProviderMaps,
   normalizeCapabilityProviderId,
-} from "../plugins/provider-registry-shared.js";
-import type { RealtimeVoiceProviderPlugin } from "../plugins/types.js";
-import type { RealtimeVoiceProviderId } from "./provider-types.js";
+} from "../plugins/provider-registry-shared.ts";
+import type { RealtimeVoiceProviderPlugin } from "../plugins/types.ts";
+import type { RealtimeVoiceProviderId } from "./provider-types.ts";
 
 /**
  * Normalizes realtime voice provider ids so direct ids and aliases compare through one registry key.

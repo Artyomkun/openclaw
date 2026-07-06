@@ -1,8 +1,8 @@
 // Storage-neutral session registry maintenance for task-owned cron run cleanup.
 import fs from "node:fs";
-import { parseAgentSessionKey } from "../../sessions/session-key-utils.js";
-import { loadSessionStore, pruneStaleEntries, updateSessionStore } from "./store.js";
-import type { SessionEntry } from "./types.js";
+import { parseAgentSessionKey } from "../../sessions/session-key-utils.ts";
+import { loadSessionStore, pruneStaleEntries, updateSessionStore } from "./store.ts";
+import type { SessionEntry } from "./types.ts";
 
 export type SessionRegistryMaintenanceStoreSummary = {
   afterCount: number;

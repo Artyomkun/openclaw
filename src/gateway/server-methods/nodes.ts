@@ -23,16 +23,16 @@ import {
   validateNodePairRequestParams,
   validateNodePairVerifyParams,
   validateNodeRenameParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { getRuntimeConfig } from "../../config/io.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { getRuntimeConfig } from "../../config/io.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   getPairedDevice,
   listApprovedPairedDeviceRoles,
   listDevicePairing,
   removePairedDeviceRole,
-} from "../../infra/device-pairing.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+} from "../../infra/device-pairing.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   approveNodePairing,
   listNodePairing,
@@ -41,7 +41,7 @@ import {
   renamePairedNode,
   requestNodePairing,
   verifyNodeToken,
-} from "../../infra/node-pairing.js";
+} from "../../infra/node-pairing.ts";
 import {
   clearApnsRegistrationIfCurrent,
   loadApnsRegistration,
@@ -50,33 +50,33 @@ import {
   shouldClearStoredApnsRegistration,
   resolveApnsAuthConfigFromEnv,
   resolveApnsRelayConfigFromEnv,
-} from "../../infra/push-apns.js";
-import type { NodeListNode } from "../../shared/node-list-types.js";
+} from "../../infra/push-apns.ts";
+import type { NodeListNode } from "../../shared/node-list-types.ts";
 import {
   recordRemoteNodeInfo,
   refreshRemoteNodeBins,
   removeRemoteNodeInfo,
-} from "../../skills/runtime/remote.js";
-import { createKnownNodeCatalog, getKnownNode, listKnownNodes } from "../node-catalog.js";
+} from "../../skills/runtime/remote.ts";
+import { createKnownNodeCatalog, getKnownNode, listKnownNodes } from "../node-catalog.ts";
 import {
   isForegroundRestrictedPluginNodeCommand,
   isNodeCommandAllowed,
   normalizeDeclaredNodeCommands,
   resolveNodeCommandAllowlist,
-} from "../node-command-policy.js";
-import { applyPluginNodeInvokePolicy } from "../node-invoke-plugin-policy.js";
-import { sanitizeNodeInvokeParamsForForwarding } from "../node-invoke-sanitize.js";
-import type { NodeSession } from "../node-registry.js";
-import { ADMIN_SCOPE, PAIRING_SCOPE } from "../operator-scopes.js";
-import { refreshClientPluginNodeCapability } from "../plugin-node-capability.js";
-import type { NodeEventContext } from "../server-node-events-types.js";
+} from "../node-command-policy.ts";
+import { applyPluginNodeInvokePolicy } from "../node-invoke-plugin-policy.ts";
+import { sanitizeNodeInvokeParamsForForwarding } from "../node-invoke-sanitize.ts";
+import type { NodeSession } from "../node-registry.ts";
+import { ADMIN_SCOPE, PAIRING_SCOPE } from "../operator-scopes.ts";
+import { refreshClientPluginNodeCapability } from "../plugin-node-capability.ts";
+import type { NodeEventContext } from "../server-node-events-types.ts";
 import {
   deniesCrossDeviceManagement,
   pairedDeviceHasNonOperatorRole,
   resolveDeviceManagementAuthz,
   type DeviceManagementAuthz,
-} from "./device-management-authz.js";
-import { emitDeviceManagementSecurityEvent } from "./device-management-security.js";
+} from "./device-management-authz.ts";
+import { emitDeviceManagementSecurityEvent } from "./device-management-security.ts";
 import {
   NODE_WAKE_RECONNECT_POLL_MS,
   NODE_WAKE_RECONNECT_RETRY_WAIT_MS,
@@ -84,22 +84,22 @@ import {
   nodeWakeById,
   nodeWakeNudgeById,
   type NodeWakeAttempt,
-} from "./nodes-wake-state.js";
-import { handleNodeInvokeResult } from "./nodes.handlers.invoke-result.js";
+} from "./nodes-wake-state.ts";
+import { handleNodeInvokeResult } from "./nodes.handlers.invoke-result.ts";
 import {
   respondInvalidParams,
   respondUnavailableOnNodeInvokeError,
   respondUnavailableOnThrow,
   safeParseJson,
-} from "./nodes.helpers.js";
-import type { GatewayClient, GatewayRequestContext, RespondFn } from "./shared-types.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "./nodes.helpers.ts";
+import type { GatewayClient, GatewayRequestContext, RespondFn } from "./shared-types.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 export {
   clearNodeWakeState,
   NODE_WAKE_RECONNECT_RETRY_WAIT_MS,
   NODE_WAKE_RECONNECT_WAIT_MS,
-} from "./nodes-wake-state.js";
+} from "./nodes-wake-state.ts";
 
 const NODE_WAKE_THROTTLE_MS = 15_000;
 const NODE_WAKE_NUDGE_THROTTLE_MS = 10 * 60_000;
@@ -1034,7 +1034,7 @@ export const nodeHandlers: GatewayRequestHandlers = {
   // node this revokes the device's `node` role in devices/paired.json and
   // disconnects its node-role sessions: a mixed-role device keeps its row and
   // only loses the `node` role, a node-only device row is deleted. Any matching
-  // legacy gateway-owned node pairing entry is also cleared. Authz mirrors
+  // older gateway-owned node pairing entry is also cleared. Authz mirrors
   // device.pair.remove: operator.pairing may remove non-operator node rows; a
   // device-token caller revoking its own node role on a mixed-role device
   // additionally needs operator.admin (see removePairedDeviceBackedNode).
@@ -1049,7 +1049,6 @@ export const nodeHandlers: GatewayRequestHandlers = {
     }
     const { nodeId } = params as { nodeId: string };
     await respondUnavailableOnThrow(respond, async () => {
-      const requestedNodeId = nodeId.trim();
       const deviceBacked = await removePairedDeviceBackedNode({ nodeId, client, context });
       if (deviceBacked.status === "denied") {
         respond(false, undefined, errorShape(ErrorCodes.INVALID_REQUEST, deviceBacked.message));
@@ -1058,15 +1057,11 @@ export const nodeHandlers: GatewayRequestHandlers = {
       const removedDeviceNodeId =
         deviceBacked.status === "removed" ? deviceBacked.nodeId : undefined;
       try {
-        // Device pairing removal is already durable. Clear the live node surface
-        // before touching the independent legacy store so a cleanup failure
-        // cannot leave the revoked session invokable.
+        // Device pairing removal is already durable.
         if (removedDeviceNodeId) {
           clearRemovedNodeRuntimeState({ nodeId: removedDeviceNodeId, context });
         }
-        const legacyNodeId = removedDeviceNodeId ?? requestedNodeId;
-        const removed = await removePairedNode(legacyNodeId);
-        const removedNodeId = removed?.nodeId ?? removedDeviceNodeId;
+        const removedNodeId = removedDeviceNodeId;
         if (!removedNodeId) {
           respond(false, undefined, errorShape(ErrorCodes.INVALID_REQUEST, "unknown nodeId"));
           return;
@@ -1078,8 +1073,6 @@ export const nodeHandlers: GatewayRequestHandlers = {
         respond(true, { nodeId: removedNodeId }, undefined);
       } finally {
         if (deviceBacked.status === "removed") {
-          // Preserve response-first shutdown on success, while guaranteeing the
-          // hard close when legacy-store cleanup or later bookkeeping throws.
           queueMicrotask(() => {
             context.disconnectClientsForDevice?.(deviceBacked.disconnectDeviceId, {
               role: "node",

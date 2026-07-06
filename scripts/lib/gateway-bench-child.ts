@@ -1,6 +1,6 @@
 // Gateway Bench Child script supports OpenClaw repository automation.
 import { spawnSync, type ChildProcessWithoutNullStreams } from "node:child_process";
-import { resolveWindowsTaskkillPath } from "./windows-taskkill.mjs";
+import { resolveWindowsTaskkillPath } from "./windows-taskkill.ts";
 
 const TEARDOWN_GRACE_MS = 2_000;
 const TEARDOWN_KILL_GRACE_MS = 1_000;

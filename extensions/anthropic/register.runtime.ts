@@ -22,7 +22,6 @@ import {
   listProfilesForProvider,
   type OpenClawConfig as ProviderAuthConfig,
   type ProviderAuthResult,
-  suggestOAuthProfileIdForLegacyDefault,
   upsertAuthProfileWithLock,
   validateAnthropicSetupToken,
 } from "openclaw/plugin-sdk/provider-auth";
@@ -599,41 +598,6 @@ function normalizeAnthropicResolvedModel(
   return contextWindowModel === ctx.model ? undefined : contextWindowModel;
 }
 
-function buildAnthropicAuthDoctorHint(params: {
-  config?: ProviderAuthContext["config"];
-  store: AuthProfileStore;
-  profileId?: string;
-}): string {
-  const legacyProfileId = params.profileId ?? "anthropic:default";
-  const suggested = suggestOAuthProfileIdForLegacyDefault({
-    cfg: params.config,
-    store: params.store,
-    provider: PROVIDER_ID,
-    legacyProfileId,
-  });
-  if (!suggested || suggested === legacyProfileId) {
-    return "";
-  }
-
-  const storeOauthProfiles = listProfilesForProvider(params.store, PROVIDER_ID)
-    .filter((id) => params.store.profiles[id]?.type === "oauth")
-    .join(", ");
-
-  const cfgMode = params.config?.auth?.profiles?.[legacyProfileId]?.mode;
-  const cfgProvider = params.config?.auth?.profiles?.[legacyProfileId]?.provider;
-
-  return [
-    "Doctor hint (for GitHub issue):",
-    `- provider: ${PROVIDER_ID}`,
-    `- config: ${legacyProfileId}${
-      cfgProvider || cfgMode ? ` (provider=${cfgProvider ?? "?"}, mode=${cfgMode ?? "?"})` : ""
-    }`,
-    `- auth store oauth profiles: ${storeOauthProfiles || "(none)"}`,
-    `- suggested profile: ${suggested}`,
-    `Fix: run "${formatCliCommand("openclaw doctor --yes")}"`,
-  ].join("\n");
-}
-
 function resolveClaudeCliSyntheticAuth() {
   const credential = claudeCliAuth.readClaudeCliCredentialsForRuntime();
   if (!credential) {
@@ -744,7 +708,7 @@ export function buildAnthropicProvider(): ProviderPlugin {
     envVars: ["ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY"],
     oauthProfileIdRepairs: [
       {
-        legacyProfileId: "anthropic:default",
+        ProfileId: "anthropic:default",
         promptLabel: "Anthropic",
       },
     ],
@@ -857,15 +821,8 @@ export function buildAnthropicProvider(): ProviderPlugin {
     },
     wrapStreamFn: wrapAnthropicProviderStream,
     resolveUsageAuth: resolveAnthropicUsageAuth,
-    fetchUsageSnapshot: async (ctx) =>
-      await fetchClaudeUsage(ctx.token, ctx.timeoutMs, ctx.fetchFn),
+    fetchUsageSnapshot: async (ctx) => await fetchClaudeUsage(ctx.token, ctx.timeoutMs, ctx.fetchFn),
     isCacheTtlEligible: () => true,
-    buildAuthDoctorHint: (ctx) =>
-      buildAnthropicAuthDoctorHint({
-        config: ctx.config,
-        store: ctx.store,
-        profileId: ctx.profileId,
-      }),
   };
 }
 

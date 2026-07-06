@@ -8,8 +8,6 @@ import JSON5 from "json5";
 
 export type ConfigSetOptions = {
   strictJson?: boolean;
-  /** @deprecated Use strictJson. */
-  json?: boolean;
   dryRun?: boolean;
   allowExec?: boolean;
   merge?: boolean;

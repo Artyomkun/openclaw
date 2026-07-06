@@ -6,26 +6,26 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentDir } from "../agents/agent-scope.js";
-import { resolveMemorySearchConfig } from "../agents/memory-search.js";
-import { getRuntimeConfig } from "../config/io.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { logWarn } from "../logger.js";
+import { resolveAgentDir } from "../agents/agent-scope.ts";
+import { resolveMemorySearchConfig } from "../agents/memory-search.ts";
+import { getRuntimeConfig } from "../config/io.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { logWarn } from "../logger.ts";
 import {
   getEmbeddingProvider as getGenericEmbeddingProvider,
   type EmbeddingProvider as GenericEmbeddingProvider,
   type EmbeddingProviderAdapter as GenericEmbeddingProviderAdapter,
-} from "../plugins/embedding-provider-runtime.js";
-import { getMemoryEmbeddingProvider } from "../plugins/memory-embedding-provider-runtime.js";
+} from "../plugins/embedding-provider-runtime.ts";
+import { getMemoryEmbeddingProvider } from "../plugins/memory-embedding-provider-runtime.ts";
 import type {
   MemoryEmbeddingProvider,
   MemoryEmbeddingProviderAdapter,
-} from "../plugins/memory-embedding-providers.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth.js";
-import { sendJson, sendMissingScopeForbidden } from "./http-common.js";
-import { handleGatewayPostJsonEndpoint } from "./http-endpoint-helpers.js";
+} from "../plugins/memory-embedding-providers.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth.ts";
+import { sendJson, sendMissingScopeForbidden } from "./http-common.ts";
+import { handleGatewayPostJsonEndpoint } from "./http-endpoint-helpers.ts";
 import {
   OPENCLAW_MODEL_ID,
   authorizeOpenAiCompatibleHttpModelOverride,
@@ -34,7 +34,7 @@ import {
   resolveAgentIdForRequest,
   resolveAgentIdFromModel,
   resolveOpenAiCompatibleHttpOperatorScopes,
-} from "./http-utils.js";
+} from "./http-utils.ts";
 
 // OpenAI-compatible `/v1/embeddings` bridge. It maps OpenClaw agent/model
 // routing onto configured memory embedding providers while preserving the

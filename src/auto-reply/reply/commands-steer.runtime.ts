@@ -5,4 +5,4 @@ export {
   queueEmbeddedAgentMessage,
   queueEmbeddedAgentMessageWithOutcomeAsync,
   resolveActiveEmbeddedRunSessionId,
-} from "../../agents/embedded-agent-runner/runs.js";
+} from "../../agents/embedded-agent-runner/runs.ts";

@@ -2,15 +2,15 @@
 import {
   hasMediaNormalizationEntry,
   normalizeDurationToClosestMax,
-} from "../media-generation/runtime-shared.js";
-import { resolveMusicGenerationModeCapabilities } from "./capabilities.js";
+} from "../media-generation/runtime-shared.ts";
+import { resolveMusicGenerationModeCapabilities } from "./capabilities.ts";
 import type {
   MusicGenerationIgnoredOverride,
   MusicGenerationNormalization,
   MusicGenerationOutputFormat,
   MusicGenerationProvider,
   MusicGenerationSourceImage,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Request normalization for music generation.

@@ -1,7 +1,7 @@
 // Resolves heartbeat visibility toggles across config precedence levels.
-import type { ChannelHeartbeatVisibilityConfig } from "../config/types.channels.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { GatewayMessageChannel } from "../utils/message-channel.js";
+import type { ChannelHeartbeatVisibilityConfig } from "../config/types.channels.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { GatewayMessageChannel } from "../utils/message-channel.ts";
 
 /** Resolved heartbeat presentation toggles after defaults/channel/account precedence. */
 export type ResolvedHeartbeatVisibility = {

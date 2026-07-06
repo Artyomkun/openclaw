@@ -2,7 +2,7 @@
  * Normalizes and classifies compaction failure reasons for diagnostics.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
 
 const MAX_COMPACTION_REASON_DETAIL_CHARS = 100;
 

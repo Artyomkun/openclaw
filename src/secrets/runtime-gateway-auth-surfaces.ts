@@ -1,8 +1,8 @@
 /** Collects Gateway auth secret surfaces for secrets runtime preparation. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createGatewayCredentialPlan } from "../gateway/credential-planner.js";
-import type { SecretDefaults } from "./runtime-shared.js";
-import { isRecord } from "./shared.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createGatewayCredentialPlan } from "../gateway/credential-planner.ts";
+import type { SecretDefaults } from "./runtime-shared.ts";
+import { isRecord } from "./shared.ts";
 
 /** Stable evaluation order for gateway credential surfaces that may hold SecretRefs. */
 export const GATEWAY_AUTH_SURFACE_PATHS = [

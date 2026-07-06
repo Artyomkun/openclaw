@@ -3,7 +3,7 @@ changelog_helper_root() {
 }
 
 changelog_attribution_script() {
-  printf '%s\n' "$(changelog_helper_root)/scripts/check-changelog-attributions.mjs"
+  printf '%s\n' "$(changelog_helper_root)/scripts/check-changelog-attributions.ts"
 }
 
 normalize_pr_changelog_entries() {

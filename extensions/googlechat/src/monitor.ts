@@ -64,16 +64,7 @@ function resolveGoogleChatTimestampMs(eventTime?: string): number | undefined {
 
 function isGoogleChatGroupSpace(space: GoogleChatSpace): boolean {
   const spaceType = (space.spaceType ?? "").toUpperCase();
-  // Google Chat deprecates `type` in favor of `spaceType`; known modern
-  // values must win if the fields disagree. Fall back to the bot-DM flag and
-  // legacy type so incomplete payloads retain their existing direct routing.
-  if (spaceType === "DIRECT_MESSAGE") {
-    return false;
-  }
-  if (spaceType === "SPACE" || spaceType === "GROUP_CHAT") {
-    return true;
-  }
-  return space.singleUserBotDm !== true && (space.type ?? "").toUpperCase() !== "DM";
+  return spaceType === "SPACE" || spaceType === "GROUP_CHAT";
 }
 
 function resolveGoogleChatBotLoopProtection(params: {

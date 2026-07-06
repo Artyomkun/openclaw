@@ -6,8 +6,8 @@ import {
   registerLazyCommandGroup,
   removeCommandGroupNames,
   type CommandGroupEntry,
-} from "../cli/program/register-command-groups.js";
-import type { OpenClawPluginCliCommandDescriptor, PluginLogger } from "./types.js";
+} from "../cli/program/register-command-groups.ts";
+import type { OpenClawPluginCliCommandDescriptor, PluginLogger } from "./types.ts";
 
 export type PluginCliCommandGroupEntry = CommandGroupEntry & {
   pluginId: string;

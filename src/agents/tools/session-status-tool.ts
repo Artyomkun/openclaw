@@ -11,57 +11,57 @@ import type {
   ReasoningLevel,
   ThinkLevel,
   VerboseLevel,
-} from "../../auto-reply/thinking.js";
-import { getRuntimeConfig } from "../../config/config.js";
+} from "../../auto-reply/thinking.ts";
+import { getRuntimeConfig } from "../../config/config.ts";
 import {
   patchSessionEntryWithKey,
   resolveStorePath,
   type SessionEntry,
-} from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { triggerSessionPatchHook } from "../../gateway/session-patch-hooks.js";
-import { resolveSessionModelIdentityRef } from "../../gateway/session-utils.js";
-import { loadManifestMetadataSnapshot } from "../../plugins/manifest-contract-eligibility.js";
+} from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { triggerSessionPatchHook } from "../../gateway/session-patch-hooks.ts";
+import { resolveSessionModelIdentityRef } from "../../gateway/session-utils.ts";
+import { loadManifestMetadataSnapshot } from "../../plugins/manifest-contract-eligibility.ts";
 import {
   buildAgentMainSessionKey,
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
-} from "../../routing/session-key.js";
-import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { BuildStatusTextParams } from "../../status/status-text.types.js";
-import { buildTaskStatusSnapshotForRelatedSessionKeyForOwner } from "../../tasks/task-owner-access.js";
-import { formatTaskStatusDetail, formatTaskStatusTitle } from "../../tasks/task-status.js";
+} from "../../routing/session-key.ts";
+import { applyModelOverrideToSessionEntry } from "../../sessions/model-overrides.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { BuildStatusTextParams } from "../../status/status-text.types.ts";
+import { buildTaskStatusSnapshotForRelatedSessionKeyForOwner } from "../../tasks/task-owner-access.ts";
+import { formatTaskStatusDetail, formatTaskStatusTitle } from "../../tasks/task-status.ts";
 import {
   deliveryContextFromSession,
   normalizeDeliveryContext,
   type DeliveryContext,
-} from "../../utils/delivery-context.shared.js";
+} from "../../utils/delivery-context.shared.ts";
 import {
   isDeliverableMessageChannel,
   normalizeMessageChannel,
-} from "../../utils/message-channel.js";
-import { loadModelCatalog } from "../model-catalog.js";
+} from "../../utils/message-channel.ts";
+import { loadModelCatalog } from "../model-catalog.ts";
 import {
   buildModelAliasIndex,
   modelKey,
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
   resolveThinkingDefaultWithRuntimeCatalog,
-} from "../model-selection.js";
-import { createModelVisibilityPolicy } from "../model-visibility-policy.js";
+} from "../model-selection.ts";
+import { createModelVisibilityPolicy } from "../model-visibility-policy.ts";
 import {
   describeSessionStatusTool,
   SESSION_STATUS_TOOL_DISPLAY_SUMMARY,
-} from "../tool-description-presets.js";
-import type { AnyAgentTool } from "./common.js";
-import { normalizeToolModelOverride, readStringParam } from "./common.js";
+} from "../tool-description-presets.ts";
+import type { AnyAgentTool } from "./common.ts";
+import { normalizeToolModelOverride, readStringParam } from "./common.ts";
 import {
   listImplicitDefaultDirectFallbackKeys,
   resolveImplicitCurrentSessionFallback,
   resolveSessionStatusEntry,
   resolveStoreScopedRequesterKey,
-} from "./session-status-session-resolve.js";
+} from "./session-status-session-resolve.ts";
 import {
   createAgentToAgentPolicy,
   createSessionVisibilityGuard,
@@ -71,7 +71,7 @@ import {
   resolveSessionReference,
   resolveVisibleSessionReference,
   shouldResolveSessionIdInput,
-} from "./sessions-helpers.js";
+} from "./sessions-helpers.ts";
 
 const SessionStatusToolSchema = Type.Object({
   sessionKey: Type.Optional(Type.String()),
@@ -406,16 +406,11 @@ export function createSessionStatusTool(opts?: {
         opts?.agentSessionKey ?? effectiveRequesterKey,
       );
       const visibilityRequesterKey = (opts?.agentSessionKey ?? effectiveRequesterKey).trim();
-      const usesLegacyMainAlias = alias === mainKey;
-      const isLegacyMainVisibilityKey = (sessionKey: string) => {
-        const trimmed = sessionKey.trim();
-        return usesLegacyMainAlias && (trimmed === "main" || trimmed === mainKey);
-      };
       const resolveVisibilityMainSessionKey = (sessionAgentId: string) => {
         const requesterParsed = parseAgentSessionKey(visibilityRequesterKey);
         if (
           resolveAgentIdFromSessionKey(visibilityRequesterKey) === sessionAgentId &&
-          (requesterParsed?.rest === mainKey || isLegacyMainVisibilityKey(visibilityRequesterKey))
+          (requesterParsed?.rest === mainKey)
         ) {
           return visibilityRequesterKey;
         }
@@ -435,10 +430,6 @@ export function createSessionStatusTool(opts?: {
             return resolveVisibilityMainSessionKey(sessionAgentId);
           }
           return trimmed;
-        }
-        // Preserve legacy bare main keys for requester tree checks.
-        if (isLegacyMainVisibilityKey(trimmed)) {
-          return resolveVisibilityMainSessionKey(sessionAgentId);
         }
         return trimmed;
       };

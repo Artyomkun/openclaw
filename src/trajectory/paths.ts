@@ -1,8 +1,8 @@
 // Trajectory path helpers resolve storage paths for trajectory artifacts.
 import fs from "node:fs";
 import path from "node:path";
-import { resolveHomeRelativePath } from "../infra/home-dir.js";
-import { isPathInside } from "../infra/path-guards.js";
+import { resolveHomeRelativePath } from "../infra/home-dir.ts";
+import { isPathInside } from "../infra/path-guards.ts";
 
 // Runtime trajectory path helpers. Paths are either beside the session file or
 // inside OPENCLAW_TRAJECTORY_DIR, with names scrubbed for filesystem safety.

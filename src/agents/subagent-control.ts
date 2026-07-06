@@ -4,40 +4,40 @@
  * routing internal follow-up messages.
  */
 import crypto from "node:crypto";
-import type { ClearSessionQueueResult } from "../auto-reply/reply/queue.js";
-import { resolveSubagentLabel, sortSubagentRuns } from "../auto-reply/reply/subagents-utils.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import { loadSessionEntry, patchSessionEntry } from "../config/sessions/session-accessor.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway } from "../gateway/call.js";
-import { logVerbose } from "../globals.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { isSubagentSessionKey, parseAgentSessionKey } from "../routing/session-key.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.js";
-import { AGENT_LANE_SUBAGENT } from "./lanes.js";
+import type { ClearSessionQueueResult } from "../auto-reply/reply/queue.ts";
+import { resolveSubagentLabel, sortSubagentRuns } from "../auto-reply/reply/subagents-utils.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import { loadSessionEntry, patchSessionEntry } from "../config/sessions/session-accessor.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway } from "../gateway/call.ts";
+import { logVerbose } from "../globals.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { isSubagentSessionKey, parseAgentSessionKey } from "../routing/session-key.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel.ts";
+import { AGENT_LANE_SUBAGENT } from "./lanes.ts";
 import {
   readLatestAssistantReplySnapshot,
   waitForAgentRunAndReadUpdatedAssistantReply,
-} from "./run-wait.js";
-import { resolveStoredSubagentCapabilities } from "./subagent-capabilities.js";
-import { buildLatestSubagentRunIndex, resolveSessionEntryForKey } from "./subagent-list.js";
-import { subagentRuns } from "./subagent-registry-memory.js";
+} from "./run-wait.ts";
+import { resolveStoredSubagentCapabilities } from "./subagent-capabilities.ts";
+import { buildLatestSubagentRunIndex, resolveSessionEntryForKey } from "./subagent-list.ts";
+import { subagentRuns } from "./subagent-registry-memory.ts";
 import {
   getLatestSubagentRunByChildSessionKey,
   listSubagentRunsForController,
-} from "./subagent-registry-read.js";
-import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.js";
+} from "./subagent-registry-read.ts";
+import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.ts";
 import {
   clearSubagentRunSteerRestart,
   countPendingDescendantRuns,
   markSubagentRunTerminated,
   markSubagentRunForSteerRestart,
   replaceSubagentRunAfterSteer,
-} from "./subagent-registry.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
-import { resolveInternalSessionKey, resolveMainSessionAlias } from "./tools/sessions-helpers.js";
+} from "./subagent-registry.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
+import { resolveInternalSessionKey, resolveMainSessionAlias } from "./tools/sessions-helpers.ts";
 
 /** Recent-run default window used by subagent control UI/tools. */
 export const DEFAULT_RECENT_MINUTES = 30;

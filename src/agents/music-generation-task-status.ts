@@ -3,14 +3,14 @@
  * media-generation task helpers with music task ids, duplicate guards, and
  * user-facing status text.
  */
-import type { TaskRecord } from "../tasks/task-registry.types.js";
+import type { TaskRecord } from "../tasks/task-registry.types.ts";
 import {
   buildActiveMediaGenerationTaskPromptContextForSession,
   buildMediaGenerationTaskStatusDetails,
   buildMediaGenerationTaskStatusText,
   findActiveMediaGenerationTaskForSession,
   findDuplicateGuardMediaGenerationTaskForSession,
-} from "./media-generation-task-status-shared.js";
+} from "./media-generation-task-status-shared.ts";
 
 /** Task kind used for music generation task registry records. */
 export const MUSIC_GENERATION_TASK_KIND = "music_generation";

@@ -4,21 +4,21 @@
  * Evaluates route, sender, command, and mention gates into one admission decision.
  */
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveCommandAuthorizedFromAuthorizers } from "../command-gating.js";
-import { resolveInboundMentionDecision } from "../mention-gating.js";
-import { applyMutableIdentifierPolicy, redactedAllowlistDiagnostics } from "./allowlist.js";
+import { resolveCommandAuthorizedFromAuthorizers } from "../command-gating.ts";
+import { resolveInboundMentionDecision } from "../mention-gating.ts";
+import { applyMutableIdentifierPolicy, redactedAllowlistDiagnostics } from "./allowlist.ts";
 import {
   applyEventAuthModeToSenderGate,
   senderGateForDirect,
   senderGateForGroup,
-} from "./sender-gates.js";
+} from "./sender-gates.ts";
 import type {
   AccessGraphGate,
   ChannelIngressDecision,
   ChannelIngressPolicyInput,
   ChannelIngressState,
   RedactedIngressMatch,
-} from "./types.js";
+} from "./types.ts";
 
 function decisiveDecision(params: {
   admission: ChannelIngressDecision["admission"];

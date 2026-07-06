@@ -6,7 +6,7 @@ import path from "node:path";
 import process from "node:process";
 import { clearTimeout as clearNodeTimeout, setTimeout as setNodeTimeout } from "node:timers";
 import { pathToFileURL } from "node:url";
-import { readPositiveIntEnv } from "./e2e/lib/env-limits.mjs";
+import { readPositiveIntEnv } from "./e2e/lib/env-limits.ts";
 import { countSessionLogMentions } from "./e2e/lib/session-log-mentions.ts";
 import { readBoundedResponseText } from "./lib/bounded-response.ts";
 

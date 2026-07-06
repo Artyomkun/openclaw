@@ -1,12 +1,12 @@
 // Compaction session-file rotation shares the same owner as session path resolution.
 import path from "node:path";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { resolveSessionFilePath, resolveSessionFilePathOptions } from "./paths.js";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { resolveSessionFilePath, resolveSessionFilePathOptions } from "./paths.ts";
 import {
   canonicalizeAbsoluteSessionFilePath,
   rewriteSessionFileForNewSessionId,
-} from "./session-file-rotation.js";
-import type { SessionEntry } from "./types.js";
+} from "./session-file-rotation.ts";
+import type { SessionEntry } from "./types.ts";
 
 export function resolveCompactionSessionFile(params: {
   entry: SessionEntry;

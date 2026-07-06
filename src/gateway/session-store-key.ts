@@ -1,22 +1,21 @@
-// Session-store key canonicalization across default agents, main aliases, and legacy keys.
+// Session-store key canonicalization across default agents, main aliases.
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { listAgentIds, resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   canonicalizeMainSessionAlias,
   resolveMainSessionKey,
-} from "../config/sessions/main-session.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../config/sessions/main-session.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
-  DEFAULT_AGENT_ID,
   normalizeAgentId,
   normalizeMainKey,
   parseAgentSessionKey,
   type ParsedAgentSessionKey,
-} from "../routing/session-key.js";
-import { normalizeSessionKeyPreservingOpaquePeerIds } from "../sessions/session-key-utils.js";
+} from "../routing/session-key.ts";
+import { normalizeSessionKeyPreservingOpaquePeerIds } from "../sessions/session-key-utils.ts";
 
 /** Canonicalize an opaque session key into the agent-scoped store namespace. */
 export function canonicalizeSessionKeyForAgent(agentId: string, key: string): string {
@@ -35,36 +34,10 @@ function resolveDefaultStoreAgentId(cfg: OpenClawConfig): string {
   return normalizeAgentId(resolveDefaultAgentId(cfg));
 }
 
-function shouldRemapLegacyDefaultMainAlias(
-  cfg: OpenClawConfig,
-  parsed: ParsedAgentSessionKey,
-  options?: { storeAgentId?: string },
-): boolean {
-  const agentId = normalizeAgentId(parsed.agentId);
-  if (agentId !== DEFAULT_AGENT_ID || listAgentIds(cfg).includes(DEFAULT_AGENT_ID)) {
-    return false;
-  }
-  const defaultAgentId = resolveDefaultStoreAgentId(cfg);
-  if (options?.storeAgentId && normalizeAgentId(options.storeAgentId) !== defaultAgentId) {
-    return false;
-  }
-  const rest = normalizeLowercaseStringOrEmpty(parsed.rest);
-  const mainKey = normalizeMainKey(cfg.session?.mainKey);
-  return rest === "main" || rest === mainKey;
-}
-
 function resolveParsedSessionStoreKey(
   cfg: OpenClawConfig,
-  raw: string,
   parsed: ParsedAgentSessionKey,
-  options?: { storeAgentId?: string },
 ): { agentId: string; sessionKey: string } {
-  if (!shouldRemapLegacyDefaultMainAlias(cfg, parsed, options)) {
-    return {
-      agentId: normalizeAgentId(parsed.agentId),
-      sessionKey: normalizeSessionKeyPreservingOpaquePeerIds(raw),
-    };
-  }
   const agentId = resolveDefaultStoreAgentId(cfg);
   const rest = normalizeLowercaseStringOrEmpty(parsed.rest);
   return { agentId, sessionKey: `agent:${agentId}:${rest}` };

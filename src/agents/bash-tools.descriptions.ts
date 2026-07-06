@@ -4,7 +4,7 @@
  * hints that are safe to show to the model.
  */
 import path from "node:path";
-import { loadExecApprovals, resolveExecApprovalsFromFile } from "../infra/exec-approvals.js";
+import { loadExecApprovals, resolveExecApprovalsFromFile } from "../infra/exec-approvals.ts";
 
 /**
  * Show the exact approved token in hints. Absolute paths stay absolute so the

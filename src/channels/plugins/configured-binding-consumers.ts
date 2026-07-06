@@ -3,14 +3,14 @@
  *
  * Stores target-family consumers that compile and materialize configured binding rules.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import type {
   CompiledConfiguredBinding,
   ConfiguredBindingRecordResolution,
   ConfiguredBindingRuleConfig,
   ConfiguredBindingTargetFactory,
-} from "./binding-types.js";
-import type { ChannelConfiguredBindingConversationRef } from "./types.adapters.js";
+} from "./binding-types.ts";
+import type { ChannelConfiguredBindingConversationRef } from "./types.adapters.ts";
 
 /**
  * Parsed session-key facts used by configured binding consumers.

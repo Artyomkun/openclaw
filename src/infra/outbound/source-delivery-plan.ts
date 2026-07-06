@@ -1,8 +1,8 @@
 // Source-delivery plans decide whether final output is visible through the
 // message tool, direct fallback delivery, both, or neither.
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.js";
-import { normalizeTargetForProvider } from "./target-normalization.js";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.ts";
+import { normalizeTargetForProvider } from "./target-normalization.ts";
 
 /** Owner responsible for making source delivery visible to the user. */
 export type SourceVisibleDeliveryOwner =
@@ -242,7 +242,7 @@ export function resolveSourceDeliveryOutcome(
 ): SourceDeliveryOutcome {
   const didSendViaMessageTool = params.didSendViaMessageTool === true;
   const explicitTargets = params.messageToolSentTargets ?? [];
-  // Cron completion accounting needs concrete target evidence. Legacy
+  // Cron completion accounting needs concrete target evidence. Older
   // message-tool-owned flows may still use the plan target as the implicit send.
   const sentTargets =
     explicitTargets.length > 0

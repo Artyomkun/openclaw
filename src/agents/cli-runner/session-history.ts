@@ -7,17 +7,17 @@ import path from "node:path";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
-} from "../../config/sessions/paths.js";
-import { selectSessionTranscriptLeafControlledPath } from "../../config/sessions/transcript-tree.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { isPathInside } from "../../infra/path-guards.js";
-import { resolveSessionAgentIds } from "../agent-scope.js";
+} from "../../config/sessions/paths.ts";
+import { selectSessionTranscriptLeafControlledPath } from "../../config/sessions/transcript-tree.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { isPathInside } from "../../infra/path-guards.ts";
+import { resolveSessionAgentIds } from "../agent-scope.ts";
 import {
   limitAgentHookHistoryMessages,
   MAX_AGENT_HOOK_HISTORY_MESSAGES,
-} from "../harness/hook-history.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { migrateSessionEntries, parseSessionEntries } from "../sessions/session-manager.js";
+} from "../harness/hook-history.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { migrateSessionEntries, parseSessionEntries } from "../sessions/session-manager.ts";
 
 /** Maximum transcript size read for CLI session history. */
 export const MAX_CLI_SESSION_HISTORY_FILE_BYTES = 5 * 1024 * 1024;

@@ -2,7 +2,6 @@
 import type { ModelProviderConfig } from "openclaw/plugin-sdk/provider-model-shared";
 
 export const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
-const OPENROUTER_LEGACY_BASE_URL = "https://openrouter.ai/v1";
 const OPENROUTER_DEFAULT_MODEL_ID = "openrouter/auto";
 const OPENROUTER_DEFAULT_CONTEXT_WINDOW = 200000;
 const OPENROUTER_DEFAULT_MAX_TOKENS = 8192;
@@ -35,7 +34,7 @@ export function normalizeOpenRouterBaseUrl(baseUrl: string | undefined): string 
   if (!normalized) {
     return undefined;
   }
-  if (normalized === OPENROUTER_BASE_URL || normalized === OPENROUTER_LEGACY_BASE_URL) {
+  if (normalized === OPENROUTER_BASE_URL) {
     return OPENROUTER_BASE_URL;
   }
   return undefined;

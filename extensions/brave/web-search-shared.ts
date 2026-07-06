@@ -11,22 +11,6 @@ import { isRecord } from "openclaw/plugin-sdk/string-coerce-runtime";
 /** Canonical config path for the Brave Search API key. */
 export const BRAVE_CREDENTIAL_PATH = "plugins.entries.brave.config.webSearch.apiKey";
 
-/** Resolve legacy top-level Brave credentials from old web-search config. */
-export function resolveLegacyTopLevelBraveCredential(
-  config: unknown,
-): { path: string; value: unknown } | undefined {
-  if (!isRecord(config)) {
-    return undefined;
-  }
-  const tools = isRecord(config.tools) ? config.tools : undefined;
-  const web = isRecord(tools?.web) ? tools.web : undefined;
-  const search = isRecord(web?.search) ? web.search : undefined;
-  if (!search || !("apiKey" in search)) {
-    return undefined;
-  }
-  return { path: "tools.web.search.apiKey", value: search.apiKey };
-}
-
 function resolveBraveWebSearchPluginConfig(config: unknown): Record<string, unknown> | undefined {
   if (!isRecord(config)) {
     return undefined;
@@ -38,11 +22,10 @@ function resolveBraveWebSearchPluginConfig(config: unknown): Record<string, unkn
   return isRecord(pluginConfig?.webSearch) ? pluginConfig.webSearch : undefined;
 }
 
-/** Resolve Brave credentials from current plugin config or legacy fallback. */
+/** Resolve Brave credentials from current plugin config. */
 export function resolveConfiguredBraveCredential(config: unknown): unknown {
   return (
-    resolveBraveWebSearchPluginConfig(config)?.apiKey ??
-    resolveLegacyTopLevelBraveCredential(config)?.value
+    resolveBraveWebSearchPluginConfig(config)?.apiKey
   );
 }
 
@@ -65,7 +48,6 @@ export function buildBraveWebSearchProviderBase(): Omit<WebSearchProviderPlugin,
       searchCredential: { type: "top-level" },
       configuredCredential: { pluginId: "brave" },
     }),
-    getConfiguredCredentialValue: resolveConfiguredBraveCredential,
-    getConfiguredCredentialFallback: resolveLegacyTopLevelBraveCredential,
+    getConfiguredCredentialValue: resolveConfiguredBraveCredential
   };
 }

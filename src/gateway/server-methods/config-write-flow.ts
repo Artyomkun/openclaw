@@ -5,22 +5,22 @@ import {
   createConfigIO,
   readConfigFileSnapshotForWrite,
   replaceConfigFile,
-} from "../../config/config.js";
-import { extractDeliveryInfo } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/config.ts";
+import { extractDeliveryInfo } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   formatDoctorNonInteractiveHint,
   type RestartSentinelPayload,
   writeRestartSentinel,
-} from "../../infra/restart-sentinel.js";
-import { scheduleGatewaySigusr1Restart } from "../../infra/restart.js";
-import { getActiveSecretsRuntimeSnapshot } from "../../secrets/runtime-state.js";
-import { resolveEffectiveSharedGatewayAuth, resolveGatewayAuth } from "../auth.js";
-import { buildGatewayReloadPlan } from "../config-reload-plan.js";
-import { resolveGatewayReloadSettings } from "../config-reload-settings.js";
-import { formatControlPlaneActor, type ControlPlaneActor } from "../control-plane-audit.js";
-import { parseRestartRequestParams } from "./restart-request.js";
-import type { GatewayRequestContext } from "./types.js";
+} from "../../infra/restart-sentinel.ts";
+import { scheduleGatewaySigusr1Restart } from "../../infra/restart.ts";
+import { getActiveSecretsRuntimeSnapshot } from "../../secrets/runtime-state.ts";
+import { resolveEffectiveSharedGatewayAuth, resolveGatewayAuth } from "../auth.ts";
+import { buildGatewayReloadPlan } from "../config-reload-plan.ts";
+import { resolveGatewayReloadSettings } from "../config-reload-settings.ts";
+import { formatControlPlaneActor, type ControlPlaneActor } from "../control-plane-audit.ts";
+import { parseRestartRequestParams } from "./restart-request.ts";
+import type { GatewayRequestContext } from "./types.ts";
 
 export type ConfigWriteSnapshot = Awaited<
   ReturnType<typeof readConfigFileSnapshotForWrite>

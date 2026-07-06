@@ -3,16 +3,16 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   buildAgentMainSessionKey,
   buildAgentPeerSessionKey,
   normalizeAgentId,
   normalizeMainKey,
   resolveAgentIdFromSessionKey,
-} from "../../routing/session-key.js";
-import type { MsgContext } from "../templating.js";
+} from "../../routing/session-key.ts";
+import type { MsgContext } from "../templating.ts";
 
 type RuntimePolicyContext = Pick<
   MsgContext,

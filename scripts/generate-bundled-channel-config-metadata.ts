@@ -24,7 +24,7 @@ type BundledPluginSource = {
 };
 
 const { collectBundledPluginSources } = (await import(
-  new URL("./lib/bundled-plugin-source-utils.mjs", import.meta.url).href
+  new URL("./lib/bundled-plugin-source-utils.ts", import.meta.url).href
 )) as {
   collectBundledPluginSources: (params?: {
     repoRoot?: string;
@@ -33,7 +33,7 @@ const { collectBundledPluginSources } = (await import(
 };
 
 const { formatGeneratedModule } = (await import(
-  new URL("./lib/format-generated-module.mjs", import.meta.url).href
+  new URL("./lib/format-generated-module.ts", import.meta.url).href
 )) as {
   formatGeneratedModule: (
     source: string,
@@ -46,7 +46,7 @@ const { formatGeneratedModule } = (await import(
 };
 
 const { writeGeneratedOutput } = (await import(
-  new URL("./lib/generated-output-utils.mjs", import.meta.url).href
+  new URL("./lib/generated-output-utils.ts", import.meta.url).href
 )) as {
   writeGeneratedOutput: (params: {
     repoRoot: string;
@@ -82,12 +82,12 @@ function resolveChannelConfigSchemaModulePath(rootDir: string): string | null {
   const candidates = [
     path.join(rootDir, "src", "config-schema.ts"),
     path.join(rootDir, "src", "config-schema.js"),
-    path.join(rootDir, "src", "config-schema.mts"),
-    path.join(rootDir, "src", "config-schema.mjs"),
+    path.join(rootDir, "src", "config-schema.ts"),
+    path.join(rootDir, "src", "config-schema.ts"),
     path.join(rootDir, "src", "config-surface.ts"),
     path.join(rootDir, "src", "config-surface.js"),
-    path.join(rootDir, "src", "config-surface.mts"),
-    path.join(rootDir, "src", "config-surface.mjs"),
+    path.join(rootDir, "src", "config-surface.ts"),
+    path.join(rootDir, "src", "config-surface.ts"),
   ];
   for (const candidate of candidates) {
     if (fs.existsSync(candidate)) {

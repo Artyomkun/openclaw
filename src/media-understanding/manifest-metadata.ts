@@ -1,9 +1,9 @@
 // Manifest metadata registry builder for media-understanding providers without
 // loading plugin runtime code.
-import type { OpenClawConfig } from "../config/types.js";
-import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.js";
-import { normalizeMediaProviderId } from "./provider-id.js";
-import type { MediaUnderstandingProvider } from "./types.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.ts";
+import { normalizeMediaProviderId } from "./provider-id.ts";
+import type { MediaUnderstandingProvider } from "./types.ts";
 
 /** Builds a media provider registry from trusted manifest metadata without loading plugin code. */
 export function buildMediaUnderstandingManifestMetadataRegistry(

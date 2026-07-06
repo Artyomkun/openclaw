@@ -2,17 +2,17 @@
 import type {
   ConversationRef,
   SessionBindingRecord,
-} from "../infra/outbound/session-binding-service.js";
-import { normalizeChannelRouteRef, type ChannelRouteRef } from "../plugin-sdk/channel-route.js";
+} from "../infra/outbound/session-binding-service.ts";
+import { normalizeChannelRouteRef, type ChannelRouteRef } from "../plugin-sdk/channel-route.ts";
 import {
   normalizeConversationTargetParams,
   type ConversationTargetParams,
-} from "../utils/conversation-target.js";
+} from "../utils/conversation-target.ts";
 import {
   deliveryContextFromChannelRoute,
   type DeliveryContext,
-} from "../utils/delivery-context.shared.js";
-import { getChannelPlugin, normalizeChannelId } from "./plugins/registry.js";
+} from "../utils/delivery-context.shared.ts";
+import { getChannelPlugin, normalizeChannelId } from "./plugins/registry.ts";
 
 /** Formats a conversation id into a deliverable target, using channel hooks before generic fallback. */
 export function formatConversationTarget(params: ConversationTargetParams): string | undefined {

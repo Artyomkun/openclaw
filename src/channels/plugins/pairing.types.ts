@@ -3,8 +3,8 @@
  *
  * Defines setup/allowlist approval hooks used by pairing flows.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RuntimeEnv } from "../../runtime.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
 
 /**
  * Channel pairing hooks used by setup and allowlist approval flows.

@@ -1,5 +1,5 @@
 // Builds plugin-scoped loggers for runtime and setup code.
-import type { PluginLogger } from "./types.js";
+import type { PluginLogger } from "./types.ts";
 
 type LoggerLike = {
   info: (message: string) => void;

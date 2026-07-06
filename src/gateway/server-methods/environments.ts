@@ -7,13 +7,13 @@ import {
   errorShape,
   validateEnvironmentsListParams,
   validateEnvironmentsStatusParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { listDevicePairing } from "../../infra/device-pairing.js";
-import { listNodePairing } from "../../infra/node-pairing.js";
-import type { NodeListNode } from "../../shared/node-list-types.js";
-import { createKnownNodeCatalog, listKnownNodes } from "../node-catalog.js";
-import { respondInvalidParams, respondUnavailableOnThrow } from "./nodes.helpers.js";
-import type { GatewayRequestContext, GatewayRequestHandlers } from "./types.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { listDevicePairing } from "../../infra/device-pairing.ts";
+import { listNodePairing } from "../../infra/node-pairing.ts";
+import type { NodeListNode } from "../../shared/node-list-types.ts";
+import { createKnownNodeCatalog, listKnownNodes } from "../node-catalog.ts";
+import { respondInvalidParams, respondUnavailableOnThrow } from "./nodes.helpers.ts";
+import type { GatewayRequestContext, GatewayRequestHandlers } from "./types.ts";
 
 const GATEWAY_ENVIRONMENT: EnvironmentSummary = {
   id: "gateway",

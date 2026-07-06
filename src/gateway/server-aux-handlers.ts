@@ -1,34 +1,34 @@
 // Gateway auxiliary method handlers.
 // Wires reload, secrets, exec approval, and plugin approval RPC handlers.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { createExecApprovalForwarder } from "../infra/exec-approval-forwarder.js";
-import type { PluginApprovalRequestPayload } from "../infra/plugin-approvals.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { createExecApprovalForwarder } from "../infra/exec-approval-forwarder.ts";
+import type { PluginApprovalRequestPayload } from "../infra/plugin-approvals.ts";
 import {
   resolveCommandSecretsFromActiveRuntimeSnapshot,
   type CommandSecretAssignment,
-} from "../secrets/runtime-command-secrets.js";
+} from "../secrets/runtime-command-secrets.ts";
 import {
   getActiveSecretsRuntimeSnapshot,
   type PreparedSecretsRuntimeSnapshot,
-} from "../secrets/runtime-state.js";
-import { diffConfigPaths } from "./config-diff.js";
+} from "../secrets/runtime-state.ts";
+import { diffConfigPaths } from "./config-diff.ts";
 import {
   buildGatewayReloadPlan,
   type ChannelKind,
   type GatewayReloadPlan,
-} from "./config-reload-plan.js";
-import { createExecApprovalIosPushDelivery } from "./exec-approval-ios-push.js";
-import { ExecApprovalManager } from "./exec-approval-manager.js";
-import type { GatewayRequestHandler, GatewayRequestHandlers } from "./server-methods/types.js";
+} from "./config-reload-plan.ts";
+import { createExecApprovalIosPushDelivery } from "./exec-approval-ios-push.ts";
+import { ExecApprovalManager } from "./exec-approval-manager.ts";
+import type { GatewayRequestHandler, GatewayRequestHandlers } from "./server-methods/types.ts";
 import {
   disconnectStaleSharedGatewayAuthClients,
   setCurrentSharedGatewaySessionGeneration,
   type SharedGatewayAuthClient,
   type SharedGatewaySessionGenerationState,
-} from "./server-shared-auth-generation.js";
-import type { ActivateRuntimeSecrets } from "./server-startup-config.js";
-export { GATEWAY_AUX_METHODS } from "./server-aux-methods.js";
+} from "./server-shared-auth-generation.ts";
+import type { ActivateRuntimeSecrets } from "./server-startup-config.ts";
+export { GATEWAY_AUX_METHODS } from "./server-aux-methods.ts";
 
 type GatewayAuxHandlerLogger = {
   warn?: (message: string) => void;

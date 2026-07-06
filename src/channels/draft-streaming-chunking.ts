@@ -1,10 +1,10 @@
 // Shared resolver for channel live-preview draft chunk thresholds.
-import { resolveTextChunkLimit } from "../auto-reply/chunk.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAccountEntry } from "../routing/account-lookup.js";
-import { normalizeAccountId } from "../routing/session-key.js";
-import type { ChannelId } from "./plugins/types.core.js";
-import { resolveChannelStreamingPreviewChunk, type StreamingCompatEntry } from "./streaming.js";
+import { resolveTextChunkLimit } from "../auto-reply/chunk.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAccountEntry } from "../routing/account-lookup.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
+import type { ChannelId } from "./plugins/types.core.ts";
+import { resolveChannelStreamingPreviewChunk, type StreamingCompatEntry } from "./streaming.ts";
 
 const DEFAULT_DRAFT_STREAM_MIN = 200;
 const DEFAULT_DRAFT_STREAM_MAX = 800;

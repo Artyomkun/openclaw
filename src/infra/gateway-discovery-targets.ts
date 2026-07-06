@@ -4,7 +4,7 @@ import {
   resolveGatewayDiscoveryEndpoint,
   type GatewayBonjourBeacon,
   type GatewayDiscoveryResolvedEndpoint,
-} from "./bonjour-discovery.js";
+} from "./bonjour-discovery.ts";
 
 // Gateway discovery targets turn Bonjour beacons into display, websocket, and
 // SSH connection hints without assuming every beacon has all fields.

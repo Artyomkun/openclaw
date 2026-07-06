@@ -7,7 +7,7 @@ export {
   createReplyPrefixOptions,
   createTypingCallbacks,
   resolveChannelSourceReplyDeliveryMode,
-} from "../channels/message/reply-pipeline.js";
+} from "../channels/message/reply-pipeline.ts";
 export type {
   ChannelReplyPipeline,
   CreateChannelReplyPipelineParams,
@@ -17,4 +17,4 @@ export type {
   ReplyPrefixOptions,
   SourceReplyDeliveryMode,
   TypingCallbacks,
-} from "../channels/message/reply-pipeline.js";
+} from "../channels/message/reply-pipeline.ts";

@@ -10,7 +10,6 @@ import {
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { formatErrorMessage } from "openclaw/plugin-sdk/error-runtime";
 import { normalizeOptionalString } from "openclaw/plugin-sdk/string-coerce-runtime";
-import { inspectTelegramAccount } from "./account-inspect.js";
 import {
   listTelegramAccountIds,
   mergeTelegramAccountConfig,
@@ -21,7 +20,6 @@ import { isNumericTelegramSenderUserId, normalizeTelegramAllowFromEntry } from "
 import { lookupTelegramChatId } from "./api-fetch.js";
 import { hasTelegramBotEndpointApiRoot, normalizeTelegramApiRoot } from "./api-root.js";
 import {
-  legacyConfigRules as TELEGRAM_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig as normalizeTelegramCompatibilityConfig,
 } from "./doctor-contract.js";
 import { resolveTelegramPreviewStreamMode } from "./preview-streaming.js";
@@ -408,26 +406,7 @@ export async function maybeRepairTelegramAllowFromUsernames(cfg: OpenClawConfig)
   const resolverAccountIds: string[] = [];
   let sawConfiguredUnavailableToken = false;
   for (const accountId of listTelegramAccountIds(resolvedConfig)) {
-    let inspected: ReturnType<typeof inspectTelegramAccount>;
-    try {
-      inspected = inspectTelegramAccount({ cfg: resolvedConfig, accountId });
-    } catch (error) {
-      tokenResolutionWarnings.push(
-        `- Telegram account ${accountId}: failed to inspect bot token (${formatErrorMessage(error)}).`,
-      );
-      continue;
-    }
-    if (inspected.tokenStatus === "configured_unavailable") {
-      sawConfiguredUnavailableToken = true;
-      tokenResolutionWarnings.push(
-        `- Telegram account ${accountId}: failed to inspect bot token (configured but unavailable in this command path).`,
-      );
-    }
-    const token =
-      inspected.tokenSource === "none" ? "" : (normalizeOptionalString(inspected.token) ?? "");
-    if (token) {
-      resolverAccountIds.push(accountId);
-    }
+    resolverAccountIds.push(accountId);
   }
 
   if (resolverAccountIds.length === 0) {
@@ -602,7 +581,6 @@ export function collectTelegramEmptyAllowlistExtraWarnings(
 }
 
 export const telegramDoctor: ChannelDoctorAdapter = {
-  legacyConfigRules: TELEGRAM_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig: normalizeTelegramCompatibilityConfig,
   collectPreviewWarnings: ({ cfg, doctorFixCommand, env }) => [
     ...collectTelegramMissingEnvTokenWarnings({ cfg, env }),

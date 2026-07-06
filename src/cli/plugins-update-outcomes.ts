@@ -1,6 +1,6 @@
 // User-facing logging for plugin and hook-pack update outcomes.
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { isClawHubTrustSkippedOutcome } from "../plugins/update.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { isClawHubTrustSkippedOutcome } from "../plugins/update.ts";
 
 type PluginUpdateCliOutcome = {
   status: string;

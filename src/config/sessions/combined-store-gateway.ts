@@ -1,21 +1,21 @@
 // Builds the gateway-visible combined session store across agent-specific stores.
 // Gateway callers need canonical per-agent keys even when stores are split by `{agentId}`.
 
-import { resolveDefaultAgentId } from "../../agents/agent-scope.js";
+import { resolveDefaultAgentId } from "../../agents/agent-scope.ts";
 import {
   canonicalizeSpawnedByForAgent,
   resolveStoredSessionKeyForAgentStore,
-} from "../../gateway/session-store-key.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import type { OpenClawConfig } from "../types.openclaw.js";
-import { resolveStorePath } from "./paths.js";
-import { listSessionEntries } from "./session-accessor.js";
+} from "../../gateway/session-store-key.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import type { OpenClawConfig } from "../types.openclaw.ts";
+import { resolveStorePath } from "./paths.ts";
+import { listSessionEntries } from "./session-accessor.ts";
 import {
   resolveAgentSessionStoreTargetsSync,
   resolveAllAgentSessionStoreTargetsSync,
   resolveSessionStoreTargets,
-} from "./targets.js";
-import type { SessionEntry } from "./types.js";
+} from "./targets.ts";
+import type { SessionEntry } from "./types.ts";
 
 // Template-backed stores need per-agent scans before they can be merged for Gateway views.
 function isStorePathTemplate(store?: string): boolean {

@@ -1,9 +1,9 @@
 /** Collects and analyzes command-scoped secret assignments from OpenClaw config. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { coerceSecretRef, resolveSecretInputRef } from "../config/types.secrets.js";
-import { getPath } from "./path-utils.js";
-import { isExpectedResolvedSecretValue } from "./secret-value.js";
-import { discoverConfigSecretTargetsByIds } from "./target-registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { coerceSecretRef, resolveSecretInputRef } from "../config/types.secrets.ts";
+import { getPath } from "./path-utils.ts";
+import { isExpectedResolvedSecretValue } from "./secret-value.ts";
+import { discoverConfigSecretTargetsByIds } from "./target-registry.ts";
 
 /** One resolved SecretRef value ready to inject into a command-scoped config view. */
 /** One command config path whose value can be resolved from a SecretRef. */
@@ -94,7 +94,7 @@ export function analyzeCommandSecretAssignmentsFromSnapshot(params: {
     const hasCompetingSiblingRef =
       target.entry.secretShape === "sibling_ref" && explicitRef && inlineCandidateRef; // pragma: allowlist secret
     if (hasCompetingSiblingRef) {
-      // Sibling refs are the canonical target for these surfaces; inline refs are legacy overlap.
+      // Sibling refs are the canonical target for these surfaces; inline refs are older overlap.
       diagnostics.push(
         `${target.path}: both inline and sibling ref were present; sibling ref took precedence.`,
       );

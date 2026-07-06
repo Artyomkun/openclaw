@@ -4,25 +4,25 @@ import {
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { normalizeChannelId } from "../channels/plugins/index.js";
-import { listPairingChannels, notifyPairingApproved } from "../channels/plugins/pairing.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { normalizeChannelId } from "../channels/plugins/index.ts";
+import { listPairingChannels, notifyPairingApproved } from "../channels/plugins/pairing.ts";
 import {
   formatCommandOwnerFromChannelSender,
   hasConfiguredCommandOwners,
-} from "../commands/doctor-command-owner.js";
+} from "../commands/doctor-command-owner.ts";
 import {
   getRuntimeConfig,
   readConfigFileSnapshotForWrite,
   replaceConfigFile,
-} from "../config/config.js";
-import { resolvePairingIdLabel } from "../pairing/pairing-labels.js";
-import { approveChannelPairingCode, listChannelPairingRequests } from "../pairing/pairing-store.js";
-import type { PairingChannel } from "../pairing/pairing-store.types.js";
-import { defaultRuntime } from "../runtime.js";
-import { formatCliCommand } from "./command-format.js";
+} from "../config/config.ts";
+import { resolvePairingIdLabel } from "../pairing/pairing-labels.ts";
+import { approveChannelPairingCode, listChannelPairingRequests } from "../pairing/pairing-store.ts";
+import type { PairingChannel } from "../pairing/pairing-store.types.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { formatCliCommand } from "./command-format.ts";
 
 /** Parse channel, allowing extension channels not in core registry. */
 function parseChannel(raw: unknown, channels: PairingChannel[]): PairingChannel {

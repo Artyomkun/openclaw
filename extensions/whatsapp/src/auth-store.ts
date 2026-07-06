@@ -152,8 +152,6 @@ export function formatWhatsAppWebAuthStatusState(state: WhatsAppWebAuthState): s
     case "unstable":
       return "auth stabilizing";
   }
-  const exhaustive: never = state;
-  return exhaustive;
 }
 
 export async function readWebAuthState(
@@ -202,52 +200,11 @@ export async function readWebAuthSnapshotBestEffort(authDir: string = resolveDef
   } as const;
 }
 
-function isBaileysAuthFileName(name: string): boolean {
-  if (name === "oauth.json") {
-    return false;
-  }
-  if (name === "creds.json" || name === "creds.json.bak") {
-    return true;
-  }
-  if (!name.endsWith(".json")) {
-    return false;
-  }
-  return /^(app-state-sync|session|sender-key|pre-key)-/.test(name);
-}
-
-async function clearBaileysAuthFiles(authDir: string) {
-  const rootStats = await fs.lstat(authDir).catch(() => null);
-  if (!rootStats?.isDirectory() || rootStats.isSymbolicLink()) {
-    return;
-  }
-  const entries = await fs.readdir(authDir, { withFileTypes: true });
-  await Promise.all(
-    entries.map(async (entry) => {
-      if (!entry.isFile()) {
-        return;
-      }
-      if (!isBaileysAuthFileName(entry.name)) {
-        return;
-      }
-      await fs.rm(path.join(authDir, entry.name), { force: true });
-    }),
-  );
-}
-
-async function shouldClearOnLogout(authDir: string, isLegacyAuthDir: boolean): Promise<boolean> {
+async function shouldClearOnLogout(authDir: string): Promise<boolean> {
   try {
     const stats = await fs.lstat(authDir);
     if (!stats.isDirectory() || stats.isSymbolicLink()) {
       return false;
-    }
-    if (isLegacyAuthDir) {
-      const entries = await fs.readdir(authDir, { withFileTypes: true });
-      return entries.some((entry) => {
-        if (!entry.isFile()) {
-          return false;
-        }
-        return isBaileysAuthFileName(entry.name);
-      });
     }
     const credsStats = await fs.lstat(resolveWebCredsPath(authDir)).catch(() => null);
     if (credsStats?.isFile()) {
@@ -265,65 +222,8 @@ async function shouldClearOnLogout(authDir: string, isLegacyAuthDir: boolean): P
   }
 }
 
-function isPathInsideDirectory(baseDir: string, targetPath: string): boolean {
-  const relativePath = path.relative(baseDir, targetPath);
-  return relativePath !== "" && !relativePath.startsWith("..") && !path.isAbsolute(relativePath);
-}
-
-async function pathHasSymlinkComponent(baseDir: string, targetPath: string): Promise<boolean> {
-  const relativePath = path.relative(baseDir, targetPath);
-  let currentPath = baseDir;
-  for (const segment of relativePath.split(path.sep)) {
-    currentPath = path.join(currentPath, segment);
-    const stats = await fs.lstat(currentPath).catch(() => null);
-    if (!stats || stats.isSymbolicLink()) {
-      return true;
-    }
-  }
-  return false;
-}
-
-type WebAuthDirOwnership =
-  | { kind: "owned"; authDir: string }
-  | { kind: "unsafe-owned" }
-  | { kind: "external" };
-
-async function isLegacyWebAuthDir(authDir: string): Promise<boolean> {
-  const legacyAuthDir = path.resolve(resolveOAuthDir());
-  const resolvedAuthDir = path.resolve(authDir);
-  if (resolvedAuthDir !== legacyAuthDir) {
-    return false;
-  }
-  const stats = await fs.lstat(resolvedAuthDir).catch(() => null);
-  return stats?.isDirectory() === true && !stats.isSymbolicLink();
-}
-
-async function classifyWebAuthDirOwnership(authDir: string): Promise<WebAuthDirOwnership> {
-  const whatsappAuthBase = path.resolve(resolveOAuthDir(), "whatsapp");
-  const resolvedAuthDir = path.resolve(authDir);
-  if (!isPathInsideDirectory(whatsappAuthBase, resolvedAuthDir)) {
-    return { kind: "external" };
-  }
-
-  const [baseRealPath, authDirRealPath] = await Promise.all([
-    fs.realpath(whatsappAuthBase).catch(() => null),
-    fs.realpath(resolvedAuthDir).catch(() => null),
-  ]);
-  if (!baseRealPath || !authDirRealPath) {
-    return { kind: "unsafe-owned" };
-  }
-  if (!isPathInsideDirectory(baseRealPath, authDirRealPath)) {
-    return { kind: "unsafe-owned" };
-  }
-  if (await pathHasSymlinkComponent(whatsappAuthBase, resolvedAuthDir)) {
-    return { kind: "unsafe-owned" };
-  }
-  return { kind: "owned", authDir: resolvedAuthDir };
-}
-
 export async function logoutWeb(params: {
   authDir?: string;
-  isLegacyAuthDir?: boolean;
   runtime?: RuntimeEnv;
 }) {
   const runtime = params.runtime ?? defaultRuntime;
@@ -334,35 +234,9 @@ export async function logoutWeb(params: {
       info("WhatsApp auth state is still stabilizing; clearing cached credentials anyway."),
     );
   }
-  if (!(await shouldClearOnLogout(resolvedAuthDir, Boolean(params.isLegacyAuthDir)))) {
+  if (!(await shouldClearOnLogout(resolvedAuthDir))) {
     runtime.log(info("No WhatsApp Web session found; nothing to delete."));
     return false;
-  }
-  if (params.isLegacyAuthDir) {
-    if (!(await isLegacyWebAuthDir(resolvedAuthDir))) {
-      runtime.log(
-        info("Skipped WhatsApp Web credential cleanup outside the managed legacy auth directory."),
-      );
-      return false;
-    }
-    await clearBaileysAuthFiles(resolvedAuthDir);
-  } else {
-    const ownership = await classifyWebAuthDirOwnership(resolvedAuthDir);
-    if (ownership.kind === "owned") {
-      await fs.rm(ownership.authDir, { recursive: true, force: true });
-    } else if (ownership.kind === "unsafe-owned") {
-      runtime.log(
-        info(
-          "Skipped WhatsApp Web credential cleanup because the auth directory crosses a symlink boundary.",
-        ),
-      );
-      return false;
-    } else {
-      runtime.log(
-        info("Skipped WhatsApp Web credential cleanup outside the managed auth directory."),
-      );
-      return false;
-    }
   }
   runtime.log(success("Cleared WhatsApp Web credentials."));
   return true;

@@ -1,9 +1,9 @@
 /** Cleanup helpers for failed ACP spawn flows. */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { callGateway } from "../../gateway/call.js";
-import { logVerbose } from "../../globals.js";
-import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
-import { getAcpSessionManager } from "./manager.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { logVerbose } from "../../globals.ts";
+import { getSessionBindingService } from "../../infra/outbound/session-binding-service.ts";
+import { getAcpSessionManager } from "./manager.ts";
 
 /** Minimal runtime handle needed to close a just-created session during failed spawn cleanup. */
 export type AcpSpawnRuntimeCloseHandle = {

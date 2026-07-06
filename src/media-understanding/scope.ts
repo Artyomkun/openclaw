@@ -1,8 +1,8 @@
 // Media-understanding scope helpers evaluate ordered channel/chat/session rules
 // before media providers process attachments.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatType } from "../channels/chat-type.js";
-import type { MediaUnderstandingScopeConfig } from "../config/types.tools.js";
+import { normalizeChatType } from "../channels/chat-type.ts";
+import type { MediaUnderstandingScopeConfig } from "../config/types.tools.ts";
 
 type MediaUnderstandingScopeDecision = "allow" | "deny";
 

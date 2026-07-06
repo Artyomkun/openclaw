@@ -1,6 +1,6 @@
 // Narrow session-store helpers for channel hot paths.
 
-import { resolveStorePath as resolveSessionStorePath } from "../config/sessions/paths.js";
+import { resolveStorePath as resolveSessionStorePath } from "../config/sessions/paths.ts";
 import {
   cleanupSessionLifecycleArtifacts as cleanupAccessorSessionLifecycleArtifacts,
   listSessionEntries as listAccessorSessionEntries,
@@ -10,11 +10,10 @@ import {
   replaceSessionEntry,
   type SessionAccessScope,
   updateSessionEntry,
-} from "../config/sessions/session-accessor.js";
-import { loadSessionStore as loadSessionStoreImpl } from "../config/sessions/store-load.js";
-import { normalizeResolvedMaintenanceConfigInput } from "../config/sessions/store-maintenance.js";
-import type { ResolvedSessionMaintenanceConfigInput } from "../config/sessions/store.js";
-import type { SessionEntry } from "../config/sessions/types.js";
+} from "../config/sessions/session-accessor.ts";
+import { normalizeResolvedMaintenanceConfigInput } from "../config/sessions/store-maintenance.ts";
+import type { ResolvedSessionMaintenanceConfigInput } from "../config/sessions/store.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
 
 type SessionStoreReadParams = {
   agentId?: string;
@@ -95,14 +94,6 @@ function toSessionAccessScope(params: SessionStoreReadParams): SessionAccessScop
     ...(params.storePath !== undefined ? { storePath: params.storePath } : {}),
   };
 }
-
-/**
- * @deprecated Use getSessionEntry/listSessionEntries for reads and
- * patchSessionEntry/upsertSessionEntry for writes. This whole-store helper is
- * kept only during the transition before SQLite migration. Callers must
- * migrate away from reading sessions.json directly.
- */
-export const loadSessionStore = loadSessionStoreImpl;
 
 /** Loads one session entry by agent/session identity. */
 export function getSessionEntry(params: SessionStoreReadParams): SessionEntry | undefined {
@@ -186,43 +177,23 @@ export async function cleanupSessionLifecycleArtifacts(
   });
 }
 
-export { resolveSessionStoreEntry } from "../config/sessions/store-entry.js";
-export { resolveSessionTranscriptPathInDir, resolveStorePath } from "../config/sessions/paths.js";
-/**
- * @deprecated Use getSessionEntry to read session metadata by agent/session
- * identity instead of resolving transcript file paths. This file-path helper
- * is kept only during the transition before SQLite migration. Callers must
- * migrate away from resolving transcript file paths directly.
- */
-export { resolveSessionFilePath } from "../config/sessions/paths.js";
-/**
- * @deprecated Use patchSessionEntry/upsertSessionEntry to persist session
- * metadata by agent/session identity. This file-path helper is kept only during
- * the transition before SQLite migration. Callers must migrate away from
- * persisting transcript file paths directly.
- */
-export { resolveAndPersistSessionFile } from "../config/sessions/session-file.js";
+export { resolveSessionStoreEntry } from "../config/sessions/store-entry.ts";
+export { resolveSessionTranscriptPathInDir, resolveStorePath } from "../config/sessions/paths.ts";
 export {
   readLatestAssistantTextFromSessionTranscript,
   readRecentUserAssistantTextForSession,
   type SessionRecentConversationText,
-} from "../config/sessions/transcript.js";
-export { resolveSessionKey } from "../config/sessions/session-key.js";
-export { resolveGroupSessionKey } from "../config/sessions/group.js";
-export { canonicalizeMainSessionAlias } from "../config/sessions/main-session.js";
+} from "../config/sessions/transcript.ts";
+export { resolveSessionKey } from "../config/sessions/session-key.ts";
+export { resolveGroupSessionKey } from "../config/sessions/group.ts";
+export { canonicalizeMainSessionAlias } from "../config/sessions/main-session.ts";
 export {
   clearSessionStoreCacheForTest,
   recordSessionMetaFromInbound,
   updateLastRoute,
-} from "../config/sessions/store.js";
-/**
- * @deprecated Use patchSessionEntry/upsertSessionEntry for writes. These
- * whole-store helpers are kept only during the transition before SQLite
- * migration. Callers must migrate away from reading or writing sessions.json.
- */
-export { saveSessionStore, updateSessionStore } from "../config/sessions/store.js";
+} from "../config/sessions/store.ts";
 // Maintainer note: keep saveSessionStore/updateSessionStore grouped as one
-// compatibility operation. A SQLite bridge must diff before/after store shapes,
+// compatibility operation. A Oracle bridge must diff before/after store shapes,
 // apply changed/deleted rows in one write transaction, and publish after commit.
 export {
   evaluateSessionFreshness,
@@ -230,6 +201,6 @@ export {
   resolveSessionResetPolicy,
   resolveSessionResetType,
   resolveThreadFlag,
-} from "../config/sessions/reset.js";
-export { resolveSendPolicy } from "../sessions/send-policy.js";
-export type { SessionEntry, SessionScope } from "../config/sessions/types.js";
+} from "../config/sessions/reset.ts";
+export { resolveSendPolicy } from "../sessions/send-policy.ts";
+export type { SessionEntry, SessionScope } from "../config/sessions/types.ts";

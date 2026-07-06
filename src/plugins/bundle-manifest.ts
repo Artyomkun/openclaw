@@ -6,17 +6,17 @@ import {
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeUniqueSingleOrTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
 import JSON5 from "json5";
-import { matchRootFileOpenFailure } from "../infra/boundary-file-read.js";
-import { readRootStructuredFileSync } from "../infra/json-files.js";
-import { isRecord } from "../utils.js";
-import type { PluginBundleFormat } from "./manifest-types.js";
-import type { PluginManifestActivation } from "./manifest.js";
+import { matchRootFileOpenFailure } from "../infra/boundary-file-read.ts";
+import { readRootStructuredFileSync } from "../infra/json-files.ts";
+import { isRecord } from "../utils.ts";
+import type { PluginBundleFormat } from "./manifest-types.ts";
+import type { PluginManifestActivation } from "./manifest.ts";
 import {
   DEFAULT_PLUGIN_ENTRY_CANDIDATES,
   normalizeManifestActivation,
   PLUGIN_MANIFEST_FILENAME,
-} from "./manifest.js";
-import { pluginScanExistsSync } from "./plugin-scan-existence-cache.js";
+} from "./manifest.ts";
+import { pluginScanExistsSync } from "./plugin-scan-existence-cache.ts";
 
 /** Relative manifest path for Codex-style plugin bundles. */
 export const CODEX_BUNDLE_MANIFEST_RELATIVE_PATH = ".codex-plugin/plugin.json";

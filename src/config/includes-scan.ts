@@ -1,8 +1,8 @@
 // Scans included config files and resolves include graphs.
 import * as fs from "node:fs/promises";
 import path from "node:path";
-import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.js";
-import { INCLUDE_KEY, MAX_INCLUDE_DEPTH } from "./includes.js";
+import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.ts";
+import { INCLUDE_KEY, MAX_INCLUDE_DEPTH } from "./includes.ts";
 
 // Include discovery walks nested config objects because include blocks may be embedded.
 function listDirectIncludes(parsed: unknown): string[] {

@@ -4,7 +4,7 @@ import {
   isAvatarHttpUrl,
   isAvatarImageDataUrl,
   looksLikeAvatarPath,
-} from "../shared/avatar-policy.js";
+} from "../shared/avatar-policy.ts";
 
 const CONTROL_UI_AVATAR_PREFIX = "/avatar";
 

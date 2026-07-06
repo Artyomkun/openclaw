@@ -47,7 +47,7 @@ require_cmd() {
 
 run_docker_build() {
   # Dockerfile uses BuildKit-only syntax (RUN --mount=type=cache). Force
-  # BuildKit so hosts defaulting to the legacy builder do not fail.
+  # BuildKit so hosts defaulting to the classic builder do not fail.
   docker_build_exec "$@"
 }
 

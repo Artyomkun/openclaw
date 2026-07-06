@@ -2,7 +2,7 @@
 import type {
   DetachedTaskLifecycleRuntime,
   DetachedTaskLifecycleRuntimeRegistration,
-} from "./detached-task-runtime-contract.js";
+} from "./detached-task-runtime-contract.ts";
 
 export type { DetachedTaskLifecycleRuntime, DetachedTaskLifecycleRuntimeRegistration };
 

@@ -3,7 +3,7 @@
  *
  * Models ack/nack policy and idempotent receive state transitions for inbound events.
  */
-import type { ChannelMessageReceiveAckPolicy } from "./types.js";
+import type { ChannelMessageReceiveAckPolicy } from "./types.ts";
 
 /** Public alias for channel receive acknowledgement policy names. */
 export type MessageAckPolicy = ChannelMessageReceiveAckPolicy;

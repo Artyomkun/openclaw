@@ -6,10 +6,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ExecHost } from "../infra/exec-approvals.js";
-import { safeStatSync } from "../infra/path-guards.js";
-import type { BashSandboxConfig } from "./bash-tools.shared.js";
-import { assertSandboxPath } from "./sandbox-paths.js";
+import type { ExecHost } from "../infra/exec-approvals.ts";
+import { safeStatSync } from "../infra/path-guards.ts";
+import type { BashSandboxConfig } from "./bash-tools.shared.ts";
+import { assertSandboxPath } from "./sandbox-paths.ts";
 
 export type ExecWorkdirResolution =
   | { kind: "local"; hostCwd: string }

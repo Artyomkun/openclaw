@@ -1,8 +1,8 @@
 // Memory host event helpers append and read memory host event logs.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { appendRegularFile } from "../infra/fs-safe.js";
-import type { MemoryDreamingPhaseName } from "./dreaming.js";
+import { appendRegularFile } from "../infra/fs-safe.ts";
+import type { MemoryDreamingPhaseName } from "./dreaming.ts";
 
 /** Workspace-relative JSONL audit log for memory recall, promotion, and dream events. */
 export const MEMORY_HOST_EVENT_LOG_RELATIVE_PATH = path.join("memory", ".dreams", "events.jsonl");
@@ -153,11 +153,7 @@ export async function readMemoryHostEvents(params: {
   workspaceDir: string;
   limit?: number;
 }): Promise<MemoryHostEvent[]> {
-  const events = await readMemoryHostEventRecordsRaw({ workspaceDir: params.workspaceDir });
-  const legacyEvents = events.filter(
-    (event): event is MemoryHostEvent => event.type !== "memory.recall.skipped",
-  );
-  return applyMemoryHostEventLimit(legacyEvents, params.limit);
+  return applyMemoryHostEventLimit(params.limit);
 }
 
 /** Read recent memory host event records, including opt-in diagnostic variants. */

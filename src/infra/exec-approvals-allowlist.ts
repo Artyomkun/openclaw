@@ -5,14 +5,14 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isInterpreterLikeAllowlistPattern } from "./command-analysis/inline-eval.js";
-import { detectInlineEvalArgv } from "./command-analysis/risks.js";
-import { explainShellCommand } from "./command-explainer/extract.js";
-import type { CommandStep } from "./command-explainer/types.js";
+import { isInterpreterLikeAllowlistPattern } from "./command-analysis/inline-eval.ts";
+import { detectInlineEvalArgv } from "./command-analysis/risks.ts";
+import { explainShellCommand } from "./command-explainer/extract.ts";
+import type { CommandStep } from "./command-explainer/types.ts";
 import {
   isDispatchWrapperExecutable,
   unwrapDispatchWrappersForResolution,
-} from "./dispatch-wrapper-resolution.js";
+} from "./dispatch-wrapper-resolution.ts";
 import {
   isWindowsPlatform,
   matchAllowlist,
@@ -28,39 +28,39 @@ import {
   type ExecCommandSegment,
   type ExecutableResolution,
   type ShellChainOperator,
-} from "./exec-approvals-analysis.js";
-import type { ExecAllowlistEntry } from "./exec-approvals.types.js";
+} from "./exec-approvals-analysis.ts";
+import type { ExecAllowlistEntry } from "./exec-approvals.types.ts";
 import {
   canUseReusableWrapperPayloadCandidates,
   planExecAuthorization,
   planShellAuthorization,
   type ExecAuthorizationCandidate,
   type ExecAuthorizationPlan,
-} from "./exec-authorization-plan.js";
+} from "./exec-authorization-plan.ts";
 import {
   DEFAULT_SAFE_BINS,
   SAFE_BIN_PROFILES,
   type SafeBinProfile,
   validateSafeBinArgv,
-} from "./exec-safe-bin-policy.js";
-import { isTrustedSafeBinPath } from "./exec-safe-bin-trust.js";
-import { isSafeBuiltinSegment } from "./exec-safe-builtins.js";
+} from "./exec-safe-bin-policy.ts";
+import { isTrustedSafeBinPath } from "./exec-safe-bin-trust.ts";
+import { isSafeBuiltinSegment } from "./exec-safe-builtins.ts";
 import {
   extractBindableShellWrapperInlineCommand,
   isShellWrapperExecutable,
   normalizeExecutableToken,
   POWERSHELL_WRAPPERS,
-} from "./exec-wrapper-resolution.js";
-import { resolveExecWrapperTrustPlan } from "./exec-wrapper-trust-plan.js";
-import { expandHomePrefix } from "./home-dir.js";
+} from "./exec-wrapper-resolution.ts";
+import { resolveExecWrapperTrustPlan } from "./exec-wrapper-trust-plan.ts";
+import { expandHomePrefix } from "./home-dir.ts";
 import {
   POSIX_INLINE_COMMAND_FLAGS,
   isDirectShellPositionalCarrierCommand,
   isPowerShellInlineFileCommandFlag,
   resolveInlineCommandMatch,
   resolvePowerShellInlineCommandMatch,
-} from "./shell-inline-command.js";
-import { analyzeWindowsShellCommand } from "./windows-shell-command.js";
+} from "./shell-inline-command.ts";
+import { analyzeWindowsShellCommand } from "./windows-shell-command.ts";
 
 function hasShellLineContinuation(command: string): boolean {
   return /\\(?:\r\n|\n|\r)/.test(command);

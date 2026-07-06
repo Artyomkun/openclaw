@@ -1,24 +1,24 @@
 // Channel login/logout command helpers for local config and gateway reconciliation.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
 import {
   getChannelPlugin,
   listChannelPlugins,
   normalizeChannelId,
-} from "../channels/plugins/index.js";
-import { resolveInstallableChannelPlugin } from "../commands/channel-setup/channel-plugin-resolution.js";
-import { getRuntimeConfig, readConfigFileSnapshot, type OpenClawConfig } from "../config/config.js";
-import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import { callGateway } from "../gateway/call.js";
-import { setVerbose } from "../globals.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
-import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
-import { formatCliCommand } from "./command-format.js";
-import { formatUnsupportedChannelActionMessage } from "./error-format.js";
-import { commitConfigWithPendingPluginInstalls } from "./plugins-install-record-commit.js";
+} from "../channels/plugins/index.ts";
+import { resolveInstallableChannelPlugin } from "../commands/channel-setup/channel-plugin-resolution.ts";
+import { getRuntimeConfig, readConfigFileSnapshot, type OpenClawConfig } from "../config/config.ts";
+import { applyPluginAutoEnable } from "../config/plugin-auto-enable.ts";
+import { callGateway } from "../gateway/call.ts";
+import { setVerbose } from "../globals.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { formatUnsupportedChannelActionMessage } from "./error-format.ts";
+import { commitConfigWithPendingPluginInstalls } from "./plugins-install-record-commit.ts";
 
 type ChannelAuthOptions = {
   channel?: string;

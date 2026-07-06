@@ -1,12 +1,12 @@
 // Gateway session child-discovery helpers.
-// Finds direct parent/child relationships across canonical and legacy fields.
+// Finds direct parent/child relationships across canonical and older fields.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { loadCombinedSessionStoreForGateway } from "../config/sessions/combined-store-gateway.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { loadCombinedSessionStoreForGateway } from "../config/sessions/combined-store-gateway.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 // Child-session discovery reads the combined gateway session store and matches
-// both legacy spawnedBy and newer parentSessionKey relationships.
+// both older spawnedBy and newer parentSessionKey relationships.
 /** Direct child session entry returned for parent session lookups. */
 export type DirectChildSessionEntry = {
   sessionKey: string;

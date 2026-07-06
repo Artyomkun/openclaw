@@ -1,14 +1,14 @@
 // Node screen recording command: invokes screen.record and writes returned media locally.
 import type { Command } from "commander";
-import { defaultRuntime } from "../../runtime.js";
-import { shortenHomePath } from "../../utils.js";
+import { defaultRuntime } from "../../runtime.ts";
+import { shortenHomePath } from "../../utils.ts";
 import {
   parseScreenRecordPayload,
   screenRecordTempPath,
   writeScreenRecordToFile,
-} from "../nodes-screen.js";
-import { parseDurationMs } from "../parse-duration.js";
-import { runNodesCommand } from "./cli-utils.js";
+} from "../nodes-screen.ts";
+import { parseDurationMs } from "../parse-duration.ts";
+import { runNodesCommand } from "./cli-utils.ts";
 import {
   buildNodeInvokeParams,
   callGatewayCli,
@@ -17,8 +17,8 @@ import {
   parseOptionalNodeNonNegativeInteger,
   parseOptionalNodePositiveInteger,
   resolveNodeId,
-} from "./rpc.js";
-import type { NodesRpcOpts } from "./types.js";
+} from "./rpc.ts";
+import type { NodesRpcOpts } from "./types.ts";
 
 /** Register node screen recording commands. */
 export function registerNodesScreenCommands(nodes: Command) {

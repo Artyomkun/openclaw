@@ -1,10 +1,10 @@
 // Registers the terminal UI subcommand and normalizes its local-vs-gateway options.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { defaultRuntime } from "../runtime.js";
-import { parseTimeoutMs } from "./parse-timeout.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { parseTimeoutMs } from "./parse-timeout.ts";
 
 /** Attach the `tui` command plus its `terminal`/`chat` aliases to the root CLI. */
 export function registerTuiCli(program: Command) {

@@ -1,8 +1,8 @@
 // PTY adapter wraps pseudo-terminal processes for the process supervisor.
-import { signalProcessTree } from "../../kill-tree.js";
-import { prepareOomScoreAdjustedSpawn } from "../../linux-oom-score.js";
-import type { ManagedRunStdin, SpawnProcessAdapter } from "../types.js";
-import { toStringEnv } from "./env.js";
+import { signalProcessTree } from "../../kill-tree.ts";
+import { prepareOomScoreAdjustedSpawn } from "../../linux-oom-score.ts";
+import type { ManagedRunStdin, SpawnProcessAdapter } from "../types.ts";
+import { toStringEnv } from "./env.ts";
 
 const FORCE_KILL_WAIT_FALLBACK_MS = 4000;
 

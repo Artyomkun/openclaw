@@ -2,28 +2,28 @@
  * Builds extension factories available to embedded-agent runtime sessions.
  */
 import { randomUUID } from "node:crypto";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
-import { setCompactionSafeguardRuntime } from "../agent-hooks/compaction-safeguard-runtime.js";
-import compactionSafeguardExtension from "../agent-hooks/compaction-safeguard.js";
-import contextPruningExtension from "../agent-hooks/context-pruning.js";
-import { setContextPruningRuntime } from "../agent-hooks/context-pruning/runtime.js";
-import { computeEffectiveSettings } from "../agent-hooks/context-pruning/settings.js";
-import { makeToolPrunablePredicate } from "../agent-hooks/context-pruning/tools.js";
-import { resolveEffectiveCompactionMode } from "../agent-settings.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
+import { setCompactionSafeguardRuntime } from "../agent-hooks/compaction-safeguard-runtime.ts";
+import compactionSafeguardExtension from "../agent-hooks/compaction-safeguard.ts";
+import contextPruningExtension from "../agent-hooks/context-pruning.ts";
+import { setContextPruningRuntime } from "../agent-hooks/context-pruning/runtime.ts";
+import { computeEffectiveSettings } from "../agent-hooks/context-pruning/settings.ts";
+import { makeToolPrunablePredicate } from "../agent-hooks/context-pruning/tools.ts";
+import { resolveEffectiveCompactionMode } from "../agent-settings.ts";
 import {
   finalizeToolTerminalPresentation,
   peekAdjustedParamsForToolCall,
-} from "../agent-tools.before-tool-call.js";
-import { resolveContextWindowInfo } from "../context-window-guard.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../defaults.js";
-import { createAgentToolResultMiddlewareRunner } from "../harness/tool-result-middleware.js";
-import type { AgentToolResult } from "../runtime/index.js";
-import type { ExtensionFactory, SessionManager } from "../sessions/index.js";
-import { isToolResultError } from "../tool-result-error.js";
-import { resolveTranscriptPolicy } from "../transcript-policy.js";
-import { isCacheTtlEligibleProvider, readLastCacheTtlTimestamp } from "./cache-ttl.js";
-import { recordEmbeddedToolSendReceipt } from "./tool-send-receipts.js";
+} from "../agent-tools.before-tool-call.ts";
+import { resolveContextWindowInfo } from "../context-window-guard.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../defaults.ts";
+import { createAgentToolResultMiddlewareRunner } from "../harness/tool-result-middleware.ts";
+import type { AgentToolResult } from "../runtime/index.ts";
+import type { ExtensionFactory, SessionManager } from "../sessions/index.ts";
+import { isToolResultError } from "../tool-result-error.ts";
+import { resolveTranscriptPolicy } from "../transcript-policy.ts";
+import { isCacheTtlEligibleProvider, readLastCacheTtlTimestamp } from "./cache-ttl.ts";
+import { recordEmbeddedToolSendReceipt } from "./tool-send-receipts.ts";
 
 type AgentToolResultEvent = {
   threadId?: string;

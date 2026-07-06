@@ -1,6 +1,6 @@
 // OpenResponses file-content boundary helper.
 // Marks uploaded/read file text as untrusted external model input.
-import { wrapExternalContent } from "../security/external-content.js";
+import { wrapExternalContent } from "../security/external-content.ts";
 
 // OpenResponses file content is untrusted model input. The wrapper preserves
 // content while marking it as external so prompt assembly keeps the boundary.

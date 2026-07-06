@@ -1,15 +1,15 @@
 // Registers plugin-related CLI commands.
 import type { Command } from "commander";
-import { getRuntimeConfig, readConfigFileSnapshot } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { getRuntimeConfig, readConfigFileSnapshot } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   createPluginCliLogger,
   loadPluginCliDescriptors,
   loadPluginCliRegistrationEntriesWithDefaults,
   type PluginCliLoaderOptions,
-} from "./cli-registry-loader.js";
-import { registerPluginCliCommandGroups } from "./register-plugin-cli-command-groups.js";
-import type { OpenClawPluginCliCommandDescriptor, PluginLogger } from "./types.js";
+} from "./cli-registry-loader.ts";
+import { registerPluginCliCommandGroups } from "./register-plugin-cli-command-groups.ts";
+import type { OpenClawPluginCliCommandDescriptor, PluginLogger } from "./types.ts";
 
 type PluginCliRegistrationMode = "eager" | "lazy";
 

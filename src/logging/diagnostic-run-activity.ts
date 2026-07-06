@@ -3,7 +3,7 @@ import {
   onInternalDiagnosticEvent,
   type DiagnosticEventPayload,
   type DiagnosticSessionActiveWorkKind,
-} from "../infra/diagnostic-events.js";
+} from "../infra/diagnostic-events.ts";
 
 type SessionActivity = {
   sessionId?: string;

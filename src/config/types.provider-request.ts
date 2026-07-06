@@ -2,7 +2,7 @@
  * Config types for provider HTTP transport overrides.
  * Values that can carry credentials use SecretInput so redaction and secret refs stay consistent.
  */
-import type { SecretInput } from "./types.secrets.js";
+import type { SecretInput } from "./types.secrets.ts";
 
 /** Authentication override applied to provider requests after model/provider defaults resolve. */
 export type ConfiguredProviderRequestAuth =

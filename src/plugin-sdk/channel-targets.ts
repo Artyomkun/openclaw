@@ -11,7 +11,7 @@ export {
   resolveNestedAllowlistDecision,
   type ChannelEntryMatch,
   type ChannelMatchSource,
-} from "../channels/channel-config.js";
+} from "../channels/channel-config.ts";
 export {
   buildMessagingTarget,
   ensureTargetId,
@@ -25,7 +25,7 @@ export {
   type MessagingTarget,
   type MessagingTargetKind,
   type MessagingTargetParseOptions,
-} from "../channels/targets.js";
+} from "../channels/targets.ts";
 export {
   createAllowedChatSenderMatcher,
   parseChatAllowTargetPrefixes,
@@ -39,11 +39,11 @@ export {
   type ParsedChatAllowTarget,
   type ParsedChatTarget,
   type ServicePrefix,
-} from "../channels/plugins/chat-target-prefixes.js";
-export type { ChannelId } from "../channels/plugins/types.public.js";
-export { normalizeChannelId } from "../channels/plugins/registry.js";
-export { resolveChannelTtsVoiceDelivery } from "../channels/plugins/tts-capabilities.js";
+} from "../channels/plugins/chat-target-prefixes.ts";
+export type { ChannelId } from "../channels/plugins/types.public.ts";
+export { normalizeChannelId } from "../channels/plugins/registry.ts";
+export { resolveChannelTtsVoiceDelivery } from "../channels/plugins/tts-capabilities.ts";
 export {
   buildUnresolvedTargetResults,
   resolveTargetsWithOptionalToken,
-} from "../channels/plugins/target-resolvers.js";
+} from "../channels/plugins/target-resolvers.ts";

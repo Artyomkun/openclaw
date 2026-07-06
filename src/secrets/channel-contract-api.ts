@@ -2,21 +2,21 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { openRootFileSync } from "../infra/boundary-file-read.js";
-import { shouldRejectHardlinkedPluginFiles } from "../plugins/hardlink-policy.js";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
-import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { openRootFileSync } from "../infra/boundary-file-read.ts";
+import { shouldRejectHardlinkedPluginFiles } from "../plugins/hardlink-policy.ts";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
+import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
 import {
   createPluginModuleLoaderCache,
   getCachedPluginModuleLoader,
   type PluginModuleLoaderCache,
-} from "../plugins/plugin-module-loader-cache.js";
-import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
-import { loadBundledPluginPublicArtifactModuleSync } from "../plugins/public-surface-loader.js";
-import type { ResolverContext, SecretDefaults } from "./runtime-shared.js";
-import type { SecretTargetRegistryEntry } from "./target-registry-types.js";
+} from "../plugins/plugin-module-loader-cache.ts";
+import type { PluginOrigin } from "../plugins/plugin-origin.types.ts";
+import { loadBundledPluginPublicArtifactModuleSync } from "../plugins/public-surface-loader.ts";
+import type { ResolverContext, SecretDefaults } from "./runtime-shared.ts";
+import type { SecretTargetRegistryEntry } from "./target-registry-types.ts";
 
 type UnsupportedSecretRefConfigCandidate = {
   path: string;
@@ -36,7 +36,7 @@ type BundledChannelContractApi = {
   ) => UnsupportedSecretRefConfigCandidate[];
 };
 
-const CONTRACT_API_EXTENSIONS = [".js", ".mjs", ".cjs", ".ts", ".mts", ".cts"] as const;
+const CONTRACT_API_EXTENSIONS = [".js", ".ts", ".ts", ".ts", ".ts", ] as const;
 const CURRENT_MODULE_PATH = fileURLToPath(import.meta.url);
 const RUNNING_FROM_BUILT_ARTIFACT =
   CURRENT_MODULE_PATH.includes(`${path.sep}dist${path.sep}`) ||

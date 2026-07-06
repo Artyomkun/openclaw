@@ -8,32 +8,32 @@ import { access as fsAccess, readFile as fsReadFile } from "node:fs/promises";
 import { basename, dirname, isAbsolute, relative, resolve as resolvePath, sep } from "node:path";
 import { Text } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
-import { toErrorObject } from "../../../infra/errors.js";
-import { decodeWindowsTextFileBuffer } from "../../../infra/windows-encoding.js";
-import type { ImageContent, Model, TextContent } from "../../../llm/types.js";
+import { toErrorObject } from "../../../infra/errors.ts";
+import { decodeWindowsTextFileBuffer } from "../../../infra/windows-encoding.ts";
+import type { ImageContent, Model, TextContent } from "../../../llm/types.ts";
 import {
   classifyMediaReferenceSource,
   normalizeMediaReferenceSource,
   resolveMediaReferenceLocalPath,
-} from "../../../media/media-reference.js";
-import { getReadmePath } from "../../config.js";
-import { keyHint, keyText } from "../../modes/interactive/components/keybinding-hints.js";
+} from "../../../media/media-reference.ts";
+import { getReadmePath } from "../../config.ts";
+import { keyHint, keyText } from "../../modes/interactive/components/keybinding-hints.ts";
 import {
   getLanguageFromPath,
   highlightCode,
   type Theme,
-} from "../../modes/interactive/theme/theme.js";
-import type { AgentTool } from "../../runtime/index.js";
-import { formatDimensionNote, resizeImage } from "../../utils/image-resize.js";
-import { detectSupportedImageMimeTypeFromFile } from "../../utils/mime.js";
-import { formatPathRelativeToCwdOrAbsolute } from "../../utils/paths.js";
-import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.js";
-import { normalizePositiveLimit } from "./limits.js";
-import { resolveReadPath } from "./path-utils.js";
-import { getTextOutput, invalidArgText, replaceTabs, shortenPath, str } from "./render-utils.js";
-import type { ReadToolDetails } from "./tool-contracts.js";
-import { wrapToolDefinition } from "./tool-definition-wrapper.js";
-import { DEFAULT_MAX_BYTES, DEFAULT_MAX_LINES, formatSize, truncateHead } from "./truncate.js";
+} from "../../modes/interactive/theme/theme.ts";
+import type { AgentTool } from "../../runtime/index.ts";
+import { formatDimensionNote, resizeImage } from "../../utils/image-resize.ts";
+import { detectSupportedImageMimeTypeFromFile } from "../../utils/mime.ts";
+import { formatPathRelativeToCwdOrAbsolute } from "../../utils/paths.ts";
+import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.ts";
+import { normalizePositiveLimit } from "./limits.ts";
+import { resolveReadPath } from "./path-utils.ts";
+import { getTextOutput, invalidArgText, replaceTabs, shortenPath, str } from "./render-utils.ts";
+import type { ReadToolDetails } from "./tool-contracts.ts";
+import { wrapToolDefinition } from "./tool-definition-wrapper.ts";
+import { DEFAULT_MAX_BYTES, DEFAULT_MAX_LINES, formatSize, truncateHead } from "./truncate.ts";
 
 const readSchema = Type.Object({
   path: Type.String({ description: "Path to the file to read (relative or absolute)" }),
@@ -42,7 +42,7 @@ const readSchema = Type.Object({
   ),
   limit: Type.Optional(Type.Number({ description: "Maximum number of lines to read" })),
 });
-export type { ReadToolDetails, ReadToolInput } from "./tool-contracts.js";
+export type { ReadToolDetails, ReadToolInput } from "./tool-contracts.ts";
 
 interface CompactReadClassification {
   kind: "docs" | "resource" | "skill";

@@ -1,20 +1,20 @@
 // Extracts web provider public artifacts from plugin entrypoints.
 import path from "node:path";
 import { normalizeUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { normalizePluginId } from "./config-state.js";
-import type { PluginLoadOptions } from "./loader.js";
-import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { PluginWebFetchProviderEntry, PluginWebSearchProviderEntry } from "./types.js";
-import { resolveBundledWebFetchResolutionConfig } from "./web-fetch-providers.shared.js";
+import { normalizePluginId } from "./config-state.ts";
+import type { PluginLoadOptions } from "./loader.ts";
+import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import type { PluginWebFetchProviderEntry, PluginWebSearchProviderEntry } from "./types.ts";
+import { resolveBundledWebFetchResolutionConfig } from "./web-fetch-providers.shared.ts";
 import {
   loadBundledWebFetchProviderEntriesFromDir,
   loadBundledWebSearchProviderEntriesFromDir,
   resolveBundledExplicitWebFetchProvidersFromPublicArtifacts,
   resolveBundledExplicitWebSearchProvidersFromPublicArtifacts,
-} from "./web-provider-public-artifacts.explicit.js";
-import { resolveManifestDeclaredWebProviderCandidates } from "./web-provider-resolution-shared.js";
-import { resolveBundledWebSearchResolutionConfig } from "./web-search-providers.shared.js";
+} from "./web-provider-public-artifacts.explicit.ts";
+import { resolveManifestDeclaredWebProviderCandidates } from "./web-provider-resolution-shared.ts";
+import { resolveBundledWebSearchResolutionConfig } from "./web-search-providers.shared.ts";
 
 type BundledWebProviderPublicArtifactParams = {
   config?: PluginLoadOptions["config"];

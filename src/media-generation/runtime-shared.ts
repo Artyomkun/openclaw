@@ -1,22 +1,22 @@
 // Shares media-generation runtime polling and response helpers across providers.
 import { clampTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveCapabilityModelRefForProviders } from "../../packages/media-generation-core/src/capability-model-ref.js";
-import type { MediaGenerationNormalizationMetadataInput } from "../../packages/media-generation-core/src/normalization.js";
-import { listProfilesForProvider } from "../agents/auth-profiles.js";
-import { ensureAuthProfileStore } from "../agents/auth-profiles.js";
-import { DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { describeFailoverError, isFailoverError } from "../agents/failover-error.js";
-import { resolveEnvApiKey } from "../agents/model-auth-env.js";
-import type { FallbackAttempt } from "../agents/model-fallback.types.js";
+import { resolveCapabilityModelRefForProviders } from "../../packages/media-generation-core/src/capability-model-ref.ts";
+import type { MediaGenerationNormalizationMetadataInput } from "../../packages/media-generation-core/src/normalization.ts";
+import { listProfilesForProvider } from "../agents/auth-profiles.ts";
+import { ensureAuthProfileStore } from "../agents/auth-profiles.ts";
+import { DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { describeFailoverError, isFailoverError } from "../agents/failover-error.ts";
+import { resolveEnvApiKey } from "../agents/model-auth-env.ts";
+import type { FallbackAttempt } from "../agents/model-fallback.types.ts";
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../config/model-input.js";
-import type { AgentModelConfig } from "../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { formatErrorMessage, toErrorObject } from "../infra/errors.js";
-import { getProviderEnvVars as getDefaultProviderEnvVars } from "../secrets/provider-env-vars.js";
+} from "../config/model-input.ts";
+import type { AgentModelConfig } from "../config/types.agents-shared.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { formatErrorMessage, toErrorObject } from "../infra/errors.ts";
+import { getProviderEnvVars as getDefaultProviderEnvVars } from "../secrets/provider-env-vars.ts";
 
 // Shared media-generation runtime helpers for provider fallback, request
 // timeout normalization, model selection, and capability value normalization.
@@ -24,8 +24,8 @@ export type {
   MediaGenerationNormalizationMetadataInput,
   MediaNormalizationEntry,
   MediaNormalizationValue,
-} from "../../packages/media-generation-core/src/normalization.js";
-export { hasMediaNormalizationEntry } from "../../packages/media-generation-core/src/normalization.js";
+} from "../../packages/media-generation-core/src/normalization.ts";
+export { hasMediaNormalizationEntry } from "../../packages/media-generation-core/src/normalization.ts";
 
 export type ParsedProviderModelRef = {
   provider: string;

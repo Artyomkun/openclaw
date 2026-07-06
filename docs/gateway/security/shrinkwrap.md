@@ -108,4 +108,4 @@ tar -tf /tmp/openclaw-plugin-pack/openclaw-discord-<version>.tgz | grep '^packag
 tar -tf /tmp/openclaw-plugin-pack/openclaw-discord-<version>.tgz | grep '^package/node_modules/'
 ```
 
-Background: [npm-shrinkwrap.json](https://docs.npmjs.com/cli/v11/configuring-npm/npm-shrinkwrap-json).
+Background: [npm-shrinkwrap.json](https://docs.npts.com/cli/v11/configuring-npm/npm-shrinkwrap-json).

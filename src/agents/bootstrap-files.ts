@@ -5,19 +5,19 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { AgentContextInjection } from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveAgentConfig, resolveSessionAgentIds } from "./agent-scope.js";
-import { getOrLoadBootstrapFiles } from "./bootstrap-cache.js";
-import { applyBootstrapHookOverrides } from "./bootstrap-hooks.js";
-import type { EmbeddedContextFile } from "./embedded-agent-helpers.js";
+import type { AgentContextInjection } from "../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveAgentConfig, resolveSessionAgentIds } from "./agent-scope.ts";
+import { getOrLoadBootstrapFiles } from "./bootstrap-cache.ts";
+import { applyBootstrapHookOverrides } from "./bootstrap-hooks.ts";
+import type { EmbeddedContextFile } from "./embedded-agent-helpers.ts";
 import {
   buildBootstrapContextFiles,
   resolveBootstrapMaxChars,
   resolveBootstrapTotalMaxChars,
-} from "./embedded-agent-helpers.js";
-import { shouldIncludeHeartbeatGuidanceForSystemPrompt } from "./heartbeat-system-prompt.js";
+} from "./embedded-agent-helpers.ts";
+import { shouldIncludeHeartbeatGuidanceForSystemPrompt } from "./heartbeat-system-prompt.ts";
 import {
   DEFAULT_HEARTBEAT_FILENAME,
   DEFAULT_BOOTSTRAP_FILENAME,
@@ -25,7 +25,7 @@ import {
   isWorkspaceSetupCompleted,
   loadWorkspaceBootstrapFiles,
   type WorkspaceBootstrapFile,
-} from "./workspace.js";
+} from "./workspace.ts";
 
 export type BootstrapContextMode = "full" | "lightweight";
 type BootstrapContextRunKind = "default" | "heartbeat" | "cron";

@@ -6,31 +6,31 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   GATEWAY_CLIENT_IDS,
   GATEWAY_CLIENT_MODES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import type { ErrorShape } from "../../packages/gateway-protocol/src/index.js";
-import { PROTOCOL_VERSION } from "../../packages/gateway-protocol/src/version.js";
-import { normalizeModelRef, parseModelRef } from "../agents/model-selection.js";
-import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizePluginsConfig } from "../plugins/config-state.js";
-import { clearActivatedPluginRuntimeState, loadOpenClawPlugins } from "../plugins/loader.js";
-import { loadPluginLookUpTable, type PluginLookUpTable } from "../plugins/plugin-lookup-table.js";
-import { getPluginModuleLoaderStats } from "../plugins/plugin-module-loader-cache.js";
-import { createEmptyPluginRegistry } from "../plugins/registry-empty.js";
-import type { PluginRegistryParams } from "../plugins/registry-types.js";
-import { setActivePluginRegistry } from "../plugins/runtime.js";
-import { getPluginRuntimeGatewayRequestScope } from "../plugins/runtime/gateway-request-scope.js";
-import { createPluginRuntimeLoaderLogger } from "../plugins/runtime/load-context.js";
-import type { PluginRuntime } from "../plugins/runtime/types.js";
-import type { PluginLogger } from "../plugins/types.js";
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import { resolveSafeTimeoutDelayMs } from "../utils/timer-delay.js";
-import { ADMIN_SCOPE, APPROVALS_SCOPE, WRITE_SCOPE } from "./method-scopes.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import type { ErrorShape } from "../../packages/gateway-protocol/src/index.ts";
+import { PROTOCOL_VERSION } from "../../packages/gateway-protocol/src/version.ts";
+import { normalizeModelRef, parseModelRef } from "../agents/model-selection.ts";
+import { applyPluginAutoEnable } from "../config/plugin-auto-enable.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizePluginsConfig } from "../plugins/config-state.ts";
+import { clearActivatedPluginRuntimeState, loadOpenClawPlugins } from "../plugins/loader.ts";
+import { loadPluginLookUpTable, type PluginLookUpTable } from "../plugins/plugin-lookup-table.ts";
+import { getPluginModuleLoaderStats } from "../plugins/plugin-module-loader-cache.ts";
+import { createEmptyPluginRegistry } from "../plugins/registry-empty.ts";
+import type { PluginRegistryParams } from "../plugins/registry-types.ts";
+import { setActivePluginRegistry } from "../plugins/runtime.ts";
+import { getPluginRuntimeGatewayRequestScope } from "../plugins/runtime/gateway-request-scope.ts";
+import { createPluginRuntimeLoaderLogger } from "../plugins/runtime/load-context.ts";
+import type { PluginRuntime } from "../plugins/runtime/types.ts";
+import type { PluginLogger } from "../plugins/types.ts";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import { resolveSafeTimeoutDelayMs } from "../utils/timer-delay.ts";
+import { ADMIN_SCOPE, APPROVALS_SCOPE, WRITE_SCOPE } from "./method-scopes.ts";
 import type {
   GatewayRequestContext,
   GatewayRequestHandler,
   GatewayRequestOptions,
-} from "./server-methods/types.js";
+} from "./server-methods/types.ts";
 
 const FALLBACK_GATEWAY_CONTEXT_STATE_KEY: unique symbol = Symbol.for(
   "openclaw.fallbackGatewayContextState",

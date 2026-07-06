@@ -1,420 +1,336 @@
-// Memory Host SDK module implements memory schema behavior.
-import type { DatabaseSync } from "node:sqlite";
+import type { Connection } from "oracledb";
 import { formatErrorMessage } from "./error-utils.js";
-
-// SQLite schema setup for builtin memory index, embedding cache, and FTS.
 
 export const MEMORY_INDEX_META_TABLE = "memory_index_meta";
 export const MEMORY_INDEX_SOURCES_TABLE = "memory_index_sources";
 export const MEMORY_INDEX_CHUNKS_TABLE = "memory_index_chunks";
 export const MEMORY_EMBEDDING_CACHE_TABLE = "memory_embedding_cache";
 export const MEMORY_INDEX_STATE_TABLE = "memory_index_state";
-export const MEMORY_INDEX_FTS_TABLE = "memory_index_chunks_fts";
-export const MEMORY_INDEX_VECTOR_TABLE = "memory_index_chunks_vec";
-
-const LEGACY_MEMORY_INDEX_TRIGGERS = [
-  "memory_files_revision_after_insert",
-  "memory_files_revision_after_update",
-  "memory_files_revision_after_delete",
-  "memory_chunks_revision_after_insert",
-  "memory_chunks_revision_after_update",
-  "memory_chunks_revision_after_delete",
-] as const;
 
 const MEMORY_INDEX_SOURCE_COLUMNS = ["path", "source", "hash", "mtime", "size"] as const;
 
-function tableColumns(db: DatabaseSync, tableName: string, schema = "main"): Set<string> {
-  const rows = db.prepare(`PRAGMA ${schema}.table_info(${tableName})`).all() as Array<{
-    name?: unknown;
-  }>;
-  return new Set(rows.flatMap((row) => (typeof row.name === "string" ? [row.name] : [])));
+async function tableColumns(
+  conn: Connection,
+  tableName: string,
+): Promise<Set<string>> {
+  const result = await conn.execute(
+    `SELECT column_name FROM user_tab_columns WHERE table_name = UPPER(:tableName)`,
+    [tableName],
+  );
+  const rows = result.rows as Array<[string]>;
+  return new Set(rows.map((row) => row[0].toLowerCase()));
 }
 
-function tableHasExactColumns(
-  db: DatabaseSync,
+async function tableHasExactColumns(
+  conn: Connection,
   tableName: string,
   expected: readonly string[],
-  schema = "main",
-): boolean {
-  const columns = tableColumns(db, tableName, schema);
-  return columns.size === expected.length && expected.every((column) => columns.has(column));
+): Promise<boolean> {
+  const columns = await tableColumns(conn, tableName);
+  return columns.size === expected.length && expected.every((col) => columns.has(col.toLowerCase()));
 }
 
-function tablePrimaryKeyColumns(db: DatabaseSync, tableName: string): string[] {
-  const rows = db.prepare(`PRAGMA table_info(${tableName})`).all() as Array<{
-    name?: unknown;
-    pk?: unknown;
-  }>;
-  return rows
-    .flatMap((row) =>
-      typeof row.name === "string" && typeof row.pk === "number" && row.pk > 0
-        ? [{ name: row.name, pk: row.pk }]
-        : [],
-    )
-    .toSorted((left, right) => left.pk - right.pk)
-    .map((row) => row.name);
+async function tablePrimaryKeyColumns(
+  conn: Connection,
+  tableName: string,
+): Promise<string[]> {
+  const result = await conn.execute(
+    `SELECT column_name FROM user_cons_columns
+     WHERE constraint_name = (
+       SELECT constraint_name FROM user_constraints
+       WHERE table_name = UPPER(:tableName) AND constraint_type = 'P'
+     )
+     ORDER BY position`,
+    [tableName],
+  );
+  const rows = result.rows as Array<[string]>;
+  return rows.map((row) => row[0].toLowerCase());
 }
 
-function tableHasPrimaryKey(
-  db: DatabaseSync,
+async function tableHasPrimaryKey(
+  conn: Connection,
   tableName: string,
   expectedColumns: readonly string[],
-): boolean {
-  const columns = tablePrimaryKeyColumns(db, tableName);
+): Promise<boolean> {
+  const columns = await tablePrimaryKeyColumns(conn, tableName);
   return (
     columns.length === expectedColumns.length &&
-    columns.every((column, index) => column === expectedColumns[index])
+    columns.every((col, i) => col === expectedColumns[i].toLowerCase())
   );
 }
 
-function assertLegacyRowsCopied(db: DatabaseSync, query: string, tableName: string): void {
-  const row = db.prepare(query).get() as { missing?: unknown } | undefined;
-  if (Number(row?.missing ?? 0) > 0) {
-    throw new Error(`legacy memory ${tableName} rows conflict with canonical memory index rows`);
-  }
-}
+async function migrateCanonicalMemoryIndexSourcesPrimaryKey(
+  conn: Connection,
+): Promise<void> {
+  const hasExactColumns = await tableHasExactColumns(
+    conn,
+    MEMORY_INDEX_SOURCES_TABLE,
+    MEMORY_INDEX_SOURCE_COLUMNS,
+  );
+  const hasPkPathSource = await tableHasPrimaryKey(conn, MEMORY_INDEX_SOURCES_TABLE, ["path", "source"]);
+  const hasPkPath = await tableHasPrimaryKey(conn, MEMORY_INDEX_SOURCES_TABLE, ["path"]);
 
-function migrateCanonicalMemoryIndexSourcesPrimaryKey(db: DatabaseSync): void {
-  if (
-    !tableHasExactColumns(db, MEMORY_INDEX_SOURCES_TABLE, MEMORY_INDEX_SOURCE_COLUMNS) ||
-    tableHasPrimaryKey(db, MEMORY_INDEX_SOURCES_TABLE, ["path", "source"])
-  ) {
-    return;
-  }
-  if (!tableHasPrimaryKey(db, MEMORY_INDEX_SOURCES_TABLE, ["path"])) {
+  if (!hasExactColumns || hasPkPathSource || !hasPkPath) {
     return;
   }
 
-  db.exec("SAVEPOINT migrate_memory_index_sources_primary_key");
-  try {
-    db.exec(`
-      DROP TRIGGER IF EXISTS memory_index_sources_revision_after_insert;
-      DROP TRIGGER IF EXISTS memory_index_sources_revision_after_update;
-      DROP TRIGGER IF EXISTS memory_index_sources_revision_after_delete;
+  await conn.execute(`BEGIN
+    EXECUTE IMMEDIATE 'DROP TRIGGER memory_index_sources_revision_after_insert';
+    EXCEPTION WHEN OTHERS THEN NULL;
+  END;`);
+  await conn.execute(`BEGIN
+    EXECUTE IMMEDIATE 'DROP TRIGGER memory_index_sources_revision_after_update';
+    EXCEPTION WHEN OTHERS THEN NULL;
+  END;`);
+  await conn.execute(`BEGIN
+    EXECUTE IMMEDIATE 'DROP TRIGGER memory_index_sources_revision_after_delete';
+    EXCEPTION WHEN OTHERS THEN NULL;
+  END;`);
 
-      ALTER TABLE ${MEMORY_INDEX_SOURCES_TABLE}
-        RENAME TO memory_index_sources_path_pk_migration;
-      CREATE TABLE ${MEMORY_INDEX_SOURCES_TABLE} (
-        path TEXT NOT NULL,
-        source TEXT NOT NULL DEFAULT 'memory',
-        hash TEXT NOT NULL,
-        mtime INTEGER NOT NULL,
-        size INTEGER NOT NULL,
-        PRIMARY KEY (path, source)
-      );
-      INSERT INTO ${MEMORY_INDEX_SOURCES_TABLE} (path, source, hash, mtime, size)
-      SELECT path, source, hash, mtime, size FROM memory_index_sources_path_pk_migration;
-      DROP TABLE memory_index_sources_path_pk_migration;
-      RELEASE migrate_memory_index_sources_primary_key;
-    `);
-  } catch (err) {
-    db.exec("ROLLBACK TO migrate_memory_index_sources_primary_key");
-    db.exec("RELEASE migrate_memory_index_sources_primary_key");
-    throw err;
-  }
-}
+  await conn.execute(`BEGIN
+    EXECUTE IMMEDIATE 'ALTER TABLE ${MEMORY_INDEX_SOURCES_TABLE} RENAME TO memory_index_sources_path_pk_migration';
+  END;`);
 
-function hasLegacyMemoryIndexTables(db: DatabaseSync, schema = "main"): boolean {
-  return (
-    tableHasExactColumns(db, "meta", ["key", "value"], schema) &&
-    tableHasExactColumns(db, "files", ["path", "source", "hash", "mtime", "size"], schema) &&
-    tableHasExactColumns(
-      db,
-      "chunks",
-      [
-        "id",
-        "path",
-        "source",
-        "start_line",
-        "end_line",
-        "hash",
-        "model",
-        "text",
-        "embedding",
-        "updated_at",
-      ],
-      schema,
+  await conn.execute(`
+    CREATE TABLE ${MEMORY_INDEX_SOURCES_TABLE} (
+      path VARCHAR2(1000) NOT NULL,
+      source VARCHAR2(255) DEFAULT 'memory' NOT NULL,
+      hash VARCHAR2(64) NOT NULL,
+      mtime NUMBER(19) NOT NULL,
+      size NUMBER(19) NOT NULL,
+      CONSTRAINT pk_memory_index_sources PRIMARY KEY (path, source)
     )
-  );
-}
-
-function hasLegacyEmbeddingCacheTable(db: DatabaseSync, schema = "main"): boolean {
-  return tableHasExactColumns(
-    db,
-    "embedding_cache",
-    ["provider", "model", "provider_key", "hash", "embedding", "dims", "updated_at"],
-    schema,
-  );
-}
-
-function copyLegacyMemoryIndexRows(
-  db: DatabaseSync,
-  schema: string,
-  preservedEmbeddingCacheTable?: string,
-): void {
-  db.exec(`
-    INSERT OR IGNORE INTO main.${MEMORY_INDEX_META_TABLE} (key, value)
-    SELECT key, value FROM ${schema}.meta;
-
-    INSERT OR IGNORE INTO main.${MEMORY_INDEX_SOURCES_TABLE} (path, source, hash, mtime, size)
-    SELECT path, source, hash, mtime, size FROM ${schema}.files;
-
-    INSERT OR IGNORE INTO main.${MEMORY_INDEX_CHUNKS_TABLE} (
-      id, path, source, start_line, end_line, hash, model, text, embedding, updated_at
-    )
-    SELECT id, path, source, start_line, end_line, hash, model, text, embedding, updated_at
-    FROM ${schema}.chunks;
   `);
-  assertLegacyRowsCopied(
-    db,
-    `SELECT COUNT(*) AS missing
-     FROM ${schema}.meta AS legacy
-     WHERE NOT EXISTS (
-       SELECT 1 FROM main.${MEMORY_INDEX_META_TABLE} AS canonical
-       WHERE canonical.key = legacy.key AND canonical.value IS legacy.value
-     )`,
-    "meta",
-  );
-  assertLegacyRowsCopied(
-    db,
-    `SELECT COUNT(*) AS missing
-     FROM ${schema}.files AS legacy
-     WHERE NOT EXISTS (
-       SELECT 1 FROM main.${MEMORY_INDEX_SOURCES_TABLE} AS canonical
-       WHERE canonical.path = legacy.path
-         AND canonical.source IS legacy.source
-         AND canonical.hash IS legacy.hash
-         AND canonical.mtime IS legacy.mtime
-         AND canonical.size IS legacy.size
-     )`,
-    "files",
-  );
-  assertLegacyRowsCopied(
-    db,
-    `SELECT COUNT(*) AS missing
-     FROM ${schema}.chunks AS legacy
-     WHERE NOT EXISTS (
-       SELECT 1 FROM main.${MEMORY_INDEX_CHUNKS_TABLE} AS canonical
-       WHERE canonical.id = legacy.id
-         AND canonical.path IS legacy.path
-         AND canonical.source IS legacy.source
-         AND canonical.start_line IS legacy.start_line
-         AND canonical.end_line IS legacy.end_line
-         AND canonical.hash IS legacy.hash
-         AND canonical.model IS legacy.model
-         AND canonical.text IS legacy.text
-         AND canonical.embedding IS legacy.embedding
-         AND canonical.updated_at IS legacy.updated_at
-     )`,
-    "chunks",
-  );
-  if (
-    preservedEmbeddingCacheTable !== "embedding_cache" &&
-    hasLegacyEmbeddingCacheTable(db, schema)
-  ) {
-    db.exec(`
-      CREATE TABLE IF NOT EXISTS main.${MEMORY_EMBEDDING_CACHE_TABLE} (
-        provider TEXT NOT NULL,
-        model TEXT NOT NULL,
-        provider_key TEXT NOT NULL,
-        hash TEXT NOT NULL,
-        embedding TEXT NOT NULL,
-        dims INTEGER,
-        updated_at INTEGER NOT NULL,
-        PRIMARY KEY (provider, model, provider_key, hash)
-      );
-      INSERT OR IGNORE INTO main.${MEMORY_EMBEDDING_CACHE_TABLE} (
-        provider, model, provider_key, hash, embedding, dims, updated_at
-      )
-      SELECT provider, model, provider_key, hash, embedding, dims, updated_at
-      FROM ${schema}.embedding_cache;
-    `);
-    assertLegacyRowsCopied(
-      db,
-      `SELECT COUNT(*) AS missing
-       FROM ${schema}.embedding_cache AS legacy
-       WHERE NOT EXISTS (
-         SELECT 1 FROM main.${MEMORY_EMBEDDING_CACHE_TABLE} AS canonical
-         WHERE canonical.provider = legacy.provider
-           AND canonical.model = legacy.model
-           AND canonical.provider_key = legacy.provider_key
-           AND canonical.hash = legacy.hash
-           AND canonical.embedding IS legacy.embedding
-           AND canonical.dims IS legacy.dims
-           AND canonical.updated_at IS legacy.updated_at
-       )`,
-      "embedding_cache",
-    );
-  }
+
+  await conn.execute(`
+    INSERT INTO ${MEMORY_INDEX_SOURCES_TABLE} (path, source, hash, mtime, size)
+    SELECT path, source, hash, mtime, size
+    FROM memory_index_sources_path_pk_migration
+  `);
+
+  await conn.execute(`BEGIN
+    EXECUTE IMMEDIATE 'DROP TABLE memory_index_sources_path_pk_migration';
+  END;`);
 }
 
-function migrateLegacyMemoryIndexTables(
-  db: DatabaseSync,
-  preservedEmbeddingCacheTable?: string,
-): void {
-  if (!hasLegacyMemoryIndexTables(db)) {
-    return;
-  }
-
-  db.exec("SAVEPOINT migrate_legacy_memory_index_tables");
-  try {
-    copyLegacyMemoryIndexRows(db, "main", preservedEmbeddingCacheTable);
-    if (preservedEmbeddingCacheTable !== "embedding_cache" && hasLegacyEmbeddingCacheTable(db)) {
-      db.exec("DROP TABLE embedding_cache");
-    }
-    for (const trigger of LEGACY_MEMORY_INDEX_TRIGGERS) {
-      db.exec(`DROP TRIGGER IF EXISTS ${trigger}`);
-    }
-    db.exec(`
-      DROP TABLE IF EXISTS chunks_fts;
-      DROP TABLE chunks;
-      DROP TABLE files;
-      DROP TABLE meta;
-      RELEASE migrate_legacy_memory_index_tables;
-    `);
-  } catch (err) {
-    db.exec("ROLLBACK TO migrate_legacy_memory_index_tables");
-    db.exec("RELEASE migrate_legacy_memory_index_tables");
-    throw err;
-  }
-}
-
-/** Ensure canonical memory index tables and the optional FTS table exist. */
-export function ensureMemoryIndexSchema(params: {
-  db: DatabaseSync;
-  /** @deprecated Omit to use the canonical memory cache table. */
+export async function ensureMemoryIndexSchema(params: {
+  conn: Connection;
   embeddingCacheTable?: string;
   cacheEnabled: boolean;
-  /** @deprecated Omit to use the canonical memory FTS table. */
-  ftsTable?: string;
   ftsEnabled: boolean;
   ftsTokenizer?: "unicode61" | "trigram";
-}): { ftsAvailable: boolean; ftsError?: string } {
+}): Promise<{ ftsAvailable: boolean; ftsError?: string }> {
   const embeddingCacheTable = params.embeddingCacheTable ?? MEMORY_EMBEDDING_CACHE_TABLE;
-  const ftsTable = params.ftsTable ?? MEMORY_INDEX_FTS_TABLE;
-  params.db.exec(`
-    CREATE TABLE IF NOT EXISTS ${MEMORY_INDEX_META_TABLE} (
-      key TEXT PRIMARY KEY,
-      value TEXT NOT NULL
-    );
-    CREATE TABLE IF NOT EXISTS ${MEMORY_INDEX_SOURCES_TABLE} (
-      path TEXT NOT NULL,
-      source TEXT NOT NULL DEFAULT 'memory',
-      hash TEXT NOT NULL,
-      mtime INTEGER NOT NULL,
-      size INTEGER NOT NULL,
-      PRIMARY KEY (path, source)
-    );
-    CREATE TABLE IF NOT EXISTS ${MEMORY_INDEX_CHUNKS_TABLE} (
-      id TEXT PRIMARY KEY,
-      path TEXT NOT NULL,
-      source TEXT NOT NULL DEFAULT 'memory',
-      start_line INTEGER NOT NULL,
-      end_line INTEGER NOT NULL,
-      hash TEXT NOT NULL,
-      model TEXT NOT NULL,
-      text TEXT NOT NULL,
-      embedding TEXT NOT NULL,
-      updated_at INTEGER NOT NULL
-    );
-    CREATE TABLE IF NOT EXISTS ${MEMORY_INDEX_STATE_TABLE} (
-      id INTEGER PRIMARY KEY CHECK (id = 1),
-      revision INTEGER NOT NULL
-    );
-    INSERT OR IGNORE INTO ${MEMORY_INDEX_STATE_TABLE} (id, revision) VALUES (1, 0);
-  `);
-  migrateCanonicalMemoryIndexSourcesPrimaryKey(params.db);
-  params.db.exec(`
+  const { conn } = params;
 
-    CREATE TRIGGER IF NOT EXISTS memory_index_sources_revision_after_insert
+  // Создаём таблицы с проверкой существования
+  const createTable = async (name: string, oracle: string) => {
+    try {
+      await conn.execute(oracle);
+      await conn.execute(`DROP TRIGGER ${name}`);
+    } catch (err: any) {
+      if (err.errorNum !== 955) throw err; // ORA-00955: name already used
+    }
+  };
+
+  await createTable(`
+    CREATE TABLE ${MEMORY_INDEX_META_TABLE} (
+      key VARCHAR2(255) PRIMARY KEY,
+      value CLOB NOT NULL
+    )
+  `);
+
+  await createTable(`
+    CREATE TABLE ${MEMORY_INDEX_SOURCES_TABLE} (
+      path VARCHAR2(1000) NOT NULL,
+      source VARCHAR2(255) DEFAULT 'memory' NOT NULL,
+      hash VARCHAR2(64) NOT NULL,
+      mtime NUMBER(19) NOT NULL,
+      size NUMBER(19) NOT NULL,
+      CONSTRAINT pk_memory_index_sources PRIMARY KEY (path, source)
+    )
+  `);
+
+  await createTable(`
+    CREATE TABLE ${MEMORY_INDEX_CHUNKS_TABLE} (
+      id VARCHAR2(64) PRIMARY KEY,
+      path VARCHAR2(1000) NOT NULL,
+      source VARCHAR2(255) DEFAULT 'memory' NOT NULL,
+      start_line NUMBER(19) NOT NULL,
+      end_line NUMBER(19) NOT NULL,
+      hash VARCHAR2(64) NOT NULL,
+      model VARCHAR2(255) NOT NULL,
+      text CLOB NOT NULL,
+      embedding CLOB NOT NULL,
+      updated_at NUMBER(19) NOT NULL
+    )
+  `);
+
+  await createTable(`
+    CREATE TABLE ${MEMORY_INDEX_STATE_TABLE} (
+      id NUMBER(1) PRIMARY KEY CHECK (id = 1),
+      revision NUMBER(19) NOT NULL
+    )
+  `);
+
+  await conn.execute(`
+    INSERT INTO ${MEMORY_INDEX_STATE_TABLE} (id, revision)
+    SELECT 1, 0 FROM DUAL
+    WHERE NOT EXISTS (SELECT 1 FROM ${MEMORY_INDEX_STATE_TABLE} WHERE id = 1)
+  `);
+
+  await migrateCanonicalMemoryIndexSourcesPrimaryKey(conn);
+
+  // Создание триггеров
+  const createTrigger = async (name: string, sql: string) => {
+    try {
+      // Сначала удаляем старый триггер (если есть)
+      await conn.execute(`DROP TRIGGER ${name}`);
+    } catch (err: any) {
+      // ORA-04080: trigger does not exist — пропускаем
+      if (err.errorNum !== 4080) {
+        throw err;
+      }
+    }
+
+    // Теперь создаём новый
+    try {
+      await conn.execute(sql);
+    } catch (err: any) {
+      // ORA-00955: name already used — триггер уже существует
+      if (err.errorNum === 955) {
+        return;
+      }
+      throw err;
+    }
+  };
+
+  await createTrigger(
+    "memory_index_sources_revision_after_insert",
+    `
+    CREATE OR REPLACE TRIGGER memory_index_sources_revision_after_insert
     AFTER INSERT ON ${MEMORY_INDEX_SOURCES_TABLE}
     BEGIN
       UPDATE ${MEMORY_INDEX_STATE_TABLE} SET revision = revision + 1 WHERE id = 1;
     END;
-    CREATE TRIGGER IF NOT EXISTS memory_index_sources_revision_after_update
+    `
+  );
+
+  await createTrigger(
+    "memory_index_sources_revision_after_update",
+    `
+    CREATE OR REPLACE TRIGGER memory_index_sources_revision_after_update
     AFTER UPDATE ON ${MEMORY_INDEX_SOURCES_TABLE}
     BEGIN
       UPDATE ${MEMORY_INDEX_STATE_TABLE} SET revision = revision + 1 WHERE id = 1;
     END;
-    CREATE TRIGGER IF NOT EXISTS memory_index_sources_revision_after_delete
+    `
+  );
+
+  await createTrigger(
+    "memory_index_sources_revision_after_delete",
+    `
+    CREATE OR REPLACE TRIGGER memory_index_sources_revision_after_delete
     AFTER DELETE ON ${MEMORY_INDEX_SOURCES_TABLE}
     BEGIN
       UPDATE ${MEMORY_INDEX_STATE_TABLE} SET revision = revision + 1 WHERE id = 1;
     END;
+    `
+  );
 
-    CREATE TRIGGER IF NOT EXISTS memory_index_chunks_revision_after_insert
+  await createTrigger(
+    "memory_index_chunks_revision_after_insert",
+    `
+    CREATE OR REPLACE TRIGGER memory_index_chunks_revision_after_insert
     AFTER INSERT ON ${MEMORY_INDEX_CHUNKS_TABLE}
     BEGIN
       UPDATE ${MEMORY_INDEX_STATE_TABLE} SET revision = revision + 1 WHERE id = 1;
     END;
-    CREATE TRIGGER IF NOT EXISTS memory_index_chunks_revision_after_update
+    `
+  );
+
+  await createTrigger(
+    "memory_index_chunks_revision_after_update",
+    `
+    CREATE OR REPLACE TRIGGER memory_index_chunks_revision_after_update
     AFTER UPDATE ON ${MEMORY_INDEX_CHUNKS_TABLE}
     BEGIN
       UPDATE ${MEMORY_INDEX_STATE_TABLE} SET revision = revision + 1 WHERE id = 1;
     END;
-    CREATE TRIGGER IF NOT EXISTS memory_index_chunks_revision_after_delete
+    `
+  );
+
+  await createTrigger(
+    "memory_index_chunks_revision_after_delete",
+    `
+    CREATE OR REPLACE TRIGGER memory_index_chunks_revision_after_delete
     AFTER DELETE ON ${MEMORY_INDEX_CHUNKS_TABLE}
     BEGIN
       UPDATE ${MEMORY_INDEX_STATE_TABLE} SET revision = revision + 1 WHERE id = 1;
     END;
+    `
+  );
 
-    CREATE INDEX IF NOT EXISTS idx_memory_index_sources_source
-      ON ${MEMORY_INDEX_SOURCES_TABLE}(source);
-    CREATE INDEX IF NOT EXISTS idx_memory_index_chunks_path_source
-      ON ${MEMORY_INDEX_CHUNKS_TABLE}(path, source);
-    CREATE INDEX IF NOT EXISTS idx_memory_index_chunks_path
-      ON ${MEMORY_INDEX_CHUNKS_TABLE}(path);
-    CREATE INDEX IF NOT EXISTS idx_memory_index_chunks_source
-      ON ${MEMORY_INDEX_CHUNKS_TABLE}(source);
-  `);
-  migrateLegacyMemoryIndexTables(params.db, params.embeddingCacheTable);
+  // Индексы
+  const createIndex = async (oracle: string) => {
+    try {
+      await conn.execute(oracle);
+    } catch (err: any) {
+      // ORA-00955: name already used by an existing object
+      if (err.errorNum === 955) {
+        return;
+      }
+      throw err;
+    }
+  };
+
+  await createIndex(
+    "idx_memory_index_sources_source",
+    `CREATE INDEX idx_memory_index_sources_source ON ${MEMORY_INDEX_SOURCES_TABLE}(source)`
+  );
+
+  await createIndex(
+    "idx_memory_index_chunks_path_source",
+    `CREATE INDEX idx_memory_index_chunks_path_source ON ${MEMORY_INDEX_CHUNKS_TABLE}(path, source)`
+  );
+
+  await createIndex(
+    "idx_memory_index_chunks_path",
+    `CREATE INDEX idx_memory_index_chunks_path ON ${MEMORY_INDEX_CHUNKS_TABLE}(path)`
+  );
+
+  await createIndex(
+    "idx_memory_index_chunks_source",
+    `CREATE INDEX idx_memory_index_chunks_source ON ${MEMORY_INDEX_CHUNKS_TABLE}(source)`
+  );
+
   if (params.cacheEnabled) {
-    const updatedAtIndex =
-      embeddingCacheTable === MEMORY_EMBEDDING_CACHE_TABLE
-        ? "idx_memory_embedding_cache_updated_at"
-        : "idx_embedding_cache_updated_at";
-    params.db.exec(`
-      CREATE TABLE IF NOT EXISTS ${embeddingCacheTable} (
-        provider TEXT NOT NULL,
-        model TEXT NOT NULL,
-        provider_key TEXT NOT NULL,
-        hash TEXT NOT NULL,
-        embedding TEXT NOT NULL,
-        dims INTEGER,
-        updated_at INTEGER NOT NULL,
-        PRIMARY KEY (provider, model, provider_key, hash)
-      );
-      CREATE INDEX IF NOT EXISTS ${updatedAtIndex}
-        ON ${embeddingCacheTable}(updated_at);
+    await createTable(`
+      CREATE TABLE ${embeddingCacheTable} (
+        provider VARCHAR2(255) NOT NULL,
+        model VARCHAR2(255) NOT NULL,
+        provider_key VARCHAR2(255) NOT NULL,
+        hash VARCHAR2(64) NOT NULL,
+        embedding CLOB NOT NULL,
+        dims NUMBER,
+        updated_at NUMBER(19) NOT NULL,
+        CONSTRAINT pk_embedding_cache PRIMARY KEY (provider, model, provider_key, hash)
+      )
     `);
+
+    await createIndex(
+      "idx_embedding_cache_updated_at",
+      `CREATE INDEX idx_embedding_cache_updated_at ON ${embeddingCacheTable}(updated_at)`
+    );
   }
 
   let ftsAvailable = false;
   let ftsError: string | undefined;
   if (params.ftsEnabled) {
     try {
-      const tokenizer = params.ftsTokenizer ?? "unicode61";
-      const tokenizeClause = tokenizer === "trigram" ? `, tokenize='trigram case_sensitive 0'` : "";
-      params.db.exec(
-        `CREATE VIRTUAL TABLE IF NOT EXISTS ${ftsTable} USING fts5(\n` +
-          `  text,\n` +
-          `  id UNINDEXED,\n` +
-          `  path UNINDEXED,\n` +
-          `  source UNINDEXED,\n` +
-          `  model UNINDEXED,\n` +
-          `  start_line UNINDEXED,\n` +
-          `  end_line UNINDEXED\n` +
-          `${tokenizeClause});`,
-      );
-      // The shipped generic-table migration and a later FTS enablement both
-      // create an empty derived table beside already-canonical chunk rows.
-      params.db.exec(`
-        INSERT INTO ${ftsTable} (
-          text, id, path, source, model, start_line, end_line
-        )
-        SELECT text, id, path, source, model, start_line, end_line
-        FROM ${MEMORY_INDEX_CHUNKS_TABLE}
-        WHERE NOT EXISTS (SELECT 1 FROM ${ftsTable} LIMIT 1);
+      await conn.execute(`
+        CREATE INDEX memory_index_chunks_ctx ON ${MEMORY_INDEX_CHUNKS_TABLE}(text)
+        INDEXTYPE IS CTXSYS.CONTEXT
       `);
       ftsAvailable = true;
     } catch (err) {

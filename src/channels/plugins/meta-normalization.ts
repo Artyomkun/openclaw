@@ -4,7 +4,7 @@
  * Recomputes required metadata fields while preserving optional manifest/registry fields.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { ChannelMeta } from "./types.public.js";
+import type { ChannelMeta } from "./types.public.ts";
 
 function stripRequiredChannelMeta(meta?: Partial<ChannelMeta> | null) {
   const {

@@ -1,6 +1,6 @@
 // Decides task executor delivery, terminal update, and follow-up message policy.
-import type { TaskEventRecord, TaskRecord, TaskStatus } from "./task-registry.types.js";
-import { formatTaskStatusTitleText, sanitizeTaskStatusText } from "./task-status.js";
+import type { TaskEventRecord, TaskRecord, TaskStatus } from "./task-registry.types.ts";
+import { formatTaskStatusTitleText, sanitizeTaskStatusText } from "./task-status.ts";
 
 /** Returns whether a task status is terminal for delivery and retention policy. */
 export function isTerminalTaskStatus(status: TaskStatus): boolean {

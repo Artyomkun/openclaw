@@ -1,30 +1,25 @@
 // Global Undici dispatcher setup keeps process-wide proxy routing, HTTP/1-only
 // enforcement, and long stream timeouts aligned across root fetch imports.
 import { isProxylineDispatcher } from "@openclaw/proxyline/dispatcher-brand";
-import { hasEnvHttpProxyAgentConfigured, resolveEnvHttpProxyAgentOptions } from "./proxy-env.js";
-import { addActiveManagedProxyTlsOptions } from "./proxy/managed-proxy-undici.js";
+import { hasEnvHttpProxyAgentConfigured, resolveEnvHttpProxyAgentOptions } from "./proxy-env.ts";
+import { addActiveManagedProxyTlsOptions } from "./proxy/managed-proxy-undici.ts";
 import {
   createUndiciAutoSelectFamilyConnectOptions,
   resolveUndiciAutoSelectFamily,
   withTemporaryUndiciAutoSelectFamily,
-} from "./undici-family-policy.js";
+} from "./undici-family-policy.ts";
 import {
   createHttp1Agent,
   createHttp1EnvHttpProxyAgent,
   loadUndiciGlobalDispatcherDeps,
   type UndiciGlobalDispatcherDeps,
-} from "./undici-runtime.js";
+} from "./undici-runtime.ts";
 
 export const DEFAULT_UNDICI_STREAM_TIMEOUT_MS = 30 * 60 * 1000;
 const HTTP1_ONLY_DISPATCHER_OPTIONS = Object.freeze({
   allowH2: false as const,
 });
 
-/**
- * Module-level bridge so `resolveDispatcherTimeoutMs` in fetch-guard.ts
- * can read the global dispatcher timeout without relying on Undici's
- * non-public `.options` field.
- */
 export let globalUndiciStreamTimeoutMs: number | undefined;
 
 let lastAppliedTimeoutKey: string | null = null;
@@ -80,8 +75,6 @@ function createTimedProxylineManagedDispatcher(
 ): UndiciDispatcher {
   const existingState = timedProxylineManagedDispatchers.get(dispatcher);
   if (existingState) {
-    // Managed proxy dispatchers may be reconfigured in place; update the shared
-    // state so existing wrappers pick up timeout/family changes without nesting.
     existingState.autoSelectFamily = autoSelectFamily;
     existingState.timeoutMs = timeoutMs;
     return dispatcher;
@@ -114,13 +107,9 @@ function createTimedProxylineManagedDispatcher(
         return value;
       }
       if (UNDICI_DISPATCHER_LIFECYCLE_METHODS.has(property)) {
-        // Lifecycle calls must hit the original dispatcher so close/destroy do
-        // not recurse through helper methods that intentionally see the proxy.
         return value.bind(target);
       }
       if (UNDICI_DISPATCH_HELPER_METHODS.has(property)) {
-        // Undici helper methods expect the dispatcher proxy as `this` so they
-        // still route through our wrapped dispatch implementation.
         return (...args: unknown[]) => Reflect.apply(value, receiver, args);
       }
       return value;
@@ -212,7 +201,6 @@ function resolveCurrentDispatcherInfo(
   };
 }
 
-/** Installs the env-proxy global dispatcher once proxy env is available. */
 export function ensureGlobalUndiciEnvProxyDispatcher(): void {
   const shouldUseEnvProxy = hasEnvHttpProxyAgentConfigured();
   if (!shouldUseEnvProxy) {
@@ -240,8 +228,11 @@ export function ensureGlobalUndiciEnvProxyDispatcher(): void {
   try {
     setGlobalDispatcher(createHttp1EnvHttpProxyAgent(proxyOptions));
     lastAppliedProxyBootstrapKey = nextBootstrapKey;
-  } catch {
-    // Best-effort bootstrap only.
+  } catch (err) {
+    throw new Error(
+      `Failed to set env-proxy dispatcher: ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err instanceof Error ? err : undefined }
+    );
   }
 }
 
@@ -283,15 +274,14 @@ function applyGlobalDispatcherStreamTimeouts(params: {
       runtime.setGlobalDispatcher(createHttp1Agent(connect ? { connect } : undefined, timeoutMs));
     }
     lastAppliedTimeoutKey = nextKey;
-  } catch {
-    // Best-effort hardening only.
+  } catch (err) {
+    throw new Error(
+      `Failed to apply dispatcher stream timeouts: ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err instanceof Error ? err : undefined }
+    );
   }
 }
 
-/**
- * Records the stream timeout bridge and applies it only when the current global
- * dispatcher already uses env or managed proxy routing.
- */
 export function ensureGlobalUndiciStreamTimeouts(opts?: { timeoutMs?: number }): void {
   const timeoutMs = resolveStreamTimeoutMs(opts);
   if (timeoutMs === null) {
@@ -319,7 +309,6 @@ export function ensureGlobalUndiciStreamTimeouts(opts?: { timeoutMs?: number }):
   });
 }
 
-/** Forces timeout/family policy onto the current supported global dispatcher. */
 export function ensureGlobalUndiciDispatcherStreamTimeouts(opts?: { timeoutMs?: number }): void {
   const timeoutMs = resolveStreamTimeoutMs(opts);
   if (timeoutMs === null) {
@@ -339,18 +328,12 @@ export function ensureGlobalUndiciDispatcherStreamTimeouts(opts?: { timeoutMs?: 
   });
 }
 
-/** Clears module-level dispatcher bookkeeping between isolated tests. */
 export function resetGlobalUndiciStreamTimeoutsForTests(): void {
   lastAppliedTimeoutKey = null;
   lastAppliedProxyBootstrapKey = null;
   globalUndiciStreamTimeoutMs = undefined;
 }
 
-/**
- * Re-evaluate proxy env changes for root undici imports. Installs
- * EnvHttpProxyAgent when proxy env is present, and restores a direct Agent
- * after proxy env is cleared.
- */
 export function forceResetGlobalDispatcher(opts?: { preserveProxylineManaged?: boolean }): void {
   lastAppliedTimeoutKey = null;
   if (!hasEnvHttpProxyAgentConfigured()) {
@@ -361,8 +344,11 @@ export function forceResetGlobalDispatcher(opts?: { preserveProxylineManaged?: b
     try {
       const { setGlobalDispatcher } = loadUndiciGlobalDispatcherDeps();
       setGlobalDispatcher(createHttp1Agent());
-    } catch {
-      // Best-effort reset only.
+    } catch (err) {
+      throw new Error(
+        `Failed to reset dispatcher: ${err instanceof Error ? err.message : String(err)}`,
+        { cause: err instanceof Error ? err : undefined }
+      );
     }
     return;
   }
@@ -379,7 +365,10 @@ export function forceResetGlobalDispatcher(opts?: { preserveProxylineManaged?: b
     }
     setGlobalDispatcher(createHttp1EnvHttpProxyAgent(proxyOptions));
     lastAppliedProxyBootstrapKey = resolveEnvProxyBootstrapKey(proxyOptions);
-  } catch {
-    // Best-effort reset only.
+  } catch (err) {
+    throw new Error(
+      `Failed to force reset dispatcher: ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err instanceof Error ? err : undefined }
+    );
   }
 }

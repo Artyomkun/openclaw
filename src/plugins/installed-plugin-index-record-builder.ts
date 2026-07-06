@@ -1,27 +1,27 @@
 /** Builds installed-index records from normalized plugin manifest registry entries. */
 import path from "node:path";
 import { normalizeSortedUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.js";
-import type { PluginCompatCode } from "./compat/registry.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import type { PluginCandidate } from "./discovery.js";
-import type { PluginInstallSourceInfo } from "./install-source-info.js";
-import { describePluginInstallSource } from "./install-source-info.js";
-import { hashJson, safeFileSignature, safeHashFile } from "./installed-plugin-index-hash.js";
-import { hasOptionalMissingPluginManifestFile } from "./installed-plugin-index-manifest.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { PluginCompatCode } from "./compat/registry.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import type { PluginCandidate } from "./discovery.ts";
+import type { PluginInstallSourceInfo } from "./install-source-info.ts";
+import { describePluginInstallSource } from "./install-source-info.ts";
+import { hashJson, safeFileSignature, safeHashFile } from "./installed-plugin-index-hash.ts";
+import { hasOptionalMissingPluginManifestFile } from "./installed-plugin-index-manifest.ts";
 import type {
   InstalledPluginContributionInfo,
   InstalledPluginIndexRecord,
   InstalledPluginInstallRecordInfo,
   InstalledPluginPackageChannelInfo,
   InstalledPluginStartupInfo,
-} from "./installed-plugin-index-types.js";
-import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
-import type { PluginDiagnostic } from "./manifest-types.js";
-import type { PluginPackageChannel } from "./manifest.js";
-import { isPathInside, safeRealpathSync } from "./path-safety.js";
-import { hasKind } from "./slots.js";
+} from "./installed-plugin-index-types.ts";
+import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.ts";
+import type { PluginDiagnostic } from "./manifest-types.ts";
+import type { PluginPackageChannel } from "./manifest.ts";
+import { isPathInside, safeRealpathSync } from "./path-safety.ts";
+import { hasKind } from "./slots.ts";
 
 function buildStartupInfo(record: PluginManifestRecord): InstalledPluginStartupInfo {
   return {
@@ -65,7 +65,7 @@ function buildContributionInfo(record: PluginManifestRecord): InstalledPluginCon
   };
 }
 
-/** Collects compatibility codes implied by a manifest's legacy or activation surfaces. */
+/** Collects compatibility codes implied by a manifest's older or activation surfaces. */
 export function collectPluginManifestCompatCodes(
   record: PluginManifestRecord,
 ): readonly PluginCompatCode[] {

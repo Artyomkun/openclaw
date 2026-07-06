@@ -3,8 +3,8 @@ import { normalizeOptionalString } from "@openclaw/normalization-core/string-coe
 import {
   ensureAuthProfileStore,
   findPersistedAuthProfileCredential,
-} from "../../agents/auth-profiles/store.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../agents/auth-profiles/store.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
 /** Resolves a user-selected auth profile override for the requested provider. */
 export function resolveProfileOverride(params: {

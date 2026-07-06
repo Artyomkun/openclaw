@@ -10,76 +10,76 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getAcpSessionManager } from "../acp/control-plane/manager.js";
-import type { AcpTurnAttachment } from "../acp/control-plane/manager.types.js";
+import { getAcpSessionManager } from "../acp/control-plane/manager.ts";
+import type { AcpTurnAttachment } from "../acp/control-plane/manager.types.ts";
 import {
   cleanupFailedAcpSpawn,
   type AcpSpawnRuntimeCloseHandle,
-} from "../acp/control-plane/spawn.js";
-import { isAcpEnabledByPolicy, resolveAcpAgentPolicyError } from "../acp/policy.js";
-import { readAcpSessionMeta } from "../acp/runtime/session-meta.js";
-import { DEFAULT_HEARTBEAT_EVERY } from "../auto-reply/heartbeat.js";
-import { formatThinkingLevels } from "../auto-reply/thinking.js";
+} from "../acp/control-plane/spawn.ts";
+import { isAcpEnabledByPolicy, resolveAcpAgentPolicyError } from "../acp/policy.ts";
+import { readAcpSessionMeta } from "../acp/runtime/session-meta.ts";
+import { DEFAULT_HEARTBEAT_EVERY } from "../auto-reply/heartbeat.ts";
+import { formatThinkingLevels } from "../auto-reply/thinking.ts";
 import {
   resolveChannelDefaultBindingPlacement,
   resolveInboundConversationResolution,
-} from "../channels/conversation-resolution.js";
+} from "../channels/conversation-resolution.ts";
 import {
   formatConversationTarget,
   routeFromBindingRecord,
   routeToDeliveryFields,
-} from "../channels/route-projection.js";
+} from "../channels/route-projection.ts";
 import {
   resolveThreadBindingIntroText,
   resolveThreadBindingThreadName,
-} from "../channels/thread-bindings-messages.js";
+} from "../channels/thread-bindings-messages.ts";
 import {
   formatThreadBindingDisabledError,
   formatThreadBindingSpawnDisabledError,
   resolveThreadBindingIdleTimeoutMsForChannel,
   resolveThreadBindingMaxAgeMsForChannel,
   resolveThreadBindingSpawnPolicy,
-} from "../channels/thread-bindings-policy.js";
-import { parseDurationMs } from "../cli/parse-duration.js";
+} from "../channels/thread-bindings-policy.ts";
+import { parseDurationMs } from "../cli/parse-duration.ts";
 import {
   DEFAULT_SUBAGENT_MAX_CHILDREN_PER_AGENT,
   DEFAULT_SUBAGENT_MAX_SPAWN_DEPTH,
-} from "../config/agent-limits.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
+} from "../config/agent-limits.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
 import {
   listSessionEntries,
   loadSessionEntry,
   resolveSessionTranscriptRuntimeTarget,
-} from "../config/sessions/session-accessor.js";
-import type { SessionAcpMeta, SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { callGateway } from "../gateway/call.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveEventSessionRoutingPolicy } from "../infra/event-session-routing.js";
-import { areHeartbeatsEnabled } from "../infra/heartbeat-wake.js";
+} from "../config/sessions/session-accessor.ts";
+import type { SessionAcpMeta, SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { callGateway } from "../gateway/call.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveEventSessionRoutingPolicy } from "../infra/event-session-routing.ts";
+import { areHeartbeatsEnabled } from "../infra/heartbeat-wake.ts";
 import {
   getSessionBindingService,
   isSessionBindingError,
   type SessionBindingRecord,
-} from "../infra/outbound/session-binding-service.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../infra/outbound/session-binding-service.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   isSubagentSessionKey,
   normalizeAgentId,
   normalizeOptionalAgentId,
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
-} from "../routing/session-key.js";
-import { createRunningTaskRun } from "../tasks/detached-task-runtime.js";
-import { listTasksForOwnerKey } from "../tasks/runtime-internal.js";
-import { deliveryContextFromSession, normalizeDeliveryContext } from "../utils/delivery-context.js";
+} from "../routing/session-key.ts";
+import { createRunningTaskRun } from "../tasks/detached-task-runtime.ts";
+import { listTasksForOwnerKey } from "../tasks/runtime-internal.ts";
+import { deliveryContextFromSession, normalizeDeliveryContext } from "../utils/delivery-context.ts";
 import {
   type AcpSpawnParentRelayHandle,
   resolveAcpSpawnStreamLogPath,
   startAcpSpawnParentStreamRelay,
-} from "./acp-spawn-parent-stream.js";
-import { listAgentIds, resolveAgentConfig, resolveDefaultAgentId } from "./agent-scope.js";
+} from "./acp-spawn-parent-stream.ts";
+import { listAgentIds, resolveAgentConfig, resolveDefaultAgentId } from "./agent-scope.ts";
 import {
   findAcpUnsupportedInheritedToolAllow,
   findAcpUnsupportedInheritedToolDeny,
@@ -87,30 +87,30 @@ import {
   formatAcpInheritedToolDenyError,
   inheritedToolAllowPatch,
   inheritedToolDenyPatch,
-} from "./inherited-tool-deny.js";
-import { AGENT_LANE_SUBAGENT } from "./lanes.js";
+} from "./inherited-tool-deny.ts";
+import { AGENT_LANE_SUBAGENT } from "./lanes.ts";
 import {
   resolveConfiguredSubagentSpawnModelSelection,
   resolveThinkingDefault,
-} from "./model-selection.js";
-import { resolveSandboxRuntimeStatus } from "./sandbox/runtime-status.js";
-import { resolveRequesterOriginForChild } from "./spawn-requester-origin.js";
-import { resolveSpawnedWorkspaceInheritance } from "./spawned-context.js";
+} from "./model-selection.ts";
+import { resolveSandboxRuntimeStatus } from "./sandbox/runtime-status.ts";
+import { resolveRequesterOriginForChild } from "./spawn-requester-origin.ts";
+import { resolveSpawnedWorkspaceInheritance } from "./spawned-context.ts";
 import {
   isSubagentEnvelopeSession,
   resolveSubagentCapabilities,
   resolveSubagentCapabilityStore,
   type SessionCapabilityStore,
-} from "./subagent-capabilities.js";
-import { getSubagentDepthFromSessionStore } from "./subagent-depth.js";
-import { countActiveRunsForSession, getSubagentRunByChildSessionKey } from "./subagent-registry.js";
+} from "./subagent-capabilities.ts";
+import { getSubagentDepthFromSessionStore } from "./subagent-depth.ts";
+import { countActiveRunsForSession, getSubagentRunByChildSessionKey } from "./subagent-registry.ts";
 import {
   resolveConfiguredSubagentRunTimeoutSeconds,
   splitModelRef,
-} from "./subagent-spawn-plan.js";
-import { resolveSubagentThinkingOverride } from "./subagent-spawn-thinking.js";
-import { resolveSubagentTargetPolicy } from "./subagent-target-policy.js";
-import { resolveInternalSessionKey, resolveMainSessionAlias } from "./tools/sessions-helpers.js";
+} from "./subagent-spawn-plan.ts";
+import { resolveSubagentThinkingOverride } from "./subagent-spawn-thinking.ts";
+import { resolveSubagentTargetPolicy } from "./subagent-target-policy.ts";
+import { resolveInternalSessionKey, resolveMainSessionAlias } from "./tools/sessions-helpers.ts";
 
 const log = createSubsystemLogger("agents/acp-spawn");
 

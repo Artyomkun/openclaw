@@ -3,7 +3,7 @@
  * Tests can stub this facade without importing the full auth profile store
  * implementation.
  */
-import { ensureAuthProfileStore as ensureAuthProfileStoreImpl } from "./auth-profiles/store.js";
+import { ensureAuthProfileStore as ensureAuthProfileStoreImpl } from "./auth-profiles/store.ts";
 
 type EnsureAuthProfileStore = typeof import("./auth-profiles/store.js").ensureAuthProfileStore;
 

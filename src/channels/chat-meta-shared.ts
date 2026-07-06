@@ -4,11 +4,11 @@
  * Converts bundled channel catalog entries into setup/status metadata records.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { PluginPackageChannel } from "../plugins/manifest.js";
-import { listBundledChannelCatalogEntries } from "./bundled-channel-catalog-read.js";
-import { CHAT_CHANNEL_ORDER, type ChatChannelId } from "./ids.js";
-import { buildManifestChannelMeta } from "./plugins/channel-meta.js";
-import type { ChannelMeta } from "./plugins/types.core.js";
+import type { PluginPackageChannel } from "../plugins/manifest.ts";
+import { listBundledChannelCatalogEntries } from "./bundled-channel-catalog-read.ts";
+import { CHAT_CHANNEL_ORDER, type ChatChannelId } from "./ids.ts";
+import { buildManifestChannelMeta } from "./plugins/channel-meta.ts";
+import type { ChannelMeta } from "./plugins/types.core.ts";
 
 /**
  * Metadata shown for built-in chat channels in setup, status, and selection UIs.

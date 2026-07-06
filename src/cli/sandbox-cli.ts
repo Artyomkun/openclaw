@@ -1,11 +1,11 @@
 // Commander registration for sandbox container list, recreate, and explain commands.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { sandboxExplainCommand } from "../commands/sandbox-explain.js";
-import { sandboxListCommand, sandboxRecreateCommand } from "../commands/sandbox.js";
-import { defaultRuntime } from "../runtime.js";
-import { formatHelpExamples } from "./help-format.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { sandboxExplainCommand } from "../commands/sandbox-explain.ts";
+import { sandboxListCommand, sandboxRecreateCommand } from "../commands/sandbox.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { formatHelpExamples } from "./help-format.ts";
 
 // --- Types ---
 

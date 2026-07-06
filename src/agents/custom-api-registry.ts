@@ -1,9 +1,9 @@
 /**
  * Registers caller-supplied custom API stream functions with the LLM registry.
  */
-import { getApiProvider, registerApiProvider } from "../llm/api-registry.js";
-import type { Api, StreamOptions } from "../llm/types.js";
-import type { StreamFn } from "./runtime/index.js";
+import { getApiProvider, registerApiProvider } from "../llm/api-registry.ts";
+import type { Api, StreamOptions } from "../llm/types.ts";
+import type { StreamFn } from "./runtime/index.ts";
 
 const CUSTOM_API_SOURCE_PREFIX = "openclaw-custom-api:";
 

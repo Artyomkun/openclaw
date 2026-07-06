@@ -1,9 +1,9 @@
 import path from "node:path";
-import { resolveStorePath } from "../../config/sessions/paths.js";
-import { updateSessionStore } from "../../config/sessions/store.js";
-import { mergeSessionEntry, type SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+import { resolveStorePath } from "../../config/sessions/paths.ts";
+import { updateSessionStore } from "../../config/sessions/store.ts";
+import { mergeSessionEntry, type SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 
 /**
  * Default max parent token count beyond which thread/session parent forking is skipped.

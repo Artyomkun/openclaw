@@ -1,6 +1,6 @@
 /** Builds platform-specific log and start hints for daemon status output. */
-import { toPosixPath } from "./output.js";
-import { resolveGatewayRestartLogPath, resolveGatewaySupervisorLogPaths } from "./restart-logs.js";
+import { toPosixPath } from "./output.ts";
+import { resolveGatewayRestartLogPath, resolveGatewaySupervisorLogPaths } from "./restart-logs.ts";
 
 // macOS display paths should not keep Windows drive prefixes from mocked envs.
 function toDarwinDisplayPath(value: string): string {

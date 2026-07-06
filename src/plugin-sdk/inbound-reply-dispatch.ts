@@ -28,7 +28,7 @@ export {
   hasVisibleChannelMessageReplyDispatch,
   resolveChannelMessageReplyDispatchCounts,
   recordChannelBotPairLoopAndCheckSuppression,
-} from "../channels/message/inbound-reply-dispatch.js";
+} from "../channels/message/inbound-reply-dispatch.ts";
 export type {
   ChannelTurnDroppedHistoryOptions,
   ChannelInboundDroppedHistoryOptions,
@@ -40,4 +40,4 @@ export type {
   PreparedInboundReply,
   AssembledInboundReply,
   InboundReplyDispatchResult,
-} from "../channels/message/inbound-reply-dispatch.js";
+} from "../channels/message/inbound-reply-dispatch.ts";

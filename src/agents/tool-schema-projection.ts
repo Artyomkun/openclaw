@@ -1,16 +1,16 @@
-import { projectRuntimeToolInputSchema } from "./tool-schema-json-projection.js";
+import { projectRuntimeToolInputSchema } from "./tool-schema-json-projection.ts";
 /**
  * Projects agent tool schemas into JSON-safe runtime shapes and diagnostics.
  * Provider/runtime dispatch uses this module to drop incompatible tools before
  * sending schemas to model APIs.
  */
-import type { AnyAgentTool } from "./tools/common.js";
+import type { AnyAgentTool } from "./tools/common.ts";
 
-export { projectRuntimeToolInputSchema } from "./tool-schema-json-projection.js";
+export { projectRuntimeToolInputSchema } from "./tool-schema-json-projection.ts";
 export type {
   RuntimeToolInputSchemaJson,
   RuntimeToolInputSchemaProjection,
-} from "./tool-schema-json-projection.js";
+} from "./tool-schema-json-projection.ts";
 
 /** Diagnostic for one incompatible runtime tool schema. */
 export type RuntimeToolSchemaDiagnostic = {

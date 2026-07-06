@@ -98,9 +98,7 @@ export class ApiClient {
 
     const isFileUpload =
       options?.uploadRequest === true ||
-      // Back-compat: legacy callers that predate the explicit `uploadRequest`
-      // flag still get the long timeout when hitting file endpoints. New
-      // code should always pass `uploadRequest: true` explicitly.
+      // New code should always pass `uploadRequest: true` explicitly.
       path.includes("/files") ||
       path.includes("/upload_prepare") ||
       path.includes("/upload_part_finish");

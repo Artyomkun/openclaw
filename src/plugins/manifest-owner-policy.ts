@@ -1,8 +1,8 @@
 /** Applies manifest owner policy for plugin availability and activation decisions. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
 
 type OwnerPlugin = Pick<
   PluginManifestRecord,

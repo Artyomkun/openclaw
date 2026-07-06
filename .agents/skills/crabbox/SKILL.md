@@ -56,7 +56,7 @@ pnpm crabbox:run -- --help | sed -n '1,120p'
   Testbox policy applies.
 - Cold Testbox acquisition and hydration often take tens of seconds. When broad
   remote proof is likely, immediately start
-  `node scripts/crabbox-wrapper.mjs warmup --provider blacksmith-testbox --keep --timing-json`
+  `node scripts/crabbox-wrapper.ts warmup --provider blacksmith-testbox --keep --timing-json`
   in a background command session while inspecting, editing, and running
   focused local tests. Poll later, reuse the returned `tbx_...` with
   `--provider blacksmith-testbox --id <tbx_id>`, and stop it before handoff.
@@ -208,7 +208,7 @@ Use this for OpenClaw maintainer broad/heavy `pnpm` gates when the prepared CI
 environment is the right proof surface:
 
 ```sh
-node scripts/crabbox-wrapper.mjs run \
+node scripts/crabbox-wrapper.ts run \
   --provider blacksmith-testbox \
   --blacksmith-org openclaw \
   --blacksmith-workflow .github/workflows/ci-check-testbox.yml \
@@ -234,7 +234,7 @@ Use provider-backed cache volumes only for rebuildable caches, not secrets or
 checkout state. On Blacksmith, Crabbox forwards them as sticky disks:
 
 ```sh
-node scripts/crabbox-wrapper.mjs run \
+node scripts/crabbox-wrapper.ts run \
   --provider blacksmith-testbox \
   --cache-volume pnpm-store=openclaw-node24-pnpm-lock:/tmp/openclaw-pnpm-store \
   --timing-json \

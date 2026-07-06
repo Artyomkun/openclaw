@@ -1,17 +1,17 @@
 /** Public installed-plugin-index API for load, refresh, policy hash, and invalidation checks. */
-import type { OpenClawConfig } from "../config/types.js";
-import { resolveCompatibilityHostVersion } from "../version.js";
-import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import type { PluginDiscoveryResult } from "./discovery.js";
-import { normalizeInstallRecordMap } from "./installed-plugin-index-install-records.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { resolveCompatibilityHostVersion } from "../version.ts";
+import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import type { PluginDiscoveryResult } from "./discovery.ts";
+import { normalizeInstallRecordMap } from "./installed-plugin-index-install-records.ts";
 import {
   resolveCompatRegistryVersion,
   resolveInstalledPluginIndexPolicyHash,
-} from "./installed-plugin-index-policy.js";
-import { buildInstalledPluginIndexRecords } from "./installed-plugin-index-record-builder.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.js";
-import { resolveInstalledPluginIndexRegistry } from "./installed-plugin-index-registry.js";
+} from "./installed-plugin-index-policy.ts";
+import { buildInstalledPluginIndexRecords } from "./installed-plugin-index-record-builder.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.ts";
+import { resolveInstalledPluginIndexRegistry } from "./installed-plugin-index-registry.ts";
 import {
   INSTALLED_PLUGIN_INDEX_MIGRATION_VERSION,
   INSTALLED_PLUGIN_INDEX_VERSION,
@@ -21,13 +21,13 @@ import {
   type InstalledPluginIndexRefreshReason,
   type LoadInstalledPluginIndexParams,
   type RefreshInstalledPluginIndexParams,
-} from "./installed-plugin-index-types.js";
+} from "./installed-plugin-index-types.ts";
 
 export {
   INSTALLED_PLUGIN_INDEX_MIGRATION_VERSION,
   INSTALLED_PLUGIN_INDEX_VERSION,
   INSTALLED_PLUGIN_INDEX_WARNING,
-} from "./installed-plugin-index-types.js";
+} from "./installed-plugin-index-types.ts";
 export type {
   InstalledPluginIndex,
   InstalledPluginIndexRecord,
@@ -37,14 +37,14 @@ export type {
   InstalledPluginStartupInfo,
   LoadInstalledPluginIndexParams,
   RefreshInstalledPluginIndexParams,
-} from "./installed-plugin-index-types.js";
-export { extractPluginInstallRecordsFromInstalledPluginIndex } from "./installed-plugin-index-install-records.js";
-export { diffInstalledPluginIndexInvalidationReasons } from "./installed-plugin-index-invalidation.js";
+} from "./installed-plugin-index-types.ts";
+export { extractPluginInstallRecordsFromInstalledPluginIndex } from "./installed-plugin-index-install-records.ts";
+export { diffInstalledPluginIndexInvalidationReasons } from "./installed-plugin-index-invalidation.ts";
 export {
   CONFIG_PATH_ACTIVATION_COMPAT_CODE,
   hasMissingConfigPathActivationMetadata,
-} from "./installed-plugin-index-config-path-scope.js";
-export { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.js";
+} from "./installed-plugin-index-config-path-scope.ts";
+export { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.ts";
 
 function buildInstalledPluginIndex(
   params: LoadInstalledPluginIndexParams & { refreshReason?: InstalledPluginIndexRefreshReason },

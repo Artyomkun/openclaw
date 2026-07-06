@@ -1,8 +1,8 @@
 // Defines hook-related Zod schema fragments for config parsing.
 import path from "node:path";
 import { z } from "zod";
-import { InstallRecordShape } from "./zod-schema.installs.js";
-import { sensitive } from "./zod-schema.sensitive.js";
+import { InstallRecordShape } from "./zod-schema.installs.ts";
+import { sensitive } from "./zod-schema.sensitive.ts";
 
 function isSafeRelativeModulePath(raw: string): boolean {
   const value = raw.trim();

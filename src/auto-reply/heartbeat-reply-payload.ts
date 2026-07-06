@@ -3,7 +3,7 @@ import {
   hasOutboundReplyContent,
   isReasoningReplyPayload,
 } from "openclaw/plugin-sdk/reply-payload";
-import type { ReplyPayload } from "./types.js";
+import type { ReplyPayload } from "./types.ts";
 
 /**
  * Pick the last outbound-capable reply payload for heartbeat delivery.

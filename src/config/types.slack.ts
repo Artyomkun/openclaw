@@ -10,19 +10,19 @@ import type {
   ReplyToMode,
   StreamingMode,
   TextChunkMode,
-} from "./types.base.js";
-import type { ChannelBotLoopProtectionConfig } from "./types.bot-loop-protection.js";
+} from "./types.base.ts";
+import type { ChannelBotLoopProtectionConfig } from "./types.bot-loop-protection.ts";
 import type {
   ChannelHealthMonitorConfig,
   ChannelHeartbeatVisibilityConfig,
-} from "./types.channel-health.js";
+} from "./types.channel-health.ts";
 import type {
   DmConfig,
   MentionPatternsPolicyConfig,
   ProviderCommandsConfig,
-} from "./types.messages.js";
-import type { SecretInput } from "./types.secrets.js";
-import type { GroupToolPolicyBySenderConfig, GroupToolPolicyConfig } from "./types.tools.js";
+} from "./types.messages.ts";
+import type { SecretInput } from "./types.secrets.ts";
+import type { GroupToolPolicyBySenderConfig, GroupToolPolicyConfig } from "./types.tools.ts";
 
 export type SlackDmConfig = {
   /** If false, ignore all incoming Slack DMs. Default: true. */
@@ -35,8 +35,6 @@ export type SlackDmConfig = {
   groupEnabled?: boolean;
   /** Optional allowlist for group DM channels (ids or slugs). */
   groupChannels?: Array<string | number>;
-  /** @deprecated Prefer channels.slack.replyToModeByChatType.direct. */
-  replyToMode?: ReplyToMode;
 };
 
 export type SlackChannelConfig = {
@@ -212,7 +210,7 @@ export type SlackAccountConfig = {
   unfurlLinks?: boolean;
   /** Pass through Slack chat.postMessage media unfurl control. Omitted by default. */
   unfurlMedia?: boolean;
-  /** Streaming + chunking settings. Prefer this nested shape over legacy flat keys. */
+  /** Streaming + chunking settings. Prefer this nested shape over older flat keys. */
   streaming?: SlackChannelStreamingConfig;
   mediaMaxMb?: number;
   /** Reaction notification mode (off|own|all|allowlist). Default: own. */
@@ -230,16 +228,6 @@ export type SlackAccountConfig = {
   thread?: SlackThreadConfig;
   actions?: SlackActionConfig;
   slashCommand?: SlackSlashCommandConfig;
-  /**
-   * Canonical DM policy key. Doctor migrates legacy channels.slack.dm.policy here.
-   * Legacy key: channels.slack.dm.policy.
-   */
-  dmPolicy?: DmPolicy;
-  /**
-   * Canonical DM allowlist. Doctor migrates legacy channels.slack.dm.allowFrom here.
-   * Legacy key: channels.slack.dm.allowFrom.
-   */
-  allowFrom?: Array<string | number>;
   /** Default delivery target for CLI --deliver when no explicit --reply-to is provided. */
   defaultTo?: string;
   dm?: SlackDmConfig;

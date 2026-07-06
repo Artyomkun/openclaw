@@ -1,23 +1,23 @@
 /**
  * Builds and installs embedded-agent system prompts.
  */
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ChatType } from "../../channels/chat-type.js";
-import type { SubagentDelegationMode } from "../../config/types.agent-defaults.js";
-import type { MemoryCitationsMode } from "../../config/types.memory.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { AgentPromptSurfaceKind } from "../../plugins/types.js";
-import type { ActiveProcessSessionReference } from "../bash-process-references.js";
-import type { BootstrapMode } from "../bootstrap-mode.js";
-import type { ResolvedTimeFormat } from "../date-time.js";
-import type { EmbeddedContextFile } from "../embedded-agent-helpers.js";
-import type { AgentTool } from "../runtime/index.js";
-import type { AgentSession } from "../sessions/index.js";
-import { buildConfiguredAgentSystemPrompt } from "../system-prompt-config.js";
-import type { ProviderSystemPromptContribution } from "../system-prompt-contribution.js";
-import type { PromptMode, SilentReplyPromptMode } from "../system-prompt.types.js";
-import type { EmbeddedSandboxInfo } from "./types.js";
-import type { ReasoningLevel, ThinkLevel } from "./utils.js";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ChatType } from "../../channels/chat-type.ts";
+import type { SubagentDelegationMode } from "../../config/types.agent-defaults.ts";
+import type { MemoryCitationsMode } from "../../config/types.memory.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { AgentPromptSurfaceKind } from "../../plugins/types.ts";
+import type { ActiveProcessSessionReference } from "../bash-process-references.ts";
+import type { BootstrapMode } from "../bootstrap-mode.ts";
+import type { ResolvedTimeFormat } from "../date-time.ts";
+import type { EmbeddedContextFile } from "../embedded-agent-helpers.ts";
+import type { AgentTool } from "../runtime/index.ts";
+import type { AgentSession } from "../sessions/index.ts";
+import { buildConfiguredAgentSystemPrompt } from "../system-prompt-config.ts";
+import type { ProviderSystemPromptContribution } from "../system-prompt-contribution.ts";
+import type { PromptMode, SilentReplyPromptMode } from "../system-prompt.types.ts";
+import type { EmbeddedSandboxInfo } from "./types.ts";
+import type { ReasoningLevel, ThinkLevel } from "./utils.ts";
 
 export function buildEmbeddedSystemPrompt(params: {
   config?: OpenClawConfig;

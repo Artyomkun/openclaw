@@ -3,8 +3,8 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SkillCommandSpec } from "../../skills/types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SkillCommandSpec } from "../../skills/types.ts";
 
 export function reserveSkillCommandNames(params: {
   reservedCommands: Set<string>;

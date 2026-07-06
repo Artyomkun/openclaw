@@ -4,20 +4,20 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentDir, resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { resolveContextTokensForModel } from "../../agents/context.js";
-import { classifyCompactionReason } from "../../agents/embedded-agent-runner/compact-reasons.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
+import { resolveAgentDir, resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { resolveContextTokensForModel } from "../../agents/context.ts";
+import { classifyCompactionReason } from "../../agents/embedded-agent-runner/compact-reasons.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
 import {
   OPENAI_CODEX_PROVIDER_ID,
   OPENAI_PROVIDER_ID,
   resolveContextConfigProviderForRuntime,
-} from "../../agents/openai-routing.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { CommandHandler } from "./commands-types.js";
-import { stripMentions, stripStructuralPrefixes } from "./mentions.js";
+} from "../../agents/openai-routing.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { CommandHandler } from "./commands-types.ts";
+import { stripMentions, stripStructuralPrefixes } from "./mentions.ts";
 
 const compactRuntimeLoader = createLazyImportLoader(() => import("./commands-compact.runtime.js"));
 

@@ -5,9 +5,9 @@
  */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { sanitizeServerName, TOOL_NAME_SEPARATOR } from "./agent-bundle-mcp-names.js";
-import { IMPLICIT_ALLOW_ALL_FROM_ALSO_ALLOW } from "./sandbox-tool-policy.js";
-import { expandToolGroups, normalizeToolList, normalizeToolName } from "./tool-policy-shared.js";
+import { sanitizeServerName, TOOL_NAME_SEPARATOR } from "./agent-bundle-mcp-names.ts";
+import { IMPLICIT_ALLOW_ALL_FROM_ALSO_ALLOW } from "./sandbox-tool-policy.ts";
+import { expandToolGroups, normalizeToolList, normalizeToolName } from "./tool-policy-shared.ts";
 export {
   couldNormalizeToolNamePrefixToAllowedTool,
   expandToolGroups,
@@ -15,8 +15,8 @@ export {
   normalizeToolName,
   resolveToolProfilePolicy,
   TOOL_GROUPS,
-} from "./tool-policy-shared.js";
-export type { ToolProfileId } from "./tool-policy-shared.js";
+} from "./tool-policy-shared.ts";
+export type { ToolProfileId } from "./tool-policy-shared.ts";
 
 /** Tool allow/deny policy shape accepted by agent and sandbox config. */
 export type ToolPolicyLike = {

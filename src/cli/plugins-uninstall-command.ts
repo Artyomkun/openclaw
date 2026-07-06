@@ -1,21 +1,19 @@
 // Plugin uninstall command implementation and confirmation-driven removal plan execution.
 import os from "node:os";
 import path from "node:path";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { assertConfigWriteAllowedInCurrentMode, readConfigFileSnapshot } from "../config/config.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { assertConfigWriteAllowedInCurrentMode, readConfigFileSnapshot } from "../config/config.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   tracePluginLifecyclePhase,
   tracePluginLifecyclePhaseAsync,
-} from "../plugins/plugin-lifecycle-trace.js";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
-import { shortenHomePath } from "../utils.js";
+} from "../plugins/plugin-lifecycle-trace.ts";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+import { shortenHomePath } from "../utils.ts";
 
 export type PluginUninstallOptions = {
   keepFiles?: boolean;
-  /** @deprecated Use keepFiles. */
-  keepConfig?: boolean;
   force?: boolean;
   dryRun?: boolean;
   invalidateRuntimeCache?: boolean;

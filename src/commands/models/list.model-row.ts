@@ -1,7 +1,7 @@
 /** Converts registry/catalog models into printable model-list rows. */
-import { modelKey } from "../../agents/model-ref-shared.js";
-import { isLocalBaseUrl } from "./list.local-url.js";
-import type { ModelRow } from "./list.types.js";
+import { modelKey } from "../../agents/model-ref-shared.ts";
+import { isLocalBaseUrl } from "./list.local-url.ts";
+import type { ModelRow } from "./list.types.ts";
 
 /** Minimal model shape needed to render a model-list row. */
 export type ListRowModel = {

@@ -1,9 +1,7 @@
 // Control UI module implements storage behavior.
 const SETTINGS_KEY_PREFIX = "openclaw.control.settings.v1:";
-const LEGACY_SETTINGS_KEY = "openclaw.control.settings.v1";
 const LOCAL_USER_IDENTITY_KEY = "openclaw.control.user.v1";
 const LOCAL_ASSISTANT_IDENTITY_KEY = "openclaw.control.assistant.v1";
-const LEGACY_TOKEN_SESSION_KEY = "openclaw.control.token.v1";
 const TOKEN_SESSION_KEY_PREFIX = "openclaw.control.token.v1:";
 const MAX_SCOPED_SESSION_ENTRIES = 10;
 
@@ -164,24 +162,14 @@ function resolveScopedSessionSelection(
 ): ScopedSessionSelection {
   const scope = normalizeGatewayTokenScope(gatewayUrl);
   const scoped = parsed.sessionsByGateway?.[scope];
-  const scopedSessionKey = normalizeOptionalString(scoped?.sessionKey);
-  const scopedLastActiveSessionKey = normalizeOptionalString(scoped?.lastActiveSessionKey);
-  if (scopedSessionKey && scopedLastActiveSessionKey) {
-    return {
-      sessionKey: scopedSessionKey,
-      lastActiveSessionKey: scopedLastActiveSessionKey,
-    };
-  }
-
-  const legacySessionKey = normalizeOptionalString(parsed.sessionKey) ?? defaults.sessionKey;
-  const legacyLastActiveSessionKey =
-    normalizeOptionalString(parsed.lastActiveSessionKey) ??
-    legacySessionKey ??
-    defaults.lastActiveSessionKey;
+  const sessionKey = normalizeOptionalString(scoped?.sessionKey);
+  const lastActiveSessionKey = normalizeOptionalString(scoped?.lastActiveSessionKey);
+  const resolvedSessionKey = sessionKey ?? defaults.sessionKey ?? undefined;
+  const resolvedLastActive = lastActiveSessionKey ?? defaults.lastActiveSessionKey ?? undefined;
 
   return {
-    sessionKey: legacySessionKey,
-    lastActiveSessionKey: legacyLastActiveSessionKey,
+    sessionKey: resolvedSessionKey,
+    lastActiveSessionKey: resolvedLastActive,
   };
 }
 
@@ -191,7 +179,6 @@ function loadSessionToken(gatewayUrl: string): string {
     if (!storage) {
       return "";
     }
-    storage.removeItem(LEGACY_TOKEN_SESSION_KEY);
     const token = storage.getItem(tokenSessionKeyForGateway(gatewayUrl));
     return normalizeOptionalString(token) ?? "";
   } catch {
@@ -210,7 +197,6 @@ export function resolveGatewayTokenForUrlEdit(
     return currentToken;
   }
   // Gateway tokens stay session-scoped across endpoint edits.
-  // Durable settings may contain scrubbed legacy tokens, but must not restore them here.
   return loadSessionToken(nextGatewayUrl);
 }
 
@@ -220,7 +206,6 @@ function persistSessionToken(gatewayUrl: string, token: string) {
     if (!storage) {
       return;
     }
-    storage.removeItem(LEGACY_TOKEN_SESSION_KEY);
     const key = tokenSessionKeyForGateway(gatewayUrl);
     const normalized = normalizeOptionalString(token) ?? "";
     if (normalized) {
@@ -257,12 +242,10 @@ export function loadSettings(): UiSettings {
   };
 
   try {
-    // First check for legacy key (no scope), then check for scoped key
     const scopedKey = settingsKeyForGateway(defaults.gatewayUrl);
     const raw =
       storage?.getItem(scopedKey) ??
-      storage?.getItem(SETTINGS_KEY_PREFIX + "default") ??
-      storage?.getItem(LEGACY_SETTINGS_KEY);
+      storage?.getItem(SETTINGS_KEY_PREFIX + "default")
     if (!raw) {
       return defaults;
     }
@@ -277,7 +260,6 @@ export function loadSettings(): UiSettings {
     );
     const settings = {
       gatewayUrl,
-      // Gateway auth is intentionally in-memory only; scrub any legacy persisted token on load.
       token: loadSessionToken(gatewayUrl),
       sessionKey: scopedSessionSelection.sessionKey,
       lastActiveSessionKey: scopedSessionSelection.lastActiveSessionKey,
@@ -373,10 +355,9 @@ type PersistedLocalAssistantIdentities = {
 
 function parseLocalAssistantAvatarMap(raw: string): {
   avatars: Record<string, string>;
-  legacyAvatar: string | null;
 } {
   const parsed = JSON.parse(raw) as PersistedLocalAssistantIdentities;
-  const avatars = Object.create(null) as Record<string, string>;
+  const avatars: Record<string, string> = {};
   if (parsed.avatars && typeof parsed.avatars === "object" && !Array.isArray(parsed.avatars)) {
     for (const [agentId, avatar] of Object.entries(parsed.avatars)) {
       const normalizedAgentId = normalizeOptionalString(agentId);
@@ -386,12 +367,7 @@ function parseLocalAssistantAvatarMap(raw: string): {
       }
     }
   }
-  const legacyAvatar = normalizeOptionalString(parsed.avatar);
-  const legacyAgentId = normalizeOptionalString(parsed.agentId);
-  if (legacyAvatar && legacyAgentId && !Object.hasOwn(avatars, legacyAgentId)) {
-    avatars[legacyAgentId] = legacyAvatar;
-  }
-  return { avatars, legacyAvatar: legacyAgentId ? null : (legacyAvatar ?? null) };
+  return { avatars };
 }
 
 function persistLocalAssistantAvatarMap(storage: Storage | null, avatars: Record<string, string>) {
@@ -406,22 +382,14 @@ export function loadLocalAssistantIdentity(opts?: {
   agentId?: string | null;
 }): LocalAssistantIdentity {
   const agentId = normalizeOptionalString(opts?.agentId);
-  if (!agentId) {
-    return { avatar: null };
-  }
+  if (!agentId) return { avatar: null };
   const storage = getSafeLocalStorage();
   try {
     const raw = storage?.getItem(LOCAL_ASSISTANT_IDENTITY_KEY);
-    if (!raw) {
-      return { avatar: null };
-    }
-    const { avatars, legacyAvatar } = parseLocalAssistantAvatarMap(raw);
-    if (!Object.hasOwn(avatars, agentId) && legacyAvatar) {
-      // Assign the old global override to the first concrete agent that loads it.
-      avatars[agentId] = legacyAvatar;
-      persistLocalAssistantAvatarMap(storage, avatars);
-    }
-    return { avatar: Object.hasOwn(avatars, agentId) ? avatars[agentId] : null, agentId };
+    if (!raw) return { avatar: null };
+    const { avatars } = parseLocalAssistantAvatarMap(raw);
+    const avatar = avatars[agentId] ?? null;
+    return { avatar, agentId };
   } catch {
     return { avatar: null };
   }
@@ -458,7 +426,6 @@ function persistSettings(next: UiSettings) {
   const scopedKey = settingsKeyForGateway(next.gatewayUrl);
   let existingSessionsByGateway: Record<string, ScopedSessionSelection> = {};
   try {
-    // Try to migrate from legacy key or other scopes
     const raw =
       storage?.getItem(scopedKey) ??
       storage?.getItem(SETTINGS_KEY_PREFIX + "default") ??
@@ -505,7 +472,6 @@ function persistSettings(next: UiSettings) {
   const serialized = JSON.stringify(persisted);
   try {
     storage?.setItem(scopedKey, serialized);
-    storage?.setItem(LEGACY_SETTINGS_KEY, serialized);
   } catch {
     // best-effort — quota exceeded or security restrictions should not
     // prevent in-memory settings and visual updates from being applied

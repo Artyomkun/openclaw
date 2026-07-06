@@ -3,14 +3,14 @@
  *
  * Resolves materialized binding records from stateful target session keys.
  */
-import type { ConfiguredBindingRecordResolution } from "./binding-types.js";
-import type { CompiledConfiguredBindingRegistry } from "./configured-binding-compiler.js";
-import { listConfiguredBindingConsumers } from "./configured-binding-consumers.js";
+import type { ConfiguredBindingRecordResolution } from "./binding-types.ts";
+import type { CompiledConfiguredBindingRegistry } from "./configured-binding-compiler.ts";
+import { listConfiguredBindingConsumers } from "./configured-binding-consumers.ts";
 import {
   materializeConfiguredBindingRecord,
   resolveAccountMatchPriority,
   resolveCompiledBindingChannel,
-} from "./configured-binding-match.js";
+} from "./configured-binding-match.ts";
 
 /**
  * Resolves a configured binding record from a stateful target session key.

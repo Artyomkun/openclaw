@@ -3,8 +3,8 @@
  *
  * Projects plugin approval metadata into runtime approval delivery adapters.
  */
-import type { ChannelApprovalAdapter, ChannelApprovalCapability } from "./types.adapters.js";
-import type { ChannelPlugin } from "./types.plugin.js";
+import type { ChannelApprovalAdapter, ChannelApprovalCapability } from "./types.adapters.ts";
+import type { ChannelPlugin } from "./types.plugin.ts";
 
 /**
  * Returns the approval capability exposed by a channel plugin.

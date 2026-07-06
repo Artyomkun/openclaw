@@ -1,10 +1,10 @@
 // Converts queue directives into normalized queue settings.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { parseDurationMs } from "../../../cli/parse-duration.js";
-import { parseStrictPositiveInteger } from "../../../infra/parse-finite-number.js";
-import { skipDirectiveArgPrefix, takeDirectiveToken } from "../directive-parsing.js";
-import { normalizeQueueDropPolicy, normalizeQueueMode } from "./normalize.js";
-import type { QueueDropPolicy, QueueMode } from "./types.js";
+import { parseDurationMs } from "../../../cli/parse-duration.ts";
+import { parseStrictPositiveInteger } from "../../../infra/parse-finite-number.ts";
+import { skipDirectiveArgPrefix, takeDirectiveToken } from "../directive-parsing.ts";
+import { normalizeQueueDropPolicy, normalizeQueueMode } from "./normalize.ts";
+import type { QueueDropPolicy, QueueMode } from "./types.ts";
 
 /** Parses debounce durations in `/queue` directives. */
 function parseQueueDebounce(raw?: string): number | undefined {

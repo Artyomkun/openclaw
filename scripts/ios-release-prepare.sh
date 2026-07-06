@@ -23,7 +23,7 @@ TEAM_HELPER="${ROOT_DIR}/scripts/ios-team-id.sh"
 VERSION_HELPER="${ROOT_DIR}/scripts/ios-write-version-xcconfig.sh"
 IOS_VERSION_HELPER="${ROOT_DIR}/scripts/ios-version.ts"
 VERSION_SYNC_HELPER="${ROOT_DIR}/scripts/ios-sync-versioning.ts"
-RELEASE_SIGNING_HELPER="${ROOT_DIR}/scripts/ios-release-signing.mjs"
+RELEASE_SIGNING_HELPER="${ROOT_DIR}/scripts/ios-release-signing.ts"
 CANONICAL_TEAM_ID="FWJYW4S8P8"
 
 BUILD_NUMBER=""

@@ -1,7 +1,7 @@
 /**
  * Public SDK facade for invoking browser plugin node-host proxy commands.
  */
-import { loadActivatedBundledPluginPublicSurfaceModuleSync } from "./facade-runtime.js";
+import { loadActivatedBundledPluginPublicSurfaceModuleSync } from "./facade-runtime.ts";
 
 type BrowserNodeHostFacadeModule = {
   runBrowserProxyCommand(paramsJSON?: string | null): Promise<string>;

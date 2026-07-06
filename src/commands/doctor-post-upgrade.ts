@@ -3,14 +3,14 @@ import crypto from "node:crypto";
 import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { readPersistedInstalledPluginIndex } from "../plugins/installed-plugin-index-store.js";
-import type { PackageManifest } from "../plugins/manifest.js";
-import { validatePackageExtensionEntriesForInstall } from "../plugins/package-entry-resolution.js";
+import { readPersistedInstalledPluginIndex } from "../plugins/installed-plugin-index-store.ts";
+import type { PackageManifest } from "../plugins/manifest.ts";
+import { validatePackageExtensionEntriesForInstall } from "../plugins/package-entry-resolution.ts";
 import {
   POST_UPGRADE_PROBE_CODES,
   type PostUpgradeFinding,
   type PostUpgradeReport,
-} from "./doctor-post-upgrade.types.js";
+} from "./doctor-post-upgrade.types.ts";
 
 type InstalledPluginRecord = {
   pluginId: string;

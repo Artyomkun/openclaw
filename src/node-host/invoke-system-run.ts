@@ -1,13 +1,13 @@
 /** Policy and execution pipeline for approved node-host system.run requests. */
 import crypto from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { GatewayClient } from "../gateway/client.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { GatewayClient } from "../gateway/client.ts";
 import {
   describeInterpreterInlineEval,
   type InterpreterInlineEvalHit,
-} from "../infra/command-analysis/inline-eval.js";
-import { detectPolicyInlineEval } from "../infra/command-analysis/policy.js";
+} from "../infra/command-analysis/inline-eval.ts";
+import { detectPolicyInlineEval } from "../infra/command-analysis/policy.ts";
 import {
   commandRequiresSecurityAuditSuppressionApproval,
   hasDurableExecApproval,
@@ -25,39 +25,39 @@ import {
   type ExecSegmentSatisfiedBy,
   type ExecSecurity,
   type SkillBinTrustEntry,
-} from "../infra/exec-approvals.js";
-import type { ExecAuthorizationPlan } from "../infra/exec-authorization-plan.js";
-import type { ExecAutoReviewer } from "../infra/exec-auto-review.js";
-import type { ExecHostRequest, ExecHostResponse, ExecHostRunResult } from "../infra/exec-host.js";
-import { applyExecPolicyLayer } from "../infra/exec-policy.js";
-import { resolveExecSafeBinRuntimePolicy } from "../infra/exec-safe-bin-runtime-policy.js";
+} from "../infra/exec-approvals.ts";
+import type { ExecAuthorizationPlan } from "../infra/exec-authorization-plan.ts";
+import type { ExecAutoReviewer } from "../infra/exec-auto-review.ts";
+import type { ExecHostRequest, ExecHostResponse, ExecHostRunResult } from "../infra/exec-host.ts";
+import { applyExecPolicyLayer } from "../infra/exec-policy.ts";
+import { resolveExecSafeBinRuntimePolicy } from "../infra/exec-safe-bin-runtime-policy.ts";
 import {
   extractEnvAssignmentKeysFromDispatchWrappers,
   isShellWrapperInvocation,
   resolveShellWrapperTransportArgv,
-} from "../infra/exec-wrapper-resolution.js";
+} from "../infra/exec-wrapper-resolution.ts";
 import {
   inspectHostExecEnvOverrides,
   sanitizeSystemRunEnvOverrides,
-} from "../infra/host-env-security.js";
-import { normalizeSystemRunApprovalPlan } from "../infra/system-run-approval-binding.js";
-import { formatExecCommand, resolveSystemRunCommandRequest } from "../infra/system-run-command.js";
-import { logWarn } from "../logger.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { evaluateSystemRunPolicy, resolveExecApprovalDecision } from "./exec-policy.js";
+} from "../infra/host-env-security.ts";
+import { normalizeSystemRunApprovalPlan } from "../infra/system-run-approval-binding.ts";
+import { formatExecCommand, resolveSystemRunCommandRequest } from "../infra/system-run-command.ts";
+import { logWarn } from "../logger.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { evaluateSystemRunPolicy, resolveExecApprovalDecision } from "./exec-policy.ts";
 import {
   applyOutputTruncation,
   evaluateSystemRunAllowlist,
   resolvePlannedAllowlistArgv,
   resolveSystemRunExecArgv,
-} from "./invoke-system-run-allowlist.js";
+} from "./invoke-system-run-allowlist.ts";
 import {
   hardenApprovedExecutionPaths,
   revalidateApprovedCwdSnapshot,
   revalidateApprovedMutableFileOperand,
   resolveMutableFileOperandSnapshotSync,
   type ApprovedCwdSnapshot,
-} from "./invoke-system-run-plan.js";
+} from "./invoke-system-run-plan.ts";
 import type {
   ExecEventPayload,
   ExecFinishedResult,
@@ -65,7 +65,7 @@ import type {
   RunResult,
   SkillBinsProvider,
   SystemRunParams,
-} from "./invoke-types.js";
+} from "./invoke-types.ts";
 
 type SystemRunInvokeResult = {
   ok: boolean;
@@ -343,7 +343,7 @@ function argvArraysMatch(left: readonly string[] | undefined, right: readonly st
   );
 }
 
-export { buildSystemRunApprovalPlan } from "./invoke-system-run-plan.js";
+export { buildSystemRunApprovalPlan } from "./invoke-system-run-plan.ts";
 
 async function parseSystemRunPhase(
   opts: HandleSystemRunInvokeOptions,

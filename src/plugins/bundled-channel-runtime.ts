@@ -1,10 +1,10 @@
 /** Loads bundled channel plugin runtime entries and setup metadata. */
 import fs from "node:fs";
 import path from "node:path";
-import { resolveBundledPluginGeneratedPath } from "./bundled-plugin-metadata.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { OpenClawPackageManifest } from "./manifest.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.js";
+import { resolveBundledPluginGeneratedPath } from "./bundled-plugin-metadata.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import type { OpenClawPackageManifest } from "./manifest.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.ts";
 
 type BundledChannelEntryPathPair = {
   source: string;

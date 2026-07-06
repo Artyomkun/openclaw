@@ -14,15 +14,15 @@ import {
 } from "@openclaw/media-core/file-name";
 import { detectMime, extensionForMime } from "@openclaw/media-core/mime";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { toErrorObject } from "../infra/errors.js";
-import { fileStore } from "../infra/file-store.js";
-import { sanitizeUntrustedFileName } from "../infra/fs-safe-advanced.js";
-import { isPathInside } from "../infra/fs-safe.js";
-import { retainSafeHeadersForCrossOriginRedirect } from "../infra/net/redirect-headers.js";
-import { resolvePinnedHostname } from "../infra/net/ssrf.js";
-import { writeSiblingTempFile } from "../infra/sibling-temp-file.js";
-import { resolveConfigDir } from "../utils.js";
-import { isFsSafeError, readLocalFileSafely, type FsSafeLikeError } from "./store.runtime.js";
+import { toErrorObject } from "../infra/errors.ts";
+import { fileStore } from "../infra/file-store.ts";
+import { sanitizeUntrustedFileName } from "../infra/fs-safe-advanced.ts";
+import { isPathInside } from "../infra/fs-safe.ts";
+import { retainSafeHeadersForCrossOriginRedirect } from "../infra/net/redirect-headers.ts";
+import { resolvePinnedHostname } from "../infra/net/ssrf.ts";
+import { writeSiblingTempFile } from "../infra/sibling-temp-file.ts";
+import { resolveConfigDir } from "../utils.ts";
+import { isFsSafeError, readLocalFileSafely, type FsSafeLikeError } from "./store.runtime.ts";
 
 const resolveMediaDir = () => path.join(resolveConfigDir(), "media");
 /** Default per-file media-store byte cap used by inbound staging and plugin SDK callers. */

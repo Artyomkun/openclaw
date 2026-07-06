@@ -5,7 +5,6 @@ import {
   type WebSearchProviderPlugin,
   type WebSearchProviderToolDefinition,
 } from "openclaw/plugin-sdk/provider-web-search-config-contract";
-import { isRecord } from "openclaw/plugin-sdk/string-coerce-runtime";
 import {
   createPerplexityWebSearchProviderBase,
   resolvePerplexityWebSearchRuntimeMetadata,
@@ -13,7 +12,7 @@ import {
 
 type PerplexityWebSearchRuntime = typeof import("./perplexity-web-search-provider.runtime.js");
 
-let perplexityWebSearchRuntimePromise: Promise<PerplexityWebSearchRuntime> | undefined;
+let perplexityWebSearchRuntimePromise: Promise<PerplexityWebSearchRuntime>;
 
 function loadPerplexityWebSearchRuntime(): Promise<PerplexityWebSearchRuntime> {
   perplexityWebSearchRuntimePromise ??= import("./perplexity-web-search-provider.runtime.js");
@@ -79,21 +78,11 @@ function createPerplexityParameters(transport?: string): Record<string, unknown>
   };
 }
 
-function hasPerplexityLegacyOverride(searchConfig?: Record<string, unknown>): boolean {
-  const perplexity = isRecord(searchConfig?.perplexity) ? searchConfig.perplexity : undefined;
-  return (
-    (typeof perplexity?.baseUrl === "string" && perplexity.baseUrl.trim().length > 0) ||
-    (typeof perplexity?.model === "string" && perplexity.model.trim().length > 0)
-  );
-}
-
 function createPerplexityToolDefinition(
-  searchConfig?: Record<string, unknown>,
+  searchConfig?: Record<string, string>,
   runtimeTransport?: string,
 ): WebSearchProviderToolDefinition {
-  const schemaTransport =
-    runtimeTransport ??
-    (hasPerplexityLegacyOverride(searchConfig) ? "chat_completions" : undefined);
+  const schemaTransport = runtimeTransport;
 
   return {
     description:

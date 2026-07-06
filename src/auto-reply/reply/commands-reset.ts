@@ -1,16 +1,16 @@
 /** Handles /new and /reset command flows, including soft reset and ACP-bound sessions. */
-import { clearBootstrapSnapshot } from "../../agents/bootstrap-cache.js";
-import { clearAllCliSessions } from "../../agents/cli-session.js";
-import { resetConfiguredBindingTargetInPlace } from "../../channels/plugins/binding-targets.js";
-import { updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import { logVerbose } from "../../globals.js";
-import { isAcpSessionKey } from "../../routing/session-key.js";
-import { resolveBoundAcpThreadSessionKey } from "./commands-acp/targets.js";
-import { emitResetCommandHooks, type ResetCommandAction } from "./commands-reset-hooks.js";
-import { parseSoftResetCommand } from "./commands-reset-mode.js";
-import type { CommandHandlerResult, HandleCommandsParams } from "./commands-types.js";
-import type { ReplySessionBinding } from "./get-reply.types.js";
-import { isResetAuthorizedForContext } from "./reset-authorization.js";
+import { clearBootstrapSnapshot } from "../../agents/bootstrap-cache.ts";
+import { clearAllCliSessions } from "../../agents/cli-session.ts";
+import { resetConfiguredBindingTargetInPlace } from "../../channels/plugins/binding-targets.ts";
+import { updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import { logVerbose } from "../../globals.ts";
+import { isAcpSessionKey } from "../../routing/session-key.ts";
+import { resolveBoundAcpThreadSessionKey } from "./commands-acp/targets.ts";
+import { emitResetCommandHooks, type ResetCommandAction } from "./commands-reset-hooks.ts";
+import { parseSoftResetCommand } from "./commands-reset-mode.ts";
+import type { CommandHandlerResult, HandleCommandsParams } from "./commands-types.ts";
+import type { ReplySessionBinding } from "./get-reply.types.ts";
+import { isResetAuthorizedForContext } from "./reset-authorization.ts";
 
 type InternalResetCommandOptions = NonNullable<HandleCommandsParams["opts"]> & {
   onSessionPrepared?: (binding: ReplySessionBinding) => void;

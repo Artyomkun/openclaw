@@ -3,9 +3,9 @@
  *
  * Maps runtime/session surfaces to the fallback tool text and workflow hints that belong in prompts.
  */
-import { isOpenClawMainPromptSurface } from "../plugins/agent-prompt-surface-kind.js";
-import type { AgentPromptSurfaceKind } from "../plugins/types.js";
-import { isAcpSessionKey, isSubagentSessionKey } from "../routing/session-key.js";
+import { isOpenClawMainPromptSurface } from "../plugins/agent-prompt-surface-kind.ts";
+import type { AgentPromptSurfaceKind } from "../plugins/types.ts";
+import { isAcpSessionKey, isSubagentSessionKey } from "../routing/session-key.ts";
 
 /** Builds fallback tool guidance when a runtime cannot render the structured tool list. */
 export function buildOpenClawToolFallbackText(params: {

@@ -153,7 +153,7 @@ Agent run completion is authoritative for active task records. A successful deta
   audit does not treat its own empty in-process cron runtime state as authority.
 - CLI tasks: tasks with a run id/source id use the live run context, so
   lingering child-session or chat-session rows do not keep them alive after the
-  gateway-owned run disappears. Legacy CLI tasks without run identity still fall
+  gateway-owned run disappears. Older CLI tasks without run identity still fall
   back to the child session. Gateway-backed `openclaw agent` runs also finalize
   from their run result, so completed runs do not sit active until the sweeper
   marks them `lost`.

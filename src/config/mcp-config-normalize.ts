@@ -1,5 +1,5 @@
 // Normalizes MCP config records into canonical runtime shape.
-import { isRecord } from "../utils.js";
+import { isRecord } from "../utils.ts";
 
 type ConfigMcpServers = Record<string, Record<string, unknown>>;
 type OpenClawMcpHttpTransport = "sse" | "streamable-http";
@@ -23,7 +23,7 @@ export function resolveOpenClawMcpTransportAlias(
   return mapped === "sse" || mapped === "streamable-http" ? mapped : undefined;
 }
 
-/** Checks whether a raw MCP `type` value is a legacy CLI alias OpenClaw can rewrite. */
+/** Checks whether a raw MCP `type` value is a older CLI alias OpenClaw can rewrite. */
 export function isKnownCliMcpTypeAlias(value: unknown): boolean {
   return Object.hasOwn(CLI_MCP_TYPE_TO_OPENCLAW_TRANSPORT, normalizeMcpString(value));
 }
@@ -31,7 +31,7 @@ export function isKnownCliMcpTypeAlias(value: unknown): boolean {
 /**
  * Converts operator-friendly MCP server aliases into canonical config keys.
  *
- * Existing canonical fields win over legacy snake_case or `type` aliases so
+ * Existing canonical fields win over older snake_case or `type` aliases so
  * repeated configure commands cannot overwrite already-normalized choices.
  */
 export function canonicalizeConfiguredMcpServer(
@@ -39,7 +39,7 @@ export function canonicalizeConfiguredMcpServer(
 ): Record<string, unknown> {
   const next = { ...server };
   const transportAlias = resolveOpenClawMcpTransportAlias(next.type);
-  // `transport` is OpenClaw's canonical field; legacy `type` only fills a gap.
+  // `transport` is OpenClaw's canonical field; older `type` only fills a gap.
   if (typeof next.transport !== "string" && transportAlias) {
     next.transport = transportAlias;
   }

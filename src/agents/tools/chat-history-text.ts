@@ -3,9 +3,9 @@
  *
  * Removes tool messages and extracts sanitized assistant-visible text from stored messages.
  */
-import { extractAssistantTextForPhase } from "../../shared/chat-message-content.js";
-import { sanitizeAssistantVisibleTextWithProfile } from "../../shared/text/assistant-visible-text.js";
-import { sanitizeUserFacingText } from "../embedded-agent-helpers/sanitize-user-facing-text.js";
+import { extractAssistantTextForPhase } from "../../shared/chat-message-content.ts";
+import { sanitizeAssistantVisibleTextWithProfile } from "../../shared/text/assistant-visible-text.ts";
+import { sanitizeUserFacingText } from "../embedded-agent-helpers/sanitize-user-facing-text.ts";
 
 export function stripToolMessages(messages: unknown[]): unknown[] {
   return messages.filter((msg) => {

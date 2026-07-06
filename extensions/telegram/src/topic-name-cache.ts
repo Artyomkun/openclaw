@@ -217,21 +217,6 @@ export async function getTopicName(
   return entry?.name;
 }
 
-export async function listTelegramLegacyTopicNameCacheEntries(params: {
-  persistedPath: string;
-  maxEntries?: number;
-}): Promise<Array<{ key: string; value: TopicEntry }>> {
-  const { value } = await readJsonFileWithFallback<Record<string, unknown>>(
-    params.persistedPath,
-    {},
-  );
-  return Object.entries(value)
-    .filter((entry): entry is [string, TopicEntry] => isTopicEntry(entry[1]))
-    .toSorted(([, left], [, right]) => right.updatedAt - left.updatedAt)
-    .slice(0, params.maxEntries ?? TELEGRAM_TOPIC_NAME_CACHE_MAX_ENTRIES)
-    .map(([key, entry]) => ({ key, value: entry }));
-}
-
 export function resetTopicNameCacheForTest(): void {
   getTopicNameCacheState().stores.clear();
 }

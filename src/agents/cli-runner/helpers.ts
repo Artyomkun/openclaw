@@ -13,35 +13,35 @@ import {
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
 import { KeyedAsyncQueue } from "openclaw/plugin-sdk/keyed-async-queue";
-import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.js";
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import type { ChatType } from "../../channels/chat-type.js";
-import type { CliBackendConfig } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { privateFileStore } from "../../infra/private-file-store.js";
-import { tempWorkspace } from "../../infra/private-temp-workspace.js";
-import { resolvePreferredOpenClawTmpDir } from "../../infra/tmp-openclaw-dir.js";
-import type { ImageContent } from "../../llm/types.js";
-import { listRegisteredPluginAgentPromptGuidance } from "../../plugins/command-registry-state.js";
-import type { EmbeddedContextFile } from "../embedded-agent-helpers.js";
-import { detectImageReferences, loadImageFromRef } from "../embedded-agent-runner/run/images.js";
-import { resolveDefaultModelForAgent } from "../model-selection.js";
-import type { AgentTool } from "../runtime/index.js";
-import type { SandboxFsBridge } from "../sandbox/fs-bridge.js";
-import { detectRuntimeShell } from "../shell-utils.js";
-import { stripSystemPromptCacheBoundary } from "../system-prompt-cache-boundary.js";
-import { buildConfiguredAgentSystemPrompt } from "../system-prompt-config.js";
-import { buildSystemPromptParams } from "../system-prompt-params.js";
-import type { SilentReplyPromptMode } from "../system-prompt.types.js";
-import { sanitizeImageBlocks } from "../tool-images.js";
-import { formatTomlConfigOverride } from "./toml-inline.js";
+import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.ts";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ThinkLevel } from "../../auto-reply/thinking.ts";
+import type { ChatType } from "../../channels/chat-type.ts";
+import type { CliBackendConfig } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { privateFileStore } from "../../infra/private-file-store.ts";
+import { tempWorkspace } from "../../infra/private-temp-workspace.ts";
+import { resolvePreferredOpenClawTmpDir } from "../../infra/tmp-openclaw-dir.ts";
+import type { ImageContent } from "../../llm/types.ts";
+import { listRegisteredPluginAgentPromptGuidance } from "../../plugins/command-registry-state.ts";
+import type { EmbeddedContextFile } from "../embedded-agent-helpers.ts";
+import { detectImageReferences, loadImageFromRef } from "../embedded-agent-runner/run/images.ts";
+import { resolveDefaultModelForAgent } from "../model-selection.ts";
+import type { AgentTool } from "../runtime/index.ts";
+import type { SandboxFsBridge } from "../sandbox/fs-bridge.ts";
+import { detectRuntimeShell } from "../shell-utils.ts";
+import { stripSystemPromptCacheBoundary } from "../system-prompt-cache-boundary.ts";
+import { buildConfiguredAgentSystemPrompt } from "../system-prompt-config.ts";
+import { buildSystemPromptParams } from "../system-prompt-params.ts";
+import type { SilentReplyPromptMode } from "../system-prompt.types.ts";
+import { sanitizeImageBlocks } from "../tool-images.ts";
+import { formatTomlConfigOverride } from "./toml-inline.ts";
 /** Re-export CLI reliability helpers used by older runner call sites. */
 export {
   buildCliSupervisorScopeKey,
   resolveCliNoOutputTimeoutMs,
   resolveCliRunTimeoutOverrideMs,
-} from "./reliability.js";
+} from "./reliability.ts";
 
 const CLI_RUN_QUEUE = new KeyedAsyncQueue();
 

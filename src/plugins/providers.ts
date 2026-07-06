@@ -1,28 +1,28 @@
 // Registers provider plugins into the provider registry.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { splitTrailingAuthProfile } from "../agents/model-ref-profile.js";
-import { compileSafeRegex } from "../security/safe-regex.js";
-import { withBundledPluginVitestCompat } from "./bundled-compat.js";
-import { resolveEffectivePluginActivationState } from "./config-state.js";
-import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import type { PluginLoadOptions } from "./loader.js";
+import { splitTrailingAuthProfile } from "../agents/model-ref-profile.ts";
+import { compileSafeRegex } from "../security/safe-regex.ts";
+import { withBundledPluginVitestCompat } from "./bundled-compat.ts";
+import { resolveEffectivePluginActivationState } from "./config-state.ts";
+import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import type { PluginLoadOptions } from "./loader.ts";
 import {
   isActivatedManifestOwner,
   passesManifestOwnerBasePolicy,
-} from "./manifest-owner-policy.js";
-import { loadPluginManifestRegistryForInstalledIndex } from "./manifest-registry-installed.js";
-import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
-import { loadPluginMetadataSnapshot } from "./plugin-metadata-snapshot.js";
-import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.types.js";
+} from "./manifest-owner-policy.ts";
+import { loadPluginManifestRegistryForInstalledIndex } from "./manifest-registry-installed.ts";
+import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.ts";
+import { loadPluginMetadataSnapshot } from "./plugin-metadata-snapshot.ts";
+import type { PluginMetadataSnapshot } from "./plugin-metadata-snapshot.types.ts";
 import {
   loadPluginRegistrySnapshot,
   normalizePluginsConfigWithRegistry,
   type PluginRegistryRecord,
   type PluginRegistrySnapshot,
-} from "./plugin-registry.js";
-import { createPluginIdScopeSet } from "./plugin-scope.js";
+} from "./plugin-registry.ts";
+import { createPluginIdScopeSet } from "./plugin-scope.ts";
 
 type ProviderManifestLoadParams = {
   config?: PluginLoadOptions["config"];

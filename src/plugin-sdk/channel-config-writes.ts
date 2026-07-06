@@ -6,9 +6,9 @@ export {
   canBypassConfigWritePolicy,
   formatConfigWriteDeniedMessage,
   resolveChannelConfigWrites,
-} from "./channel-config-helpers.js";
+} from "./channel-config-helpers.ts";
 export type {
   ConfigWriteAuthorizationResult,
   ConfigWriteScope,
   ConfigWriteTarget,
-} from "./channel-config-helpers.js";
+} from "./channel-config-helpers.ts";

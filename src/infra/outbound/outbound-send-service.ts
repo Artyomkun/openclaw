@@ -1,27 +1,27 @@
 // Outbound send service chooses plugin-handled message actions or the core
 // message/poll path while preserving media policy and transcript mirrors.
-import type { AgentToolResult } from "../../agents/runtime/index.js";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import type { InboundEventKind } from "../../channels/inbound-event/kind.js";
-import { dispatchChannelMessageAction } from "../../channels/plugins/message-action-dispatch.js";
+import type { AgentToolResult } from "../../agents/runtime/index.ts";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import type { InboundEventKind } from "../../channels/inbound-event/kind.ts";
+import { dispatchChannelMessageAction } from "../../channels/plugins/message-action-dispatch.ts";
 import type {
   ChannelId,
   ChannelMessageActionContext,
   ChannelThreadingToolContext,
-} from "../../channels/plugins/types.public.js";
-import { appendAssistantMessageToSessionTranscript } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { OutboundMediaAccess, OutboundMediaReadFile } from "../../media/load-options.js";
-import { resolveAgentScopedOutboundMediaAccess } from "../../media/read-capability.js";
-import { extractToolPayload } from "../../plugin-sdk/tool-payload.js";
-import type { GatewayClientMode, GatewayClientName } from "../../utils/message-channel.js";
-import { throwIfAborted } from "./abort.js";
-import { resolveOutboundChannelPlugin } from "./channel-resolution.js";
-import type { OutboundSendDeps } from "./deliver.js";
-import { collectActionMediaSourceHints } from "./message-action-params.js";
-import type { MessagePollResult, MessageSendResult } from "./message.js";
-import { sendMessage, sendPoll } from "./message.js";
-import type { OutboundMirror } from "./mirror.js";
+} from "../../channels/plugins/types.public.ts";
+import { appendAssistantMessageToSessionTranscript } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { OutboundMediaAccess, OutboundMediaReadFile } from "../../media/load-options.ts";
+import { resolveAgentScopedOutboundMediaAccess } from "../../media/read-capability.ts";
+import { extractToolPayload } from "../../plugin-sdk/tool-payload.ts";
+import type { GatewayClientMode, GatewayClientName } from "../../utils/message-channel.ts";
+import { throwIfAborted } from "./abort.ts";
+import { resolveOutboundChannelPlugin } from "./channel-resolution.ts";
+import type { OutboundSendDeps } from "./deliver.ts";
+import { collectActionMediaSourceHints } from "./message-action-params.ts";
+import type { MessagePollResult, MessageSendResult } from "./message.ts";
+import { sendMessage, sendPoll } from "./message.ts";
+import type { OutboundMirror } from "./mirror.ts";
 
 /** Gateway connection settings forwarded to outbound send helpers. */
 export type OutboundGatewayContext = {

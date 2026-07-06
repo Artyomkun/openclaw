@@ -7,7 +7,6 @@ import { buildArceeModelDefinition, ARCEE_BASE_URL, ARCEE_MODEL_CATALOG } from "
 
 /** Canonical OpenRouter API base URL for Arcee-routed models. */
 export const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
-const OPENROUTER_LEGACY_BASE_URL = "https://openrouter.ai/v1";
 
 function normalizeBaseUrl(baseUrl: string | undefined): string {
   return (baseUrl ?? "").trim().replace(/\/+$/, "");
@@ -19,7 +18,7 @@ export function normalizeArceeOpenRouterBaseUrl(baseUrl: string | undefined): st
   if (!normalized) {
     return undefined;
   }
-  if (normalized === OPENROUTER_BASE_URL || normalized === OPENROUTER_LEGACY_BASE_URL) {
+  if (normalized === OPENROUTER_BASE_URL) {
     return OPENROUTER_BASE_URL;
   }
   return undefined;

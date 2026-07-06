@@ -3,12 +3,12 @@ import {
   MAX_DISPATCH_WRAPPER_DEPTH,
   resolveDispatchWrapperTrustPlan,
   unwrapKnownDispatchWrapperInvocation,
-} from "./dispatch-wrapper-resolution.js";
+} from "./dispatch-wrapper-resolution.ts";
 import {
   extractBindableShellWrapperInlineCommand,
   isShellWrapperExecutable,
   unwrapKnownShellMultiplexerInvocation,
-} from "./shell-wrapper-resolution.js";
+} from "./shell-wrapper-resolution.ts";
 
 type ExecWrapperTrustPlan = {
   argv: string[];

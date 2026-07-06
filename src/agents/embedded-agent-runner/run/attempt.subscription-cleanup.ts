@@ -1,10 +1,10 @@
 /**
  * Builds subscription params and cleans up embedded attempt resources.
  */
-import { toErrorObject } from "../../../infra/errors.js";
-import type { SubscribeEmbeddedAgentSessionParams } from "../../embedded-agent-subscribe.types.js";
-import { log } from "../logger.js";
-import { resolveEmbeddedAbortSettleTimeoutMs } from "./attempt.abort-settle-timeout.js";
+import { toErrorObject } from "../../../infra/errors.ts";
+import type { SubscribeEmbeddedAgentSessionParams } from "../../embedded-agent-subscribe.types.ts";
+import { log } from "../logger.ts";
+import { resolveEmbeddedAbortSettleTimeoutMs } from "./attempt.abort-settle-timeout.ts";
 
 /** Shared timeout for waiting on aborted model/prompt cleanup before releasing resources. */
 export const EMBEDDED_ABORT_SETTLE_TIMEOUT_MS = resolveEmbeddedAbortSettleTimeoutMs();

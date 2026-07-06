@@ -1,7 +1,7 @@
 // Plugin uninstall id resolver for registry ids, display names, npm specs, and ClawHub specs.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
-import type { PluginRecord } from "../plugins/registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { parseClawHubPluginSpec } from "../infra/clawhub-spec.ts";
+import type { PluginRecord } from "../plugins/registry.ts";
 
 /** Resolve user input to the plugin id that should be removed from config/install records. */
 export function resolvePluginUninstallId<

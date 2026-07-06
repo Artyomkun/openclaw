@@ -3,23 +3,23 @@
  *
  * Sends rendered reply payloads, records live preview state, and classifies delivery outcomes.
  */
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import type { OutboundDeliveryResult } from "../../infra/outbound/deliver-types.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import type { OutboundDeliveryResult } from "../../infra/outbound/deliver-types.ts";
 import {
   isOutboundDeliveryError,
   type OutboundPayloadDeliveryOutcome,
   type OutboundPayloadDeliverySuppressionReason,
-} from "../../infra/outbound/deliver-types.js";
+} from "../../infra/outbound/deliver-types.ts";
 import {
   deliverOutboundPayloadsInternal,
   type DeliverOutboundPayloadsParams,
   type OutboundDeliveryIntent,
-} from "../../infra/outbound/deliver.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { createLiveMessageState, markLiveMessagePreviewUpdated } from "./live.js";
-import { createMessageReceiptFromOutboundResults } from "./receipt.js";
-import { createRenderedMessageBatch } from "./rendered-batch.js";
+} from "../../infra/outbound/deliver.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { createLiveMessageState, markLiveMessagePreviewUpdated } from "./live.ts";
+import { createMessageReceiptFromOutboundResults } from "./receipt.ts";
+import { createRenderedMessageBatch } from "./rendered-batch.ts";
 import type {
   DurableMessageSendIntent,
   LiveMessageState,
@@ -27,7 +27,7 @@ import type {
   MessageReceipt,
   MessageSendContext,
   RenderedMessageBatch,
-} from "./types.js";
+} from "./types.ts";
 
 const log = createSubsystemLogger("channels/message/send");
 
@@ -38,8 +38,6 @@ export type DurableMessageBatchSendParams = Omit<
   payloads: ReplyPayload[];
   attempt?: number;
   signal?: AbortSignal;
-  /** @deprecated Use `signal`. */
-  abortSignal?: AbortSignal;
   previousReceipt?: MessageReceipt;
 };
 

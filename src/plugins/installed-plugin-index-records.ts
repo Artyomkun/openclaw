@@ -1,20 +1,17 @@
 /** Builds and compares installed plugin index records for refresh decisions. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
 import {
   clearLoadInstalledPluginIndexInstallRecordsCache,
   loadInstalledPluginIndexInstallRecords,
   loadInstalledPluginIndexInstallRecordsSync,
   readPersistedInstalledPluginIndexInstallRecords,
   readPersistedInstalledPluginIndexInstallRecordsSync,
-} from "./installed-plugin-index-record-reader.js";
-import { resolveInstalledPluginIndexStorePath } from "./installed-plugin-index-store-path.js";
-import {
-  refreshPersistedInstalledPluginIndex,
-  refreshPersistedInstalledPluginIndexSync,
-} from "./installed-plugin-index-store.js";
-import type { RefreshInstalledPluginIndexParams } from "./installed-plugin-index.js";
-import { recordPluginInstall, type PluginInstallUpdate } from "./installs.js";
+} from "./installed-plugin-index-record-reader.ts";
+import { resolveInstalledPluginIndexStorePath } from "./installed-plugin-index-store-path.ts";
+import { refreshPersistedInstalledPluginIndex } from "./installed-plugin-index-store.ts";
+import type { RefreshInstalledPluginIndexParams } from "./installed-plugin-index.ts";
+import { recordPluginInstall, type PluginInstallUpdate } from "./installs.ts";
 
 export {
   clearLoadInstalledPluginIndexInstallRecordsCache,
@@ -24,7 +21,7 @@ export {
   readPersistedInstalledPluginIndexInstallRecordsSync,
 };
 
-/** Config path for legacy plugin install records kept for migration/doctor flows. */
+/** Config path for older plugin install records kept for migration/doctor flows. */
 export const PLUGIN_INSTALLS_CONFIG_PATH = ["plugins", "installs"] as const;
 
 /** Options shared by installed plugin index record storage helpers. */
@@ -61,14 +58,8 @@ export async function writePersistedInstalledPluginIndexInstallRecords(
 
 /** Refreshes persisted installed plugin index records synchronously. */
 export function writePersistedInstalledPluginIndexInstallRecordsSync(
-  records: Record<string, PluginInstallRecord>,
   options: InstalledPluginIndexRecordRefreshOptions = {},
 ): string {
-  refreshPersistedInstalledPluginIndexSync({
-    ...options,
-    reason: "source-changed",
-    installRecords: records,
-  });
   return resolveInstalledPluginIndexRecordsStorePath(options);
 }
 
@@ -86,7 +77,7 @@ export function withPluginInstallRecords(
   };
 }
 
-/** Returns config with legacy plugin install records removed. */
+/** Returns config with older plugin install records removed. */
 export function withoutPluginInstallRecords(
   config: OpenClawConfig,
   options: { preserveEmptyPlugins?: boolean } = {},

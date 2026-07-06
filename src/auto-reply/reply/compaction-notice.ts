@@ -1,6 +1,6 @@
 // Shared user-facing compaction notice payload helpers.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ReplyPayload } from "../types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ReplyPayload } from "../types.ts";
 
 export type CompactionNoticePhase = "start" | "end" | "incomplete" | "skipped";
 

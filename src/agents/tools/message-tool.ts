@@ -10,74 +10,74 @@ import { Type, type TSchema } from "typebox";
 import {
   GATEWAY_CLIENT_IDS,
   GATEWAY_CLIENT_MODES,
-} from "../../../packages/gateway-protocol/src/client-info.js";
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
 import {
   hasInboundMetadataSentinel,
   stripInboundMetadata,
-} from "../../auto-reply/reply/strip-inbound-meta.js";
-import type { InboundEventKind } from "../../channels/inbound-event/kind.js";
+} from "../../auto-reply/reply/strip-inbound-meta.ts";
+import type { InboundEventKind } from "../../channels/inbound-event/kind.ts";
 import {
   getChannelPlugin,
   getLoadedChannelPlugin,
   listChannelPlugins,
-} from "../../channels/plugins/index.js";
+} from "../../channels/plugins/index.ts";
 import {
   channelSupportsMessageCapability,
   channelSupportsMessageCapabilityForChannel,
   type ChannelMessageActionDiscoveryInput,
   listCrossChannelSchemaSupportedMessageActions,
   resolveChannelMessageToolSchemaProperties,
-} from "../../channels/plugins/message-action-discovery.js";
-import { CHANNEL_MESSAGE_ACTION_NAMES } from "../../channels/plugins/message-action-names.js";
-import type { ChannelMessageCapability } from "../../channels/plugins/message-capabilities.js";
-import type { ChannelMessageActionName } from "../../channels/plugins/types.public.js";
-import { resolveCommandSecretRefsViaGateway } from "../../cli/command-secret-gateway.js";
-import { getScopedChannelsCommandSecretTargets } from "../../cli/command-secret-targets.js";
-import { resolveMessageSecretScope } from "../../cli/message-secret-scope.js";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../channels/plugins/message-action-discovery.ts";
+import { CHANNEL_MESSAGE_ACTION_NAMES } from "../../channels/plugins/message-action-names.ts";
+import type { ChannelMessageCapability } from "../../channels/plugins/message-capabilities.ts";
+import type { ChannelMessageActionName } from "../../channels/plugins/types.public.ts";
+import { resolveCommandSecretRefsViaGateway } from "../../cli/command-secret-gateway.ts";
+import { getScopedChannelsCommandSecretTargets } from "../../cli/command-secret-targets.ts";
+import { resolveMessageSecretScope } from "../../cli/message-secret-scope.ts";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   getBootEchoContextForSession,
   stripBootEchoFromOutboundText,
-} from "../../gateway/boot-echo-guard.js";
+} from "../../gateway/boot-echo-guard.ts";
 import {
   parseInteractiveParam,
   parseJsonMessageParam,
-} from "../../infra/outbound/message-action-params.js";
+} from "../../infra/outbound/message-action-params.ts";
 import {
   getToolResult,
   runMessageAction,
   type MessageActionRunResult,
-} from "../../infra/outbound/message-action-runner.js";
+} from "../../infra/outbound/message-action-runner.ts";
 import {
   resolveAllowedMessageActions,
   shouldApplyCrossContextMarker,
-} from "../../infra/outbound/outbound-policy.js";
-import { hasReplyPayloadContent } from "../../interactive/payload.js";
-import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.js";
-import { POLL_CREATION_PARAM_DEFS, SHARED_POLL_CREATION_PARAM_NAMES } from "../../poll-params.js";
-import { normalizeAccountId, parseSessionDeliveryRoute } from "../../routing/session-key.js";
-import { stripFormattedReasoningMessage } from "../../shared/text/formatted-reasoning-message.js";
-import { normalizeMessageChannel } from "../../utils/message-channel.js";
-import { resolveSessionAgentId } from "../agent-scope.js";
-import { listAllChannelSupportedActions, listChannelSupportedActions } from "../channel-tools.js";
-import { stripInternalRuntimeContext } from "../internal-runtime-context.js";
+} from "../../infra/outbound/outbound-policy.ts";
+import { hasReplyPayloadContent } from "../../interactive/payload.ts";
+import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.ts";
+import { POLL_CREATION_PARAM_DEFS, SHARED_POLL_CREATION_PARAM_NAMES } from "../../poll-params.ts";
+import { normalizeAccountId, parseSessionDeliveryRoute } from "../../routing/session-key.ts";
+import { stripFormattedReasoningMessage } from "../../shared/text/formatted-reasoning-message.ts";
+import { normalizeMessageChannel } from "../../utils/message-channel.ts";
+import { resolveSessionAgentId } from "../agent-scope.ts";
+import { listAllChannelSupportedActions, listChannelSupportedActions } from "../channel-tools.ts";
+import { stripInternalRuntimeContext } from "../internal-runtime-context.ts";
 import {
   channelTargetSchema,
   channelTargetsSchema,
   optionalNonNegativeIntegerSchema,
   optionalPositiveIntegerSchema,
   stringEnum,
-} from "../schema/typebox.js";
-import type { AnyAgentTool } from "./common.js";
-import { jsonResult, readStringArrayParam, readStringParam } from "./common.js";
-import { gatewayCallOptionSchemaProperties } from "./gateway-schema.js";
+} from "../schema/typebox.ts";
+import type { AnyAgentTool } from "./common.ts";
+import { jsonResult, readStringArrayParam, readStringParam } from "./common.ts";
+import { gatewayCallOptionSchemaProperties } from "./gateway-schema.ts";
 import {
   readGatewayCallOptions,
   resolveGatewayOptions,
   type GatewayCallOptions,
-} from "./gateway.js";
+} from "./gateway.ts";
 
 const AllMessageActions = CHANNEL_MESSAGE_ACTION_NAMES;
 const MESSAGE_TOOL_THREAD_READ_HINT =

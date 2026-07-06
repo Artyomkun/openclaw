@@ -15,19 +15,19 @@ import {
   parseConfiguredAcpSessionKey,
   toConfiguredAcpBindingRecord,
   type ConfiguredAcpBindingSpec,
-} from "../../acp/persistent-bindings.types.js";
+} from "../../acp/persistent-bindings.types.ts";
 import {
   resolveAgentConfig,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import type {
   ConfiguredBindingRuleConfig,
   ConfiguredBindingTargetFactory,
-} from "./binding-types.js";
-import type { ConfiguredBindingConsumer } from "./configured-binding-consumers.js";
-import type { ChannelConfiguredBindingConversationRef } from "./types.adapters.js";
+} from "./binding-types.ts";
+import type { ConfiguredBindingConsumer } from "./configured-binding-consumers.ts";
+import type { ChannelConfiguredBindingConversationRef } from "./types.adapters.ts";
 
 function resolveAgentRuntimeAcpDefaults(params: { cfg: OpenClawConfig; ownerAgentId: string }): {
   acpAgentId?: string;

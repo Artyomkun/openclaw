@@ -4,11 +4,11 @@ import {
   isNativeHookRelayBridgeStaleRegistrationError,
   renderNativeHookRelayUnavailableResponse,
   type NativeHookRelayProcessResponse,
-} from "../agents/harness/native-hook-relay.js";
-import { callGateway } from "../gateway/call.js";
-import { ADMIN_SCOPE } from "../gateway/method-scopes.js";
-import { setSafeTimeout } from "../utils/timer-delay.js";
-import { parseTimeoutMsWithFallback } from "./parse-timeout.js";
+} from "../agents/harness/native-hook-relay.ts";
+import { callGateway } from "../gateway/call.ts";
+import { ADMIN_SCOPE } from "../gateway/method-scopes.ts";
+import { setSafeTimeout } from "../utils/timer-delay.ts";
+import { parseTimeoutMsWithFallback } from "./parse-timeout.ts";
 
 const MAX_NATIVE_HOOK_STDIN_BYTES = 1024 * 1024;
 

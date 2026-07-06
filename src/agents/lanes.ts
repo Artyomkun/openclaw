@@ -1,7 +1,7 @@
 /**
  * Resolves command queue lane names for nested, cron, and subagent work.
  */
-import { CommandLane } from "../process/lanes.js";
+import { CommandLane } from "../process/lanes.ts";
 
 /** Default lane for nested agent work. */
 export const AGENT_LANE_NESTED = CommandLane.Nested;

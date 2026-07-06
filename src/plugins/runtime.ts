@@ -1,20 +1,20 @@
 // Coordinates active plugin runtime registries and event hooks.
-import { onAgentEvent } from "../infra/agent-events.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { onAgentEvent } from "../infra/agent-events.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   clearPluginHostRuntimeState,
   dispatchPluginAgentEventSubscriptions,
-} from "./host-hook-runtime.js";
-import { clearPluginMetadataLifecycleCaches } from "./plugin-metadata-lifecycle.js";
-import { createEmptyPluginRegistry } from "./registry-empty.js";
-import { markPluginRegistryActive, markPluginRegistryRetired } from "./registry-lifecycle.js";
-import type { PluginRegistry } from "./registry-types.js";
-import { getActivePluginChannelRegistrySnapshotFromState } from "./runtime-channel-state.js";
+} from "./host-hook-runtime.ts";
+import { clearPluginMetadataLifecycleCaches } from "./plugin-metadata-lifecycle.ts";
+import { createEmptyPluginRegistry } from "./registry-empty.ts";
+import { markPluginRegistryActive, markPluginRegistryRetired } from "./registry-lifecycle.ts";
+import type { PluginRegistry } from "./registry-types.ts";
+import { getActivePluginChannelRegistrySnapshotFromState } from "./runtime-channel-state.ts";
 import {
   PLUGIN_REGISTRY_STATE,
   type RegistryState,
   type RegistrySurfaceState,
-} from "./runtime-state.js";
+} from "./runtime-state.ts";
 
 const log = createSubsystemLogger("plugins/runtime");
 

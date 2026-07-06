@@ -1,9 +1,9 @@
 /**
  * Splits SDK tools from OpenClaw tool definitions for provider calls.
  */
-import { toToolDefinitions } from "../agent-tool-definition-adapter.js";
-import type { HookContext } from "../agent-tools.before-tool-call.js";
-import type { AgentTool } from "../runtime/index.js";
+import { toToolDefinitions } from "../agent-tool-definition-adapter.ts";
+import type { HookContext } from "../agent-tools.before-tool-call.ts";
+import type { AgentTool } from "../runtime/index.ts";
 
 // We always pass tools via `customTools` so our policy filtering, sandbox integration,
 // and extended toolset remain consistent across providers.

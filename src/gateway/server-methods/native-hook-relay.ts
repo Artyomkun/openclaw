@@ -1,10 +1,10 @@
 // Gateway RPC handler for native hook relay invocation.
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
 import {
   invokeNativeHookRelay,
   type NativeHookRelayProcessResponse,
-} from "../../agents/harness/native-hook-relay.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../agents/harness/native-hook-relay.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /** Gateway request handlers for invoking registered native hook relays. */
 export const nativeHookRelayHandlers: GatewayRequestHandlers = {

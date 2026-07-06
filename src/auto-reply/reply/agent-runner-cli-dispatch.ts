@@ -4,33 +4,33 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { runCliAgent } from "../../agents/cli-runner.js";
-import type { RunCliAgentParams } from "../../agents/cli-runner/types.js";
-import { clearCliSession } from "../../agents/cli-session.js";
-import { extractToolResultText } from "../../agents/embedded-agent-subscribe.tools.js";
-import { inferToolMetaFromArgs } from "../../agents/embedded-agent-utils.js";
-import type { EmbeddedAgentRunResult } from "../../agents/embedded-agent.js";
+import { runCliAgent } from "../../agents/cli-runner.ts";
+import type { RunCliAgentParams } from "../../agents/cli-runner/types.ts";
+import { clearCliSession } from "../../agents/cli-session.ts";
+import { extractToolResultText } from "../../agents/embedded-agent-subscribe.tools.ts";
+import { inferToolMetaFromArgs } from "../../agents/embedded-agent-utils.ts";
+import type { EmbeddedAgentRunResult } from "../../agents/embedded-agent.ts";
 import {
   DEFAULT_FAST_MODE_AUTO_ON_SECONDS,
   formatFastModeAutoProgressText,
   resolveFastModeForElapsed,
   type FastModeAutoProgressState,
-} from "../../agents/fast-mode.js";
+} from "../../agents/fast-mode.ts";
 import {
   isAgentRunRestartAbortReason,
   resolveAgentRunAbortLifecycleFields,
-} from "../../agents/run-termination.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import { updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { AgentEventPayload } from "../../infra/agent-events.js";
+} from "../../agents/run-termination.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import { updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { AgentEventPayload } from "../../infra/agent-events.ts";
 import {
   emitAgentEvent,
   onAgentEvent,
   withAgentRunLifecycleGeneration,
-} from "../../infra/agent-events.js";
-import { FAST_MODE_AUTO_PROGRESS_KIND, type ReplyPayload } from "../reply-payload.js";
-import { formatToolAggregate } from "../tool-meta.js";
-import { resolveAgentLifecycleTerminalMetadata } from "./agent-lifecycle-terminal.js";
+} from "../../infra/agent-events.ts";
+import { FAST_MODE_AUTO_PROGRESS_KIND, type ReplyPayload } from "../reply-payload.ts";
+import { formatToolAggregate } from "../tool-meta.ts";
+import { resolveAgentLifecycleTerminalMetadata } from "./agent-lifecycle-terminal.ts";
 
 function isClaudeCliProvider(provider: string): boolean {
   return normalizeLowercaseStringOrEmpty(provider) === "claude-cli";

@@ -467,9 +467,6 @@ const KIND_TO_FILE_TYPE: Record<MediaKind, MediaFileType> = {
 
 /**
  * Options for the unified {@link sendMedia} API.
- *
- * This replaces the legacy four-method surface
- * (`sendImage / sendVoiceMessage / sendVideoMessage / sendFileMessage`).
  */
 interface SendMediaOptions {
   /** Delivery target. Only `c2c` and `group` support rich media. */

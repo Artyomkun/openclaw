@@ -6,15 +6,15 @@ import {
 } from "@openclaw/net-policy/redact-sensitive-url";
 import { isRecord as isObjectRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import type { ConfigUiHints } from "../shared/config-ui-hints-types.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import type { ConfigUiHints } from "../shared/config-ui-hints-types.ts";
 import {
   replaceSensitiveValuesInRaw,
   shouldFallbackToStructuredRawRedaction,
-} from "./redact-snapshot.raw.js";
-import { isSecretRefShape, redactSecretRefId } from "./redact-snapshot.secret-ref.js";
-import { isSensitiveConfigPath } from "./sensitive-paths.js";
-import type { ConfigFileSnapshot } from "./types.openclaw.js";
+} from "./redact-snapshot.raw.ts";
+import { isSecretRefShape, redactSecretRefId } from "./redact-snapshot.secret-ref.ts";
+import { isSensitiveConfigPath } from "./sensitive-paths.ts";
+import type { ConfigFileSnapshot } from "./types.openclaw.ts";
 
 const log = createSubsystemLogger("config/redaction");
 const ENV_VAR_PLACEHOLDER_PATTERN = /^\$\{[^}]*\}$/;

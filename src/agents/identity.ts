@@ -3,9 +3,9 @@
  * Applies account, channel, global, and per-agent precedence for reactions,
  * prefixes, and human-delay settings.
  */
-import type { HumanDelayConfig, IdentityConfig } from "../config/types.base.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAgentConfig } from "./agent-scope.js";
+import type { HumanDelayConfig, IdentityConfig } from "../config/types.base.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAgentConfig } from "./agent-scope.ts";
 
 const DEFAULT_ACK_REACTION = "👀";
 

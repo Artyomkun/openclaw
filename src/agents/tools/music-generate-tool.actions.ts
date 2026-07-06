@@ -3,22 +3,22 @@
  *
  * Handles provider listing, task status, and duplicate-guard output for the music generation tool.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { listSupportedMusicGenerationModes } from "../../music-generation/capabilities.js";
-import { listRuntimeMusicGenerationProviders } from "../../music-generation/runtime.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { listSupportedMusicGenerationModes } from "../../music-generation/capabilities.ts";
+import { listRuntimeMusicGenerationProviders } from "../../music-generation/runtime.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
 import {
   buildMusicGenerationTaskStatusDetails,
   buildMusicGenerationTaskStatusText,
   findActiveMusicGenerationTaskForSession,
   findDuplicateGuardMusicGenerationTaskForSession,
-} from "../music-generation-task-status.js";
+} from "../music-generation-task-status.ts";
 import {
   createMediaGenerateDuplicateGuardResult,
   createMediaGenerateProviderListActionResult,
   createMediaGenerateTaskStatusActions,
   type MediaGenerateActionResult,
-} from "./media-generate-tool-actions-shared.js";
+} from "./media-generate-tool-actions-shared.ts";
 
 type MusicGenerateActionResult = MediaGenerateActionResult;
 

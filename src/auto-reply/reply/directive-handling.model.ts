@@ -3,10 +3,10 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeOptionalAgentRuntimeId } from "../../agents/agent-runtime-id.js";
-import { resolveAuthStorePathForDisplay } from "../../agents/auth-profiles.js";
-import type { AuthProfileCredential } from "../../agents/auth-profiles/types.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
+import { normalizeOptionalAgentRuntimeId } from "../../agents/agent-runtime-id.ts";
+import { resolveAuthStorePathForDisplay } from "../../agents/auth-profiles.ts";
+import type { AuthProfileCredential } from "../../agents/auth-profiles/types.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
 import {
   type ModelAliasIndex,
   buildConfiguredModelCatalog,
@@ -14,26 +14,26 @@ import {
   normalizeProviderId,
   resolveConfiguredModelRef,
   resolveModelRefFromString,
-} from "../../agents/model-selection.js";
-import { buildAgentRuntimeAuthPlan } from "../../agents/runtime-plan/auth.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { shortenHomePath } from "../../utils.js";
-import { resolveSelectedAndActiveModel } from "../model-runtime.js";
-import type { ReplyPayload } from "../types.js";
-import { resolveModelsCommandReply } from "./commands-models.js";
+} from "../../agents/model-selection.ts";
+import { buildAgentRuntimeAuthPlan } from "../../agents/runtime-plan/auth.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { shortenHomePath } from "../../utils.ts";
+import { resolveSelectedAndActiveModel } from "../model-runtime.ts";
+import type { ReplyPayload } from "../types.ts";
+import { resolveModelsCommandReply } from "./commands-models.ts";
 import {
   formatAuthLabel,
   type ModelAuthDetailMode,
   resolveAuthLabel,
-} from "./directive-handling.auth.js";
+} from "./directive-handling.auth.ts";
 import {
   type ModelPickerCatalogEntry,
   resolveProviderEndpointLabel,
-} from "./directive-handling.model-picker.js";
-export { resolveModelSelectionFromDirective } from "./directive-handling.model-selection.js";
-import type { InlineDirectives } from "./directive-handling.parse.js";
+} from "./directive-handling.model-picker.ts";
+export { resolveModelSelectionFromDirective } from "./directive-handling.model-selection.ts";
+import type { InlineDirectives } from "./directive-handling.parse.ts";
 
 function isMissingAuthLabel(auth: { label: string; source: string }): boolean {
   return auth.label === "missing" && auth.source === "missing";
@@ -353,8 +353,7 @@ export async function maybeHandleModelDirectiveInfo(params: {
   const directive = rawDirective ? normalizeLowercaseStringOrEmpty(rawDirective) : undefined;
   const wantsStatus = directive === "status";
   const wantsSummary = !rawDirective;
-  const wantsLegacyList = directive === "list";
-  if (!wantsSummary && !wantsStatus && !wantsLegacyList) {
+  if (!wantsSummary && !wantsStatus) {
     return undefined;
   }
 
@@ -369,20 +368,6 @@ export async function maybeHandleModelDirectiveInfo(params: {
     aliasIndex: params.aliasIndex,
     allowedModelCatalog: params.allowedModelCatalog,
   });
-
-  if (wantsLegacyList) {
-    const reply = await resolveModelsCommandReply({
-      cfg: params.cfg,
-      commandBodyNormalized: "/models",
-      surface: params.surface,
-      currentModel: `${params.provider}/${params.model}`,
-      agentId: params.activeAgentId,
-      agentDir: params.agentDir,
-      workspaceDir: params.workspaceDir,
-      sessionEntry: isCompleteSessionEntry(params.sessionEntry) ? params.sessionEntry : undefined,
-    });
-    return reply ?? { text: "No models available." };
-  }
 
   if (wantsSummary) {
     const modelRefs = resolveSelectedAndActiveModel({

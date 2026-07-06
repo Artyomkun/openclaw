@@ -4,13 +4,13 @@
  * It wires the Clack prompter to the setup wizard and restores terminal state
  * on every exit path so canceled setup cannot leave stdin paused.
  */
-import { restoreTerminalState } from "../../packages/terminal-core/src/restore.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { createClackPrompter } from "../wizard/clack-prompter.js";
-import { WizardCancelledError } from "../wizard/prompts.js";
-import { runSetupWizard } from "../wizard/setup.js";
-import type { OnboardOptions } from "./onboard-types.js";
+import { restoreTerminalState } from "../../packages/terminal-core/src/restore.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { createClackPrompter } from "../wizard/clack-prompter.ts";
+import { WizardCancelledError } from "../wizard/prompts.ts";
+import { runSetupWizard } from "../wizard/setup.ts";
+import type { OnboardOptions } from "./onboard-types.ts";
 
 /** Runs the interactive setup wizard and maps user cancellation to exit code 1. */
 export async function runInteractiveSetup(

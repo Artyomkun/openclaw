@@ -1,19 +1,19 @@
-import { hasNonzeroUsage, type NormalizedUsage } from "../../agents/usage.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import type { PluginHookReplyUsageState } from "../../plugins/hook-types.js";
+import { hasNonzeroUsage, type NormalizedUsage } from "../../agents/usage.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import type { PluginHookReplyUsageState } from "../../plugins/hook-types.ts";
 import {
   estimateUsageCost,
   formatTokenCount,
   formatUsd,
   type ModelCostConfig,
   resolveModelCostConfig,
-} from "../../utils/usage-format.js";
-import { getReplyPayloadMetadata, setReplyPayloadMetadata } from "../reply-payload.js";
-import { resolveEffectiveResponseUsage } from "../thinking.js";
-import type { ReplyPayload } from "../types.js";
-import { buildUsageContract } from "../usage-bar/contract.js";
-import { loadUsageBarTemplate } from "../usage-bar/template.js";
-import { renderUsageBar } from "../usage-bar/translator.js";
+} from "../../utils/usage-format.ts";
+import { getReplyPayloadMetadata, setReplyPayloadMetadata } from "../reply-payload.ts";
+import { resolveEffectiveResponseUsage } from "../thinking.ts";
+import type { ReplyPayload } from "../types.ts";
+import { buildUsageContract } from "../usage-bar/contract.ts";
+import { loadUsageBarTemplate } from "../usage-bar/template.ts";
+import { renderUsageBar } from "../usage-bar/translator.ts";
 
 export const formatResponseUsageLine = (params: {
   usage?: {

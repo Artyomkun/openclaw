@@ -1,23 +1,23 @@
 /** CLI entrypoint for non-mutating doctor lint health checks. */
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { readConfigFileSnapshot } from "../config/config.js";
-import { registerBundledHealthChecks } from "../flows/bundled-health-checks.js";
-import { configValidationIssuesToHealthFindings } from "../flows/doctor-core-checks.js";
-import { resolveDoctorContributionHealthChecks } from "../flows/doctor-health-contributions.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { readConfigFileSnapshot } from "../config/config.ts";
+import { registerBundledHealthChecks } from "../flows/bundled-health-checks.ts";
+import { configValidationIssuesToHealthFindings } from "../flows/doctor-core-checks.ts";
+import { resolveDoctorContributionHealthChecks } from "../flows/doctor-health-contributions.ts";
 import {
   exitCodeFromFindings,
   runDoctorLintChecks,
   type DoctorLintRunOptions,
-} from "../flows/doctor-lint-flow.js";
-import { listExtensionHealthChecksForDoctor } from "../flows/health-check-registry.js";
+} from "../flows/doctor-lint-flow.ts";
+import { listExtensionHealthChecksForDoctor } from "../flows/health-check-registry.ts";
 import {
   healthFindingMeetsSeverity,
   parseHealthFindingSeverity,
   type HealthCheck,
   type HealthCheckContext,
   type HealthFinding,
-} from "../flows/health-checks.js";
-import type { RuntimeEnv } from "../runtime.js";
+} from "../flows/health-checks.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 
 interface DoctorLintCliOptions {
   readonly json?: boolean;

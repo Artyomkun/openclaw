@@ -1,8 +1,8 @@
 // Implements bash command execution, approval, and stop handling.
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { handleBashChatCommand } from "./bash-command.js";
-import { rejectUnauthorizedCommand } from "./command-gates.js";
-import type { CommandHandler } from "./commands-types.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { handleBashChatCommand } from "./bash-command.ts";
+import { rejectUnauthorizedCommand } from "./command-gates.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 export const handleBashCommand: CommandHandler = async (params, allowTextCommands) => {
   if (!allowTextCommands) {

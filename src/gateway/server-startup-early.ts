@@ -1,9 +1,9 @@
 // Gateway early-startup runtime helpers.
 // Starts discovery, remote skills, task maintenance, and delayed maintenance setup.
-import type { GatewayTailscaleMode } from "../config/types.gateway.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveCronJobsStorePath } from "../cron/store.js";
-import type { PluginRegistry } from "../plugins/registry-types.js";
+import type { GatewayTailscaleMode } from "../config/types.gateway.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveCronJobsStorePath } from "../cron/store.ts";
+import type { PluginRegistry } from "../plugins/registry-types.ts";
 
 type Awaitable<T> = T | Promise<T>;
 

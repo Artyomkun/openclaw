@@ -1,14 +1,14 @@
-// CLI config readiness guard, legacy-state migration routing, and invalid-config allowances.
+// CLI config readiness guard, and invalid-config allowances.
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { withSuppressedNotes } from "../../../packages/terminal-core/src/note.js";
-import { readConfigFileSnapshot, setRuntimeConfigSnapshot } from "../../config/config.js";
-import { resolveLegacyStateDirs, resolveOAuthDir, resolveStateDir } from "../../config/paths.js";
-import type { ConfigFileSnapshot } from "../../config/types.js";
-import { resolveRequiredHomeDir } from "../../infra/home-dir.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { shouldMigrateStateFromPath } from "../argv.js";
+import { withSuppressedNotes } from "../../../packages/terminal-core/src/note.ts";
+import { readConfigFileSnapshot, setRuntimeConfigSnapshot } from "../../config/config.ts";
+import { resolveOAuthDir, resolveStateDir } from "../../config/paths.ts";
+import type { ConfigFileSnapshot } from "../../config/types.ts";
+import { resolveRequiredHomeDir } from "../../infra/home-dir.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { shouldMigrateStateFromPath } from "../argv.ts";
 
 const ALLOWED_INVALID_COMMANDS = new Set(["doctor", "logs", "health", "help", "status"]);
 const ALLOWED_INVALID_GATEWAY_SUBCOMMANDS = new Set([
@@ -52,116 +52,6 @@ function dirHasFile(dir: string, predicate: (name: string) => boolean): boolean 
   }
 }
 
-function isLegacyWhatsAppAuthFile(name: string): boolean {
-  if (name === "creds.json" || name === "creds.json.bak") {
-    return true;
-  }
-  return name.endsWith(".json") && /^(app-state-sync|session|sender-key|pre-key)-/.test(name);
-}
-
-function isLegacyTelegramStateFile(name: string): boolean {
-  return (
-    (name.startsWith("bot-info-") && name.endsWith(".json")) ||
-    (name.startsWith("update-offset-") && name.endsWith(".json")) ||
-    name === "sticker-cache.json" ||
-    (name.startsWith("thread-bindings-") && name.endsWith(".json"))
-  );
-}
-
-function hasLegacyIMessageStateFiles(stateDir: string): boolean {
-  return (
-    fileOrDirExists(path.join(stateDir, "imessage", "reply-cache.jsonl")) ||
-    fileOrDirExists(path.join(stateDir, "imessage", "sent-echoes.jsonl")) ||
-    dirHasFile(path.join(stateDir, "imessage", "catchup"), (name) => name.endsWith(".json"))
-  );
-}
-
-function hasBundledChannelLegacyStateMigrationInputs(stateDir: string, oauthDir: string): boolean {
-  if (
-    fileOrDirExists(path.join(stateDir, "discord", "model-picker-preferences.json")) ||
-    fileOrDirExists(path.join(stateDir, "discord", "thread-bindings.json"))
-  ) {
-    return true;
-  }
-  if (dirHasFile(path.join(stateDir, "feishu", "dedup"), (name) => name.endsWith(".json"))) {
-    return true;
-  }
-  if (hasLegacyIMessageStateFiles(stateDir)) {
-    return true;
-  }
-  if (
-    fileOrDirExists(path.join(oauthDir, "telegram-allowFrom.json")) ||
-    dirHasFile(path.join(stateDir, "telegram"), isLegacyTelegramStateFile)
-  ) {
-    return true;
-  }
-  return dirHasFile(oauthDir, isLegacyWhatsAppAuthFile);
-}
-
-function hasLegacyExecApprovalsMigrationInput(stateDir: string): boolean {
-  if (!process.env.OPENCLAW_STATE_DIR?.trim()) {
-    return false;
-  }
-  const homeDir = resolveRequiredHomeDir(process.env, os.homedir);
-  const sourcePath = path.join(homeDir, ".openclaw", "exec-approvals.json");
-  const targetPath = path.join(stateDir, "exec-approvals.json");
-  return (
-    path.resolve(sourcePath) !== path.resolve(targetPath) &&
-    fileOrDirExists(sourcePath) &&
-    !fileOrDirExists(targetPath)
-  );
-}
-
-function hasPendingSqliteSidecarArchive(sourcePath: string): boolean {
-  return (
-    fileOrDirExists(`${sourcePath}.migrated`) &&
-    ["-shm", "-wal", "-journal"].some((suffix) => fileOrDirExists(`${sourcePath}${suffix}`))
-  );
-}
-
-function hasLegacyStateMigrationInputs(): boolean {
-  // Only run migration prompts when old state actually exists in known legacy locations.
-  const stateDir = resolveStateDir(process.env, os.homedir);
-  const oauthDir = resolveOAuthDir(process.env, stateDir);
-  if (
-    !process.env.OPENCLAW_STATE_DIR?.trim() &&
-    resolveLegacyStateDirs(() => resolveRequiredHomeDir(process.env, os.homedir)).some(
-      fileOrDirExists,
-    )
-  ) {
-    return true;
-  }
-  const sqliteSidecarPaths = [
-    path.join(stateDir, "flows", "registry.sqlite"),
-    path.join(stateDir, "plugin-state", "state.sqlite"),
-    path.join(stateDir, "tasks", "runs.sqlite"),
-  ];
-  return (
-    [
-      path.join(stateDir, "agent"),
-      path.join(stateDir, "agents"),
-      path.join(stateDir, "plugins", "installs.json"),
-      path.join(stateDir, "sessions"),
-    ].some(fileOrDirExists) ||
-    sqliteSidecarPaths.some(
-      (sourcePath) => fileOrDirExists(sourcePath) || hasPendingSqliteSidecarArchive(sourcePath),
-    ) ||
-    hasBundledChannelLegacyStateMigrationInputs(stateDir, oauthDir) ||
-    hasLegacyExecApprovalsMigrationInput(stateDir)
-  );
-}
-
-function shouldRunStateMigrationOnlyWithLegacyInputs(commandPath: string[]): boolean {
-  const commandName = commandPath[0];
-  const subcommandName = commandPath[1];
-  return (
-    commandName === "agent" ||
-    commandName === "status" ||
-    (commandName === "tasks" &&
-      (subcommandName === undefined || ALLOWED_INVALID_TASK_SUBCOMMANDS.has(subcommandName)))
-  );
-}
-
 function snapshotHasConfiguredSessionStore(
   snapshot: Awaited<ReturnType<typeof readConfigFileSnapshot>>,
 ): boolean {
@@ -197,13 +87,11 @@ export async function ensureConfigReady(params: {
   const commandPath = params.commandPath ?? [];
   let preflightSnapshot: Awaited<ReturnType<typeof readConfigFileSnapshot>> | null = null;
   const shouldConsiderStateMigration = shouldMigrateStateFromPath(commandPath);
-  const requiresLegacyStateInput = shouldRunStateMigrationOnlyWithLegacyInputs(commandPath);
   const runStateMigrationPreflight = async () => {
     didRunDoctorConfigFlow = true;
     const runDoctorConfigPreflight = async () =>
       (await import("../../commands/doctor-config-preflight.js")).runDoctorConfigPreflight({
         migrateState: true,
-        migrateLegacyConfig: false,
         invalidConfigNote: false,
         ...(params.beforeStateMigrations
           ? { beforeStateMigrations: params.beforeStateMigrations }
@@ -215,8 +103,7 @@ export async function ensureConfigReady(params: {
   };
   if (
     !didRunDoctorConfigFlow &&
-    shouldConsiderStateMigration &&
-    (!requiresLegacyStateInput || hasLegacyStateMigrationInputs())
+    shouldConsiderStateMigration
   ) {
     preflightSnapshot = await runStateMigrationPreflight();
   }
@@ -226,7 +113,6 @@ export async function ensureConfigReady(params: {
     !preflightSnapshot &&
     !didRunDoctorConfigFlow &&
     shouldConsiderStateMigration &&
-    requiresLegacyStateInput &&
     snapshot.valid &&
     snapshotHasConfiguredSessionStore(snapshot)
   ) {
@@ -254,8 +140,6 @@ export async function ensureConfigReady(params: {
     snapshot.exists && !snapshot.valid
       ? formatConfigIssueLines(snapshot.issues, "-", { normalizeRoot: true })
       : [];
-  const legacyIssues =
-    snapshot.legacyIssues.length > 0 ? formatConfigIssueLines(snapshot.legacyIssues, "-") : [];
 
   const invalid = snapshot.exists && !snapshot.valid;
   if (!invalid) {
@@ -289,10 +173,6 @@ export async function ensureConfigReady(params: {
   if (issues.length > 0) {
     params.runtime.error(muted("Problem:"));
     params.runtime.error(issues.map((issue) => `  ${error(issue)}`).join("\n"));
-  }
-  if (legacyIssues.length > 0) {
-    params.runtime.error(muted("Legacy config keys detected:"));
-    params.runtime.error(legacyIssues.map((issue) => `  ${error(issue)}`).join("\n"));
   }
   params.runtime.error("");
   const fixHint = isPluginPackagingRuntimeOutputInvalidConfigSnapshot(snapshot)

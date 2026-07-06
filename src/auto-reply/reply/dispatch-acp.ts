@@ -10,45 +10,45 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { AcpTurnAttachment } from "../../acp/control-plane/manager.types.js";
-import { resolveAcpAgentPolicyError, resolveAcpDispatchPolicyError } from "../../acp/policy.js";
-import { AcpRuntimeError, toAcpRuntimeError } from "../../acp/runtime/errors.js";
-import { resolveAgentDir, resolveAgentWorkspaceDir } from "../../agents/agent-scope.js";
-import type { ChatType } from "../../channels/chat-type.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { TtsAutoMode } from "../../config/types.tts.js";
-import { logVerbose } from "../../globals.js";
-import { emitAgentEvent } from "../../infra/agent-events.js";
-import { isDiagnosticsEnabled } from "../../infra/diagnostic-events.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { generateSecureUuid } from "../../infra/secure-random.js";
-import { prefixSystemMessage } from "../../infra/system-message.js";
-import { markDiagnosticSessionProgress } from "../../logging/diagnostic.js";
+import type { AcpTurnAttachment } from "../../acp/control-plane/manager.types.ts";
+import { resolveAcpAgentPolicyError, resolveAcpDispatchPolicyError } from "../../acp/policy.ts";
+import { AcpRuntimeError, toAcpRuntimeError } from "../../acp/runtime/errors.ts";
+import { resolveAgentDir, resolveAgentWorkspaceDir } from "../../agents/agent-scope.ts";
+import type { ChatType } from "../../channels/chat-type.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { TtsAutoMode } from "../../config/types.tts.ts";
+import { logVerbose } from "../../globals.ts";
+import { emitAgentEvent } from "../../infra/agent-events.ts";
+import { isDiagnosticsEnabled } from "../../infra/diagnostic-events.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { generateSecureUuid } from "../../infra/secure-random.ts";
+import { prefixSystemMessage } from "../../infra/system-message.ts";
+import { markDiagnosticSessionProgress } from "../../logging/diagnostic.ts";
 import {
   stripExtractedFileImageMetadata,
   type ExtractedFileImage,
-} from "../../media-understanding/extracted-file-images.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveStatusTtsSnapshot } from "../../tts/status-config.js";
-import { resolveConfiguredTtsMode } from "../../tts/tts-config.js";
-import type { SourceReplyDeliveryMode } from "../get-reply-options.types.js";
-import { markReplyPayloadAsTtsSupplement } from "../reply-payload.js";
-import type { FinalizedMsgContext } from "../templating.js";
-import { createAcpReplyProjector } from "./acp-projector.js";
+} from "../../media-understanding/extracted-file-images.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveStatusTtsSnapshot } from "../../tts/status-config.ts";
+import { resolveConfiguredTtsMode } from "../../tts/tts-config.ts";
+import type { SourceReplyDeliveryMode } from "../get-reply-options.types.ts";
+import { markReplyPayloadAsTtsSupplement } from "../reply-payload.ts";
+import type { FinalizedMsgContext } from "../templating.ts";
+import { createAcpReplyProjector } from "./acp-projector.ts";
 import {
   loadAgentTurnMediaRuntime,
   resolveAgentTurnAttachments,
   resolveInlineAgentImageAttachments,
-} from "./agent-turn-attachments.js";
-import { resolveFirstContextText } from "./context-text.js";
+} from "./agent-turn-attachments.ts";
+import { resolveFirstContextText } from "./context-text.ts";
 import {
   createAcpDispatchDeliveryCoordinator,
   type AcpDispatchDeliveryCoordinator,
-} from "./dispatch-acp-delivery.js";
-import { appendRecentHistoryImageContext } from "./history-media.js";
-import { hasInboundMediaForUnderstanding } from "./inbound-media.js";
-import type { ReplyDispatchKind, ReplyDispatcher } from "./reply-dispatcher.types.js";
+} from "./dispatch-acp-delivery.ts";
+import { appendRecentHistoryImageContext } from "./history-media.ts";
+import { hasInboundMediaForUnderstanding } from "./inbound-media.ts";
+import type { ReplyDispatchKind, ReplyDispatcher } from "./reply-dispatcher.types.ts";
 
 const dispatchAcpManagerRuntimeLoader = createLazyImportLoader(
   () => import("./dispatch-acp-manager.runtime.js"),

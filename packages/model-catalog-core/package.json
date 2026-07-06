@@ -6,48 +6,48 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./configured-model-refs": {
-      "types": "./dist/configured-model-refs.d.mts",
-      "import": "./dist/configured-model-refs.mjs",
-      "default": "./dist/configured-model-refs.mjs"
+      "types": "./dist/configured-model-refs.d.ts",
+      "import": "./dist/configured-model-refs.ts",
+      "default": "./dist/configured-model-refs.ts"
     },
     "./model-catalog-refs": {
-      "types": "./dist/model-catalog-refs.d.mts",
-      "import": "./dist/model-catalog-refs.mjs",
-      "default": "./dist/model-catalog-refs.mjs"
+      "types": "./dist/model-catalog-refs.d.ts",
+      "import": "./dist/model-catalog-refs.ts",
+      "default": "./dist/model-catalog-refs.ts"
     },
     "./model-catalog-normalize": {
-      "types": "./dist/model-catalog-normalize.d.mts",
-      "import": "./dist/model-catalog-normalize.mjs",
-      "default": "./dist/model-catalog-normalize.mjs"
+      "types": "./dist/model-catalog-normalize.d.ts",
+      "import": "./dist/model-catalog-normalize.ts",
+      "default": "./dist/model-catalog-normalize.ts"
     },
     "./model-catalog-types": {
-      "types": "./dist/model-catalog-types.d.mts",
-      "import": "./dist/model-catalog-types.mjs",
-      "default": "./dist/model-catalog-types.mjs"
+      "types": "./dist/model-catalog-types.d.ts",
+      "import": "./dist/model-catalog-types.ts",
+      "default": "./dist/model-catalog-types.ts"
     },
     "./provider-id": {
-      "types": "./dist/provider-id.d.mts",
-      "import": "./dist/provider-id.mjs",
-      "default": "./dist/provider-id.mjs"
+      "types": "./dist/provider-id.d.ts",
+      "import": "./dist/provider-id.ts",
+      "default": "./dist/provider-id.ts"
     },
     "./provider-model-id-normalization": {
-      "types": "./dist/provider-model-id-normalization.d.mts",
-      "import": "./dist/provider-model-id-normalization.mjs",
-      "default": "./dist/provider-model-id-normalization.mjs"
+      "types": "./dist/provider-model-id-normalization.d.ts",
+      "import": "./dist/provider-model-id-normalization.ts",
+      "default": "./dist/provider-model-id-normalization.ts"
     },
     "./provider-model-id-normalize": {
-      "types": "./dist/provider-model-id-normalize.d.mts",
-      "import": "./dist/provider-model-id-normalize.mjs",
-      "default": "./dist/provider-model-id-normalize.mjs"
+      "types": "./dist/provider-model-id-normalize.d.ts",
+      "import": "./dist/provider-model-id-normalize.ts",
+      "default": "./dist/provider-model-id-normalize.ts"
     }
   }
 }

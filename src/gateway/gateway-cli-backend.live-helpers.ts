@@ -4,27 +4,27 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { EventFrame } from "../../packages/gateway-protocol/src/index.js";
+import type { EventFrame } from "../../packages/gateway-protocol/src/index.ts";
 import {
   listCliRuntimeModelBackendBindings,
   resolveCliBackendLiveTest,
-} from "../agents/cli-backends.js";
-import { parseModelRef } from "../agents/model-selection.js";
+} from "../agents/cli-backends.ts";
+import { parseModelRef } from "../agents/model-selection.ts";
 import {
   loadOrCreateDeviceIdentity,
   publicKeyRawBase64UrlFromPem,
   type DeviceIdentity,
-} from "../infra/device-identity.js";
+} from "../infra/device-identity.ts";
 import {
   approveDevicePairing,
   getPairedDevice,
   requestDevicePairing,
-} from "../infra/device-pairing.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { getFreePortBlockWithPermissionFallback } from "../test-utils/ports.js";
-import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.js";
-import { startGatewayClientWhenEventLoopReady } from "./client-start-readiness.js";
-import { GatewayClient, type GatewayClientOptions } from "./client.js";
+} from "../infra/device-pairing.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { getFreePortBlockWithPermissionFallback } from "../test-utils/ports.ts";
+import { GATEWAY_CLIENT_MODES, GATEWAY_CLIENT_NAMES } from "../utils/message-channel.ts";
+import { startGatewayClientWhenEventLoopReady } from "./client-start-readiness.ts";
+import { GatewayClient, type GatewayClientOptions } from "./client.ts";
 
 // Aggregate docker live runs can contend on startup enough that the gateway
 // websocket handshake needs a wider budget than the single-provider reruns.

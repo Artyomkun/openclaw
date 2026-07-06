@@ -299,7 +299,6 @@ export {
 } from "./scenario-packs.js";
 
 const QA_SCENARIO_PACK_INDEX_PATH = "qa/scenarios/index.yaml";
-const QA_SCENARIO_LEGACY_OVERVIEW_PATH = "qa/scenarios.md";
 const QA_SCENARIO_DIR_PATH = "qa/scenarios";
 const repoPathCache = new Map<string, string | null>();
 let qaScenarioYamlPathsCache: string[] | null = null;
@@ -454,10 +453,6 @@ function listQaScenarioYamlPathsInDirectory(absoluteDir: string, relativeDir: st
     }
   }
   return paths;
-}
-
-export function readQaScenarioOverviewMarkdown(): string {
-  return readTextFile(QA_SCENARIO_LEGACY_OVERVIEW_PATH).trim();
 }
 
 export function readQaBootstrapScenarioCatalog(): QaBootstrapScenarioCatalog {

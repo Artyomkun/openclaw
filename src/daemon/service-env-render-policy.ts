@@ -1,9 +1,9 @@
 /** Applies platform render policy for managed daemon service environment values. */
-import type { MutableServiceEnvPlan } from "./service-env-plan.js";
+import type { MutableServiceEnvPlan } from "./service-env-plan.ts";
 import {
   readManagedServiceEnvKeysFromEnvironment,
   writeManagedServiceEnvKeysToEnvironment,
-} from "./service-managed-env.js";
+} from "./service-managed-env.ts";
 
 // LaunchAgent plists need selected dotenv values inlined so launchd receives them.
 function isLaunchAgentServiceEnvironment(params: {

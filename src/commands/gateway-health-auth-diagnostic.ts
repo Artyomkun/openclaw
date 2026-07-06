@@ -1,5 +1,5 @@
 /** Gateway health auth diagnostic helpers for reachable-but-unauthenticated probes. */
-import type { DaemonStatus } from "../cli/daemon-cli/status.gather.js";
+import type { DaemonStatus } from "../cli/daemon-cli/status.gather.ts";
 
 type GatewayProbeReachabilityEvidence = NonNullable<DaemonStatus["rpc"]>;
 

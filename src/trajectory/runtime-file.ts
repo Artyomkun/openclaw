@@ -5,7 +5,7 @@ import {
   resolveTrajectoryFilePath,
   resolveTrajectoryPointerFilePath,
   safeTrajectorySessionFileName,
-} from "./paths.js";
+} from "./paths.ts";
 
 // Runtime trajectory file discovery for exporters. Pointer files are treated as
 // advisory only and must resolve to regular non-symlink files before use.

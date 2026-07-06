@@ -1,6 +1,6 @@
 // Attaches ProgramContext metadata to Commander instances for lazy command helpers.
 import type { Command } from "commander";
-import type { ProgramContext } from "./context.js";
+import type { ProgramContext } from "./context.ts";
 
 const PROGRAM_CONTEXT_SYMBOL: unique symbol = Symbol.for("openclaw.cli.programContext");
 

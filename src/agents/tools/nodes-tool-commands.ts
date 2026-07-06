@@ -5,17 +5,17 @@
  */
 import crypto from "node:crypto";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { formatErrorMessage } from "../../infra/errors.js";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   jsonResult,
   readNonNegativeIntegerParam,
   readPositiveIntegerParam,
   readStringParam,
-} from "./common.js";
-import type { GatewayCallOptions } from "./gateway.js";
-import { callGatewayTool } from "./gateway.js";
-import { POLICY_REDIRECT_INVOKE_COMMANDS } from "./nodes-tool-media.js";
-import { resolveNodeId } from "./nodes-utils.js";
+} from "./common.ts";
+import type { GatewayCallOptions } from "./gateway.ts";
+import { callGatewayTool } from "./gateway.ts";
+import { POLICY_REDIRECT_INVOKE_COMMANDS } from "./nodes-tool-media.ts";
+import { resolveNodeId } from "./nodes-utils.ts";
 
 const BLOCKED_INVOKE_COMMANDS = new Set(["system.run", "system.run.prepare"]);
 

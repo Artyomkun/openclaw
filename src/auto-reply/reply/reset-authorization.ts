@@ -1,8 +1,8 @@
 // Resolves whether a sender may reset or restart a reply session.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { isInternalMessageChannel } from "../../utils/message-channel.js";
-import { resolveCommandAuthorization } from "../command-auth.js";
-import type { MsgContext } from "../templating.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { isInternalMessageChannel } from "../../utils/message-channel.ts";
+import { resolveCommandAuthorization } from "../command-auth.ts";
+import type { MsgContext } from "../templating.ts";
 
 export function isResetAuthorizedForContext(params: {
   ctx: MsgContext;

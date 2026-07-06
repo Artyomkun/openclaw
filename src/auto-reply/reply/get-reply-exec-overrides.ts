@@ -1,7 +1,7 @@
 /** Resolves effective exec-tool overrides for reply runs. */
-import type { ExecToolDefaults } from "../../agents/bash-tools.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { InlineDirectives } from "./directive-handling.parse.js";
+import type { ExecToolDefaults } from "../../agents/bash-tools.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { InlineDirectives } from "./directive-handling.parse.ts";
 
 /** Exec defaults that can be overridden by inline directives or session state. */
 export type ReplyExecOverrides = Pick<ExecToolDefaults, "host" | "security" | "ask" | "node">;

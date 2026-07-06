@@ -8,11 +8,11 @@ import {
   isFutureDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { resolveStateDir } from "../../config/paths.js";
-import { DEFAULT_MAX_ARCHIVE_BYTES_ZIP } from "../../infra/archive.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createAsyncLock, readDurableJsonFile, writeJsonAtomic } from "../../infra/json-files.js";
-import { validateRequestedSkillSlug } from "./archive-install.js";
+import { resolveStateDir } from "../../config/paths.ts";
+import { DEFAULT_MAX_ARCHIVE_BYTES_ZIP } from "../../infra/archive.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createAsyncLock, readDurableJsonFile, writeJsonAtomic } from "../../infra/json-files.ts";
+import { validateRequestedSkillSlug } from "./archive-install.ts";
 
 /** Time window in which uploaded skill archive chunks may be committed. */
 const SKILL_UPLOAD_TTL_MS = 60 * 60 * 1000;

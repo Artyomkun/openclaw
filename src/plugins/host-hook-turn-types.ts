@@ -1,5 +1,5 @@
 // Defines host hook scheduled turn payload types.
-import type { PluginJsonValue } from "./host-hook-json.js";
+import type { PluginJsonValue } from "./host-hook-json.ts";
 
 /** Placement for context injected into the next agent turn. */
 export type PluginNextTurnInjectionPlacement = "prepend_context" | "append_context";

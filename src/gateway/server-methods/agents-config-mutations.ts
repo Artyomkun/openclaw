@@ -1,16 +1,16 @@
 // Agent config mutation helpers wrap retrying config writes for create/update/
 // delete flows and surface typed precondition failures to gateway handlers.
-import { resolveAgentDir, resolveAgentWorkspaceDir } from "../../agents/agent-scope.js";
+import { resolveAgentDir, resolveAgentWorkspaceDir } from "../../agents/agent-scope.ts";
 import {
   applyAgentConfig,
   findAgentEntryIndex,
   listAgentEntries,
   pruneAgentConfig,
-} from "../../commands/agents.config.js";
-import { mutateConfigFileWithRetry } from "../../config/config.js";
-import { resolveSessionTranscriptsDirForAgent } from "../../config/sessions.js";
-import type { IdentityConfig } from "../../config/types.base.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../commands/agents.config.ts";
+import { mutateConfigFileWithRetry } from "../../config/config.ts";
+import { resolveSessionTranscriptsDirForAgent } from "../../config/sessions.ts";
+import type { IdentityConfig } from "../../config/types.base.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
 export type AgentDeleteMutationResult = {
   workspaceDir: string;

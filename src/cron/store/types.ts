@@ -1,5 +1,5 @@
 /** Shared cron store sidecar and quarantine types. */
-import type { CronStoreFile } from "../types.js";
+import type { CronStoreFile } from "../types.ts";
 
 /** Invalid config-backed cron job captured for quarantine instead of runtime load. */
 export type QuarantinedCronConfigJob = {

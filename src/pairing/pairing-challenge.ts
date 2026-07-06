@@ -1,5 +1,5 @@
 // Builds and validates channel pairing challenges for first-time setup.
-import { buildPairingReply } from "./pairing-messages.js";
+import { buildPairingReply } from "./pairing-messages.ts";
 
 type PairingMeta = Record<string, string | undefined>;
 

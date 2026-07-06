@@ -1,11 +1,11 @@
 // Gateway RPC handlers for text-to-speech status, preferences, and conversion.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
 import {
   canonicalizeSpeechProviderId,
   getSpeechProvider,
   listSpeechProviders,
-} from "../../tts/provider-registry.js";
+} from "../../tts/provider-registry.ts";
 import {
   getResolvedSpeechProviderConfig,
   getTtsPersona,
@@ -22,9 +22,9 @@ import {
   setTtsPersona,
   setTtsProvider,
   textToSpeech,
-} from "../../tts/tts.js";
-import { formatForLog } from "../ws-log.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../tts/tts.ts";
+import { formatForLog } from "../ws-log.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /** Gateway request handlers for TTS status, preference mutation, and synthesis. */
 export const ttsHandlers: GatewayRequestHandlers = {

@@ -1,14 +1,14 @@
 // Installs fatal and transient unhandled rejection/exception handlers.
 import process from "node:process";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { restoreTerminalState } from "../../packages/terminal-core/src/restore.js";
+import { restoreTerminalState } from "../../packages/terminal-core/src/restore.ts";
 import {
   collectErrorGraphCandidates,
   extractErrorCode,
   formatUncaughtError,
   readErrorName,
-} from "./errors.js";
-import { runFatalErrorHooks } from "./fatal-error-hooks.js";
+} from "./errors.ts";
+import { runFatalErrorHooks } from "./fatal-error-hooks.ts";
 
 type UnhandledRejectionHandler = (reason: unknown) => boolean;
 type UncaughtExceptionHandler = (error: unknown) => boolean;

@@ -1,7 +1,7 @@
 // Video generation types describe requests, providers, and normalized media output.
-import type { MediaNormalizationEntry } from "../../packages/media-generation-core/src/normalization.js";
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { MediaNormalizationEntry } from "../../packages/media-generation-core/src/normalization.ts";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 export type GeneratedVideoAsset = {
   /** Raw video bytes. Required for local delivery; omit when url is provided instead. */

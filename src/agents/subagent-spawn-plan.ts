@@ -3,14 +3,14 @@
  *
  * Resolves model, thinking, and timeout choices before the sessions_spawn executor launches work.
  */
-import { formatThinkingLevels } from "../auto-reply/thinking.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { formatThinkingLevels } from "../auto-reply/thinking.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveDefaultModelForAgent,
   resolveSubagentConfiguredModelSelection,
   resolveSubagentSpawnModelSelection,
-} from "./model-selection.js";
-import { resolveSubagentThinkingOverride } from "./subagent-spawn-thinking.js";
+} from "./model-selection.ts";
+import { resolveSubagentThinkingOverride } from "./subagent-spawn-thinking.ts";
 
 /** Splits a provider/model ref while preserving model-only refs. */
 export function splitModelRef(ref?: string) {
@@ -118,7 +118,7 @@ export function resolveSubagentModelAndThinkingPlan(params: {
             modelOverrideSource,
             ...(modelOrigin
               ? {
-                  // Config-selected models are session overrides, not legacy fallback residue.
+                  // Config-selected models are session overrides, not older fallback residue.
                   // Self-origin metadata keeps cleanup from discarding them before first use.
                   modelOverrideFallbackOriginProvider: modelOrigin.provider,
                   modelOverrideFallbackOriginModel: modelOrigin.model,

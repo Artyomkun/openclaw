@@ -10,7 +10,7 @@
 - **Lint/Format**: Oxlint, Oxfmt (`pnpm check`)
 - **Tests**: Vitest with V8 coverage
 - **CLI Framework**: Commander + clack/prompts
-- **Build**: tsdown (outputs to `dist/`)
+- **Build**: tsc (outputs to `dist/`)
 
 ## Anti-Redundancy Rules
 

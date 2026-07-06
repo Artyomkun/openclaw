@@ -1,6 +1,6 @@
 // Stores and broadcasts heartbeat status events for UI surfaces.
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import { notifyListeners, registerListener } from "../shared/listeners.js";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import { notifyListeners, registerListener } from "../shared/listeners.ts";
 
 export type HeartbeatIndicatorType = "ok" | "alert" | "error";
 

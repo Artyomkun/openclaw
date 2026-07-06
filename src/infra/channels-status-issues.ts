@@ -1,15 +1,15 @@
 // Collects channel account status issues for diagnostics.
-import { listChannelPlugins } from "../channels/plugins/index.js";
+import { listChannelPlugins } from "../channels/plugins/index.ts";
 import type {
   ChannelAccountSnapshot,
   ChannelId,
   ChannelStatusIssue,
-} from "../channels/plugins/types.public.js";
+} from "../channels/plugins/types.public.ts";
 import {
   DEFAULT_CHANNEL_CONNECT_GRACE_MS,
   DEFAULT_CHANNEL_STALE_EVENT_THRESHOLD_MS,
   evaluateChannelHealth,
-} from "../gateway/channel-health-policy.js";
+} from "../gateway/channel-health-policy.ts";
 
 function resolveIssueAccountId(account: ChannelAccountSnapshot): string {
   return typeof account.accountId === "string" && account.accountId.trim()

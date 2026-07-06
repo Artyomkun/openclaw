@@ -2,7 +2,7 @@
  * Runtime-only owner display secret retention for config IO.
  * Generated secrets stay in memory by config path and are never written back into config files.
  */
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 /** Runtime-only owner display secrets keyed by config path during config IO. */
 export type OwnerDisplaySecretRuntimeState = {

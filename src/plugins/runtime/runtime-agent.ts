@@ -1,16 +1,16 @@
 // Runtime agent helpers resolve agent-scoped directories and config for plugin execution.
-import { resolveAgentDir, resolveAgentWorkspaceDir } from "../../agents/agent-scope.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../agents/defaults.js";
-import { resolveAgentIdentity } from "../../agents/identity.js";
+import { resolveAgentDir, resolveAgentWorkspaceDir } from "../../agents/agent-scope.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../../agents/defaults.ts";
+import { resolveAgentIdentity } from "../../agents/identity.ts";
 import {
   buildConfiguredModelCatalog,
   resolveThinkingDefault,
-} from "../../agents/model-selection.js";
-import { resolveAgentTimeoutMs } from "../../agents/timeout.js";
-import { ensureAgentWorkspace } from "../../agents/workspace.js";
-import { normalizeThinkLevel, resolveThinkingProfile } from "../../auto-reply/thinking.js";
-import { getRuntimeConfig } from "../../config/config.js";
-import { resolveSessionFilePath, resolveStorePath } from "../../config/sessions/paths.js";
+} from "../../agents/model-selection.ts";
+import { resolveAgentTimeoutMs } from "../../agents/timeout.ts";
+import { ensureAgentWorkspace } from "../../agents/workspace.ts";
+import { normalizeThinkLevel, resolveThinkingProfile } from "../../auto-reply/thinking.ts";
+import { getRuntimeConfig } from "../../config/config.ts";
+import { resolveSessionFilePath, resolveStorePath } from "../../config/sessions/paths.ts";
 import {
   listSessionEntries as listAccessorSessionEntries,
   loadSessionEntry,
@@ -18,18 +18,18 @@ import {
   replaceSessionEntry,
   type SessionAccessScope,
   updateSessionEntry,
-} from "../../config/sessions/session-accessor.js";
-import { normalizeResolvedMaintenanceConfigInput } from "../../config/sessions/store-maintenance.js";
+} from "../../config/sessions/session-accessor.ts";
+import { normalizeResolvedMaintenanceConfigInput } from "../../config/sessions/store-maintenance.ts";
 import {
   loadSessionStore,
   saveSessionStore,
   updateSessionStore,
   type ResolvedSessionMaintenanceConfigInput,
-} from "../../config/sessions/store.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import { createLazyRuntimeMethod, createLazyRuntimeModule } from "../../shared/lazy-runtime.js";
-import { defineCachedValue } from "./runtime-cache.js";
-import type { PluginRuntime } from "./types.js";
+} from "../../config/sessions/store.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import { createLazyRuntimeMethod, createLazyRuntimeModule } from "../../shared/lazy-runtime.ts";
+import { defineCachedValue } from "./runtime-cache.ts";
+import type { PluginRuntime } from "./types.ts";
 
 type RuntimeSessionStoreReadParams = {
   agentId?: string;
@@ -136,7 +136,7 @@ async function patchSessionEntry(
 async function updateSessionStoreEntry(
   params: RuntimeSessionStoreEntryUpdateParams,
 ): Promise<SessionEntry | null> {
-  // Maintainer note: keep the legacy object-parameter API here, but route
+  // Maintainer note: keep the older object-parameter API here, but route
   // mutations through the session accessor boundary.
   return await updateSessionEntry(
     {

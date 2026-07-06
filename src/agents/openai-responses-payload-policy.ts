@@ -4,9 +4,9 @@
  * server-compaction, service-tier, and reasoning payload rules.
  */
 import { readStringValue } from "@openclaw/normalization-core/string-coerce";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { asBoolean } from "../utils/boolean.js";
-import { supportsOpenAIReasoningEffort } from "./openai-reasoning-effort.js";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { asBoolean } from "../utils/boolean.ts";
+import { supportsOpenAIReasoningEffort } from "./openai-reasoning-effort.ts";
 
 type OpenAIResponsesPayloadModel = {
   api?: unknown;

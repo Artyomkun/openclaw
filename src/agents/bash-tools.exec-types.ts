@@ -3,22 +3,22 @@
  * Defines defaults, approval follow-up payloads, elevated policy defaults, and
  * tool result details consumed across exec hosts and process controls.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { EventSessionRoutingPolicy } from "../infra/event-session-routing.js";
-import type { ExecApprovalDecision } from "../infra/exec-approvals.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { EventSessionRoutingPolicy } from "../infra/event-session-routing.ts";
+import type { ExecApprovalDecision } from "../infra/exec-approvals.ts";
 import type {
   ExecAsk,
   ExecHost,
   ExecMode,
   ExecSecurity,
   ExecTarget,
-} from "../infra/exec-approvals.js";
-import type { ExecAutoReviewer } from "../infra/exec-auto-review.js";
-import type { SafeBinProfileFixture } from "../infra/exec-safe-bin-policy.js";
-import type { PluginHookChannelContext } from "../plugins/hook-types.js";
-import type { BashSandboxConfig } from "./bash-tools.shared.js";
-import type { EmbeddedFullAccessBlockedReason } from "./embedded-agent-runner/types.js";
-import type { ExecReviewerConfig } from "./exec-auto-reviewer.js";
+} from "../infra/exec-approvals.ts";
+import type { ExecAutoReviewer } from "../infra/exec-auto-review.ts";
+import type { SafeBinProfileFixture } from "../infra/exec-safe-bin-policy.ts";
+import type { PluginHookChannelContext } from "../plugins/hook-types.ts";
+import type { BashSandboxConfig } from "./bash-tools.shared.ts";
+import type { EmbeddedFullAccessBlockedReason } from "./embedded-agent-runner/types.ts";
+import type { ExecReviewerConfig } from "./exec-auto-reviewer.ts";
 
 /** Runtime defaults passed into exec/process tool factories. */
 export type ExecToolDefaults = {

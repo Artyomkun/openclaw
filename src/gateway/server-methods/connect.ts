@@ -1,7 +1,7 @@
 // Connect method guard rejects late `connect` RPCs after the WebSocket
 // handshake already established identity and authorization.
-import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.js";
-import type { GatewayRequestHandlers } from "./types.js";
+import { ErrorCodes, errorShape } from "../../../packages/gateway-protocol/src/index.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /**
  * Rejects `connect` after the WebSocket handshake already established identity.

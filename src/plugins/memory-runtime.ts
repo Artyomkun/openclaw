@@ -1,11 +1,11 @@
 // Runtime bridge for plugin-owned memory hooks and state.
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveUserPath } from "../utils.js";
-import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
-import { normalizePluginsConfig } from "./config-state.js";
-import { getMemoryRuntime } from "./memory-state.js";
-import { ensureStandaloneRuntimePluginRegistryLoaded } from "./runtime/standalone-runtime-registry-loader.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveUserPath } from "../utils.ts";
+import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.ts";
+import { normalizePluginsConfig } from "./config-state.ts";
+import { getMemoryRuntime } from "./memory-state.ts";
+import { ensureStandaloneRuntimePluginRegistryLoaded } from "./runtime/standalone-runtime-registry-loader.ts";
 
 /** Resolves the configured memory slot to the single runtime plugin that may load memory. */
 function resolveMemoryRuntimePluginIds(config: OpenClawConfig): string[] {

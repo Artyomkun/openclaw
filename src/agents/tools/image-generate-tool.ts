@@ -4,13 +4,13 @@
  * Loads references, resolves providers/options, saves generated images, and supports detached background runs.
  */
 import { Type } from "typebox";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { parseImageGenerationModelRef } from "../../image-generation/model-ref.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { parseImageGenerationModelRef } from "../../image-generation/model-ref.ts";
 import {
   generateImage,
   listRuntimeImageGenerationProviders,
-} from "../../image-generation/runtime.js";
+} from "../../image-generation/runtime.ts";
 import type {
   ImageGenerationIgnoredOverride,
   ImageGenerationBackground,
@@ -23,39 +23,39 @@ import type {
   ImageGenerationQuality,
   ImageGenerationResolution,
   ImageGenerationSourceImage,
-} from "../../image-generation/types.js";
-import type { SsrFPolicy } from "../../infra/net/ssrf.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+} from "../../image-generation/types.ts";
+import type { SsrFPolicy } from "../../infra/net/ssrf.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import {
   resolveConfiguredMediaMaxBytes,
   resolveGeneratedMediaMaxBytes,
-} from "../../media/configured-max-bytes.js";
+} from "../../media/configured-max-bytes.ts";
 import {
   classifyMediaReferenceSource,
   normalizeMediaReferenceSource,
-} from "../../media/media-reference.js";
-import { getImageMetadata } from "../../media/media-services.js";
-import { saveMediaBuffer } from "../../media/store.js";
-import { loadWebMedia } from "../../media/web-media.js";
-import { readSnakeCaseParamRaw } from "../../param-key.js";
-import { resolveUserPath } from "../../utils.js";
-import type { DeliveryContext } from "../../utils/delivery-context.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
+} from "../../media/media-reference.ts";
+import { getImageMetadata } from "../../media/media-services.ts";
+import { saveMediaBuffer } from "../../media/store.ts";
+import { loadWebMedia } from "../../media/web-media.ts";
+import { readSnakeCaseParamRaw } from "../../param-key.ts";
+import { resolveUserPath } from "../../utils.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
 import {
   formatGeneratedAttachmentLines,
   type AgentGeneratedAttachment,
-} from "../generated-attachments.js";
+} from "../generated-attachments.ts";
 import {
   buildMediaGenerationRequestKey,
   recordRecentMediaGenerationTaskStartForSession,
-} from "../media-generation-task-status-shared.js";
-import { optionalStringEnum } from "../schema/string-enum.js";
+} from "../media-generation-task-status-shared.ts";
+import { optionalStringEnum } from "../schema/string-enum.ts";
 import {
   ToolInputError,
   readNonNegativeIntegerParam,
   readPositiveIntegerParam,
   readStringParam,
-} from "./common.js";
+} from "./common.ts";
 import {
   completeImageGenerationTaskRun,
   createImageGenerationTaskRun,
@@ -63,13 +63,13 @@ import {
   imageGenerationTaskLifecycle,
   recordImageGenerationTaskProgress,
   type ImageGenerationTaskHandle,
-} from "./image-generate-background.js";
+} from "./image-generate-background.ts";
 import {
   createImageGenerateDuplicateGuardResult,
   createImageGenerateListActionResult,
   createImageGenerateStatusActionResult,
-} from "./image-generate-tool.actions.js";
-import { decodeDataUrl } from "./image-tool.helpers.js";
+} from "./image-generate-tool.actions.ts";
+import { decodeDataUrl } from "./image-tool.helpers.ts";
 import {
   buildMediaGenerationStartedToolResult,
   createDefaultMediaGenerateBackgroundScheduler,
@@ -78,7 +78,7 @@ import {
   shouldDetachMediaGenerationTask,
   type MediaGenerateAsyncStartCallback,
   type MediaGenerateBackgroundScheduler,
-} from "./media-generate-background-shared.js";
+} from "./media-generate-background-shared.ts";
 import {
   applyImageGenerationModelConfigDefaults,
   buildMediaReferenceDetails,
@@ -92,19 +92,19 @@ import {
   resolveGenerateAction,
   resolveMediaToolLocalRoots,
   resolveSelectedCapabilityProvider,
-} from "./media-tool-shared.js";
+} from "./media-tool-shared.ts";
 import {
   coerceToolModelConfig,
   hasToolModelConfig,
   type ToolModelConfig,
-} from "./model-config.helpers.js";
+} from "./model-config.helpers.ts";
 import {
   createSandboxBridgeReadFile,
   resolveSandboxedBridgeMediaPath,
   type AnyAgentTool,
   type SandboxFsBridge,
   type ToolFsPolicy,
-} from "./tool-runtime.helpers.js";
+} from "./tool-runtime.helpers.ts";
 
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 4;

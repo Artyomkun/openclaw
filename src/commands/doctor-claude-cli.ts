@@ -5,27 +5,27 @@ import {
   normalizeOptionalString,
   resolvePrimaryStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveModelAgentRuntimeMetadata } from "../agents/agent-runtime-metadata.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveModelAgentRuntimeMetadata } from "../agents/agent-runtime-metadata.ts";
 import {
   listAgentIds,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
-import { CLAUDE_CLI_PROFILE_ID } from "../agents/auth-profiles/constants.js";
-import { resolveAuthStorePathForDisplay } from "../agents/auth-profiles/paths.js";
-import { ensureAuthProfileStore } from "../agents/auth-profiles/store.js";
+} from "../agents/agent-scope.ts";
+import { CLAUDE_CLI_PROFILE_ID } from "../agents/auth-profiles/constants.ts";
+import { resolveAuthStorePathForDisplay } from "../agents/auth-profiles/paths.ts";
+import { ensureAuthProfileStore } from "../agents/auth-profiles/store.ts";
 import type {
   AuthProfileStore,
   OAuthCredential,
   TokenCredential,
-} from "../agents/auth-profiles/types.js";
-import { readClaudeCliCredentialsCached } from "../agents/cli-credentials.js";
-import { resolveClaudeCliProjectDirForWorkspace } from "../agents/command/claude-cli-project-dir.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveExecutablePath } from "../infra/executable-path.js";
-import { shortenHomePath } from "../utils.js";
+} from "../agents/auth-profiles/types.ts";
+import { readClaudeCliCredentialsCached } from "../agents/cli-credentials.ts";
+import { resolveClaudeCliProjectDirForWorkspace } from "../agents/command/claude-cli-project-dir.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveExecutablePath } from "../infra/executable-path.ts";
+import { shortenHomePath } from "../utils.ts";
 
 const CLAUDE_CLI_PROVIDER = "claude-cli";
 

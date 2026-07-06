@@ -57,7 +57,7 @@ function normalizeAllowFromDiscordUserId(entry: string): string | undefined {
   if (mentionMatch) {
     return mentionMatch[1];
   }
-  // Accept both current and legacy allowFrom forms for Discord user IDs.
+  // Accept both current and older allowFrom forms for Discord user IDs.
   const prefixedMatch = /^(?:discord:)?user:(\d+)$/.exec(trimmed);
   if (prefixedMatch) {
     return prefixedMatch[1];

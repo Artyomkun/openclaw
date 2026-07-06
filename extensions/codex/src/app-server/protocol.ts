@@ -87,17 +87,8 @@ export type CodexDynamicToolNamespaceSpec = JsonObject & {
 
 export type CodexDynamicToolSpec = CodexDynamicToolFunctionSpec | CodexDynamicToolNamespaceSpec;
 
-export type CodexLegacyDynamicToolFunctionSpec = JsonObject & {
-  name: string;
-  description: string;
-  inputSchema: JsonValue;
-  deferLoading?: boolean;
-  namespace?: string;
-};
-
 export type CodexThreadStartDynamicToolSpec =
-  | CodexDynamicToolSpec
-  | CodexLegacyDynamicToolFunctionSpec;
+  | CodexDynamicToolSpec;
 
 export function flattenCodexDynamicToolFunctions(
   tools: readonly CodexDynamicToolSpec[] | undefined,

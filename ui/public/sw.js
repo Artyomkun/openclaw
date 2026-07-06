@@ -44,8 +44,10 @@ self.addEventListener("activate", (event) => {
       ]);
 
       for (const client of windowClients) {
-        // oxlint-disable-next-line unicorn/require-post-message-target-origin -- Service Worker Client.postMessage does not take targetOrigin.
-        client.postMessage({ type: "sw-updated", version: CACHE_VERSION });
+        client.postMessage(
+          { type: "sw-updated", version: CACHE_VERSION },
+          { targetOrigin: "*" },
+        );
       }
     })(),
   );

@@ -1,6 +1,6 @@
 // Normalizes preserved environment-variable config for subprocess launches.
 import { isDeepStrictEqual } from "node:util";
-import { isPlainObject } from "../infra/plain-object.js";
+import { isPlainObject } from "../infra/plain-object.ts";
 
 /**
  * Preserves `${VAR}` environment variable references during config write-back.

@@ -1,15 +1,15 @@
 // Resolves model suppression metadata declared by plugin manifests.
 import { buildModelCatalogMergeKey } from "@openclaw/model-catalog-core/model-catalog-refs";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   planManifestModelCatalogSuppressions,
   type ManifestModelCatalogSuppressionEntry,
-} from "../model-catalog/index.js";
+} from "../model-catalog/index.ts";
 import {
   isManifestPluginAvailableForControlPlane,
   loadManifestMetadataSnapshot,
-} from "./manifest-contract-eligibility.js";
+} from "./manifest-contract-eligibility.ts";
 
 function listManifestModelCatalogSuppressions(params: {
   config?: OpenClawConfig;

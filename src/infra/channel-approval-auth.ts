@@ -1,8 +1,8 @@
 // Authorizes chat approval commands against channel approval policy.
-import { getChannelPlugin, resolveChannelApprovalCapability } from "../channels/plugins/index.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isImplicitSameChatApprovalAuthorization } from "../plugin-sdk/approval-auth-helpers.js";
-import { normalizeMessageChannel } from "../utils/message-channel.js";
+import { getChannelPlugin, resolveChannelApprovalCapability } from "../channels/plugins/index.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isImplicitSameChatApprovalAuthorization } from "../plugin-sdk/approval-auth-helpers.ts";
+import { normalizeMessageChannel } from "../utils/message-channel.ts";
 
 type ApprovalCommandAuthorization = {
   authorized: boolean;
@@ -20,7 +20,7 @@ export function resolveApprovalCommandAuthorization(params: {
 }): ApprovalCommandAuthorization {
   const channel = normalizeMessageChannel(params.channel);
   if (!channel) {
-    // Non-channel command paths keep legacy behavior: allow, but do not count as explicit chat auth.
+    // Non-channel command paths keep older behavior: allow, but do not count as explicit chat auth.
     return { authorized: true, explicit: false };
   }
   const approvalCapability = resolveChannelApprovalCapability(getChannelPlugin(channel));

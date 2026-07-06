@@ -1,14 +1,14 @@
 // MCP loopback runtime scope cache.
 // Resolves Gateway-visible tools for MCP clients with short-lived schema caching.
-import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.js";
-import type { InboundEventKind } from "../channels/inbound-event/kind.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.ts";
+import type { InboundEventKind } from "../channels/inbound-event/kind.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   buildMcpToolSchema,
   type McpLoopbackTool,
   type McpToolSchemaEntry,
-} from "./mcp-http.schema.js";
-import { resolveGatewayScopedTools } from "./tool-resolution.js";
+} from "./mcp-http.schema.ts";
+import { resolveGatewayScopedTools } from "./tool-resolution.ts";
 
 // MCP loopback runtime scopes gateway tools to the current session/channel
 // context and caches the expensive schema projection for short bursts of tool

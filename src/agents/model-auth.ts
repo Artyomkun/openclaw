@@ -9,29 +9,29 @@ import {
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeUniqueStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { formatCliCommand } from "../cli/command-format.js";
+import { formatCliCommand } from "../cli/command-format.ts";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
   selectApplicableRuntimeConfig,
-} from "../config/config.js";
-import type { ModelProviderAuthMode, ModelProviderConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { coerceSecretRef } from "../config/types.secrets.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { getShellEnvAppliedKeys } from "../infra/shell-env.js";
-import type { Model } from "../llm/types.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../config/config.ts";
+import type { ModelProviderAuthMode, ModelProviderConfig } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { coerceSecretRef } from "../config/types.secrets.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { getShellEnvAppliedKeys } from "../infra/shell-env.ts";
+import type { Model } from "../llm/types.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   buildProviderMissingAuthMessageWithPlugin,
   resolveProviderSyntheticAuthWithPlugin,
   shouldDeferProviderSyntheticProfileAuthWithPlugin,
-} from "../plugins/provider-runtime.js";
-import { resolveOwningPluginIdsForProviderRef } from "../plugins/providers.js";
-import { resolveRuntimeSyntheticAuthProviderRefState } from "../plugins/synthetic-auth.runtime.js";
-import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.js";
-import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.js";
-import { resolveDefaultAgentDir } from "./agent-scope-config.js";
+} from "../plugins/provider-runtime.ts";
+import { resolveOwningPluginIdsForProviderRef } from "../plugins/providers.ts";
+import { resolveRuntimeSyntheticAuthProviderRefState } from "../plugins/synthetic-auth.runtime.ts";
+import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.ts";
+import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.ts";
+import { resolveDefaultAgentDir } from "./agent-scope-config.ts";
 import {
   type AuthProfileCredential,
   type AuthProfileStore,
@@ -43,28 +43,28 @@ import {
   resolveApiKeyForProfile,
   resolveAuthProfileOrder,
   resolveAuthStorePathForDisplay,
-} from "./auth-profiles.js";
-import * as cliCredentials from "./cli-credentials.js";
-import { resolveProviderEnvAuthLookupMaps } from "./model-auth-env-vars.js";
+} from "./auth-profiles.ts";
+import * as cliCredentials from "./cli-credentials.ts";
+import { resolveProviderEnvAuthLookupMaps } from "./model-auth-env-vars.ts";
 import {
   resolveEnvApiKey,
   type EnvApiKeyLookupOptions,
   type EnvApiKeyResult,
-} from "./model-auth-env.js";
+} from "./model-auth-env.ts";
 import {
   CUSTOM_LOCAL_AUTH_MARKER,
   isKnownEnvApiKeyMarker,
   isNonSecretApiKeyMarker,
   NON_ENV_SECRETREF_MARKER,
-} from "./model-auth-markers.js";
-import { ProviderAuthError, type ResolvedProviderAuth } from "./model-auth-runtime-shared.js";
-import { normalizeProviderId } from "./model-selection.js";
+} from "./model-auth-markers.ts";
+import { ProviderAuthError, type ResolvedProviderAuth } from "./model-auth-runtime-shared.ts";
+import { normalizeProviderId } from "./model-selection.ts";
 
 export {
   ensureAuthProfileStore,
   ensureAuthProfileStoreWithoutExternalProfiles,
   resolveAuthProfileOrder,
-} from "./auth-profiles.js";
+} from "./auth-profiles.ts";
 export {
   formatMissingAuthError,
   isMissingProviderAuthError,
@@ -73,8 +73,8 @@ export {
   ProviderAuthError,
   requireApiKey,
   resolveAwsSdkEnvVarName,
-} from "./model-auth-runtime-shared.js";
-export type { ResolvedProviderAuth } from "./model-auth-runtime-shared.js";
+} from "./model-auth-runtime-shared.ts";
+export type { ResolvedProviderAuth } from "./model-auth-runtime-shared.ts";
 export type ProviderCredentialPrecedence = "profile-first" | "env-first";
 
 /** Precomputed provider-auth lookup tables reused during one runtime turn. */
@@ -1372,8 +1372,8 @@ export async function resolveApiKeyForProvider(params: {
 
 export type ModelAuthMode = "api-key" | "oauth" | "token" | "mixed" | "aws-sdk" | "unknown";
 
-export { resolveEnvApiKey } from "./model-auth-env.js";
-export type { EnvApiKeyResult } from "./model-auth-env.js";
+export { resolveEnvApiKey } from "./model-auth-env.ts";
+export type { EnvApiKeyResult } from "./model-auth-env.ts";
 
 /** Reports the strongest configured auth mode for provider-list UI and diagnostics. */
 export function resolveModelAuthMode(

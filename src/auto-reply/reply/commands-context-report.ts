@@ -1,24 +1,24 @@
 // Builds structured context reports for context command responses.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveSessionAgentIds } from "../../agents/agent-scope.js";
-import { analyzeBootstrapBudget } from "../../agents/bootstrap-budget.js";
-import { isRealConversationMessage } from "../../agents/compaction-real-conversation.js";
+import { resolveSessionAgentIds } from "../../agents/agent-scope.ts";
+import { analyzeBootstrapBudget } from "../../agents/bootstrap-budget.ts";
+import { isRealConversationMessage } from "../../agents/compaction-real-conversation.ts";
 import {
   resolveBootstrapMaxChars,
   resolveBootstrapTotalMaxChars,
-} from "../../agents/embedded-agent-helpers/bootstrap.js";
-import type { AgentMessage } from "../../agents/runtime/index.js";
-import { buildSystemPromptReport } from "../../agents/system-prompt-report.js";
+} from "../../agents/embedded-agent-helpers/bootstrap.ts";
+import type { AgentMessage } from "../../agents/runtime/index.ts";
+import { buildSystemPromptReport } from "../../agents/system-prompt-report.ts";
 import {
   resolveFreshSessionTotalTokens,
   type SessionEntry,
   type SessionSystemPromptReport,
-} from "../../config/sessions/types.js";
-import { readSessionMessages } from "../../gateway/session-utils.fs.js";
-import { estimateTokensFromChars } from "../../utils/cjk-chars.js";
-import type { ReplyPayload } from "../types.js";
-import type { HandleCommandsParams } from "./commands-types.js";
-import { renderContextTreemapPng } from "./context-treemap.js";
+} from "../../config/sessions/types.ts";
+import { readSessionMessages } from "../../gateway/session-utils.fs.ts";
+import { estimateTokensFromChars } from "../../utils/cjk-chars.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { HandleCommandsParams } from "./commands-types.ts";
+import { renderContextTreemapPng } from "./context-treemap.ts";
 
 function formatInt(n: number): string {
   return new Intl.NumberFormat("en-US").format(n);

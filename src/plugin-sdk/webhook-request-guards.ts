@@ -1,16 +1,16 @@
 // Webhook request guards validate incoming HTTP requests before plugin webhook dispatch.
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { normalizeOptionalLowercaseString } from "../../packages/normalization-core/src/string-coerce.js";
-import { formatErrorMessage } from "../infra/errors.js";
+import { normalizeOptionalLowercaseString } from "../../packages/normalization-core/src/string-coerce.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
 import {
   isRequestBodyLimitError,
   readJsonBodyWithLimit,
   readRequestBodyWithLimit,
   requestBodyErrorToText,
-} from "../infra/http-body.js";
-import { pruneMapToMaxSize } from "../infra/map-size.js";
-import type { FixedWindowRateLimiter } from "./webhook-memory-guards.js";
-import { resolveWebhookIntegerOption } from "./webhook-numeric-options.js";
+} from "../infra/http-body.ts";
+import { pruneMapToMaxSize } from "../infra/map-size.ts";
+import type { FixedWindowRateLimiter } from "./webhook-memory-guards.ts";
+import { resolveWebhookIntegerOption } from "./webhook-numeric-options.ts";
 
 /** Body-read profile for webhook payload limits before or after authentication. */
 export type WebhookBodyReadProfile = "pre-auth" | "post-auth";
@@ -21,7 +21,7 @@ export {
   readJsonBodyWithLimit,
   readRequestBodyWithLimit,
   requestBodyErrorToText,
-} from "../infra/http-body.js";
+} from "../infra/http-body.ts";
 
 /** Default webhook body size/time limits for pre-auth and post-auth reads. */
 export const WEBHOOK_BODY_READ_DEFAULTS = Object.freeze({

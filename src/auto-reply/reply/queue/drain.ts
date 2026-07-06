@@ -1,17 +1,17 @@
 import { createHash } from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { runAgentHarnessBeforeMessageWriteHook } from "../../../agents/harness/hook-helpers.js";
-import { normalizeChatType } from "../../../channels/chat-type.js";
-import { resolveStorePath } from "../../../config/sessions.js";
-import { loadSessionEntry } from "../../../config/sessions/session-accessor.js";
+import { runAgentHarnessBeforeMessageWriteHook } from "../../../agents/harness/hook-helpers.ts";
+import { normalizeChatType } from "../../../channels/chat-type.ts";
+import { resolveStorePath } from "../../../config/sessions.ts";
+import { loadSessionEntry } from "../../../config/sessions/session-accessor.ts";
 // Drains queued follow-up runs while preserving route and session identity.
 import {
   channelRouteCompactKey,
   channelRouteDedupeKey,
-} from "../../../plugin-sdk/channel-route.js";
-import { defaultRuntime } from "../../../runtime.js";
-import { createUserTurnTranscriptRecorder } from "../../../sessions/user-turn-transcript.js";
-import { resolveGlobalMap } from "../../../shared/global-singleton.js";
+} from "../../../plugin-sdk/channel-route.ts";
+import { defaultRuntime } from "../../../runtime.ts";
+import { createUserTurnTranscriptRecorder } from "../../../sessions/user-turn-transcript.ts";
+import { resolveGlobalMap } from "../../../shared/global-singleton.ts";
 import {
   buildCollectPrompt,
   beginQueueDrain,
@@ -22,15 +22,15 @@ import {
   removeQueuedItemsByRef,
   previewQueueSummaryPrompt,
   waitForQueueDebounce,
-} from "../../../utils/queue-helpers.js";
-import { isRoutableChannel } from "../route-reply.js";
-import { FOLLOWUP_QUEUES } from "./state.js";
+} from "../../../utils/queue-helpers.ts";
+import { isRoutableChannel } from "../route-reply.ts";
+import { FOLLOWUP_QUEUES } from "./state.ts";
 import {
   completeFollowupRunLifecycle,
   isFollowupRunAborted,
   isFollowupRunDeferredError,
   type FollowupRun,
-} from "./types.js";
+} from "./types.ts";
 
 // Persists the most recent runFollowup callback per queue key so that
 // enqueueFollowupRun can restart a drain that finished and deleted the queue.

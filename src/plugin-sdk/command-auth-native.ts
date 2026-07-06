@@ -14,36 +14,36 @@ export {
   serializeCommandArgs,
   resolveCommandArgChoices,
   resolveCommandArgMenu,
-} from "../auto-reply/commands-registry.js";
+} from "../auto-reply/commands-registry.ts";
 export type {
   ChatCommandDefinition,
   CommandArgDefinition,
   CommandArgValues,
   CommandArgs,
   NativeCommandSpec,
-} from "../auto-reply/commands-registry.js";
-export type { CommandArgsParsing } from "../auto-reply/commands-registry.types.js";
+} from "../auto-reply/commands-registry.ts";
+export type { CommandArgsParsing } from "../auto-reply/commands-registry.types.ts";
 export {
   hasControlCommand,
   shouldComputeCommandAuthorized,
-} from "../auto-reply/command-detection.js";
+} from "../auto-reply/command-detection.ts";
 export {
   resolveCommandAuthorizedFromAuthorizers,
   resolveControlCommandGate,
-} from "../channels/command-gating.js";
-export { resolveNativeCommandSessionTargets } from "../channels/native-command-session-targets.js";
+} from "../channels/command-gating.ts";
+export { resolveNativeCommandSessionTargets } from "../channels/native-command-session-targets.ts";
 export {
   resolveCommandAuthorization,
   type CommandAuthorization,
-} from "../auto-reply/command-auth.js";
-export { resolveStoredModelOverride } from "../auto-reply/reply/stored-model-override.js";
+} from "../auto-reply/command-auth.ts";
+export { resolveStoredModelOverride } from "../auto-reply/reply/stored-model-override.ts";
 export {
   formatFastModeCommandOptions,
   formatFastModeCurrentStatus,
   formatFastModeSourceSuffix,
   formatFastModeStatusValue,
   resolveFastModeState,
-} from "../agents/fast-mode.js";
-export type { ModelsProviderData } from "../auto-reply/reply/commands-models.js";
-export { listSkillCommandsForAgents } from "../skills/discovery/chat-commands.js";
-export { listProviderPluginCommandSpecs } from "../plugins/command-specs.js";
+} from "../agents/fast-mode.ts";
+export type { ModelsProviderData } from "../auto-reply/reply/commands-models.ts";
+export { listSkillCommandsForAgents } from "../skills/discovery/chat-commands.ts";
+export { listProviderPluginCommandSpecs } from "../plugins/command-specs.ts";

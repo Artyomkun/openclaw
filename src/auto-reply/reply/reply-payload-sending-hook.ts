@@ -1,12 +1,12 @@
 // Runs plugin hooks before outbound reply payloads are sent.
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
 import type {
   PluginHookReplyPayloadSendingContext,
   PluginHookReplyUsageState,
-} from "../../plugins/hook-types.js";
-import { copyReplyPayloadMetadata } from "../reply-payload.js";
-import type { ReplyPayload } from "../reply-payload.js";
-import type { ReplyDispatchKind } from "./reply-dispatcher.types.js";
+} from "../../plugins/hook-types.ts";
+import { copyReplyPayloadMetadata } from "../reply-payload.ts";
+import type { ReplyPayload } from "../reply-payload.ts";
+import type { ReplyDispatchKind } from "./reply-dispatcher.types.ts";
 
 /** Runs plugin hooks that may rewrite or cancel an outbound reply payload. */
 export async function runReplyPayloadSendingHook(params: {

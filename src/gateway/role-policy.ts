@@ -1,6 +1,6 @@
 // Gateway connection role policy.
 // Separates node-role RPCs from operator RPCs before method scope checks.
-import { isNodeRoleMethod } from "./method-scopes.js";
+import { isNodeRoleMethod } from "./method-scopes.ts";
 
 const GATEWAY_ROLES = ["operator", "node"] as const;
 

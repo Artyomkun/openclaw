@@ -1,10 +1,10 @@
 // Transcript echo delivery sends best-effort preflight audio transcripts back
 // through deliverable message channels.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { logVerbose, shouldLogVerbose } from "../globals.js";
-import { isDeliverableMessageChannel } from "../utils/message-channel.js";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
+import { isDeliverableMessageChannel } from "../utils/message-channel.ts";
 
 let messageRuntimePromise: Promise<typeof import("../channels/message/runtime.js")> | null = null;
 

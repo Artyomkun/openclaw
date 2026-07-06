@@ -1,32 +1,32 @@
 /**
  * Applies final effective tool policy to embedded-agent runtime settings.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getPluginToolMeta } from "../../plugins/tools.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getPluginToolMeta } from "../../plugins/tools.ts";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
   resolveInheritedToolPolicyForSession,
   resolveTrustedGroupId,
   resolveSubagentToolPolicyForSession,
-} from "../agent-tools.policy.js";
-import { resolveSenderToolPolicy } from "../sender-tool-policy.js";
+} from "../agent-tools.policy.ts";
+import { resolveSenderToolPolicy } from "../sender-tool-policy.ts";
 import {
   isSubagentEnvelopeSession,
   resolveSubagentCapabilityStore,
-} from "../subagent-capabilities.js";
-import { buildDeclaredToolAllowlistContext } from "../tool-policy-declared-context.js";
+} from "../subagent-capabilities.ts";
+import { buildDeclaredToolAllowlistContext } from "../tool-policy-declared-context.ts";
 import {
   applyToolPolicyPipeline,
   buildDefaultToolPolicyPipelineSteps,
   type ToolPolicyPipelineStep,
-} from "../tool-policy-pipeline.js";
+} from "../tool-policy-pipeline.ts";
 import {
   collectExplicitDenylist,
   mergeAlsoAllowPolicy,
   resolveToolProfilePolicy,
-} from "../tool-policy.js";
-import type { AnyAgentTool } from "../tools/common.js";
+} from "../tool-policy.ts";
+import type { AnyAgentTool } from "../tools/common.ts";
 
 /**
  * Identity inputs used by `resolveGroupToolPolicy` to look up channel/group

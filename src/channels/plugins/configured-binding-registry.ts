@@ -3,23 +3,23 @@
  *
  * Primes, counts, and resolves compiled binding records from config and conversation facts.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ConversationRef } from "../../infra/outbound/session-binding-service.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ConversationRef } from "../../infra/outbound/session-binding-service.ts";
 import type {
   ConfiguredBindingRecordResolution,
   ConfiguredBindingResolution,
-} from "./binding-types.js";
+} from "./binding-types.ts";
 import {
   countCompiledBindingRegistry,
   primeCompiledBindingRegistry,
   resolveCompiledBindingRegistry,
-} from "./configured-binding-compiler.js";
+} from "./configured-binding-compiler.ts";
 import {
   materializeConfiguredBindingRecord,
   resolveMatchingConfiguredBinding,
   toConfiguredBindingConversationRef,
-} from "./configured-binding-match.js";
-import { resolveConfiguredBindingRecordBySessionKeyFromRegistry } from "./configured-binding-session-lookup.js";
+} from "./configured-binding-match.ts";
+import { resolveConfiguredBindingRecordBySessionKeyFromRegistry } from "./configured-binding-session-lookup.ts";
 
 function resolveMaterializedConfiguredBinding(params: {
   cfg: OpenClawConfig;

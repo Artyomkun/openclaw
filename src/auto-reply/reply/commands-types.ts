@@ -1,15 +1,15 @@
 /** Shared command handler context and result contracts. */
-import type { BlockReplyChunking } from "../../agents/embedded-agent-block-chunker.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import type { SessionEntry, SessionScope } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { BlockReplyChunking } from "../../agents/embedded-agent-block-chunker.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import type { SessionEntry, SessionScope } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
-import type { SkillCommandSpec } from "../../skills/types.js";
-import type { MsgContext } from "../templating.js";
-import type { ElevatedLevel, ReasoningLevel, ThinkLevel, VerboseLevel } from "../thinking.js";
-import type { GetReplyOptions, ReplyPayload } from "../types.js";
-import type { InlineDirectives } from "./directive-handling.parse.js";
-import type { TypingController } from "./typing.js";
+import type { SkillCommandSpec } from "../../skills/types.ts";
+import type { MsgContext } from "../templating.ts";
+import type { ElevatedLevel, ReasoningLevel, ThinkLevel, VerboseLevel } from "../thinking.ts";
+import type { GetReplyOptions, ReplyPayload } from "../types.ts";
+import type { InlineDirectives } from "./directive-handling.parse.ts";
+import type { TypingController } from "./typing.ts";
 
 /** Normalized command metadata derived from an inbound message. */
 export type CommandContext = {

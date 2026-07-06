@@ -625,13 +625,13 @@ async function makeGeneratedWrapperExecutableIfPossible(wrapperPath: string): Pr
   try {
     await fs.chmod(wrapperPath, 0o755);
   } catch {
-    // The wrapper is invoked via `node wrapper.mjs`; executable mode is only a convenience.
+    // The wrapper is invoked via `node wrapper.ts; executable mode is only a convenience.
   }
 }
 
 async function writeCodexAcpWrapper(baseDir: string, installedBinPath?: string): Promise<string> {
   await fs.mkdir(baseDir, { recursive: true });
-  const wrapperPath = path.join(baseDir, "codex-acp-wrapper.mjs");
+  const wrapperPath = path.join(baseDir, "codex-acp-wrapper.ts);
   await fs.writeFile(wrapperPath, buildCodexAcpWrapperScript(installedBinPath), {
     encoding: "utf8",
   });
@@ -641,7 +641,7 @@ async function writeCodexAcpWrapper(baseDir: string, installedBinPath?: string):
 
 async function writeClaudeAcpWrapper(baseDir: string, installedBinPath?: string): Promise<string> {
   await fs.mkdir(baseDir, { recursive: true });
-  const wrapperPath = path.join(baseDir, "claude-agent-acp-wrapper.mjs");
+  const wrapperPath = path.join(baseDir, "claude-agent-acp-wrapper.ts);
   await fs.writeFile(wrapperPath, buildClaudeAcpWrapperScript(installedBinPath), {
     encoding: "utf8",
   });

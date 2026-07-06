@@ -1,7 +1,7 @@
 /**
  * Extracts visible delivery evidence from embedded-agent run results.
  */
-import { hasAcceptedSessionSpawn } from "../accepted-session-spawn.js";
+import { hasAcceptedSessionSpawn } from "../accepted-session-spawn.ts";
 
 /**
  * Helpers for deciding whether an embedded run produced user-visible or outbound effects.

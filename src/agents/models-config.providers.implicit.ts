@@ -11,35 +11,35 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
 import {
   groupPluginDiscoveryProvidersByOrder,
   normalizePluginDiscoveryResult,
   resolveRuntimePluginDiscoveryProviders,
   runProviderCatalog,
   runProviderStaticCatalog,
-} from "../plugins/provider-discovery.js";
-import { resolveOwningPluginIdsForProviderRef } from "../plugins/providers.js";
-import { ensureAuthProfileStore } from "./auth-profiles/store.js";
+} from "../plugins/provider-discovery.ts";
+import { resolveOwningPluginIdsForProviderRef } from "../plugins/providers.ts";
+import { ensureAuthProfileStore } from "./auth-profiles/store.ts";
 import {
   isNonSecretApiKeyMarker,
   resolveNonEnvSecretRefApiKeyMarker,
-} from "./model-auth-markers.js";
-import { parseConfiguredModelVisibilityEntries } from "./model-selection-shared.js";
-import { mergeProviderModels } from "./models-config.merge.js";
+} from "./model-auth-markers.ts";
+import { parseConfiguredModelVisibilityEntries } from "./model-selection-shared.ts";
+import { mergeProviderModels } from "./models-config.merge.ts";
 import type {
   ProviderApiKeyResolver,
   ProviderAuthResolver,
   ProviderConfig,
-} from "./models-config.providers.secrets.js";
+} from "./models-config.providers.secrets.ts";
 import {
   createProviderApiKeyResolver,
   createProviderAuthResolver,
   resolveMissingProviderApiKey,
-} from "./models-config.providers.secrets.js";
+} from "./models-config.providers.secrets.ts";
 
 const log = createSubsystemLogger("agents/model-providers");
 

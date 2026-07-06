@@ -56,7 +56,7 @@ Snapshot details:
 About multi-account upgrades:
 
 - the oldest flat Matrix store (`~/.openclaw/matrix/bot-storage.json` and `~/.openclaw/matrix/crypto/`) came from a single-store layout, so OpenClaw can only migrate it into one resolved Matrix account target
-- already account-scoped legacy Matrix stores are detected and prepared per configured Matrix account
+- already account-scoped older Matrix stores are detected and prepared per configured Matrix account
 
 ## What the migration cannot do automatically
 
@@ -167,44 +167,44 @@ If the old store reports room keys that were never backed up, OpenClaw warns ins
 - Meaning: OpenClaw found an existing Matrix migration snapshot marker and reused that archive instead of creating a duplicate backup.
 - What to do: keep the printed archive path until you confirm migration succeeded.
 
-`Legacy Matrix state detected at ... but channels.matrix is not configured yet.`
+`Older Matrix state detected at ... but channels.matrix is not configured yet.`
 
 - Meaning: old Matrix state exists, but OpenClaw cannot map it to a current Matrix account because Matrix is not configured.
 - What to do: configure `channels.matrix`, then rerun `openclaw doctor --fix` or restart the gateway.
 
-`Legacy Matrix state detected at ... but the new account-scoped target could not be resolved yet (need homeserver, userId, and access token for channels.matrix...).`
+`Older Matrix state detected at ... but the new account-scoped target could not be resolved yet (need homeserver, userId, and access token for channels.matrix...).`
 
 - Meaning: OpenClaw found old state, but it still cannot determine the exact current account/device root.
 - What to do: start the gateway once with a working Matrix login, or rerun `openclaw doctor --fix` after cached credentials exist.
 
-`Legacy Matrix state detected at ... but multiple Matrix accounts are configured and channels.matrix.defaultAccount is not set.`
+`Older Matrix state detected at ... but multiple Matrix accounts are configured and channels.matrix.defaultAccount is not set.`
 
 - Meaning: OpenClaw found one shared flat Matrix store, but it refuses to guess which named Matrix account should receive it.
 - What to do: set `channels.matrix.defaultAccount` to the intended account, then rerun `openclaw doctor --fix` or restart the gateway.
 
-`Matrix legacy sync store not migrated because the target already exists (...)`
+`Matrix older sync store not migrated because the target already exists (...)`
 
 - Meaning: the new account-scoped location already has a sync or crypto store, so OpenClaw did not overwrite it automatically.
 - What to do: verify that the current account is the correct one before manually removing or moving the conflicting target.
 
-`Failed migrating Matrix legacy sync store (...)` or `Failed migrating Matrix legacy crypto store (...)`
+`Failed migrating Matrix older sync store (...)` or `Failed migrating Matrix older crypto store (...)`
 
 - Meaning: OpenClaw tried to move old Matrix state but the filesystem operation failed.
 - What to do: inspect filesystem permissions and disk state, then rerun `openclaw doctor --fix`.
 
-`Legacy Matrix encrypted state detected at ... but channels.matrix is not configured yet.`
+`Older Matrix encrypted state detected at ... but channels.matrix is not configured yet.`
 
 - Meaning: OpenClaw found an old encrypted Matrix store, but there is no current Matrix config to attach it to.
 - What to do: configure `channels.matrix`, then rerun `openclaw doctor --fix` or restart the gateway.
 
-`Legacy Matrix encrypted state detected at ... but the account-scoped target could not be resolved yet (need homeserver, userId, and access token for channels.matrix...).`
+`Older Matrix encrypted state detected at ... but the account-scoped target could not be resolved yet (need homeserver, userId, and access token for channels.matrix...).`
 
 - Meaning: the encrypted store exists, but OpenClaw cannot safely decide which current account/device it belongs to.
 - What to do: start the gateway once with a working Matrix login, or rerun `openclaw doctor --fix` after cached credentials are available.
 
-`Legacy Matrix encrypted state detected at ... but multiple Matrix accounts are configured and channels.matrix.defaultAccount is not set.`
+`Older Matrix encrypted state detected at ... but multiple Matrix accounts are configured and channels.matrix.defaultAccount is not set.`
 
-- Meaning: OpenClaw found one shared flat legacy crypto store, but it refuses to guess which named Matrix account should receive it.
+- Meaning: OpenClaw found one shared flat older crypto store, but it refuses to guess which named Matrix account should receive it.
 - What to do: set `channels.matrix.defaultAccount` to the intended account, then rerun `openclaw doctor --fix` or restart the gateway.
 
 `Matrix migration warnings are present, but no on-disk Matrix mutation is actionable yet. No pre-migration snapshot was needed.`
@@ -212,7 +212,7 @@ If the old store reports room keys that were never backed up, OpenClaw warns ins
 - Meaning: OpenClaw detected old Matrix state, but the migration is still blocked on missing identity or credential data.
 - What to do: finish Matrix login or config setup, then rerun `openclaw doctor --fix` or restart the gateway.
 
-`Legacy Matrix encrypted state was detected, but the Matrix plugin helper is unavailable. Install or repair @openclaw/matrix so OpenClaw can inspect the old rust crypto store before upgrading.`
+`Older Matrix encrypted state was detected, but the Matrix plugin helper is unavailable. Install or repair @openclaw/matrix so OpenClaw can inspect the old rust crypto store before upgrading.`
 
 - Meaning: OpenClaw found old encrypted Matrix state, but it could not load the helper entrypoint from the Matrix plugin that normally inspects that store.
 - What to do: reinstall or repair the Matrix plugin (`openclaw plugins install @openclaw/matrix`, or `openclaw plugins install ./path/to/local/matrix-plugin` for a repo checkout), then rerun `openclaw doctor --fix` or restart the gateway.
@@ -229,7 +229,7 @@ If the old store reports room keys that were never backed up, OpenClaw warns ins
 - Meaning: OpenClaw refused to mutate Matrix state because it could not create the recovery snapshot first.
 - What to do: resolve the backup error, then rerun `openclaw doctor --fix` or restart the gateway.
 
-`Failed migrating legacy Matrix client storage: ...`
+`Failed migrating older Matrix client storage: ...`
 
 - Meaning: the Matrix client-side fallback found old flat storage, but the move failed. OpenClaw now aborts that fallback instead of silently starting with a fresh store.
 - What to do: inspect filesystem permissions or conflicts, keep the old state intact, and retry after fixing the error.
@@ -241,37 +241,37 @@ If the old store reports room keys that were never backed up, OpenClaw warns ins
 
 ### Encrypted-state recovery messages
 
-`matrix: restored X/Y room key(s) from legacy encrypted-state backup`
+`matrix: restored X/Y room key(s) from older encrypted-state backup`
 
 - Meaning: backed-up room keys were restored successfully into the new crypto store.
 - What to do: usually nothing.
 
-`matrix: N legacy local-only room key(s) were never backed up and could not be restored automatically`
+`matrix: N older local-only room key(s) were never backed up and could not be restored automatically`
 
 - Meaning: some old room keys existed only in the old local store and had never been uploaded to Matrix backup.
 - What to do: expect some old encrypted history to remain unavailable unless you can recover those keys manually from another verified client.
 
-`Legacy Matrix encrypted state for account "..." has backed-up room keys, but no local backup decryption key was found. Ask the operator to run "openclaw matrix verify backup restore --recovery-key-stdin" after upgrade if they have the recovery key.`
+`Older Matrix encrypted state for account "..." has backed-up room keys, but no local backup decryption key was found. Ask the operator to run "openclaw matrix verify backup restore --recovery-key-stdin" after upgrade if they have the recovery key.`
 
 - Meaning: backup exists, but OpenClaw could not recover the recovery key automatically.
 - What to do: run `printf '%s\n' "$MATRIX_RECOVERY_KEY" | openclaw matrix verify backup restore --recovery-key-stdin`.
 
-`Failed inspecting legacy Matrix encrypted state for account "..." (...): ...`
+`Failed inspecting older Matrix encrypted state for account "..." (...): ...`
 
 - Meaning: OpenClaw found the old encrypted store, but it could not inspect it safely enough to prepare recovery.
 - What to do: rerun `openclaw doctor --fix`. If it repeats, keep the old state directory intact and recover using another verified Matrix client plus `printf '%s\n' "$MATRIX_RECOVERY_KEY" | openclaw matrix verify backup restore --recovery-key-stdin`.
 
-`Legacy Matrix backup key was found for account "...", but .../recovery-key.json already contains a different recovery key. Leaving the existing file unchanged.`
+`Older Matrix backup key was found for account "...", but .../recovery-key.json already contains a different recovery key. Leaving the existing file unchanged.`
 
 - Meaning: OpenClaw detected a backup key conflict and refused to overwrite the current recovery-key file automatically.
 - What to do: verify which recovery key is correct before retrying any restore command.
 
-`Legacy Matrix encrypted state for account "..." cannot be fully converted automatically because the old rust crypto store does not expose all local room keys for export.`
+`Older Matrix encrypted state for account "..." cannot be fully converted automatically because the old rust crypto store does not expose all local room keys for export.`
 
 - Meaning: this is the hard limit of the old storage format.
 - What to do: backed-up keys can still be restored, but local-only encrypted history may remain unavailable.
 
-`matrix: failed restoring room keys from legacy encrypted-state backup: ...`
+`matrix: failed restoring room keys from older encrypted-state backup: ...`
 
 - Meaning: the new plugin attempted restore but Matrix returned an error.
 - What to do: run `openclaw matrix verify backup status`, then retry with `printf '%s\n' "$MATRIX_RECOVERY_KEY" | openclaw matrix verify backup restore --recovery-key-stdin` if needed.

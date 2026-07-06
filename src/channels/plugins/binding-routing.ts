@@ -3,20 +3,20 @@
  *
  * Applies configured and runtime conversation bindings to agent route resolution.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
 import {
   getSessionBindingService,
   type ConversationRef,
   type SessionBindingRecord,
-} from "../../infra/outbound/session-binding-service.js";
-import type { ResolvedAgentRoute } from "../../routing/resolve-route.js";
-import { deriveLastRoutePolicy } from "../../routing/resolve-route.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { isCronRunSessionKey } from "../../sessions/session-key-utils.js";
-import { resolveConfiguredBinding } from "./binding-registry.js";
-import { ensureConfiguredBindingTargetReady } from "./binding-targets.js";
-import type { ConfiguredBindingResolution } from "./binding-types.js";
+} from "../../infra/outbound/session-binding-service.ts";
+import type { ResolvedAgentRoute } from "../../routing/resolve-route.ts";
+import { deriveLastRoutePolicy } from "../../routing/resolve-route.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { isCronRunSessionKey } from "../../sessions/session-key-utils.ts";
+import { resolveConfiguredBinding } from "./binding-registry.ts";
+import { ensureConfiguredBindingTargetReady } from "./binding-targets.ts";
+import type { ConfiguredBindingResolution } from "./binding-types.ts";
 
 const CONFIGURED_BINDING_ROUTE_READY_TIMEOUT_MS = 30_000;
 

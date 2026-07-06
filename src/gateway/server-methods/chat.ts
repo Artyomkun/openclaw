@@ -20,7 +20,7 @@ import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
   hasGatewayClientCap,
-} from "../../../packages/gateway-protocol/src/client-info.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
 import {
   ErrorCodes,
   errorShape,
@@ -31,91 +31,91 @@ import {
   validateChatMetadataParams,
   validateChatMessageGetParams,
   validateChatSendParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { CHAT_SEND_SESSION_KEY_MAX_LENGTH } from "../../../packages/gateway-protocol/src/schema.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { CHAT_SEND_SESSION_KEY_MAX_LENGTH } from "../../../packages/gateway-protocol/src/schema.ts";
 import {
   listAgentIds,
   resolveDefaultAgentId,
   resolveAgentWorkspaceDir,
   resolveSessionAgentId,
-} from "../../agents/agent-scope.js";
-import { rewriteTranscriptEntriesInRuntimeTranscript } from "../../agents/embedded-agent-runner/transcript-rewrite.js";
-import { runAgentHarnessBeforeMessageWriteHook } from "../../agents/harness/hook-helpers.js";
-import { modelCatalogBrowseRequiresFullDiscovery } from "../../agents/model-catalog-browse.js";
-import type { ModelCatalogEntry } from "../../agents/model-catalog.types.js";
-import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
-import type { AgentMessage } from "../../agents/runtime/index.js";
-import { ensureSandboxWorkspaceForSession } from "../../agents/sandbox/context.js";
-import { resolveAgentTimeoutMs } from "../../agents/timeout.js";
-import { dispatchInboundMessage } from "../../auto-reply/dispatch.js";
+} from "../../agents/agent-scope.ts";
+import { rewriteTranscriptEntriesInRuntimeTranscript } from "../../agents/embedded-agent-runner/transcript-rewrite.ts";
+import { runAgentHarnessBeforeMessageWriteHook } from "../../agents/harness/hook-helpers.ts";
+import { modelCatalogBrowseRequiresFullDiscovery } from "../../agents/model-catalog-browse.ts";
+import type { ModelCatalogEntry } from "../../agents/model-catalog.types.ts";
+import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.ts";
+import type { AgentMessage } from "../../agents/runtime/index.ts";
+import { ensureSandboxWorkspaceForSession } from "../../agents/sandbox/context.ts";
+import { resolveAgentTimeoutMs } from "../../agents/timeout.ts";
+import { dispatchInboundMessage } from "../../auto-reply/dispatch.ts";
 import {
   getReplyPayloadMetadata,
   isReplyPayloadStatusNotice,
   type ReplyPayload,
-} from "../../auto-reply/reply-payload.js";
-import { createReplyDispatcher } from "../../auto-reply/reply/reply-dispatcher.js";
+} from "../../auto-reply/reply-payload.ts";
+import { createReplyDispatcher } from "../../auto-reply/reply/reply-dispatcher.ts";
 import {
   stageSandboxMedia,
   type StageSandboxMediaResult,
-} from "../../auto-reply/reply/stage-sandbox-media.js";
-import type { MsgContext, TemplateContext } from "../../auto-reply/templating.js";
-import { resolveSessionFilePath, updateSessionStoreEntry } from "../../config/sessions.js";
-import { resolveMirroredTranscriptText } from "../../config/sessions/transcript-mirror.js";
-import { CURRENT_SESSION_VERSION } from "../../config/sessions/version.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../auto-reply/reply/stage-sandbox-media.ts";
+import type { MsgContext, TemplateContext } from "../../auto-reply/templating.ts";
+import { resolveSessionFilePath, updateSessionStoreEntry } from "../../config/sessions.ts";
+import { resolveMirroredTranscriptText } from "../../config/sessions/transcript-mirror.ts";
+import { CURRENT_SESSION_VERSION } from "../../config/sessions/version.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   claimAgentRunContext,
   clearAgentRunContext,
   getAgentEventLifecycleGeneration,
-} from "../../infra/agent-events.js";
+} from "../../infra/agent-events.ts";
 import {
   emitDiagnosticsTimelineEvent,
   measureDiagnosticsTimelineSpan,
   measureDiagnosticsTimelineSpanSync,
-} from "../../infra/diagnostics-timeline.js";
-import { formatErrorMessage, formatUncaughtError } from "../../infra/errors.js";
-import { jsonUtf8Bytes } from "../../infra/json-utf8-bytes.js";
-import { normalizeReplyPayloadsForDelivery } from "../../infra/outbound/payloads.js";
-import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
-import { logLargePayload } from "../../logging/diagnostic-payload.js";
+} from "../../infra/diagnostics-timeline.ts";
+import { formatErrorMessage, formatUncaughtError } from "../../infra/errors.ts";
+import { jsonUtf8Bytes } from "../../infra/json-utf8-bytes.ts";
+import { normalizeReplyPayloadsForDelivery } from "../../infra/outbound/payloads.ts";
+import { getSessionBindingService } from "../../infra/outbound/session-binding-service.ts";
+import { logLargePayload } from "../../logging/diagnostic-payload.ts";
 import {
   appendLocalMediaParentRoots,
   getAgentScopedMediaLocalRoots,
-} from "../../media/local-roots.js";
-import { parseInboundMediaUri } from "../../media/media-reference.js";
-import type { PromptImageOrderEntry } from "../../media/prompt-image-order.js";
+} from "../../media/local-roots.ts";
+import { parseInboundMediaUri } from "../../media/media-reference.ts";
+import type { PromptImageOrderEntry } from "../../media/prompt-image-order.ts";
 import {
   deleteMediaBuffer,
   MEDIA_MAX_BYTES,
   type SavedMedia,
   saveMediaBuffer,
-} from "../../media/store.js";
-import { createChannelMessageReplyPipeline } from "../../plugin-sdk/channel-outbound.js";
-import type { ChannelRouteRef } from "../../plugin-sdk/channel-route.js";
-import { isPluginOwnedSessionBindingRecord } from "../../plugins/conversation-binding.js";
-import { normalizeAgentId, scopeLegacySessionKeyToAgent } from "../../routing/session-key.js";
-import { normalizeInputProvenance, type InputProvenance } from "../../sessions/input-provenance.js";
-import { resolveSendPolicy } from "../../sessions/send-policy.js";
-import { parseAgentSessionKey } from "../../sessions/session-key-utils.js";
+} from "../../media/store.ts";
+import { createChannelMessageReplyPipeline } from "../../plugin-sdk/channel-outbound.ts";
+import type { ChannelRouteRef } from "../../plugin-sdk/channel-route.ts";
+import { isPluginOwnedSessionBindingRecord } from "../../plugins/conversation-binding.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { normalizeInputProvenance, type InputProvenance } from "../../sessions/input-provenance.ts";
+import { resolveSendPolicy } from "../../sessions/send-policy.ts";
+import { parseAgentSessionKey } from "../../sessions/session-key-utils.ts";
 import {
   createUserTurnTranscriptRecorder,
   type UserTurnInput,
   type UserTurnTranscriptRecorder,
-} from "../../sessions/user-turn-transcript.js";
-import { deliveryContextFromSession } from "../../utils/delivery-context.shared.js";
+} from "../../sessions/user-turn-transcript.ts";
+import { deliveryContextFromSession } from "../../utils/delivery-context.shared.ts";
 import {
   parseInlineDirectives,
   stripInlineDirectiveTagsForDelivery,
   stripInlineDirectiveTagsForDisplay,
   sanitizeReplyDirectiveId,
-} from "../../utils/directive-tags.js";
+} from "../../utils/directive-tags.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isGatewayCliClient,
   isOperatorUiClient,
   isWebchatClient,
   normalizeMessageChannel,
-} from "../../utils/message-channel.js";
+} from "../../utils/message-channel.ts";
 import {
   abortChatRunById,
   boundInFlightRunSnapshotForChatHistory,
@@ -125,7 +125,7 @@ import {
   registerChatAbortController,
   resolveInFlightRunSnapshot,
   updateChatRunProvider,
-} from "../chat-abort.js";
+} from "../chat-abort.ts";
 import {
   type ChatImageContent,
   MediaOffloadError,
@@ -133,7 +133,7 @@ import {
   parseMessageWithAttachments,
   resolveChatAttachmentMaxBytes,
   UnsupportedAttachmentError,
-} from "../chat-attachments.js";
+} from "../chat-attachments.ts";
 import {
   augmentChatHistoryWithCanvasBlocks,
   dropPreSessionStartAnnouncePairs,
@@ -141,22 +141,22 @@ import {
   projectChatDisplayMessage,
   projectRecentChatDisplayMessages,
   resolveEffectiveChatHistoryMaxChars,
-} from "../chat-display-projection.js";
-import { sanitizeChatSendMessageInput } from "../chat-input-sanitize.js";
-import { stripEnvelopeFromMessage } from "../chat-sanitize.js";
-import { augmentChatHistoryWithCliSessionImports } from "../cli-session-history.js";
-import { isSuppressedControlReplyText } from "../control-reply-text.js";
+} from "../chat-display-projection.ts";
+import { sanitizeChatSendMessageInput } from "../chat-input-sanitize.ts";
+import { stripEnvelopeFromMessage } from "../chat-sanitize.ts";
+import { augmentChatHistoryWithCliSessionImports } from "../cli-session-history.ts";
+import { isSuppressedControlReplyText } from "../control-reply-text.ts";
 import {
   attachManagedOutgoingImagesToMessage,
   cleanupManagedOutgoingImageRecords,
   createManagedOutgoingImageBlocks,
-} from "../managed-image-attachments.js";
-import { ADMIN_SCOPE } from "../method-scopes.js";
-import { chatAbortMarkerTimestampMs, type ChatRunTiming } from "../server-chat-state.js";
-import { getMaxChatHistoryMessagesBytes, MAX_PAYLOAD_BYTES } from "../server-constants.js";
-import { resolveSessionHistoryTailReadOptions } from "../session-history-state.js";
-import { persistGatewaySessionLifecycleEvent } from "../session-lifecycle-state.js";
-import { readSessionTranscriptIndex } from "../session-transcript-index.fs.js";
+} from "../managed-image-attachments.ts";
+import { ADMIN_SCOPE } from "../method-scopes.ts";
+import { chatAbortMarkerTimestampMs, type ChatRunTiming } from "../server-chat-state.ts";
+import { getMaxChatHistoryMessagesBytes, MAX_PAYLOAD_BYTES } from "../server-constants.ts";
+import { resolveSessionHistoryTailReadOptions } from "../session-history-state.ts";
+import { persistGatewaySessionLifecycleEvent } from "../session-lifecycle-state.ts";
+import { readSessionTranscriptIndex } from "../session-transcript-index.fs.ts";
 import {
   capArrayByJsonBytes,
   readRecentSessionMessagesWithStatsAsync,
@@ -164,7 +164,7 @@ import {
   readRecentSessionMessagesAsync,
   readSessionMessagesPageWithStatsAsync,
   readSessionMessagesAsync,
-} from "../session-transcript-readers.js";
+} from "../session-transcript-readers.ts";
 import {
   buildGatewaySessionInfo,
   getSessionDefaults,
@@ -174,31 +174,31 @@ import {
   resolveDeletedAgentIdFromSessionKey,
   resolveSessionModelRef,
   resolveSessionStoreKey,
-} from "../session-utils.js";
-import { formatForLog } from "../ws-log.js";
-import { setGatewayDedupeEntry } from "./agent-wait-dedupe.js";
-import { normalizeRpcAttachmentsToChatAttachments } from "./attachment-normalize.js";
-import { normalizeWebchatReplyMediaPathsForDisplay } from "./chat-reply-media.js";
+} from "../session-utils.ts";
+import { formatForLog } from "../ws-log.ts";
+import { setGatewayDedupeEntry } from "./agent-wait-dedupe.ts";
+import { normalizeRpcAttachmentsToChatAttachments } from "./attachment-normalize.ts";
+import { normalizeWebchatReplyMediaPathsForDisplay } from "./chat-reply-media.ts";
 import {
   appendInjectedAssistantMessageToTranscript,
   type GatewayInjectedTtsSupplementMarker,
-} from "./chat-transcript-inject.js";
+} from "./chat-transcript-inject.ts";
 import {
   buildWebchatAssistantMessageFromReplyPayloads,
   buildWebchatAudioContentBlocksFromReplyPayloads,
-} from "./chat-webchat-media.js";
+} from "./chat-webchat-media.ts";
 import {
   loadOptionalServerMethodModelCatalog,
   startOptionalServerMethodModelCatalogLoad,
-} from "./optional-model-catalog.js";
-import { hasTrackedActiveSessionRun } from "./session-active-runs.js";
-import { emitSessionsChanged } from "./session-change-event.js";
+} from "./optional-model-catalog.ts";
+import { hasTrackedActiveSessionRun } from "./session-active-runs.ts";
+import { emitSessionsChanged } from "./session-change-event.ts";
 import type {
   GatewayClient,
   GatewayRequestContext,
   GatewayRequestHandlerOptions,
   GatewayRequestHandlers,
-} from "./types.js";
+} from "./types.ts";
 
 type TranscriptAppendResult = {
   ok: boolean;
@@ -563,8 +563,8 @@ export {
   dropPreSessionStartAnnouncePairs,
   resolveEffectiveChatHistoryMaxChars,
   sanitizeChatHistoryMessages,
-} from "../chat-display-projection.js";
-export { sanitizeChatSendMessageInput } from "../chat-input-sanitize.js";
+} from "../chat-display-projection.ts";
+export { sanitizeChatSendMessageInput } from "../chat-input-sanitize.ts";
 
 export const CHAT_HISTORY_MAX_SINGLE_MESSAGE_BYTES = 128 * 1024;
 const CHAT_HISTORY_OVERSIZED_PLACEHOLDER = "[chat.history omitted: message too large]";
@@ -758,13 +758,6 @@ function resolveChatSendActiveScopeKey(params: {
   if (params.sessionKey !== "global" || !params.agentId) {
     return params.sessionKey;
   }
-  return (
-    scopeLegacySessionKeyToAgent({
-      agentId: params.agentId,
-      sessionKey: params.sessionKey,
-      mainKey: params.mainKey,
-    }) ?? params.sessionKey
-  );
 }
 
 type ChatSendExplicitOrigin = {
@@ -1169,10 +1162,6 @@ function resolveChatSendOriginatingRoute(params: {
   const isChannelScopedSession = sessionPeerShapeCandidates.some((part) =>
     CHANNEL_SCOPED_SESSION_SHAPES.has(part),
   );
-  const hasLegacyChannelPeerShape =
-    !isChannelScopedSession &&
-    typeof sessionScopeParts[1] === "string" &&
-    sessionChannelHint === routeChannelCandidate;
   const isFromWebchatClient = isWebchatClient(params.client);
   const isFromGatewayCliClient = isGatewayCliClient(params.client);
   const hasClientMetadata =
@@ -1188,12 +1177,12 @@ function resolveChatSendOriginatingRoute(params: {
 
   // Webchat clients never inherit external delivery routes. Configured-main
   // sessions are stricter than channel-scoped sessions: only CLI callers, or
-  // legacy callers with no client metadata, may inherit the last external route.
+  // older callers with no client metadata, may inherit the last external route.
   const canInheritDeliverableRoute = Boolean(
     !isFromWebchatClient &&
     sessionChannelHint &&
     sessionChannelHint !== INTERNAL_MESSAGE_CHANNEL &&
-    ((!isChannelAgnosticSessionScope && (isChannelScopedSession || hasLegacyChannelPeerShape)) ||
+    ((!isChannelAgnosticSessionScope && isChannelScopedSession) ||
       canInheritConfiguredMainRoute),
   );
   const hasDeliverableRoute =
@@ -3468,7 +3457,7 @@ export const chatHandlers: GatewayRequestHandlers = {
       },
     );
     const sessionLoadMs = roundedChatSendTimingMs(performance.now() - sessionLoadStartedAtMs);
-    const { cfg, entry, canonicalKey: sessionKey, legacyKey } = sessionLoadResult;
+    const { cfg, entry, canonicalKey: sessionKey } = sessionLoadResult;
     const selectedAgent = validateChatSelectedAgent({
       cfg,
       requestedSessionKey: rawSessionKey,
@@ -3481,7 +3470,7 @@ export const chatHandlers: GatewayRequestHandlers = {
     const requestedSessionId = normalizeOptionalText(p.sessionId);
     const backingSessionId = entry?.sessionId ?? requestedSessionId;
     const deletedAgentId = resolveDeletedAgentIdFromSessionKey(cfg, sessionKey, entry, {
-      acpMetadataSessionKey: legacyKey ?? sessionKey,
+      acpMetadataSessionKey: sessionKey,
     });
     if (deletedAgentId !== null) {
       respond(

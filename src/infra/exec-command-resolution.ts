@@ -2,13 +2,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { matchesExecAllowlistPattern } from "./exec-allowlist-pattern.js";
-import type { ExecAllowlistEntry } from "./exec-approvals.types.js";
-import { resolveExecWrapperTrustPlan } from "./exec-wrapper-trust-plan.js";
+import { matchesExecAllowlistPattern } from "./exec-allowlist-pattern.ts";
+import type { ExecAllowlistEntry } from "./exec-approvals.types.ts";
+import { resolveExecWrapperTrustPlan } from "./exec-wrapper-trust-plan.ts";
 import {
   resolveExecutablePath as resolveExecutableCandidatePath,
   resolveExecutablePathCandidate,
-} from "./executable-path.js";
+} from "./executable-path.ts";
 
 export type ExecutableResolution = {
   rawExecutable: string;
@@ -270,14 +270,6 @@ export function resolveApprovalAuditTrustPath(
   return resolvePolicyTargetTrustPath(resolution, cwd);
 }
 
-/** @deprecated Use resolveExecutionTargetCandidatePath. */
-export function resolveAllowlistCandidatePath(
-  resolution: CommandResolution | ExecutableResolution | null,
-  cwd?: string,
-): string | undefined {
-  return resolveExecutionTargetCandidatePath(resolution, cwd);
-}
-
 export function resolvePolicyAllowlistCandidatePath(
   resolution: CommandResolution | ExecutableResolution | null,
   cwd?: string,
@@ -307,7 +299,7 @@ function matchArgPattern(argPattern: string, argv: string[], platform?: string |
   // (including zero-arg "^\x00\x00$" and single-arg "^hello world\x00$") contains at
   // least one \x00.  This lets matchArgPattern detect the join style unambiguously
   // via .includes("\x00") without misidentifying anchored hand-authored patterns.
-  // Legacy hand-authored patterns use a plain space and contain no \x00.
+  // Older hand-authored patterns use a plain space and contain no \x00.
   // When \x00 style is active, a trailing \x00 is appended to the joined args string
   // to match the sentinel embedded in the pattern.
   //
@@ -340,10 +332,11 @@ function matchArgPattern(argPattern: string, argv: string[], platform?: string |
     }
     // Retry after stripping trailing shell redirections (2>&1, etc.) so that
     // patterns saved without them still match commands that include them.
-    // Only applies for space-joined (legacy hand-authored) patterns.  For
-    // \x00-joined auto-generated patterns, redirections are already blocked
-    // upstream by findWindowsUnsupportedToken, so any surviving 2>&1 token
-    // is a literal data argument and must not be stripped.
+    // Only applies for space-joined patterns.  For \x00-joined 
+    // auto-generated patterns, redirections are already blocked
+    // upstream by findWindowsUnsupportedToken, so any surviving 
+    // 2>&1 token is a literal data argument and must not 
+    // be stripped.
     if (sep === " ") {
       const stripped = stripTrailingRedirections(argsString);
       if (stripped !== argsString && regex.test(stripped)) {

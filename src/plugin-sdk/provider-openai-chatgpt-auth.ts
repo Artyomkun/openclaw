@@ -1,6 +1,6 @@
 // OpenAI ChatGPT auth helpers normalize OAuth session data for provider plugins.
-import { resolveExpiresAtMsFromEpochSeconds } from "../../packages/normalization-core/src/number-coercion.js";
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
+import { resolveExpiresAtMsFromEpochSeconds } from "../../packages/normalization-core/src/number-coercion.ts";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
 
 const OPENAI_CODEX_AUTH_CLAIM = "https://api.openai.com/auth";
 const OPENAI_CODEX_PROFILE_CLAIM = "https://api.openai.com/profile";

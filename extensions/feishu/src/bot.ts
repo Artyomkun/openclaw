@@ -119,12 +119,9 @@ function resolveConfiguredFeishuGroupSessionScope(params: {
     topicSessionMode?: "enabled" | "disabled";
   };
 }): FeishuGroupSessionScope {
-  const legacyTopicSessionMode =
-    params.groupConfig?.topicSessionMode ?? params.feishuCfg?.topicSessionMode ?? "disabled";
   return (
     params.groupConfig?.groupSessionScope ??
-    params.feishuCfg?.groupSessionScope ??
-    (legacyTopicSessionMode === "enabled" ? "group_topic" : "group")
+    params.feishuCfg?.groupSessionScope
   );
 }
 

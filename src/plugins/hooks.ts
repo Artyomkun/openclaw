@@ -6,16 +6,16 @@
  */
 
 import { clampPositiveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import { copyReplyPayloadMetadata, type ReplyPayload } from "../auto-reply/reply-payload.js";
-import { formatHookErrorForLog } from "../hooks/fire-and-forget.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { concatOptionalTextSegments } from "../shared/text/join-segments.js";
+import { copyReplyPayloadMetadata, type ReplyPayload } from "../auto-reply/reply-payload.ts";
+import { formatHookErrorForLog } from "../hooks/fire-and-forget.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { concatOptionalTextSegments } from "../shared/text/join-segments.ts";
 import {
   type GateHookResult,
   type InputGateDecision,
   isHookDecision,
-} from "./hook-decision-types.js";
-import type { GlobalHookRunnerRegistry, HookRunnerRegistry } from "./hook-registry.types.js";
+} from "./hook-decision-types.ts";
+import type { GlobalHookRunnerRegistry, HookRunnerRegistry } from "./hook-registry.types.ts";
 import type {
   PluginHookAfterCompactionEvent,
   PluginHookAfterToolCallEvent,
@@ -92,7 +92,7 @@ import type {
   PluginHookBeforeInstallResult,
   PluginHookResolveExecEnvContext,
   PluginHookResolveExecEnvEvent,
-} from "./hook-types.js";
+} from "./hook-types.ts";
 
 // Re-export types for consumers
 export type {
@@ -221,7 +221,7 @@ const DEFAULT_VOID_HOOK_TIMEOUT_MS_BY_HOOK: Partial<Record<PluginHookName, numbe
 };
 const DEFAULT_MODIFYING_HOOK_TIMEOUT_MS_BY_HOOK: Partial<Record<PluginHookName, number>> = {
   before_agent_run: 15_000,
-  // Defensive default for the legacy compatibility hook (#48534). With
+  // Defensive default for the lolder compatibility hook (#48534). With
   // before_agent_start unbudgeted, an unresponsive handler (e.g. a memory
   // plugin waiting on a hung subprocess) blocked the entire agent pipeline
   // because both the embedded setup and prompt-build paths await this hook.
@@ -754,7 +754,6 @@ export function createHookRunner(
 
   async function runClaimingHookForPluginOutcome<
     K extends PluginHookName,
-    // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Targeted hook outcomes preserve caller-specific handled result types.
     TResult extends { handled: boolean },
   >(
     hookName: K,
@@ -862,29 +861,6 @@ export function createHookRunner(
       event,
       ctx,
       { mergeResults: mergeAgentTurnPrepare },
-    );
-  }
-
-  /**
-   * @deprecated Use runBeforeModelResolve and runBeforePromptBuild.
-   *
-   * Run before_agent_start hook.
-   * Legacy compatibility hook that combines model resolve + prompt build phases.
-   */
-  async function runBeforeAgentStart(
-    event: PluginHookBeforeAgentStartEvent,
-    ctx: PluginHookAgentContext,
-  ): Promise<PluginHookBeforeAgentStartResult | undefined> {
-    return runModifyingHook<"before_agent_start", PluginHookBeforeAgentStartResult>(
-      "before_agent_start",
-      withAgentRunId(event, ctx),
-      ctx,
-      {
-        mergeResults: (acc, next) => ({
-          ...mergeBeforePromptBuild(acc, next),
-          ...mergeBeforeModelResolve(acc, next),
-        }),
-      },
     );
   }
 
@@ -1453,23 +1429,6 @@ export function createHookRunner(
     ctx: PluginHookSessionContext,
   ): Promise<void> {
     return runVoidHook("session_end", event, ctx);
-  }
-
-  /**
-   * @deprecated Core prepares thread-bound subagent bindings through channel
-   * session-binding adapters before subagent_spawned fires. This remains only
-   * for older plugins that call the hook runner directly.
-   */
-  async function runSubagentSpawning(
-    event: PluginHookSubagentSpawningEvent,
-    ctx: PluginHookSubagentContext,
-  ): Promise<PluginHookSubagentSpawningResult | undefined> {
-    return runModifyingHook<"subagent_spawning", PluginHookSubagentSpawningResult>(
-      "subagent_spawning",
-      event,
-      ctx,
-      { mergeResults: mergeSubagentSpawningResult },
-    );
   }
 
   /**

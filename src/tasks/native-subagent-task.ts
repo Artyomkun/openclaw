@@ -1,6 +1,6 @@
 // Identifies childless native-subagent task rows that are owned by an external
 // harness and therefore cannot be recovered through an OpenClaw child session.
-import type { TaskRecord } from "./task-registry.types.js";
+import type { TaskRecord } from "./task-registry.types.ts";
 
 export const COPILOT_NATIVE_SUBAGENT_TASK_KIND = "copilot-native";
 export const COPILOT_NATIVE_SUBAGENT_RUN_ID_PREFIX = "copilot-agent:";

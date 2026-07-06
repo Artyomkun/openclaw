@@ -1,9 +1,9 @@
 // Configure command registration: lazy-loads the interactive configuration wizard.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { CONFIGURE_WIZARD_SECTIONS } from "../../commands/configure.shared.js";
-import { runCommandWithRuntime } from "../cli-utils.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { CONFIGURE_WIZARD_SECTIONS } from "../../commands/configure.shared.ts";
+import { runCommandWithRuntime } from "../cli-utils.ts";
 
 /** Register the interactive `configure` command and section filter flag. */
 export function registerConfigureCommand(program: Command): void {

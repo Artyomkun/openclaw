@@ -3,12 +3,12 @@ import type { Command } from "commander";
 import type {
   GatewayClientMode,
   GatewayClientName,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import type { OperatorScope } from "../gateway/operator-scopes.js";
-import type { DeviceIdentity } from "../infra/device-identity.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import type { GatewayRpcOpts } from "./gateway-rpc.types.js";
-export type { GatewayRpcOpts } from "./gateway-rpc.types.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import type { OperatorScope } from "../gateway/operator-scopes.ts";
+import type { DeviceIdentity } from "../infra/device-identity.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import type { GatewayRpcOpts } from "./gateway-rpc.types.ts";
+export type { GatewayRpcOpts } from "./gateway-rpc.types.ts";
 
 type GatewayRpcRuntimeModule = typeof import("./gateway-rpc.runtime.js");
 

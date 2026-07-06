@@ -1,12 +1,12 @@
 /**
  * Recovers sensitive stop reasons by wrapping provider stream functions.
  */
-import { formatErrorMessage } from "../../../infra/errors.js";
-import { createAssistantMessageEventStream } from "../../../llm/utils/event-stream.js";
-import type { StreamFn } from "../../runtime/index.js";
-import type { MutableAssistantMessageEventStream } from "../../stream-compat.js";
-import { createStreamIteratorWrapper } from "../../stream-iterator-wrapper.js";
-import { buildStreamErrorAssistantMessage } from "../../stream-message-shared.js";
+import { formatErrorMessage } from "../../../infra/errors.ts";
+import { createAssistantMessageEventStream } from "../../../llm/utils/event-stream.ts";
+import type { StreamFn } from "../../runtime/index.ts";
+import type { MutableAssistantMessageEventStream } from "../../stream-compat.ts";
+import { createStreamIteratorWrapper } from "../../stream-iterator-wrapper.ts";
+import { buildStreamErrorAssistantMessage } from "../../stream-message-shared.ts";
 
 const UNHANDLED_STOP_REASON_RE = /^Unhandled stop reason:\s*(.+)$/i;
 

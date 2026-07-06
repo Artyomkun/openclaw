@@ -1,16 +1,13 @@
 // Matrix helper module supports migration config behavior.
 import fs from "node:fs";
 import os from "node:os";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "openclaw/plugin-sdk/account-id";
+import { normalizeAccountId } from "openclaw/plugin-sdk/account-id";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
 import { normalizeOptionalString } from "openclaw/plugin-sdk/string-coerce-runtime";
 import {
   findMatrixAccountEntry,
-  requiresExplicitMatrixDefaultAccount,
-  resolveConfiguredMatrixAccountIds,
   resolveMatrixChannelConfig,
-  resolveMatrixDefaultOrOnlyAccountId,
 } from "./account-selection.js";
 import { resolveMatrixAccountStringValues } from "./auth-precedence.js";
 import {
@@ -35,12 +32,6 @@ type MatrixMigrationAccountTarget = {
   storedDeviceId: string | null;
 };
 
-type MatrixLegacyFlatStoreTarget = MatrixMigrationAccountTarget & {
-  selectionNote?: string;
-};
-
-type MatrixLegacyFlatStoreKind = "state" | "encrypted state";
-
 function clean(value: unknown): string {
   return normalizeOptionalString(value) ?? "";
 }
@@ -50,19 +41,6 @@ function resolveMatrixAccountConfigEntry(
   accountId: string,
 ): Record<string, unknown> | null {
   return findMatrixAccountEntry(cfg, accountId);
-}
-
-function resolveMatrixFlatStoreSelectionNote(
-  cfg: OpenClawConfig,
-  accountId: string,
-): string | undefined {
-  if (resolveConfiguredMatrixAccountIds(cfg).length <= 1) {
-    return undefined;
-  }
-  return (
-    `Legacy Matrix flat store uses one shared on-disk state, so it will be migrated into ` +
-    `account "${accountId}".`
-  );
 }
 
 function resolveMatrixMigrationConfigFields(params: {
@@ -193,52 +171,5 @@ export function resolveMatrixMigrationAccountTarget(params: {
     accessToken,
     rootDir,
     storedDeviceId: matchingStored?.deviceId ?? null,
-  };
-}
-
-export function resolveLegacyMatrixFlatStoreTarget(params: {
-  cfg: OpenClawConfig;
-  env: NodeJS.ProcessEnv;
-  detectedPath: string;
-  detectedKind: MatrixLegacyFlatStoreKind;
-}): MatrixLegacyFlatStoreTarget | { warning: string } {
-  const channel = resolveMatrixChannelConfig(params.cfg);
-  if (!channel) {
-    return {
-      warning:
-        `Legacy Matrix ${params.detectedKind} detected at ${params.detectedPath}, but channels.matrix is not configured yet. ` +
-        'Configure Matrix, then rerun "openclaw doctor --fix" or restart the gateway.',
-    };
-  }
-  if (requiresExplicitMatrixDefaultAccount(params.cfg)) {
-    return {
-      warning:
-        `Legacy Matrix ${params.detectedKind} detected at ${params.detectedPath}, but multiple Matrix accounts are configured and channels.matrix.defaultAccount is not set. ` +
-        'Set "channels.matrix.defaultAccount" to the intended target account before rerunning "openclaw doctor --fix" or restarting the gateway.',
-    };
-  }
-
-  const accountId = resolveMatrixDefaultOrOnlyAccountId(params.cfg);
-  const target = resolveMatrixMigrationAccountTarget({
-    cfg: params.cfg,
-    env: params.env,
-    accountId,
-  });
-  if (!target) {
-    const targetDescription =
-      params.detectedKind === "state"
-        ? "the new account-scoped target"
-        : "the account-scoped target";
-    return {
-      warning:
-        `Legacy Matrix ${params.detectedKind} detected at ${params.detectedPath}, but ${targetDescription} could not be resolved yet ` +
-        `(need homeserver, userId, and access token for channels.matrix${accountId === DEFAULT_ACCOUNT_ID ? "" : `.accounts.${accountId}`}). ` +
-        'Start the gateway once with a working Matrix login, or rerun "openclaw doctor --fix" after cached credentials are available.',
-    };
-  }
-
-  return {
-    ...target,
-    selectionNote: resolveMatrixFlatStoreSelectionNote(params.cfg, accountId),
   };
 }

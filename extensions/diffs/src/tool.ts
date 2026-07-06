@@ -95,34 +95,6 @@ const DiffsToolSchema = Type.Object(
       minimum: 640,
       maximum: 2400,
     }),
-    /** @deprecated Use fileQuality. */
-    imageQuality: Type.Optional(
-      stringEnum(DIFF_IMAGE_QUALITY_PRESETS, {
-        description: "Deprecated alias for fileQuality.",
-        deprecated: true,
-      }),
-    ),
-    /** @deprecated Use fileFormat. */
-    imageFormat: Type.Optional(
-      stringEnum(DIFF_OUTPUT_FORMATS, {
-        description: "Deprecated alias for fileFormat.",
-        deprecated: true,
-      }),
-    ),
-    /** @deprecated Use fileScale. */
-    imageScale: optionalFiniteNumberSchema({
-      description: "Deprecated alias for fileScale.",
-      deprecated: true,
-      minimum: 1,
-      maximum: 4,
-    }),
-    /** @deprecated Use fileMaxWidth. */
-    imageMaxWidth: optionalFiniteNumberSchema({
-      description: "Deprecated alias for fileMaxWidth.",
-      deprecated: true,
-      minimum: 640,
-      maximum: 2400,
-    }),
     expandUnchanged: Type.Optional(
       Type.Boolean({ description: "Expand unchanged sections instead of collapsing them." }),
     ),
@@ -142,10 +114,7 @@ const DiffsToolSchema = Type.Object(
 );
 
 type DiffsToolParams = Static<typeof DiffsToolSchema>;
-type DiffsToolRawParams = DiffsToolParams & {
-  /** @deprecated Use fileFormat. */
-  format?: DiffOutputFormat;
-};
+type DiffsToolRawParams = DiffsToolParams;
 
 export function createDiffsTool(params: {
   api: OpenClawPluginApi;

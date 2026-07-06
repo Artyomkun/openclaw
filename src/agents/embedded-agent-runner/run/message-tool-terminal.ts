@@ -1,9 +1,9 @@
-import type { SourceReplyDeliveryMode } from "../../../auto-reply/get-reply-options.types.js";
+import type { SourceReplyDeliveryMode } from "../../../auto-reply/get-reply-options.types.ts";
 /**
  * Detects message-tool-only sends that delivered a visible source reply.
  */
-import { isDeliveredMessageToolOnlySourceReplyResult } from "../../embedded-agent-message-tool-source-reply.js";
-import type { AfterToolCallContext, AfterToolCallResult, Agent } from "../../runtime/index.js";
+import { isDeliveredMessageToolOnlySourceReplyResult } from "../../embedded-agent-message-tool-source-reply.ts";
+import type { AfterToolCallContext, AfterToolCallResult, Agent } from "../../runtime/index.ts";
 
 function argsRecordForToolCall(context: AfterToolCallContext): Record<string, unknown> {
   if (context.args && typeof context.args === "object" && !Array.isArray(context.args)) {

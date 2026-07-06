@@ -4,13 +4,13 @@ import { asPositiveSafeInteger } from "@openclaw/normalization-core/number-coerc
 import {
   DEFAULT_CHAT_HISTORY_TEXT_MAX_CHARS,
   projectChatDisplayMessages,
-} from "./chat-display-projection.js";
-import { resolveTranscriptPathForComparison } from "./session-transcript-path.js";
+} from "./chat-display-projection.ts";
+import { resolveTranscriptPathForComparison } from "./session-transcript-path.ts";
 import {
   attachOpenClawTranscriptMeta,
   readRecentSessionMessagesWithStatsAsync,
   readSessionMessagesWithSourceAsync,
-} from "./session-transcript-readers.js";
+} from "./session-transcript-readers.ts";
 
 // Session history state owns the SSE-friendly projection of transcript JSONL:
 // raw messages are projected for display, paginated by transcript seq, then

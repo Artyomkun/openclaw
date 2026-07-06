@@ -9,20 +9,20 @@
 import { chmodSync, existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import lockfile from "proper-lockfile";
-import { replaceFileAtomicSync } from "../../infra/replace-file.js";
-import { findEnvKeys, getEnvApiKey } from "../../llm/env-api-keys.js";
+import { replaceFileAtomicSync } from "../../infra/replace-file.ts";
+import { findEnvKeys, getEnvApiKey } from "../../llm/env-api-keys.ts";
 import {
   getOAuthApiKey,
   getOAuthProvider,
   getOAuthProviders,
-} from "../../llm/utils/oauth/index.js";
+} from "../../llm/utils/oauth/index.ts";
 import type {
   OAuthCredentials,
   OAuthLoginCallbacks,
   OAuthProviderId,
-} from "../../llm/utils/oauth/types.js";
-import { getAgentDir } from "../config.js";
-import { resolveConfigValue } from "./resolve-config-value.js";
+} from "../../llm/utils/oauth/types.ts";
+import { getAgentDir } from "../config.ts";
+import { resolveConfigValue } from "./resolve-config-value.ts";
 
 export type ApiKeyCredential = {
   type: "api_key";

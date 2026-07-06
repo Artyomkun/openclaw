@@ -4,23 +4,23 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import { normalizeAnyChannelId } from "../../channels/registry.js";
-import { applyMergePatch } from "../../config/merge-patch.js";
-import { resolveSessionTranscriptPath, resolveStorePath } from "../../config/sessions/paths.js";
-import { resolveSessionKey } from "../../config/sessions/session-key.js";
-import { loadSessionStore } from "../../config/sessions/store.js";
-import type { SessionEntry, SessionScope } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.js";
-import { normalizeCommandBody } from "../commands-registry.js";
-import type { MsgContext, TemplateContext } from "../templating.js";
-import { isFormattedGoalContinuationPrompt } from "./commands-goal.js";
-import { parseSoftResetCommand } from "./commands-reset-mode.js";
-import type { CommandContext } from "./commands-types.js";
-import { stripMentions, stripStructuralPrefixes } from "./mentions.js";
-import { createReplySessionEntryHandle } from "./session-entry-handle.js";
-import type { SessionInitResult } from "./session.js";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import { normalizeAnyChannelId } from "../../channels/registry.ts";
+import { applyMergePatch } from "../../config/merge-patch.ts";
+import { resolveSessionTranscriptPath, resolveStorePath } from "../../config/sessions/paths.ts";
+import { resolveSessionKey } from "../../config/sessions/session-key.ts";
+import { loadSessionStore } from "../../config/sessions/store.ts";
+import type { SessionEntry, SessionScope } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.ts";
+import { normalizeCommandBody } from "../commands-registry.ts";
+import type { MsgContext, TemplateContext } from "../templating.ts";
+import { isFormattedGoalContinuationPrompt } from "./commands-goal.ts";
+import { parseSoftResetCommand } from "./commands-reset-mode.ts";
+import type { CommandContext } from "./commands-types.ts";
+import { stripMentions, stripStructuralPrefixes } from "./mentions.ts";
+import { createReplySessionEntryHandle } from "./session-entry-handle.ts";
+import type { SessionInitResult } from "./session.ts";
 
 const COMPLETE_REPLY_CONFIG_SYMBOL = Symbol.for("openclaw.reply.complete-config");
 const FULL_REPLY_RUNTIME_SYMBOL = Symbol.for("openclaw.reply.full-runtime");

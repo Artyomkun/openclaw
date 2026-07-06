@@ -3,7 +3,7 @@
  *
  * Bounds automatic recovery attempts and tombstones repeatedly wedged session entries.
  */
-import type { SessionEntry } from "../config/sessions.js";
+import type { SessionEntry } from "../config/sessions.ts";
 
 const SUBAGENT_RECOVERY_MAX_AUTOMATIC_ATTEMPTS = 2;
 const SUBAGENT_RECOVERY_REWEDGE_WINDOW_MS = 2 * 60_000;

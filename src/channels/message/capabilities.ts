@@ -7,7 +7,7 @@ import type {
   DeriveDurableFinalDeliveryRequirementsParams,
   DurableFinalDeliveryCapability,
   DurableFinalDeliveryRequirementMap,
-} from "./types.js";
+} from "./types.ts";
 
 function hasMediaPayload(
   payload: DeriveDurableFinalDeliveryRequirementsParams["payload"],

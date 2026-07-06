@@ -2,12 +2,11 @@
 // Cleanup, disk-budget, and usage accounting use these predicates to avoid deleting live transcripts.
 
 import { timestampMsToIsoFileStamp } from "@openclaw/normalization-core/number-coercion";
-import { escapeRegExp } from "../../shared/regexp.js";
+import { escapeRegExp } from "../../shared/regexp.ts";
 
 export type SessionArchiveReason = "bak" | "reset" | "deleted";
 
 const ARCHIVE_TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}(?:\.\d{3})?Z$/;
-const LEGACY_STORE_BACKUP_RE = /^sessions\.json\.bak\.\d+$/;
 const COMPACTION_CHECKPOINT_TRANSCRIPT_RE =
   /^(.+)\.checkpoint\.([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\.jsonl$/i;
 
@@ -21,11 +20,8 @@ function hasArchiveSuffix(fileName: string, reason: SessionArchiveReason): boole
   return ARCHIVE_TIMESTAMP_RE.test(raw);
 }
 
-/** Returns true for archived session artifacts and legacy store backup names. */
+/** Returns true for archived session artifacts and store backup names. */
 export function isSessionArchiveArtifactName(fileName: string): boolean {
-  if (LEGACY_STORE_BACKUP_RE.test(fileName)) {
-    return true;
-  }
   return (
     hasArchiveSuffix(fileName, "deleted") ||
     hasArchiveSuffix(fileName, "reset") ||
@@ -51,10 +47,10 @@ function sessionStoreTempPattern(storeBasename: string): RegExp {
 }
 
 // Atomic writes of the session store stage into `<store>.<pid>.<uuid>.tmp`
-// (legacy: `<store>.<uuid>.tmp`) and rename into place. A crash between write and
-// rename orphans the temp; these accumulate and waste disk (#56827). They are
-// never the live store, so a stale one is safe to reclaim. `storeBasename` is the
-// store filename (the atomic write's temp prefix, e.g. `sessions.json`), so a
+// and rename into place. A crash between write and rename orphans the temp; 
+// these accumulate and waste disk (#56827). They are never the live store, 
+// so a stale one is safe to reclaim. `storeBasename` is the store filename 
+// (the atomic write's temp prefix, e.g. `sessions.json`), so a 
 // custom-named `session.store` is matched too.
 export function isSessionStoreTempArtifactName(fileName: string, storeBasename: string): boolean {
   if (!storeBasename) {

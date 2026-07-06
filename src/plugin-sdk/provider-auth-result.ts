@@ -1,15 +1,15 @@
 // Provider auth result helpers normalize credential checks into stable setup/status results.
-import { asDateTimestampMs } from "../../packages/normalization-core/src/number-coercion.js";
-import { buildAuthProfileId } from "../agents/auth-profiles/identity.js";
-import type { AuthProfileCredential } from "../agents/auth-profiles/types.js";
-import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.js";
+import { asDateTimestampMs } from "../../packages/normalization-core/src/number-coercion.ts";
+import { buildAuthProfileId } from "../agents/auth-profiles/identity.ts";
+import type { AuthProfileCredential } from "../agents/auth-profiles/types.ts";
+import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.ts";
 import {
   normalizeAgentModelMapForConfig,
   normalizeAgentModelRefForConfig,
-} from "../config/model-input.js";
-import type { ModelProviderConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ProviderAuthResult } from "../plugins/types.js";
+} from "../config/model-input.ts";
+import type { ModelProviderConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ProviderAuthResult } from "../plugins/types.ts";
 
 function normalizeAgentModelConfigForAuthResult(value: unknown): unknown {
   if (typeof value === "string") {
@@ -69,7 +69,7 @@ function normalizeProviderAuthConfigPatchModelRefs(
   const defaults = patch.agents?.defaults;
   if (defaults) {
     // OAuth helpers can be called by provider setup code before config writes, so normalize
-    // legacy model refs here instead of letting retired ids leak into persisted defaults.
+    // olders model refs here instead of letting retired ids leak into persisted defaults.
     let nextDefaults = defaults;
     if (defaults.model !== undefined) {
       const model = normalizeAgentModelConfigForAuthResult(defaults.model);

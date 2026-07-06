@@ -2,8 +2,8 @@
  * Shared config normalization for Codex native web search.
  */
 import { normalizeUniqueTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isRecord } from "../utils.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isRecord } from "../utils.ts";
 
 /** Whether native Codex search may use cached or live external web access. */
 export type CodexNativeSearchMode = "cached" | "live";

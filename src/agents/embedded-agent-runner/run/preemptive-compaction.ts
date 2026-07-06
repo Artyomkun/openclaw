@@ -2,16 +2,16 @@
  * Estimates prompt pressure and decides pre-prompt compaction routing.
  */
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import type { SessionContextBudgetStatus } from "../../../config/sessions.js";
-import { estimateStringChars } from "../../../utils/cjk-chars.js";
+import type { SessionContextBudgetStatus } from "../../../config/sessions.ts";
+import { estimateStringChars } from "../../../utils/cjk-chars.ts";
 import {
   MIN_PROMPT_BUDGET_RATIO,
   MIN_PROMPT_BUDGET_TOKENS,
-} from "../../agent-compaction-constants.js";
-import { SAFETY_MARGIN } from "../../compaction.js";
-import type { AgentMessage } from "../../runtime/index.js";
-import { estimateToolResultReductionPotential } from "../tool-result-truncation.js";
-import type { PreemptiveCompactionRoute } from "./preemptive-compaction.types.js";
+} from "../../agent-compaction-constants.ts";
+import { SAFETY_MARGIN } from "../../compaction.ts";
+import type { AgentMessage } from "../../runtime/index.ts";
+import { estimateToolResultReductionPotential } from "../tool-result-truncation.ts";
+import type { PreemptiveCompactionRoute } from "./preemptive-compaction.types.ts";
 
 export const PREEMPTIVE_OVERFLOW_ERROR_TEXT =
   "Context overflow: prompt too large for the model (precheck).";

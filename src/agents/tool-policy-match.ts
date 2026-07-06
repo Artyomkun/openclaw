@@ -2,9 +2,9 @@
  * Runtime matcher for sandbox tool policies. Deny patterns always win, then
  * an empty allow list means "allow everything not denied".
  */
-import { compileGlobPatterns, matchesAnyGlobPattern } from "./glob-pattern.js";
-import type { SandboxToolPolicy } from "./sandbox/types.js";
-import { expandToolGroups, normalizeToolName } from "./tool-policy.js";
+import { compileGlobPatterns, matchesAnyGlobPattern } from "./glob-pattern.ts";
+import type { SandboxToolPolicy } from "./sandbox/types.ts";
+import { expandToolGroups, normalizeToolName } from "./tool-policy.ts";
 
 function makeToolPolicyMatcher(policy: SandboxToolPolicy) {
   const deny = compileGlobPatterns({

@@ -1,25 +1,25 @@
 // Gateway config hot-reload watcher.
 // Diffs config/plugin install snapshots and dispatches hot reload or restart plans.
 import chokidar from "chokidar";
-import type { ConfigWriteNotification } from "../config/io.js";
-import { formatConfigIssueLines } from "../config/issue-format.js";
-import { resolveConfigWriteFollowUp } from "../config/runtime-snapshot.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
+import type { ConfigWriteNotification } from "../config/io.ts";
+import { formatConfigIssueLines } from "../config/issue-format.ts";
+import { resolveConfigWriteFollowUp } from "../config/runtime-snapshot.ts";
+import type { ConfigFileSnapshot, OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
 import {
   loadInstalledPluginIndexInstallRecords,
   loadInstalledPluginIndexInstallRecordsSync,
-} from "../plugins/installed-plugin-index-records.js";
-import { bumpSkillsSnapshotVersion } from "../skills/runtime/refresh-state.js";
-import { diffConfigPaths } from "./config-diff.js";
+} from "../plugins/installed-plugin-index-records.ts";
+import { bumpSkillsSnapshotVersion } from "../skills/runtime/refresh-state.ts";
+import { diffConfigPaths } from "./config-diff.ts";
 import {
   buildGatewayReloadPlan,
   listPluginInstallTimestampMetadataPaths,
   listPluginInstallWholeRecordPaths,
   resolveConfigReloadMetadata,
   type GatewayReloadPlan,
-} from "./config-reload-plan.js";
-import { resolveGatewayReloadSettings } from "./config-reload-settings.js";
+} from "./config-reload-plan.ts";
+import { resolveGatewayReloadSettings } from "./config-reload-settings.ts";
 
 export {
   buildGatewayReloadPlan,
@@ -29,7 +29,7 @@ export {
   resolveConfigReloadMetadata,
   resolveGatewayReloadSettings,
 };
-export type { ChannelKind, GatewayReloadPlan } from "./config-reload-plan.js";
+export type { ChannelKind, GatewayReloadPlan } from "./config-reload-plan.ts";
 const MISSING_CONFIG_RETRY_DELAY_MS = 150;
 const MISSING_CONFIG_MAX_RETRIES = 2;
 

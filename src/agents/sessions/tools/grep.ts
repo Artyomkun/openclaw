@@ -9,27 +9,27 @@ import path from "node:path";
 import { createInterface } from "node:readline";
 import { Text } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
-import type { AgentTool } from "../../runtime/index.js";
-import { ensureTool } from "../../utils/tools-manager.js";
-import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.js";
-import { appendBoundedTextTail, normalizePositiveLimit } from "./limits.js";
-import { resolveToCwd } from "./path-utils.js";
+import type { AgentTool } from "../../runtime/index.ts";
+import { ensureTool } from "../../utils/tools-manager.ts";
+import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.ts";
+import { appendBoundedTextTail, normalizePositiveLimit } from "./limits.ts";
+import { resolveToCwd } from "./path-utils.ts";
 import {
   appendSessionToolTruncationWarning,
   formatSessionToolOutput,
   invalidArgText,
   shortenPath,
   str,
-} from "./render-utils.js";
-import type { GrepToolDetails } from "./tool-contracts.js";
-import { wrapToolDefinition } from "./tool-definition-wrapper.js";
+} from "./render-utils.ts";
+import type { GrepToolDetails } from "./tool-contracts.ts";
+import { wrapToolDefinition } from "./tool-definition-wrapper.ts";
 import {
   DEFAULT_MAX_BYTES,
   formatSize,
   GREP_MAX_LINE_LENGTH,
   truncateHead,
   truncateLine,
-} from "./truncate.js";
+} from "./truncate.ts";
 
 const grepSchema = Type.Object({
   pattern: Type.String({ description: "Search pattern (regex or literal string)" }),
@@ -56,7 +56,7 @@ const grepSchema = Type.Object({
     Type.Number({ description: "Maximum number of matches to return (default: 100)" }),
   ),
 });
-export type { GrepToolDetails, GrepToolInput } from "./tool-contracts.js";
+export type { GrepToolDetails, GrepToolInput } from "./tool-contracts.ts";
 const DEFAULT_LIMIT = 100;
 
 /**

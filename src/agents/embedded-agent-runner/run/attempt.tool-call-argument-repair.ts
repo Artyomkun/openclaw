@@ -1,14 +1,14 @@
 /**
  * Repairs malformed tool-call arguments in embedded-agent stream results.
  */
-import { extractBalancedJsonPrefix } from "../../../shared/balanced-json.js";
-import { normalizeProviderId } from "../../model-selection.js";
-import type { StreamFn } from "../../runtime/index.js";
-import type { MutableAssistantMessageEventStream } from "../../stream-compat.js";
-import { log } from "../logger.js";
-import { createHtmlEntityToolCallArgumentDecodingWrapper } from "../tool-call-argument-decoding.js";
-import { isRunnerToolCallBlockType } from "./attempt.tool-call-block-type.js";
-import { wrapStreamObjectEvents } from "./stream-wrapper.js";
+import { extractBalancedJsonPrefix } from "../../../shared/balanced-json.ts";
+import { normalizeProviderId } from "../../model-selection.ts";
+import type { StreamFn } from "../../runtime/index.ts";
+import type { MutableAssistantMessageEventStream } from "../../stream-compat.ts";
+import { log } from "../logger.ts";
+import { createHtmlEntityToolCallArgumentDecodingWrapper } from "../tool-call-argument-decoding.ts";
+import { isRunnerToolCallBlockType } from "./attempt.tool-call-block-type.ts";
+import { wrapStreamObjectEvents } from "./stream-wrapper.ts";
 
 const MAX_TOOLCALL_REPAIR_BUFFER_CHARS = 64_000;
 const MAX_TOOLCALL_REPAIR_LEADING_CHARS = 96;
@@ -467,7 +467,7 @@ function parseSmartQuotedToolCallObject(
   return undefined;
 }
 
-function tryExtractUsableToolCallArgumentsFromJson(
+function tryExtractUsableToolCallArgumentsFrotson(
   raw: string,
 ): ToolCallArgumentRepair | undefined {
   const extracted = extractBalancedJsonPrefix(raw);
@@ -557,7 +557,7 @@ function tryExtractUsableToolCallArguments(
   }
 
   return (
-    tryExtractUsableToolCallArgumentsFromJson(raw) ??
+    tryExtractUsableToolCallArgumentsFrotson(raw) ??
     tryExtractSmartQuotedToolCallArguments(raw, toolNameFromContext)
   );
 }

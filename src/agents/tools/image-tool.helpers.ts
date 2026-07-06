@@ -5,12 +5,12 @@
  */
 import { estimateBase64DecodedBytes } from "@openclaw/media-core/base64";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { AssistantMessage } from "../../llm/types.js";
-import { extractAssistantText } from "../embedded-agent-utils.js";
-import { isMinimaxVlmProvider } from "../minimax-vlm.js";
-import { findNormalizedProviderValue, normalizeProviderId } from "../model-selection.js";
-import { coerceToolModelConfig, type ToolModelConfig } from "./model-config.helpers.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { AssistantMessage } from "../../llm/types.ts";
+import { extractAssistantText } from "../embedded-agent-utils.ts";
+import { isMinimaxVlmProvider } from "../minimax-vlm.ts";
+import { findNormalizedProviderValue, normalizeProviderId } from "../model-selection.ts";
+import { coerceToolModelConfig, type ToolModelConfig } from "./model-config.helpers.ts";
 
 /** Image tool model config uses the shared tool model config shape. */
 export type ImageModelConfig = ToolModelConfig;

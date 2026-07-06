@@ -5,11 +5,11 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveRequiredHomeDir } from "../infra/home-dir.js";
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import { isValidProfileName } from "./profile-utils.js";
-import { scanCliRootOptions } from "./root-option-scan.js";
-import { takeCliRootOptionValue } from "./root-option-value.js";
+import { resolveRequiredHomeDir } from "../infra/home-dir.ts";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
+import { isValidProfileName } from "./profile-utils.ts";
+import { scanCliRootOptions } from "./root-option-scan.ts";
+import { takeCliRootOptionValue } from "./root-option-value.ts";
 
 type CliProfileParseResult =
   | { ok: true; profile: string | null; argv: string[] }

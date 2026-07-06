@@ -1,7 +1,7 @@
 /** Strict dotted-path get/set/delete helpers for secrets migration targets. */
 import { isDeepStrictEqual } from "node:util";
-import { parseConfigPathArrayIndex } from "../shared/path-array-index.js";
-import { isRecord } from "./shared.js";
+import { parseConfigPathArrayIndex } from "../shared/path-array-index.ts";
+import { isRecord } from "./shared.ts";
 
 function looksLikeArrayIndexSegment(segment: string): boolean {
   return /^\d+$/.test(segment);

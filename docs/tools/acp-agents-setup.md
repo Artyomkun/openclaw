@@ -205,7 +205,7 @@ or flag value should remain one argv token:
           "agents": {
             "claude": {
               "command": "node",
-              "args": ["/path/to/custom adapter.mjs", "--verbose"]
+              "args": ["/path/to/custom adapter.ts", "--verbose"]
             }
           }
         }

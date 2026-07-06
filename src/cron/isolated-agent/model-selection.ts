@@ -1,7 +1,7 @@
 /** Resolves provider/model precedence for isolated cron runs. */
-import type { AgentConfig } from "../../config/types.agents.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { CronJob } from "../types.js";
+import type { AgentConfig } from "../../config/types.agents.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { CronJob } from "../types.ts";
 import {
   DEFAULT_MODEL,
   DEFAULT_PROVIDER,
@@ -12,7 +12,7 @@ import {
   resolveConfiguredModelRef,
   resolveHooksGmailModel,
   resolveSubagentModelConfigSelectionResult,
-} from "./run-model-selection.runtime.js";
+} from "./run-model-selection.runtime.ts";
 
 type CronSessionModelOverrides = {
   modelOverride?: string;

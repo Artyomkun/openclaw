@@ -5,48 +5,48 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { formatFastModeCurrentStatus, resolveFastModeState } from "../../agents/fast-mode.js";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { formatFastModeCurrentStatus, resolveFastModeState } from "../../agents/fast-mode.ts";
 import {
   setChannelConversationBindingIdleTimeoutBySessionKey,
   setChannelConversationBindingMaxAgeBySessionKey,
-} from "../../channels/plugins/conversation-bindings.js";
-import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.js";
-import { formatThreadBindingDurationLabel } from "../../channels/thread-bindings-messages.js";
-import { parseDurationMs } from "../../cli/parse-duration.js";
-import { isRestartEnabled } from "../../config/commands.flags.js";
-import { extractDeliveryInfo } from "../../config/sessions.js";
-import { logVerbose } from "../../globals.js";
-import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
-import type { SessionBindingRecord } from "../../infra/outbound/session-binding-service.js";
+} from "../../channels/plugins/conversation-bindings.ts";
+import { getChannelPlugin, normalizeChannelId } from "../../channels/plugins/index.ts";
+import { formatThreadBindingDurationLabel } from "../../channels/thread-bindings-messages.ts";
+import { parseDurationMs } from "../../cli/parse-duration.ts";
+import { isRestartEnabled } from "../../config/commands.flags.ts";
+import { extractDeliveryInfo } from "../../config/sessions.ts";
+import { logVerbose } from "../../globals.ts";
+import { getSessionBindingService } from "../../infra/outbound/session-binding-service.ts";
+import type { SessionBindingRecord } from "../../infra/outbound/session-binding-service.ts";
 import {
   buildRestartSuccessContinuation,
   clearRestartSentinel,
   formatDoctorNonInteractiveHint,
   type RestartSentinelPayload,
   writeRestartSentinel,
-} from "../../infra/restart-sentinel.js";
-import { scheduleGatewaySigusr1Restart, triggerOpenClawRestart } from "../../infra/restart.js";
-import { loadCostUsageSummary, loadSessionCostSummary } from "../../infra/session-cost-usage.js";
+} from "../../infra/restart-sentinel.ts";
+import { scheduleGatewaySigusr1Restart, triggerOpenClawRestart } from "../../infra/restart.ts";
+import { loadCostUsageSummary, loadSessionCostSummary } from "../../infra/session-cost-usage.ts";
 import {
   asDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
-} from "../../shared/number-coercion.js";
-import { formatTokenCount, formatUsd } from "../../utils/usage-format.js";
-import { parseActivationCommand } from "../group-activation.js";
-import { parseSendPolicyCommand } from "../send-policy.js";
+} from "../../shared/number-coercion.ts";
+import { formatTokenCount, formatUsd } from "../../utils/usage-format.ts";
+import { parseActivationCommand } from "../group-activation.ts";
+import { parseSendPolicyCommand } from "../send-policy.ts";
 import {
   isSessionDefaultDirectiveValue,
   normalizeFastMode,
   normalizeUsageDisplay,
   resolveEffectiveResponseUsage,
-} from "../thinking.js";
-import { resolveCommandSurfaceChannel } from "./channel-context.js";
-import { rejectNonOwnerCommand, rejectUnauthorizedCommand } from "./command-gates.js";
-import { handleAbortTrigger, handleStopCommand } from "./commands-session-abort.js";
-import { persistSessionEntry } from "./commands-session-store.js";
-import type { CommandHandler, HandleCommandsParams } from "./commands-types.js";
-import { resolveConversationBindingContextFromAcpCommand } from "./conversation-binding-input.js";
+} from "../thinking.ts";
+import { resolveCommandSurfaceChannel } from "./channel-context.ts";
+import { rejectNonOwnerCommand, rejectUnauthorizedCommand } from "./command-gates.ts";
+import { handleAbortTrigger, handleStopCommand } from "./commands-session-abort.ts";
+import { persistSessionEntry } from "./commands-session-store.ts";
+import type { CommandHandler, HandleCommandsParams } from "./commands-types.ts";
+import { resolveConversationBindingContextFromAcpCommand } from "./conversation-binding-input.ts";
 
 const SESSION_COMMAND_PREFIX = "/session";
 const SESSION_DURATION_OFF_VALUES = new Set(["off", "disable", "disabled", "none", "0"]);

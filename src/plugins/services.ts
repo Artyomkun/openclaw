@@ -1,16 +1,16 @@
 /** Starts, stops, and inspects plugin service registrations. */
-import { STATE_DIR } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { STATE_DIR } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   emitTrustedDiagnosticEventWithPrivateData,
   onTrustedInternalDiagnosticEvent,
-} from "../infra/diagnostic-events.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { withPluginHttpRouteRegistry } from "./http-registry.js";
-import type { PluginServiceRegistration } from "./registry-types.js";
-import type { PluginRegistry } from "./registry.js";
-import { encodeStartupTraceSegment } from "./startup-trace-segment.js";
-import type { OpenClawPluginServiceContext, PluginLogger } from "./types.js";
+} from "../infra/diagnostic-events.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { withPluginHttpRouteRegistry } from "./http-registry.ts";
+import type { PluginServiceRegistration } from "./registry-types.ts";
+import type { PluginRegistry } from "./registry.ts";
+import { encodeStartupTraceSegment } from "./startup-trace-segment.ts";
+import type { OpenClawPluginServiceContext, PluginLogger } from "./types.ts";
 
 const log = createSubsystemLogger("plugins");
 function createPluginLogger(): PluginLogger {

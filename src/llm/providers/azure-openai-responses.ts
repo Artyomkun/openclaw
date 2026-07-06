@@ -1,27 +1,27 @@
 // Azure OpenAI Responses provider adapts Azure deployments to Responses API streams.
 import OpenAI, { AzureOpenAI } from "openai";
-import type { ResponseCreateParamsStreaming } from "openai/resources/responses/responses.js";
-import { buildGuardedModelFetch } from "../../agents/provider-transport-fetch.js";
-import { isOpenAICompatibleAzureResponsesBaseUrl } from "../../shared/azure-openai-responses-client-compat.js";
-import { getEnvApiKey } from "../env-api-keys.js";
+import type { ResponseCreateParamsStreaming } from "openai/resources/responses/responses.ts";
+import { buildGuardedModelFetch } from "../../agents/provider-transport-fetch.ts";
+import { isOpenAICompatibleAzureResponsesBaseUrl } from "../../shared/azure-openai-responses-client-compat.ts";
+import { getEnvApiKey } from "../env-api-keys.ts";
 import type {
   Context,
   Model,
   SimpleStreamOptions,
   StreamFunction,
   StreamOptions,
-} from "../types.js";
-import { AssistantMessageEventStream } from "../utils/event-stream.js";
-import { resolveAzureDeploymentNameFromMap } from "./azure-deployment-map.js";
-import { clampOpenAIPromptCacheKey } from "./openai-prompt-cache.js";
+} from "../types.ts";
+import { AssistantMessageEventStream } from "../utils/event-stream.ts";
+import { resolveAzureDeploymentNameFromMap } from "./azure-deployment-map.ts";
+import { clampOpenAIPromptCacheKey } from "./openai-prompt-cache.ts";
 import {
   applyCommonResponsesParams,
   convertResponsesMessages,
   createResponsesAssistantOutput,
   resolveResponsesReasoningEffort,
   runResponsesStreamLifecycle,
-} from "./openai-responses-shared.js";
-import { buildBaseOptions } from "./simple-options.js";
+} from "./openai-responses-shared.ts";
+import { buildBaseOptions } from "./simple-options.ts";
 
 const DEFAULT_AZURE_API_VERSION = "v1";
 const AZURE_TOOL_CALL_PROVIDERS = new Set(["openai", "opencode", "azure-openai-responses"]);

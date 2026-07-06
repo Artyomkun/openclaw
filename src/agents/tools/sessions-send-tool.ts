@@ -8,47 +8,47 @@ import { isRequesterParentOfBackgroundAcpSession } from "@openclaw/acp-core/sess
 import { finiteSecondsToTimerSafeMilliseconds } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { Type } from "typebox";
-import { readAcpSessionMeta } from "../../acp/runtime/session-meta.js";
-import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { callGateway } from "../../gateway/call.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+import { readAcpSessionMeta } from "../../acp/runtime/session-meta.ts";
+import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   isSubagentSessionKey,
   normalizeAgentId,
   resolveAgentIdFromSessionKey,
   toAgentStoreSessionKey,
-} from "../../routing/session-key.js";
-import { annotateInterSessionPromptText } from "../../sessions/input-provenance.js";
-import { isCronRunSessionKey, parseAgentSessionKey } from "../../sessions/session-key-utils.js";
-import { SESSION_LABEL_MAX_LENGTH } from "../../sessions/session-label.js";
-import { stripFormattedReasoningMessage } from "../../shared/text/formatted-reasoning-message.js";
+} from "../../routing/session-key.ts";
+import { annotateInterSessionPromptText } from "../../sessions/input-provenance.ts";
+import { isCronRunSessionKey, parseAgentSessionKey } from "../../sessions/session-key-utils.ts";
+import { SESSION_LABEL_MAX_LENGTH } from "../../sessions/session-label.ts";
+import { stripFormattedReasoningMessage } from "../../shared/text/formatted-reasoning-message.ts";
 import {
   type GatewayMessageChannel,
   INTERNAL_MESSAGE_CHANNEL,
-} from "../../utils/message-channel.js";
-import { listAgentIds } from "../agent-scope.js";
+} from "../../utils/message-channel.ts";
+import { listAgentIds } from "../agent-scope.ts";
 import {
   type EmbeddedAgentQueueMessageOptions,
   type EmbeddedAgentQueueMessageOutcome,
   formatEmbeddedAgentQueueFailureSummary,
   queueEmbeddedAgentMessageWithOutcomeAsync,
   resolveActiveEmbeddedRunSessionId,
-} from "../embedded-agent-runner/runs.js";
-import { resolveNestedAgentLaneForSession } from "../lanes.js";
+} from "../embedded-agent-runner/runs.ts";
+import { resolveNestedAgentLaneForSession } from "../lanes.ts";
 import {
   type AgentWaitResult,
   readLatestAssistantReplySnapshot,
   waitForAgentRunAndReadUpdatedAssistantReply,
-} from "../run-wait.js";
-import { loadSessionEntryByKey } from "../subagent-announce-delivery.js";
+} from "../run-wait.ts";
+import { loadSessionEntryByKey } from "../subagent-announce-delivery.ts";
 import {
   describeSessionsSendTool,
   SESSIONS_SEND_TOOL_DISPLAY_SUMMARY,
-} from "../tool-description-presets.js";
-import type { AnyAgentTool } from "./common.js";
-import { jsonResult, readNonNegativeIntegerParam, readStringParam } from "./common.js";
+} from "../tool-description-presets.ts";
+import type { AnyAgentTool } from "./common.ts";
+import { jsonResult, readNonNegativeIntegerParam, readStringParam } from "./common.ts";
 import {
   createSessionVisibilityGuard,
   createAgentToAgentPolicy,
@@ -56,9 +56,9 @@ import {
   resolveSessionReference,
   resolveSessionToolContext,
   resolveVisibleSessionReference,
-} from "./sessions-helpers.js";
-import { buildAgentToAgentMessageContext, resolvePingPongTurns } from "./sessions-send-helpers.js";
-import { runSessionsSendA2AFlow } from "./sessions-send-tool.a2a.js";
+} from "./sessions-helpers.ts";
+import { buildAgentToAgentMessageContext, resolvePingPongTurns } from "./sessions-send-helpers.ts";
+import { runSessionsSendA2AFlow } from "./sessions-send-tool.a2a.ts";
 
 const SessionsSendToolSchema = Type.Object({
   sessionKey: Type.Optional(Type.String()),

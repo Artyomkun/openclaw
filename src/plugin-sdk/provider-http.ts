@@ -17,7 +17,7 @@ export {
   readProviderTextResponse,
   readResponseTextLimited,
   truncateErrorDetail,
-} from "../agents/provider-http-errors.js";
+} from "../agents/provider-http-errors.ts";
 export {
   buildAudioTranscriptionFormData,
   createProviderOperationDeadline,
@@ -37,21 +37,21 @@ export {
   requireTranscriptionText,
   sanitizeConfiguredModelProviderRequest,
   waitProviderOperationPollInterval,
-} from "../media-understanding/shared.js";
+} from "../media-understanding/shared.ts";
 export type {
   ProviderOperationDeadline,
   ProviderOperationTimeoutMs,
-} from "../media-understanding/shared.js";
+} from "../media-understanding/shared.ts";
 export {
   executeProviderOperationWithRetry,
   providerOperationRetryConfig,
-} from "../provider-runtime/operation-retry.js";
+} from "../provider-runtime/operation-retry.ts";
 export type {
   ProviderOperationRetryStage,
   TransientProviderRetryConfig,
   TransientProviderRetryOptions,
   TransientProviderRetryParams,
-} from "../provider-runtime/operation-retry.js";
+} from "../provider-runtime/operation-retry.ts";
 export type {
   ProviderAttributionPolicy,
   ProviderRequestCapabilities,
@@ -63,16 +63,16 @@ export type {
   ProviderRequestPolicyInput,
   ProviderRequestPolicyResolution,
   ProviderRequestTransport,
-} from "../agents/provider-attribution.js";
+} from "../agents/provider-attribution.ts";
 export type {
   ProviderRequestAuthOverride,
   ProviderRequestProxyOverride,
   ProviderRequestTlsOverride,
   ProviderRequestTransportOverrides,
-} from "../agents/provider-request-config.js";
-export { resolveProviderRequestHeaders } from "../agents/provider-request-config.js";
+} from "../agents/provider-request-config.ts";
+export { resolveProviderRequestHeaders } from "../agents/provider-request-config.ts";
 export {
   resolveProviderEndpoint,
   resolveProviderRequestCapabilities,
   resolveProviderRequestPolicy,
-} from "../agents/provider-attribution.js";
+} from "../agents/provider-attribution.ts";

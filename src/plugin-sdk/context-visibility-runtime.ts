@@ -3,7 +3,7 @@
 export {
   resolveChannelContextVisibilityMode,
   resolveDefaultContextVisibility,
-} from "../config/context-visibility.js";
+} from "../config/context-visibility.ts";
 export {
   evaluateSupplementalContextVisibility,
   filterSupplementalContextItems,
@@ -11,4 +11,4 @@ export {
   type ContextVisibilityDecision,
   type ContextVisibilityDecisionReason,
   type ContextVisibilityKind,
-} from "../security/context-visibility.js";
+} from "../security/context-visibility.ts";

@@ -1,20 +1,10 @@
 // Channel send result contracts normalize outbound delivery outcomes from channel plugins.
-import type { ChannelOutboundAdapter } from "../channels/plugins/outbound.types.js";
-import type { ChannelPollResult } from "../channels/plugins/types.public.js";
-import type { OutboundDeliveryResult } from "../infra/outbound/deliver.js";
+import type { ChannelOutboundAdapter } from "../channels/plugins/outbound.types.ts";
+import type { ChannelPollResult } from "../channels/plugins/types.public.ts";
+import type { OutboundDeliveryResult } from "../infra/outbound/deliver.ts";
 
-export type { ChannelOutboundAdapter } from "../channels/plugins/outbound.types.js";
-export type { OutboundDeliveryResult } from "../infra/outbound/deliver.js";
-
-/** Legacy raw send result shape accepted from channel SDK adapters. */
-export type ChannelSendRawResult = {
-  /** Whether the channel send operation succeeded. */
-  ok: boolean;
-  /** Platform message id; null/undefined normalizes to the empty-id sentinel. */
-  messageId?: string | null;
-  /** Legacy error text converted to an Error for outbound callers. */
-  error?: string | null;
-};
+export type { ChannelOutboundAdapter } from "../channels/plugins/outbound.types.ts";
+export type { OutboundDeliveryResult } from "../infra/outbound/deliver.ts";
 
 /** Attaches the channel id to a single outbound send result. */
 export function attachChannelToResult<T extends object>(
@@ -48,7 +38,7 @@ export function createEmptyChannelResult(
     messageId?: string;
   } = {},
 ): OutboundDeliveryResult {
-  // Empty message ids are the legacy "no platform id" sentinel expected by outbound callers.
+  // Empty message ids are the older "no platform id" sentinel expected by outbound callers.
   return attachChannelToResult(channel, {
     messageId: "",
     ...result,
@@ -84,36 +74,12 @@ export function createAttachedChannelResultAdapter(params: {
   };
 }
 
-/** Wraps legacy raw text/media send methods and normalizes their results. */
-export function createRawChannelSendResultAdapter(params: {
-  /** Channel id attached to every normalized legacy send result. */
-  channel: string;
-  /** Legacy text sender that returns ok/messageId/error fields. */
-  sendText?: (ctx: SendTextParams) => MaybePromise<ChannelSendRawResult>;
-  /** Legacy media sender that returns ok/messageId/error fields. */
-  sendMedia?: (ctx: SendMediaParams) => MaybePromise<ChannelSendRawResult>;
-}): Pick<ChannelOutboundAdapter, "sendText" | "sendMedia"> {
-  return {
-    sendText: params.sendText
-      ? async (ctx) => buildChannelSendResult(params.channel, await params.sendText!(ctx))
-      : undefined,
-    sendMedia: params.sendMedia
-      ? async (ctx) => buildChannelSendResult(params.channel, await params.sendMedia!(ctx))
-      : undefined,
-  };
-}
-
 /** Normalize raw channel send results into the shape shared outbound callers expect. */
 export function buildChannelSendResult(
   /** Channel id attached to the normalized delivery result. */
   channel: string,
-  /** Legacy raw channel result to normalize. */
-  result: ChannelSendRawResult,
 ) {
   return {
-    channel,
-    ok: result.ok,
-    messageId: result.messageId ?? "",
-    error: result.error ? new Error(result.error) : undefined,
+    channel
   };
 }

@@ -1,9 +1,9 @@
 /** Resolves daemon log paths and shell snippets for restart handoff diagnostics. */
 import path from "node:path";
-import { quoteCmdScriptArg } from "./cmd-argv.js";
-import { resolveGatewayProfileSuffix } from "./constants.js";
-import { resolveGatewayStateDir, resolveHomeDir } from "./paths.js";
-import type { GatewayServiceEnv } from "./service-types.js";
+import { quoteCmdScriptArg } from "./cmd-argv.ts";
+import { resolveGatewayProfileSuffix } from "./constants.ts";
+import { resolveGatewayStateDir, resolveHomeDir } from "./paths.ts";
+import type { GatewayServiceEnv } from "./service-types.ts";
 
 export const GATEWAY_RESTART_LOG_FILENAME = "gateway-restart.log";
 

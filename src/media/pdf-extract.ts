@@ -1,10 +1,10 @@
 // PDF extraction helpers read PDF text through configured document extraction.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   DocumentExtractedImage,
   DocumentExtractionResult,
-} from "../plugins/document-extractor-types.js";
-import { extractDocumentContent } from "./document-extractors.runtime.js";
+} from "../plugins/document-extractor-types.ts";
+import { extractDocumentContent } from "./document-extractors.runtime.ts";
 
 /** Image payload extracted from a PDF page by the document-extract plugin. */
 export type PdfExtractedImage = DocumentExtractedImage;

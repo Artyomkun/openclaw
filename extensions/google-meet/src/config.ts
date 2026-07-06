@@ -153,38 +153,6 @@ const DEFAULT_GOOGLE_MEET_AUDIO_OUTPUT_COMMAND_BASE = [
   "BlackHole 2ch",
 ] as const;
 
-const LEGACY_GOOGLE_MEET_AUDIO_INPUT_COMMAND_BASE = [
-  "rec",
-  "-q",
-  "-t",
-  "raw",
-  "-r",
-  "8000",
-  "-c",
-  "1",
-  "-e",
-  "mu-law",
-  "-b",
-  "8",
-  "-",
-] as const;
-
-const LEGACY_GOOGLE_MEET_AUDIO_OUTPUT_COMMAND_BASE = [
-  "play",
-  "-q",
-  "-t",
-  "raw",
-  "-r",
-  "8000",
-  "-c",
-  "1",
-  "-e",
-  "mu-law",
-  "-b",
-  "8",
-  "-",
-] as const;
-
 export const DEFAULT_GOOGLE_MEET_AUDIO_INPUT_COMMAND = withSoxBuffer(
   DEFAULT_GOOGLE_MEET_AUDIO_INPUT_COMMAND_BASE,
   DEFAULT_GOOGLE_MEET_AUDIO_BUFFER_BYTES,
@@ -401,28 +369,12 @@ function resolveAudioBufferBytes(value: unknown, fallback: number): number {
   return Math.max(SOX_MIN_BUFFER_BYTES, Math.trunc(number));
 }
 
-function defaultAudioInputCommand(
-  format: GoogleMeetChromeAudioFormat,
-  bufferBytes: number,
-): string[] {
-  return withSoxBuffer(
-    format === "g711-ulaw-8khz"
-      ? LEGACY_GOOGLE_MEET_AUDIO_INPUT_COMMAND_BASE
-      : DEFAULT_GOOGLE_MEET_AUDIO_INPUT_COMMAND_BASE,
-    bufferBytes,
-  );
+function defaultAudioInputCommand(bufferBytes: number): string[] {
+  return withSoxBuffer(DEFAULT_GOOGLE_MEET_AUDIO_INPUT_COMMAND_BASE, bufferBytes);
 }
 
-function defaultAudioOutputCommand(
-  format: GoogleMeetChromeAudioFormat,
-  bufferBytes: number,
-): string[] {
-  return withSoxBuffer(
-    format === "g711-ulaw-8khz"
-      ? LEGACY_GOOGLE_MEET_AUDIO_OUTPUT_COMMAND_BASE
-      : DEFAULT_GOOGLE_MEET_AUDIO_OUTPUT_COMMAND_BASE,
-    bufferBytes,
-  );
+function defaultAudioOutputCommand(bufferBytes: number): string[] {
+  return withSoxBuffer(DEFAULT_GOOGLE_MEET_AUDIO_OUTPUT_COMMAND_BASE, bufferBytes);
 }
 
 export function resolveGoogleMeetConfig(input: unknown): GoogleMeetConfig {

@@ -1,56 +1,52 @@
-// Memory Core provider module implements model/runtime integration.
+/**
+ * Memory Core - Provider Adapters
+ */
+
 import {
-  DEFAULT_LOCAL_MODEL,
-  listMemoryEmbeddingProviders,
-  type MemoryEmbeddingProviderAdapter,
-} from "openclaw/plugin-sdk/memory-core-host-embedding-registry";
-import { getProviderEnvVars } from "openclaw/plugin-sdk/provider-env-vars";
+  getEmbeddingProvider,
+  type EmbeddingProvider as GenericEmbeddingProvider,
+  type EmbeddingProviderRuntime as GenericEmbeddingProviderRuntime,
+} from "openclaw/plugin-sdk/embedding-providers";
+import {
+  type MemoryEmbeddingProvider,
+  type MemoryEmbeddingProviderRuntime,
+} from "openclaw/plugin-sdk/memory-core-host-engine-embeddings";
 
-export type BuiltinMemoryEmbeddingProviderDoctorMetadata = {
-  providerId: string;
-  authProviderId: string;
-  envVars: string[];
-  transport: "local" | "remote";
-  autoSelectPriority?: number;
-};
+// ========================================================================
+// Просто адаптеры
+// ========================================================================
 
-export { DEFAULT_LOCAL_MODEL };
-
-function getBuiltinMemoryEmbeddingProviderAdapter(
-  id: string,
-): MemoryEmbeddingProviderAdapter | undefined {
-  return listMemoryEmbeddingProviders().find((adapter) => adapter.id === id);
-}
-
-export function getBuiltinMemoryEmbeddingProviderDoctorMetadata(
-  providerId: string,
-): BuiltinMemoryEmbeddingProviderDoctorMetadata | null {
-  const adapter = getBuiltinMemoryEmbeddingProviderAdapter(providerId);
-  if (!adapter) {
-    return null;
-  }
-  const authProviderId = adapter.authProviderId ?? adapter.id;
+export function adaptProvider(provider: GenericEmbeddingProvider): MemoryEmbeddingProvider {
   return {
-    providerId: adapter.id,
-    authProviderId,
-    envVars: getProviderEnvVars(authProviderId),
-    transport: adapter.transport === "local" ? "local" : "remote",
-    autoSelectPriority: adapter.autoSelectPriority,
+    id: provider.id,
+    model: provider.model,
+    maxInputTokens: provider.maxInputTokens,
+    embedQuery: async (text, options) => provider.embed(text, { ...options, inputType: "query" }),
+    embedBatch: async (texts, options) => provider.embedBatch(texts, { ...options, inputType: "document" }),
+    embedBatchInputs: async (inputs, options) => provider.embedBatch(inputs, { ...options, inputType: "document" }),
+    close: provider.close,
   };
 }
 
-export function listBuiltinAutoSelectMemoryEmbeddingProviderDoctorMetadata(): Array<BuiltinMemoryEmbeddingProviderDoctorMetadata> {
-  return listMemoryEmbeddingProviders()
-    .filter((adapter) => typeof adapter.autoSelectPriority === "number")
-    .toSorted((a, b) => (a.autoSelectPriority ?? 0) - (b.autoSelectPriority ?? 0))
-    .map((adapter) => {
-      const authProviderId = adapter.authProviderId ?? adapter.id;
-      return {
-        providerId: adapter.id,
-        authProviderId,
-        envVars: getProviderEnvVars(authProviderId),
-        transport: adapter.transport === "local" ? "local" : "remote",
-        autoSelectPriority: adapter.autoSelectPriority,
-      };
-    });
+export function adaptRuntime(runtime: GenericEmbeddingProviderRuntime | undefined): MemoryEmbeddingProviderRuntime | undefined {
+  if (!runtime) return undefined;
+  return {
+    id: runtime.id,
+    cacheKeyData: runtime.cacheKeyData,
+    indexIdentityAliases: runtime.indexIdentityAliases,
+    inlineQueryTimeoutMs: runtime.inlineQueryTimeoutMs,
+    inlineBatchTimeoutMs: runtime.inlineBatchTimeoutMs,
+  };
+}
+
+export function getAdapter(providerId: string, config?: any) {
+  const adapter = getEmbeddingProvider(providerId, config);
+  if (!adapter) {
+    throw new Error(`Unknown provider: ${providerId}`);
+  }
+  return adapter;
+}
+
+export function resolveModel(adapter: any, requestedModel: string): string {
+  return requestedModel?.trim() || adapter.defaultModel || "";
 }

@@ -1,7 +1,7 @@
 // Pairing access helpers resolve channel/device pairing visibility for plugin callers.
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { PluginRuntime } from "../plugins/runtime/types.js";
-import { normalizeAccountId } from "../routing/session-key.js";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { PluginRuntime } from "../plugins/runtime/types.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
 
 type PairingApi = PluginRuntime["channel"]["pairing"];
 type ScopedUpsertInput = Omit<

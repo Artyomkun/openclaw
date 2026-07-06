@@ -4,7 +4,7 @@
  * overwrite a different account's local auth state.
  */
 import { asDateTimestampMs } from "@openclaw/normalization-core/number-coercion";
-import type { AuthProfileCredential, OAuthCredential } from "./types.js";
+import type { AuthProfileCredential, OAuthCredential } from "./types.ts";
 
 /** Normalize account-id style identity tokens for exact comparison. */
 export function normalizeAuthIdentityToken(value: string | undefined): string | undefined {

@@ -4,12 +4,12 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import process from "node:process";
 import { PassThrough } from "node:stream";
-import { getDefaultEnvironment } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { ReadBuffer, serializeMessage } from "@modelcontextprotocol/sdk/shared/stdio.js";
-import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
-import type { JSONRPCMessage } from "@modelcontextprotocol/sdk/types.js";
-import { killProcessTree, signalProcessTree } from "../process/kill-tree.js";
-import { prepareOomScoreAdjustedSpawn } from "../process/linux-oom-score.js";
+import { getDefaultEnvironment } from "@modelcontextprotocol/sdk/client/stdio.ts";
+import { ReadBuffer, serializeMessage } from "@modelcontextprotocol/sdk/shared/stdio.ts";
+import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.ts";
+import type { JSONRPCMessage } from "@modelcontextprotocol/sdk/types.ts";
+import { killProcessTree, signalProcessTree } from "../process/kill-tree.ts";
+import { prepareOomScoreAdjustedSpawn } from "../process/linux-oom-score.ts";
 
 type OpenClawStdioServerParameters = {
   command: string;

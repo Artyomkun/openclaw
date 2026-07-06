@@ -1,16 +1,16 @@
 // Memory status collection for status scans.
 // Runtime memory dependencies stay lazy so status paths without memory avoid loading the search manager.
 
-import { resolveMemorySearchConfig } from "../agents/memory-search.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { resolveOpenClawAgentSqlitePath } from "../state/openclaw-agent-db.paths.js";
-import type { getAgentLocalStatuses as getAgentLocalStatusesFn } from "./status.agent-local.js";
+import { resolveMemorySearchConfig } from "../agents/memory-search.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { resolveOpenClawAgentSqlitePath } from "../state/openclaw-agent-db.paths.ts";
+import type { getAgentLocalStatuses as getAgentLocalStatusesFn } from "./status.agent-local.ts";
 import {
   resolveSharedMemoryStatusSnapshot,
   type MemoryPluginStatus,
   type MemoryStatusSnapshot,
-} from "./status.scan.shared.js";
+} from "./status.scan.shared.ts";
 
 const statusScanDepsRuntimeModuleLoader = createLazyImportLoader(
   () => import("./status.scan.deps.runtime.js"),

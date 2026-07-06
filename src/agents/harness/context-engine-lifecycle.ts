@@ -1,26 +1,26 @@
 /**
  * Manages context-engine lifecycle hooks for native agent harnesses.
  */
-import type { MemoryCitationsMode } from "../../config/types.memory.js";
+import type { MemoryCitationsMode } from "../../config/types.memory.ts";
 import {
   OPENCLAW_EMBEDDED_CONTEXT_ENGINE_HOST,
   type ContextEngineHostSupport,
-} from "../../context-engine/host-compat.js";
-import { buildContextEngineRuntimeSettings } from "../../context-engine/runtime-settings.js";
+} from "../../context-engine/host-compat.ts";
+import { buildContextEngineRuntimeSettings } from "../../context-engine/runtime-settings.ts";
 import type {
   AssembleResult,
   ContextEngine,
   ContextEngineRuntimeContext,
   ContextEngineRuntimeSettings,
-} from "../../context-engine/types.js";
-import { runContextEngineMaintenance } from "../embedded-agent-runner/context-engine-maintenance.js";
+} from "../../context-engine/types.ts";
+import { runContextEngineMaintenance } from "../embedded-agent-runner/context-engine-maintenance.ts";
 import {
   buildAfterTurnRuntimeContext,
   buildAfterTurnRuntimeContextFromUsage,
-} from "../embedded-agent-runner/run/attempt.prompt-helpers.js";
-import { stripRuntimeContextCustomMessages } from "../internal-runtime-context.js";
-import type { AgentMessage } from "../runtime/index.js";
-import type { SessionWriteLockAcquireTimeoutConfig } from "../session-write-lock.js";
+} from "../embedded-agent-runner/run/attempt.prompt-helpers.ts";
+import { stripRuntimeContextCustomMessages } from "../internal-runtime-context.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import type { SessionWriteLockAcquireTimeoutConfig } from "../session-write-lock.ts";
 
 export type HarnessContextEngine = ContextEngine;
 
@@ -59,8 +59,7 @@ function buildHarnessContextEngineRuntimeSettings(
         // field named "family". Defaults to null until a family value exists.
         modelFamily: params.modelFamily ?? null,
         selectedContextEngineId: selectedId,
-        contextEngineSelectionSource:
-          selectedId === "legacy" ? "default" : selectedId ? "configured" : "unknown",
+        contextEngineSelectionSource: "configured",
         promptTokenBudget: params.tokenBudget,
         maxOutputTokens: params.maxOutputTokens,
         fallbackReason: params.fallbackReason,
@@ -401,10 +400,10 @@ export async function runHarnessContextEngineMaintenance(params: {
 }
 
 /**
- * Return true when a non-legacy context engine should affect plugin harness behavior.
+ * Return true when a non context engine should affect plugin harness behavior.
  */
 export function isActiveHarnessContextEngine(
   contextEngine: ContextEngine | undefined,
 ): contextEngine is ContextEngine {
-  return Boolean(contextEngine && contextEngine.info.id !== "legacy");
+  return Boolean(contextEngine && contextEngine.info.id);
 }

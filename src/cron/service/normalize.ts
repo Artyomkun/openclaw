@@ -1,7 +1,7 @@
 /** Name, agent id, and payload text normalization helpers for cron service ops. */
-import { normalizeOptionalAgentId } from "../../routing/session-key.js";
-import { truncateUtf16Safe } from "../../utils.js";
-import type { CronPayload } from "../types.js";
+import { normalizeOptionalAgentId } from "../../routing/session-key.ts";
+import { truncateUtf16Safe } from "../../utils.ts";
+import type { CronPayload } from "../types.ts";
 
 /** Normalizes a required cron job name and throws the public validation error when absent. */
 export function normalizeRequiredName(raw: unknown) {

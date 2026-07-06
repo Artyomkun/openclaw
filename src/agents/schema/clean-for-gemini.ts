@@ -137,25 +137,14 @@ function extendSchemaDefs(
     schema.$defs && typeof schema.$defs === "object" && !Array.isArray(schema.$defs)
       ? (schema.$defs as Record<string, unknown>)
       : undefined;
-  const legacyDefsEntry =
-    schema.definitions &&
-    typeof schema.definitions === "object" &&
-    !Array.isArray(schema.definitions)
-      ? (schema.definitions as Record<string, unknown>)
-      : undefined;
 
-  if (!defsEntry && !legacyDefsEntry) {
+  if (!defsEntry) {
     return defs;
   }
 
   const next = defs ? new Map(defs) : new Map<string, unknown>();
   if (defsEntry) {
     for (const [key, value] of Object.entries(defsEntry)) {
-      next.set(key, value);
-    }
-  }
-  if (legacyDefsEntry) {
-    for (const [key, value] of Object.entries(legacyDefsEntry)) {
       next.set(key, value);
     }
   }

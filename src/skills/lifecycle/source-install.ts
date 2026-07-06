@@ -3,17 +3,17 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { redactSensitiveUrlLikeString } from "@openclaw/net-policy/redact-sensitive-url";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { sanitizeHostExecEnv } from "../../infra/host-env-security.js";
-import { withTempDir } from "../../infra/install-source-utils.js";
-import { writeJson } from "../../infra/json-files.js";
-import { isImmutableGitCommitRef, parseGitPluginSpec } from "../../plugins/git-install.js";
-import { runCommandWithTimeout } from "../../process/exec.js";
-import { resolveUserPath } from "../../utils.js";
-import { parseFrontmatter } from "../loading/frontmatter.js";
-import { installExtractedSkillRoot, validateRequestedSkillSlug } from "./archive-install.js";
-import { untrackClawHubSkill } from "./clawhub.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { sanitizeHostExecEnv } from "../../infra/host-env-security.ts";
+import { withTempDir } from "../../infra/install-source-utils.ts";
+import { writeJson } from "../../infra/json-files.ts";
+import { isImmutableGitCommitRef, parseGitPluginSpec } from "../../plugins/git-install.ts";
+import { runCommandWithTimeout } from "../../process/exec.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { parseFrontmatter } from "../loading/frontmatter.ts";
+import { installExtractedSkillRoot, validateRequestedSkillSlug } from "./archive-install.ts";
+import { untrackClawHubSkill } from "./clawhub.ts";
 
 type Logger = {
   info?: (message: string) => void;

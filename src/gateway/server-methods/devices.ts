@@ -9,7 +9,7 @@ import {
   validateDevicePairRejectParams,
   validateDeviceTokenRevokeParams,
   validateDeviceTokenRotateParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   approveDevicePairing,
   formatDevicePairingForbiddenMessage,
@@ -24,8 +24,8 @@ import {
   revokeDeviceToken,
   rotateDeviceToken,
   summarizeDeviceTokens,
-} from "../../infra/device-pairing.js";
-import type { DiagnosticSecurityEventInput } from "../../infra/diagnostic-events.js";
+} from "../../infra/device-pairing.ts";
+import type { DiagnosticSecurityEventInput } from "../../infra/diagnostic-events.ts";
 import {
   deniesCrossDeviceManagement,
   deniesDeviceTokenRoleManagement,
@@ -33,10 +33,10 @@ import {
   requestsNonOperatorDeviceRole,
   resolveDeviceManagementAuthz,
   resolveDeviceSessionAuthz,
-} from "./device-management-authz.js";
-import type { DeviceManagementAuthz } from "./device-management-authz.js";
-import { emitDeviceManagementSecurityEvent } from "./device-management-security.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "./device-management-authz.ts";
+import type { DeviceManagementAuthz } from "./device-management-authz.ts";
+import { emitDeviceManagementSecurityEvent } from "./device-management-security.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 const DEVICE_TOKEN_ROTATION_DENIED_MESSAGE = "device token rotation denied";
 const DEVICE_TOKEN_REVOCATION_DENIED_MESSAGE = "device token revocation denied";

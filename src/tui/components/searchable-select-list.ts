@@ -10,8 +10,8 @@ import {
 } from "@earendil-works/pi-tui";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { stripAnsi, visibleWidth } from "../../../packages/terminal-core/src/ansi.js";
-import { findWordBoundaryIndex, fuzzyFilterLower } from "./fuzzy-filter.js";
+import { stripAnsi, visibleWidth } from "../../../packages/terminal-core/src/ansi.ts";
+import { findWordBoundaryIndex, fuzzyFilterLower } from "./fuzzy-filter.ts";
 
 const ANSI_ESCAPE = String.fromCharCode(27);
 const ANSI_SGR_REGEX = new RegExp(`${ANSI_ESCAPE}\\[[0-9;]*m`, "g");

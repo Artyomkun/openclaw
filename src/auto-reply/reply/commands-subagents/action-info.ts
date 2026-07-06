@@ -1,22 +1,22 @@
 // Formats detailed subagent run information for the info action.
 import { timestampMsToIsoString } from "@openclaw/normalization-core/number-coercion";
-import { subagentRuns } from "../../../agents/subagent-registry-memory.js";
-import { countPendingDescendantRunsFromRuns } from "../../../agents/subagent-registry-queries.js";
-import { getSubagentRunsSnapshotForRead } from "../../../agents/subagent-registry-state.js";
-import { resolveStorePath } from "../../../config/sessions/paths.js";
-import { loadSessionEntry } from "../../../config/sessions/session-accessor.js";
+import { subagentRuns } from "../../../agents/subagent-registry-memory.ts";
+import { countPendingDescendantRunsFromRuns } from "../../../agents/subagent-registry-queries.ts";
+import { getSubagentRunsSnapshotForRead } from "../../../agents/subagent-registry-state.ts";
+import { resolveStorePath } from "../../../config/sessions/paths.ts";
+import { loadSessionEntry } from "../../../config/sessions/session-accessor.ts";
 import { formatTimeAgo } from "../../../infra/format-time/format-relative.ts";
-import { parseAgentSessionKey } from "../../../routing/session-key.js";
-import { formatDurationCompact } from "../../../shared/subagents-format.js";
-import { findTaskByRunIdForOwner } from "../../../tasks/task-owner-access.js";
-import { sanitizeTaskStatusText } from "../../../tasks/task-status.js";
-import type { CommandHandlerResult } from "../commands-types.js";
-import { formatRunLabel, formatRunStatus } from "../subagents-utils.js";
+import { parseAgentSessionKey } from "../../../routing/session-key.ts";
+import { formatDurationCompact } from "../../../shared/subagents-format.ts";
+import { findTaskByRunIdForOwner } from "../../../tasks/task-owner-access.ts";
+import { sanitizeTaskStatusText } from "../../../tasks/task-status.ts";
+import type { CommandHandlerResult } from "../commands-types.ts";
+import { formatRunLabel, formatRunStatus } from "../subagents-utils.ts";
 import {
   resolveSubagentEntryForToken,
   stopWithText,
   type SubagentsCommandContext,
-} from "./shared.js";
+} from "./shared.ts";
 
 function formatTimestampWithAge(valueMs?: number) {
   if (!valueMs || !Number.isFinite(valueMs) || valueMs <= 0) {

@@ -5,37 +5,37 @@ import type { FastMode } from "@openclaw/normalization-core/string-coerce";
 import type {
   PartialReplyPayload,
   SourceReplyDeliveryMode,
-} from "../../../auto-reply/get-reply-options.types.js";
-import type { ReplyPayload } from "../../../auto-reply/reply-payload.js";
-import type { ReplyOperation } from "../../../auto-reply/reply/reply-run-registry.js";
-import type { ReasoningLevel, ThinkLevel, VerboseLevel } from "../../../auto-reply/thinking.js";
-import type { ChatType } from "../../../channels/chat-type.js";
-import type { InboundEventKind } from "../../../channels/inbound-event/kind.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import type { ImageContent } from "../../../llm/types.js";
-import type { PromptImageOrderEntry } from "../../../media/prompt-image-order.js";
-import type { PluginHookChannelContext } from "../../../plugins/hook-types.js";
-import type { CommandQueueEnqueueFn } from "../../../process/command-queue.types.js";
-import type { InputProvenance } from "../../../sessions/input-provenance.js";
-import type { UserTurnTranscriptRecorder } from "../../../sessions/user-turn-transcript.types.js";
-import type { SkillSnapshot } from "../../../skills/types.js";
-import type { ExecElevatedDefaults, ExecToolDefaults } from "../../bash-tools.exec-types.js";
-import type { AgentStreamParams, ClientToolDefinition } from "../../command/shared-types.js";
-import type { BlockReplyPayload } from "../../embedded-agent-payloads.js";
+} from "../../../auto-reply/get-reply-options.types.ts";
+import type { ReplyPayload } from "../../../auto-reply/reply-payload.ts";
+import type { ReplyOperation } from "../../../auto-reply/reply/reply-run-registry.ts";
+import type { ReasoningLevel, ThinkLevel, VerboseLevel } from "../../../auto-reply/thinking.ts";
+import type { ChatType } from "../../../channels/chat-type.ts";
+import type { InboundEventKind } from "../../../channels/inbound-event/kind.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import type { ImageContent } from "../../../llm/types.ts";
+import type { PromptImageOrderEntry } from "../../../media/prompt-image-order.ts";
+import type { PluginHookChannelContext } from "../../../plugins/hook-types.ts";
+import type { CommandQueueEnqueueFn } from "../../../process/command-queue.types.ts";
+import type { InputProvenance } from "../../../sessions/input-provenance.ts";
+import type { UserTurnTranscriptRecorder } from "../../../sessions/user-turn-transcript.types.ts";
+import type { SkillSnapshot } from "../../../skills/types.ts";
+import type { ExecElevatedDefaults, ExecToolDefaults } from "../../bash-tools.exec-types.ts";
+import type { AgentStreamParams, ClientToolDefinition } from "../../command/shared-types.ts";
+import type { BlockReplyPayload } from "../../embedded-agent-payloads.ts";
 import type {
   BlockReplyChunking,
   ToolProgressDetailMode,
   ToolResultFormat,
-} from "../../embedded-agent-subscribe.shared-types.js";
-import type { FastModeAutoProgressState } from "../../fast-mode.js";
-import type { AgentInternalEvent } from "../../internal-events.js";
-import type { AgentRunSessionTarget } from "../../run-session-target.js";
-import type { AgentMessage } from "../../runtime/index.js";
-import type { SilentReplyPromptMode } from "../../system-prompt.types.js";
-import type { PromptMode } from "../../system-prompt.types.js";
-import type { EmbeddedAgentExecutionPhase } from "../execution-phase.js";
-import type { AuthProfileFailurePolicy } from "./auth-profile-failure-policy.types.js";
-export type { ClientToolDefinition } from "../../command/shared-types.js";
+} from "../../embedded-agent-subscribe.shared-types.ts";
+import type { FastModeAutoProgressState } from "../../fast-mode.ts";
+import type { AgentInternalEvent } from "../../internal-events.ts";
+import type { AgentRunSessionTarget } from "../../run-session-target.ts";
+import type { AgentMessage } from "../../runtime/index.ts";
+import type { SilentReplyPromptMode } from "../../system-prompt.types.ts";
+import type { PromptMode } from "../../system-prompt.types.ts";
+import type { EmbeddedAgentExecutionPhase } from "../execution-phase.ts";
+import type { AuthProfileFailurePolicy } from "./auth-profile-failure-policy.types.ts";
+export type { ClientToolDefinition } from "../../command/shared-types.ts";
 
 export type EmbeddedRunTrigger = "cron" | "heartbeat" | "manual" | "memory" | "overflow" | "user";
 
@@ -125,8 +125,6 @@ export type RunEmbeddedAgentParams = {
   forceHeartbeatTool?: boolean;
   /** Allow runtime plugins for this run to late-bind the gateway subagent. */
   allowGatewaySubagentBinding?: boolean;
-  /** @deprecated Use sessionTarget plus sessionId/sessionKey/agentId for runtime identity. */
-  sessionFile?: string;
   workspaceDir: string;
   /** Task working directory for tool/runtime execution. Defaults to workspaceDir. */
   cwd?: string;
@@ -247,8 +245,6 @@ export type RunEmbeddedAgentParams = {
    * final lifecycle "end" or "error" after fallback and post-turn work settle.
    */
   deferTerminalLifecycle?: boolean;
-  /** @deprecated Use deferTerminalLifecycle. */
-  deferTerminalLifecycleEnd?: boolean;
   lane?: string;
   enqueue?: CommandQueueEnqueueFn;
   extraSystemPrompt?: string;

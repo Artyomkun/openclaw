@@ -4,31 +4,31 @@ import type { Duplex } from "node:stream";
 import {
   GATEWAY_CLIENT_IDS,
   GATEWAY_CLIENT_MODES,
-} from "../../../packages/gateway-protocol/src/client-info.js";
-import { PROTOCOL_VERSION } from "../../../packages/gateway-protocol/src/index.js";
-import type { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { PluginHttpRouteRegistration, PluginRegistry } from "../../plugins/registry.js";
-import { withPluginRuntimeGatewayRequestScope } from "../../plugins/runtime/gateway-request-scope.js";
-import type { AuthorizedGatewayHttpRequest } from "../http-utils.js";
-import type { GatewayRequestContext, GatewayRequestOptions } from "../server-methods/types.js";
-import { resolvePluginRouteRuntimeOperatorScopes } from "./plugin-route-runtime-scopes.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
+import { PROTOCOL_VERSION } from "../../../packages/gateway-protocol/src/index.ts";
+import type { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { PluginHttpRouteRegistration, PluginRegistry } from "../../plugins/registry.ts";
+import { withPluginRuntimeGatewayRequestScope } from "../../plugins/runtime/gateway-request-scope.ts";
+import type { AuthorizedGatewayHttpRequest } from "../http-utils.ts";
+import type { GatewayRequestContext, GatewayRequestOptions } from "../server-methods/types.ts";
+import { resolvePluginRouteRuntimeOperatorScopes } from "./plugin-route-runtime-scopes.ts";
 import {
   resolvePluginRoutePathContext,
   type PluginRoutePathContext,
-} from "./plugins-http/path-context.js";
-import { matchedPluginRoutesRequireGatewayAuth } from "./plugins-http/route-auth.js";
-import { findMatchingPluginHttpRoutes } from "./plugins-http/route-match.js";
+} from "./plugins-http/path-context.ts";
+import { matchedPluginRoutesRequireGatewayAuth } from "./plugins-http/route-auth.ts";
+import { findMatchingPluginHttpRoutes } from "./plugins-http/route-match.ts";
 
 export {
   isProtectedPluginRoutePathFromContext,
   resolvePluginRoutePathContext,
   type PluginRoutePathContext,
-} from "./plugins-http/path-context.js";
+} from "./plugins-http/path-context.ts";
 export {
   findRegisteredPluginHttpRoute,
   isRegisteredPluginHttpRoutePath,
-} from "./plugins-http/route-match.js";
-export { shouldEnforceGatewayAuthForPluginPath } from "./plugins-http/route-auth.js";
+} from "./plugins-http/route-match.ts";
+export { shouldEnforceGatewayAuthForPluginPath } from "./plugins-http/route-auth.ts";
 
 type SubsystemLogger = ReturnType<typeof createSubsystemLogger>;
 type PluginRouteRuntimeScope = Parameters<typeof withPluginRuntimeGatewayRequestScope>[0];

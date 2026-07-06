@@ -1,14 +1,14 @@
 // Runs plugin message preprocessing hooks before reply prompt construction.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { fireAndForgetHook } from "../../hooks/fire-and-forget.js";
-import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { fireAndForgetHook } from "../../hooks/fire-and-forget.ts";
+import { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.ts";
 import {
   deriveInboundMessageHookContext,
   toInternalMessagePreprocessedContext,
   toInternalMessageTranscribedContext,
-} from "../../hooks/message-hook-mappers.js";
-import type { FinalizedMsgContext } from "../templating.js";
+} from "../../hooks/message-hook-mappers.ts";
+import type { FinalizedMsgContext } from "../templating.ts";
 
 export function emitPreAgentMessageHooks(params: {
   ctx: FinalizedMsgContext;

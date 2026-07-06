@@ -1,14 +1,29 @@
 // Runtime fetch adapter preserves undici dispatcher support and normalizes
 // headers/FormData before calling the runtime fetch implementation.
-import type { Dispatcher } from "undici";
-import { normalizeHeadersInitForFetch } from "../fetch-headers.js";
-import { isFormDataLike } from "./form-data.js";
-import { loadUndiciRuntimeDeps, type UndiciRuntimeDeps } from "./undici-runtime.js";
+import type { Dispatcher, RequestInit as UndiciRequestInit } from "undici";
+import { normalizeHeadersInitForFetch } from "../fetch-headers.ts";
+import { isFormDataLike } from "./form-data.ts";
+import { loadUndiciRuntimeDeps, type UndiciRuntimeDeps } from "./undici-runtime.ts";
 
-export type DispatcherAwareRequestInit = RequestInit & { dispatcher?: Dispatcher };
+/** 
+ * Explicit interface for our runtime fetch requirements.
+ * Avoids mutating or intersecting the global RequestInit, which causes type narrowing issues.
+ */
+export interface RuntimeRequestInit extends Omit<UndiciRequestInit, 'body'> {
+  dispatcher?: Dispatcher;
+  body?: BodyInit | null | undefined;
+}
 
-type FetchLike = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
+/** 
+ * Bridge interface to satisfy TypeScript's strict structural typing 
+ * between undici's internal FormData and the global BodyInit.
+ */
+interface UndiciFormDataLike {
+  append(name: string, value: string | Blob, fileName?: string): void;
+  entries(): IterableIterator<[string, FormDataEntryValue]>;
+}
 
+type FetchLike = (input: RequestInfo | URL, init?: RuntimeRequestInit) => Promise<Response>;
 type RuntimeFormDataCtor = NonNullable<UndiciRuntimeDeps["FormData"]>;
 
 type FormDataEntryValueWithOptionalName = FormDataEntryValue & { name?: string };
@@ -17,58 +32,49 @@ function normalizeRuntimeFormData(
   body: unknown,
   RuntimeFormData: RuntimeFormDataCtor | undefined,
 ): BodyInit | null | undefined {
-  // Node global FormData and undici runtime FormData can differ; rebuild into
-  // the runtime constructor so multipart uploads stream correctly.
   if (!isFormDataLike(body) || typeof RuntimeFormData !== "function") {
     return body as BodyInit | null | undefined;
   }
+
+  // If it's already the exact runtime instance, pass through safely
   if (body instanceof RuntimeFormData) {
-    return body;
+    return body as unknown as BodyInit;
   }
 
-  // Node's global FormData and undici's runtime FormData can be different
-  // constructors. Rebuild entries so runtime fetch can stream multipart bodies.
+  // Rebuild entries to ensure the runtime constructor handles multipart streaming correctly
   const next = new RuntimeFormData();
-  for (const [key, value] of body.entries()) {
+  for (const [key, value] of (body as UndiciFormDataLike).entries()) {
     const namedValue = value as FormDataEntryValueWithOptionalName;
-    // File.name is the standard filename property; skip empty/whitespace-only values
     const fileName =
       typeof namedValue.name === "string" && namedValue.name.trim() ? namedValue.name : undefined;
-    if (fileName) {
-      next.append(key, value, fileName);
-    } else {
-      next.append(key, value);
-    }
+    
+    next.append(key, value as string | Blob, fileName);
   }
-  // undici.FormData is structurally compatible with BodyInit but lives in a separate
-  // type namespace; the cast avoids a cross-implementation assignability error.
+  
   return next as unknown as BodyInit;
 }
 
 function normalizeRuntimeRequestInit(
-  init: DispatcherAwareRequestInit | undefined,
+  init: RuntimeRequestInit | undefined,
   RuntimeFormData: RuntimeFormDataCtor | undefined,
-): DispatcherAwareRequestInit | undefined {
-  if (!init) {
-    return init;
-  }
+): RuntimeRequestInit | undefined {
+  if (!init) return init;
+
   const normalizedHeaders = normalizeHeadersInitForFetch(init.headers);
   const initWithNormalizedHeaders =
     normalizedHeaders === init.headers ? init : { ...init, headers: normalizedHeaders };
-  if (!init.body) {
-    return initWithNormalizedHeaders;
-  }
+
+  if (!init.body) return initWithNormalizedHeaders;
 
   const body = normalizeRuntimeFormData(init.body, RuntimeFormData);
-  if (body === init.body) {
-    return initWithNormalizedHeaders;
-  }
+  if (body === init.body) return initWithNormalizedHeaders;
 
-  // The rebuilt FormData will choose its own boundary and length; stale caller
-  // values make undici send an invalid multipart request.
+  // The rebuilt FormData chooses its own boundary and length; 
+  // stale caller values make undici send an invalid multipart request.
   const headers = new Headers(normalizedHeaders);
   headers.delete("content-length");
   headers.delete("content-type");
+  
   return {
     ...initWithNormalizedHeaders,
     headers,
@@ -76,28 +82,44 @@ function normalizeRuntimeRequestInit(
   };
 }
 
-/** Returns true for Vitest-style mocked fetch functions that should stay injectable. */
+/** 
+ * Safely detects Vitest/Jest mocked fetch functions.
+ * Uses 'name' property check as a safer alternative to duck-typing `.mock` 
+ * on native C++ bindings in Node.js 24+.
+ */
 export function isMockedFetch(fetchImpl: FetchLike | undefined): boolean {
   if (typeof fetchImpl !== "function") {
     return false;
   }
-  return typeof (fetchImpl as FetchLike & { mock?: unknown }).mock === "object";
+  // Vitest/Jest mocks usually have a specific name or explicit mock property
+  // that doesn't exist on native undici fetch implementations.
+  return fetchImpl.name === 'vi.fn' || fetchImpl.name === 'jest.fn' || 
+        (typeof (fetchImpl as Record<string, unknown>).mock === "object" && fetchImpl.name !== 'fetch');
 }
 
 /** Uses the undici runtime fetch so callers can pass dispatcher-aware options. */
 export async function fetchWithRuntimeDispatcher(
   input: RequestInfo | URL,
-  init?: DispatcherAwareRequestInit,
+  init?: RuntimeRequestInit,
 ): Promise<Response> {
   const runtimeDeps = loadUndiciRuntimeDeps();
-  const runtimeFetch = runtimeDeps.fetch as unknown as (
-    input: RequestInfo | URL,
-    init?: DispatcherAwareRequestInit,
-  ) => Promise<unknown>;
-  return (await runtimeFetch(
+  
+  // Explicit mapping to the runtime's expected signature
+  const runtimeFetch = runtimeDeps.fetch as (input: RequestInfo | URL, init?: RuntimeRequestInit) => Promise<unknown>;
+  
+  const result = await runtimeFetch(
     input,
     normalizeRuntimeRequestInit(init, runtimeDeps.FormData),
-  )) as Response;
+  );
+  
+  // If the runtime fetch returns an undici-specific response type, 
+  // we ensure it satisfies the standard Response interface.
+  if (result instanceof Response) {
+    return result;
+  }
+  
+  // Fallback wrap for edge cases in testing environments
+  return result as Response;
 }
 
 /**
@@ -106,10 +128,11 @@ export async function fetchWithRuntimeDispatcher(
  */
 export async function fetchWithRuntimeDispatcherOrMockedGlobal(
   input: RequestInfo | URL,
-  init?: DispatcherAwareRequestInit,
+  init?: RuntimeRequestInit,
 ): Promise<Response> {
-  if (isMockedFetch(globalThis.fetch)) {
-    return await globalThis.fetch(input, init);
+  if (isMockedFetch(globalThis.fetch as FetchLike)) {
+    // Cast to FetchLike to satisfy strict typing without `as any`
+    return await (globalThis.fetch as FetchLike)(input, init);
   }
   return await fetchWithRuntimeDispatcher(input, init);
 }

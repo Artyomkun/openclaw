@@ -10,11 +10,11 @@ Create meme drafts from a curated template registry without bundling copyrighted
 
 Quick start
 
-- Search: `{baseDir}/scripts/meme.mjs search "bad choice"`
-- Suggest: `{baseDir}/scripts/meme.mjs suggest "slow python image scripts"`
-- Local SVG: `{baseDir}/scripts/meme.mjs render drake --text "Python cold starts" --text "Node sharp cache" --out /tmp/meme.svg`
-- Local PNG: `{baseDir}/scripts/meme.mjs render drake --text "Maybe API" --text "Local render" --out /tmp/meme.png`
-- Imgflip hosted: `{baseDir}/scripts/meme.mjs render drake --service imgflip --text "before" --text "after"`
+- Search: `{baseDir}/scripts/meme.ts search "bad choice"`
+- Suggest: `{baseDir}/scripts/meme.ts suggest "slow python image scripts"`
+- Local SVG: `{baseDir}/scripts/meme.ts render drake --text "Python cold starts" --text "Node sharp cache" --out /tmp/meme.svg`
+- Local PNG: `{baseDir}/scripts/meme.ts render drake --text "Maybe API" --text "Local render" --out /tmp/meme.png`
+- Imgflip hosted: `{baseDir}/scripts/meme.ts render drake --service imgflip --text "before" --text "after"`
 
 Modes
 

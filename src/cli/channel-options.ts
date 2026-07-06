@@ -1,6 +1,6 @@
 // CLI channel option formatter backed by generated startup metadata when available.
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { readCliStartupMetadata } from "./startup-metadata.js";
+import { readCliStartupMetadata } from "./startup-metadata.ts";
 
 function dedupe(values: string[]): string[] {
   return uniqueStrings(values.filter(Boolean));

@@ -7,11 +7,11 @@
  */
 
 import type { WriteStream } from "node:fs";
-import { sanitizeBinaryOutput } from "../shell-utils.js";
-import { stripAnsi } from "../utils/ansi.js";
-import type { BashOperations } from "./tools/bash-operations.js";
-import { createPrivateTempWriteStream } from "./tools/private-temp-file.js";
-import { DEFAULT_MAX_BYTES, truncateTail } from "./tools/truncate.js";
+import { sanitizeBinaryOutput } from "../shell-utils.ts";
+import { stripAnsi } from "../utils/ansi.ts";
+import type { BashOperations } from "./tools/bash-operations.ts";
+import { createPrivateTempWriteStream } from "./tools/private-temp-file.ts";
+import { DEFAULT_MAX_BYTES, truncateTail } from "./tools/truncate.ts";
 
 // ============================================================================
 // Types

@@ -5,26 +5,26 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
-import { stripPlainTextToolCallBlocks } from "../../../packages/tool-call-repair/src/index.js";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import type { AgentToolResult } from "../../agents/runtime/index.js";
+import { stripPlainTextToolCallBlocks } from "../../../packages/tool-call-repair/src/index.ts";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import type { AgentToolResult } from "../../agents/runtime/index.ts";
 import {
   readPositiveIntegerParam,
   readStringArrayParam,
   readStringParam,
-} from "../../agents/tools/common.js";
-import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.js";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import { normalizeChatType, type ChatType } from "../../channels/chat-type.js";
-import type { InboundEventKind } from "../../channels/inbound-event/kind.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import { dispatchChannelMessageAction } from "../../channels/plugins/message-action-dispatch.js";
+} from "../../agents/tools/common.ts";
+import type { SourceReplyDeliveryMode } from "../../auto-reply/get-reply-options.types.ts";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import { normalizeChatType, type ChatType } from "../../channels/chat-type.ts";
+import type { InboundEventKind } from "../../channels/inbound-event/kind.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import { dispatchChannelMessageAction } from "../../channels/plugins/message-action-dispatch.ts";
 import type {
   ChannelId,
   ChannelMessageActionName,
   ChannelThreadingToolContext,
-} from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   hasInteractiveReplyBlocks,
   hasMessagePresentationBlocks,
@@ -32,32 +32,32 @@ import {
   normalizeInteractiveReply,
   normalizeMessagePresentation,
   type ReplyPayloadDelivery,
-} from "../../interactive/payload.js";
-import type { OutboundMediaAccess } from "../../media/load-options.js";
-import { getAgentScopedMediaLocalRoots } from "../../media/local-roots.js";
-import { resolveAgentScopedOutboundMediaAccess } from "../../media/read-capability.js";
-import { extractToolPayload } from "../../plugin-sdk/tool-payload.js";
-import { hasPollCreationParams } from "../../poll-params.js";
-import { resolvePollMaxSelections } from "../../polls.js";
-import { resolveFirstBoundAccountId } from "../../routing/bound-account-read.js";
-import { stripUnsupportedCitationControlMarkers } from "../../shared/text/citation-control-markers.js";
-import { stripFormattedReasoningMessage } from "../../shared/text/formatted-reasoning-message.js";
-import { parseInlineDirectives } from "../../utils/directive-tags.js";
+} from "../../interactive/payload.ts";
+import type { OutboundMediaAccess } from "../../media/load-options.ts";
+import { getAgentScopedMediaLocalRoots } from "../../media/local-roots.ts";
+import { resolveAgentScopedOutboundMediaAccess } from "../../media/read-capability.ts";
+import { extractToolPayload } from "../../plugin-sdk/tool-payload.ts";
+import { hasPollCreationParams } from "../../poll-params.ts";
+import { resolvePollMaxSelections } from "../../polls.ts";
+import { resolveFirstBoundAccountId } from "../../routing/bound-account-read.ts";
+import { stripUnsupportedCitationControlMarkers } from "../../shared/text/citation-control-markers.ts";
+import { stripFormattedReasoningMessage } from "../../shared/text/formatted-reasoning-message.ts";
+import { parseInlineDirectives } from "../../utils/directive-tags.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   type GatewayClientMode,
   type GatewayClientName,
-} from "../../utils/message-channel.js";
-import { formatErrorMessage } from "../errors.js";
-import { throwIfAborted } from "./abort.js";
-import { resolveOutboundChannelPlugin } from "./channel-resolution.js";
+} from "../../utils/message-channel.ts";
+import { formatErrorMessage } from "../errors.ts";
+import { throwIfAborted } from "./abort.ts";
+import { resolveOutboundChannelPlugin } from "./channel-resolution.ts";
 import {
   listConfiguredMessageChannels,
   resolveMessageChannelSelection,
-} from "./channel-selection.js";
-import type { OutboundSendDeps } from "./deliver.js";
-import { shouldUseInternalSourceReplySink } from "./internal-source-reply.js";
-import { normalizeMessageActionInput } from "./message-action-normalization.js";
+} from "./channel-selection.ts";
+import type { OutboundSendDeps } from "./deliver.ts";
+import { shouldUseInternalSourceReplySink } from "./internal-source-reply.ts";
+import { normalizeMessageActionInput } from "./message-action-normalization.ts";
 import {
   collectActionMediaSourceHints,
   hydrateAttachmentParamsForAction,
@@ -68,15 +68,15 @@ import {
   readBooleanParam,
   resolveAttachmentMediaPolicy,
   resolveExtraActionMediaSourceParamKeys,
-} from "./message-action-params.js";
+} from "./message-action-params.ts";
 import {
   prepareOutboundMirrorRoute,
   resolveAndApplyOutboundReplyToId,
   resolveAndApplyOutboundThreadId,
-} from "./message-action-threading.js";
-import { maybeApplyTtsToMessageActionSendPayload } from "./message-action-tts.js";
-import { resolveOutboundMessageGatewayOptions } from "./message-gateway-options.js";
-import type { MessagePollResult, MessageSendResult } from "./message.js";
+} from "./message-action-threading.ts";
+import { maybeApplyTtsToMessageActionSendPayload } from "./message-action-tts.ts";
+import { resolveOutboundMessageGatewayOptions } from "./message-gateway-options.ts";
+import type { MessagePollResult, MessageSendResult } from "./message.ts";
 import {
   applyCrossContextDecoration,
   buildCrossContextDecoration,
@@ -85,11 +85,11 @@ import {
   enforceMessageActionAllowlist,
   resolveEffectiveMessageToolsConfig,
   shouldApplyCrossContextMarker,
-} from "./outbound-policy.js";
-import { executePollAction, executeSendAction } from "./outbound-send-service.js";
-import { ensureOutboundSessionEntry, resolveOutboundSessionRoute } from "./outbound-session.js";
-import { normalizeTargetForProvider } from "./target-normalization.js";
-import { resolveChannelTarget, type ResolvedMessagingTarget } from "./target-resolver.js";
+} from "./outbound-policy.ts";
+import { executePollAction, executeSendAction } from "./outbound-send-service.ts";
+import { ensureOutboundSessionEntry, resolveOutboundSessionRoute } from "./outbound-session.ts";
+import { normalizeTargetForProvider } from "./target-normalization.ts";
+import { resolveChannelTarget, type ResolvedMessagingTarget } from "./target-resolver.ts";
 
 export type MessageActionRunnerGateway = {
   url?: string;

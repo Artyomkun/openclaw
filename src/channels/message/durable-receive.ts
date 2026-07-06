@@ -3,8 +3,8 @@
  *
  * Tracks accepted, pending, completed, and retryable inbound platform events.
  */
-import type { PluginStateKeyedStore } from "../../plugin-state/plugin-state-store.types.js";
-import type { ChannelIngressQueue, ChannelIngressQueuePruneOptions } from "./ingress-queue.js";
+import type { PluginStateKeyedStore } from "../../plugin-state/plugin-state-store.types.ts";
+import type { ChannelIngressQueue, ChannelIngressQueuePruneOptions } from "./ingress-queue.ts";
 
 /** Pending inbound receive record kept until agent dispatch or durable send completes. */
 export type DurableInboundReceivePendingRecord<TPayload, TMetadata = unknown> = {

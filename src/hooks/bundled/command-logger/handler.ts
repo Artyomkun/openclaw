@@ -26,11 +26,11 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { resolveStateDir } from "../../../config/paths.js";
-import { formatErrorMessage } from "../../../infra/errors.js";
-import { appendRegularFile } from "../../../infra/fs-safe.js";
-import { createSubsystemLogger } from "../../../logging/subsystem.js";
-import type { HookHandler } from "../../hooks.js";
+import { resolveStateDir } from "../../../config/paths.ts";
+import { formatErrorMessage } from "../../../infra/errors.ts";
+import { appendRegularFile } from "../../../infra/fs-safe.ts";
+import { createSubsystemLogger } from "../../../logging/subsystem.ts";
+import type { HookHandler } from "../../hooks.ts";
 
 const log = createSubsystemLogger("command-logger");
 

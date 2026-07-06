@@ -4,19 +4,19 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { EmbeddedBlockChunker } from "../../agents/embedded-agent-block-chunker.js";
-import { formatToolSummary, resolveToolDisplay } from "../../agents/tool-display.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { prefixSystemMessage } from "../../infra/system-message.js";
-import type { ReplyPayload } from "../types.js";
+import { EmbeddedBlockChunker } from "../../agents/embedded-agent-block-chunker.ts";
+import { formatToolSummary, resolveToolDisplay } from "../../agents/tool-display.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { prefixSystemMessage } from "../../infra/system-message.ts";
+import type { ReplyPayload } from "../types.ts";
 import {
   type AcpHiddenBoundarySeparator,
   isAcpTagVisible,
   resolveAcpProjectionSettings,
   resolveAcpStreamingConfig,
-} from "./acp-stream-settings.js";
-import { createBlockReplyPipeline } from "./block-reply-pipeline.js";
-import type { ReplyDispatchKind } from "./reply-dispatcher.types.js";
+} from "./acp-stream-settings.ts";
+import { createBlockReplyPipeline } from "./block-reply-pipeline.ts";
+import type { ReplyDispatchKind } from "./reply-dispatcher.types.ts";
 
 const ACP_BLOCK_REPLY_TIMEOUT_MS = 15_000;
 const ACP_LIVE_IDLE_FLUSH_FLOOR_MS = 750;

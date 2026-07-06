@@ -11,9 +11,9 @@ export {
   type SecretInput,
   type SecretInputStringResolution,
   type SecretInputStringResolutionMode,
-} from "../config/types.secrets.js";
+} from "../config/types.secrets.ts";
 export {
   resolveConfiguredSecretInputString,
   resolveConfiguredSecretInputWithFallback,
   resolveRequiredConfiguredSecretRefInputString,
-} from "../gateway/resolve-configured-secret-input-string.js";
+} from "../gateway/resolve-configured-secret-input-string.ts";

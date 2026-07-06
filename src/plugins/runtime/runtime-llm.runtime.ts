@@ -1,17 +1,17 @@
 // Runtime LLM helpers adapt plugin provider hooks into the core model runtime.
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { modelKey } from "../../agents/model-ref-shared.js";
-import { normalizeModelRef } from "../../agents/model-selection.js";
-import type { NormalizedUsage, UsageLike } from "../../agents/usage.js";
-import { normalizeUsage } from "../../agents/usage.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { Api, Message } from "../../llm/types.js";
-import { getChildLogger } from "../../logging.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { estimateUsageCost, resolveModelCostConfig } from "../../utils/usage-format.js";
-import { normalizePluginsConfig } from "../config-state.js";
-import { getPluginRuntimeGatewayRequestScope } from "./gateway-request-scope.js";
+import { modelKey } from "../../agents/model-ref-shared.ts";
+import { normalizeModelRef } from "../../agents/model-selection.ts";
+import type { NormalizedUsage, UsageLike } from "../../agents/usage.ts";
+import { normalizeUsage } from "../../agents/usage.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { Api, Message } from "../../llm/types.ts";
+import { getChildLogger } from "../../logging.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { estimateUsageCost, resolveModelCostConfig } from "../../utils/usage-format.ts";
+import { normalizePluginsConfig } from "../config-state.ts";
+import { getPluginRuntimeGatewayRequestScope } from "./gateway-request-scope.ts";
 import type {
   LlmCompleteCaller,
   LlmCompleteParams,
@@ -19,7 +19,7 @@ import type {
   LlmCompleteUsage,
   PluginRuntimeCore,
   RuntimeLogger,
-} from "./types-core.js";
+} from "./types-core.ts";
 
 export type RuntimeLlmAuthority = {
   caller?: LlmCompleteCaller;

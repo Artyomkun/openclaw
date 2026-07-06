@@ -417,8 +417,6 @@ export function isGatewayConnectAssemblyError(value: unknown): value is Error {
 export type GatewayClientOptions = {
   url?: string; // ws://127.0.0.1:18789
   connectChallengeTimeoutMs?: number;
-  /** @deprecated Use connectChallengeTimeoutMs. */
-  connectDelayMs?: number;
   /**
    * Server-side pre-auth handshake budget. Config-derived local clients use
    * this to keep the connect-challenge watchdog aligned with the gateway.
@@ -1388,8 +1386,6 @@ export class GatewayClient {
       !explicitDeviceToken &&
       Boolean(storedToken) &&
       resolvedDeviceToken === storedToken;
-    // Legacy compatibility: keep `auth.token` populated for device-token auth when
-    // no explicit shared token is present.
     const authToken = explicitGatewayToken ?? resolvedDeviceToken;
     const authBootstrapToken =
       !explicitGatewayToken && !resolvedDeviceToken && !authPassword

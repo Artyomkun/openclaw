@@ -1,16 +1,16 @@
 /**
  * Summarization and fallback helpers for transcript compaction.
  */
-import type { AgentCompactionIdentifierPolicy } from "../config/types.agent-defaults.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { retryAsync } from "../infra/retry.js";
-import { isAbortError } from "../infra/unhandled-rejections.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import type { AgentCompactionIdentifierPolicy } from "../config/types.agent-defaults.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { retryAsync } from "../infra/retry.ts";
+import { isAbortError } from "../infra/unhandled-rejections.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   buildOversizedFallbackPlanWithWorker,
   buildStageSplitPlanWithWorker,
   buildSummaryChunksWithWorker,
-} from "./compaction-planning-worker.js";
+} from "./compaction-planning-worker.ts";
 import {
   BASE_CHUNK_RATIO,
   chunkMessagesByMaxTokens,
@@ -22,12 +22,12 @@ import {
   SAFETY_MARGIN,
   splitMessagesByTokenShare,
   SUMMARIZATION_OVERHEAD_TOKENS,
-} from "./compaction-planning.js";
-import { DEFAULT_CONTEXT_TOKENS } from "./defaults.js";
-import { isTimeoutError } from "./failover-error.js";
-import type { AgentMessage } from "./runtime/index.js";
-import type { ExtensionContext } from "./sessions/index.js";
-import { generateSummary as agentGenerateSummary } from "./sessions/index.js";
+} from "./compaction-planning.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "./defaults.ts";
+import { isTimeoutError } from "./failover-error.ts";
+import type { AgentMessage } from "./runtime/index.ts";
+import type { ExtensionContext } from "./sessions/index.ts";
+import { generateSummary as agentGenerateSummary } from "./sessions/index.ts";
 
 export {
   BASE_CHUNK_RATIO,

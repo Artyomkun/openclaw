@@ -8,22 +8,22 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isClientToolNameConflictError } from "../agents/agent-tool-definition-adapter.js";
-import type { AgentStreamParams, ClientToolDefinition } from "../agents/command/shared-types.js";
-import type { ImageContent } from "../agents/command/types.js";
-import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.js";
+import { isClientToolNameConflictError } from "../agents/agent-tool-definition-adapter.ts";
+import type { AgentStreamParams, ClientToolDefinition } from "../agents/command/shared-types.ts";
+import type { ImageContent } from "../agents/command/types.ts";
+import { STREAM_ERROR_FALLBACK_TEXT } from "../agents/stream-message-shared.ts";
 import {
   hasNonzeroUsage,
   normalizeUsage,
   toOpenAiChatCompletionsUsage,
   type NormalizedUsage,
   type OpenAiChatCompletionsUsage,
-} from "../agents/usage.js";
-import { createDefaultDeps } from "../cli/deps.js";
-import { agentCommandFromIngress } from "../commands/agent.js";
-import type { GatewayHttpChatCompletionsConfig } from "../config/types.gateway.js";
-import { emitAgentEvent, onAgentEvent } from "../infra/agent-events.js";
-import { logWarn } from "../logger.js";
+} from "../agents/usage.ts";
+import { createDefaultDeps } from "../cli/deps.ts";
+import { agentCommandFromIngress } from "../commands/agent.ts";
+import type { GatewayHttpChatCompletionsConfig } from "../config/types.gateway.ts";
+import { emitAgentEvent, onAgentEvent } from "../infra/agent-events.ts";
+import { logWarn } from "../logger.ts";
 import {
   DEFAULT_INPUT_IMAGE_MAX_BYTES,
   DEFAULT_INPUT_IMAGE_MIMES,
@@ -33,28 +33,28 @@ import {
   normalizeMimeList,
   type InputImageLimits,
   type InputImageSource,
-} from "../media/input-files.js";
-import { defaultRuntime } from "../runtime.js";
+} from "../media/input-files.ts";
+import { defaultRuntime } from "../runtime.ts";
 import {
   isReplaceableAssistantStreamEvent,
   resolveAssistantStreamDeltaText,
   resolveAssistantStreamSnapshotText,
-} from "./agent-event-assistant-text.js";
+} from "./agent-event-assistant-text.ts";
 import {
   buildAgentMessageFromConversationEntries,
   type ConversationEntry,
   IMAGE_ONLY_USER_MESSAGE,
-} from "./agent-prompt.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
-import type { ResolvedGatewayAuth } from "./auth.js";
+} from "./agent-prompt.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
+import type { ResolvedGatewayAuth } from "./auth.ts";
 import {
   sendJson,
   sendMissingScopeForbidden,
   setSseHeaders,
   watchClientDisconnect,
   writeDone,
-} from "./http-common.js";
-import { handleGatewayPostJsonEndpoint } from "./http-endpoint-helpers.js";
+} from "./http-common.ts";
+import { handleGatewayPostJsonEndpoint } from "./http-endpoint-helpers.ts";
 import {
   authorizeOpenAiCompatibleHttpModelOverride,
   isGatewaySessionKeyOverrideError,
@@ -62,15 +62,15 @@ import {
   resolveGatewayRequestContext,
   resolveOpenAiCompatModelOverride,
   resolveOpenAiCompatibleHttpOperatorScopes,
-} from "./http-utils.js";
-import { normalizeInputHostnameAllowlist } from "./input-allowlist.js";
-import { resolveOpenAiCompatError, validateOpenAiSamplingParams } from "./openai-compat-errors.js";
+} from "./http-utils.ts";
+import { normalizeInputHostnameAllowlist } from "./input-allowlist.ts";
+import { resolveOpenAiCompatError, validateOpenAiSamplingParams } from "./openai-compat-errors.ts";
 import {
   isToolChoiceConstraintSatisfied,
   resolveUnsatisfiedToolChoiceMessage,
   toolChoiceConstraintPrompt,
   type ToolChoiceConstraint,
-} from "./openai-tool-choice.js";
+} from "./openai-tool-choice.ts";
 
 type OpenAiHttpOptions = {
   auth: ResolvedGatewayAuth;

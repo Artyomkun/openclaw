@@ -3,8 +3,8 @@
  *
  * Converts lightweight HTML into bounded markdown/text without pulling in a full renderer.
  */
-import { decodeHtmlEntityAt } from "../utils/html.js";
-import { sanitizeHtml, stripInvisibleUnicode } from "./web-fetch-visibility.js";
+import { decodeHtmlEntityAt } from "../utils/html.ts";
+import { sanitizeHtml, stripInvisibleUnicode } from "./web-fetch-visibility.ts";
 
 /** Output mode requested by web_fetch extraction. */
 export type ExtractMode = "markdown" | "text";

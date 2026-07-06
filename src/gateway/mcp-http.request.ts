@@ -2,16 +2,16 @@
 // Authenticates local MCP POST requests and extracts scoped Gateway context.
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.js";
-import type { InboundEventKind } from "../channels/inbound-event/kind.js";
-import { resolveMainSessionKey } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { safeEqualSecret } from "../security/secret-equal.js";
-import { normalizeMessageChannel } from "../utils/message-channel.js";
-import { getHeader } from "./http-utils.js";
-import { isLoopbackAddress } from "./net.js";
-import { checkBrowserOrigin } from "./origin-check.js";
+import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.ts";
+import type { InboundEventKind } from "../channels/inbound-event/kind.ts";
+import { resolveMainSessionKey } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { safeEqualSecret } from "../security/secret-equal.ts";
+import { normalizeMessageChannel } from "../utils/message-channel.ts";
+import { getHeader } from "./http-utils.ts";
+import { isLoopbackAddress } from "./net.ts";
+import { checkBrowserOrigin } from "./origin-check.ts";
 
 const MAX_MCP_BODY_BYTES = 1_048_576;
 const DEFAULT_MCP_BODY_TIMEOUT_MS = 30_000;

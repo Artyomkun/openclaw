@@ -1,12 +1,12 @@
 // Shares bundled plugin config merge behavior across setup and runtime code.
-import { applyMergePatch } from "../config/merge-patch.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { matchRootFileOpenFailure, type RootFileOpenFailure } from "../infra/boundary-file-read.js";
-import { readRootJsonObjectSync } from "../infra/json-files.js";
-import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.js";
-import type { PluginManifestRegistry } from "./manifest-registry.js";
-import type { PluginBundleFormat } from "./manifest-types.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.js";
+import { applyMergePatch } from "../config/merge-patch.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { matchRootFileOpenFailure, type RootFileOpenFailure } from "../infra/boundary-file-read.ts";
+import { readRootJsonObjectSync } from "../infra/json-files.ts";
+import { normalizePluginsConfig, resolveEffectivePluginActivationState } from "./config-state.ts";
+import type { PluginManifestRegistry } from "./manifest-registry.ts";
+import type { PluginBundleFormat } from "./manifest-types.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.ts";
 
 type ReadBundleJsonResult =
   | { ok: true; raw: Record<string, unknown> }

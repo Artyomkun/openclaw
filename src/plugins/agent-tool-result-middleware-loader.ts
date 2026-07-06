@@ -1,31 +1,31 @@
 // Loads agent tool result middleware from plugin runtime surfaces.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.ts";
 import type {
   AgentToolResultMiddleware,
   AgentToolResultMiddlewareRuntime,
-} from "./agent-tool-result-middleware-types.js";
+} from "./agent-tool-result-middleware-types.ts";
 import {
   listAgentToolResultMiddlewares,
   normalizeAgentToolResultMiddlewareRuntimeIds,
-} from "./agent-tool-result-middleware.js";
+} from "./agent-tool-result-middleware.ts";
 import {
   createPluginActivationSource,
   normalizePluginsConfig,
   resolveEffectivePluginActivationState,
   type NormalizedPluginsConfig,
   type PluginActivationConfigSource,
-} from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import { loadOpenClawPlugins } from "./loader.js";
+} from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import { loadOpenClawPlugins } from "./loader.ts";
 import {
   loadPluginManifestRegistry,
   type PluginManifestRecord,
   type PluginManifestRegistry,
-} from "./manifest-registry.js";
-import type { PluginRegistry } from "./registry-types.js";
-import { getActivePluginRegistry } from "./runtime.js";
+} from "./manifest-registry.ts";
+import type { PluginRegistry } from "./registry-types.ts";
+import { getActivePluginRegistry } from "./runtime.ts";
 
 const log = createSubsystemLogger("plugins/agent-tool-result-middleware");
 

@@ -1,6 +1,6 @@
 /** Scans auth-profile stores for plaintext credentials, SecretRefs, and OAuth tokens. */
-import { isNonEmptyString, isRecord } from "./shared.js";
-import { listAuthProfileSecretTargetEntries } from "./target-registry.js";
+import { isNonEmptyString, isRecord } from "./shared.ts";
+import { listAuthProfileSecretTargetEntries } from "./target-registry.ts";
 
 /** Auth-profile credential kinds that can carry SecretRef-backed values. */
 export type AuthProfileCredentialType = "api_key" | "token";

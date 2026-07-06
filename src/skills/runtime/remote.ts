@@ -4,14 +4,14 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { listAgentWorkspaceDirs } from "../../agents/workspace-dirs.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { NodeRegistry } from "../../gateway/node-registry.js";
-import { listNodePairing, updatePairedNodeMetadata } from "../../infra/node-pairing.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { loadWorkspaceSkillEntries } from "../loading/workspace.js";
-import type { SkillEligibilityContext, SkillEntry } from "../types.js";
-import { bumpSkillsSnapshotVersion } from "./refresh-state.js";
+import { listAgentWorkspaceDirs } from "../../agents/workspace-dirs.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { NodeRegistry } from "../../gateway/node-registry.ts";
+import { listNodePairing, updatePairedNodeMetadata } from "../../infra/node-pairing.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { loadWorkspaceSkillEntries } from "../loading/workspace.ts";
+import type { SkillEligibilityContext, SkillEntry } from "../types.ts";
+import { bumpSkillsSnapshotVersion } from "./refresh-state.ts";
 
 type RemoteNodeRecord = {
   nodeId: string;

@@ -164,7 +164,7 @@ export interface AcpRuntime {
 
   /**
    * Preferred turn API. Live events are streamed separately from the terminal
-   * result so adapters can report failures without relying on legacy done/error
+   * result so adapters can report failures without relying on done/error
    * events in the stream.
    */
   startTurn?(input: AcpRuntimeTurnInput): AcpRuntimeTurn;

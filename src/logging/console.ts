@@ -1,18 +1,18 @@
 // Console logging helpers format and write messages to console streams.
 import util from "node:util";
-import { stripAnsi } from "../../packages/terminal-core/src/ansi.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { isVerbose } from "../global-state.js";
-import { readLoggingConfig, shouldSkipMutatingLoggingConfigRead } from "./config.js";
-import { resolveEnvLogLevelOverride } from "./env-log-level.js";
-import { type LogLevel, normalizeLogLevel } from "./levels.js";
-import { getLogger } from "./logger.js";
-import { redactSensitiveText } from "./redact.js";
-import { loggingState } from "./state.js";
-import { formatLocalIsoWithOffset, formatTimestamp } from "./timestamps.js";
-import type { ConsoleStyle, LoggerSettings } from "./types.js";
+import { stripAnsi } from "../../packages/terminal-core/src/ansi.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { isVerbose } from "../global-state.ts";
+import { readLoggingConfig, shouldSkipMutatingLoggingConfigRead } from "./config.ts";
+import { resolveEnvLogLevelOverride } from "./env-log-level.ts";
+import { type LogLevel, normalizeLogLevel } from "./levels.ts";
+import { getLogger } from "./logger.ts";
+import { redactSensitiveText } from "./redact.ts";
+import { loggingState } from "./state.ts";
+import { formatLocalIsoWithOffset, formatTimestamp } from "./timestamps.ts";
+import type { ConsoleStyle, LoggerSettings } from "./types.ts";
 
-export type { ConsoleStyle } from "./types.js";
+export type { ConsoleStyle } from "./types.ts";
 type ConsoleSettings = {
   level: LogLevel;
   style: ConsoleStyle;

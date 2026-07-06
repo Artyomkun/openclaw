@@ -1,5 +1,5 @@
 // Manual facade. Keep loader boundary explicit.
-import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
+import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.ts";
 
 type FacadeModule = {
   CLAUDE_CLI_BACKEND_ID: string;

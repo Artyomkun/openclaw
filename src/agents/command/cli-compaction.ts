@@ -4,44 +4,44 @@
  * This module decides when CLI-backed sessions need context compaction, chooses
  * native harness or context-engine compaction, and records resulting session state.
  */
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { AgentCompactionMode } from "../../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { buildGenericCliContextEngineHostSupport } from "../../context-engine/host-compat.js";
-import { ensureContextEnginesInitialized as ensureContextEnginesInitializedImpl } from "../../context-engine/init.js";
-import { resolveContextEngine as resolveContextEngineImpl } from "../../context-engine/registry.js";
-import { buildContextEngineRuntimeSettings } from "../../context-engine/runtime-settings.js";
-import type { ContextEngine } from "../../context-engine/types.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { SkillSnapshot } from "../../skills/types.js";
-import { createPreparedEmbeddedAgentSettingsManager as createPreparedEmbeddedAgentSettingsManagerImpl } from "../agent-project-settings.js";
-import { OPENCLAW_AGENT_RUNTIME_ID } from "../agent-runtime-id.js";
-import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.js";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { AgentCompactionMode } from "../../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { buildGenericCliContextEngineHostSupport } from "../../context-engine/host-compat.ts";
+import { ensureContextEnginesInitialized as ensureContextEnginesInitializedImpl } from "../../context-engine/init.ts";
+import { resolveContextEngine as resolveContextEngineImpl } from "../../context-engine/registry.ts";
+import { buildContextEngineRuntimeSettings } from "../../context-engine/runtime-settings.ts";
+import type { ContextEngine } from "../../context-engine/types.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { SkillSnapshot } from "../../skills/types.ts";
+import { createPreparedEmbeddedAgentSettingsManager as createPreparedEmbeddedAgentSettingsManagerImpl } from "../agent-project-settings.ts";
+import { OPENCLAW_AGENT_RUNTIME_ID } from "../agent-runtime-id.ts";
+import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.ts";
 import {
   applyAgentAutoCompactionGuard as applyAgentAutoCompactionGuardImpl,
   resolveEffectiveCompactionMode,
-} from "../agent-settings.js";
-import { resolveCliBackendConfig as resolveCliBackendConfigImpl } from "../cli-backends.js";
-import { classifyCompactionReason } from "../embedded-agent-runner/compact-reasons.js";
-import { buildEmbeddedCompactionRuntimeContext } from "../embedded-agent-runner/compaction-runtime-context.js";
+} from "../agent-settings.ts";
+import { resolveCliBackendConfig as resolveCliBackendConfigImpl } from "../cli-backends.ts";
+import { classifyCompactionReason } from "../embedded-agent-runner/compact-reasons.ts";
+import { buildEmbeddedCompactionRuntimeContext } from "../embedded-agent-runner/compaction-runtime-context.ts";
 import {
   compactContextEngineWithSafetyTimeout,
   compactWithSafetyTimeout,
   resolveCompactionTimeoutMs,
-} from "../embedded-agent-runner/compaction-safety-timeout.js";
-import { runContextEngineMaintenance as runContextEngineMaintenanceImpl } from "../embedded-agent-runner/context-engine-maintenance.js";
-import { shouldPreemptivelyCompactBeforePrompt as shouldPreemptivelyCompactBeforePromptImpl } from "../embedded-agent-runner/run/preemptive-compaction.js";
-import { resolveLiveToolResultMaxChars as resolveLiveToolResultMaxCharsImpl } from "../embedded-agent-runner/tool-result-truncation.js";
-import type { EmbeddedAgentCompactResult } from "../embedded-agent-runner/types.js";
-import { isRecoverableNativeHarnessBindingFailure } from "../harness/compaction-recovery.js";
-import { maybeCompactAgentHarnessSession as maybeCompactAgentHarnessSessionImpl } from "../harness/compaction.js";
-import { ensureSelectedAgentHarnessPlugin as ensureSelectedAgentHarnessPluginImpl } from "../harness/runtime-plugin.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { SessionManager } from "../sessions/session-manager.js";
+} from "../embedded-agent-runner/compaction-safety-timeout.ts";
+import { runContextEngineMaintenance as runContextEngineMaintenanceImpl } from "../embedded-agent-runner/context-engine-maintenance.ts";
+import { shouldPreemptivelyCompactBeforePrompt as shouldPreemptivelyCompactBeforePromptImpl } from "../embedded-agent-runner/run/preemptive-compaction.ts";
+import { resolveLiveToolResultMaxChars as resolveLiveToolResultMaxCharsImpl } from "../embedded-agent-runner/tool-result-truncation.ts";
+import type { EmbeddedAgentCompactResult } from "../embedded-agent-runner/types.ts";
+import { isRecoverableNativeHarnessBindingFailure } from "../harness/compaction-recovery.ts";
+import { maybeCompactAgentHarnessSession as maybeCompactAgentHarnessSessionImpl } from "../harness/compaction.ts";
+import { ensureSelectedAgentHarnessPlugin as ensureSelectedAgentHarnessPluginImpl } from "../harness/runtime-plugin.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { SessionManager } from "../sessions/session-manager.ts";
 import {
   clearCliSessionInStore as clearCliSessionInStoreImpl,
   recordCliCompactionInStore as recordCliCompactionInStoreImpl,
-} from "./session-store.js";
+} from "./session-store.ts";
 
 const CODEX_APP_SERVER_OWNS_AUTO_COMPACTION_REASON = "codex app-server owns automatic compaction";
 

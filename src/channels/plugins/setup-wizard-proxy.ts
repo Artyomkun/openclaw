@@ -3,10 +3,10 @@
  *
  * Delegates setup wizard status, credential, allowlist, and finalization hooks to loaded wizards.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { createDelegatedSetupWizardStatusResolvers } from "./setup-wizard-binary.js";
-import type { ChannelSetupDmPolicy } from "./setup-wizard-types.js";
-import type { ChannelSetupWizard } from "./setup-wizard.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { createDelegatedSetupWizardStatusResolvers } from "./setup-wizard-binary.ts";
+import type { ChannelSetupDmPolicy } from "./setup-wizard-types.ts";
+import type { ChannelSetupWizard } from "./setup-wizard.ts";
 
 type PromptAllowFromParams = Parameters<NonNullable<ChannelSetupDmPolicy["promptAllowFrom"]>>[0];
 type ResolveConfiguredParams = Parameters<ChannelSetupWizard["status"]["resolveConfigured"]>[0];

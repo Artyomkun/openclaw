@@ -7,8 +7,8 @@ import { dirname, join } from "node:path";
 import { type Static, Type } from "typebox";
 import { Compile } from "typebox/compile";
 import type { TLocalizedValidationError } from "typebox/error";
-import { registerApiProvider } from "../../llm/api-registry.js";
-import { resetApiProviders } from "../../llm/providers/register-builtins.js";
+import { registerApiProvider } from "../../llm/api-registry.ts";
+import { resetApiProviders } from "../../llm/providers/register-builtins.ts";
 import type {
   AnthropicMessagesCompat,
   Api,
@@ -18,26 +18,26 @@ import type {
   OpenAICompletionsCompat,
   OpenAIResponsesCompat,
   SimpleStreamOptions,
-} from "../../llm/types.js";
-import { registerOAuthProvider, resetOAuthProviders } from "../../llm/utils/oauth/index.js";
-import type { OAuthProviderInterface } from "../../llm/utils/oauth/types.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { getAgentDir } from "../config.js";
-import { resolveModelPluginMetadataSnapshot } from "../model-discovery-context.js";
+} from "../../llm/types.ts";
+import { registerOAuthProvider, resetOAuthProviders } from "../../llm/utils/oauth/index.ts";
+import type { OAuthProviderInterface } from "../../llm/utils/oauth/types.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { getAgentDir } from "../config.ts";
+import { resolveModelPluginMetadataSnapshot } from "../model-discovery-context.ts";
 import {
   filterGeneratedPluginModelCatalogProviders,
   isGeneratedPluginModelCatalog,
   listPluginModelCatalogFiles,
   type PluginModelCatalogMetadataSnapshot,
-} from "../plugin-model-catalog.js";
-import type { AuthStatus, AuthStorage } from "./auth-storage.js";
-import { BUILT_IN_PROVIDER_DISPLAY_NAMES } from "./provider-display-names.js";
+} from "../plugin-model-catalog.ts";
+import type { AuthStatus, AuthStorage } from "./auth-storage.ts";
+import { BUILT_IN_PROVIDER_DISPLAY_NAMES } from "./provider-display-names.ts";
 import {
   clearConfigValueCache,
   resolveConfigValueOrThrow,
   resolveConfigValueUncached,
   resolveHeadersOrThrow,
-} from "./resolve-config-value.js";
+} from "./resolve-config-value.ts";
 
 const log = createSubsystemLogger("agents/model-registry");
 

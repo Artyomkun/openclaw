@@ -1,32 +1,31 @@
 /**
  * Runtime SDK subpath for channel setup wizards, prompts, and allowlist helpers.
  */
-export type { OpenClawConfig } from "../config/config.js";
-export type { WizardPrompter } from "../wizard/prompts.js";
-export { createClackPrompter } from "../wizard/clack-prompter.js";
-export { createSetupTranslator } from "../wizard/i18n/index.js";
-export type { SetupTranslator, WizardI18nParams } from "../wizard/i18n/index.js";
-export type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.js";
+export type { OpenClawConfig } from "../config/config.ts";
+export type { WizardPrompter } from "../wizard/prompts.ts";
+export { createClackPrompter } from "../wizard/clack-prompter.ts";
+export { createSetupTranslator } from "../wizard/i18n/index.ts";
+export type { SetupTranslator, WizardI18nParams } from "../wizard/i18n/index.ts";
+export type { ChannelSetupAdapter } from "../channels/plugins/types.adapters.ts";
 export type {
   ChannelSetupDmPolicy,
   ChannelSetupWizard,
   ChannelSetupWizardAllowFromEntry,
   ChannelSetupWizardTextInput,
-} from "../channels/plugins/setup-wizard-types.js";
+} from "../channels/plugins/setup-wizard-types.ts";
 
-export { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
+export { DEFAULT_ACCOUNT_ID } from "../routing/session-key.ts";
 
 export {
   createEnvPatchedAccountSetupAdapter,
   createPatchedAccountSetupAdapter,
   createSetupInputPresenceValidator,
-} from "../channels/plugins/setup-helpers.js";
+} from "../channels/plugins/setup-helpers.ts";
 
 export {
   createAccountScopedAllowFromSection,
   createAccountScopedGroupAccessSection,
   createTopLevelChannelDmPolicy,
-  createLegacyCompatChannelDmPolicy,
   createStandardChannelSetupStatus,
   mergeAllowFromEntries,
   noteChannelLookupFailure,
@@ -35,18 +34,17 @@ export {
   parseMentionOrPrefixedId,
   patchChannelConfigForAccount,
   promptResolvedAllowFrom,
-  promptLegacyChannelAllowFromForAccount,
   promptParsedAllowFromForAccount,
   resolveEntriesWithOptionalToken,
   resolveSetupAccountId,
   setAccountAllowFromForChannel,
   setSetupChannelEnabled,
   splitSetupEntries,
-} from "../channels/plugins/setup-wizard-helpers.js";
+} from "../channels/plugins/setup-wizard-helpers.ts";
 
-export { createAllowlistSetupWizardProxy } from "../channels/plugins/setup-wizard-proxy.js";
+export { createAllowlistSetupWizardProxy } from "../channels/plugins/setup-wizard-proxy.ts";
 export {
   createCliPathTextInput,
   createDelegatedTextInputShouldPrompt,
-} from "../channels/plugins/setup-wizard-binary.js";
-export { createDelegatedSetupWizardProxy } from "../channels/plugins/setup-wizard-proxy.js";
+} from "../channels/plugins/setup-wizard-binary.ts";
+export { createDelegatedSetupWizardProxy } from "../channels/plugins/setup-wizard-proxy.ts";

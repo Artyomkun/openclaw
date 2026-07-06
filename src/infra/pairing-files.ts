@@ -1,8 +1,8 @@
 // Shared JSON state helpers for pairing namespaces.
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
+import { resolveStateDir } from "../config/paths.ts";
 
-export { createAsyncLock, readJsonIfExists, tryReadJson, writeJson } from "./json-files.js";
+export { createAsyncLock, readJsonIfExists, tryReadJson, writeJson } from "./json-files.ts";
 
 /** Resolve pending/paired JSON file locations for one pairing namespace. */
 export function resolvePairingPaths(baseDir: string | undefined, subdir: string) {

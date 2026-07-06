@@ -1,8 +1,8 @@
 /** Heartbeat prompt defaults, token stripping, task parsing, and due-time helpers. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { parseDurationMs } from "../cli/parse-duration.js";
-import { escapeRegExp } from "../shared/regexp.js";
-import { HEARTBEAT_TOKEN } from "./tokens.js";
+import { parseDurationMs } from "../cli/parse-duration.ts";
+import { escapeRegExp } from "../shared/regexp.ts";
+import { HEARTBEAT_TOKEN } from "./tokens.ts";
 
 /** YAML-like task entry parsed from HEARTBEAT.md. */
 export type HeartbeatTask = {

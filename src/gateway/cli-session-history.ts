@@ -1,7 +1,7 @@
 // Gateway CLI session history importer.
 // Augments local chat history with bound external Claude CLI transcripts.
-import { normalizeProviderId } from "../agents/model-selection.js";
-import type { SessionEntry } from "../config/sessions.js";
+import { normalizeProviderId } from "../agents/model-selection.ts";
+import type { SessionEntry } from "../config/sessions.ts";
 import {
   type ClaudeCliFallbackSeed,
   CLAUDE_CLI_PROVIDER,
@@ -9,8 +9,8 @@ import {
   readClaudeCliSessionMessages,
   resolveClaudeCliBindingSessionId,
   resolveClaudeCliSessionFilePath,
-} from "./cli-session-history.claude.js";
-import { mergeImportedChatHistoryMessages } from "./cli-session-history.merge.js";
+} from "./cli-session-history.claude.ts";
+import { mergeImportedChatHistoryMessages } from "./cli-session-history.merge.ts";
 
 const ANTHROPIC_PROVIDER = "anthropic";
 

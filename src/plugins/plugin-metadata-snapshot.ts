@@ -3,40 +3,40 @@ import fs from "node:fs";
 import path from "node:path";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { resolveIsNixMode } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { resolveIsNixMode } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   getActiveDiagnosticsTimelineSpan,
   measureDiagnosticsTimelineSpanSync,
-} from "../infra/diagnostics-timeline.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveCompatibilityHostVersion } from "../version.js";
-import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.js";
-import { resolveDefaultPluginNpmDir, resolvePluginNpmProjectsDir } from "./install-paths.js";
-import { hashJson } from "./installed-plugin-index-hash.js";
-import { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.js";
-import { readPersistedInstalledPluginIndexSync } from "./installed-plugin-index-store.js";
-import type { InstalledPluginIndex } from "./installed-plugin-index.js";
+} from "../infra/diagnostics-timeline.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveCompatibilityHostVersion } from "../version.ts";
+import { getCurrentPluginMetadataSnapshot } from "./current-plugin-metadata-snapshot.ts";
+import { resolveDefaultPluginNpmDir, resolvePluginNpmProjectsDir } from "./install-paths.ts";
+import { hashJson } from "./installed-plugin-index-hash.ts";
+import { resolveInstalledPluginIndexPolicyHash } from "./installed-plugin-index-policy.ts";
+import { readPersistedInstalledPluginIndexSync } from "./installed-plugin-index-store.ts";
+import type { InstalledPluginIndex } from "./installed-plugin-index.ts";
 import {
   loadPluginManifestRegistryForInstalledIndex,
   resolveInstalledManifestRegistryIndexFingerprint,
-} from "./manifest-registry-installed.js";
-import { loadPluginManifestRegistry, type PluginManifestRecord } from "./manifest-registry.js";
-import { resolvePluginControlPlaneFingerprint } from "./plugin-control-plane-context.js";
-import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.js";
+} from "./manifest-registry-installed.ts";
+import { loadPluginManifestRegistry, type PluginManifestRecord } from "./manifest-registry.ts";
+import { resolvePluginControlPlaneFingerprint } from "./plugin-control-plane-context.ts";
+import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.ts";
 import type {
   LoadPluginMetadataSnapshotParams,
   PluginMetadataSnapshot,
   PluginMetadataSnapshotOwnerMaps,
   ResolvePluginMetadataSnapshotParams,
-} from "./plugin-metadata-snapshot.types.js";
-import { createPluginRegistryIdNormalizer } from "./plugin-registry-id-normalizer.js";
+} from "./plugin-metadata-snapshot.types.ts";
+import { createPluginRegistryIdNormalizer } from "./plugin-registry-id-normalizer.ts";
 import {
   loadPluginRegistrySnapshotWithMetadata,
   type PluginRegistrySnapshotSource,
-} from "./plugin-registry.js";
-import { normalizePluginIdScope, serializePluginIdScope } from "./plugin-scope.js";
-import { fileFingerprint } from "./plugin-snapshot-fingerprint.js";
+} from "./plugin-registry.ts";
+import { normalizePluginIdScope, serializePluginIdScope } from "./plugin-scope.ts";
+import { fileFingerprint } from "./plugin-snapshot-fingerprint.ts";
 
 type PluginMetadataSnapshotMemo = {
   key: string;
@@ -85,7 +85,7 @@ export type {
   PluginMetadataSnapshotOwnerMaps,
   PluginMetadataSnapshotRegistryDiagnostic,
   ResolvePluginMetadataSnapshotParams,
-} from "./plugin-metadata-snapshot.types.js";
+} from "./plugin-metadata-snapshot.types.ts";
 
 function directoryChildPackageJsonFingerprint(directoryPath: string): unknown {
   let entries: fs.Dirent[];

@@ -3,14 +3,14 @@
  *
  * Combines global and agent fs/tool policy into workspace-only and root-expansion decisions.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAgentConfig } from "./agent-scope.js";
-import { pickSandboxToolPolicy } from "./sandbox-tool-policy.js";
-import type { ToolFsPolicy } from "./tool-fs-policy.types.js";
-import { isToolAllowedByPolicies } from "./tool-policy-match.js";
-import { mergeAlsoAllowPolicy, resolveToolProfilePolicy } from "./tool-policy.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAgentConfig } from "./agent-scope.ts";
+import { pickSandboxToolPolicy } from "./sandbox-tool-policy.ts";
+import type { ToolFsPolicy } from "./tool-fs-policy.types.ts";
+import { isToolAllowedByPolicies } from "./tool-policy-match.ts";
+import { mergeAlsoAllowPolicy, resolveToolProfilePolicy } from "./tool-policy.ts";
 
-export type { ToolFsPolicy } from "./tool-fs-policy.types.js";
+export type { ToolFsPolicy } from "./tool-fs-policy.types.ts";
 
 export function createToolFsPolicy(params: { workspaceOnly?: boolean }): ToolFsPolicy {
   return {

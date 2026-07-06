@@ -1,19 +1,19 @@
 /** Cancellation path for active ACP turns and idle runtime handles. */
 import type { AcpRuntime, AcpRuntimeHandle } from "@openclaw/acp-core/runtime/types";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   type AcpRuntimeError,
   toAcpRuntimeError,
   withAcpRuntimeErrorBoundary,
-} from "../runtime/errors.js";
+} from "../runtime/errors.ts";
 import type {
   ActiveTurnState,
   EnsureManagerRuntimeHandle,
   ResolveManagerSession,
   SetManagerSessionState,
   WithManagerSessionActor,
-} from "./manager.types.js";
-import { normalizeActorKey, requireReadySessionMeta } from "./manager.utils.js";
+} from "./manager.types.ts";
+import { normalizeActorKey, requireReadySessionMeta } from "./manager.utils.ts";
 
 /** Cancels either the active ACP turn or the idle runtime handle for a session. */
 export async function runManagerCancelSession(params: {

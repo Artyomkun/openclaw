@@ -26,8 +26,7 @@ export type ChannelRuntimeContextRegistry = {
       abortSignal?: AbortSignal;
     },
   ) => { dispose: () => void };
-  // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Runtime context values are caller-typed by key.
-  get: <T = unknown>(params: ChannelRuntimeContextKey) => T | undefined;
+  get: (params: ChannelRuntimeContextKey) => any;
   watch: (params: {
     channelId?: string;
     accountId?: string | null;

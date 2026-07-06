@@ -10,16 +10,16 @@ import {
   resolveDefaultAgentId,
   resolveAgentWorkspaceDir,
   resolveAgentDir,
-} from "../agents/agent-scope.js";
-import { runEmbeddedAgent } from "../agents/embedded-agent.js";
-import { resolveDefaultModelForAgent } from "../agents/model-selection.js";
-import { resolveAgentTimeoutMs } from "../agents/timeout.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../agents/agent-scope.ts";
+import { runEmbeddedAgent } from "../agents/embedded-agent.ts";
+import { resolveDefaultModelForAgent } from "../agents/model-selection.ts";
+import { resolveAgentTimeoutMs } from "../agents/timeout.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   extractLeadingHttpStatus,
   parseApiErrorPayload,
-} from "../shared/assistant-error-format.js";
+} from "../shared/assistant-error-format.ts";
 
 const log = createSubsystemLogger("llm-slug-generator");
 const DEFAULT_SLUG_GENERATOR_TIMEOUT_MS = 15_000;

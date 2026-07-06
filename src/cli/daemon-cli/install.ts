@@ -1,38 +1,38 @@
 // Gateway service installer: writes config defaults, resolves credentials, and installs service definitions.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveNodeStartupTlsEnvironment } from "../../bootstrap/node-startup-env.js";
-import { buildGatewayInstallPlan } from "../../commands/daemon-install-helpers.js";
+import { resolveNodeStartupTlsEnvironment } from "../../bootstrap/node-startup-env.ts";
+import { buildGatewayInstallPlan } from "../../commands/daemon-install-helpers.ts";
 import {
   DEFAULT_GATEWAY_DAEMON_RUNTIME,
   isGatewayDaemonRuntime,
   type GatewayDaemonRuntime,
-} from "../../commands/daemon-runtime.js";
-import { resolveGatewayInstallToken } from "../../commands/gateway-install-token.js";
-import { resolveFutureConfigActionBlock } from "../../config/future-version-guard.js";
-import { readConfigFileSnapshotForWrite } from "../../config/io.js";
-import { replaceConfigFile } from "../../config/mutate.js";
-import { resolveGatewayPort } from "../../config/paths.js";
-import type { OpenClawConfig } from "../../config/types.js";
-import { OPENCLAW_WRAPPER_ENV_KEY, resolveOpenClawWrapperPath } from "../../daemon/program-args.js";
-import { readEmbeddedGatewayToken } from "../../daemon/service-audit.js";
-import { resolveGatewayService } from "../../daemon/service.js";
-import type { GatewayServiceCommandConfig } from "../../daemon/service.js";
-import { isNonFatalSystemdInstallProbeError } from "../../daemon/systemd.js";
+} from "../../commands/daemon-runtime.ts";
+import { resolveGatewayInstallToken } from "../../commands/gateway-install-token.ts";
+import { resolveFutureConfigActionBlock } from "../../config/future-version-guard.ts";
+import { readConfigFileSnapshotForWrite } from "../../config/io.ts";
+import { replaceConfigFile } from "../../config/mutate.ts";
+import { resolveGatewayPort } from "../../config/paths.ts";
+import type { OpenClawConfig } from "../../config/types.ts";
+import { OPENCLAW_WRAPPER_ENV_KEY, resolveOpenClawWrapperPath } from "../../daemon/program-args.ts";
+import { readEmbeddedGatewayToken } from "../../daemon/service-audit.ts";
+import { resolveGatewayService } from "../../daemon/service.ts";
+import type { GatewayServiceCommandConfig } from "../../daemon/service.ts";
+import { isNonFatalSystemdInstallProbeError } from "../../daemon/systemd.ts";
 import {
   isDangerousHostEnvOverrideVarName,
   isDangerousHostEnvVarName,
   normalizeEnvVarKey,
-} from "../../infra/host-env-security.js";
-import { defaultRuntime } from "../../runtime.js";
-import { formatCliCommand } from "../command-format.js";
-import { formatInvalidConfigPort, formatInvalidPortOption } from "../error-format.js";
-import { buildDaemonServiceSnapshot, installDaemonServiceAndEmit } from "./response.js";
+} from "../../infra/host-env-security.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { formatInvalidConfigPort, formatInvalidPortOption } from "../error-format.ts";
+import { buildDaemonServiceSnapshot, installDaemonServiceAndEmit } from "./response.ts";
 import {
   createDaemonInstallActionContext,
   failIfNixDaemonInstallMode,
   parsePort,
-} from "./shared.js";
-import type { DaemonInstallOptions } from "./types.js";
+} from "./shared.ts";
+import type { DaemonInstallOptions } from "./types.ts";
 
 /** Merge safe existing service environment into the current install invocation environment. */
 export function mergeInstallInvocationEnv(params: {

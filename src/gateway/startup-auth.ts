@@ -2,23 +2,23 @@
 // Merges auth overrides, resolves secret refs, validates weak secrets, and generates fallbacks.
 import crypto from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { GatewayAuthConfig, GatewayTailscaleConfig } from "../config/types.gateway.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { GatewayAuthConfig, GatewayTailscaleConfig } from "../config/types.gateway.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   hasConfiguredGatewayAuthSecretInput,
   resolveGatewayPasswordSecretRefValue,
   resolveGatewayTokenSecretRefValue,
-} from "./auth-config-utils.js";
-import { assertExplicitGatewayAuthModeWhenBothConfigured } from "./auth-mode-policy.js";
-import { resolveGatewayAuth, type ResolvedGatewayAuth } from "./auth.js";
+} from "./auth-config-utils.ts";
+import { assertExplicitGatewayAuthModeWhenBothConfigured } from "./auth-mode-policy.ts";
+import { resolveGatewayAuth, type ResolvedGatewayAuth } from "./auth.ts";
 import {
   hasGatewayPasswordEnvCandidate,
   hasGatewayTokenEnvCandidate,
   trimToUndefined,
-} from "./credentials.js";
-import { assertGatewayAuthNotKnownWeak } from "./known-weak-gateway-secrets.js";
+} from "./credentials.ts";
+import { assertGatewayAuthNotKnownWeak } from "./known-weak-gateway-secrets.ts";
 
-export { assertGatewayAuthNotKnownWeak } from "./known-weak-gateway-secrets.js";
+export { assertGatewayAuthNotKnownWeak } from "./known-weak-gateway-secrets.ts";
 
 const HOOKS_GATEWAY_AUTH_REUSE_WARNING =
   "Security warning: hooks.token matches active Gateway shared-secret auth. Startup continues for compatibility; rotate hooks.token or Gateway auth. Run openclaw security audit for a full report, and run openclaw doctor --fix when the reused hooks.token is persisted in config.";
@@ -165,11 +165,6 @@ export async function ensureGatewayStartupAuth(params: {
   authOverride?: GatewayAuthConfig;
   tailscaleOverride?: GatewayTailscaleConfig;
   warn?: (message: string) => void;
-  /**
-   * Legacy startup option retained for external callers. Startup-generated auth
-   * is runtime-only; durable auth changes must go through explicit config tools.
-   */
-  persist?: boolean;
   baseHash?: string;
 }): Promise<{
   cfg: OpenClawConfig;

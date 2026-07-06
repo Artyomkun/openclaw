@@ -5,7 +5,7 @@ read_when:
 title: "Secure file operations"
 ---
 
-OpenClaw uses [`@openclaw/fs-safe`](https://github.com/openclaw/fs-safe) for security-sensitive local file operations: root-bounded reads/writes, atomic replacement, archive extraction, temp workspaces, JSON state, and secret-file handling.
+OpenClaw uses native Node.js `fs` and `path` for security-sensitive local file operations: root-bounded reads/writes, atomic replacement, archive extraction, temporary workspaces, and JSON state management.
 
 The goal is a consistent **library guardrail** for trusted OpenClaw code that receives untrusted path names. It is not a sandbox. Host filesystem permissions, OS users, containers, and the agent/tool policy still define the real blast radius.
 
@@ -19,23 +19,9 @@ Why:
 - many installs do not need the extra parent-directory mutation hardening;
 - disabling Python keeps package/runtime behavior more predictable across desktop, Docker, CI, and bundled app environments.
 
-OpenClaw only changes the default. If you explicitly set a mode, fs-safe honors it:
+OpenClaw now uses native Node.js `fs` and `path` for most filesystem operations. For low-level system calls (`renameat`, `mkdirat`), we use FFI (Foreign Function Interface) to call libc directly, eliminating the need for a separate Python helper.
 
-```bash
-# Default OpenClaw behavior: Node-only fs-safe fallbacks.
-OPENCLAW_FS_SAFE_PYTHON_MODE=off
-
-# Opt into the helper when available, falling back if unavailable.
-OPENCLAW_FS_SAFE_PYTHON_MODE=auto
-
-# Fail closed if the helper cannot start.
-OPENCLAW_FS_SAFE_PYTHON_MODE=require
-
-# Optional explicit interpreter.
-OPENCLAW_FS_SAFE_PYTHON=/usr/bin/python3
-```
-
-The generic fs-safe names also work: `FS_SAFE_PYTHON_MODE` and `FS_SAFE_PYTHON`.
+Environment variables for the legacy Python helper (`OPENCLAW_FS_SAFE_PYTHON_MODE`, `FS_SAFE_PYTHON_MODE`, etc.) are no longer used.
 
 ## What stays protected without Python
 
@@ -51,19 +37,11 @@ With the helper off, OpenClaw still uses fs-safe's Node paths for:
 
 These protections cover the normal OpenClaw threat model: trusted gateway code handling untrusted model/plugin/channel path input inside a single trusted operator boundary.
 
-## What Python adds
+## Low-level filesystem operations
 
-On POSIX, fs-safe's optional helper keeps one persistent Python process and uses fd-relative filesystem operations for parent-directory mutations such as rename, remove, mkdir, stat/list, and some write paths.
+OpenClaw uses native Node.js `fs` for most filesystem operations. For system-level calls (`renameat`, `mkdirat`), OpenClaw uses FFI (Foreign Function Interface) to call libc directly, eliminating the need for a separate Python helper.
 
-That narrows same-UID race windows where another process can swap a parent directory between validation and mutation. It is defense in depth for hosts where untrusted local processes can modify the same directories OpenClaw is operating in.
-
-If your deployment has that risk and Python is guaranteed to exist, use:
-
-```bash
-OPENCLAW_FS_SAFE_PYTHON_MODE=require
-```
-
-Use `require` rather than `auto` when the helper is part of your security posture; `auto` intentionally falls back to Node-only behavior if the helper is unavailable.
+The legacy Python helper and its environment variables (`OPENCLAW_FS_SAFE_PYTHON_MODE`, etc.) are no longer used.
 
 ## Plugin and core guidance
 

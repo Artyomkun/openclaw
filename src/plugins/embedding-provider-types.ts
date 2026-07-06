@@ -1,6 +1,6 @@
 /** Type contracts for plugin-contributed embedding providers. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { SecretInput } from "../config/types.secrets.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { SecretInput } from "../config/types.secrets.ts";
 
 /** Input accepted by embedding providers, including multimodal inline-data parts. */
 export type EmbeddingInput =

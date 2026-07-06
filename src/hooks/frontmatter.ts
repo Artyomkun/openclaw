@@ -1,6 +1,6 @@
 // Hook frontmatter helpers parse metadata blocks from hook files.
 import { readStringValue } from "@openclaw/normalization-core/string-coerce";
-import { parseFrontmatterBlock } from "../../packages/markdown-core/src/frontmatter.js";
+import { parseFrontmatterBlock } from "../../packages/markdown-core/src/frontmatter.ts";
 import {
   applyOpenClawManifestInstallCommonFields,
   getFrontmatterString,
@@ -11,14 +11,14 @@ import {
   resolveOpenClawManifestInstall,
   resolveOpenClawManifestOs,
   resolveOpenClawManifestRequires,
-} from "../shared/frontmatter.js";
+} from "../shared/frontmatter.ts";
 import type {
   OpenClawHookMetadata,
   HookEntry,
   HookInstallSpec,
   HookInvocationPolicy,
   ParsedHookFrontmatter,
-} from "./types.js";
+} from "./types.ts";
 
 /** Parse HOOK.md frontmatter into the generic hook frontmatter record. */
 export function parseFrontmatter(content: string): ParsedHookFrontmatter {

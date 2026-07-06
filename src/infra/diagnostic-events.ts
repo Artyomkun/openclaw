@@ -1,13 +1,13 @@
 // Defines and sanitizes runtime diagnostic event payloads.
 import { randomUUID } from "node:crypto";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { TalkBrain, TalkEventType, TalkMode, TalkTransport } from "../talk/talk-events.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { TalkBrain, TalkEventType, TalkMode, TalkTransport } from "../talk/talk-events.ts";
 import {
   formatDiagnosticTraceparent,
   getActiveDiagnosticTraceContext,
   type DiagnosticTraceContext,
-} from "./diagnostic-trace-context.js";
-import { isBlockedObjectKey } from "./prototype-keys.js";
+} from "./diagnostic-trace-context.ts";
+import { isBlockedObjectKey } from "./prototype-keys.ts";
 
 export type DiagnosticSessionState = "idle" | "processing" | "waiting";
 

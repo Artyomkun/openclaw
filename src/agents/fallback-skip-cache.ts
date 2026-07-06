@@ -15,7 +15,7 @@
  * `resetFallbackSkipCacheForTest()`.
  */
 
-import { modelKey } from "./model-selection-normalize.js";
+import { modelKey } from "./model-selection-normalize.ts";
 
 /**
  * Default time-to-live for a skip marker. Disabled by default so existing
@@ -72,8 +72,6 @@ function getState(): SkipCacheState {
     openclawFallbackSkipCacheState?: SkipCacheState;
   };
   if (!globalStore.openclawFallbackSkipCacheState) {
-    // Reuse the existing buckets map if a prior version of this module already
-    // populated the legacy global; otherwise start fresh.
     const buckets = globalStore.openclawFallbackSkipCache ?? new Map();
     globalStore.openclawFallbackSkipCacheState = {
       buckets,

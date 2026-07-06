@@ -1,5 +1,5 @@
 /** Evaluates node-host exec policy from security, approval, and allowlist context. */
-import { requiresExecApproval, type ExecAsk, type ExecSecurity } from "../infra/exec-approvals.js";
+import { requiresExecApproval, type ExecAsk, type ExecSecurity } from "../infra/exec-approvals.ts";
 
 type ExecApprovalDecision = "allow-once" | "allow-always" | null;
 

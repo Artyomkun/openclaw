@@ -7,26 +7,26 @@
 import {
   assertContextEngineHostSupport,
   type ContextEngineHostSupport,
-} from "../../context-engine/host-compat.js";
-import { diagnosticErrorCategory } from "../../infra/diagnostic-error-metadata.js";
+} from "../../context-engine/host-compat.ts";
+import { diagnosticErrorCategory } from "../../infra/diagnostic-error-metadata.ts";
 import {
   emitTrustedDiagnosticEvent,
   type DiagnosticHarnessRunErrorEvent,
   type DiagnosticHarnessRunOutcome,
-} from "../../infra/diagnostic-events.js";
+} from "../../infra/diagnostic-events.ts";
 import {
   createChildDiagnosticTraceContext,
   freezeDiagnosticTraceContext,
   getActiveDiagnosticTraceContext,
   runWithDiagnosticTraceContext,
   type DiagnosticTraceContext,
-} from "../../infra/diagnostic-trace-context.js";
-import { applyAgentHarnessResultClassification } from "./result-classification.js";
+} from "../../infra/diagnostic-trace-context.ts";
+import { applyAgentHarnessResultClassification } from "./result-classification.ts";
 import type {
   AgentHarness,
   AgentHarnessAttemptParams,
   AgentHarnessAttemptResult,
-} from "./types.js";
+} from "./types.ts";
 
 type AgentHarnessLifecyclePhase = DiagnosticHarnessRunErrorEvent["phase"];
 type AgentRunCompletedOutcome = "completed" | "aborted" | "blocked" | "error";
@@ -50,7 +50,7 @@ function assertAgentHarnessContextEngineSupport(
   harness: AgentHarness,
   params: AgentHarnessAttemptParams,
 ): void {
-  if (!params.contextEngine || params.contextEngine.info.id === "legacy") {
+  if (!params.contextEngine || params.contextEngine.info.id) {
     return;
   }
   assertContextEngineHostSupport({

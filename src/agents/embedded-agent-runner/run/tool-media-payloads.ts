@@ -1,12 +1,12 @@
 /**
  * Merges media payloads discovered from attempt tool results.
  */
-import type { SourceReplyDeliveryMode } from "../../../auto-reply/get-reply-options.types.js";
+import type { SourceReplyDeliveryMode } from "../../../auto-reply/get-reply-options.types.ts";
 import {
   copyReplyPayloadMetadata,
   getReplyPayloadMetadata,
-} from "../../../auto-reply/reply-payload.js";
-import type { EmbeddedAgentRunResult } from "../types.js";
+} from "../../../auto-reply/reply-payload.ts";
+import type { EmbeddedAgentRunResult } from "../types.ts";
 
 /** Channel payload shape produced by embedded runs after auto-reply normalization. */
 type EmbeddedRunPayload = NonNullable<EmbeddedAgentRunResult["payloads"]>[number];

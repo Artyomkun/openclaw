@@ -6,53 +6,53 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/index.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs",
-      "default": "./dist/index.mjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.ts",
+      "default": "./dist/index.ts"
     },
     "./code-spans": {
-      "types": "./dist/code-spans.d.mts",
-      "import": "./dist/code-spans.mjs",
-      "default": "./dist/code-spans.mjs"
+      "types": "./dist/code-spans.d.ts",
+      "import": "./dist/code-spans.ts",
+      "default": "./dist/code-spans.ts"
     },
     "./fences": {
-      "types": "./dist/fences.d.mts",
-      "import": "./dist/fences.mjs",
-      "default": "./dist/fences.mjs"
+      "types": "./dist/fences.d.ts",
+      "import": "./dist/fences.ts",
+      "default": "./dist/fences.ts"
     },
     "./frontmatter": {
-      "types": "./dist/frontmatter.d.mts",
-      "import": "./dist/frontmatter.mjs",
-      "default": "./dist/frontmatter.mjs"
+      "types": "./dist/frontmatter.d.ts",
+      "import": "./dist/frontmatter.ts",
+      "default": "./dist/frontmatter.ts"
     },
     "./ir": {
-      "types": "./dist/ir.d.mts",
-      "import": "./dist/ir.mjs",
-      "default": "./dist/ir.mjs"
+      "types": "./dist/ir.d.ts",
+      "import": "./dist/ir.ts",
+      "default": "./dist/ir.ts"
     },
     "./render": {
-      "types": "./dist/render.d.mts",
-      "import": "./dist/render.mjs",
-      "default": "./dist/render.mjs"
+      "types": "./dist/render.d.ts",
+      "import": "./dist/render.ts",
+      "default": "./dist/render.ts"
     },
     "./render-aware-chunking": {
-      "types": "./dist/render-aware-chunking.d.mts",
-      "import": "./dist/render-aware-chunking.mjs",
-      "default": "./dist/render-aware-chunking.mjs"
+      "types": "./dist/render-aware-chunking.d.ts",
+      "import": "./dist/render-aware-chunking.ts",
+      "default": "./dist/render-aware-chunking.ts"
     },
     "./tables": {
-      "types": "./dist/tables.d.mts",
-      "import": "./dist/tables.mjs",
-      "default": "./dist/tables.mjs"
+      "types": "./dist/tables.d.ts",
+      "import": "./dist/tables.ts",
+      "default": "./dist/tables.ts"
     },
     "./types": {
-      "types": "./dist/types.d.mts",
-      "import": "./dist/types.mjs",
-      "default": "./dist/types.mjs"
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.ts",
+      "default": "./dist/types.ts"
     }
   },
   "dependencies": {

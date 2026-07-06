@@ -1,6 +1,6 @@
 // Converts ClawHub plugin entries into install records.
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import type { ClawHubPackageChannel, ClawHubPackageFamily } from "../infra/clawhub.js";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import type { ClawHubPackageChannel, ClawHubPackageFamily } from "../infra/clawhub.ts";
 
 /** Install record fields captured for ClawHub plugin installs. */
 export type ClawHubPluginInstallRecordFields = {
@@ -21,7 +21,7 @@ export type ClawHubPluginInstallRecordFields = {
   integrity?: string;
   resolvedAt?: string;
   installedAt?: string;
-  artifactKind?: "legacy-zip" | "npm-pack";
+  artifactKind?: "npm-pack";
   artifactFormat?: "zip" | "tgz";
   npmIntegrity?: string;
   npmShasum?: string;

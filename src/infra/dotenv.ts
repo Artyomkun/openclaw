@@ -1,12 +1,12 @@
 // Loads dotenv files while blocking unsafe workspace env keys.
 import path from "node:path";
-import { listKnownProviderAuthEnvVarNames } from "../secrets/provider-env-vars.js";
-import { loadGlobalRuntimeDotEnvFiles, readDotEnvFile } from "./dotenv-global.js";
+import { listKnownProviderAuthEnvVarNames } from "../secrets/provider-env-vars.ts";
+import { loadGlobalRuntimeDotEnvFiles, readDotEnvFile } from "./dotenv-global.ts";
 import {
   isDangerousHostEnvOverrideVarName,
   isDangerousHostEnvVarName,
   normalizeEnvVarKey,
-} from "./host-env-security.js";
+} from "./host-env-security.ts";
 
 const BLOCKED_PROVIDER_AUTH_WORKSPACE_DOTENV_KEYS = [
   "AI_GATEWAY_API_KEY",
@@ -113,9 +113,6 @@ const BLOCKED_WORKSPACE_DOTENV_KEYS = new Set([
   "MATTERMOST_URL",
   "MATRIX_HOMESERVER",
   "MINIMAX_API_HOST",
-  "NODE_TLS_REJECT_UNAUTHORIZED",
-  "NO_PROXY",
-  "NPM_EXECPATH",
   "OPENAI_API_KEYS",
   "OPENCLAW_AGENT_DIR",
   "OPENCLAW_ALLOW_PLUGIN_INSTALL_OVERRIDES",
@@ -166,7 +163,6 @@ const BLOCKED_WORKSPACE_DOTENV_KEYS = new Set([
   "STATE_DIRECTORY",
   "SYNOLOGY_CHAT_INCOMING_URL",
   "SYNOLOGY_NAS_HOST",
-  "UV_PYTHON",
 ]);
 
 // Block endpoint redirection for any service without overfitting per-provider names.

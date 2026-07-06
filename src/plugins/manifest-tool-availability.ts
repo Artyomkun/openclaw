@@ -1,14 +1,14 @@
 // Normalizes tool availability metadata from plugin manifests.
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { coerceSecretRef, type SecretRef } from "../config/types.secrets.js";
-import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { coerceSecretRef, type SecretRef } from "../config/types.secrets.ts";
+import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
 import type {
   PluginManifestCapabilityProviderAuthSignal,
   PluginManifestCapabilityProviderConfigSignal,
-} from "./manifest.js";
+} from "./manifest.ts";
 
 type ToolMetadata = NonNullable<PluginManifestRecord["toolMetadata"]>[string];
 export type ManifestConfigAvailabilitySignal = PluginManifestCapabilityProviderConfigSignal;

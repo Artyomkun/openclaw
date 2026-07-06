@@ -6,8 +6,8 @@
 import {
   resolveAgentIdFromSessionKey,
   resolveMainSessionKey,
-} from "../config/sessions/main-session.js";
-import { normalizeMainKey } from "../routing/session-key.js";
+} from "../config/sessions/main-session.ts";
+import { normalizeMainKey } from "../routing/session-key.ts";
 
 type RequesterStoreKeyConfig = {
   session?: { mainKey?: string };

@@ -93,17 +93,6 @@ const qaMaturityScoreBundleShape = {
   completeness: qaMaturityScoreObjectSchema,
 } satisfies z.ZodRawShape;
 
-const qaMaturityLegacyCoverageShape = {
-  coverage: qaMaturityScoreObjectSchema.optional(),
-} satisfies z.ZodRawShape;
-
-const qaMaturityScoreBundleSchema = z
-  .object({
-    ...qaMaturityLegacyCoverageShape,
-    ...qaMaturityScoreBundleShape,
-  })
-  .strict();
-
 const qaMaturityScoreLastRunSchema = z
   .object({
     status: z.string().trim().min(1).optional(),
@@ -133,7 +122,6 @@ const qaMaturityScoreSurfaceLtsSchema = z
 const qaMaturityScoreCategorySchema = z
   .object({
     name: z.string().trim().min(1),
-    ...qaMaturityLegacyCoverageShape,
     ...qaMaturityScoreBundleShape,
     lts: qaMaturityScoreCategoryLtsSchema,
   })
@@ -154,7 +142,6 @@ const qaMaturityScoreSurfaceSchema = z
         })
         .strict(),
     ]),
-    scores: qaMaturityScoreBundleSchema,
     categories: z.array(qaMaturityScoreCategorySchema),
     lts: qaMaturityScoreSurfaceLtsSchema,
     last_score_run: qaMaturityScoreLastRunSchema.optional(),
@@ -169,12 +156,6 @@ export const qaMaturityScoresSchema = z
       .object({
         active_surfaces: z.number().int().nonnegative(),
         category_scores: z.number().int().nonnegative(),
-      })
-      .strict(),
-    rollups: z
-      .object({
-        surface_average: qaMaturityScoreBundleSchema,
-        category_average: qaMaturityScoreBundleSchema,
       })
       .strict(),
     surfaces: z.array(qaMaturityScoreSurfaceSchema),
@@ -327,7 +308,6 @@ export type QaScorecardEvidenceMode = z.infer<typeof qaScorecardEvidenceModeSche
 export type QaScorecardChannelDriver = z.infer<typeof qaScorecardChannelDriverSchema>;
 export type QaMaturityScoreKey = (typeof QA_MATURITY_SCORE_KEYS)[number];
 export type QaMaturityScoreObject = z.infer<typeof qaMaturityScoreObjectSchema>;
-export type QaMaturityScoreBundle = z.infer<typeof qaMaturityScoreBundleSchema>;
 export type QaMaturityScoreLastRun = z.infer<typeof qaMaturityScoreLastRunSchema>;
 export type QaMaturityScoreSurfaceLts = z.infer<typeof qaMaturityScoreSurfaceLtsSchema>;
 export type QaMaturityScoreCategory = z.infer<typeof qaMaturityScoreCategorySchema>;

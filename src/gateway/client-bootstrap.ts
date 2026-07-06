@@ -1,9 +1,9 @@
 // Gateway client bootstrap resolver.
 // Collects URL, auth, and handshake settings before constructing a GatewayClient.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveGatewayConnectionAuth } from "./connection-auth.js";
-import { buildGatewayConnectionDetailsWithResolvers } from "./connection-details.js";
-import type { ExplicitGatewayAuth } from "./credentials.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveGatewayConnectionAuth } from "./connection-auth.ts";
+import { buildGatewayConnectionDetailsWithResolvers } from "./connection-details.ts";
+import type { ExplicitGatewayAuth } from "./credentials.ts";
 
 /**
  * Maps connection-detail source labels to the override kinds that affect auth fallback.

@@ -1,5 +1,5 @@
 // Device bootstrap profile helpers build profile claims for device onboarding.
-import { normalizeDeviceAuthRole, normalizeDeviceAuthScopes } from "./device-auth.js";
+import { normalizeDeviceAuthRole, normalizeDeviceAuthScopes } from "./device-auth.ts";
 
 /** Normalized roles/scopes carried by a bootstrap token during device handoff. */
 export type DeviceBootstrapProfile = {

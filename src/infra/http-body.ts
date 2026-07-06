@@ -1,9 +1,9 @@
-// Reads HTTP request bodies with timeout and byte limits.
+// Reads HTTP request bodies with timeout and byte limits — TLS 1.3 / HTTP/3 ready
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { clearTimeout as clearNodeTimeout, setTimeout as setNodeTimeout } from "node:timers";
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
-import { formatErrorMessage } from "./errors.js";
-import { parseStrictNonNegativeInteger } from "./parse-finite-number.js";
+import { formatErrorMessage } from "./errors.ts";
+import { parseStrictNonNegativeInteger } from "./parse-finite-number.ts";
 
 export const DEFAULT_WEBHOOK_MAX_BODY_BYTES = 1024 * 1024;
 export const DEFAULT_WEBHOOK_BODY_TIMEOUT_MS = 30_000;
@@ -45,6 +45,7 @@ export class RequestBodyLimitError extends Error {
     this.name = "RequestBodyLimitError";
     this.code = init.code;
     this.statusCode = DEFAULT_ERROR_STATUS_CODE[init.code];
+    Error.captureStackTrace?.(this, RequestBodyLimitError);
   }
 }
 
@@ -137,8 +138,6 @@ export async function readRequestBodyWithLimit(
   if (declaredLength !== null && declaredLength > maxBytes) {
     const error = new RequestBodyLimitError({ code: "PAYLOAD_TOO_LARGE" });
     if (!req.destroyed) {
-      // Limit violations are expected user input; destroying with an Error causes
-      // an async 'error' event which can crash the process if no listener remains.
       req.destroy();
     }
     throw error;
@@ -159,9 +158,7 @@ export async function readRequestBodyWithLimit(
     };
 
     const finish = (cb: () => void) => {
-      if (done) {
-        return;
-      }
+      if (done) return;
       done = true;
       cleanup();
       cb();
@@ -180,9 +177,7 @@ export async function readRequestBodyWithLimit(
     }, timeoutMs);
 
     const onData = (chunk: Buffer | string) => {
-      if (done) {
-        return;
-      }
+      if (done) return;
       const progress = advanceRequestBodyChunk(chunk, totalBytes, maxBytes);
       totalBytes = progress.totalBytes;
       if (progress.exceeded) {
@@ -202,16 +197,12 @@ export async function readRequestBodyWithLimit(
     };
 
     const onError = (error: Error) => {
-      if (done) {
-        return;
-      }
+      if (done) return;
       fail(error);
     };
 
     const onClose = () => {
-      if (done || ended) {
-        return;
-      }
+      if (done || ended) return;
       fail(new RequestBodyLimitError({ code: "CONNECTION_CLOSED" }));
     };
 
@@ -301,9 +292,7 @@ export function installRequestBodyLimitGuard(
   };
 
   const finish = () => {
-    if (done) {
-      return;
-    }
+    if (done) return;
     done = true;
     cleanup();
   };
@@ -323,24 +312,18 @@ export function installRequestBodyLimitGuard(
   };
 
   const trip = (error: RequestBodyLimitError) => {
-    if (tripped) {
-      return;
-    }
+    if (tripped) return;
     tripped = true;
     reason = error.code;
     finish();
     respond(error);
     if (!req.destroyed) {
-      // Limit violations are expected user input; destroying with an Error causes
-      // an async 'error' event which can crash the process if no listener remains.
       req.destroy();
     }
   };
 
   const onData = (chunk: Buffer | string) => {
-    if (done) {
-      return;
-    }
+    if (done) return;
     const progress = advanceRequestBodyChunk(chunk, totalBytes, maxBytes);
     totalBytes = progress.totalBytes;
     if (progress.exceeded) {
@@ -354,9 +337,7 @@ export function installRequestBodyLimitGuard(
   };
 
   const onClose = () => {
-    if (done || ended) {
-      return;
-    }
+    if (done || ended) return;
     finish();
   };
 

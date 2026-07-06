@@ -1,9 +1,9 @@
 // Shared ClawHub exact-release trust gate for plugin and skill installs.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { stripAnsi, visibleWidth } from "../../packages/terminal-core/src/ansi.js";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { formatTerminalLink } from "../../packages/terminal-core/src/terminal-link.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
+import { stripAnsi, visibleWidth } from "../../packages/terminal-core/src/ansi.ts";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { formatTerminalLink } from "../../packages/terminal-core/src/terminal-link.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   fetchClawHubPackageSecurity,
   fetchClawHubSkillVerification,
@@ -13,8 +13,8 @@ import {
   type ClawHubPackageSecurityTrust,
   type ClawHubSkillSecurityVerdictItem,
   type ClawHubSkillVerificationResponse,
-} from "./clawhub.js";
-import { formatErrorMessage } from "./errors.js";
+} from "./clawhub.ts";
+import { formatErrorMessage } from "./errors.ts";
 
 export const CLAWHUB_TRUST_ERROR_CODE = {
   CLAWHUB_SECURITY_UNAVAILABLE: "clawhub_security_unavailable",

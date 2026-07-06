@@ -1,14 +1,14 @@
 // Model picker flow lets users select provider models for config defaults.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveDefaultAgentDir } from "../agents/agent-scope.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
-import { resolveVisibleModelCatalog } from "../agents/model-catalog-visibility.js";
-import { loadModelCatalog } from "../agents/model-catalog.js";
-import type { ModelCatalogEntry } from "../agents/model-catalog.js";
-import { createModelPickerVisibleProviderPredicate } from "../agents/model-picker-visibility.js";
-import { createProviderAuthChecker } from "../agents/model-provider-auth.js";
-import { formatLiteralProviderPrefixedModelRef } from "../agents/model-ref-shared.js";
+import { resolveDefaultAgentDir } from "../agents/agent-scope.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import { resolveVisibleModelCatalog } from "../agents/model-catalog-visibility.ts";
+import { loadModelCatalog } from "../agents/model-catalog.ts";
+import type { ModelCatalogEntry } from "../agents/model-catalog.ts";
+import { createModelPickerVisibleProviderPredicate } from "../agents/model-picker-visibility.ts";
+import { createProviderAuthChecker } from "../agents/model-provider-auth.ts";
+import { formatLiteralProviderPrefixedModelRef } from "../agents/model-ref-shared.ts";
 import {
   buildConfiguredModelCatalog,
   buildModelAliasIndex,
@@ -18,25 +18,25 @@ import {
   normalizeProviderId,
   resolveConfiguredModelRef,
   resolveModelRefFromString,
-} from "../agents/model-selection.js";
-import { loadStaticManifestCatalogRowsForList } from "../commands/models/list.manifest-catalog.js";
-import { formatTokenK } from "../commands/models/shared.js";
+} from "../agents/model-selection.ts";
+import { loadStaticManifestCatalogRowsForList } from "../commands/models/list.manifest-catalog.ts";
+import { formatTokenK } from "../commands/models/shared.ts";
 import {
   normalizeAgentModelMapForConfig,
   normalizeAgentModelRefForConfig,
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveOwningPluginIdsForProviderRef } from "../plugins/providers.js";
-import type { ProviderPlugin } from "../plugins/types.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { createLazyRuntimeSurface } from "../shared/lazy-runtime.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.js";
-import { loadPreferredProviderPickerCatalog } from "./model-picker.provider-catalog.js";
+} from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveOwningPluginIdsForProviderRef } from "../plugins/providers.ts";
+import type { ProviderPlugin } from "../plugins/types.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { createLazyRuntimeSurface } from "../shared/lazy-runtime.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.ts";
+import { loadPreferredProviderPickerCatalog } from "./model-picker.provider-catalog.ts";
 
-export { applyPrimaryModel } from "../plugins/provider-model-primary.js";
+export { applyPrimaryModel } from "../plugins/provider-model-primary.ts";
 
 const KEEP_VALUE = "__keep__";
 const MANUAL_VALUE = "__manual__";
@@ -256,7 +256,7 @@ function resolveModelRouteHint(provider: string): string | undefined {
     return "Codex runtime route";
   }
   if (normalized === "openai") {
-    return "legacy Codex OAuth route";
+    return "older Codex OAuth route";
   }
   return undefined;
 }

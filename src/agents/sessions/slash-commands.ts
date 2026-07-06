@@ -3,7 +3,7 @@
  *
  * Defines built-in command metadata and the source shape used by prompts, skills, and extensions.
  */
-import type { SourceInfo } from "./source-info.js";
+import type { SourceInfo } from "./source-info.ts";
 
 export type SlashCommandSource = "extension" | "prompt" | "skill";
 

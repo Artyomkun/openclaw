@@ -4,8 +4,8 @@ import path from "node:path";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.js";
+} from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeStringEntries } from "../../packages/normalization-core/src/string-normalization.ts";
 
 /** Final execution strategy chosen for a Windows spawn command. */
 export type WindowsSpawnResolution =
@@ -298,7 +298,7 @@ export function resolveWindowsSpawnProgramCandidate(
 
   const resolvedCommand = resolveWindowsExecutablePath(params.command, env);
   const ext = normalizeLowercaseStringOrEmpty(path.extname(resolvedCommand));
-  if (ext === ".js" || ext === ".cjs" || ext === ".mjs") {
+  if (ext === ".js" || ext === ".ts") {
     return {
       command: execPath,
       leadingArgv: [resolvedCommand],

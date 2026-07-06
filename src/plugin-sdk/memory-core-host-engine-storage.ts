@@ -35,7 +35,7 @@ export {
   resolveMemoryBackendConfig,
   runWithConcurrency,
   statRegularFile,
-} from "../../packages/memory-host-sdk/src/engine-storage.js";
+} from "../../packages/memory-host-sdk/src/engine-storage.ts";
 
 /** Origin bucket for memory search results exposed through the SDK. */
 export type MemorySource = "memory" | "sessions";
@@ -76,4 +76,4 @@ export type {
   ResolvedMemoryBackendConfig,
   ResolvedQmdConfig,
   ResolvedQmdMcporterConfig,
-} from "../../packages/memory-host-sdk/src/engine-storage.js";
+} from "../../packages/memory-host-sdk/src/engine-storage.ts";

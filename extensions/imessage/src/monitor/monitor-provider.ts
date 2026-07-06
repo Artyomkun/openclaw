@@ -387,7 +387,6 @@ export async function monitorIMessageProvider(opts: MonitorIMessageOpts = {}): P
     configuredGroupAllowFrom ??
       (imessageCfg.allowFrom && imessageCfg.allowFrom.length > 0 ? imessageCfg.allowFrom : []),
   );
-  const allowLegacyConversationAllowFromForGroup = configuredGroupAllowFrom == null;
   const defaultGroupPolicy = resolveDefaultGroupPolicy(cfg);
   const { groupPolicy, providerMissingFallbackApplied } = resolveOpenProviderRuntimeGroupPolicy({
     providerConfigPresent: cfg.channels?.imessage !== undefined,
@@ -468,9 +467,7 @@ export async function monitorIMessageProvider(opts: MonitorIMessageOpts = {}): P
   const recoveryBoundaryRowid = watchSourceDbPath
     ? await resolveIMessageStartupRowidWatermark(watchSourceDbPath)
     : null;
-  const recoveryCursorRowid = loadIMessageRecoveryCursor(accountInfo.accountId, {
-    migrateLegacyCatchup: !catchupCfg.enabled,
-  });
+  const recoveryCursorRowid = loadIMessageRecoveryCursor(accountInfo.accountId);
   const watchSinceRowid = catchupCfg.enabled
     ? null
     : recoveryCursorRowid !== null
@@ -921,7 +918,6 @@ export async function monitorIMessageProvider(opts: MonitorIMessageOpts = {}): P
       bodyText,
       allowFrom,
       groupAllowFrom,
-      allowLegacyConversationAllowFromForGroup,
       groupPolicy,
       dmPolicy,
       storeAllowFrom,
@@ -1709,9 +1705,9 @@ export async function monitorIMessageProvider(opts: MonitorIMessageOpts = {}): P
   }, APPROVAL_REACTION_DISCOVERY_INTERVAL_MS);
   void pollApprovalReactions(true);
 
-  // Legacy opt-in catchup remains the compatibility path for users who
-  // explicitly enabled it, including remote SSH setups where the gateway
-  // cannot read chat.db for the always-on local startup cursor.
+  // Explicitly enabled opt‑in catch‑up remains available for compatibility.
+  // This includes remote SSH setups where the gateway cannot read `chat.db`
+  // to determine the local startup cursor.
   if (catchupCfg.enabled && !abort?.aborted) {
     startupCatchupInProgress = true;
     try {

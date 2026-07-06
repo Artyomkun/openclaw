@@ -1,7 +1,7 @@
 /** Builds embedded-agent run parameters from queued follow-up run state. */
-import { resolveEffectiveModelFallbacks } from "../../agents/agent-scope.js";
-import type { resolveProviderScopedAuthProfile } from "./agent-runner-auth-profile.js";
-import type { FollowupRun } from "./queue.js";
+import { resolveEffectiveModelFallbacks } from "../../agents/agent-scope.ts";
+import type { resolveProviderScopedAuthProfile } from "./agent-runner-auth-profile.ts";
+import type { FollowupRun } from "./queue.ts";
 
 /** Callback used to detect providers that require final-answer tags. */
 type ReasoningTagProviderResolver = (

@@ -6,10 +6,10 @@ import { existsSync, readdirSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { formatErrorMessage } from "../src/infra/errors.ts";
 import { writePackageDistInventory } from "../src/infra/package-dist-inventory.ts";
-import { preparePackageChangelog } from "./package-changelog.mjs";
-import { createPnpmRunnerSpawnSpec } from "./pnpm-runner.mjs";
+import { preparePackageChangelog } from "./package-changelog.ts";
+import { createPnpmRunnerSpawnSpec } from "./pnpm-runner.ts";
 const requiredPreparedPathGroups = [
-  ["dist/index.js", "dist/index.mjs"],
+  ["dist/index.js", "dist/index.ts"],
   ["dist/control-ui/index.html"],
 ];
 const requiredControlUiAssetPrefix = "dist/control-ui/assets/";
@@ -122,8 +122,8 @@ export function resolvePrepackCommandStdio(
   env: NodeJS.ProcessEnv = process.env,
 ): SpawnSyncOptions["stdio"] {
   const requestedStdio = options.stdio ?? "inherit";
-  const npmJsonOutput = env.npm_config_json === "true" || env.npm_config_json === "1";
-  if (npmJsonOutput && requestedStdio === "inherit") {
+  const nptsonOutput = env.npm_config_json === "true" || env.npm_config_json === "1";
+  if (nptsonOutput && requestedStdio === "inherit") {
     return ["inherit", 2, "inherit"];
   }
   return requestedStdio;
@@ -165,7 +165,7 @@ function runPnpm(args: string[]): void {
 }
 
 function runBuildSmoke(): void {
-  run(process.execPath, ["scripts/test-built-bundled-channel-entry-smoke.mjs"]);
+  run(process.execPath, ["scripts/test-built-bundled-channel-entry-smoke.ts"]);
 }
 
 async function writeDistInventory(): Promise<void> {

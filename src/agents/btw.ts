@@ -4,60 +4,60 @@ import { randomUUID } from "node:crypto";
  * or continuing the main task.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { GetReplyOptions } from "../auto-reply/get-reply-options.types.js";
-import type { ReplyPayload } from "../auto-reply/reply-payload.js";
-import type { ReasoningLevel, ThinkLevel } from "../auto-reply/thinking.js";
-import type { SessionEntry as StoredSessionEntry } from "../config/sessions.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { streamWithPayloadPatch } from "../llm/providers/stream-wrappers/stream-payload-utils.js";
-import { streamSimple } from "../llm/stream.js";
+import type { GetReplyOptions } from "../auto-reply/get-reply-options.types.ts";
+import type { ReplyPayload } from "../auto-reply/reply-payload.ts";
+import type { ReasoningLevel, ThinkLevel } from "../auto-reply/thinking.ts";
+import type { SessionEntry as StoredSessionEntry } from "../config/sessions.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { streamWithPayloadPatch } from "../llm/providers/stream-wrappers/stream-payload-utils.ts";
+import { streamSimple } from "../llm/stream.ts";
 import type {
   AssistantMessageEvent,
   ImageContent,
   Message,
   Model,
   TextContent,
-} from "../llm/types.js";
-import { prepareProviderRuntimeAuth } from "../plugins/provider-runtime.js";
-import { discoverAuthStorage, discoverModels } from "./agent-model-discovery.js";
-import { resolveAgentWorkspaceDir, resolveSessionAgentId } from "./agent-scope.js";
-import { resolveExternalCliAuthOverlayScopeFromSelection } from "./auth-profiles/external-cli-auth-selection.js";
-import { resolveSessionAuthProfileOverride } from "./auth-profiles/session-override.js";
-import { readBtwTranscriptMessages, resolveBtwSessionTranscriptPath } from "./btw-transcript.js";
-import { executePreparedCliRun } from "./cli-runner/execute.runtime.js";
-import { prepareCliRunContext } from "./cli-runner/prepare.runtime.js";
-import { EmbeddedBlockChunker, type BlockReplyChunking } from "./embedded-agent-block-chunker.js";
-import { resolveModelWithRegistry } from "./embedded-agent-runner/model.js";
-import { getActiveEmbeddedRunSnapshot } from "./embedded-agent-runner/runs.js";
-import { resolveEmbeddedAgentStreamFn } from "./embedded-agent-runner/stream-resolution.js";
-import { ensureSelectedAgentHarnessPlugin } from "./harness/runtime-plugin.js";
+} from "../llm/types.ts";
+import { prepareProviderRuntimeAuth } from "../plugins/provider-runtime.ts";
+import { discoverAuthStorage, discoverModels } from "./agent-model-discovery.ts";
+import { resolveAgentWorkspaceDir, resolveSessionAgentId } from "./agent-scope.ts";
+import { resolveExternalCliAuthOverlayScopeFromSelection } from "./auth-profiles/external-cli-auth-selection.ts";
+import { resolveSessionAuthProfileOverride } from "./auth-profiles/session-override.ts";
+import { readBtwTranscriptMessages, resolveBtwSessionTranscriptPath } from "./btw-transcript.ts";
+import { executePreparedCliRun } from "./cli-runner/execute.runtime.ts";
+import { prepareCliRunContext } from "./cli-runner/prepare.runtime.ts";
+import { EmbeddedBlockChunker, type BlockReplyChunking } from "./embedded-agent-block-chunker.ts";
+import { resolveModelWithRegistry } from "./embedded-agent-runner/model.ts";
+import { getActiveEmbeddedRunSnapshot } from "./embedded-agent-runner/runs.ts";
+import { resolveEmbeddedAgentStreamFn } from "./embedded-agent-runner/stream-resolution.ts";
+import { ensureSelectedAgentHarnessPlugin } from "./harness/runtime-plugin.ts";
 import {
   resolveAvailableAgentHarnessPolicy,
   resolvePluginHarnessPolicyToolsAllow,
   selectAgentHarness,
-} from "./harness/selection.js";
-import type { AgentHarness } from "./harness/types.js";
+} from "./harness/selection.ts";
+import type { AgentHarness } from "./harness/types.ts";
 import {
   resolveImageSanitizationLimits,
   type ImageSanitizationLimits,
-} from "./image-sanitization.js";
+} from "./image-sanitization.ts";
 import {
   ensureAuthProfileStore,
   ensureAuthProfileStoreWithoutExternalProfiles,
   getApiKeyForModel,
   requireApiKey,
-} from "./model-auth.js";
+} from "./model-auth.ts";
 import {
   isCliRuntimeAliasForProvider,
   resolveCliRuntimeExecutionProvider,
-} from "./model-runtime-aliases.js";
-import { ensureOpenClawModelsJson } from "./models-config.js";
-import { listOpenAIAuthProfileProvidersForAgentRuntime } from "./openai-routing.js";
-import { applyPreparedRuntimeAuthToModel } from "./provider-request-config.js";
-import { registerProviderStreamForModel } from "./provider-stream.js";
-import { stripToolResultDetails } from "./session-transcript-repair.js";
-import { resolveAgentTimeoutMs } from "./timeout.js";
-import { sanitizeImageBlocks } from "./tool-images.js";
+} from "./model-runtime-aliases.ts";
+import { ensureOpenClawModelsJson } from "./models-config.ts";
+import { listOpenAIAuthProfileProvidersForAgentRuntime } from "./openai-routing.ts";
+import { applyPreparedRuntimeAuthToModel } from "./provider-request-config.ts";
+import { registerProviderStreamForModel } from "./provider-stream.ts";
+import { stripToolResultDetails } from "./session-transcript-repair.ts";
+import { resolveAgentTimeoutMs } from "./timeout.ts";
+import { sanitizeImageBlocks } from "./tool-images.ts";
 
 function collectTextContent(content: Array<{ type?: string; text?: string }>): string {
   return content
@@ -667,8 +667,6 @@ export async function runBtwSideQuestion(
   }
 
   const runtimeSelectionForHarness = await resolveRuntimeSelection();
-  // Model resolution can canonicalize a legacy provider alias, so reselect against the resolved
-  // provider/model instead of reusing the raw route's selection.
   const runtimeHarness = await prepareHarness(
     runtimeSelectionForHarness.model.provider,
     runtimeSelectionForHarness.model.id,

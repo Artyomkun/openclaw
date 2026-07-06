@@ -1,7 +1,7 @@
 import { finiteSecondsToTimerSafeMilliseconds } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { runCommandWithTimeout } from "../process/exec.js";
-import type { CronRunDiagnostics, CronRunOutcome, CronRunStatus, CronJob } from "./types.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import type { CronRunDiagnostics, CronRunOutcome, CronRunStatus, CronJob } from "./types.ts";
 
 const DEFAULT_COMMAND_TIMEOUT_MS = 10 * 60_000;
 const EFFECTIVELY_UNBOUNDED_TIMEOUT_MS = 2_147_483_647;

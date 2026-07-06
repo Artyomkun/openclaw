@@ -1,5 +1,5 @@
 // Builds plugin API facades exposed to bundled and external plugins.
-import type { OpenClawPluginApi } from "./types.js";
+import type { OpenClawPluginApi } from "./types.ts";
 
 type PluginApiFacadeFields = Pick<
   OpenClawPluginApi,

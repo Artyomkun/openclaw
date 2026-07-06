@@ -4,10 +4,10 @@ import {
   hasOutboundReplyContent,
   resolveSendableOutboundReplyParts,
 } from "openclaw/plugin-sdk/reply-payload";
-import { loadSessionEntry } from "../../config/sessions/session-accessor.js";
-import { normalizeVerboseLevel, type VerboseLevel } from "../thinking.js";
-import type { ReplyPayload } from "../types.js";
-import type { TypingSignaler } from "./typing-mode.js";
+import { loadSessionEntry } from "../../config/sessions/session-accessor.ts";
+import { normalizeVerboseLevel, type VerboseLevel } from "../thinking.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { TypingSignaler } from "./typing-mode.ts";
 
 const hasAudioMedia = (urls?: string[]): boolean =>
   Boolean(urls?.some((url) => isAudioFileName(url)));

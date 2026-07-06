@@ -8,30 +8,30 @@ import {
   normalizeOptionalString,
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { DEFAULT_AGENT_ID } from "../routing/session-key.js";
-import type { CommandExplanationSummary } from "./command-analysis/explain.js";
+import { DEFAULT_AGENT_ID } from "../routing/session-key.ts";
+import type { CommandExplanationSummary } from "./command-analysis/explain.ts";
 import {
   type AllowAlwaysPattern,
   resolveAllowAlwaysPatternEntries,
-} from "./exec-approvals-allowlist.js";
-import type { ExecCommandSegment } from "./exec-approvals-analysis.js";
-import type { ExecAllowlistEntry } from "./exec-approvals.types.js";
-import type { ExecAuthorizationPlan } from "./exec-authorization-plan.js";
+} from "./exec-approvals-allowlist.ts";
+import type { ExecCommandSegment } from "./exec-approvals-analysis.ts";
+import type { ExecAllowlistEntry } from "./exec-approvals.types.ts";
+import type { ExecAuthorizationPlan } from "./exec-authorization-plan.ts";
 import {
   extractBindableShellWrapperInlineCommand,
   isShellWrapperInvocation,
-} from "./exec-wrapper-resolution.js";
-import { assertNoSymlinkParentsSync } from "./fs-safe-advanced.js";
-import { expandHomePrefix, resolveHomeRelativePath, resolveRequiredHomeDir } from "./home-dir.js";
-import { requestJsonlSocket } from "./jsonl-socket.js";
+} from "./exec-wrapper-resolution.ts";
+import { assertNoSymlinkParentsSync } from "./fs-safe-advanced.ts";
+import { expandHomePrefix, resolveHomeRelativePath, resolveRequiredHomeDir } from "./home-dir.ts";
+import { requestJsonlSocket } from "./jsonl-socket.ts";
 import {
   hasPosixInteractiveStartupBeforeInlineCommand,
   hasPosixLoginStartupBeforeInlineCommand,
   POSIX_INLINE_COMMAND_FLAGS,
-} from "./shell-inline-command.js";
-export * from "./exec-approvals-analysis.js";
-export * from "./exec-approvals-allowlist.js";
-export type { ExecAllowlistEntry } from "./exec-approvals.types.js";
+} from "./shell-inline-command.ts";
+export * from "./exec-approvals-analysis.ts";
+export * from "./exec-approvals-allowlist.ts";
+export type { ExecAllowlistEntry } from "./exec-approvals.types.ts";
 
 export type ExecHost = "sandbox" | "gateway" | "node";
 export type ExecTarget = "auto" | ExecHost;
@@ -347,71 +347,9 @@ export function resolveExecApprovalsTranscriptPath(): string {
     : `${DEFAULT_EXEC_APPROVALS_STATE_DIR}/${EXEC_APPROVALS_FILE}`;
 }
 
-function resolveLegacyExecApprovalsPath(): string {
-  return path.join(expandHomePrefix(DEFAULT_EXEC_APPROVALS_STATE_DIR), EXEC_APPROVALS_FILE);
-}
-
-function hasUnmigratedLegacyExecApprovals(filePath: string): boolean {
-  if (!process.env.OPENCLAW_STATE_DIR?.trim()) {
-    return false;
-  }
-  const legacyPath = resolveLegacyExecApprovalsPath();
-  return (
-    path.resolve(legacyPath) !== path.resolve(filePath) &&
-    !fs.existsSync(filePath) &&
-    fs.existsSync(legacyPath)
-  );
-}
-
-function createUnmigratedLegacyExecApprovalsFallback(): ExecApprovalsFile {
-  return normalizeExecApprovals({
-    version: 1,
-    defaults: {
-      security: "deny",
-      ask: "always",
-      askFallback: "deny",
-    },
-    agents: {},
-  });
-}
-
 function normalizeAllowlistPattern(value: string | undefined): string | null {
   const trimmed = normalizeOptionalString(value) ?? "";
   return trimmed ? normalizeLowercaseStringOrEmpty(trimmed) : null;
-}
-
-function mergeLegacyAgent(
-  current: ExecApprovalsAgent,
-  legacy: ExecApprovalsAgent,
-): ExecApprovalsAgent {
-  const allowlist: ExecAllowlistEntry[] = [];
-  const seen = new Set<string>();
-  const pushEntry = (entry: ExecAllowlistEntry) => {
-    const patternKey = normalizeAllowlistPattern(entry.pattern);
-    if (!patternKey) {
-      return;
-    }
-    const key = `${patternKey}\x00${entry.argPattern?.trim() ?? ""}`;
-    if (seen.has(key)) {
-      return;
-    }
-    seen.add(key);
-    allowlist.push(entry);
-  };
-  for (const entry of current.allowlist ?? []) {
-    pushEntry(entry);
-  }
-  for (const entry of legacy.allowlist ?? []) {
-    pushEntry(entry);
-  }
-
-  return {
-    security: current.security ?? legacy.security,
-    ask: current.ask ?? legacy.ask,
-    askFallback: current.askFallback ?? legacy.askFallback,
-    autoAllowSkills: current.autoAllowSkills ?? legacy.autoAllowSkills,
-    allowlist: allowlist.length > 0 ? allowlist : undefined,
-  };
 }
 
 function ensureDir(filePath: string) {
@@ -648,7 +586,7 @@ function renameExecApprovalsWithFallback(tempPath: string, filePath: string): vo
   }
 }
 
-// Coerce legacy/corrupted allowlists into `ExecAllowlistEntry[]` before we spread
+// Coerce corrupted allowlists into `ExecAllowlistEntry[]` before we spread
 // entries to add ids (spreading strings creates {"0":"l","1":"s",...}).
 function coerceAllowlistEntries(allowlist: unknown): ExecAllowlistEntry[] | undefined {
   if (!Array.isArray(allowlist) || allowlist.length === 0) {
@@ -736,12 +674,6 @@ export function normalizeExecApprovals(file: ExecApprovalsFile): ExecApprovalsFi
   const socketPath = file.socket?.path?.trim();
   const token = file.socket?.token?.trim();
   const agents = { ...file.agents };
-  const legacyDefault = agents.default;
-  if (legacyDefault) {
-    const main = agents[DEFAULT_AGENT_ID];
-    agents[DEFAULT_AGENT_ID] = main ? mergeLegacyAgent(main, legacyDefault) : legacyDefault;
-    delete agents.default;
-  }
   for (const [key, agent] of Object.entries(agents)) {
     const coerced = coerceAllowlistEntries(agent.allowlist);
     const withIds = ensureAllowlistIds(coerced);
@@ -801,16 +733,6 @@ function generateToken(): string {
 
 export function readExecApprovalsSnapshot(): ExecApprovalsSnapshot {
   const filePath = resolveExecApprovalsPath();
-  if (hasUnmigratedLegacyExecApprovals(filePath)) {
-    const file = createUnmigratedLegacyExecApprovalsFallback();
-    return {
-      path: filePath,
-      exists: false,
-      raw: null,
-      file,
-      hash: hashExecApprovalsRaw(null),
-    };
-  }
   if (!fs.existsSync(filePath)) {
     const file = normalizeExecApprovals({ version: 1, agents: {} });
     return {
@@ -843,9 +765,6 @@ export function readExecApprovalsSnapshot(): ExecApprovalsSnapshot {
 
 export function loadExecApprovals(): ExecApprovalsFile {
   const filePath = resolveExecApprovalsPath();
-  if (hasUnmigratedLegacyExecApprovals(filePath)) {
-    return createUnmigratedLegacyExecApprovalsFallback();
-  }
   try {
     if (!fs.existsSync(filePath)) {
       return normalizeExecApprovals({ version: 1, agents: {} });
@@ -906,9 +825,6 @@ export function restoreExecApprovalsSnapshot(snapshot: ExecApprovalsSnapshot): v
 }
 
 export function ensureExecApprovals(): ExecApprovalsFile {
-  if (hasUnmigratedLegacyExecApprovals(resolveExecApprovalsPath())) {
-    return createUnmigratedLegacyExecApprovalsFallback();
-  }
   const loaded = loadExecApprovals();
   const next = normalizeExecApprovals(loaded);
   const socketPath = next.socket?.path?.trim();
@@ -925,9 +841,6 @@ export function ensureExecApprovals(): ExecApprovalsFile {
 }
 
 function readExecApprovalsForNoPersistence(filePath: string): ExecApprovalsFile {
-  if (hasUnmigratedLegacyExecApprovals(filePath)) {
-    return createUnmigratedLegacyExecApprovalsFallback();
-  }
   const dir = path.dirname(filePath);
   assertNoExecApprovalsSymlinkParents(dir, resolveRequiredHomeDir());
   assertSafeExecApprovalsDestination(filePath);
@@ -1092,16 +1005,6 @@ export function resolveExecApprovals(
   overrides?: ExecApprovalsDefaultOverrides,
 ): ExecApprovalsResolved {
   const filePath = resolveExecApprovalsPath();
-  if (hasUnmigratedLegacyExecApprovals(filePath)) {
-    return resolveExecApprovalsFromFile({
-      file: createUnmigratedLegacyExecApprovalsFallback(),
-      agentId,
-      overrides,
-      path: filePath,
-      socketPath: resolveExecApprovalsSocketPath(),
-      token: "",
-    });
-  }
   if (!overrides?.requireSocket) {
     const file = readExecApprovalsForNoPersistence(filePath);
     const resolved = resolveExecApprovalsFromFile({

@@ -1,7 +1,7 @@
 // Video duration support helpers normalize supported generation durations.
 import { uniqueValues } from "@openclaw/normalization-core/string-normalization";
-import { resolveVideoGenerationModeCapabilities } from "./capabilities.js";
-import type { VideoGenerationProvider } from "./types.js";
+import { resolveVideoGenerationModeCapabilities } from "./capabilities.ts";
+import type { VideoGenerationProvider } from "./types.ts";
 
 // Duration support is provider/mode/model scoped. Values are normalized to
 // positive rounded seconds before runtime snaps requests to the nearest option.

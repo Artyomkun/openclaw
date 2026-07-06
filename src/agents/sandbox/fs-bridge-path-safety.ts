@@ -5,14 +5,14 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import type { PathAliasPolicy } from "../../infra/path-alias-guards.js";
-import { openRootFile, type RootFileOpenResult } from "./fs-bridge-path-safety.runtime.js";
-import type { SandboxResolvedFsPath, SandboxFsMount } from "./fs-paths.js";
+import type { PathAliasPolicy } from "../../infra/path-alias-guards.ts";
+import { openRootFile, type RootFileOpenResult } from "./fs-bridge-path-safety.runtime.ts";
+import type { SandboxResolvedFsPath, SandboxFsMount } from "./fs-paths.ts";
 import {
   isPathInsideContainerRoot,
   normalizeContainerPath,
   relativePathEscapesContainerRoot,
-} from "./path-utils.js";
+} from "./path-utils.ts";
 
 type BoundaryAllowedType = "file" | "directory";
 

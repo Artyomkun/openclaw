@@ -1,7 +1,7 @@
 /**
  * Carries confirmed CLI messaging delivery across failed execution/finalization paths.
  */
-import type { CliOutput } from "../cli-output.js";
+import type { CliOutput } from "../cli-output.ts";
 
 const CLI_MESSAGING_DELIVERY_EVIDENCE_KEY = "cliMessagingDeliveryEvidence";
 

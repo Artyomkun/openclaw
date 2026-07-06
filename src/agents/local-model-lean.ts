@@ -3,11 +3,11 @@
  * Removes high-latency or channel-dependent tools for local models while
  * preserving explicitly required delivery tools.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId, parseAgentSessionKey } from "../routing/session-key.js";
-import { resolveAgentConfig, resolveDefaultAgentId } from "./agent-scope-config.js";
-import type { AnyAgentTool } from "./agent-tools.types.js";
-import { expandToolGroups, normalizeToolName } from "./tool-policy.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId, parseAgentSessionKey } from "../routing/session-key.ts";
+import { resolveAgentConfig, resolveDefaultAgentId } from "./agent-scope-config.ts";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
+import { expandToolGroups, normalizeToolName } from "./tool-policy.ts";
 
 const LOCAL_MODEL_LEAN_DENY_TOOL_NAMES = new Set(["browser", "cron", "message"]);
 const LOCAL_MODEL_LEAN_TOOL_SEARCH_DEFAULTS = {

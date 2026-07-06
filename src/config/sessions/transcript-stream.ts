@@ -1,7 +1,7 @@
 // Transcript streaming reads large JSONL files forward or backward without whole-file buffering.
 import fs from "node:fs";
 import readline from "node:readline";
-import { readFileRangeAsync } from "./file-range.js";
+import { readFileRangeAsync } from "./file-range.ts";
 
 // Shared streaming helpers for JSONL session transcripts.
 //

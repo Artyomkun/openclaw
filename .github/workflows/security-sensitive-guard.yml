@@ -63,7 +63,7 @@ jobs:
           OPENCLAW_SECURITY_APPROVERS: vincentkoc,steipete,joshavant
           OPENCLAW_SECURITY_SENSITIVE_GUARD_MODE: detect
           OPENCLAW_SECURITY_TEAM_SLUG: openclaw-secops
-        run: node scripts/github/security-sensitive-guard.mjs
+        run: node scripts/github/security-sensitive-guard.ts
 
   security-sensitive-guard:
     if: ${{ !github.event.pull_request.draft && always() }}
@@ -111,4 +111,4 @@ jobs:
           OPENCLAW_SECURITY_APPROVERS: vincentkoc,steipete,joshavant
           OPENCLAW_SECURITY_SENSITIVE_GUARD_MODE: enforce
           OPENCLAW_SECURITY_TEAM_SLUG: openclaw-secops
-        run: node scripts/github/security-sensitive-guard.mjs
+        run: node scripts/github/security-sensitive-guard.ts

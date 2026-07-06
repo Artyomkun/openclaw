@@ -14,7 +14,7 @@ import {
   GATEWAY_CLIENT_CAPS,
   GATEWAY_CLIENT_MODES,
   hasGatewayClientCap,
-} from "../../../packages/gateway-protocol/src/client-info.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
 import {
   ErrorCodes,
   errorShape,
@@ -22,39 +22,39 @@ import {
   validateAgentIdentityParams,
   validateAgentParams,
   validateAgentWaitParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { readAcpSessionMeta } from "../../acp/runtime/session-meta.js";
-import { listAgentIds, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import { resolveTrustedGroupId } from "../../agents/agent-tools.policy.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { readAcpSessionMeta } from "../../acp/runtime/session-meta.ts";
+import { listAgentIds, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import { resolveTrustedGroupId } from "../../agents/agent-tools.policy.ts";
 import {
   consumeExecApprovalFollowupRuntimeHandoff,
   isExecApprovalFollowupSessionRebound,
   parseExecApprovalFollowupApprovalId,
-} from "../../agents/bash-tools.exec-approval-followup-state.js";
-import { clearAllCliSessions } from "../../agents/cli-session.js";
-import type { AgentCommandOpts } from "../../agents/command/types.js";
-import { isTimeoutError } from "../../agents/failover-error.js";
+} from "../../agents/bash-tools.exec-approval-followup-state.ts";
+import { clearAllCliSessions } from "../../agents/cli-session.ts";
+import type { AgentCommandOpts } from "../../agents/command/types.ts";
+import { isTimeoutError } from "../../agents/failover-error.ts";
 import {
   resolveAgentAvatar,
   resolvePublicAgentAvatarSource,
-} from "../../agents/identity-avatar.js";
-import { AGENT_INTERNAL_EVENT_TYPE_TASK_COMPLETION } from "../../agents/internal-event-contract.js";
-import type { AgentInternalEvent } from "../../agents/internal-events.js";
-import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
+} from "../../agents/identity-avatar.ts";
+import { AGENT_INTERNAL_EVENT_TYPE_TASK_COMPLETION } from "../../agents/internal-event-contract.ts";
+import type { AgentInternalEvent } from "../../agents/internal-events.ts";
+import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.ts";
 import {
   AGENT_RUN_RESTART_ABORT_STOP_REASON,
   isAgentRunRestartAbortReason,
-} from "../../agents/run-termination.js";
+} from "../../agents/run-termination.ts";
 import {
   normalizeAgentRunTimeoutPhase,
   normalizeProviderStarted,
-} from "../../agents/run-timeout-attribution.js";
+} from "../../agents/run-timeout-attribution.ts";
 import {
   normalizeSpawnedRunMetadata,
   resolveIngressWorkspaceOverrideForSpawnedRun,
-} from "../../agents/spawned-context.js";
-import { resolveAgentTimeoutMs } from "../../agents/timeout.js";
-import { agentCommandFromIngress } from "../../commands/agent.js";
+} from "../../agents/spawned-context.ts";
+import { resolveAgentTimeoutMs } from "../../agents/timeout.ts";
+import { agentCommandFromIngress } from "../../commands/agent.ts";
 import {
   evaluateSessionFreshness,
   hasTerminalMainSessionTranscriptNewerThanRegistrySync,
@@ -71,82 +71,82 @@ import {
   resolveSessionResetType,
   type SessionEntry,
   updateSessionStore,
-} from "../../config/sessions.js";
-import { resolveMaintenanceConfigFromInput } from "../../config/sessions/store-maintenance.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/sessions.ts";
+import { resolveMaintenanceConfigFromInput } from "../../config/sessions/store-maintenance.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   assertAgentRunLifecycleGenerationCurrent,
   claimAgentRunContext,
   clearAgentRunContext,
   getAgentEventLifecycleGeneration,
-} from "../../infra/agent-events.js";
-import { formatUncaughtError, readErrorName } from "../../infra/errors.js";
+} from "../../infra/agent-events.ts";
+import { formatUncaughtError, readErrorName } from "../../infra/errors.ts";
 import {
   resolveAgentDeliveryPlanWithSessionRoute,
   resolveAgentOutboundTarget,
-} from "../../infra/outbound/agent-delivery.js";
-import { shouldDowngradeDeliveryToSessionOnly } from "../../infra/outbound/best-effort-delivery.js";
-import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.js";
-import { isAbortError } from "../../infra/unhandled-rejections.js";
+} from "../../infra/outbound/agent-delivery.ts";
+import { shouldDowngradeDeliveryToSessionOnly } from "../../infra/outbound/best-effort-delivery.ts";
+import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.ts";
+import { isAbortError } from "../../infra/unhandled-rejections.ts";
 import {
   loadVoiceWakeRoutingConfig,
   resolveVoiceWakeRouteByTrigger,
-} from "../../infra/voicewake-routing.js";
-import type { PromptImageOrderEntry } from "../../media/prompt-image-order.js";
-import type { PluginHookSessionEndReason } from "../../plugins/hook-types.js";
+} from "../../infra/voicewake-routing.ts";
+import type { PromptImageOrderEntry } from "../../media/prompt-image-order.ts";
+import type { PluginHookSessionEndReason } from "../../plugins/hook-types.ts";
 import {
   classifySessionKeyShape,
   isAcpSessionKey,
   normalizeAgentId,
   parseAgentSessionKey,
-} from "../../routing/session-key.js";
-import { defaultRuntime } from "../../runtime.js";
+} from "../../routing/session-key.ts";
+import { defaultRuntime } from "../../runtime.ts";
 import {
   annotateInterSessionPromptText,
   normalizeInputProvenance,
   shouldPreserveUserFacingSessionStateForInputProvenance,
   type InputProvenance,
-} from "../../sessions/input-provenance.js";
-import { resolveSendPolicy } from "../../sessions/send-policy.js";
+} from "../../sessions/input-provenance.ts";
+import { resolveSendPolicy } from "../../sessions/send-policy.ts";
 import {
   parseRawSessionConversationRef,
   parseThreadSessionSuffix,
-} from "../../sessions/session-key-utils.js";
-import { createRunningTaskRun, finalizeTaskRunByRunId } from "../../tasks/detached-task-runtime.js";
-import type { TaskStatus } from "../../tasks/task-registry.types.js";
+} from "../../sessions/session-key-utils.ts";
+import { createRunningTaskRun, finalizeTaskRunByRunId } from "../../tasks/detached-task-runtime.ts";
+import type { TaskStatus } from "../../tasks/task-registry.types.ts";
 import {
   mergeDeliveryContext,
   normalizeDeliveryContext,
   normalizeSessionDeliveryFields,
   type DeliveryContext,
-} from "../../utils/delivery-context.shared.js";
+} from "../../utils/delivery-context.shared.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
   isGatewayMessageChannel,
   isInternalNonDeliveryChannel,
   normalizeMessageChannel,
-} from "../../utils/message-channel.js";
-import { resolveAssistantIdentity } from "../assistant-identity.js";
+} from "../../utils/message-channel.ts";
+import { resolveAssistantIdentity } from "../assistant-identity.ts";
 import {
   type ChatAbortControllerEntry,
   registerChatAbortController,
   resolveAgentRunExpiresAtMs,
   updateChatRunProvider,
-} from "../chat-abort.js";
+} from "../chat-abort.ts";
 import {
   MediaOffloadError,
   parseMessageWithAttachments,
   resolveChatAttachmentMaxBytes,
-} from "../chat-attachments.js";
-import { resolveAssistantAvatarUrl } from "../control-ui-shared.js";
-import { ADMIN_SCOPE } from "../method-scopes.js";
+} from "../chat-attachments.ts";
+import { resolveAssistantAvatarUrl } from "../control-ui-shared.ts";
+import { ADMIN_SCOPE } from "../method-scopes.ts";
 import {
   emitGatewaySessionEndPluginHook,
   emitGatewaySessionStartPluginHook,
   performGatewaySessionReset,
-} from "../session-reset-service.js";
-import { reactivateCompletedSubagentSession } from "../session-subagent-reactivation.js";
+} from "../session-reset-service.ts";
+import { reactivateCompletedSubagentSession } from "../session-subagent-reactivation.ts";
 import {
   canonicalizeSpawnedByForAgent,
   loadSessionEntry,
@@ -155,22 +155,22 @@ import {
   resolveGatewayModelSupportsImages,
   resolveSessionStoreKey,
   resolveSessionModelRef,
-} from "../session-utils.js";
-import { formatForLog } from "../ws-log.js";
-import { waitForAgentJob } from "./agent-job.js";
+} from "../session-utils.ts";
+import { formatForLog } from "../ws-log.ts";
+import { waitForAgentJob } from "./agent-job.ts";
 import {
   readTerminalSnapshotFromGatewayDedupe,
   setGatewayDedupeEntry,
   type AgentWaitTerminalSnapshot,
   waitForTerminalGatewayDedupe,
-} from "./agent-wait-dedupe.js";
-import { normalizeRpcAttachmentsToChatAttachments } from "./attachment-normalize.js";
-import { emitSessionsChanged } from "./session-change-event.js";
+} from "./agent-wait-dedupe.ts";
+import { normalizeRpcAttachmentsToChatAttachments } from "./attachment-normalize.ts";
+import { emitSessionsChanged } from "./session-change-event.ts";
 import type {
   GatewayRequestContext,
   GatewayRequestHandlerOptions,
   GatewayRequestHandlers,
-} from "./types.js";
+} from "./types.ts";
 
 const RESET_COMMAND_RE = /^\/(new|reset)(?:\s+([\s\S]*))?$/i;
 
@@ -2063,11 +2063,6 @@ export const agentHandlers: GatewayRequestHandlers = {
         const sessionAgentId = canonicalSessionAgentId;
         resolvedSessionAgentId = sessionAgentId;
         const mainSessionKey = mainSessionKeyForRequest;
-        // Legacy stores may lack sessionStartedAt entirely. Pre-compute a
-        // JSONL-transcript-derived candidate outside the store lock; the
-        // updater below only writes it when the freshly-loaded store still
-        // lacks the field, so a concurrent writer that sets it cannot be
-        // clobbered (the #5369 stale-writeback class).
         const recoveredSessionStartedAt: number | undefined =
           !isNewSession && entry !== undefined && entry.sessionStartedAt === undefined
             ? resolveSessionLifecycleTimestamps({
@@ -2103,10 +2098,6 @@ export const agentHandlers: GatewayRequestHandlers = {
                   store,
                   ...(sessionAgentId ? { agentId: sessionAgentId } : {}),
                 });
-                const hadLegacyStoreKey = preMigrationTarget.storeKeys.some(
-                  (storeKey) =>
-                    storeKey !== preMigrationTarget.canonicalKey && Object.hasOwn(store, storeKey),
-                );
                 const { target, primaryKey } = migrateAndPruneGatewaySessionStoreKey({
                   cfg: cfgLocal,
                   key: requestedStoreKey,
@@ -2141,7 +2132,7 @@ export const agentHandlers: GatewayRequestHandlers = {
                 store[primaryKey] = merged;
                 const canonicalKeyChanged = target.canonicalKey !== preMigrationTarget.canonicalKey;
                 singleEntryPersistence =
-                  freshEntry && !hadLegacyStoreKey && !canonicalKeyChanged && !prunedStoreKey
+                  freshEntry && !canonicalKeyChanged && !prunedStoreKey
                     ? {
                         sessionKey: primaryKey,
                         entry: merged,

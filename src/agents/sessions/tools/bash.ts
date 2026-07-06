@@ -8,20 +8,20 @@ import { existsSync } from "node:fs";
 import { Container, Text, truncateToWidth } from "@earendil-works/pi-tui";
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import { Type } from "typebox";
-import { toErrorObject } from "../../../infra/errors.js";
-import { keyHint } from "../../modes/interactive/components/keybinding-hints.js";
-import { truncateToVisualLines } from "../../modes/interactive/components/visual-truncate.js";
-import { theme } from "../../modes/interactive/theme/theme.js";
-import type { AgentTool } from "../../runtime/index.js";
-import { getBashShellConfig, getShellEnv, killProcessTree } from "../../shell-utils.js";
-import { waitForChildProcess } from "../../utils/child-process.js";
-import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.js";
-import type { BashOperations } from "./bash-operations.js";
-import { OutputAccumulator } from "./output-accumulator.js";
-import { getTextOutput, invalidArgText, str } from "./render-utils.js";
-import type { BashToolDetails } from "./tool-contracts.js";
-import { wrapToolDefinition } from "./tool-definition-wrapper.js";
-import { DEFAULT_MAX_BYTES, DEFAULT_MAX_LINES, formatSize } from "./truncate.js";
+import { toErrorObject } from "../../../infra/errors.ts";
+import { keyHint } from "../../modes/interactive/components/keybinding-hints.ts";
+import { truncateToVisualLines } from "../../modes/interactive/components/visual-truncate.ts";
+import { theme } from "../../modes/interactive/theme/theme.ts";
+import type { AgentTool } from "../../runtime/index.ts";
+import { getBashShellConfig, getShellEnv, killProcessTree } from "../../shell-utils.ts";
+import { waitForChildProcess } from "../../utils/child-process.ts";
+import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.ts";
+import type { BashOperations } from "./bash-operations.ts";
+import { OutputAccumulator } from "./output-accumulator.ts";
+import { getTextOutput, invalidArgText, str } from "./render-utils.ts";
+import type { BashToolDetails } from "./tool-contracts.ts";
+import { wrapToolDefinition } from "./tool-definition-wrapper.ts";
+import { DEFAULT_MAX_BYTES, DEFAULT_MAX_LINES, formatSize } from "./truncate.ts";
 
 const bashSchema = Type.Object({
   command: Type.String({ description: "Bash command to execute" }),
@@ -29,9 +29,9 @@ const bashSchema = Type.Object({
     Type.Number({ description: "Timeout in seconds (optional, no default timeout)" }),
   ),
 });
-export type { BashToolDetails, BashToolInput } from "./tool-contracts.js";
+export type { BashToolDetails, BashToolInput } from "./tool-contracts.ts";
 
-export type { BashOperations } from "./bash-operations.js";
+export type { BashOperations } from "./bash-operations.ts";
 
 export function resolveBashTimeoutMs(timeoutSeconds: unknown): number | undefined {
   if (

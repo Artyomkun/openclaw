@@ -1,17 +1,17 @@
 // Runtime plugin boundary helpers enforce package and source boundaries for runtime loading.
 import fs from "node:fs";
 import path from "node:path";
-import { getRuntimeConfig } from "../../config/config.js";
-import { loadPluginManifestRegistry } from "../manifest-registry.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import { loadPluginManifestRegistry } from "../manifest-registry.ts";
 import {
   isJavaScriptModulePath,
   tryNativeRequireJavaScriptModule,
-} from "../native-module-require.js";
+} from "../native-module-require.ts";
 import {
   getCachedPluginSourceModuleLoader,
   type PluginModuleLoaderCache,
-} from "../plugin-module-loader-cache.js";
-import type { PluginOrigin } from "../plugin-origin.types.js";
+} from "../plugin-module-loader-cache.ts";
+import type { PluginOrigin } from "../plugin-origin.types.ts";
 
 type PluginRuntimeRecord = {
   origin?: PluginOrigin;
@@ -113,28 +113,18 @@ export function resolvePluginRuntimeModulePath(
   return null;
 }
 
-function getPluginBoundarySourceLoader(modulePath: string, loaders: PluginModuleLoaderCache) {
-  return getCachedPluginSourceModuleLoader({
-    cache: loaders,
-    modulePath,
-    importerUrl: import.meta.url,
-    loaderFilename: import.meta.url,
-  });
-}
-
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Dynamic plugin boundary loaders use caller-supplied module types.
-export function loadPluginBoundaryModule<TModule>(
+export function loadPluginBoundaryModule(
   modulePath: string,
   loaders: PluginModuleLoaderCache,
   options: { origin?: PluginOrigin } = {},
-): TModule {
+): unknown {
   if (isJavaScriptModulePath(modulePath)) {
     const native = tryNativeRequireJavaScriptModule(modulePath, {
       allowWindows: true,
       fallbackOnNativeError: options.origin !== "bundled",
     });
     if (native.ok) {
-      return native.moduleExport as TModule;
+      return native.moduleExport;
     }
     if (options.origin === "bundled") {
       throw new Error(`bundled plugin runtime module must load natively: ${modulePath}`);
@@ -143,5 +133,10 @@ export function loadPluginBoundaryModule<TModule>(
     throw new Error(`bundled plugin runtime module must be built JavaScript: ${modulePath}`);
   }
 
-  return getPluginBoundarySourceLoader(modulePath, loaders)(modulePath) as TModule;
+  // Если не native — пытаемся загрузить через loaders
+  const loader = loaders.load?.(modulePath);
+  if (!loader) {
+    throw new Error(`No loader found for module: ${modulePath}`);
+  }
+  return loader(modulePath);
 }

@@ -7,18 +7,18 @@ import {
   formatGeneratedAttachmentLines,
   mediaUrlsFromGeneratedAttachments,
   type AgentGeneratedAttachment,
-} from "./generated-attachments.js";
+} from "./generated-attachments.ts";
 import {
   AGENT_INTERNAL_EVENT_TYPE_TASK_COMPLETION,
   type AgentInternalEventSource,
   type AgentInternalEventStatus,
-} from "./internal-event-contract.js";
+} from "./internal-event-contract.ts";
 import {
   escapeInternalRuntimeContextDelimiters,
   INTERNAL_RUNTIME_CONTEXT_BEGIN,
   INTERNAL_RUNTIME_CONTEXT_END,
-} from "./internal-runtime-context.js";
-import { wrapPromptDataBlock } from "./sanitize-for-prompt.js";
+} from "./internal-runtime-context.ts";
+import { wrapPromptDataBlock } from "./sanitize-for-prompt.ts";
 
 type AgentTaskCompletionInternalEvent = {
   type: typeof AGENT_INTERNAL_EVENT_TYPE_TASK_COMPLETION;

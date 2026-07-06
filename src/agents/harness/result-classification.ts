@@ -8,7 +8,7 @@ import type {
   AgentHarness,
   AgentHarnessAttemptParams,
   AgentHarnessAttemptResult,
-} from "./types.js";
+} from "./types.ts";
 
 /** Applies a harness classifier while replacing any stale prior classification. */
 export function applyAgentHarnessResultClassification(

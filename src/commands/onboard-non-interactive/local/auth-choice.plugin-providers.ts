@@ -8,32 +8,32 @@ import {
   resolveAgentDir,
   resolveDefaultAgentId,
   resolveAgentWorkspaceDir,
-} from "../../../agents/agent-scope.js";
-import type { ApiKeyCredential } from "../../../agents/auth-profiles/types.js";
-import { resolveDefaultAgentWorkspaceDir } from "../../../agents/workspace.js";
-import { resolveAgentModelPrimaryValue } from "../../../config/model-input.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { enablePluginInConfig } from "../../../plugins/enable.js";
-import { resolvePreferredProviderForAuthChoice } from "../../../plugins/provider-auth-choice-preference.js";
-import { resolveManifestProviderAuthChoice } from "../../../plugins/provider-auth-choices.js";
+} from "../../../agents/agent-scope.ts";
+import type { ApiKeyCredential } from "../../../agents/auth-profiles/types.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../../../agents/workspace.ts";
+import { resolveAgentModelPrimaryValue } from "../../../config/model-input.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { enablePluginInConfig } from "../../../plugins/enable.ts";
+import { resolvePreferredProviderForAuthChoice } from "../../../plugins/provider-auth-choice-preference.ts";
+import { resolveManifestProviderAuthChoice } from "../../../plugins/provider-auth-choices.ts";
 import {
   resolveDeprecatedProviderInstallCatalogEntry,
   resolveProviderInstallCatalogEntry,
-} from "../../../plugins/provider-install-catalog.js";
+} from "../../../plugins/provider-install-catalog.ts";
 import type {
   ProviderAuthOptionBag,
   ProviderNonInteractiveApiKeyCredentialParams,
   ProviderResolveNonInteractiveApiKeyParams,
-} from "../../../plugins/types.js";
-import type { RuntimeEnv } from "../../../runtime.js";
-import { createLazyRuntimeSurface } from "../../../shared/lazy-runtime.js";
+} from "../../../plugins/types.ts";
+import type { RuntimeEnv } from "../../../runtime.ts";
+import { createLazyRuntimeSurface } from "../../../shared/lazy-runtime.ts";
 import {
   CODEX_RUNTIME_PLUGIN_ID,
   ensureCodexRuntimePluginForModelSelection,
-} from "../../codex-runtime-plugin-install.js";
-import { ensureCopilotRuntimePluginForModelSelection } from "../../copilot-runtime-plugin-install.js";
-import { createNonInteractiveLoggingPrompter } from "../../non-interactive-prompter.js";
-import type { OnboardOptions } from "../../onboard-types.js";
+} from "../../codex-runtime-plugin-install.ts";
+import { ensureCopilotRuntimePluginForModelSelection } from "../../copilot-runtime-plugin-install.ts";
+import { createNonInteractiveLoggingPrompter } from "../../non-interactive-prompter.ts";
+import type { OnboardOptions } from "../../onboard-types.ts";
 
 const PROVIDER_PLUGIN_CHOICE_PREFIX = "provider-plugin:";
 

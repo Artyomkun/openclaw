@@ -4,8 +4,8 @@ import type {
   ChannelRuntimeContextEvent,
   ChannelRuntimeContextKey,
   ChannelRuntimeContextRegistry,
-} from "../../channels/plugins/channel-runtime-surface.types.js";
-import { createSubsystemLogger } from "../../logging.js";
+} from "../../channels/plugins/channel-runtime-surface.types.ts";
+import { createSubsystemLogger } from "../../logging.ts";
 
 type StoredRuntimeContext = {
   token: symbol;

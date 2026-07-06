@@ -233,7 +233,7 @@ export function resolveMentions(params: {
   const visibleRoomMention =
     hasVisibleRoomMention(params.text) || hasVisibleRoomMention(params.content.formatted_body);
 
-  // Check formatted_body for matrix.to mention links (legacy/alternative mention format)
+  // Check formatted_body for matrix.to mention links (alternative mention format)
   const mentionedInFormattedBody = params.userId
     ? checkFormattedBodyMention({
         formattedBody: params.content.formatted_body,

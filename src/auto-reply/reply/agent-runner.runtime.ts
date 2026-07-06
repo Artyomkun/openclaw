@@ -1,2 +1,2 @@
 /** Runtime facade for running the reply agent. */
-export { runReplyAgent } from "./agent-runner.js";
+export { runReplyAgent } from "./agent-runner.ts";

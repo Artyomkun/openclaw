@@ -1,13 +1,13 @@
 /**
  * Resolves per-attempt runtime decisions from config and channel context.
  */
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { OpenClawConfig } from "../../../config/config.ts";
 import {
   resolveSessionLockMaxHoldFromTimeout,
   resolveSessionWriteLockOptions,
-} from "../../session-write-lock.js";
-import { UNKNOWN_TOOL_THRESHOLD } from "../../tool-loop-detection.js";
-import type { EmbeddedRunAttemptParams } from "./types.js";
+} from "../../session-write-lock.ts";
+import { UNKNOWN_TOOL_THRESHOLD } from "../../tool-loop-detection.ts";
+import type { EmbeddedRunAttemptParams } from "./types.ts";
 
 /**
  * Builds the session write-lock timing for a live embedded attempt. The lock is

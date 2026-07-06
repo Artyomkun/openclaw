@@ -6,7 +6,7 @@ import type {
   WebSearchProviderSetupContext,
   WebSearchProviderPlugin,
   WebSearchProviderToolDefinition,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 export {
   getScopedCredentialValue,
   getTopLevelCredentialValue,
@@ -15,8 +15,8 @@ export {
   setScopedCredentialValue,
   setProviderWebSearchPluginConfigValue,
   setTopLevelCredentialValue,
-} from "../agents/tools/web-search-provider-config.js";
-export { createBaseWebSearchProviderContractFields as createWebSearchProviderContractFields } from "./provider-web-search-contract-fields.js";
+} from "../agents/tools/web-search-provider-config.ts";
+export { createBaseWebSearchProviderContractFields as createWebSearchProviderContractFields } from "./provider-web-search-contract-fields.ts";
 export type {
   WebSearchCredentialResolutionSource,
   WebSearchProviderSetupContext,

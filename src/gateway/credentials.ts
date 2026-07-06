@@ -1,17 +1,17 @@
 // Gateway credential resolution.
 // Selects token/password credentials from explicit, env, local, and remote config inputs.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   createGatewayCredentialPlan,
   type GatewayCredentialPlan,
   trimCredentialToUndefined,
   trimToUndefined,
-} from "./credential-planner.js";
+} from "./credential-planner.ts";
 export {
   hasGatewayPasswordEnvCandidate,
   hasGatewayTokenEnvCandidate,
   trimToUndefined,
-} from "./credential-planner.js";
+} from "./credential-planner.ts";
 
 export type ExplicitGatewayAuth = {
   token?: string;

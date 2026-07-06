@@ -1,15 +1,15 @@
 /**
  * Builds model visibility policies with configured fallbacks included.
  */
-import { resolveAgentModelFallbackValues } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAgentModelFallbacksOverride } from "./agent-scope.js";
-import type { ModelCatalogEntry } from "./model-catalog.types.js";
-import type { ModelManifestNormalizationContext } from "./model-selection-normalize.js";
+import { resolveAgentModelFallbackValues } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAgentModelFallbacksOverride } from "./agent-scope.ts";
+import type { ModelCatalogEntry } from "./model-catalog.types.ts";
+import type { ModelManifestNormalizationContext } from "./model-selection-normalize.ts";
 import {
   createModelVisibilityPolicyWithFallbacks,
   type ModelVisibilityPolicy,
-} from "./model-selection-shared.js";
+} from "./model-selection-shared.ts";
 
 export const RUNTIME_MODEL_VISIBILITY_NORMALIZATION = {
   allowManifestNormalization: true,

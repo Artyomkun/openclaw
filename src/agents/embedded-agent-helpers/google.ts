@@ -1,7 +1,7 @@
 /**
  * Google/Gemini-specific embedded-agent runtime helpers.
  */
-import { sanitizeGoogleTurnOrdering } from "./bootstrap.js";
+import { sanitizeGoogleTurnOrdering } from "./bootstrap.ts";
 
 /** Detects Google-owned embedded runtime APIs. */
 export function isGoogleModelApi(api?: string | null): boolean {

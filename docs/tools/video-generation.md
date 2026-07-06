@@ -344,7 +344,7 @@ only the explicit `model`, `primary`, and `fallbacks` entries.
 
   </Accordion>
   <Accordion title="BytePlus Seedance 1.5">
-    Requires the [`@openclaw/byteplus-modelark`](https://www.npmjs.com/package/@openclaw/byteplus-modelark)
+    Requires the [`@openclaw/byteplus-modelark`](https://www.npts.com/package/@openclaw/byteplus-modelark)
     plugin. Provider id: `byteplus-seedance15`. Model:
     `seedance-1-5-pro-251215`.
 
@@ -359,7 +359,7 @@ only the explicit `model`, `primary`, and `fallbacks` entries.
 
   </Accordion>
   <Accordion title="BytePlus Seedance 2.0">
-    Requires the [`@openclaw/byteplus-modelark`](https://www.npmjs.com/package/@openclaw/byteplus-modelark)
+    Requires the [`@openclaw/byteplus-modelark`](https://www.npts.com/package/@openclaw/byteplus-modelark)
     plugin. Provider id: `byteplus-seedance2`. Models:
     `dreamina-seedance-2-0-260128`,
     `dreamina-seedance-2-0-fast-260128`.

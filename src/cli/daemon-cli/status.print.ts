@@ -1,27 +1,27 @@
 // Human and JSON rendering for gathered daemon status diagnostics.
-import { colorize } from "../../../packages/terminal-core/src/theme.js";
-import { formatConfigIssueLine } from "../../config/issue-format.js";
+import { colorize } from "../../../packages/terminal-core/src/theme.ts";
+import { formatConfigIssueLine } from "../../config/issue-format.ts";
 import {
   resolveGatewayLaunchAgentLabel,
   resolveGatewaySystemdServiceName,
-} from "../../daemon/constants.js";
-import { renderGatewayServiceCleanupHints } from "../../daemon/inspect.js";
+} from "../../daemon/constants.ts";
+import { renderGatewayServiceCleanupHints } from "../../daemon/inspect.ts";
 import {
   resolveGatewayRestartLogPath,
   resolveGatewaySupervisorLogPaths,
-} from "../../daemon/restart-logs.js";
+} from "../../daemon/restart-logs.ts";
 import {
   isSystemdUnavailableDetail,
   renderSystemdUnavailableHints,
-} from "../../daemon/systemd-hints.js";
-import { classifySystemdUnavailableDetail } from "../../daemon/systemd-unavailable.js";
-import { resolveControlUiLinks } from "../../gateway/control-ui-links.js";
-import { formatGatewayRestartHandoffDiagnostic } from "../../infra/restart-handoff.js";
-import { isWSLEnv } from "../../infra/wsl.js";
-import { resolvePluginVersionDriftUpdateCommand } from "../../plugins/plugin-version-drift.js";
-import { defaultRuntime } from "../../runtime.js";
-import { shortenHomePath } from "../../utils.js";
-import { formatCliCommand } from "../command-format.js";
+} from "../../daemon/systemd-hints.ts";
+import { classifySystemdUnavailableDetail } from "../../daemon/systemd-unavailable.ts";
+import { resolveControlUiLinks } from "../../gateway/control-ui-links.ts";
+import { formatGatewayRestartHandoffDiagnostic } from "../../infra/restart-handoff.ts";
+import { isWSLEnv } from "../../infra/wsl.ts";
+import { resolvePluginVersionDriftUpdateCommand } from "../../plugins/plugin-version-drift.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { shortenHomePath } from "../../utils.ts";
+import { formatCliCommand } from "../command-format.ts";
 import {
   createCliStatusTextStyles,
   filterDaemonEnv,
@@ -30,12 +30,12 @@ import {
   resolveRuntimeStatusColor,
   renderRuntimeHints,
   safeDaemonEnv,
-} from "./shared.js";
+} from "./shared.ts";
 import {
   type DaemonStatus,
   renderPortDiagnosticsForCli,
   resolvePortListeningAddresses,
-} from "./status.gather.js";
+} from "./status.gather.ts";
 
 function sanitizeDaemonStatusForJson(status: DaemonStatus): DaemonStatus {
   // JSON output can be copied into issues; redact service env before serialization.

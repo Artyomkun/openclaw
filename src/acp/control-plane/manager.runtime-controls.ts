@@ -7,16 +7,16 @@ import type {
 } from "@openclaw/acp-core/runtime/types";
 import { asNullableRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { AcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.js";
-import type { SessionAcpMeta } from "./manager.types.js";
-import { createUnsupportedControlError } from "./manager.utils.js";
-import type { CachedRuntimeState } from "./runtime-cache.js";
+import { AcpRuntimeError, withAcpRuntimeErrorBoundary } from "../runtime/errors.ts";
+import type { SessionAcpMeta } from "./manager.types.ts";
+import { createUnsupportedControlError } from "./manager.utils.ts";
+import type { CachedRuntimeState } from "./runtime-cache.ts";
 import {
   buildRuntimeConfigOptionPairs,
   buildRuntimeControlSignature,
   normalizeText,
   resolveRuntimeOptionsFromMeta,
-} from "./runtime-options.js";
+} from "./runtime-options.ts";
 
 const OPTIONAL_TIMEOUT_CONFIG_KEYS = new Set(["timeout", "timeout_seconds"]);
 

@@ -11,7 +11,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, "..");
 const outDir = path.resolve(here, "../dist/control-ui");
 const require = createRequire(import.meta.url);
-const json5EsmPath = require.resolve("json5/dist/index.mjs");
+const json5EsmPath = require.resolve("json5/dist/index.ts");
 type ControlUiViteAlias = {
   find: string | RegExp;
   replacement: string;

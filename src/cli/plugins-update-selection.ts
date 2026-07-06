@@ -1,11 +1,11 @@
 // Plugin and hook-pack update selectors for id and npm-spec command inputs.
-import type { HookInstallRecord } from "../config/types.hooks.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
+import type { HookInstallRecord } from "../config/types.hooks.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
 import {
   extractInstalledNpmHookPackageName,
   extractInstalledNpmPackageName,
-} from "./plugins-install-records.js";
+} from "./plugins-install-records.ts";
 
 /** Resolve a plugin update target and optional npm spec override from CLI input. */
 export function resolvePluginUpdateSelection(params: {

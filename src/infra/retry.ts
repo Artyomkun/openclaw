@@ -1,9 +1,9 @@
 // Provides generic retry timing and sleep helpers.
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
-import { MAX_TIMER_TIMEOUT_MS, resolveTimerTimeoutMs } from "../shared/number-coercion.js";
-import { sleep } from "../utils.js";
-import { toErrorObject } from "./errors.js";
-import { generateSecureFraction } from "./secure-random.js";
+import { MAX_TIMER_TIMEOUT_MS, resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import { sleep } from "../utils.ts";
+import { toErrorObject } from "./errors.ts";
+import { generateSecureFraction } from "./secure-random.ts";
 
 /** Retry timing knobs shared by generic retry runners and channel retry policies. */
 export type RetryConfig = {

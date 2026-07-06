@@ -3,20 +3,20 @@
  */
 import { randomUUID } from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveContextEngineOwnerPluginId } from "../../context-engine/registry.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveContextEngineOwnerPluginId } from "../../context-engine/registry.ts";
 import type {
   ContextEngine,
   ContextEngineMaintenanceResult,
   ContextEngineRuntimeContext,
   ContextEngineRuntimeSettings,
-} from "../../context-engine/types.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+} from "../../context-engine/types.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   enqueueCommandInLane,
   GatewayDrainingError,
   isGatewayDraining,
-} from "../../process/command-queue.js";
+} from "../../process/command-queue.ts";
 import {
   completeTaskRunByRunId,
   createQueuedTaskRun,
@@ -24,19 +24,19 @@ import {
   recordTaskRunProgressByRunId,
   setDetachedTaskDeliveryStatusByRunId,
   startTaskRunByRunId,
-} from "../../tasks/detached-task-runtime.js";
+} from "../../tasks/detached-task-runtime.ts";
 import {
   cancelTaskByIdForOwner,
   findTaskByRunIdForOwner,
   updateTaskNotifyPolicyForOwner,
-} from "../../tasks/task-owner-access.js";
-import { findActiveSessionTask } from "../session-async-task-status.js";
-import { resolveContextEngineCapabilities } from "./context-engine-capabilities.js";
-import { log } from "./logger.js";
+} from "../../tasks/task-owner-access.ts";
+import { findActiveSessionTask } from "../session-async-task-status.ts";
+import { resolveContextEngineCapabilities } from "./context-engine-capabilities.ts";
+import { log } from "./logger.ts";
 import {
   rewriteTranscriptEntriesInRuntimeTranscript,
   rewriteTranscriptEntriesInSessionManager,
-} from "./transcript-rewrite.js";
+} from "./transcript-rewrite.ts";
 
 const TURN_MAINTENANCE_TASK_KIND = "context_engine_turn_maintenance";
 const TURN_MAINTENANCE_TASK_LABEL = "Context engine turn maintenance";

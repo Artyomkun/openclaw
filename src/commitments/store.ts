@@ -3,16 +3,16 @@ import { randomBytes } from "node:crypto";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/config.js";
-import { resolveStateDir } from "../config/paths.js";
-import { expandHomePrefix } from "../infra/home-dir.js";
-import { privateFileStore } from "../infra/private-file-store.js";
+import type { OpenClawConfig } from "../config/config.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import { expandHomePrefix } from "../infra/home-dir.ts";
+import { privateFileStore } from "../infra/private-file-store.ts";
 import {
   DEFAULT_COMMITMENT_EXPIRE_AFTER_HOURS,
   DEFAULT_COMMITMENT_MAX_PER_HEARTBEAT,
   resolveCommitmentsConfig,
-} from "./config.js";
-import { runExclusiveCommitmentsStoreWrite } from "./store-writer.js";
+} from "./config.ts";
+import { runExclusiveCommitmentsStoreWrite } from "./store-writer.ts";
 import type {
   CommitmentCandidate,
   CommitmentExtractionItem,
@@ -20,7 +20,7 @@ import type {
   CommitmentScope,
   CommitmentStatus,
   CommitmentStoreFile,
-} from "./types.js";
+} from "./types.ts";
 
 const STORE_VERSION = 1 as const;
 const ROLLING_DAY_MS = 24 * 60 * 60 * 1000;
@@ -36,7 +36,6 @@ const COMMITMENT_STATUSES = new Set(["pending", "sent", "dismissed", "snoozed", 
 
 type LoadedCommitmentStore = {
   store: CommitmentStoreFile;
-  hadLegacySourceText: boolean;
 };
 
 function defaultCommitmentStorePath(): string {
@@ -164,23 +163,9 @@ function coerceCommitment(raw: unknown): CommitmentRecord | undefined {
   };
 }
 
-function hasLegacySourceText(raw: unknown): boolean {
-  return isRecord(raw) && ("sourceUserText" in raw || "sourceAssistantText" in raw);
-}
-
-function stripLegacySourceText(commitment: CommitmentRecord): CommitmentRecord {
-  const stripped = { ...commitment };
-  // The extraction prompt can read the source turn, but delivery state should
-  // not persist or replay raw conversation text into later heartbeat turns.
-  delete stripped.sourceUserText;
-  delete stripped.sourceAssistantText;
-  return stripped;
-}
-
 function sanitizeStoreForWrite(store: CommitmentStoreFile): CommitmentStoreFile {
   return {
-    ...store,
-    commitments: store.commitments.map(stripLegacySourceText),
+    ...store
   };
 }
 
@@ -192,26 +177,22 @@ async function loadCommitmentStoreInternal(storePath?: string): Promise<LoadedCo
     );
     if (
       !isRecord(parsed) ||
-      parsed.version !== STORE_VERSION ||
-      !Array.isArray(parsed.commitments)
+      !Array.isArray(parsed)
     ) {
-      return { store: emptyStore(), hadLegacySourceText: false };
+      return { store: emptyStore()};
     }
-    let hadLegacySourceText = false;
     return {
       store: {
         version: STORE_VERSION,
-        commitments: parsed.commitments.flatMap((entry) => {
-          hadLegacySourceText ||= hasLegacySourceText(entry);
+        commitments: parsed.flatMap((entry) => {
           const coerced = coerceCommitment(entry);
           return coerced ? [coerced] : [];
         }),
       },
-      hadLegacySourceText,
     };
   } catch (err) {
     if ((err as { code?: unknown })?.code === "ENOENT") {
-      return { store: emptyStore(), hadLegacySourceText: false };
+      return { store: emptyStore()};
     }
     throw err;
   }
@@ -324,9 +305,9 @@ function expireStaleCommitmentsInStore(store: CommitmentStoreFile, nowMs: number
 async function loadAndMarkExpiredUnchecked(
   nowMs: number,
 ): Promise<{ store: CommitmentStoreFile; needsSave: boolean }> {
-  const { store, hadLegacySourceText } = await loadCommitmentStoreInternal();
+  const { store } = await loadCommitmentStoreInternal();
   const expireChanged = expireStaleCommitmentsInStore(store, nowMs);
-  return { store, needsSave: expireChanged || hadLegacySourceText };
+  return { store, needsSave: expireChanged };
 }
 
 async function loadCommitmentStoreWithExpiredMarked(nowMs: number): Promise<CommitmentStoreFile> {

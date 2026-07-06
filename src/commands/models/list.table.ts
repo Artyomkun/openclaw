@@ -1,10 +1,10 @@
 /** Terminal/JSON/plain table renderer for model-list rows. */
-import { sanitizeTerminalText } from "../../../packages/terminal-core/src/safe-text.js";
-import { colorize, theme } from "../../../packages/terminal-core/src/theme.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { formatTag, isRich, pad, truncate } from "./list.format.js";
-import type { ModelRow } from "./list.types.js";
-import { formatTokenK } from "./shared.js";
+import { sanitizeTerminalText } from "../../../packages/terminal-core/src/safe-text.ts";
+import { colorize, theme } from "../../../packages/terminal-core/src/theme.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { formatTag, isRich, pad, truncate } from "./list.format.ts";
+import type { ModelRow } from "./list.types.ts";
+import { formatTokenK } from "./shared.ts";
 
 const MODEL_PAD = 42;
 const INPUT_PAD = 10;

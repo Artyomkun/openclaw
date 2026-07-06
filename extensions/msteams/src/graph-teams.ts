@@ -1,12 +1,13 @@
-// Msteams plugin module implements graph teams behavior.
+/**
+ * MSTeams - Graph Teams
+ * 
+ * Простая работа с Teams через Graph API.
+ */
+
 import type { OpenClawConfig } from "../runtime-api.js";
-import { type GraphResponse, fetchGraphJson, resolveGraphToken } from "./graph.js";
+import { resolveGraphToken, graphRequest } from "./graph.js";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
-type GraphTeamsChannel = {
+type GraphChannel = {
   id?: string;
   displayName?: string;
   description?: string;
@@ -15,28 +16,55 @@ type GraphTeamsChannel = {
   createdDateTime?: string;
 };
 
-type ListChannelsMSTeamsParams = {
+export async function listChannelsMSTeams(params: {
   cfg: OpenClawConfig;
   teamId: string;
-};
-
-type ListChannelsMSTeamsResult = {
+  maxPages?: number;
+}): Promise<{
   channels: Array<{
     id: string | undefined;
     displayName: string | undefined;
     description: string | undefined;
     membershipType: string | undefined;
   }>;
-  truncated?: boolean;
-};
+  truncated: boolean;
+}> {
+  const token = await resolveGraphToken(params.cfg);
+  const maxPages = params.maxPages || 10;
+  const channels: GraphChannel[] = [];
+  let nextPath: string | undefined = `/teams/${params.teamId}/channels?$select=id,displayName,description,membershipType`;
+  let page = 0;
 
-type GetChannelInfoMSTeamsParams = {
+  while (nextPath && page < maxPages) {
+    const res = await graphRequest<{
+      value?: GraphChannel[];
+      "@odata.nextLink"?: string;
+    }>({
+      token,
+      path: nextPath,
+    });
+
+    channels.push(...(res.value || []));
+    nextPath = res["@odata.nextLink"]?.replace("https://graph.microsoft.com/v1.0", "");
+    page++;
+  }
+
+  return {
+    channels: channels.map(ch => ({
+      id: ch.id,
+      displayName: ch.displayName,
+      description: ch.description,
+      membershipType: ch.membershipType,
+    })),
+    truncated: Boolean(nextPath),
+  };
+}
+
+export async function getChannelInfoMSTeams(params: {
   cfg: OpenClawConfig;
   teamId: string;
   channelId: string;
-};
-
-type GetChannelInfoMSTeamsResult = {
+}): Promise<{
   channel: {
     id: string | undefined;
     displayName: string | undefined;
@@ -45,71 +73,20 @@ type GetChannelInfoMSTeamsResult = {
     webUrl: string | undefined;
     createdDateTime: string | undefined;
   };
-};
-
-// ---------------------------------------------------------------------------
-// List channels for a team
-// ---------------------------------------------------------------------------
-
-/**
- * List channels in a team via Graph API.
- * Returns id, displayName, description, and membershipType for each channel.
- * Follows @odata.nextLink for paginated results (up to 10 pages).
- */
-export async function listChannelsMSTeams(
-  params: ListChannelsMSTeamsParams,
-): Promise<ListChannelsMSTeamsResult> {
+}> {
   const token = await resolveGraphToken(params.cfg);
-  const firstPath = `/teams/${encodeURIComponent(params.teamId)}/channels?$select=id,displayName,description,membershipType`;
-  const collected: GraphTeamsChannel[] = [];
-  let nextPath: string | undefined = firstPath;
-  const MAX_PAGES = 10;
-  let page = 0;
-  while (nextPath && page < MAX_PAGES) {
-    type PagedChannelResponse = GraphResponse<GraphTeamsChannel> & {
-      "@odata.nextLink"?: string;
-    };
-    const res: PagedChannelResponse = await fetchGraphJson<PagedChannelResponse>({
-      token,
-      path: nextPath,
-    });
-    collected.push(...(res.value ?? []));
-    const nextLink: string | undefined = res["@odata.nextLink"];
-    // Strip the Graph API root so fetchGraphJson receives a relative path
-    nextPath = nextLink ? nextLink.replace("https://graph.microsoft.com/v1.0", "") : undefined;
-    page++;
-  }
-  const channels = collected.map((ch) => ({
-    id: ch.id,
-    displayName: ch.displayName,
-    description: ch.description,
-    membershipType: ch.membershipType,
-  }));
-  return { channels, truncated: Boolean(nextPath) };
-}
-
-// ---------------------------------------------------------------------------
-// Get channel info
-// ---------------------------------------------------------------------------
-
-/**
- * Get detailed information about a single channel in a team via Graph API.
- * Returns id, displayName, description, membershipType, webUrl, and createdDateTime.
- */
-export async function getChannelInfoMSTeams(
-  params: GetChannelInfoMSTeamsParams,
-): Promise<GetChannelInfoMSTeamsResult> {
-  const token = await resolveGraphToken(params.cfg);
-  const path = `/teams/${encodeURIComponent(params.teamId)}/channels/${encodeURIComponent(params.channelId)}?$select=id,displayName,description,membershipType,webUrl,createdDateTime`;
-  const ch = await fetchGraphJson<GraphTeamsChannel>({ token, path });
+  const path = `/teams/${params.teamId}/channels/${params.channelId}?$select=id,displayName,description,membershipType,webUrl,createdDateTime`;
+  
+  const channel = await graphRequest<GraphChannel>({ token, path });
+  
   return {
     channel: {
-      id: ch.id,
-      displayName: ch.displayName,
-      description: ch.description,
-      membershipType: ch.membershipType,
-      webUrl: ch.webUrl,
-      createdDateTime: ch.createdDateTime,
+      id: channel.id,
+      displayName: channel.displayName,
+      description: channel.description,
+      membershipType: channel.membershipType,
+      webUrl: channel.webUrl,
+      createdDateTime: channel.createdDateTime,
     },
   };
 }

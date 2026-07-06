@@ -1,13 +1,13 @@
 // Low-level CLI argv helpers for root options, help/version detection, and command paths.
-import { isBunRuntime, isNodeRuntime } from "../daemon/runtime-binary.js";
+import { isBunRuntime, isNodeRuntime } from "../daemon/runtime-binary.ts";
 import {
   consumeRootOptionToken,
   FLAG_TERMINATOR,
   isValueToken,
-} from "../infra/cli-root-options.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { CORE_CLI_COMMAND_DESCRIPTORS } from "./program/core-command-descriptors.js";
-import { SUB_CLI_DESCRIPTORS } from "./program/subcli-descriptors.js";
+} from "../infra/cli-root-options.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { CORE_CLI_COMMAND_DESCRIPTORS } from "./program/core-command-descriptors.ts";
+import { SUB_CLI_DESCRIPTORS } from "./program/subcli-descriptors.ts";
 
 const HELP_FLAGS = new Set(["-h", "--help"]);
 const VERSION_FLAGS = new Set(["-V", "--version"]);

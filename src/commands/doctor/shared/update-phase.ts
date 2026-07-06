@@ -1,5 +1,5 @@
 // Update-phase helpers that gate doctor repairs during package swaps and convergence.
-import { isTruthyEnvValue } from "../../../infra/env.js";
+import { isTruthyEnvValue } from "../../../infra/env.ts";
 
 export const UPDATE_IN_PROGRESS_ENV = "OPENCLAW_UPDATE_IN_PROGRESS";
 export const UPDATE_POST_CORE_CONVERGENCE_ENV = "OPENCLAW_UPDATE_POST_CORE_CONVERGENCE";
@@ -51,30 +51,6 @@ export function shouldDeferConfiguredPluginInstallRepair(env: NodeJS.ProcessEnv)
     (isTruthyEnvValue(env[UPDATE_DEFER_CONFIGURED_PLUGIN_INSTALL_REPAIR_ENV]) ||
       isTruthyEnvValue(env[UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE_ENV]))
   );
-}
-
-/**
- * True iff a new doctor is running inside a shipped parent that can persist
- * doctor config repairs. Config writes must stay old-parent-readable because
- * that parent resumes after the candidate doctor exits. Modern parents also
- * set the explicit deferral marker, so they should keep current metadata
- * writes while still deferring payload repair.
- */
-export function isLegacyParentWritableUpdateDoctorPass(env: NodeJS.ProcessEnv): boolean {
-  return (
-    isUpdatePackageSwapInProgress(env) &&
-    isTruthyEnvValue(env[UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE_ENV]) &&
-    !isTruthyEnvValue(env[UPDATE_DEFER_CONFIGURED_PLUGIN_INSTALL_REPAIR_ENV])
-  );
-}
-
-/**
- * True iff this newer doctor is running under an older updater that does not
- * advertise any post-core handoff marker. Those parents set only
- * `OPENCLAW_UPDATE_IN_PROGRESS`, so configured plugin repair must happen now.
- */
-export function isLegacyPackageUpdateDoctorPass(env: NodeJS.ProcessEnv): boolean {
-  return isUpdatePackageSwapInProgress(env) && !shouldDeferConfiguredPluginInstallRepair(env);
 }
 
 /**

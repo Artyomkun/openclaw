@@ -572,7 +572,7 @@ jobs:
           set -euo pipefail
 
           root=".artifacts/qa-e2e/mantis/discord-status-reactions"
-          node scripts/mantis/publish-pr-evidence.mjs \
+          node scripts/mantis/publish-pr-evidence.ts \
             --manifest "$root/mantis-evidence.json" \
             --target-pr "$TARGET_PR" \
             --artifact-root "mantis/discord-status-reactions/pr-${TARGET_PR}/run-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" \

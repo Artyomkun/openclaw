@@ -9,7 +9,7 @@ import type {
   TransactionSettings,
 } from "kysely";
 import { InsertQueryNode, Kysely as KyselyInstance, SqliteAdapter } from "kysely";
-import { NodeSqliteKyselyDialect } from "./kysely-node-sqlite.js";
+import { NodeSqliteKyselyDialect } from "./kysely-node-sqlite.ts";
 
 // Sync query helpers execute compiled Kysely SQL against node:sqlite without
 // going through Kysely's async driver path.

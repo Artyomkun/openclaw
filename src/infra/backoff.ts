@@ -1,5 +1,5 @@
 // Computes bounded backoff delays and abortable sleeps.
-import { clampPositiveTimerTimeoutMs } from "../shared/number-coercion.js";
+import { clampPositiveTimerTimeoutMs } from "../shared/number-coercion.ts";
 
 /** Exponential backoff settings for retry loops that need bounded jitter. */
 export type BackoffPolicy = {

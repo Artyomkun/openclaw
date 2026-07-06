@@ -8,14 +8,14 @@ import {
   ensureAuthProfileStore,
   resolveApiKeyForProfile,
   resolveAuthProfileOrder,
-} from "../../agents/auth-profiles.js";
-import { isMalformedApiKeyInput } from "../../agents/auth-profiles/credential-state.js";
-import { resolveEnvApiKey } from "../../agents/model-auth.js";
-import { formatCliCommand } from "../../cli/command-format.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { normalizeOptionalSecretInput } from "../../utils/normalize-secret-input.js";
-import type { SecretInputMode } from "../onboard-types.js";
+} from "../../agents/auth-profiles.ts";
+import { isMalformedApiKeyInput } from "../../agents/auth-profiles/credential-state.ts";
+import { resolveEnvApiKey } from "../../agents/model-auth.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { normalizeOptionalSecretInput } from "../../utils/normalize-secret-input.ts";
+import type { SecretInputMode } from "../onboard-types.ts";
 
 /** Source that supplied a non-interactive provider API key. */
 export type NonInteractiveApiKeySource = "flag" | "env" | "profile";

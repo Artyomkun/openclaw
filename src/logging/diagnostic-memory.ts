@@ -3,9 +3,9 @@ import {
   emitInternalDiagnosticEvent as emitDiagnosticEvent,
   type DiagnosticMemoryPressureEvent,
   type DiagnosticMemoryUsage,
-} from "../infra/diagnostic-events.js";
-import { writeDiagnosticMemoryPressureBundleSync } from "./diagnostic-stability-bundle.js";
-import { createSubsystemLogger } from "./subsystem.js";
+} from "../infra/diagnostic-events.ts";
+import { writeDiagnosticMemoryPressureBundleSync } from "./diagnostic-stability-bundle.ts";
+import { createSubsystemLogger } from "./subsystem.ts";
 
 // Diagnostic memory sampler with threshold/growth pressure detection and repeat suppression.
 const MB = 1024 * 1024;

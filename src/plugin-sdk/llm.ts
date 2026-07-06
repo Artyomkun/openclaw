@@ -7,16 +7,16 @@ export {
   registerApiProvider,
   unregisterApiProviders,
   type ApiProvider,
-} from "../llm/api-registry.js";
-export { getEnvApiKey } from "../llm/env-api-keys.js";
-export { calculateCost, clampThinkingLevel } from "../llm/model-utils.js";
+} from "../llm/api-registry.ts";
+export { getEnvApiKey } from "../llm/env-api-keys.ts";
+export { calculateCost, clampThinkingLevel } from "../llm/model-utils.ts";
 export {
   adjustMaxTokensForThinking,
   buildBaseOptions,
   clampReasoning,
-} from "../llm/providers/simple-options.js";
-export { transformMessages } from "../llm/providers/transform-messages.js";
-export { complete, completeSimple, stream, streamSimple } from "../llm/stream.js";
+} from "../llm/providers/simple-options.ts";
+export { transformMessages } from "../llm/providers/transform-messages.ts";
+export { complete, completeSimple, stream, streamSimple } from "../llm/stream.ts";
 export type {
   Api,
   AssistantMessage,
@@ -43,12 +43,12 @@ export type {
   ToolResultMessage,
   Usage,
   UserMessage,
-} from "../llm/types.js";
+} from "../llm/types.ts";
 export {
   AssistantMessageEventStream,
   createAssistantMessageEventStream,
-} from "../../packages/llm-core/src/utils/event-stream.js";
-export { parseStreamingJson } from "../llm/utils/json-parse.js";
-export { createHttpProxyAgentsForTarget } from "../llm/utils/node-http-proxy.js";
-export { sanitizeSurrogates } from "../llm/utils/sanitize-unicode.js";
-export { validateToolArguments, validateToolCall } from "../../packages/llm-core/src/validation.js";
+} from "../../packages/llm-core/src/utils/event-stream.ts";
+export { parseStreamingJson } from "../llm/utils/json-parse.ts";
+export { createHttpProxyAgentsForTarget } from "../llm/utils/node-http-proxy.ts";
+export { sanitizeSurrogates } from "../llm/utils/sanitize-unicode.ts";
+export { validateToolArguments, validateToolCall } from "../../packages/llm-core/src/validation.ts";

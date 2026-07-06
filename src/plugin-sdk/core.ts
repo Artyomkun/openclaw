@@ -1,41 +1,41 @@
 // Core SDK contracts expose stable identifiers, manifests, and shared plugin metadata types.
-import { normalizeLowercaseStringOrEmpty } from "../../packages/normalization-core/src/string-coerce.js";
-import type { ResolvedConfiguredAcpBinding } from "../acp/persistent-bindings.types.js";
-import { buildChatChannelMetaById } from "../channels/chat-meta-shared.js";
-import type { ChatChannelId } from "../channels/ids.js";
-import { emptyChannelConfigSchema } from "../channels/plugins/config-schema.js";
-import { buildAccountScopedDmSecurityPolicy } from "../channels/plugins/helpers.js";
+import { normalizeLowercaseStringOrEmpty } from "../../packages/normalization-core/src/string-coerce.ts";
+import type { ResolvedConfiguredAcpBinding } from "../acp/persistent-bindings.types.ts";
+import { buildChatChannelMetaById } from "../channels/chat-meta-shared.ts";
+import type { ChatChannelId } from "../channels/ids.ts";
+import { emptyChannelConfigSchema } from "../channels/plugins/config-schema.ts";
+import { buildAccountScopedDmSecurityPolicy } from "../channels/plugins/helpers.ts";
 import {
   createScopedAccountReplyToModeResolver,
   createTopLevelChannelReplyToModeResolver,
-} from "../channels/plugins/threading-helpers.js";
+} from "../channels/plugins/threading-helpers.ts";
 import type {
   ChannelOutboundAdapter,
   ChannelPairingAdapter,
   ChannelSecurityAdapter,
-} from "../channels/plugins/types.adapters.js";
-import type { ChannelConfigSchema } from "../channels/plugins/types.config.js";
+} from "../channels/plugins/types.adapters.ts";
+import type { ChannelConfigSchema } from "../channels/plugins/types.config.ts";
 import type {
   ChannelMessagingAdapter,
   ChannelOutboundSessionRoute,
   ChannelPollResult,
   ChannelThreadingAdapter,
-} from "../channels/plugins/types.core.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ChannelMeta } from "../channels/plugins/types.public.js";
-import type { ReplyToMode } from "../config/types.base.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { buildOutboundBaseSessionKey } from "../infra/outbound/base-session-key.js";
-import type { OutboundDeliveryResult } from "../infra/outbound/deliver.js";
-import { normalizeOutboundThreadId } from "../infra/outbound/thread-id.js";
-import { resolveBundledPluginsDir } from "../plugins/bundled-dir.js";
-import type { PluginRuntime } from "../plugins/runtime/types.js";
-import type { OpenClawPluginApi } from "../plugins/types.js";
-import { resolveThreadSessionKeys } from "../routing/session-key.js";
+} from "../channels/plugins/types.core.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { ChannelMeta } from "../channels/plugins/types.public.ts";
+import type { ReplyToMode } from "../config/types.base.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { buildOutboundBaseSessionKey } from "../infra/outbound/base-session-key.ts";
+import type { OutboundDeliveryResult } from "../infra/outbound/deliver.ts";
+import { normalizeOutboundThreadId } from "../infra/outbound/thread-id.ts";
+import { resolveBundledPluginsDir } from "../plugins/bundled-dir.ts";
+import type { PluginRuntime } from "../plugins/runtime/types.ts";
+import type { OpenClawPluginApi } from "../plugins/types.ts";
+import { resolveThreadSessionKeys } from "../routing/session-key.ts";
 import {
   normalizeSessionKeyPreservingOpaquePeerIds,
   parseThreadSessionSuffix,
-} from "../sessions/session-key-utils.js";
+} from "../sessions/session-key-utils.ts";
 
 export type {
   AgentPromptGuidance,
@@ -129,23 +129,23 @@ export type {
   UnifiedModelCatalogProviderContext,
   UnifiedModelCatalogProviderPlugin,
   SpeechProviderPlugin,
-} from "./plugin-entry.js";
+} from "./plugin-entry.ts";
 export type {
   UnifiedModelCatalogEntry,
   UnifiedModelCatalogKind,
   UnifiedModelCatalogSource,
 } from "@openclaw/model-catalog-core/model-catalog-types";
-export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
+export type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
 export type {
   OpenClawPluginActiveModelContext,
   OpenClawPluginToolContext,
   OpenClawPluginToolFactory,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 export type {
   MemoryPluginCapability,
   MemoryPluginPublicArtifact,
   MemoryPluginPublicArtifactsProvider,
-} from "../plugins/memory-state.js";
+} from "../plugins/memory-state.ts";
 export type {
   PluginHookReplyPayloadSendingContext,
   PluginHookReplyPayloadSendingEvent,
@@ -154,12 +154,12 @@ export type {
   PluginHookReplyDispatchContext,
   PluginHookReplyDispatchEvent,
   PluginHookReplyDispatchResult,
-} from "../plugins/types.js";
-export type { OpenClawConfig } from "../config/config.js";
-export type { OutboundIdentity } from "../infra/outbound/identity.js";
-export type { HistoryEntry } from "../auto-reply/reply/history.types.js";
-export type { ReplyPayload } from "./reply-payload.js";
-export type { AllowlistMatch } from "../channels/allowlist-match.js";
+} from "../plugins/types.ts";
+export type { OpenClawConfig } from "../config/config.ts";
+export type { OutboundIdentity } from "../infra/outbound/identity.ts";
+export type { HistoryEntry } from "../auto-reply/reply/history.types.ts";
+export type { ReplyPayload } from "./reply-payload.ts";
+export type { AllowlistMatch } from "../channels/allowlist-match.ts";
 export type {
   BaseProbeResult,
   ChannelAccountSnapshot,
@@ -167,18 +167,18 @@ export type {
   ChannelMessageActionName,
   ChannelMeta,
   ChannelSetupInput,
-} from "../channels/plugins/types.public.js";
-export type { ChatType } from "../channels/chat-type.js";
-export type { NormalizedLocation } from "../channels/location.js";
-export type { ChannelDirectoryEntry } from "../channels/plugins/types.core.js";
-export type { ChannelOutboundAdapter } from "../channels/plugins/types.adapters.js";
-export type { PollInput } from "../polls.js";
-export { isSecretRef } from "../config/types.secrets.js";
-export type { GatewayRequestHandlerOptions } from "../gateway/server-methods/types.js";
+} from "../channels/plugins/types.public.ts";
+export type { ChatType } from "../channels/chat-type.ts";
+export type { NormalizedLocation } from "../channels/location.ts";
+export type { ChannelDirectoryEntry } from "../channels/plugins/types.core.ts";
+export type { ChannelOutboundAdapter } from "../channels/plugins/types.adapters.ts";
+export type { PollInput } from "../polls.ts";
+export { isSecretRef } from "../config/types.secrets.ts";
+export type { GatewayRequestHandlerOptions } from "../gateway/server-methods/types.ts";
 export type {
   ChannelOutboundSessionRoute,
   ChannelMessagingAdapter,
-} from "../channels/plugins/types.core.js";
+} from "../channels/plugins/types.core.ts";
 
 function createInlineTextPairingAdapter(params: {
   idLabel: string;
@@ -202,79 +202,79 @@ export type {
   ProviderUsageSnapshot,
   UsageProviderId,
   UsageWindow,
-} from "../infra/provider-usage.types.js";
-export type { ChannelMessageActionContext } from "../channels/plugins/types.public.js";
-export type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-export type { ChannelConfigUiHint } from "../channels/plugins/types.config.js";
-export type { PluginRuntime, RuntimeLogger } from "../plugins/runtime/types.js";
-export type { WizardPrompter } from "../wizard/prompts.js";
+} from "../infra/provider-usage.types.ts";
+export type { ChannelMessageActionContext } from "../channels/plugins/types.public.ts";
+export type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+export type { ChannelConfigUiHint } from "../channels/plugins/types.config.ts";
+export type { PluginRuntime, RuntimeLogger } from "../plugins/runtime/types.ts";
+export type { WizardPrompter } from "../wizard/prompts.ts";
 
-export { definePluginEntry } from "./plugin-entry.js";
+export { definePluginEntry } from "./plugin-entry.ts";
 export {
   buildJsonPluginConfigSchema,
   buildPluginConfigSchema,
   emptyPluginConfigSchema,
-} from "../plugins/config-schema.js";
-export { KeyedAsyncQueue, enqueueKeyedTask } from "./keyed-async-queue.js";
-export { createDedupeCache, resolveGlobalDedupeCache } from "../infra/dedupe.js";
-export { generateSecureToken, generateSecureUuid } from "../infra/secure-random.js";
+} from "../plugins/config-schema.ts";
+export { KeyedAsyncQueue, enqueueKeyedTask } from "./keyed-async-queue.ts";
+export { createDedupeCache, resolveGlobalDedupeCache } from "../infra/dedupe.ts";
+export { generateSecureToken, generateSecureUuid } from "../infra/secure-random.ts";
 export {
   buildMemorySystemPromptAddition,
   delegateCompactionToRuntime,
-} from "../context-engine/delegate.js";
-export { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
+} from "../context-engine/delegate.ts";
+export { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.ts";
 export {
   buildChannelConfigSchema,
   buildJsonChannelConfigSchema,
   emptyChannelConfigSchema,
-} from "../channels/plugins/config-schema.js";
+} from "../channels/plugins/config-schema.ts";
 export {
   applyAccountNameToChannelSection,
   migrateBaseNameToDefaultAccount,
-} from "../channels/plugins/setup-helpers.js";
+} from "../channels/plugins/setup-helpers.ts";
 export {
   clearAccountEntryFields,
   deleteAccountFromConfigSection,
   setAccountEnabledInConfigSection,
-} from "../channels/plugins/config-helpers.js";
+} from "../channels/plugins/config-helpers.ts";
 export {
   formatPairingApproveHint,
   parseOptionalDelimitedEntries,
-} from "../channels/plugins/helpers.js";
+} from "../channels/plugins/helpers.ts";
 export {
   channelTargetSchema,
   channelTargetsSchema,
   optionalStringEnum,
   stringEnum,
-} from "../agents/schema/typebox.js";
+} from "../agents/schema/typebox.ts";
 export {
   DEFAULT_SECRET_FILE_MAX_BYTES,
   loadSecretFileSync,
   readSecretFileSync,
   tryReadSecretFileSync,
-} from "../infra/secret-file.js";
-export type { SecretFileReadOptions, SecretFileReadResult } from "../infra/secret-file.js";
+} from "../infra/secret-file.ts";
+export type { SecretFileReadOptions, SecretFileReadResult } from "../infra/secret-file.ts";
 
-export { resolveGatewayBindUrl } from "../shared/gateway-bind-url.js";
-export type { GatewayBindUrlResult } from "../shared/gateway-bind-url.js";
-export { resolveGatewayPort } from "../config/paths.js";
-export { createSubsystemLogger } from "../logging/subsystem.js";
+export { resolveGatewayBindUrl } from "../shared/gateway-bind-url.ts";
+export type { GatewayBindUrlResult } from "../shared/gateway-bind-url.ts";
+export { resolveGatewayPort } from "../config/paths.ts";
+export { createSubsystemLogger } from "../logging/subsystem.ts";
 export {
   normalizeAtHashSlug,
   normalizeHyphenSlug,
-} from "../../packages/normalization-core/src/string-normalization.js";
-export { createActionGate } from "../agents/tools/common.js";
+} from "../../packages/normalization-core/src/string-normalization.ts";
+export { createActionGate } from "../agents/tools/common.ts";
 export {
   jsonResult,
   readNumberParam,
   readReactionParams,
   readStringArrayParam,
   readStringParam,
-} from "../agents/tools/common.js";
-export { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-export { isTrustedProxyAddress, resolveClientIp } from "../gateway/net.js";
-export { formatZonedTimestamp } from "../infra/format-time/format-datetime.js";
-export { resolveConfiguredAcpBindingRecord } from "../acp/persistent-bindings.resolve.js";
+} from "../agents/tools/common.ts";
+export { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+export { isTrustedProxyAddress, resolveClientIp } from "../gateway/net.ts";
+export { formatZonedTimestamp } from "../infra/format-time/format-datetime.ts";
+export { resolveConfiguredAcpBindingRecord } from "../acp/persistent-bindings.resolve.ts";
 
 /** Ensure a configured ACP binding has live runtime state before channel delivery uses it. */
 export async function ensureConfiguredAcpBindingReady(params: {
@@ -285,17 +285,17 @@ export async function ensureConfiguredAcpBindingReady(params: {
   return runtime.ensureConfiguredAcpBindingReady(params);
 }
 
-export { resolveTailnetHostWithRunner } from "../shared/tailscale-status.js";
+export { resolveTailnetHostWithRunner } from "../shared/tailscale-status.ts";
 export type {
   TailscaleStatusCommandResult,
   TailscaleStatusCommandRunner,
-} from "../shared/tailscale-status.js";
+} from "../shared/tailscale-status.ts";
 export {
   buildAgentSessionKey,
   type RoutePeer,
   type RoutePeerKind,
-} from "../routing/resolve-route.js";
-export { resolveThreadSessionKeys } from "../routing/session-key.js";
+} from "../routing/resolve-route.ts";
+export { resolveThreadSessionKeys } from "../routing/session-key.ts";
 
 /** Params passed to a channel adapter when resolving outbound session routing. */
 export type ChannelOutboundSessionRouteParams = Parameters<

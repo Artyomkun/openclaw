@@ -1,28 +1,28 @@
 // Commander registration for gateway status, health, diagnostics, discovery, and run commands.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { colorize, isRich, theme } from "../../../packages/terminal-core/src/theme.js";
-import type { HealthSummary } from "../../commands/health.js";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
-import type { CostUsageSummary } from "../../infra/session-cost-usage.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { colorize, isRich, theme } from "../../../packages/terminal-core/src/theme.ts";
+import type { HealthSummary } from "../../commands/health.ts";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
+import type { CostUsageSummary } from "../../infra/session-cost-usage.ts";
 import type {
   DiagnosticStabilityBundle,
   ReadDiagnosticStabilityBundleResult,
-} from "../../logging/diagnostic-stability-bundle.js";
+} from "../../logging/diagnostic-stability-bundle.ts";
 import type {
   DiagnosticStabilityEventRecord,
   DiagnosticStabilitySnapshot,
-} from "../../logging/diagnostic-stability.js";
-import type { WriteDiagnosticSupportExportResult } from "../../logging/diagnostic-support-export.js";
-import { defaultRuntime } from "../../runtime.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { inheritOptionFromParent } from "../command-options.js";
-import { addGatewayServiceCommands } from "../daemon-cli/register-service-commands.js";
-import { parseGatewayPortOption } from "../gateway-port-option.js";
-import { formatHelpExamples } from "../help-format.js";
-import type { GatewayRpcOpts } from "./call.js";
-import type { GatewayDiscoverOpts } from "./discover.js";
-import { addGatewayRunCommand } from "./run-command.js";
+} from "../../logging/diagnostic-stability.ts";
+import type { WriteDiagnosticSupportExportResult } from "../../logging/diagnostic-support-export.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { inheritOptionFromParent } from "../command-options.ts";
+import { addGatewayServiceCommands } from "../daemon-cli/register-service-commands.ts";
+import { parseGatewayPortOption } from "../gateway-port-option.ts";
+import { formatHelpExamples } from "../help-format.ts";
+import type { GatewayRpcOpts } from "./call.ts";
+import type { GatewayDiscoverOpts } from "./discover.ts";
+import { addGatewayRunCommand } from "./run-command.ts";
 
 const configModuleLoader = createLazyImportLoader(
   () => import("../../config/read-best-effort-config.runtime.js"),

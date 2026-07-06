@@ -25,28 +25,28 @@ import {
   serializeJsonlEntry,
   serializeJsonlLine,
   writeJsonlEntriesSync,
-} from "../../config/sessions/transcript-jsonl.js";
+} from "../../config/sessions/transcript-jsonl.ts";
 import {
   isSessionTranscriptSideAppendEntry,
   selectSessionTranscriptLeafControlledPath,
-} from "../../config/sessions/transcript-tree.js";
+} from "../../config/sessions/transcript-tree.ts";
 import {
   canAdvanceOwnedSessionEntryCache,
   type OwnedSessionTranscriptCacheSnapshot,
   type OwnedSessionTranscriptPublishedEntry,
   publishOwnedSessionFileSnapshot,
-} from "../../config/sessions/transcript-write-context.js";
-import { CURRENT_SESSION_VERSION } from "../../config/sessions/version.js";
-import type { ImageContent, Message, TextContent } from "../../llm/types.js";
-import { getAgentDir as getDefaultAgentDir, getSessionsDir } from "../config.js";
+} from "../../config/sessions/transcript-write-context.ts";
+import { CURRENT_SESSION_VERSION } from "../../config/sessions/version.ts";
+import type { ImageContent, Message, TextContent } from "../../llm/types.ts";
+import { getAgentDir as getDefaultAgentDir, getSessionsDir } from "../config.ts";
 import {
   type AgentMessage,
   buildSessionContext as buildCoreSessionContext,
   type SessionTreeEntry as CoreSessionTreeEntry,
   uuidv7,
-} from "../runtime/index.js";
-import { invalidateSessionFileRepairCache } from "../session-file-repair.js";
-import type { BashExecutionMessage, CustomMessage } from "./messages.js";
+} from "../runtime/index.ts";
+import { invalidateSessionFileRepairCache } from "../session-file-repair.ts";
+import type { BashExecutionMessage, CustomMessage } from "./messages.ts";
 
 export { CURRENT_SESSION_VERSION };
 
@@ -1083,7 +1083,6 @@ function partitionSessionFileEntries(entries: readonly FileEntry[]): {
   const header = entries.find(
     (entry) => isJsonRecord(entry) && entry.type === "session" && typeof entry.id === "string",
   ) as SessionHeader | undefined;
-  const acceptsLegacyEntries = (header?.version ?? 1) < 2;
   let hasHeader = false;
   for (const [originalIndex, entry] of entries.entries()) {
     if (
@@ -1099,7 +1098,7 @@ function partitionSessionFileEntries(entries: readonly FileEntry[]): {
     }
     if (
       isIndexedSessionEntry(entry) ||
-      (acceptsLegacyEntries && isJsonRecord(entry) && isSessionEntryType(entry.type))
+      (isJsonRecord(entry) && isSessionEntryType(entry.type))
     ) {
       fileEntries.push(entry);
       fileEntriesByOriginalIndex[originalIndex] = entry;

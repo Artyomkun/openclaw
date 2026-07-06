@@ -5,8 +5,8 @@ import {
   clearHistoryEntriesIfEnabled,
   recordPendingHistoryEntryIfEnabled,
   recordPendingHistoryEntryWithMedia,
-} from "../../auto-reply/reply/history.js";
-import type { HistoryEntry, HistoryMediaEntry } from "../../auto-reply/reply/history.types.js";
+} from "../../auto-reply/reply/history.ts";
+import type { HistoryEntry, HistoryMediaEntry } from "../../auto-reply/reply/history.types.ts";
 
 type MaybePromise<T> = T | Promise<T>;
 

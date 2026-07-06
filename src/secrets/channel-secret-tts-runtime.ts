@@ -2,10 +2,10 @@
 import type {
   ChannelAccountPredicate,
   ChannelAccountSurface,
-} from "./channel-secret-basic-runtime.js";
-import { collectTtsApiKeyAssignments } from "./runtime-config-collectors-tts.js";
-import type { ResolverContext, SecretDefaults } from "./runtime-shared.js";
-import { isRecord } from "./shared.js";
+} from "./channel-secret-basic-runtime.ts";
+import { collectTtsApiKeyAssignments } from "./runtime-config-collectors-tts.ts";
+import type { ResolverContext, SecretDefaults } from "./runtime-shared.ts";
+import { isRecord } from "./shared.ts";
 
 /** Collects nested TTS provider SecretRefs from channel root and account-specific blocks. */
 export function collectNestedChannelTtsAssignments(params: {

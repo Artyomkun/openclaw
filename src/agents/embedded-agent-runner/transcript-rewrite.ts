@@ -5,29 +5,29 @@ import type {
   TranscriptRewriteReplacement,
   TranscriptRewriteRequest,
   TranscriptRewriteResult,
-} from "../../context-engine/types.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { getRawSessionAppendMessage } from "../session-raw-append-message.js";
+} from "../../context-engine/types.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { emitSessionTranscriptUpdate } from "../../sessions/transcript-events.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { getRawSessionAppendMessage } from "../session-raw-append-message.ts";
 import {
   acquireSessionWriteLock,
   type SessionWriteLockAcquireTimeoutConfig,
   resolveSessionWriteLockOptions,
-} from "../session-write-lock.js";
-import { SessionManager } from "../sessions/index.js";
-import { log } from "./logger.js";
+} from "../session-write-lock.ts";
+import { SessionManager } from "../sessions/index.ts";
+import { log } from "./logger.ts";
 import {
   persistTranscriptStateMutation,
   readTranscriptFileState,
   type TranscriptFileState,
   type TranscriptPersistedEntry,
-} from "./transcript-file-state.js";
+} from "./transcript-file-state.ts";
 import {
   persistRuntimeTranscriptStateMutation,
   resolveRuntimeTranscriptReadTarget,
   type RuntimeTranscriptScope,
-} from "./transcript-runtime-state.js";
+} from "./transcript-runtime-state.ts";
 
 type SessionManagerLike = ReturnType<typeof SessionManager.open>;
 type SessionBranchEntry = ReturnType<SessionManagerLike["getBranch"]>[number];

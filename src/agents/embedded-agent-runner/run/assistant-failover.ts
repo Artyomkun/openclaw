@@ -1,22 +1,22 @@
 /**
  * Handles assistant-stage failover decisions during embedded-agent attempts.
  */
-import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import type { AssistantMessage } from "../../../llm/types.js";
-import type { AuthProfileFailureReason } from "../../auth-profiles.js";
+import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import type { AssistantMessage } from "../../../llm/types.ts";
+import type { AuthProfileFailureReason } from "../../auth-profiles.ts";
 import {
   formatAssistantErrorText,
   formatBillingErrorMessage,
   isTimeoutErrorMessage,
   type FailoverReason,
-} from "../../embedded-agent-helpers.js";
-import { FailoverError, resolveFailoverStatus } from "../../failover-error.js";
+} from "../../embedded-agent-helpers.ts";
+import { FailoverError, resolveFailoverStatus } from "../../failover-error.ts";
 import {
   mergeRetryFailoverReason,
   resolveRunFailoverDecision,
   type AssistantFailoverDecision,
-} from "./failover-policy.js";
+} from "./failover-policy.ts";
 
 type AssistantFailoverOutcome =
   | {

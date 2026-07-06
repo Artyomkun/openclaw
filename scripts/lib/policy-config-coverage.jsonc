@@ -130,27 +130,11 @@
       "reason": "Policy observes private-network browser SSRF posture.",
     },
     {
-      "pattern": "browser.ssrfPolicy.allowPrivateNetwork",
-      "status": "observed",
-      "area": "network",
-      "policy": "network.privateNetwork.allow",
-      "reason": "Policy observes the legacy browser private-network toggle.",
-      "allowNoSchemaPath": true,
-    },
-    {
       "pattern": "tools.web.fetch.ssrfPolicy.dangerouslyAllowPrivateNetwork",
       "status": "observed",
       "area": "network",
       "policy": "network.privateNetwork.allow",
       "reason": "Policy observes private-network web-fetch SSRF posture.",
-      "allowNoSchemaPath": true,
-    },
-    {
-      "pattern": "tools.web.fetch.ssrfPolicy.allowPrivateNetwork",
-      "status": "observed",
-      "area": "network",
-      "policy": "network.privateNetwork.allow",
-      "reason": "Policy observes the legacy web-fetch private-network toggle.",
       "allowNoSchemaPath": true,
     },
     {

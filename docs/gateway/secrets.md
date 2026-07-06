@@ -326,7 +326,7 @@ the config fields that accept SecretRefs.
   <Accordion title="Bitwarden Secrets Manager (`bws`)">
     Use a resolver wrapper when you want SecretRef ids to map to Bitwarden
     Secrets Manager item keys. The repository includes
-    `scripts/secrets/openclaw-bws-resolver.mjs`; install or copy it to an absolute
+    `scripts/secrets/openclaw-bws-resolver.ts`; install or copy it to an absolute
     trusted path on the host that runs the Gateway.
 
     Requirements:
@@ -344,7 +344,7 @@ the config fields that accept SecretRefs.
         providers: {
           bws: {
             source: "exec",
-            command: "/usr/local/bin/openclaw-bws-resolver.mjs",
+            command: "/usr/local/bin/openclaw-bws-resolver.ts",
             passEnv: ["BWS_ACCESS_TOKEN", "BWS_SERVER_URL", "PATH", "BWS_BIN"],
             jsonOnly: true,
           },

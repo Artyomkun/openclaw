@@ -3,7 +3,7 @@
  *
  * Defines identity descriptors, resolver inputs, route access, and resolved access results.
  */
-import type { AccessGroupConfig } from "../../config/types.access-groups.js";
+import type { AccessGroupConfig } from "../../config/types.access-groups.ts";
 import type {
   AccessGroupMembershipFact,
   AccessGraphGate,
@@ -20,7 +20,7 @@ import type {
   InternalMatchMaterial,
   InternalNormalizedEntry,
   RouteGateFacts,
-} from "./types.js";
+} from "./types.ts";
 
 /** Normalized identifier material used to match an inbound sender against allowlist entries. */
 export type ChannelIngressSubjectIdentifier = InternalMatchMaterial;
@@ -61,7 +61,7 @@ export type ChannelIngressIdentityAlias = ChannelIngressIdentityField & {
 export type ChannelIngressIdentityDescriptor = {
   /** Primary stable identity field. Prefer immutable sender ids when the platform has one. */
   primary: ChannelIngressIdentityField;
-  /** Additional identifiers that can match legacy or platform-specific allowlist entries. */
+  /** Additional identifiers that can match platform-specific allowlist entries. */
   aliases?: readonly ChannelIngressIdentityAlias[];
   /** Returns true when a raw allowlist entry should authorize every sender. */
   isWildcardEntry?: (value: string) => boolean;

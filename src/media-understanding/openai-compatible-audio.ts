@@ -1,4 +1,4 @@
-import { OPENAI_AUDIO_TRANSCRIPTIONS_API } from "./openai-audio-api.js";
+import { OPENAI_AUDIO_TRANSCRIPTIONS_API } from "./openai-audio-api.ts";
 // OpenAI-compatible audio transcription adapter for providers exposing the
 // /audio/transcriptions API shape.
 import {
@@ -8,8 +8,8 @@ import {
   readProviderJsonObjectResponse,
   resolveProviderHttpRequestConfig,
   requireTranscriptionText,
-} from "./shared.js";
-import type { AudioTranscriptionRequest, AudioTranscriptionResult } from "./types.js";
+} from "./shared.ts";
+import type { AudioTranscriptionRequest, AudioTranscriptionResult } from "./types.ts";
 
 type OpenAiCompatibleAudioParams = AudioTranscriptionRequest & {
   defaultBaseUrl: string;
@@ -29,7 +29,7 @@ export async function transcribeOpenAiCompatibleAudio(
 ): Promise<AudioTranscriptionResult> {
   const fetchFn = params.fetchFn ?? fetch;
   const apiKey = params.auth?.kind === "api-key" ? params.auth.apiKey : params.apiKey;
-  // Explicit auth:none suppresses bearer headers even if legacy apiKey params are present.
+  // Explicit auth:none suppresses bearer headers even if older apiKey params are present.
   const defaultHeaders =
     params.auth?.kind === "none" || !apiKey
       ? undefined

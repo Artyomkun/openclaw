@@ -3,12 +3,12 @@
  *
  * Defines receipts, live-message state, send contexts, and adapter capability contracts.
  */
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import type { ReplyToMode } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { OutboundSendDeps } from "../../infra/outbound/send-deps.js";
-import type { OutboundMediaAccess } from "../../media/load-options.js";
-import type { PollInput } from "../../polls.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import type { ReplyToMode } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { OutboundSendDeps } from "../../infra/outbound/send-deps.ts";
+import type { OutboundMediaAccess } from "../../media/load-options.ts";
+import type { PollInput } from "../../polls.ts";
 
 /** Delivery durability requested by core when a channel sends agent output. */
 export type MessageDurabilityPolicy = "required" | "best_effort" | "disabled";
@@ -216,7 +216,7 @@ export type ChannelMessageSendPollContext<TConfig = OpenClawConfig> = Omit<
   isAnonymous?: boolean;
 };
 
-/** Adapter send result normalized to a receipt plus optional legacy message id. */
+/** Adapter send result normalized to a receipt plus optional older message id. */
 export type ChannelMessageSendResult = {
   receipt: MessageReceipt;
   messageId?: string;

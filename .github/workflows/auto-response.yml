@@ -48,7 +48,7 @@ jobs:
           script: |
             const { pathToFileURL } = require("node:url");
             const moduleUrl = pathToFileURL(
-              `${process.env.GITHUB_WORKSPACE}/scripts/github/barnacle-auto-response.mjs`,
+              `${process.env.GITHUB_WORKSPACE}/scripts/github/barnacle-auto-response.ts`,
             );
             const { runBarnacleAutoResponse } = await import(moduleUrl.href);
 

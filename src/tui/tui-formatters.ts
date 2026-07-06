@@ -1,11 +1,11 @@
 // Formats terminal-safe strings for TUI messages and status surfaces.
-import { stripAnsi } from "../../packages/terminal-core/src/ansi.js";
-import { stripLeadingInboundMetadata } from "../auto-reply/reply/strip-inbound-meta.js";
-import type { SessionGoal } from "../config/sessions/types.js";
-import { isLoopbackHost } from "../gateway/net.js";
-import { formatRawAssistantErrorForUi } from "../shared/assistant-error-format.js";
-import { extractAssistantVisibleText } from "../shared/chat-message-content.js";
-import { formatTokenCount } from "../utils/usage-format.js";
+import { stripAnsi } from "../../packages/terminal-core/src/ansi.ts";
+import { stripLeadingInboundMetadata } from "../auto-reply/reply/strip-inbound-meta.ts";
+import type { SessionGoal } from "../config/sessions/types.ts";
+import { isLoopbackHost } from "../gateway/net.ts";
+import { formatRawAssistantErrorForUi } from "../shared/assistant-error-format.ts";
+import { extractAssistantVisibleText } from "../shared/chat-message-content.ts";
+import { formatTokenCount } from "../utils/usage-format.ts";
 
 const REPLACEMENT_CHAR_RE = /\uFFFD/g;
 const MAX_TOKEN_CHARS = 32;

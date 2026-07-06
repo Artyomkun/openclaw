@@ -1,17 +1,17 @@
 // Plugin contract registry assembles bundled plugin fixtures for shared contract tests.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { loadBundledCapabilityRuntimeRegistry } from "../bundled-capability-runtime.js";
-import { discoverOpenClawPlugins } from "../discovery.js";
-import { loadPluginManifestRegistry } from "../manifest-registry.js";
-import { resolveBundledExplicitProviderContractsFromPublicArtifacts } from "../provider-contract-public-artifacts.js";
-import type { ProviderPlugin, WebFetchProviderPlugin, WebSearchProviderPlugin } from "../types.js";
-import { resolveBundledExplicitWebSearchProvidersFromPublicArtifacts } from "../web-provider-public-artifacts.explicit.js";
+import { loadBundledCapabilityRuntimeRegistry } from "../bundled-capability-runtime.ts";
+import { discoverOpenClawPlugins } from "../discovery.ts";
+import { loadPluginManifestRegistry } from "../manifest-registry.ts";
+import { resolveBundledExplicitProviderContractsFromPublicArtifacts } from "../provider-contract-public-artifacts.ts";
+import type { ProviderPlugin, WebFetchProviderPlugin, WebSearchProviderPlugin } from "../types.ts";
+import { resolveBundledExplicitWebSearchProvidersFromPublicArtifacts } from "../web-provider-public-artifacts.explicit.ts";
 import {
   BUNDLED_PLUGIN_CONTRACT_SNAPSHOTS,
   type BundledPluginContractSnapshot,
-} from "./inventory/bundled-capability-metadata.js";
-import { uniqueStrings } from "./shared.js";
+} from "./inventory/bundled-capability-metadata.ts";
+import { uniqueStrings } from "./shared.ts";
 
 type BundledCapabilityRuntimeRegistry = ReturnType<typeof loadBundledCapabilityRuntimeRegistry>;
 type CapabilityContractEntry<T> = {

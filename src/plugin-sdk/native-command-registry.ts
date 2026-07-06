@@ -12,11 +12,11 @@ export {
   resolveCommandArgChoices,
   resolveCommandArgMenu,
   serializeCommandArgs,
-} from "../auto-reply/commands-registry.js";
+} from "../auto-reply/commands-registry.ts";
 export type {
   ChatCommandDefinition,
   CommandArgDefinition,
   CommandArgValues,
   CommandArgs,
   NativeCommandSpec,
-} from "../auto-reply/commands-registry.js";
+} from "../auto-reply/commands-registry.ts";

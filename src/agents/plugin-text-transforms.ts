@@ -3,11 +3,11 @@
  *
  * Provider and CLI plugins can rewrite prompt/event text without owning the transport implementation.
  */
-import type { AssistantMessageEvent } from "../llm/types.js";
-import type { PluginTextReplacement, PluginTextTransforms } from "../plugins/cli-backend.types.js";
-import type { StreamFn } from "./runtime/index.js";
-import type { MutableAssistantMessageEventStream } from "./stream-compat.js";
-import { createStreamIteratorWrapper } from "./stream-iterator-wrapper.js";
+import type { AssistantMessageEvent } from "../llm/types.ts";
+import type { PluginTextReplacement, PluginTextTransforms } from "../plugins/cli-backend.types.ts";
+import type { StreamFn } from "./runtime/index.ts";
+import type { MutableAssistantMessageEventStream } from "./stream-compat.ts";
+import { createStreamIteratorWrapper } from "./stream-iterator-wrapper.ts";
 
 // Applies plugin-defined text replacement transforms to stream input/output.
 // Used by provider/CLI plugins that need compatibility rewrites at boundaries.

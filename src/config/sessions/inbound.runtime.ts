@@ -1,3 +1,3 @@
 // Runtime facade for inbound session store updates.
-export { resolveStorePath } from "./paths.js";
-export { recordSessionMetaFromInbound, updateLastRoute } from "./store.js";
+export { resolveStorePath } from "./paths.ts";
+export { recordSessionMetaFromInbound, updateLastRoute } from "./store.ts";

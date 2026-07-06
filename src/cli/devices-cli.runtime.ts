@@ -8,40 +8,40 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
 import {
   readConnectPairingRequiredMessage,
   type ConnectPairingRequiredDetails,
-} from "../../packages/gateway-protocol/src/connect-error-details.js";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
+} from "../../packages/gateway-protocol/src/connect-error-details.ts";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   buildGatewayConnectionDetails,
   callGateway,
   formatGatewayTransportErrorJson,
-} from "../gateway/call.js";
-import { ADMIN_SCOPE, PAIRING_SCOPE, type OperatorScope } from "../gateway/method-scopes.js";
-import { isLoopbackHost } from "../gateway/net.js";
+} from "../gateway/call.ts";
+import { ADMIN_SCOPE, PAIRING_SCOPE, type OperatorScope } from "../gateway/method-scopes.ts";
+import { isLoopbackHost } from "../gateway/net.ts";
 import {
   approveDevicePairing,
   formatDevicePairingForbiddenMessage,
   listDevicePairing,
   summarizeDeviceTokens,
   type PairedDevice as InfraPairedDevice,
-} from "../infra/device-pairing.js";
+} from "../infra/device-pairing.ts";
 import { formatTimeAgo } from "../infra/format-time/format-relative.ts";
-import { defaultRuntime } from "../runtime.js";
-import { normalizeDeviceAuthScopes } from "../shared/device-auth.js";
+import { defaultRuntime } from "../runtime.ts";
+import { normalizeDeviceAuthScopes } from "../shared/device-auth.ts";
 import {
   resolvePendingDeviceApprovalState,
   type DevicePairingAccessSummary,
   type PendingDeviceApprovalKind,
-} from "../shared/device-pairing-access.js";
-import { formatCliCommand } from "./command-format.js";
-import { parseTimeoutMsWithFallback } from "./parse-timeout.js";
-import { withProgress } from "./progress.js";
-import { quoteCliArg } from "./quote-cli-arg.js";
+} from "../shared/device-pairing-access.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { parseTimeoutMsWithFallback } from "./parse-timeout.ts";
+import { withProgress } from "./progress.ts";
+import { quoteCliArg } from "./quote-cli-arg.ts";
 
 type DevicesRpcOpts = {
   url?: string;

@@ -1,15 +1,15 @@
 /** Shared helpers for gateway status target selection, auth, summaries, and probe rendering. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { colorize, theme } from "../../../packages/terminal-core/src/theme.js";
-import { parseTimeoutMsWithFallback } from "../../cli/parse-timeout.js";
-import { resolveGatewayPort } from "../../config/config.js";
-import type { OpenClawConfig, ConfigFileSnapshot } from "../../config/types.js";
-import { hasConfiguredSecretInput } from "../../config/types.secrets.js";
-import { resolveGatewayProbeSurfaceAuth } from "../../gateway/auth-surface-resolution.js";
-import { isLoopbackHost } from "../../gateway/net.js";
-import type { GatewayProbeCapability, GatewayProbeResult } from "../../gateway/probe.js";
-import { inspectBestEffortPrimaryTailnetIPv4 } from "../../infra/network-discovery-display.js";
-import { parseStrictInteger } from "../../infra/parse-finite-number.js";
+import { colorize, theme } from "../../../packages/terminal-core/src/theme.ts";
+import { parseTimeoutMsWithFallback } from "../../cli/parse-timeout.ts";
+import { resolveGatewayPort } from "../../config/config.ts";
+import type { OpenClawConfig, ConfigFileSnapshot } from "../../config/types.ts";
+import { hasConfiguredSecretInput } from "../../config/types.secrets.ts";
+import { resolveGatewayProbeSurfaceAuth } from "../../gateway/auth-surface-resolution.ts";
+import { isLoopbackHost } from "../../gateway/net.ts";
+import type { GatewayProbeCapability, GatewayProbeResult } from "../../gateway/probe.ts";
+import { inspectBestEffortPrimaryTailnetIPv4 } from "../../infra/network-discovery-display.ts";
+import { parseStrictInteger } from "../../infra/parse-finite-number.ts";
 
 const MISSING_SCOPE_PATTERN = /\bmissing scope:\s*[a-z0-9._-]+/i;
 
@@ -36,7 +36,6 @@ export type GatewayConfigSummary = {
   exists: boolean;
   valid: boolean;
   issues: Array<{ path: string; message: string }>;
-  legacyIssues: Array<{ path: string; message: string }>;
   gateway: {
     mode: string | null;
     bind: string | null;
@@ -199,7 +198,6 @@ export function extractConfigSummary(snapshotUnknown: unknown): GatewayConfigSum
   const exists = Boolean(snap?.exists);
   const valid = Boolean(snap?.valid);
   const issuesRaw = Array.isArray(snap?.issues) ? snap.issues : [];
-  const legacyRaw = Array.isArray(snap?.legacyIssues) ? snap.legacyIssues : [];
 
   const cfg = (snap?.config ?? {}) as Record<string, unknown>;
   const gateway = (cfg.gateway ?? {}) as Record<string, unknown>;
@@ -230,12 +228,6 @@ export function extractConfigSummary(snapshotUnknown: unknown): GatewayConfigSum
     exists,
     valid,
     issues: issuesRaw
-      .filter(
-        (i): i is { path: string; message: string } =>
-          i && typeof i.path === "string" && typeof i.message === "string",
-      )
-      .map((i) => ({ path: i.path, message: i.message })),
-    legacyIssues: legacyRaw
       .filter(
         (i): i is { path: string; message: string } =>
           i && typeof i.path === "string" && typeof i.message === "string",

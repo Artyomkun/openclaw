@@ -1,11 +1,11 @@
 // Collects dangerous config flag findings across agents and runtime config.
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { collectPluginConfigContractMatches } from "../plugins/config-contract-matches.js";
-import { resolvePluginConfigContractsById } from "../plugins/config-contracts.js";
-import { isRecord } from "../utils.js";
-import { collectEnabledInsecureOrDangerousFlagsFromContracts } from "./dangerous-config-flags-core.js";
-import { collectEnabledInsecureOrDangerousFlagsFromCurrentSnapshot } from "./dangerous-config-flags-current.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { collectPluginConfigContractMatches } from "../plugins/config-contract-matches.ts";
+import { resolvePluginConfigContractsById } from "../plugins/config-contracts.ts";
+import { isRecord } from "../utils.ts";
+import { collectEnabledInsecureOrDangerousFlagsFromContracts } from "./dangerous-config-flags-core.ts";
+import { collectEnabledInsecureOrDangerousFlagsFromCurrentSnapshot } from "./dangerous-config-flags-current.ts";
 
 /**
  * Collect enabled insecure/dangerous config flags for audit warnings and gateway tool previews.

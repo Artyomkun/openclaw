@@ -3,16 +3,16 @@ import {
   buildModelAliasIndex,
   resolveConfiguredModelRef,
   resolveModelRefFromString,
-} from "../../agents/model-selection.js";
+} from "../../agents/model-selection.ts";
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../../config/model-input.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.js";
-import type { ConfiguredEntry } from "./list.types.js";
-import { createModelCatalogProviderAliasCanonicalizer } from "./provider-aliases.js";
-import { DEFAULT_MODEL, DEFAULT_PROVIDER, modelKey } from "./shared.js";
+} from "../../config/model-input.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.ts";
+import type { ConfiguredEntry } from "./list.types.ts";
+import { createModelCatalogProviderAliasCanonicalizer } from "./provider-aliases.ts";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER, modelKey } from "./shared.ts";
 
 const DISPLAY_MODEL_PARSE_OPTIONS = { allowPluginNormalization: false } as const;
 

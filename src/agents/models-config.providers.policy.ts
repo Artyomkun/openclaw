@@ -5,8 +5,8 @@ import {
   applyProviderNativeStreamingUsagePolicy,
   normalizeProviderConfigPolicy,
   resolveProviderConfigApiKeyPolicy,
-} from "./models-config.providers.policy.runtime.js";
-import type { ProviderConfig } from "./models-config.providers.secrets.js";
+} from "./models-config.providers.policy.runtime.ts";
+import type { ProviderConfig } from "./models-config.providers.secrets.ts";
 
 /**
  * Provider-specific config policy adapters.

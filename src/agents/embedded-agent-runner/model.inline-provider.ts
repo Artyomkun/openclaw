@@ -2,16 +2,16 @@
  * Converts inline provider model config into runtime model definitions.
  */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { ModelDefinitionConfig, ModelProviderConfig } from "../../config/types.js";
-import { normalizeGoogleApiBaseUrl } from "../../infra/google-api-base-url.js";
-import type { Api } from "../../llm/types.js";
-import { isSecretRefHeaderValueMarker } from "../model-auth-markers.js";
-import { attachModelProviderLocalService } from "../provider-local-service.js";
+import type { ModelDefinitionConfig, ModelProviderConfig } from "../../config/types.ts";
+import { normalizeGoogleApiBaseUrl } from "../../infra/google-api-base-url.ts";
+import type { Api } from "../../llm/types.ts";
+import { isSecretRefHeaderValueMarker } from "../model-auth-markers.ts";
+import { attachModelProviderLocalService } from "../provider-local-service.ts";
 import {
   attachModelProviderRequestTransport,
   resolveProviderRequestConfig,
   sanitizeConfiguredModelProviderRequest,
-} from "../provider-request-config.js";
+} from "../provider-request-config.ts";
 
 /**
  * Normalizes inline `models.providers` config into runtime model entries.
@@ -82,29 +82,7 @@ export function sanitizeModelHeaders(
   return Object.keys(next).length > 0 ? next : undefined;
 }
 
-function isLegacyFoundryVisionModelCandidate(params: {
-  provider?: string;
-  modelId?: string;
-  modelName?: string;
-}): boolean {
-  if (normalizeOptionalLowercaseString(params.provider) !== "microsoft-foundry") {
-    return false;
-  }
-  const normalizedCandidates = [params.modelId, params.modelName]
-    .filter((value): value is string => typeof value === "string")
-    .map((value) => normalizeOptionalLowercaseString(value))
-    .filter((value): value is string => Boolean(value));
-  return normalizedCandidates.some(
-    (candidate) =>
-      candidate.startsWith("gpt-") ||
-      candidate.startsWith("o1") ||
-      candidate.startsWith("o3") ||
-      candidate.startsWith("o4") ||
-      candidate === "computer-use-preview",
-  );
-}
-
-/** Resolves model input modalities with Foundry legacy vision-model compatibility. */
+/** Resolves model input modalities with Foundry vision-model compatibility. */
 export function resolveProviderModelInput(params: {
   provider?: string;
   modelId?: string;
@@ -118,8 +96,7 @@ export function resolveProviderModelInput(params: {
     : [];
   if (
     normalizedInput.length > 0 &&
-    !normalizedInput.includes("image") &&
-    isLegacyFoundryVisionModelCandidate(params)
+    !normalizedInput.includes("image")
   ) {
     return ["text", "image"];
   }

@@ -4,8 +4,8 @@
  * Converts plugin attachment metadata into aligned prompt/context media payload fields.
  */
 import { normalizeOptionalString as normalizeString } from "@openclaw/normalization-core/string-coerce";
-import type { HistoryMediaEntry } from "../../auto-reply/reply/history.types.js";
-import type { InboundMediaFacts } from "../turn/types.js";
+import type { HistoryMediaEntry } from "../../auto-reply/reply/history.types.ts";
+import type { InboundMediaFacts } from "../turn/types.ts";
 
 /**
  * Attachment metadata accepted from channel plugins before core normalization.
@@ -93,7 +93,7 @@ export function toHistoryMediaEntries(
 }
 
 /**
- * Builds prompt environment media fields while keeping single-item legacy fields populated.
+ * Builds prompt environment media fields while keeping single-item fields populated.
  */
 export function buildChannelInboundMediaPayload(
   media: readonly InboundMediaFacts[] | null | undefined,

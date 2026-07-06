@@ -1,14 +1,14 @@
 /** Collects auth-profile and OAuth secret refs for runtime preparation. */
-import { assertNoOAuthSecretRefPolicyViolations } from "../agents/auth-profiles/policy.js";
-import type { AuthProfileCredential, AuthProfileStore } from "../agents/auth-profiles/types.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
+import { assertNoOAuthSecretRefPolicyViolations } from "../agents/auth-profiles/policy.ts";
+import type { AuthProfileCredential, AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
 import {
   pushAssignment,
   pushWarning,
   type ResolverContext,
   type SecretDefaults,
-} from "./runtime-shared.js";
-import { isNonEmptyString } from "./shared.js";
+} from "./runtime-shared.ts";
+import { isNonEmptyString } from "./shared.ts";
 
 type ApiKeyCredentialLike = AuthProfileCredential & {
   type: "api_key";

@@ -1,9 +1,11 @@
 // Stores and validates wide-area DNS discovery settings.
-import fs from "node:fs";
+import { createHash } from "node:crypto";
+import fs from "node:fs/promises";
+import { isIPv6 } from "node:net";
 import os from "node:os";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { CONFIG_DIR, ensureDir } from "../utils.js";
+import { CONFIG_DIR, ensureDir } from "../utils.ts";
 
 const DNS_LABEL_RE = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/;
 const MAX_DNS_NAME_LENGTH = 253;
@@ -112,13 +114,22 @@ function extractContentHash(zoneText: string): string | null {
 }
 
 function computeContentHash(body: string): string {
-  // Cheap stable hash; avoids importing crypto (and keeps deterministic across runtimes).
-  let h = 2166136261;
-  for (let i = 0; i < body.length; i++) {
-    h ^= body.charCodeAt(i);
-    h = Math.imul(h, 16777619);
+  return createHash("sha256").update(body).digest("hex").slice(0, 16);
+}
+
+function validateIpv4(value: string): boolean {
+  const parts = value.split(".");
+  if (parts.length !== 4) return false;
+  return parts.every((part) => {
+    const num = Number.parseInt(part, 10);
+    return !isNaN(num) && num >= 0 && num <= 255 && part === String(num);
+  });
+}
+
+function validatePort(value: number, field: string): void {
+  if (!Number.isInteger(value) || value < 1 || value > 65535) {
+    throw new Error(`${field} must be between 1 and 65535`);
   }
-  return (h >>> 0).toString(16).padStart(8, "0");
 }
 
 export type WideAreaGatewayZoneOpts = {
@@ -209,17 +220,29 @@ export async function writeWideAreaGatewayZone(
   if (!domain) {
     throw new Error("wide-area discovery domain is required");
   }
+
+  // Validate IPv4
+  if (!validateIpv4(opts.tailnetIPv4)) {
+    throw new Error(`Invalid tailnetIPv4 address: ${opts.tailnetIPv4}`);
+  }
+
+  // Validate IPv6 if provided
+  if (opts.tailnetIPv6 && !isIPv6(opts.tailnetIPv6)) {
+    throw new Error(`Invalid tailnetIPv6 address: ${opts.tailnetIPv6}`);
+  }
+
+  // Validate ports
+  validatePort(opts.gatewayPort, "gatewayPort");
+  if (opts.sshPort !== undefined) {
+    validatePort(opts.sshPort, "sshPort");
+  }
+
   const normalizedOpts = { ...opts, domain };
   const zonePath = getWideAreaZonePath(domain);
   await ensureDir(path.dirname(zonePath));
 
-  const existing = (() => {
-    try {
-      return fs.readFileSync(zonePath, "utf-8");
-    } catch {
-      return null;
-    }
-  })();
+  let existing: string | null = null;
+  existing = await fs.readFile(zonePath, "utf-8");
 
   const nextNoSerial = renderWideAreaGatewayZoneText({ ...normalizedOpts, serial: 0 });
   const nextHash = extractContentHash(nextNoSerial);
@@ -232,6 +255,6 @@ export async function writeWideAreaGatewayZone(
   const existingSerial = existing ? extractSerial(existing) : null;
   const serial = nextSerial(existingSerial, new Date());
   const next = renderWideAreaGatewayZoneText({ ...normalizedOpts, serial });
-  fs.writeFileSync(zonePath, next, "utf-8");
+  await fs.writeFile(zonePath, next, "utf-8");
   return { zonePath, changed: true };
 }

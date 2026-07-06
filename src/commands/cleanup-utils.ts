@@ -1,16 +1,16 @@
 // Shared destructive-cleanup planning and guarded removal helpers.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { listAgentIds, resolveAgentWorkspaceDir } from "../agents/agent-scope-config.js";
-import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace-default.js";
+import { listAgentIds, resolveAgentWorkspaceDir } from "../agents/agent-scope-config.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../agents/workspace-default.ts";
 import {
   resolveWorkspaceAttestationPaths,
   shouldRemoveWorkspaceAttestation,
-} from "../agents/workspace.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isPathInside } from "../infra/path-guards.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { resolveHomeDir, shortenHomeInString } from "../utils.js";
+} from "../agents/workspace.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isPathInside } from "../infra/path-guards.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { resolveHomeDir, shortenHomeInString } from "../utils.ts";
 
 type RemovalResult = {
   ok: boolean;

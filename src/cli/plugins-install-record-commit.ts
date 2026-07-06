@@ -10,24 +10,23 @@ import {
   type ConfigReplaceResult,
   type ConfigMutationResult,
   type TransformConfigFileWithRetryParams,
-} from "../config/config.js";
-import type { ConfigWriteOptions } from "../config/io.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { isPathInside } from "../infra/path-guards.js";
+} from "../config/config.ts";
+import type { ConfigWriteOptions } from "../config/io.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
 import {
   loadInstalledPluginIndexInstallRecords,
   PLUGIN_INSTALLS_CONFIG_PATH,
   withoutPluginInstallRecords,
   writePersistedInstalledPluginIndexInstallRecords,
-} from "../plugins/installed-plugin-index-records.js";
+} from "../plugins/installed-plugin-index-records.ts";
 import {
   clearRetainedManagedNpmInstallMarker,
   markRetainedManagedNpmInstall,
   resolveRetainedManagedNpmInstallPackageInfo,
   resolveRetainedManagedNpmInstallMarkerPath,
-} from "../plugins/managed-npm-retention.js";
-import { planPluginUninstall } from "../plugins/uninstall.js";
+} from "../plugins/managed-npm-retention.ts";
+import { planPluginUninstall } from "../plugins/uninstall.ts";
 
 function mergeUnsetPaths(
   left?: ConfigWriteOptions["unsetPaths"],
@@ -37,7 +36,7 @@ function mergeUnsetPaths(
   return merged.length > 0 ? merged : undefined;
 }
 
-/** Return whether config still contains legacy/transient plugin install records. */
+/** Return whether config still contains transient plugin install records. */
 export function hasPendingPluginInstallRecords(config: OpenClawConfig): boolean {
   return Object.keys(config.plugins?.installs ?? {}).length > 0;
 }
@@ -103,9 +102,7 @@ function installPathsOverlap(left: string, right: string): boolean {
   const resolvedLeft = path.resolve(left);
   const resolvedRight = path.resolve(right);
   return (
-    resolvedLeft === resolvedRight ||
-    isPathInside(resolvedLeft, resolvedRight) ||
-    isPathInside(resolvedRight, resolvedLeft)
+    resolvedLeft === resolvedRight
   );
 }
 

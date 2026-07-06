@@ -1,24 +1,24 @@
 // Doctor warnings for configured channels blocked by disabled channel plugins.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.js";
-import { listExplicitlyDisabledChannelIdsForConfig } from "../../../channels/config-presence.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.ts";
+import { listExplicitlyDisabledChannelIdsForConfig } from "../../../channels/config-presence.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 import {
   hasExplicitChannelConfig,
   listExplicitConfiguredChannelIdsForConfig,
   resolveConfiguredChannelPresencePolicy,
-} from "../../../plugins/channel-plugin-ids.js";
-import { normalizePluginsConfig } from "../../../plugins/config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "../../../plugins/default-enablement.js";
+} from "../../../plugins/channel-plugin-ids.ts";
+import { normalizePluginsConfig } from "../../../plugins/config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "../../../plugins/default-enablement.ts";
 import {
   hasExplicitManifestOwnerTrust,
   isActivatedManifestOwner,
   resolveManifestOwnerBasePolicyBlock,
   type ManifestOwnerBasePolicyBlockReason,
-} from "../../../plugins/manifest-owner-policy.js";
-import type { PluginManifestRecord } from "../../../plugins/manifest-registry.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "../../../plugins/plugin-registry.js";
-import { isSafeChannelEnvVarTriggerName } from "../../../secrets/channel-env-var-names.js";
+} from "../../../plugins/manifest-owner-policy.ts";
+import type { PluginManifestRecord } from "../../../plugins/manifest-registry.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "../../../plugins/plugin-registry.ts";
+import { isSafeChannelEnvVarTriggerName } from "../../../secrets/channel-env-var-names.ts";
 
 type ChannelPluginBlockerHit = {
   /** Normalized configured channel id whose backing plugin is unavailable. */

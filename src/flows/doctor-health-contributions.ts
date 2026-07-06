@@ -1,19 +1,18 @@
 // Doctor health contribution helpers collect health checks from plugin manifests.
 import fs from "node:fs";
-import type { probeGatewayMemoryStatus } from "../commands/doctor-gateway-health.js";
-import type { DoctorOptions, DoctorPrompter } from "../commands/doctor-prompter.js";
+import type { probeGatewayMemoryStatus } from "../commands/doctor-gateway-health.ts";
+import type { DoctorOptions, DoctorPrompter } from "../commands/doctor-prompter.ts";
 import {
-  isLegacyParentWritableUpdateDoctorPass,
   UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE_ENV,
-} from "../commands/doctor/shared/update-phase.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { buildGatewayConnectionDetails } from "../gateway/call.js";
-import type { UpdatePostInstallDoctorResult } from "../infra/update-doctor-result.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { normalizeHealthCheck } from "./health-check-adapter.js";
-import type { HealthCheckInput, RunnableHealthCheck } from "./health-check-runner-types.js";
-import type { HealthCheck, HealthFinding } from "./health-checks.js";
-import type { FlowContribution } from "./types.js";
+} from "../commands/doctor/shared/update-phase.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { buildGatewayConnectionDetails } from "../gateway/call.ts";
+import type { UpdatePostInstallDoctorResult } from "../infra/update-doctor-result.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { normalizeHealthCheck } from "./health-check-adapter.ts";
+import type { HealthCheckInput, RunnableHealthCheck } from "./health-check-runner-types.ts";
+import type { HealthCheck, HealthFinding } from "./health-checks.ts";
+import type { FlowContribution } from "./types.ts";
 
 type DoctorFlowMode = "local" | "remote";
 
@@ -24,7 +23,6 @@ type DoctorConfigResult = {
   sourceConfigValid?: boolean;
   sourceLastTouchedVersion?: string;
   skipPluginValidationOnWrite?: boolean;
-  preservedLegacyRootKeys?: readonly string[];
 };
 
 export type DoctorHealthFlowContext = {
@@ -49,8 +47,6 @@ export type DoctorHealthFlowContext = {
 type DoctorHealthContribution = FlowContribution & {
   kind: "core";
   surface: "health";
-  // Structured checks listed here belong to this ordered doctor contribution;
-  // when legacy run() is absent they also own the doctor execution path.
   healthChecks: readonly HealthCheckInput[];
   healthCheckIds: readonly string[];
   run: (ctx: DoctorHealthFlowContext) => Promise<void>;
@@ -89,26 +85,6 @@ function isUpdateDoctorRun(env: NodeJS.ProcessEnv | Record<string, string | unde
 
 function resolveDoctorMode(cfg: OpenClawConfig): DoctorFlowMode {
   return cfg.gateway?.mode === "remote" ? "remote" : "local";
-}
-
-function isTruthyEnvValue(value: string | undefined): boolean {
-  if (!value) {
-    return false;
-  }
-  const normalized = value.trim().toLowerCase();
-  return normalized !== "" && normalized !== "0" && normalized !== "false" && normalized !== "no";
-}
-
-export function shouldSkipLegacyUpdateDoctorConfigWrite(params: {
-  env: NodeJS.ProcessEnv;
-}): boolean {
-  if (!isTruthyEnvValue(params.env.OPENCLAW_UPDATE_IN_PROGRESS)) {
-    return false;
-  }
-  if (isTruthyEnvValue(params.env[UPDATE_PARENT_SUPPORTS_DOCTOR_CONFIG_WRITE_ENV])) {
-    return false;
-  }
-  return true;
 }
 
 export function createDoctorHealthContribution(params: {
@@ -283,35 +259,21 @@ async function runGatewayConfigHealth(ctx: DoctorHealthFlowContext): Promise<voi
 }
 
 async function runAuthProfileHealth(ctx: DoctorHealthFlowContext): Promise<void> {
-  const { maybeRepairLegacyFlatAuthProfileStores, maybeRepairCanonicalApiKeyFieldAlias } =
+  const { maybeRepairCanonicalApiKeyFieldAlias } =
     await import("../commands/doctor-auth-flat-profiles.js");
-  const { maybeRepairLegacyOAuthProfileIds } =
-    await import("../commands/doctor-auth-legacy-oauth.js");
-  const { maybeRepairLegacyOAuthSidecarProfiles } =
-    await import("../commands/doctor-auth-oauth-sidecar.js");
-  const { noteAuthProfileHealth, noteLegacyCodexProviderOverride } =
+  const { noteAuthProfileHealth } =
     await import("../commands/doctor-auth.js");
   const { buildGatewayConnectionDetails } = await import("../gateway/call.js");
   const { note } = await loadNoteModule();
-  await maybeRepairLegacyFlatAuthProfileStores({
-    cfg: ctx.cfg,
-    prompter: ctx.prompter,
-  });
   await maybeRepairCanonicalApiKeyFieldAlias({
     cfg: ctx.cfg,
     prompter: ctx.prompter,
   });
-  await maybeRepairLegacyOAuthSidecarProfiles({
-    cfg: ctx.cfg,
-    prompter: ctx.prompter,
-  });
-  ctx.cfg = await maybeRepairLegacyOAuthProfileIds(ctx.cfg, ctx.prompter);
   await noteAuthProfileHealth({
     cfg: ctx.cfg,
     prompter: ctx.prompter,
     allowKeychainPrompt: ctx.options.nonInteractive !== true && process.stdin.isTTY,
   });
-  noteLegacyCodexProviderOverride(ctx.cfg);
   ctx.gatewayDetails = buildGatewayConnectionDetails({ config: ctx.cfg });
   if (ctx.gatewayDetails.remoteFallbackNote) {
     note(ctx.gatewayDetails.remoteFallbackNote, "Gateway");
@@ -337,10 +299,6 @@ async function runGatewayAuthHealth(ctx: DoctorHealthFlowContext): Promise<void>
     authConfig: ctx.cfg.gateway?.auth,
     tailscaleMode: ctx.cfg.gateway?.tailscale?.mode ?? "off",
   });
-  // Modes that don't need a token: password, none, trusted-proxy.
-  // This aligns with hasExplicitGatewayInstallAuthMode() in auth-install-policy.ts.
-  // Previously, only "password" and "token" (with a token present) were excluded,
-  // causing doctor --fix to overwrite trusted-proxy/none configs with token mode.
   const hasInlineToken = typeof auth.token === "string" && auth.token.trim() !== "";
   const needsToken =
     auth.mode !== "password" &&
@@ -510,52 +468,6 @@ async function runCoreContributionHealthRepair(
   }
 }
 
-async function runLegacyStateHealth(ctx: DoctorHealthFlowContext): Promise<void> {
-  const { detectLegacyStateMigrations, runLegacyStateMigrations } =
-    await import("../commands/doctor-state-migrations.js");
-  const { note } = await loadNoteModule();
-  const legacyState = await detectLegacyStateMigrations({ cfg: ctx.cfg });
-  if (legacyState.warnings.length > 0) {
-    note(legacyState.warnings.join("\n"), "Doctor warnings");
-  }
-  if (legacyState.preview.length === 0) {
-    return;
-  }
-  note(legacyState.preview.join("\n"), "Legacy state detected");
-  const migrate =
-    ctx.options.nonInteractive === true
-      ? true
-      : await ctx.prompter.confirm({
-          message: "Migrate legacy state (sessions/agent/WhatsApp auth) now?",
-          initialValue: true,
-        });
-  if (!migrate) {
-    return;
-  }
-  const migrated = await runLegacyStateMigrations({
-    detected: legacyState,
-    config: ctx.cfg,
-    recoverCorruptTargetStore: ctx.options.repair === true || ctx.options.yes === true,
-  });
-  if (migrated.changes.length > 0) {
-    note(migrated.changes.join("\n"), "Doctor changes");
-  }
-  if (migrated.warnings.length > 0) {
-    note(migrated.warnings.join("\n"), "Doctor warnings");
-  }
-}
-
-async function runLegacyPluginManifestHealth(ctx: DoctorHealthFlowContext): Promise<void> {
-  const { maybeRepairLegacyPluginManifestContracts } =
-    await import("../commands/doctor-plugin-manifests.js");
-  await maybeRepairLegacyPluginManifestContracts({
-    config: ctx.cfg,
-    env: process.env,
-    runtime: ctx.runtime,
-    prompter: ctx.prompter,
-  });
-}
-
 async function runPluginRegistryHealth(ctx: DoctorHealthFlowContext): Promise<void> {
   const { maybeRepairPluginRegistryState } = await import("../commands/doctor-plugin-registry.js");
   ctx.cfg = await maybeRepairPluginRegistryState({
@@ -595,16 +507,10 @@ async function runReleaseConfiguredPluginInstallsHealth(
   if (!result.touchedConfig) {
     return;
   }
-  const lastTouchedVersion = isLegacyParentWritableUpdateDoctorPass(ctx.env ?? process.env)
-    ? ctx.configResult.sourceLastTouchedVersion?.trim() ||
-      ctx.cfg.meta?.lastTouchedVersion ||
-      VERSION
-    : VERSION;
   ctx.cfg = {
     ...ctx.cfg,
     meta: {
       ...ctx.cfg.meta,
-      lastTouchedVersion,
       lastTouchedAt: new Date().toISOString(),
     },
   };
@@ -663,17 +569,6 @@ async function runSessionSnapshotsHealth(ctx: DoctorHealthFlowContext): Promise<
 async function runConfigAuditScrubHealth(ctx: DoctorHealthFlowContext): Promise<void> {
   const { maybeScrubConfigAuditLog } = await import("../commands/doctor-config-audit-scrub.js");
   await maybeScrubConfigAuditLog({ shouldRepair: ctx.prompter.shouldRepair });
-}
-
-async function runLegacyCronHealth(ctx: DoctorHealthFlowContext): Promise<void> {
-  const { maybeRepairLegacyCronStore, noteLegacyWhatsAppCrontabHealthCheck } =
-    await import("../commands/doctor/cron/index.js");
-  await noteLegacyWhatsAppCrontabHealthCheck();
-  await maybeRepairLegacyCronStore({
-    cfg: ctx.cfg,
-    options: ctx.options,
-    prompter: ctx.prompter,
-  });
 }
 
 async function runSandboxHealth(ctx: DoctorHealthFlowContext): Promise<void> {
@@ -1050,8 +945,6 @@ async function runGatewayDaemonHealth(ctx: DoctorHealthFlowContext): Promise<voi
     prompter: ctx.prompter,
     options: ctx.options,
     gatewayDetailsMessage: ctx.gatewayDetails?.message ?? "",
-    // A skipped exec-backed token probe is unknown, not unhealthy. Do not let
-    // doctor --fix restart services only because probing would require exec.
     healthOk: ctx.healthOk ?? false,
     healthSkipped: ctx.gatewayHealthSkipped === true,
   });
@@ -1072,15 +965,6 @@ async function runWriteConfigHealth(ctx: DoctorHealthFlowContext): Promise<void>
       command: "doctor",
       mode: resolveDoctorMode(ctx.cfg),
     });
-    if (shouldSkipLegacyUpdateDoctorConfigWrite({ env: ctx.env ?? process.env })) {
-      ctx.runtime.log("Skipping doctor config write during legacy update handoff.");
-      return;
-    }
-    const legacyParentVersionOverride = isLegacyParentWritableUpdateDoctorPass(
-      ctx.env ?? process.env,
-    )
-      ? ctx.configResult.sourceLastTouchedVersion?.trim() || ctx.cfg.meta?.lastTouchedVersion
-      : undefined;
     await replaceConfigFile({
       nextConfig: ctx.cfg,
       afterWrite: { mode: "auto" },
@@ -1088,10 +972,6 @@ async function runWriteConfigHealth(ctx: DoctorHealthFlowContext): Promise<void>
         allowConfigSizeDrop: ctx.configResult.shouldWriteConfig === true || updateDoctorRun,
         skipPluginValidation:
           ctx.configResult.skipPluginValidationOnWrite === true || updateDoctorRun,
-        preservedLegacyRootKeys: ctx.configResult.preservedLegacyRootKeys,
-        ...(legacyParentVersionOverride
-          ? { lastTouchedVersionOverride: legacyParentVersionOverride }
-          : {}),
       },
     });
     logConfigUpdated(ctx.runtime);
@@ -1132,7 +1012,6 @@ async function runFinalConfigValidationHealth(ctx: DoctorHealthFlowContext): Pro
   const { readConfigFileSnapshot } = await loadConfigModule();
   const finalSnapshot = await readConfigFileSnapshot({
     skipPluginValidation: isUpdateDoctorRun(ctx.env ?? process.env),
-    preservedLegacyRootKeys: ctx.configResult.preservedLegacyRootKeys,
   });
   if (finalSnapshot.exists && !finalSnapshot.valid) {
     ctx.runtime.error("Invalid config:");
@@ -1248,17 +1127,6 @@ export function resolveDoctorHealthContributions(): DoctorHealthContribution[] {
       run: runStructuredHealthRepairs,
     }),
     createDoctorHealthContribution({
-      id: "doctor:legacy-state",
-      label: "Legacy state",
-      healthCheckIds: ["core/doctor/legacy-state"],
-      run: runLegacyStateHealth,
-    }),
-    createDoctorHealthContribution({
-      id: "doctor:legacy-plugin-manifests",
-      label: "Legacy plugin manifests",
-      run: runLegacyPluginManifestHealth,
-    }),
-    createDoctorHealthContribution({
       id: "doctor:release-configured-plugin-installs",
       label: "Configured plugin repair",
       healthChecks: {
@@ -1276,27 +1144,6 @@ export function resolveDoctorHealthContributions(): DoctorHealthContribution[] {
               env: process.env,
             })
           ).map(configuredPluginInstallIssueToHealthFinding);
-        },
-        async repair(ctx) {
-          const {
-            detectConfiguredPluginInstallHealthIssues,
-            configuredPluginInstallIssueToRepairEffect,
-          } = await import("../commands/doctor/shared/missing-configured-plugin-install.js");
-          const effects = (
-            await detectConfiguredPluginInstallHealthIssues({
-              cfg: ctx.cfg,
-              env: process.env,
-            })
-          ).map(configuredPluginInstallIssueToRepairEffect);
-          if (ctx.dryRun === true) {
-            return { status: "repaired", changes: [], effects };
-          }
-          return {
-            status: "skipped",
-            reason: "legacy doctor configured plugin install repair owns package mutation",
-            changes: [],
-            effects,
-          };
         },
       },
       run: runReleaseConfiguredPluginInstallsHealth,
@@ -1318,26 +1165,6 @@ export function resolveDoctorHealthContributions(): DoctorHealthContribution[] {
               prompter: { shouldRepair: false },
             })
           ).map(pluginRegistryIssueToHealthFinding);
-        },
-        async repair(ctx) {
-          const { detectPluginRegistryHealthIssues, pluginRegistryIssueToRepairEffect } =
-            await import("../commands/doctor-plugin-registry.js");
-          const effects = (
-            await detectPluginRegistryHealthIssues({
-              config: ctx.cfg,
-              env: process.env,
-              prompter: { shouldRepair: false },
-            })
-          ).map(pluginRegistryIssueToRepairEffect);
-          if (ctx.dryRun === true) {
-            return { status: "repaired", changes: [], effects };
-          }
-          return {
-            status: "skipped",
-            reason: "legacy doctor plugin registry contribution owns registry repairs",
-            changes: [],
-            effects,
-          };
         },
       },
       run: runPluginRegistryHealth,
@@ -1368,23 +1195,6 @@ export function resolveDoctorHealthContributions(): DoctorHealthContribution[] {
             env: process.env,
           }).map(stateIntegrityIssueToHealthFinding);
         },
-        async repair(ctx) {
-          const { detectStateIntegrityHealthIssues, stateIntegrityIssueToRepairEffect } =
-            await import("../commands/doctor-state-integrity.js");
-          const effects = detectStateIntegrityHealthIssues(ctx.cfg, {
-            configPath: ctx.configPath,
-            env: process.env,
-          }).map(stateIntegrityIssueToRepairEffect);
-          if (ctx.dryRun === true) {
-            return { status: "repaired", changes: [], effects };
-          }
-          return {
-            status: "skipped",
-            reason: "legacy doctor state integrity contribution owns state repairs",
-            changes: [],
-            effects,
-          };
-        },
       },
       run: runStateIntegrityHealth,
     }),
@@ -1399,38 +1209,6 @@ export function resolveDoctorHealthContributions(): DoctorHealthContribution[] {
       label: "Session locks",
       healthCheckIds: ["core/doctor/session-locks"],
       run: runSessionLocksHealth,
-    }),
-    createDoctorHealthContribution({
-      id: "doctor:session-transcripts",
-      label: "Session transcripts",
-      healthChecks: {
-        id: "core/doctor/session-transcripts",
-        description: "Legacy or branchy session transcript files are represented as findings.",
-        async detect() {
-          const { detectSessionTranscriptHealthIssues, sessionTranscriptIssueToHealthFinding } =
-            await import("../commands/doctor-session-transcripts.js");
-          return (await detectSessionTranscriptHealthIssues()).map(
-            sessionTranscriptIssueToHealthFinding,
-          );
-        },
-        async repair(ctx) {
-          const { detectSessionTranscriptHealthIssues, sessionTranscriptIssueToRepairEffect } =
-            await import("../commands/doctor-session-transcripts.js");
-          const effects = (await detectSessionTranscriptHealthIssues()).map(
-            sessionTranscriptIssueToRepairEffect,
-          );
-          if (ctx.dryRun === true) {
-            return { status: "repaired", changes: [], effects };
-          }
-          return {
-            status: "skipped",
-            reason: "legacy doctor session transcript contribution owns transcript rewrites",
-            changes: [],
-            effects,
-          };
-        },
-      },
-      run: runSessionTranscriptsHealth,
     }),
     createDoctorHealthContribution({
       id: "doctor:session-snapshots",
@@ -1448,25 +1226,6 @@ export function resolveDoctorHealthContributions(): DoctorHealthContribution[] {
             })
           ).map(sessionSnapshotIssueToHealthFinding);
         },
-        async repair(ctx) {
-          const { detectSessionSnapshotHealthIssues, sessionSnapshotIssueToRepairEffect } =
-            await import("../commands/doctor-session-snapshots.js");
-          const effects = (
-            await detectSessionSnapshotHealthIssues({
-              cfg: ctx.cfg,
-              env: process.env,
-            })
-          ).map(sessionSnapshotIssueToRepairEffect);
-          if (ctx.dryRun === true) {
-            return { status: "repaired", changes: [], effects };
-          }
-          return {
-            status: "skipped",
-            reason: "legacy doctor session snapshot contribution owns snapshot rewrites",
-            changes: [],
-            effects,
-          };
-        },
       },
       run: runSessionSnapshotsHealth,
     }),
@@ -1483,65 +1242,8 @@ export function resolveDoctorHealthContributions(): DoctorHealthContribution[] {
           const result = await detectConfigAuditScrubIssue();
           return result.rewritten > 0 ? [configAuditScrubToHealthFinding(result)] : [];
         },
-        async repair(ctx) {
-          const { configAuditScrubToRepairEffect, detectConfigAuditScrubIssue } =
-            await import("../commands/doctor-config-audit-scrub.js");
-          const result = await detectConfigAuditScrubIssue();
-          const effects = result.rewritten > 0 ? [configAuditScrubToRepairEffect(result)] : [];
-          if (ctx.dryRun === true) {
-            return { status: "repaired", changes: [], effects };
-          }
-          return {
-            status: "skipped",
-            reason: "legacy doctor config audit contribution owns cleanup",
-            changes: [],
-            effects,
-          };
-        },
       },
       run: runConfigAuditScrubHealth,
-    }),
-    createDoctorHealthContribution({
-      id: "doctor:legacy-cron",
-      label: "Legacy cron",
-      healthCheckIds: ["core/doctor/legacy-whatsapp-crontab"],
-      run: runLegacyCronHealth,
-    }),
-    createDoctorHealthContribution({
-      id: "doctor:sandbox",
-      label: "Sandbox",
-      healthChecks: {
-        id: "core/doctor/sandbox/registry-files",
-        description: "Legacy sandbox registry files are represented in SQLite registry storage.",
-        async detect() {
-          const {
-            detectLegacySandboxRegistryFileIssues,
-            legacySandboxRegistryInspectionToHealthFinding,
-          } = await import("../commands/doctor-sandbox.js");
-          return (await detectLegacySandboxRegistryFileIssues()).map(
-            legacySandboxRegistryInspectionToHealthFinding,
-          );
-        },
-        async repair(ctx) {
-          const {
-            detectLegacySandboxRegistryFileIssues,
-            legacySandboxRegistryInspectionToRepairEffect,
-          } = await import("../commands/doctor-sandbox.js");
-          const effects = (await detectLegacySandboxRegistryFileIssues()).map(
-            legacySandboxRegistryInspectionToRepairEffect,
-          );
-          if (ctx.dryRun === true) {
-            return { status: "repaired", changes: [], effects };
-          }
-          return {
-            status: "skipped",
-            reason: "legacy doctor sandbox contribution owns registry migration",
-            changes: [],
-            effects,
-          };
-        },
-      },
-      run: runSandboxHealth,
     }),
     createDoctorHealthContribution({
       id: "doctor:gateway-services",

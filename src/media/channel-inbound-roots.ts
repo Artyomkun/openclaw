@@ -1,8 +1,8 @@
 // Channel inbound root helpers resolve media roots for channel-delivered files.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { loadBundledPluginPublicArtifactModuleSync } from "../plugins/public-surface-loader.js";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { loadBundledPluginPublicArtifactModuleSync } from "../plugins/public-surface-loader.ts";
 
 type ChannelMediaContractApi = {
   resolveInboundAttachmentRoots?: (params: {

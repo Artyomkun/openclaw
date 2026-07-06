@@ -46,4 +46,4 @@ export type NodesRpcOpts = {
 };
 
 /** Node list, paired-node, and pending-request payload types from shared parsers. */
-export type { NodeListNode, PairedNode, PendingRequest } from "../../shared/node-list-types.js";
+export type { NodeListNode, PairedNode, PendingRequest } from "../../shared/node-list-types.ts";

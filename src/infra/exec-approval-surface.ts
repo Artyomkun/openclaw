@@ -4,13 +4,13 @@ import {
   getChannelPlugin,
   listChannelPlugins,
   resolveChannelApprovalCapability,
-} from "../channels/plugins/index.js";
-import { getRuntimeConfig, type OpenClawConfig } from "../config/config.js";
+} from "../channels/plugins/index.ts";
+import { getRuntimeConfig, type OpenClawConfig } from "../config/config.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
   normalizeMessageChannel,
-} from "../utils/message-channel.js";
+} from "../utils/message-channel.ts";
 
 /** Native approval availability for the channel/account that initiated an approval. */
 export type ExecApprovalInitiatingSurfaceState =

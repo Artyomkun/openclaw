@@ -3,7 +3,7 @@
  *
  * Centralizes zero-cost usage records and assistant message construction for simple stream transports.
  */
-import type { AssistantMessage, StopReason, Usage } from "../llm/types.js";
+import type { AssistantMessage, StopReason, Usage } from "../llm/types.ts";
 
 type StreamModelDescriptor = {
   api: string;

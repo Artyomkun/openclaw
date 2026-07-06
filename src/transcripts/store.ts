@@ -4,9 +4,9 @@ import type { Dirent } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { createInterface } from "node:readline";
-import type { TranscriptSessionDescriptor, TranscriptUtterance } from "./provider-types.js";
-import type { TranscriptsSummary } from "./summary.js";
-import { renderTranscriptsMarkdown } from "./summary.js";
+import type { TranscriptSessionDescriptor, TranscriptUtterance } from "./provider-types.ts";
+import type { TranscriptsSummary } from "./summary.ts";
+import { renderTranscriptsMarkdown } from "./summary.ts";
 
 /**
  * File-backed transcript session store.

@@ -4,12 +4,12 @@
  * Transport adapters use this module to turn provider-specific response bodies,
  * request ids, and binary payload guardrails into stable OpenClaw error shapes.
  */
-export { asFiniteNumber } from "../../packages/normalization-core/src/number-coercion.js";
+export { asFiniteNumber } from "../../packages/normalization-core/src/number-coercion.ts";
 import { readResponseWithLimit } from "@openclaw/media-core/read-response-with-limit";
-import { normalizeOptionalString as trimToUndefined } from "../../packages/normalization-core/src/string-coerce.js";
-import { redactSensitiveText } from "../logging/redact.js";
-export { asBoolean } from "../utils/boolean.js";
-export { normalizeOptionalString as trimToUndefined } from "../../packages/normalization-core/src/string-coerce.js";
+import { normalizeOptionalString as trimToUndefined } from "../../packages/normalization-core/src/string-coerce.ts";
+import { redactSensitiveText } from "../logging/redact.ts";
+export { asBoolean } from "../utils/boolean.ts";
+export { normalizeOptionalString as trimToUndefined } from "../../packages/normalization-core/src/string-coerce.ts";
 
 const ERROR_BODY_METADATA_LIMIT = 500;
 const PROVIDER_BINARY_RESPONSE_MAX_BYTES = 16 * 1024 * 1024;

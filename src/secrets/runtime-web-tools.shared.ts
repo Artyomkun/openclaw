@@ -1,18 +1,18 @@
 /** Shared helpers for web-tool secret metadata resolution. */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveSecretInputRef } from "../config/types.secrets.js";
-import { createLazyRuntimeNamedExport } from "../shared/lazy-runtime.js";
-import { setPathExistingStrict } from "./path-utils.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveSecretInputRef } from "../config/types.secrets.ts";
+import { createLazyRuntimeNamedExport } from "../shared/lazy-runtime.ts";
+import { setPathExistingStrict } from "./path-utils.ts";
 import type {
   ResolverContext,
   SecretDefaults,
   SecretResolverWarningCode,
-} from "./runtime-shared.js";
-import { pushInactiveSurfaceWarning, pushWarning } from "./runtime-shared.js";
-import type { RuntimeWebDiagnostic, RuntimeWebDiagnosticCode } from "./runtime-web-tools.types.js";
-export { isRecord } from "./shared.js";
-import { isRecord } from "./shared.js";
+} from "./runtime-shared.ts";
+import { pushInactiveSurfaceWarning, pushWarning } from "./runtime-shared.ts";
+import type { RuntimeWebDiagnostic, RuntimeWebDiagnosticCode } from "./runtime-web-tools.types.ts";
+export { isRecord } from "./shared.ts";
+import { isRecord } from "./shared.ts";
 
 const loadResolveManifestContractOwnerPluginId = createLazyRuntimeNamedExport(
   () => import("./runtime-web-tools-manifest.runtime.js"),

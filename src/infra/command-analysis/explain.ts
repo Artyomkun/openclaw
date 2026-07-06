@@ -1,10 +1,10 @@
 // Command-analysis display helpers turn parsed command policy data into small
 // warning summaries for approval surfaces without loading the rich parser path.
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { CommandExplanation, CommandRisk } from "../command-explainer/types.js";
-import type { ExecCommandSegment } from "../exec-approvals-analysis.js";
-import { analyzeCommandForPolicy } from "./policy.js";
-import { detectCommandCarrierArgv, detectInlineEvalInSegments } from "./risks.js";
+import type { CommandExplanation, CommandRisk } from "../command-explainer/types.ts";
+import type { ExecCommandSegment } from "../exec-approvals-analysis.ts";
+import { analyzeCommandForPolicy } from "./policy.ts";
+import { detectCommandCarrierArgv, detectInlineEvalInSegments } from "./risks.ts";
 
 /** Compact command explanation summary shown in approval UI. */
 export type CommandExplanationSummary = {

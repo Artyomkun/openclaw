@@ -1,13 +1,13 @@
 // Builds plugin registry inputs from installed plugin index records.
-import { normalizePluginsConfig } from "./config-state.js";
+import { normalizePluginsConfig } from "./config-state.ts";
 import {
   discoverOpenClawPlugins,
   type PluginCandidate,
   type PluginDiscoveryResult,
-} from "./discovery.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.js";
-import type { LoadInstalledPluginIndexParams } from "./installed-plugin-index-types.js";
-import { loadPluginManifestRegistry, type PluginManifestRegistry } from "./manifest-registry.js";
+} from "./discovery.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "./installed-plugin-index-record-reader.ts";
+import type { LoadInstalledPluginIndexParams } from "./installed-plugin-index-types.ts";
+import { loadPluginManifestRegistry, type PluginManifestRegistry } from "./manifest-registry.ts";
 
 /** Resolves discovery candidates and manifest registry for installed plugin index loading. */
 export function resolveInstalledPluginIndexRegistry(params: LoadInstalledPluginIndexParams): {

@@ -2,20 +2,20 @@
 // It converts scan/runtime state into table rows and section lines before rendering.
 
 import { timestampMsToIsoString } from "@openclaw/normalization-core/number-coercion";
-import type { ConnectPairingRequiredReason } from "../../packages/gateway-protocol/src/connect-error-details.js";
-import type { RenderTableOptions, TableColumn } from "../../packages/terminal-core/src/table.js";
-import type { HeartbeatEventPayload } from "../infra/heartbeat-events.js";
-import type { resolveOsSummary } from "../infra/os-summary.js";
-import type { PluginCompatibilityNotice } from "../plugins/status.js";
-import type { SecurityAuditReport } from "../security/audit.js";
-import type { HealthSummary } from "./health.js";
+import type { ConnectPairingRequiredReason } from "../../packages/gateway-protocol/src/connect-error-details.ts";
+import type { RenderTableOptions, TableColumn } from "../../packages/terminal-core/src/table.ts";
+import type { HeartbeatEventPayload } from "../infra/heartbeat-events.ts";
+import type { resolveOsSummary } from "../infra/os-summary.ts";
+import type { PluginCompatibilityNotice } from "../plugins/status.ts";
+import type { SecurityAuditReport } from "../security/audit.ts";
+import type { HealthSummary } from "./health.ts";
 import {
   buildStatusChannelsTableRows,
   statusChannelsTableColumns,
-} from "./status-all/channels-table.js";
+} from "./status-all/channels-table.ts";
 import { buildStatusCommandOverviewRows } from "./status-overview-rows.ts";
 import type { StatusOverviewSurface } from "./status-overview-surface.ts";
-import type { AgentLocalStatus } from "./status.agent-local.js";
+import type { AgentLocalStatus } from "./status.agent-local.ts";
 import {
   buildStatusFooterLines,
   buildStatusHealthRows,
@@ -28,9 +28,9 @@ import {
   buildStatusSystemEventsTrailer,
   statusHealthColumns,
   type StatusMemoryStateResolvers,
-} from "./status.command-sections.js";
-import type { MemoryPluginStatus, MemoryStatusSnapshot } from "./status.scan.shared.js";
-import type { SessionStatus, StatusSummary } from "./status.types.js";
+} from "./status.command-sections.ts";
+import type { MemoryPluginStatus, MemoryStatusSnapshot } from "./status.scan.shared.ts";
+import type { SessionStatus, StatusSummary } from "./status.types.ts";
 
 /** Builds all table rows, section lines, and footer data needed by the status report renderer. */
 export async function buildStatusCommandReportData(

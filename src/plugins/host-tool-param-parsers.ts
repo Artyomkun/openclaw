@@ -2,7 +2,7 @@
 import {
   extractApplyPatchTargetPaths,
   type ApplyPatchPathExtractionOptions,
-} from "../agents/apply-patch-paths.js";
+} from "../agents/apply-patch-paths.ts";
 
 /**
  * Derived metadata stamped on `before_tool_call` events for plugin handlers.

@@ -172,7 +172,6 @@ const VALID_ID_RE = /^[a-z0-9][a-z0-9_-]{0,63}$/i;
 const INVALID_CHARS_RE = /[^a-z0-9_-]+/g;
 const LEADING_DASH_RE = /^-+/;
 const TRAILING_DASH_RE = /-+$/;
-const LEGACY_STATE_DIRNAMES = [".clawdbot"] as const;
 const NEW_STATE_DIRNAME = ".openclaw";
 const DURATION_MULTIPLIERS: Record<string, number> = {
   ms: 1,
@@ -256,12 +255,7 @@ export function resolveUserPath(
   return path.resolve(trimmed);
 }
 
-/** Return legacy state roots in priority order. */
-function legacyStateDirs(homedir: () => string): string[] {
-  return LEGACY_STATE_DIRNAMES.map((dir) => path.join(homedir(), dir));
-}
-
-/** Resolve the current state root while preserving shipped legacy installs when present. */
+/** Resolve the current state root while preserving installs when present. */
 export function resolveStateDir(
   env: NodeJS.ProcessEnv = process.env,
   homedir: () => string = os.homedir,
@@ -275,15 +269,7 @@ export function resolveStateDir(
   if (env.OPENCLAW_TEST_FAST === "1" || fs.existsSync(nextDir)) {
     return nextDir;
   }
-  // Existing legacy state remains authoritative until an explicit migration creates .openclaw.
-  const existingLegacy = legacyStateDirs(effectiveHome).find((dir) => {
-    try {
-      return fs.existsSync(dir);
-    } catch {
-      return false;
-    }
-  });
-  return existingLegacy ?? nextDir;
+  return nextDir;
 }
 
 /** Resolve the default agent workspace, partitioned by OPENCLAW_PROFILE when set. */

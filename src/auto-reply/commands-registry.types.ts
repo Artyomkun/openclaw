@@ -1,9 +1,9 @@
 /** Type contracts for text/native chat command definitions and command detection. */
-import type { OpenClawConfig } from "../config/types.js";
-import type { CommandArgValues } from "./commands-args.types.js";
-import type { ThinkingCatalogEntry } from "./thinking.shared.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { CommandArgValues } from "./commands-args.types.ts";
+import type { ThinkingCatalogEntry } from "./thinking.shared.ts";
 
-export type { CommandArgValues, CommandArgs } from "./commands-args.types.js";
+export type { CommandArgValues, CommandArgs } from "./commands-args.types.ts";
 
 /** Where a command may be invoked. */
 export type CommandScope = "text" | "native" | "both";

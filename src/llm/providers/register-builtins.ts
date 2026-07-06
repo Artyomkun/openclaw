@@ -1,5 +1,5 @@
 // Built-in provider registration installs the bundled provider factories.
-import { registerApiProvider, unregisterApiProviders } from "../api-registry.js";
+import { registerApiProvider, unregisterApiProviders } from "../api-registry.ts";
 import type {
   Api,
   AssistantMessage,
@@ -9,16 +9,16 @@ import type {
   SimpleStreamOptions,
   StreamFunction,
   StreamOptions,
-} from "../types.js";
-import { AssistantMessageEventStream } from "../utils/event-stream.js";
-import type { AnthropicOptions } from "./anthropic.js";
-import type { AzureOpenAIResponsesOptions } from "./azure-openai-responses.js";
-import type { GoogleVertexOptions } from "./google-vertex.js";
-import type { GoogleOptions } from "./google.js";
-import type { MistralOptions } from "./mistral.js";
-import type { OpenAICodexResponsesOptions } from "./openai-chatgpt-responses.js";
-import type { OpenAICompletionsOptions } from "./openai-completions.js";
-import type { OpenAIResponsesOptions } from "./openai-responses.js";
+} from "../types.ts";
+import { AssistantMessageEventStream } from "../utils/event-stream.ts";
+import type { AnthropicOptions } from "./anthropic.ts";
+import type { AzureOpenAIResponsesOptions } from "./azure-openai-responses.ts";
+import type { GoogleVertexOptions } from "./google-vertex.ts";
+import type { GoogleOptions } from "./google.ts";
+import type { MistralOptions } from "./mistral.ts";
+import type { OpenAICodexResponsesOptions } from "./openai-chatgpt-responses.ts";
+import type { OpenAICompletionsOptions } from "./openai-completions.ts";
+import type { OpenAIResponsesOptions } from "./openai-responses.ts";
 
 // Lazy built-in provider registration keeps the main LLM stream facade cheap to import.
 interface LazyProviderModule<

@@ -1,6 +1,6 @@
 /** Builds the ACP available-command list exposed to compatible clients. */
 import type { AvailableCommand } from "@agentclientprotocol/sdk";
-import { getChatCommands } from "../auto-reply/commands-registry.data.js";
+import { getChatCommands } from "../auto-reply/commands-registry.data.ts";
 
 const BASE_AVAILABLE_COMMANDS: AvailableCommand[] = [
   { name: "help", description: "Show help and common commands." },

@@ -8,13 +8,13 @@ import {
   applyMutableIdentifierPolicy,
   effectiveGroupSenderAllowlist,
   redactedAllowlistDiagnostics,
-} from "./allowlist.js";
+} from "./allowlist.ts";
 import type {
   AccessGraphGate,
   ChannelIngressPolicyInput,
   ChannelIngressState,
   ResolvedIngressAllowlist,
-} from "./types.js";
+} from "./types.ts";
 
 function senderGate(params: {
   id: "sender:dm" | "sender:group";

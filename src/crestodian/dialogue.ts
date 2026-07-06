@@ -1,12 +1,12 @@
 // Crestodian dialogue parses direct commands and optionally asks the assistant planner.
-import type { RuntimeEnv } from "../runtime.js";
-import type { CrestodianAssistantPlan, CrestodianAssistantPlanner } from "./assistant.js";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { CrestodianAssistantPlan, CrestodianAssistantPlanner } from "./assistant.ts";
 import {
   describeCrestodianPersistentOperation,
   parseCrestodianOperation,
   type CrestodianOperation,
-} from "./operations.js";
-import { loadCrestodianOverview, type CrestodianOverview } from "./overview.js";
+} from "./operations.ts";
+import { loadCrestodianOverview, type CrestodianOverview } from "./overview.ts";
 
 /**
  * Dialogue helpers for turning user text into Crestodian operations.

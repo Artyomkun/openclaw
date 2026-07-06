@@ -1,24 +1,24 @@
 // Implements `openclaw channels list` across runtime accounts, local config, and catalog-only entries.
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import type { ChannelPluginCatalogEntry } from "../../channels/plugins/catalog.js";
-import { isChannelVisibleInConfiguredLists } from "../../channels/plugins/exposure.js";
-import { listReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read-only.js";
-import { buildChannelAccountSnapshot } from "../../channels/plugins/status.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import type { ChannelPluginCatalogEntry } from "../../channels/plugins/catalog.ts";
+import { isChannelVisibleInConfiguredLists } from "../../channels/plugins/exposure.ts";
+import { listReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read-only.ts";
+import { buildChannelAccountSnapshot } from "../../channels/plugins/status.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.ts";
 import {
   normalizeRuntimeChannelAccountSnapshots,
   resolveChannelAccountStatusRows,
   type RuntimeChannelStatusPayload,
-} from "../../channels/status/read-model.js";
-import { callGateway } from "../../gateway/call.js";
-import { resolveMissingOfficialExternalChannelPluginRepairHint } from "../../plugins/official-external-plugin-repair-hints.js";
-import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { isCatalogChannelInstalled } from "../channel-setup/discovery.js";
-import { listTrustedChannelPluginCatalogEntries } from "../channel-setup/trusted-catalog.js";
-import { formatChannelAccountLabel, requireValidConfig } from "./shared.js";
+} from "../../channels/status/read-model.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { resolveMissingOfficialExternalChannelPluginRepairHint } from "../../plugins/official-external-plugin-repair-hints.ts";
+import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { isCatalogChannelInstalled } from "../channel-setup/discovery.ts";
+import { listTrustedChannelPluginCatalogEntries } from "../channel-setup/trusted-catalog.ts";
+import { formatChannelAccountLabel, requireValidConfig } from "./shared.ts";
 
 export type ChannelsListOptions = {
   json?: boolean;

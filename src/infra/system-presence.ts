@@ -7,8 +7,8 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveRuntimeServiceVersion } from "../version.js";
-import { pickBestEffortPrimaryLanIPv4 } from "./network-discovery-display.js";
+import { resolveRuntimeServiceVersion } from "../version.ts";
+import { pickBestEffortPrimaryLanIPv4 } from "./network-discovery-display.ts";
 
 export type SystemPresence = {
   host?: string;

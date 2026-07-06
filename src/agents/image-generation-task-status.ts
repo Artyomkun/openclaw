@@ -4,7 +4,7 @@
  * These wrap the shared media task status helpers with image-specific task kind,
  * source id, duplicate-guard timing, and prompt/status wording.
  */
-import type { TaskRecord } from "../tasks/task-registry.types.js";
+import type { TaskRecord } from "../tasks/task-registry.types.ts";
 import {
   buildActiveMediaGenerationTaskPromptContextForSession,
   buildMediaGenerationTaskStatusDetails,
@@ -14,7 +14,7 @@ import {
   findActiveMediaGenerationTaskForSession,
   findDuplicateGuardMediaGenerationTaskForSession,
   listActiveMediaGenerationTasksForSession,
-} from "./media-generation-task-status-shared.js";
+} from "./media-generation-task-status-shared.ts";
 
 export const IMAGE_GENERATION_TASK_KIND = "image_generation";
 const IMAGE_GENERATION_SOURCE_PREFIX = "image_generate";

@@ -3,22 +3,22 @@ import {
   normalizeOptionalString,
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.js";
-import { probeGateway } from "../../gateway/probe.js";
+import type { OpenClawConfig } from "../../config/types.ts";
+import { probeGateway } from "../../gateway/probe.ts";
 import {
   discoverGatewayBeacons,
   type GatewayBonjourBeacon,
-} from "../../infra/bonjour-discovery.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { pickGatewaySelfPresence } from "../gateway-presence.js";
-import { pickAutoSshTargetFromDiscovery } from "./discovery.js";
+} from "../../infra/bonjour-discovery.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { pickGatewaySelfPresence } from "../gateway-presence.ts";
+import { pickAutoSshTargetFromDiscovery } from "./discovery.ts";
 import {
   extractConfigSummary,
   resolveAuthForTarget,
   resolveProbeBudgetMs,
   type GatewayConfigSummary,
   type GatewayStatusTarget,
-} from "./helpers.js";
+} from "./helpers.ts";
 
 /** Single gateway status target plus probe details and derived display metadata. */
 export type GatewayStatusProbedTarget = {

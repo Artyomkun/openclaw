@@ -1,15 +1,15 @@
 /** Node-based daemon install plan builder for managed gateway services. */
-import { formatNodeServiceDescription } from "../daemon/constants.js";
-import { resolveNodeProgramArguments } from "../daemon/program-args.js";
-import { buildNodeServiceEnvironment } from "../daemon/service-env.js";
-import type { GatewayServiceEnvironmentValueSource } from "../daemon/service-types.js";
+import { formatNodeServiceDescription } from "../daemon/constants.ts";
+import { resolveNodeProgramArguments } from "../daemon/program-args.ts";
+import { buildNodeServiceEnvironment } from "../daemon/service-env.ts";
+import type { GatewayServiceEnvironmentValueSource } from "../daemon/service-types.ts";
 import {
   emitDaemonInstallRuntimeWarning,
   resolveDaemonInstallRuntimeInputs,
   resolveDaemonNodeBinDir,
-} from "./daemon-install-plan.shared.js";
-import type { DaemonInstallWarnFn } from "./daemon-install-runtime-warning.js";
-import type { GatewayDaemonRuntime } from "./daemon-runtime.js";
+} from "./daemon-install-plan.shared.ts";
+import type { DaemonInstallWarnFn } from "./daemon-install-runtime-warning.ts";
+import type { GatewayDaemonRuntime } from "./daemon-runtime.ts";
 
 type NodeInstallPlan = {
   programArguments: string[];

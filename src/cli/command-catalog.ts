@@ -1,5 +1,5 @@
 // Declarative CLI command catalog for startup policy and fast-path routing.
-import { hasFlag } from "./argv.js";
+import { hasFlag } from "./argv.ts";
 
 export type CliCommandPluginLoadPolicy =
   | "never"

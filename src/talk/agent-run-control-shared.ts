@@ -8,8 +8,8 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { RealtimeVoiceTool } from "./provider-types.js";
-import type { TalkEvent } from "./talk-events.js";
+import type { RealtimeVoiceTool } from "./provider-types.ts";
+import type { TalkEvent } from "./talk-events.ts";
 
 /** Provider-facing control modes for status, steering, cancellation, and follow-up work. */
 export const REALTIME_VOICE_AGENT_CONTROL_MODES = [

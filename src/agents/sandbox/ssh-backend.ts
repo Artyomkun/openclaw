@@ -9,18 +9,18 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import type {
   SandboxBackendCommandParams,
   SandboxBackendCommandResult,
-} from "./backend-handle.types.js";
+} from "./backend-handle.types.ts";
 import type {
   CreateSandboxBackendParams,
   SandboxBackendHandle,
   SandboxBackendManager,
-} from "./backend.types.js";
-import { resolveSandboxConfigForAgent } from "./config.js";
+} from "./backend.types.ts";
+import { resolveSandboxConfigForAgent } from "./config.ts";
 import {
   createRemoteShellSandboxFsBridge,
   type RemoteShellSandboxHandle,
-} from "./remote-fs-bridge.js";
-import { sanitizeEnvVars } from "./sanitize-env-vars.js";
+} from "./remote-fs-bridge.ts";
+import { sanitizeEnvVars } from "./sanitize-env-vars.ts";
 import {
   buildRemoteCommand,
   buildRemoteWorkdirValidationCommand,
@@ -32,7 +32,7 @@ import {
   runSshSandboxCommand,
   uploadDirectoryToSshTarget,
   type SshSandboxSession,
-} from "./ssh.js";
+} from "./ssh.ts";
 
 type PendingExec = {
   sshSession: SshSandboxSession;

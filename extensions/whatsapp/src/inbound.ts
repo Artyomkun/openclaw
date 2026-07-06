@@ -10,7 +10,6 @@ export {
 export { monitorWebInbox } from "./inbound/monitor.js";
 export type { WhatsAppInboundAdmission } from "./inbound/admission.js";
 export type {
-  LegacyFlatWebInboundMessage,
   WebInboundCallbackMessage,
   WebInboundMessage,
   WebInboundMessageInput,

@@ -7,13 +7,13 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.js";
-import type { SsrFPolicy } from "../infra/net/ssrf.js";
-import { logWarn } from "../logger.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
-import { convertHeicToJpeg } from "./media-services.js";
-import { extractPdfContent, type PdfExtractedImage } from "./pdf-extract.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.ts";
+import type { SsrFPolicy } from "../infra/net/ssrf.ts";
+import { logWarn } from "../logger.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import { convertHeicToJpeg } from "./media-services.ts";
+import { extractPdfContent, type PdfExtractedImage } from "./pdf-extract.ts";
 
 /** Image payload shape reused for extracted PDF images and normalized input images. */
 type InputImageContent = PdfExtractedImage;

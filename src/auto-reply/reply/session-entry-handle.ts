@@ -1,5 +1,5 @@
 // Narrow mutable handle for the active reply session entry.
-import type { SessionEntry } from "../../config/sessions.js";
+import type { SessionEntry } from "../../config/sessions.ts";
 
 export type ReplySessionEntryHandle = {
   get(sessionKey: string): SessionEntry | undefined;

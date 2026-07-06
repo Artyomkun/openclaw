@@ -1,8 +1,8 @@
 // Redaction helpers scrub secrets and sensitive identifiers from log output.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { compileConfigRegex } from "../security/config-regex.js";
-import { readLoggingConfig } from "./config.js";
-import { replacePatternBounded } from "./redact-bounded.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { compileConfigRegex } from "../security/config-regex.ts";
+import { readLoggingConfig } from "./config.ts";
+import { replacePatternBounded } from "./redact-bounded.ts";
 
 export type RedactSensitiveMode = "off" | "tools";
 export type RedactPattern = string | RegExp;

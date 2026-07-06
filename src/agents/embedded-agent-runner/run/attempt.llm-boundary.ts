@@ -1,16 +1,16 @@
 /**
  * Installs runtime-context and prompt-transform boundaries before LLM calls.
  */
-import { stripInboundMetadata } from "../../../auto-reply/reply/strip-inbound-meta.js";
-import { buildTimestampPrefix } from "../../../gateway/server-methods/agent-timestamp.js";
-import { INTER_SESSION_PROMPT_PREFIX_BASE } from "../../../sessions/input-provenance.js";
-import { stripHistoricalRuntimeContextCustomMessages } from "../../internal-runtime-context.js";
-import type { AgentMessage } from "../../runtime/index.js";
-import { stripToolResultDetails } from "../../session-transcript-repair.js";
-import { normalizeAssistantReplayContent } from "../replay-history.js";
-import { markTranscriptPromptText } from "../tool-result-context-guard.js";
-import { isRunnerToolCallBlockType } from "./attempt.tool-call-block-type.js";
-import type { RuntimeContextCustomMessage } from "./runtime-context-prompt.js";
+import { stripInboundMetadata } from "../../../auto-reply/reply/strip-inbound-meta.ts";
+import { buildTimestampPrefix } from "../../../gateway/server-methods/agent-timestamp.ts";
+import { INTER_SESSION_PROMPT_PREFIX_BASE } from "../../../sessions/input-provenance.ts";
+import { stripHistoricalRuntimeContextCustomMessages } from "../../internal-runtime-context.ts";
+import type { AgentMessage } from "../../runtime/index.ts";
+import { stripToolResultDetails } from "../../session-transcript-repair.ts";
+import { normalizeAssistantReplayContent } from "../replay-history.ts";
+import { markTranscriptPromptText } from "../tool-result-context-guard.ts";
+import { isRunnerToolCallBlockType } from "./attempt.tool-call-block-type.ts";
+import type { RuntimeContextCustomMessage } from "./runtime-context-prompt.ts";
 
 type LlmBoundaryOptions = {
   timezone?: string;

@@ -9,13 +9,13 @@ import {
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
-import type { AgentIdentityFile } from "../agents/identity-file.js";
-import { identityHasValues, loadAgentIdentityFromWorkspace } from "../agents/identity-file.js";
-import { listRouteBindings } from "../config/bindings.js";
-import type { IdentityConfig } from "../config/types.base.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId } from "../routing/session-key.js";
+} from "../agents/agent-scope.ts";
+import type { AgentIdentityFile } from "../agents/identity-file.ts";
+import { identityHasValues, loadAgentIdentityFromWorkspace } from "../agents/identity-file.ts";
+import { listRouteBindings } from "../config/bindings.ts";
+import type { IdentityConfig } from "../config/types.base.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
 
 export type AgentSummary = {
   id: string;

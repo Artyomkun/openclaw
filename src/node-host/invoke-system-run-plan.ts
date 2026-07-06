@@ -9,25 +9,25 @@ import {
 import type {
   SystemRunApprovalFileOperand,
   SystemRunApprovalPlan,
-} from "../infra/exec-approvals.js";
-import { resolveCommandResolutionFromArgv } from "../infra/exec-command-resolution.js";
-import { isInterpreterLikeSafeBin } from "../infra/exec-safe-bin-runtime-policy.js";
+} from "../infra/exec-approvals.ts";
+import { resolveCommandResolutionFromArgv } from "../infra/exec-command-resolution.ts";
+import { isInterpreterLikeSafeBin } from "../infra/exec-safe-bin-runtime-policy.ts";
 import {
   isBlockedShellWrapperCommand,
   POSIX_SHELL_WRAPPERS,
   normalizeExecutableToken,
   unwrapKnownDispatchWrapperInvocation,
   unwrapKnownShellMultiplexerInvocation,
-} from "../infra/exec-wrapper-resolution.js";
-import { sameFileIdentity } from "../infra/fs-safe-advanced.js";
-import { parseInlineOptionToken } from "../infra/inline-option-token.js";
+} from "../infra/exec-wrapper-resolution.ts";
+import { sameFileIdentity } from "../infra/fs-safe-advanced.ts";
+import { parseInlineOptionToken } from "../infra/inline-option-token.ts";
 import {
   advancePosixInlineOptionScan,
   POSIX_INLINE_COMMAND_FLAGS,
   resolveInlineCommandMatch,
-} from "../infra/shell-inline-command.js";
-import { formatExecCommand, resolveSystemRunCommandRequest } from "../infra/system-run-command.js";
-import { splitShellArgs } from "../utils/shell-argv.js";
+} from "../infra/shell-inline-command.ts";
+import { formatExecCommand, resolveSystemRunCommandRequest } from "../infra/system-run-command.ts";
+import { splitShellArgs } from "../utils/shell-argv.ts";
 
 /** File identity snapshot for the approved working directory. */
 export type ApprovedCwdSnapshot = {

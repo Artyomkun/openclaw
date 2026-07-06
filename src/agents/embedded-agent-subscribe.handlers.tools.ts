@@ -14,51 +14,51 @@ import {
 import {
   HEARTBEAT_RESPONSE_TOOL_NAME,
   normalizeHeartbeatToolResponse,
-} from "../auto-reply/heartbeat-tool-response.js";
-import { parseSessionThreadInfoFast } from "../config/sessions/thread-info.js";
+} from "../auto-reply/heartbeat-tool-response.ts";
+import { parseSessionThreadInfoFast } from "../config/sessions/thread-info.ts";
 import type {
   AgentApprovalEventData,
   AgentCommandOutputEventData,
   AgentItemEventData,
   AgentPatchSummaryEventData,
-} from "../infra/agent-events.js";
+} from "../infra/agent-events.ts";
 import {
   emitAgentApprovalEvent,
   emitAgentCommandOutputEvent,
   emitAgentEvent,
   emitAgentItemEvent,
   emitAgentPatchSummaryEvent,
-} from "../infra/agent-events.js";
-import type { ExecApprovalDecision } from "../infra/exec-approvals.js";
-import type { PluginHookAfterToolCallEvent } from "../plugins/types.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { truncateUtf16Safe } from "../utils.js";
-import { normalizeAcceptedSessionSpawnResult } from "./accepted-session-spawn.js";
+} from "../infra/agent-events.ts";
+import type { ExecApprovalDecision } from "../infra/exec-approvals.ts";
+import type { PluginHookAfterToolCallEvent } from "../plugins/types.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { truncateUtf16Safe } from "../utils.ts";
+import { normalizeAcceptedSessionSpawnResult } from "./accepted-session-spawn.ts";
 import {
   consumeAdjustedParamsForToolCall,
   consumePreExecutionBlockedToolCall,
   consumeStructuredReplaySafeToolCall,
-} from "./agent-tools.before-tool-call.state.js";
-import { REQUIRED_PARAM_GROUPS, type RequiredParamGroup } from "./agent-tools.params.js";
-import type { ApplyPatchSummary } from "./apply-patch.js";
-import type { ExecToolDetails } from "./bash-tools.exec-types.js";
-import { sanitizeForConsole } from "./console-sanitize.js";
-import { normalizeTextForComparison } from "./embedded-agent-helpers.js";
+} from "./agent-tools.before-tool-call.state.ts";
+import { REQUIRED_PARAM_GROUPS, type RequiredParamGroup } from "./agent-tools.params.ts";
+import type { ApplyPatchSummary } from "./apply-patch.ts";
+import type { ExecToolDetails } from "./bash-tools.exec-types.ts";
+import { sanitizeForConsole } from "./console-sanitize.ts";
+import { normalizeTextForComparison } from "./embedded-agent-helpers.ts";
 import {
   isDeliveredMessageToolOnlySourceReplyResult,
   isDeliveredMessagingToolResult,
-} from "./embedded-agent-message-tool-source-reply.js";
+} from "./embedded-agent-message-tool-source-reply.ts";
 import {
   isMessagingTool,
   isMessagingToolSendAction,
   isMessagingToolTargetEvidenceAction,
-} from "./embedded-agent-messaging.js";
-import { mergeEmbeddedRunReplayState } from "./embedded-agent-runner/replay-state.js";
+} from "./embedded-agent-messaging.ts";
+import { mergeEmbeddedRunReplayState } from "./embedded-agent-runner/replay-state.ts";
 import type {
   ToolCallSummary,
   ToolHandlerContext,
-} from "./embedded-agent-subscribe.handlers.types.js";
-import { isPromiseLike } from "./embedded-agent-subscribe.promise.js";
+} from "./embedded-agent-subscribe.handlers.types.ts";
+import { isPromiseLike } from "./embedded-agent-subscribe.promise.ts";
 import {
   collectMessagingMediaUrlsFromRecord,
   collectMessagingMediaUrlsFromToolResult,
@@ -74,13 +74,13 @@ import {
   isToolResultTimedOut,
   sanitizeToolArgs,
   sanitizeToolResult,
-} from "./embedded-agent-subscribe.tools.js";
-import { inferToolMetaFromArgs } from "./embedded-agent-utils.js";
-import { parseExecApprovalResultText } from "./exec-approval-result.js";
-import type { AgentEvent } from "./runtime/index.js";
-import { buildToolMutationState, isSameToolMutationAction } from "./tool-mutation.js";
-import { normalizeToolName } from "./tool-policy.js";
-import { readToolResultDetails } from "./tool-result-error.js";
+} from "./embedded-agent-subscribe.tools.ts";
+import { inferToolMetaFromArgs } from "./embedded-agent-utils.ts";
+import { parseExecApprovalResultText } from "./exec-approval-result.ts";
+import type { AgentEvent } from "./runtime/index.ts";
+import { buildToolMutationState, isSameToolMutationAction } from "./tool-mutation.ts";
+import { normalizeToolName } from "./tool-policy.ts";
+import { readToolResultDetails } from "./tool-result-error.ts";
 
 type ExecApprovalReplyModule = typeof import("../infra/exec-approval-reply.js");
 type HookRunnerGlobalModule = typeof import("../plugins/hook-runner-global.js");

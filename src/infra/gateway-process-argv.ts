@@ -19,8 +19,8 @@ export function isGatewayArgv(args: string[], opts?: { allowGatewayBinary?: bool
   const entryCandidates = [
     "dist/index.js",
     "dist/entry.js",
-    "openclaw.mjs",
-    "scripts/run-node.mjs",
+    "openclaw.ts",
+    "scripts/run-node.ts",
     "src/entry.ts",
     "src/index.ts",
   ];

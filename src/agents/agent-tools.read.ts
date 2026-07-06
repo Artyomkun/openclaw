@@ -7,22 +7,22 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { URL } from "node:url";
 import { detectMime } from "@openclaw/media-core/mime";
-import { isWindowsDrivePath } from "../infra/archive-path.js";
-import { toErrorObject } from "../infra/errors.js";
+import { isWindowsDrivePath } from "../infra/archive-path.ts";
+import { toErrorObject } from "../infra/errors.ts";
 import {
   canonicalPathFromExistingAncestor,
   root as fsRoot,
   FsSafeError,
-} from "../infra/fs-safe.js";
-import { expandHomePrefix, resolveOsHomeDir } from "../infra/home-dir.js";
-import { hasEncodedFileUrlSeparator, trySafeFileURLToPath } from "../infra/local-file-access.js";
-import { decodeWindowsTextFileBuffer } from "../infra/windows-encoding.js";
+} from "../infra/fs-safe.ts";
+import { expandHomePrefix, resolveOsHomeDir } from "../infra/home-dir.ts";
+import { hasEncodedFileUrlSeparator, trySafeFileURLToPath } from "../infra/local-file-access.ts";
+import { decodeWindowsTextFileBuffer } from "../infra/windows-encoding.ts";
 import {
   classifyMediaReferenceSource,
   normalizeMediaReferenceSource,
   resolveMediaReferenceSandboxPath,
-} from "../media/media-reference.js";
-import { sniffMimeFromBase64 } from "../media/sniff-mime-from-base64.js";
+} from "../media/media-reference.ts";
+import { sniffMimeFromBase64 } from "../media/sniff-mime-from-base64.ts";
 import {
   REQUIRED_PARAM_GROUPS,
   assertRequiredParams,
@@ -30,22 +30,22 @@ import {
   normalizeFileToolPathParam,
   normalizeFileToolPathParamsFromKeys,
   wrapToolParamValidation,
-} from "./agent-tools.params.js";
-import type { AnyAgentTool } from "./agent-tools.types.js";
-import type { ImageSanitizationLimits } from "./image-sanitization.js";
-import { toRelativeWorkspacePath } from "./path-policy.js";
-import type { AgentToolResult } from "./runtime/index.js";
-import { assertSandboxPath } from "./sandbox-paths.js";
-import type { SandboxFsBridge } from "./sandbox/fs-bridge.js";
-import { createEditTool, createReadTool, createWriteTool } from "./sessions/index.js";
-import { sanitizeToolResultImages } from "./tool-images.js";
+} from "./agent-tools.params.ts";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
+import type { ImageSanitizationLimits } from "./image-sanitization.ts";
+import { toRelativeWorkspacePath } from "./path-policy.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
+import { assertSandboxPath } from "./sandbox-paths.ts";
+import type { SandboxFsBridge } from "./sandbox/fs-bridge.ts";
+import { createEditTool, createReadTool, createWriteTool } from "./sessions/index.ts";
+import { sanitizeToolResultImages } from "./tool-images.ts";
 
 export {
   REQUIRED_PARAM_GROUPS,
   assertRequiredParams,
   getToolParamsRecord,
   wrapToolParamValidation,
-} from "./agent-tools.params.js";
+} from "./agent-tools.params.ts";
 
 // NOTE(steipete): Upstream read now does file-magic MIME detection; we keep the wrapper
 // to sanitize oversized images before they hit providers.

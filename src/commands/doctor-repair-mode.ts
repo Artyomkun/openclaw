@@ -1,6 +1,6 @@
 /** Resolves doctor repair mode from CLI flags, TTY state, and update environment. */
-import { isTruthyEnvValue } from "../infra/env.js";
-import type { DoctorOptions } from "./doctor.types.js";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import type { DoctorOptions } from "./doctor.types.ts";
 
 export type DoctorRepairMode = {
   shouldRepair: boolean;

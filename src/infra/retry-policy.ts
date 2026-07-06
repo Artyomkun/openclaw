@@ -1,7 +1,7 @@
 // Defines reusable retry envelopes for channel and network operations.
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { formatErrorMessage } from "./errors.js";
-import { type RetryConfig, resolveRetryConfig, retryAsync } from "./retry.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { formatErrorMessage } from "./errors.ts";
+import { type RetryConfig, resolveRetryConfig, retryAsync } from "./retry.ts";
 
 /** Runs an async operation with a policy-specific retry wrapper and optional log label. */
 export type RetryRunner = <T>(fn: () => Promise<T>, label?: string) => Promise<T>;

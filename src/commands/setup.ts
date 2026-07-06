@@ -7,14 +7,14 @@
 import fs from "node:fs/promises";
 import JSON5 from "json5";
 import { z } from "zod";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OptionalBootstrapFileName } from "../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { shortenHomePath } from "../utils.js";
-import { safeParseWithSchema } from "../utils/zod-parse.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OptionalBootstrapFileName } from "../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { shortenHomePath } from "../utils.ts";
+import { safeParseWithSchema } from "../utils/zod-parse.ts";
 
 const JsonRecordSchema = z.record(z.string(), z.unknown());
 

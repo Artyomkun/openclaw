@@ -1,15 +1,15 @@
 /** Stateful CronService facade around the locked service operation helpers. */
-import type { CronServiceContract, CronServiceRunResult } from "./service-contract.js";
-import type { CronListPageOptions } from "./service/list-page-types.js";
-import * as ops from "./service/ops.js";
+import type { CronServiceContract, CronServiceRunResult } from "./service-contract.ts";
+import type { CronListPageOptions } from "./service/list-page-types.ts";
+import * as ops from "./service/ops.ts";
 import {
   type CronServiceDeps,
   type CronWakeMode,
   createCronServiceState,
-} from "./service/state.js";
-import type { CronJob, CronJobCreate, CronJobPatch } from "./types.js";
+} from "./service/state.ts";
+import type { CronJob, CronJobCreate, CronJobPatch } from "./types.ts";
 
-export type { CronEvent, CronServiceDeps } from "./service/state.js";
+export type { CronEvent, CronServiceDeps } from "./service/state.ts";
 
 /** Public cron service facade that owns mutable scheduler state and delegates to locked ops. */
 export class CronService implements CronServiceContract {

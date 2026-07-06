@@ -1,6 +1,6 @@
 // Runtime task-flow types describe task-flow hooks and options for plugin runtimes.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { JsonValue, TaskFlowRecord } from "../../tasks/task-flow-registry.types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { JsonValue, TaskFlowRecord } from "../../tasks/task-flow-registry.types.ts";
 import type {
   TaskDeliveryState,
   TaskDeliveryStatus,
@@ -8,8 +8,8 @@ import type {
   TaskRecord,
   TaskRegistrySummary,
   TaskRuntime,
-} from "../../tasks/task-registry.types.js";
-import type { OpenClawPluginToolContext } from "../tool-types.js";
+} from "../../tasks/task-registry.types.ts";
+import type { OpenClawPluginToolContext } from "../tool-types.ts";
 
 export type ManagedTaskFlowRecord = TaskFlowRecord & {
   syncMode: "managed";

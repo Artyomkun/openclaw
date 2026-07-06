@@ -13,4 +13,4 @@ export {
   persistCliTurnTranscript,
   runAgentAttempt,
   sessionFileHasContent,
-} from "./attempt-execution.js";
+} from "./attempt-execution.ts";

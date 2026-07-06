@@ -4,12 +4,12 @@
  * coercion, and compact session labels.
  */
 import { parseStrictInteger } from "@openclaw/normalization-core/number-coercion";
-import { sliceUtf16Safe } from "../utils.js";
+import { sliceUtf16Safe } from "../utils.ts";
 import type {
   SandboxBackendExecSpec,
   SandboxBackendWorkdirValidation,
   SandboxBackendWorkdirValidator,
-} from "./sandbox/backend-handle.types.js";
+} from "./sandbox/backend-handle.types.ts";
 
 const CHUNK_LIMIT = 8 * 1024;
 
@@ -127,9 +127,9 @@ export function clampWithDefault(
   return Math.min(Math.max(value, min), max);
 }
 
-/** Reads a strict integer from the preferred env var or one legacy alias. */
-export function readEnvInt(key: string, legacyKey?: string) {
-  const raw = process.env[key] || (legacyKey ? process.env[legacyKey] : undefined);
+/** Reads a strict integer from the preferred env var or one alias. */
+export function readEnvInt(key: string) {
+  const raw = process.env[key];
   return parseStrictInteger(raw);
 }
 

@@ -7,19 +7,19 @@ import { uniqueStrings } from "@openclaw/normalization-core/string-normalization
 import {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../config/model-input.js";
-import type { AgentModelConfig } from "../config/types.agents-shared.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.js";
-import { listProfilesForProvider } from "./auth-profiles/profile-list.js";
-import type { AuthProfileStore } from "./auth-profiles/types.js";
-import { isToolAllowedByPolicyName } from "./tool-policy-match.js";
-import { DEFAULT_PLUGIN_TOOLS_ALLOWLIST_ENTRY } from "./tool-policy.js";
+} from "../config/model-input.ts";
+import type { AgentModelConfig } from "../config/types.agents-shared.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.types.ts";
+import { listProfilesForProvider } from "./auth-profiles/profile-list.ts";
+import type { AuthProfileStore } from "./auth-profiles/types.ts";
+import { isToolAllowedByPolicyName } from "./tool-policy-match.ts";
+import { DEFAULT_PLUGIN_TOOLS_ALLOWLIST_ENTRY } from "./tool-policy.ts";
 import {
   hasSnapshotCapabilityAvailability,
   hasSnapshotProviderEnvAvailability,
   loadCapabilityMetadataSnapshot,
-} from "./tools/manifest-capability-availability.js";
+} from "./tools/manifest-capability-availability.ts";
 
 /**
  * Plans optional media-tool factory registration from config, policy, capabilities, and auth.

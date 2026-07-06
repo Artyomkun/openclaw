@@ -1,9 +1,9 @@
 /** Quality contract, fallback, and audit helpers for compaction safeguard summaries. */
 import { localeLowercasePreservingWhitespace } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { extractKeywords, isQueryStopWordToken } from "../../memory-host-sdk/query.js";
-import type { CompactionSummarizationInstructions } from "../compaction.js";
-import { wrapUntrustedPromptDataBlock } from "../sanitize-for-prompt.js";
+import { extractKeywords, isQueryStopWordToken } from "../../memory-host-sdk/query.ts";
+import type { CompactionSummarizationInstructions } from "../compaction.ts";
+import { wrapUntrustedPromptDataBlock } from "../sanitize-for-prompt.ts";
 
 // Compaction summary quality helpers. They define the structured summary contract
 // and audit whether summaries preserve pending asks plus exact identifiers.

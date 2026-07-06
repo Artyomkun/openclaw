@@ -2,21 +2,16 @@
 import { createHash, createPrivateKey, sign as signJwt } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { request, type Dispatcher } from "undici";
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveStateDir } from "../config/paths.js";
-import type { DeviceIdentity } from "./device-identity.js";
-import { formatErrorMessage, toErrorObject } from "./errors.js";
-import { createAsyncLock, tryReadJson, writeJson } from "./json-files.js";
-import {
-  APNS_HTTP2_CANCEL_CODE,
-  appendApnsResponseBodyCapture,
-  connectApnsHttp2Session,
-  createApnsResponseBodyCapture,
-} from "./push-apns-http2.js";
+import { resolveStateDir } from "../config/paths.ts";
+import type { DeviceIdentity } from "./device-identity.ts";
+import { formatErrorMessage, toErrorObject } from "./errors.ts";
+import { createAsyncLock, tryReadJson, writeJson } from "./json-files.ts";
 import {
   type ApnsRelayConfig,
   type ApnsRelayPushResponse,
@@ -24,7 +19,7 @@ import {
   normalizeApnsRelayBaseUrl,
   resolveApnsRelayConfigFromEnv,
   sendApnsRelayPush,
-} from "./push-apns.relay.js";
+} from "./push-apns.relay.ts";
 
 type ApnsEnvironment = "sandbox" | "production";
 type ApnsTransport = "direct" | "relay";
@@ -60,6 +55,8 @@ export type ApnsAuthConfig = {
   teamId: string;
   keyId: string;
   privateKey: string;
+  // Инфраструктурное поле для реального HTTP/3 (опционально)
+  h3Dispatcher?: Dispatcher; 
 };
 
 type ApnsAuthConfigResolution = { ok: true; value: ApnsAuthConfig } | { ok: false; error: string };
@@ -93,6 +90,7 @@ type ApnsRequestParams = {
   timeoutMs: number;
   pushType: ApnsPushType;
   priority: "10" | "5";
+  h3Dispatcher?: Dispatcher;
 };
 
 type ApnsRequestResponse = { status: number; apnsId?: string; body: string };
@@ -240,8 +238,6 @@ function getApnsBearerToken(auth: ApnsAuthConfig, nowMs: number = Date.now()): s
     return cachedJwt.token;
   }
 
-  // APNs provider tokens are valid for one hour. Cache for slightly less so
-  // bursty wake/approval pushes avoid repeated ECDSA signing.
   const iat = Math.floor(nowMs / 1000);
   const header = toBase64UrlJson({ alg: "ES256", kid: auth.keyId, typ: "JWT" });
   const payload = toBase64UrlJson({ iss: auth.teamId, iat });
@@ -670,93 +666,70 @@ export async function resolveApnsAuthConfigFromEnv(
   }
 }
 
-async function sendApnsRequest(params: {
-  token: string;
-  topic: string;
-  environment: ApnsEnvironment;
-  bearerToken: string;
-  payload: object;
-  timeoutMs: number;
-  pushType: ApnsPushType;
-  priority: "10" | "5";
-}): Promise<ApnsRequestResponse> {
+/**
+ * Отправка Direct APNs запроса.
+ * Использует undici. Если в auth передан h3Dispatcher, запрос пойдет через него (HTTP/3),
+ * иначе используется стандартный HTTP/1.1 пул undici.
+ */
+async function sendApnsRequest(params: ApnsRequestParams): Promise<ApnsRequestResponse> {
   const authority =
     params.environment === "production"
       ? "https://api.push.apple.com"
       : "https://api.sandbox.push.apple.com";
 
+  const url = `${authority}/3/device/${params.token}`;
   const body = JSON.stringify(params.payload);
-  const requestPath = `/3/device/${params.token}`;
+  
+  const headers = {
+    "authorization": `bearer ${params.bearerToken}`,
+    "apns-topic": params.topic,
+    "apns-push-type": params.pushType,
+    "apns-priority": params.priority,
+    "apns-expiration": "0",
+    "content-type": "application/json",
+    "content-length": Buffer.byteLength(body).toString(),
+  };
 
-  const client = await connectApnsHttp2Session({
-    authority,
-    timeoutMs: params.timeoutMs,
-  });
+  let statusCode = 0;
+  let bodyText = "";
+  let apnsId: string | undefined;
 
-  return await new Promise((resolve, reject) => {
-    let settled = false;
-    const fail = (err: unknown) => {
-      if (settled) {
-        return;
+  try {
+    const response = await request(url, {
+      method: "POST",
+      headers,
+      body,
+      // Инжектим HTTP/3 диспетчер, если он предоставлен конфигурацией
+      ...(params.h3Dispatcher ? { dispatcher: params.h3Dispatcher } : {}),
+      signal: AbortSignal.timeout(params.timeoutMs),
+    });
+
+    statusCode = response.statusCode;
+    // Безопасное извлечение заголовка в undici (заголовки могут быть массивом или строкой)
+    const rawApnsId = response.headers["apns-id"];
+    apnsId = Array.isArray(rawApnsId) ? rawApnsId[0] : rawApnsId;
+
+    try {
+      for await (const chunk of response.body) {
+        bodyText += chunk;
       }
-      settled = true;
-      client.destroy();
-      reject(toErrorObject(err, "Non-Error rejection"));
-    };
-    const finish = (result: { status: number; apnsId?: string; body: string }) => {
-      if (settled) {
-        return;
-      }
-      settled = true;
-      client.close();
-      resolve(result);
-    };
+    } catch (readError) {
+      // SRE FIX: При таймауте или обрыве сети во время чтения, 
+      // обязательное освобождение стрима во избежание Memory Leak
+      response.body.dump();
+      throw readError;
+    }
+  } catch (error) {
+    if (error instanceof Error && error.name === 'TimeoutError') {
+      throw new Error(`APNs direct request timed out after ${params.timeoutMs}ms`);
+    }
+    throw error;
+  }
 
-    client.once("error", (err) => fail(err));
-
-    const req = client.request({
-      ":method": "POST",
-      ":path": requestPath,
-      authorization: `bearer ${params.bearerToken}`,
-      "apns-topic": params.topic,
-      "apns-push-type": params.pushType,
-      "apns-priority": params.priority,
-      "apns-expiration": "0",
-      "content-type": "application/json",
-      "content-length": Buffer.byteLength(body).toString(),
-    });
-
-    let statusCode = 0;
-    let apnsId: string | undefined;
-    const responseBody = createApnsResponseBodyCapture();
-
-    req.setEncoding("utf8");
-    req.setTimeout(params.timeoutMs, () => {
-      req.close(APNS_HTTP2_CANCEL_CODE);
-      fail(new Error(`APNs request timed out after ${params.timeoutMs}ms`));
-    });
-    req.on("response", (headers) => {
-      const statusHeader = headers[":status"];
-      statusCode = statusHeader ?? 0;
-      const idHeader = headers["apns-id"];
-      if (typeof idHeader === "string" && idHeader.trim().length > 0) {
-        apnsId = idHeader.trim();
-      }
-    });
-    req.on("data", (chunk) => {
-      if (typeof chunk === "string") {
-        appendApnsResponseBodyCapture(responseBody, chunk);
-      }
-    });
-    req.on("end", () => {
-      finish({ status: statusCode, apnsId, body: responseBody.text });
-    });
-    req.on("error", (err) => fail(err));
-
-    req.end(body);
-  });
+  return { status: statusCode, apnsId, body: bodyText };
 }
 
+// Остальные функции без изменений
 function resolveApnsTimeoutMs(timeoutMs: number | undefined): number {
   return resolveTimerTimeoutMs(timeoutMs, DEFAULT_APNS_TIMEOUT_MS, 1000);
 }
@@ -769,6 +742,7 @@ function resolveDirectSendContext(params: {
   topic: string;
   environment: ApnsEnvironment;
   bearerToken: string;
+  h3Dispatcher?: Dispatcher;
 } {
   const token = normalizeApnsToken(params.registration.token);
   if (!isLikelyApnsToken(token)) {
@@ -783,6 +757,7 @@ function resolveDirectSendContext(params: {
     topic,
     environment: params.registration.environment,
     bearerToken: getApnsBearerToken(params.auth),
+    h3Dispatcher: params.auth.h3Dispatcher,
   };
 }
 
@@ -853,7 +828,7 @@ async function sendDirectApnsPush(params: {
   pushType: ApnsPushType;
   priority: "10" | "5";
 }): Promise<ApnsPushResult> {
-  const { token, topic, environment, bearerToken } = resolveDirectSendContext({
+  const { token, topic, environment, bearerToken, h3Dispatcher } = resolveDirectSendContext({
     auth: params.auth,
     registration: params.registration,
   });
@@ -867,6 +842,7 @@ async function sendDirectApnsPush(params: {
     timeoutMs: resolveApnsTimeoutMs(params.timeoutMs),
     pushType: params.pushType,
     priority: params.priority,
+    h3Dispatcher,
   });
   return toPushResult({
     registration: params.registration,

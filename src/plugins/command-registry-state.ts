@@ -1,12 +1,12 @@
 // Stores plugin command registry state for the current process lifecycle.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
-import { normalizeAgentPromptSurfaceKind } from "./agent-prompt-surface-kind.js";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import { normalizeAgentPromptSurfaceKind } from "./agent-prompt-surface-kind.ts";
 import type {
   AgentPromptGuidance,
   AgentPromptSurfaceKind,
   OpenClawPluginCommandDefinition,
-} from "./types.js";
+} from "./types.ts";
 
 export type RegisteredPluginCommand = OpenClawPluginCommandDefinition & {
   pluginId: string;
@@ -74,15 +74,13 @@ export function listRegisteredPluginCommands(): RegisteredPluginCommand[] {
 
 export function listRegisteredPluginAgentPromptGuidance(params?: {
   surface?: AgentPromptSurfaceKind;
-  includeLegacyGlobalGuidance?: boolean;
 }): string[] {
   const lines: string[] = [];
   const seen = new Set<string>();
   for (const command of pluginCommands.values()) {
     for (const entry of command.agentPromptGuidance ?? []) {
       const trimmed = resolveAgentPromptGuidanceTextForSurface(entry, {
-        surface: params?.surface ? normalizeAgentPromptSurfaceKind(params.surface) : undefined,
-        includeLegacyGlobalGuidance: params?.includeLegacyGlobalGuidance ?? true,
+        surface: params?.surface ? normalizeAgentPromptSurfaceKind(params.surface) : undefined
       });
       if (!trimmed || seen.has(trimmed)) {
         continue;
@@ -98,18 +96,17 @@ function resolveAgentPromptGuidanceTextForSurface(
   entry: AgentPromptGuidance,
   params: {
     surface?: AgentPromptSurfaceKind;
-    includeLegacyGlobalGuidance: boolean;
   },
 ): string | undefined {
   if (typeof entry === "string") {
-    return params.includeLegacyGlobalGuidance ? entry.trim() : undefined;
+    return entry.trim();
   }
   const text = entry.text.trim();
   if (!params.surface) {
     return text;
   }
   if (!entry.surfaces || entry.surfaces.length === 0) {
-    return params.includeLegacyGlobalGuidance ? text : undefined;
+    return text;
   }
   return entry.surfaces.includes(params.surface) ? text : undefined;
 }

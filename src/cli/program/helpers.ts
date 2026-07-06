@@ -1,6 +1,6 @@
 // Shared Commander registration helpers for repeated options, positive ints, and lazy reparse args.
 import { InvalidArgumentError, type Command } from "commander";
-import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.js";
+import { parseStrictPositiveInteger } from "../../infra/parse-finite-number.ts";
 
 /** Commander option collector for repeatable string flags. */
 export function collectOption(value: string, previous: string[] = []): string[] {

@@ -3,11 +3,11 @@
  *
  * Lists pairing-capable channels and dispatches approval notifications through adapters.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import type { ChannelId } from "./channel-id.types.js";
-import type { ChannelPairingAdapter } from "./pairing.types.js";
-import { getChannelPlugin, listChannelPlugins } from "./registry.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import type { ChannelId } from "./channel-id.types.ts";
+import type { ChannelPairingAdapter } from "./pairing.types.ts";
+import { getChannelPlugin, listChannelPlugins } from "./registry.ts";
 
 export function listPairingChannels(): ChannelId[] {
   // Channel docking: pairing support is declared via plugin.pairing.

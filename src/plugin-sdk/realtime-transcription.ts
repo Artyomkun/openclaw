@@ -1,7 +1,7 @@
 /**
  * Public SDK subpath for realtime transcription provider types and session helpers.
  */
-export type { RealtimeTranscriptionProviderPlugin } from "../plugins/types.js";
+export type { RealtimeTranscriptionProviderPlugin } from "../plugins/types.ts";
 export type {
   RealtimeTranscriptionProviderConfig,
   RealtimeTranscriptionProviderConfiguredContext,
@@ -10,15 +10,15 @@ export type {
   RealtimeTranscriptionSession,
   RealtimeTranscriptionSessionCallbacks,
   RealtimeTranscriptionSessionCreateRequest,
-} from "../realtime-transcription/provider-types.js";
+} from "../realtime-transcription/provider-types.ts";
 export {
   canonicalizeRealtimeTranscriptionProviderId,
   getRealtimeTranscriptionProvider,
   listRealtimeTranscriptionProviders,
   normalizeRealtimeTranscriptionProviderId,
-} from "../realtime-transcription/provider-registry.js";
+} from "../realtime-transcription/provider-registry.ts";
 export {
   createRealtimeTranscriptionWebSocketSession,
   type RealtimeTranscriptionWebSocketSessionOptions,
   type RealtimeTranscriptionWebSocketTransport,
-} from "../realtime-transcription/websocket-session.js";
+} from "../realtime-transcription/websocket-session.ts";

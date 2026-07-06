@@ -1,4 +1,4 @@
-import type { CacheRetention } from "../types.js";
+import type { CacheRetention } from "../types.ts";
 
 /**
  * Resolve cache retention preference.

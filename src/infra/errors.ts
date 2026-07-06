@@ -1,5 +1,5 @@
 // Normalizes error objects for codes, names, messages, and redacted logs.
-import { redactSensitiveText } from "../logging/redact.js";
+import { redactSensitiveText } from "../logging/redact.ts";
 
 export function extractErrorCode(err: unknown): string | undefined {
   if (!err || typeof err !== "object") {

@@ -7,4 +7,4 @@ export {
   buildNoCapabilityModelConfiguredMessage,
   resolveCapabilityModelCandidates,
   throwCapabilityGenerationFailure,
-} from "../media-generation/runtime-shared.js";
+} from "../media-generation/runtime-shared.ts";

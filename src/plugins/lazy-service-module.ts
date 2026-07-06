@@ -1,6 +1,5 @@
 // Lazily resolves optional service modules without eager runtime imports.
-import { isTruthyEnvValue } from "../infra/env.js";
-import { toSafeImportPath } from "../shared/import-specifier.js";
+import { isTruthyEnvValue } from "../infra/env.ts";
 
 type LazyServiceModule = Record<string, unknown>;
 
@@ -8,8 +7,12 @@ export type LazyPluginServiceHandle = {
   stop: () => Promise<void>;
 };
 
-// oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Dynamic service exports are typed by the caller.
-function resolveExport<T>(mod: LazyServiceModule, names: string[]): T | null {
+type AsyncFunction<T = unknown> = (...args: unknown[]) => Promise<T>;
+
+function resolveExport<T extends AsyncFunction = AsyncFunction>(
+  mod: LazyServiceModule,
+  names: string[],
+): T | null {
   for (const name of names) {
     const value = mod[name];
     if (typeof value === "function") {
@@ -17,14 +20,6 @@ function resolveExport<T>(mod: LazyServiceModule, names: string[]): T | null {
     }
   }
   return null;
-}
-
-export async function defaultLoadOverrideModule(
-  specifier: string,
-  importModule: (specifier: string) => Promise<LazyServiceModule> = async (source: string) =>
-    await import(source),
-): Promise<LazyServiceModule> {
-  return importModule(toSafeImportPath(specifier));
 }
 
 export async function startLazyPluginServiceModule(params: {
@@ -43,7 +38,7 @@ export async function startLazyPluginServiceModule(params: {
 
   const overrideEnvVar = params.overrideEnvVar?.trim();
   const override = overrideEnvVar ? process.env[overrideEnvVar]?.trim() : undefined;
-  const loadOverrideModule = params.loadOverrideModule ?? defaultLoadOverrideModule;
+  const loadOverrideModule = params.loadOverrideModule;
   const validatedOverride =
     override && params.validateOverrideSpecifier
       ? params.validateOverrideSpecifier(override)
@@ -51,14 +46,16 @@ export async function startLazyPluginServiceModule(params: {
   const mod = validatedOverride
     ? await loadOverrideModule(validatedOverride)
     : await params.loadDefaultModule();
+
   const start = resolveExport<() => Promise<unknown>>(mod, params.startExportNames);
   if (!start) {
     return null;
   }
-  const stop =
-    params.stopExportNames && params.stopExportNames.length > 0
-      ? resolveExport<() => Promise<void>>(mod, params.stopExportNames)
-      : null;
+
+  let stop: (() => Promise<void>) | null = null;
+  if (params.stopExportNames && params.stopExportNames.length > 0) {
+    stop = resolveExport<() => Promise<void>>(mod, params.stopExportNames);
+  }
 
   await start();
   return {

@@ -1,8 +1,8 @@
 /** Public runtime parameter and result types for image generation calls. */
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { FallbackAttempt } from "../agents/model-fallback.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { SsrFPolicy } from "../infra/net/ssrf.js";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { FallbackAttempt } from "../agents/model-fallback.types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { SsrFPolicy } from "../infra/net/ssrf.ts";
 import type {
   GeneratedImageAsset,
   ImageGenerationBackground,
@@ -14,7 +14,7 @@ import type {
   ImageGenerationQuality,
   ImageGenerationResolution,
   ImageGenerationSourceImage,
-} from "./types.js";
+} from "./types.ts";
 
 export type GenerateImageParams = {
   cfg: OpenClawConfig;

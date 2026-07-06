@@ -1,5 +1,5 @@
 /** Tracks in-process cron executions so schedulers and wake paths avoid duplicate runs. */
-import { resolveGlobalSingleton } from "../shared/global-singleton.js";
+import { resolveGlobalSingleton } from "../shared/global-singleton.ts";
 
 type CronActiveJobState = {
   activeJobs: Map<string, CronActiveJobMarker>;
@@ -15,7 +15,6 @@ export type CronActiveJobMarker = {
   jobId: string;
   generation: number;
   token: number;
-  legacy?: boolean;
   preserveAcrossGenerationAdvance?: boolean;
 };
 
@@ -35,8 +34,8 @@ function getCronActiveJobState(): CronActiveJobState {
   state.emptyWaiters ??= new Set<() => void>();
   state.activeJobIds ??= new Set<string>();
   if (state.activeJobIds) {
-    for (const [jobId, marker] of state.activeJobs) {
-      if (marker.legacy === true && !state.activeJobIds.has(jobId)) {
+    for (const [jobId] of state.activeJobs) {
+      if (!state.activeJobIds.has(jobId)) {
         state.activeJobs.delete(jobId);
       }
     }
@@ -45,8 +44,7 @@ function getCronActiveJobState(): CronActiveJobState {
         state.activeJobs.set(jobId, {
           jobId,
           generation: state.generation,
-          token: state.nextToken,
-          legacy: true,
+          token: state.nextToken
         });
         state.nextToken += 1;
       }

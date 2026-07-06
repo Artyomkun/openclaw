@@ -1,8 +1,8 @@
 // Lazy command-group registration: placeholder commands are replaced by real subcommand groups.
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
 import type { Command } from "commander";
-import { removeCommandByName } from "./command-tree.js";
-import { registerLazyCommand } from "./register-lazy-command.js";
+import { removeCommandByName } from "./command-tree.ts";
+import { registerLazyCommand } from "./register-lazy-command.ts";
 
 /** Placeholder command shown before its lazy group is loaded. */
 export type CommandGroupPlaceholder = {

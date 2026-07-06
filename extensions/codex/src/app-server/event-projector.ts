@@ -323,14 +323,11 @@ export class CodexAppServerEventProjector {
     ).join("\n\n");
     const planText = collectTextValues(this.planTextByItem).join("\n\n");
     const hasAssistantItemText = this.hasAssistantItemTextForSynthesis();
-    const legacyFailClosed =
-      !this.completedTurn || this.completedTurn.status !== "completed" || hasAssistantItemText;
     const hasDeliverableAssistantOnCompletedTurn =
       this.completedTurn?.status === "completed" &&
       assistantTexts.some((text) => text.trim().length > 0);
     this.synthesizeMissingToolResults({
-      synthesize: legacyFailClosed,
-      recordPromptError: legacyFailClosed && !hasDeliverableAssistantOnCompletedTurn,
+      recordPromptError: !hasDeliverableAssistantOnCompletedTurn,
     });
     const lastAssistant =
       assistantTexts.length > 0
@@ -553,7 +550,7 @@ export class CodexAppServerEventProjector {
           ...(replaceable ? { replaceable: true as const } : {}),
         },
       });
-      // Legacy channel preview callbacks are append-oriented and do not all
+      // Channel preview callbacks are append-oriented and do not all
       // understand replacement snapshots. Keep them on the known final-answer
       // path; replaceable snapshots stay on the typed agent-event path.
       if (knownFinalAnswer && !replaceable) {
@@ -1583,12 +1580,8 @@ export class CodexAppServerEventProjector {
   }
 
   private synthesizeMissingToolResults(params: {
-    synthesize: boolean;
     recordPromptError: boolean;
   }): void {
-    if (!params.synthesize) {
-      return;
-    }
     const missingTranscriptIds = [...this.toolTranscriptCallIds].filter(
       (id) => !this.toolTranscriptResultIds.has(id),
     );

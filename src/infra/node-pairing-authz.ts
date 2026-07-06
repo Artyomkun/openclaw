@@ -1,5 +1,5 @@
 // Maps node pairing command declarations to required operator scopes.
-import { NODE_SYSTEM_RUN_COMMANDS } from "./node-commands.js";
+import { NODE_SYSTEM_RUN_COMMANDS } from "./node-commands.ts";
 
 /** Operator scopes required to approve a pending node pairing surface. */
 export type NodeApprovalScope = "operator.pairing" | "operator.write" | "operator.admin";

@@ -36,12 +36,12 @@ export type { CopilotClientPool, CopilotClientPoolOptions };
 const COPILOT_PROVIDER_IDS: ReadonlySet<string> = new Set(["github-copilot"]);
 
 export interface CreateCopilotAgentHarnessOptions {
-  id?: string;
-  label?: string;
-  pluginConfig?: unknown;
-  pool?: CopilotClientPool;
-  poolOptions?: CopilotClientPoolOptions;
-  sessionStore?: CopilotSessionBindingStore;
+  id: string;
+  label: string;
+  pluginConfig: string;
+  pool: CopilotClientPool;
+  poolOptions: CopilotClientPoolOptions;
+  sessionStore: CopilotSessionBindingStore;
 }
 
 interface TrackedSession {
@@ -50,13 +50,6 @@ interface TrackedSession {
   clientOptions: ClientCreateOptions;
   poolKey: PoolKey;
   sessionConfig: CopilotSessionConfig;
-  // Compatibility fingerprint of the params that created the SDK
-  // session. We only reuse the tracked SDK session when the next
-  // attempt's fingerprint matches — different provider/model/cwd/auth
-  // configurations should start a fresh SDK session rather than resume
-  // one bound to incompatible state. Mismatch falls back to
-  // `createSession` (no resume injection) and the new sdkSessionId
-  // replaces this entry via `onSessionEstablished`.
   compatKey: string;
   compactKey: string;
   authMode: "gitHubToken" | "useLoggedInUser" | "byok";
@@ -101,13 +94,6 @@ export type CopilotSessionBinding = {
   updatedAt: number;
 };
 
-type LegacyCopilotSessionBinding = {
-  schemaVersion: 1;
-  sdkSessionId: string;
-  compatKey: string;
-  updatedAt: number;
-};
-
 type CopilotAttemptSessionBinding = Pick<CopilotSessionBinding, "compatKey" | "sdkSessionId">;
 type DeferredCompactionCleanupOutcome = "aborted" | "completed" | "deadline";
 type DeferredCompactionCleanup = {
@@ -124,6 +110,35 @@ type CopilotSessionAuth = Pick<
   CopilotSessionBinding,
   "authMode" | "authProfileId" | "authProfileVersion"
 >;
+
+type CopilotSessionCompatParams = AgentHarnessAttemptParams | AgentHarnessCompactParams & {
+  model: ModelConfig | string;
+  runtimeModel: ModelConfig;
+  profileVersion: string;
+  resolvedApiKey: string;
+  sessionKey: string;
+  workspaceDir: string;
+};
+
+type ModelConfig = {
+  api: string;
+  id: string;
+  provider: string;
+  baseUrl: string;
+  azureApiVersion: string;
+  headers: string;
+  authHeader: boolean;
+  params: string;
+  request: {
+    auth: { mode: "openai" | "azure" | "anthropic" | "custom" };
+    proxy: string;
+    tls: boolean;
+    allowPrivateNetwork: boolean;
+  };
+  contextTokens: number;
+  contextWindow: number;
+  maxTokens: number;
+};
 
 function sessionAuthFields(auth: CopilotSessionAuth): CopilotSessionAuth {
   return auth.authMode === "gitHubToken" || auth.authMode === "byok"
@@ -190,76 +205,61 @@ function normalizeBinding(
   };
 }
 
-function normalizeAttemptBinding(value: unknown): CopilotAttemptSessionBinding | undefined {
-  const current = normalizeBinding(value as CopilotSessionBinding | undefined);
+function normalizeAttemptBinding(value: CopilotSessionBinding): CopilotAttemptSessionBinding | undefined {
+  const current = normalizeBinding(value as CopilotSessionBinding);
   if (current) {
     return current;
   }
-  const legacy = value as LegacyCopilotSessionBinding | undefined;
-  if (
-    !legacy ||
-    legacy.schemaVersion !== 1 ||
-    typeof legacy.sdkSessionId !== "string" ||
-    legacy.sdkSessionId.trim() === "" ||
-    typeof legacy.compatKey !== "string" ||
-    legacy.compatKey.trim() === "" ||
-    typeof legacy.updatedAt !== "number" ||
-    !Number.isFinite(legacy.updatedAt)
-  ) {
-    return undefined;
-  }
-  return {
-    sdkSessionId: legacy.sdkSessionId.trim(),
-    compatKey: legacy.compatKey,
-  };
+  return undefined;
 }
 
 function lookupStoredBinding(
-  store: CopilotSessionBindingStore | undefined,
+  store: CopilotSessionBindingStore,
   key: string,
 ): CopilotAttemptSessionBinding | undefined {
   try {
     return normalizeAttemptBinding(store?.lookup(key));
-  } catch {
+  } catch (err) {
+    console.warn(`[copilot] Failed to lookup stored binding for ${key}:`, err);
     try {
       store?.delete(key);
-    } catch {
-      // Durable binding cleanup is best-effort; the turn can create a fresh SDK session.
+    } catch (deleteErr) {
+      console.warn(`[copilot] Failed to delete invalid binding for ${key}:`, deleteErr);
     }
     return undefined;
   }
 }
 
 function registerStoredBinding(
-  store: CopilotSessionBindingStore | undefined,
+  store: CopilotSessionBindingStore,
   key: string,
   binding: CopilotSessionBinding,
 ): boolean {
   try {
     store?.register(key, binding);
     return true;
-  } catch {
+  } catch (err) {
+    console.warn(`[copilot] Failed to register stored binding for ${key}:`, err);
     try {
       store?.delete(key);
-    } catch {
-      // A failed invalidation just degrades to in-memory reuse for this process.
+    } catch (deleteErr) {
+      console.warn(`[copilot] Failed to delete failed binding for ${key}:`, deleteErr);
     }
-    // The in-memory binding still keeps this process warm; persistence is an optimization.
     return false;
   }
 }
 
-function deleteStoredBinding(store: CopilotSessionBindingStore | undefined, key: string): boolean {
+function deleteStoredBinding(store: CopilotSessionBindingStore, key: string): boolean {
   try {
     store?.delete(key);
     return true;
-  } catch {
-    // Reset must still clear tracked SDK sessions even if plugin state is unhealthy.
+  } catch (err) {
+    console.warn(`[copilot] Failed to delete binding for ${key}:`, err);
     return false;
   }
 }
 
-function throwIfAborted(signal: AbortSignal | undefined): void {
+function throwIfAborted(signal: AbortSignal): void {
   if (!signal?.aborted) {
     return;
   }
@@ -272,7 +272,7 @@ function throwIfAborted(signal: AbortSignal | undefined): void {
   throw error;
 }
 
-function isStaleSdkSessionError(error: unknown): boolean {
+function isStaleSdkSessionError(error: Error): boolean {
   const message = error instanceof Error ? error.message : String(error);
   return /\b(404|not found|no such session|unknown session|stale|deleted|does not exist)\b/i.test(
     message,
@@ -294,7 +294,7 @@ async function compactTrackedSdkSession(params: {
     continuePendingWork: false,
     ...(params.gitHubToken ? { gitHubToken: params.gitHubToken } : {}),
     suppressResumeEvent: true,
-  })) as unknown as CopilotHistoryCompactSession;
+  })) as CopilotHistoryCompactSession;
   params.onSession?.(session);
   const request = params.customInstructions?.trim()
     ? { customInstructions: params.customInstructions }
@@ -305,207 +305,56 @@ async function compactTrackedSdkSession(params: {
   } finally {
     try {
       await session.disconnect();
-    } catch {
-      // Preserve the compaction or cancellation outcome; cleanup is best-effort here.
+    } catch (err) {
+      console.warn('[copilot] Failed to disconnect session:', err);
     }
   }
 }
 
-// Build a string fingerprint of the attempt params that must agree
-// across turns for SDK-session reuse to be safe. Keep this list
-// conservative: any field whose change would invalidate the SDK
-// session's bound state belongs here. Token / auth profile rotation
-// produces a new fingerprint so we don't replay a session against a
-// stale credential.
-//
-// Auth identity is derived from `resolveCopilotAuth(...)` — the same
-// function `resolvePoolAcquire` uses to build the pool key. That
-// ensures the compat key tracks the EFFECTIVE auth (which can come
-// from the legacy `auth.*` subobject, the contract-resolved
-// top-level `resolvedApiKey` + `authProfileId`, or the env-var
-// fallback) rather than any single one of those raw inputs. The
-// `authProfileVersion` field is a non-secret sha256 fingerprint of
-// the token (see `tokenFingerprint` in `src/auth-bridge.ts`), so
-// rotating the token under the same profile id still invalidates
-// the compat key without ever serializing the raw credential.
-type CopilotSessionCompatParams = AgentHarnessAttemptParams | AgentHarnessCompactParams;
-
-function readAgentIdFromSessionKey(sessionKey: unknown): string | undefined {
-  if (typeof sessionKey !== "string") {
-    return undefined;
+function readAgentIdFromSessionKey(sessionKey: string): { ok: true; agentId: string } | { ok: false; error: string } {
+  if (sessionKey.trim() === "") {
+    return { ok: false, error: "Invalid sessionKey: must be a non-empty string" };
   }
   const parts = sessionKey.trim().split(":");
-  return parts[0] === "agent" && parts[1]?.trim() ? parts[1].trim() : undefined;
+  if (parts[0] !== "agent" || !parts[1]?.trim()) {
+    return { ok: false, error: "Invalid sessionKey format: expected 'agent:<agentId>:...'" };
+  }
+  return { ok: true, agentId: parts[1].trim() };
 }
 
 function computeSessionKey(
   params: CopilotSessionCompatParams,
   options: { includeApi: boolean; includeAuth: boolean },
 ): string {
-  const p = params as CopilotSessionCompatParams & {
-    auth?: {
-      gitHubToken?: string;
-      profileId?: string;
-      profileVersion?: string;
-      useLoggedInUser?: boolean;
-    };
-    agentId?: string;
-    agentDir?: string;
-    authProfileId?: string;
-    copilotHome?: string;
-    cwd?: string;
-    modelId?: string;
-    model?:
-      | {
-          api?: string;
-          id?: string;
-          provider?: string;
-          baseUrl?: string;
-          azureApiVersion?: string;
-          headers?: Record<string, string | null | undefined>;
-          authHeader?: boolean;
-          params?: Record<string, unknown>;
-          request?: {
-            auth?: { mode?: unknown };
-            proxy?: unknown;
-            tls?: unknown;
-            allowPrivateNetwork?: unknown;
-          };
-          contextTokens?: number;
-          contextWindow?: number;
-          maxTokens?: number;
-        }
-      | string;
-    runtimeModel?: {
-      api?: string;
-      id?: string;
-      provider?: string;
-      baseUrl?: string;
-      azureApiVersion?: string;
-      headers?: Record<string, string | null | undefined>;
-      authHeader?: boolean;
-      params?: Record<string, unknown>;
-      request?: {
-        auth?: { mode?: unknown };
-        proxy?: unknown;
-        tls?: unknown;
-        allowPrivateNetwork?: unknown;
-      };
-      contextTokens?: number;
-      contextWindow?: number;
-      maxTokens?: number;
-    };
-    profileVersion?: string;
-    resolvedApiKey?: string;
-    sessionKey?: string;
-    workspaceDir?: string;
-  };
-  const modelObj: {
-    api?: string;
-    id?: string;
-    provider?: string;
-    baseUrl?: string;
-    azureApiVersion?: string;
-    headers?: Record<string, string | null | undefined>;
-    authHeader?: boolean;
-    params?: Record<string, unknown>;
-    request?: {
-      auth?: { mode?: unknown };
-      proxy?: unknown;
-      tls?: unknown;
-      allowPrivateNetwork?: unknown;
-    };
-    contextTokens?: number;
-    contextWindow?: number;
-    maxTokens?: number;
-  } =
-    p.model && typeof p.model === "object"
-      ? p.model
-      : p.runtimeModel && typeof p.runtimeModel === "object"
-        ? p.runtimeModel
-      : { id: typeof p.model === "string" ? p.model : undefined };
-  const provider = modelObj.provider ?? (typeof p.provider === "string" ? p.provider : "");
-  const modelId =
-    modelObj.id ??
-    (typeof p.modelId === "string" ? p.modelId : undefined) ??
-    (typeof p.model === "string" ? p.model : "");
-  const requestTransport =
-    p.model && typeof p.model === "object" ? getModelProviderRequestTransport(p.model) : undefined;
+  const p = params;
+  const modelObj: ModelConfig = p.runtimeModel;
+  const provider = p.provider;
+  const modelId = p.modelId;
+  const requestTransport = getModelProviderRequestTransport(p.model);
+
   const requestAuthMode = readSessionString(
     requestTransport?.auth?.mode ?? modelObj.request?.auth?.mode,
   );
+
   const azureApiVersion = readSessionString(
     modelObj.azureApiVersion ?? modelObj.params?.azureApiVersion,
   );
-  // resolveCopilotAuth can throw when an explicit `auth.gitHubToken`
-  // is supplied without profileId + profileVersion (the existing
-  // pool-key safety invariant). That same error would surface
-  // immediately afterwards from `resolvePoolAcquire` inside
-  // `runCopilotAttempt`, so we don't want to mask it here — but
-  // we also can't include random / time-based data in the compat key
-  // (would break the deterministic equality check). Use a stable
-  // sentinel that will never match any previously-tracked compat key.
-  let authParts: string[];
+
+  let authParts: string[] = [];
   let resolvedAgentId = "";
   let resolvedCopilotHome = "";
+
   try {
     const resolved = !options.includeAuth
       ? resolveCopilotAuth({
-          agentId:
-            typeof p.agentId === "string" ? p.agentId : readAgentIdFromSessionKey(p.sessionKey),
-          agentDir: typeof p.agentDir === "string" ? p.agentDir : undefined,
-          workspaceDir: typeof p.workspaceDir === "string" ? p.workspaceDir : undefined,
-          copilotHome: typeof p.copilotHome === "string" ? p.copilotHome : undefined,
+          agentId: p.agentId,
+          agentDir: p.agentDir,
+          workspaceDir: p.workspaceDir,
+          copilotHome: p.copilotHome,
           auth: { useLoggedInUser: true },
         })
-      : (() => {
-          const modelProvider = resolveCopilotProvider({
-            model: {
-              api: modelObj.api,
-              id: modelId,
-              provider,
-              baseUrl: modelObj.baseUrl,
-              azureApiVersion,
-              headers: modelObj.headers,
-              authHeader: modelObj.authHeader,
-              requestAuthMode,
-              requestProxy: requestTransport?.proxy ?? modelObj.request?.proxy,
-              requestTls: requestTransport?.tls ?? modelObj.request?.tls,
-              requestAllowPrivateNetwork:
-                requestTransport?.allowPrivateNetwork ?? modelObj.request?.allowPrivateNetwork,
-              contextTokens: modelObj.contextTokens,
-              contextWindow: modelObj.contextWindow,
-              maxTokens: modelObj.maxTokens,
-            },
-            resolvedApiKey: typeof p.resolvedApiKey === "string" ? p.resolvedApiKey : undefined,
-            authProfileId: typeof p.authProfileId === "string" ? p.authProfileId : undefined,
-          });
-          return modelProvider.mode === "byok"
-            ? createCopilotByokAuth({
-                agentId:
-                  typeof p.agentId === "string"
-                    ? p.agentId
-                    : readAgentIdFromSessionKey(p.sessionKey),
-                agentDir: typeof p.agentDir === "string" ? p.agentDir : undefined,
-                workspaceDir: typeof p.workspaceDir === "string" ? p.workspaceDir : undefined,
-                copilotHome: typeof p.copilotHome === "string" ? p.copilotHome : undefined,
-                authProfileId: modelProvider.authProfileId,
-                authProfileVersion: modelProvider.authProfileVersion,
-              })
-            : resolveCopilotAuth({
-                agentId:
-                  typeof p.agentId === "string"
-                    ? p.agentId
-                    : readAgentIdFromSessionKey(p.sessionKey),
-                agentDir: typeof p.agentDir === "string" ? p.agentDir : undefined,
-                workspaceDir: typeof p.workspaceDir === "string" ? p.workspaceDir : undefined,
-                copilotHome: typeof p.copilotHome === "string" ? p.copilotHome : undefined,
-                auth: p.auth,
-                resolvedApiKey: typeof p.resolvedApiKey === "string" ? p.resolvedApiKey : undefined,
-                authProfileId: typeof p.authProfileId === "string" ? p.authProfileId : undefined,
-                profileVersion: typeof p.profileVersion === "string" ? p.profileVersion : undefined,
-              });
-        })();
+      : resolveCopilotAuthWithProvider(p, modelObj, modelId, provider, requestTransport, azureApiVersion);
+
     resolvedAgentId = resolved.agentId;
     resolvedCopilotHome = resolved.copilotHome;
     authParts = [
@@ -516,28 +365,79 @@ function computeSessionKey(
     if (!options.includeAuth) {
       authParts = [];
     }
-  } catch {
+  } catch (err) {
+    console.warn('[copilot] Failed to resolve auth:', err);
     authParts = ["auth=unresolvable"];
   }
+
   const parts = [
     `provider=${provider}`,
     `model=${modelId}`,
     ...(options.includeApi ? [`api=${modelObj.api ?? ""}`] : []),
-    ...(options.includeApi
-      ? [`baseUrlFingerprint=${fingerprintSessionValue(modelObj.baseUrl)}`]
-      : []),
+    ...(options.includeApi ? [`baseUrlFingerprint=${fingerprintSessionValue(modelObj.baseUrl)}`] : []),
     `cwd=${p.cwd ?? p.workspaceDir ?? ""}`,
     `agentId=${resolvedAgentId}`,
     `agentDir=${p.agentDir ?? ""}`,
     `copilotHome=${p.copilotHome ?? ""}`,
     `resolvedCopilotHome=${resolvedCopilotHome}`,
-    ...(options.includeAuth ? authParts : []),
+    ...authParts,
   ];
+
   return parts.join("|");
 }
 
-function readSessionString(value: unknown): string | undefined {
-  return typeof value === "string" && value.trim() ? value.trim() : undefined;
+function resolveCopilotAuthWithProvider(
+  p: CopilotSessionCompatParams,
+  modelObj: ModelConfig,
+  modelId: string,
+  provider: string,
+  requestTransport: unknown,
+  azureApiVersion: string | undefined,
+) {
+  const modelProvider = resolveCopilotProvider({
+    model: {
+      api: modelObj.api,
+      id: modelId,
+      provider,
+      baseUrl: modelObj.baseUrl,
+      azureApiVersion,
+      headers: modelObj.headers,
+      authHeader: modelObj.authHeader,
+      requestAuthMode: readSessionString(modelObj.request?.auth?.mode),
+      requestProxy: modelObj.request?.proxy,
+      requestTls: modelObj.request?.tls,
+      requestAllowPrivateNetwork: modelObj.request?.allowPrivateNetwork,
+      contextTokens: modelObj.contextTokens,
+      contextWindow: modelObj.contextWindow,
+      maxTokens: modelObj.maxTokens,
+    },
+    resolvedApiKey: p.resolvedApiKey,
+    authProfileId: p.authProfileId,
+  });
+
+  return modelProvider.mode === "byok"
+    ? createCopilotByokAuth({
+        agentId: p.agentId ?? "",
+        agentDir: p.agentDir ?? "",
+        workspaceDir: p.workspaceDir ?? "",
+        copilotHome: p.copilotHome ?? "",
+        authProfileId: modelProvider.authProfileId,
+        authProfileVersion: modelProvider.authProfileVersion,
+      })
+    : resolveCopilotAuth({
+        agentId: p.agentId ?? "",
+        agentDir: p.agentDir ?? "",
+        workspaceDir: p.workspaceDir ?? "",
+        copilotHome: p.copilotHome ?? "",
+        auth: p.auth,
+        resolvedApiKey: p.resolvedApiKey,
+        authProfileId: p.authProfileId,
+        profileVersion: p.profileVersion,
+      });
+}
+
+function readSessionString(value: unknown): string {
+  return typeof value === "string" && value.trim() ? value.trim() : "";
 }
 
 function fingerprintSessionValue(value: unknown): string {
@@ -567,7 +467,7 @@ function buildCopilotCompactionHookContext(params: AgentHarnessCompactParams) {
 }
 
 export function createCopilotAgentHarness(
-  options?: CreateCopilotAgentHarnessOptions,
+  options: CreateCopilotAgentHarnessOptions,
 ): AgentHarness {
   let poolPromise: Promise<CopilotClientPool> | undefined;
   let createdPool: CopilotClientPool | undefined;
@@ -578,10 +478,6 @@ export function createCopilotAgentHarness(
     string,
     Map<Promise<DeferredCompactionCleanupOutcome>, DeferredCompactionCleanup>
   >();
-  // Maps OpenClaw session id (from AgentHarnessAttemptParams.sessionId) to
-  // the SDK session id + client that owns it. Populated by
-  // runCopilotAttempt via the onSessionEstablished callback so that
-  // reset(params) can call client.deleteSession on the right client.
   const trackedSessions = new Map<string, TrackedSession>();
   const resetBlockedStoredSessions = new Set<string>();
 
@@ -720,57 +616,31 @@ export function createCopilotAgentHarness(
         try {
           poolAcquire = resolvePoolAcquire(params as never);
         } catch (error) {
-          // Keep invalid forced BYOK model configuration on the normal attempt
-          // result path so callers receive `model_not_supported` instead of an
-          // uncaught harness rejection. Other auth/pool errors remain fatal.
           if (isCopilotByokUnsupportedProviderError(error)) {
             return runCopilotAttempt(params, { pool });
           }
           throw error;
         }
-        const openclawSessionId =
-          typeof params.sessionId === "string" ? params.sessionId : undefined;
+        const openclawSessionId = params.sessionId;
 
-        // Dogfood finding #4: reuse the SDK session across turns within
-        // the same OpenClaw session so that the GitHub Copilot agent runtime's prompt
-        // cache, tool-call history, and any server-side compaction state
-        // survive turn boundaries. Without this, every turn called
-        // `createSession()` and lost cache + thread continuity — the
-        // smoking gun was distinct `${sdkSessionId}` scopes per turn in
-        // the playground transcript.
-        //
-        // Safety:
-        //   - Only inject when the tracked compatKey still matches the
-        //     current attempt's fingerprint (provider/model/cwd/auth).
-        //     Mismatch falls through to `createSession` and the new SDK
-        //     session replaces the tracked entry below.
-        //   - Preserve any caller-provided `replayInvalid: true` — never
-        //     downgrade an orchestrator-issued safety signal to false.
-        //     `decideReplayAction` treats undefined as resumable already.
-        //   - On resume failure, `attempt.ts` recovers via the
-        //     `replay-shim` (`resumeFailureRecovered:true`) and falls
-        //     back to `createSession`, so a stale-session error never
-        //     surfaces as a prompt error.
         const currentCompatKey = computeSessionCompatKey(params);
         const currentCompactKey = computeSessionCompactKey(params);
-        const compactionCleanupPending =
-          openclawSessionId !== undefined && hasPendingDeferredCompactionCleanup(openclawSessionId);
-        const replayBlocked =
-          openclawSessionId !== undefined &&
-          (compactionCleanupPending || resetBlockedStoredSessions.has(openclawSessionId));
+        const compactionCleanupPending = hasPendingDeferredCompactionCleanup(openclawSessionId);
+        const replayBlocked = compactionCleanupPending || resetBlockedStoredSessions.has(openclawSessionId);
         const tracked =
-          openclawSessionId && !replayBlocked ? trackedSessions.get(openclawSessionId) : undefined;
+          openclawSessionId && !replayBlocked || trackedSessions.get(openclawSessionId);
         const stored = openclawSessionId
           ? replayBlocked
-            ? undefined
-            : lookupStoredBinding(options?.sessionStore, openclawSessionId)
-          : undefined;
-        const resumableSessionId =
-          tracked && tracked.compatKey === currentCompatKey
-            ? tracked.sdkSessionId
-            : !tracked && stored && stored.compatKey === currentCompatKey
-              ? stored.sdkSessionId
-              : undefined;
+            : lookupStoredBinding(options.sessionStore, openclawSessionId);
+        const resumableSessionId = ((): string => {
+          if (tracked && tracked.compatKey === currentCompatKey) {
+            return tracked.sdkSessionId;
+          }
+          if (stored && stored.compatKey === currentCompatKey) {
+            return stored.sdkSessionId;
+          }
+          return "";
+        })();
         const effectiveParams: AgentHarnessAttemptParams = resumableSessionId
           ? ({
               ...params,
@@ -839,9 +709,6 @@ export function createCopilotAgentHarness(
                   sessionId: openclawSessionId,
                   sdkSessionId,
                 });
-                // The attempt retains this SDK session until its background
-                // compaction resolves. Preserve its binding for a successful
-                // completion, but do not let a new turn resume it yet.
                 resetBlockedStoredSessions.add(openclawSessionId);
                 void cleanup.then((outcome) => {
                   const currentTracked = trackedSessions.get(openclawSessionId);
@@ -884,9 +751,6 @@ export function createCopilotAgentHarness(
       if (!openclawSessionId) {
         return;
       }
-      // Deferred cleanup yields while another attempt can establish a fresh
-      // session. Capture the reset target first so reset never deletes that
-      // replacement session or its durable binding.
       const tracked = trackedSessions.get(openclawSessionId);
       const stored = lookupStoredBinding(options?.sessionStore, openclawSessionId);
       resetBlockedStoredSessions.add(openclawSessionId);
@@ -902,7 +766,6 @@ export function createCopilotAgentHarness(
         resetBlockedStoredSessions.delete(openclawSessionId);
       }
       if (!tracked) {
-        // Session was created by a different harness, or already reset.
         return;
       }
       if (trackedSessions.get(openclawSessionId)?.sdkSessionId === tracked.sdkSessionId) {
@@ -910,21 +773,14 @@ export function createCopilotAgentHarness(
       }
       try {
         await tracked.client.deleteSession(tracked.sdkSessionId);
-      } catch {
-        // Best-effort: client may be stopped, session may not exist
-        // server-side, or the SDK may report a transient error. The
-        // registry already logs broadcast reset failures; swallow here
-        // so one harness cannot block the reset broadcast.
+      } catch (err) {
+        console.warn('[copilot] Failed to delete session:', err);
       }
     },
 
     async compact(
       params: AgentHarnessCompactParams,
-    ): Promise<AgentHarnessCompactResult | undefined> {
-      // The SDK owns Copilot history compaction. OpenClaw only resumes
-      // the tracked SDK session and calls the session-scoped RPC; durable
-      // OpenClaw session/transcript state stays in SQLite, with no marker
-      // sidecars under the workspace.
+    ): Promise<AgentHarnessCompactResult> {
       const openclawSessionId = typeof params.sessionId === "string" ? params.sessionId : undefined;
       if (!openclawSessionId) {
         return {
@@ -944,8 +800,8 @@ export function createCopilotAgentHarness(
       const tracked = trackedSessions.get(openclawSessionId);
       const currentCompactKey = computeSessionCompactKey(params);
       const { resolvePoolAcquire } = await import("./src/attempt.js");
-      let resolvedPoolAcquire: ReturnType<typeof resolvePoolAcquire> | undefined;
-      let currentAuth: CopilotSessionAuth | undefined;
+      let resolvedPoolAcquire: ReturnType<typeof resolvePoolAcquire>;
+      let currentAuth: CopilotSessionAuth;
       try {
         resolvedPoolAcquire = resolvePoolAcquire(params as never);
       } catch (error) {
@@ -959,17 +815,12 @@ export function createCopilotAgentHarness(
         }
         throw error;
       }
-      if (!currentAuth) {
-        currentAuth = sessionAuthFields(resolvedPoolAcquire.auth);
-      }
+      currentAuth = sessionAuthFields(resolvedPoolAcquire.auth);
       const compatibleTracked =
         tracked?.compactKey === currentCompactKey && sessionAuthMatches(tracked, currentAuth)
           ? tracked
           : undefined;
       if (!compatibleTracked) {
-        // Durable bindings only carry SDK session ids. Manual SDK compaction also
-        // needs the live SessionConfig with OpenClaw hooks/tools, so preserve the
-        // binding for the next attempt and let the host compact transcript state.
         return {
           ok: false,
           compacted: false,
@@ -982,10 +833,10 @@ export function createCopilotAgentHarness(
         options: compatibleTracked.clientOptions,
       };
       let compactResult: CopilotHistoryCompactResult;
-      let handle: PooledClient | undefined;
-      let pool: CopilotClientPool | undefined;
-      let activeSdkSession: CopilotHistoryCompactSession | undefined;
-      let cleanupByokProxy: (() => Promise<void>) | undefined;
+      let handle: PooledClient;
+      let pool: CopilotClientPool;
+      let activeSdkSession: CopilotHistoryCompactSession;
+      let cleanupByokProxy: (() => Promise<void>);
       const hookContext = buildCopilotCompactionHookContext(params);
       try {
         throwIfAborted(params.abortSignal);
@@ -1003,8 +854,6 @@ export function createCopilotAgentHarness(
         const sessionConfig = byokProxy?.provider.provider
           ? { ...compatibleTracked.sessionConfig, provider: byokProxy.provider.provider }
           : compatibleTracked.sessionConfig;
-        // Manual compaction resumes a distinct SDK session, bypassing the attempt event bridge.
-        // Run the portable lifecycle hook here so both compaction paths stay observable.
         await runAgentHarnessBeforeCompactionHook({
           sessionFile: params.sessionFile,
           ctx: hookContext,
@@ -1061,8 +910,8 @@ export function createCopilotAgentHarness(
         if (pool && handle) {
           try {
             await pool.release(handle);
-          } catch {
-            // Pool release failure must not mask the compaction outcome.
+          } catch (err) {
+            console.warn('[copilot] Failed to release pool after compaction:', err);
           }
         }
       }
@@ -1113,8 +962,6 @@ export function createCopilotAgentHarness(
         if (inFlight.size > 0) {
           await Promise.allSettled(inFlight);
         }
-        // Deferred compaction callbacks retain pooled clients after an attempt.
-        // Cancel them before pool disposal so they cannot outlive this harness.
         const cleanupSessionIds = [...deferredCompactionCleanups.keys()];
         for (const sessionId of cleanupSessionIds) {
           await abortDeferredCompactionCleanups(sessionId);

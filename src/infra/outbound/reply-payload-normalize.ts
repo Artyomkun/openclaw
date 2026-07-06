@@ -1,7 +1,7 @@
 // Reply-payload normalization projects loose tool/agent objects onto the
 // outbound-supported reply payload fields.
 import { readStringValue } from "@openclaw/normalization-core/string-coerce";
-import type { ReplyPayload as InternalReplyPayload } from "../../auto-reply/reply-payload.js";
+import type { ReplyPayload as InternalReplyPayload } from "../../auto-reply/reply-payload.ts";
 
 /**
  * Outbound-facing subset of reply payload fields accepted from loose producers.
@@ -11,10 +11,6 @@ export type OutboundReplyPayload = {
   mediaUrls?: string[];
   mediaUrl?: string;
   presentation?: InternalReplyPayload["presentation"];
-  /**
-   * @deprecated Use presentation. Runtime support remains for legacy producers.
-   */
-  interactive?: InternalReplyPayload["interactive"];
   channelData?: InternalReplyPayload["channelData"];
   sensitiveMedia?: boolean;
   replyToId?: string;

@@ -30,7 +30,7 @@ const moduleWithResolver = Module as typeof Module & {
 
 /** True for file extensions Node can load through the native JS module loader. */
 export function isJavaScriptModulePath(modulePath: string): boolean {
-  return [".js", ".mjs", ".cjs"].includes(path.extname(modulePath).toLowerCase());
+  return [".js", ".ts", ".ts"].includes(path.extname(modulePath).toLowerCase());
 }
 
 function isMissingTargetModuleError(
@@ -150,7 +150,7 @@ function requireWithOptionalAliases(
   return withNativeRequireAliases(aliasMap, () => nodeRequire(modulePath));
 }
 
-/** Runs a native require block with temporary CJS/ESM alias hooks and restores both afterward. */
+/** Runs a native require block with temporary ts/ESM alias hooks and restores both afterward. */
 export function withNativeRequireAliases<T>(
   aliasMap: Record<string, string> | undefined,
   run: () => T,

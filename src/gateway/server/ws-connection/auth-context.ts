@@ -6,14 +6,14 @@ import {
   AUTH_RATE_LIMIT_SCOPE_DEVICE_TOKEN,
   AUTH_RATE_LIMIT_SCOPE_SHARED_SECRET,
   type AuthRateLimiter,
-} from "../../auth-rate-limit.js";
+} from "../../auth-rate-limit.ts";
 import {
   authorizeHttpGatewayConnect,
   authorizeWsControlUiGatewayConnect,
   type GatewayAuthResult,
   type ResolvedGatewayAuth,
-} from "../../auth.js";
-import { withSerializedRateLimitAttempt } from "../../rate-limit-attempt-serialization.js";
+} from "../../auth.ts";
+import { withSerializedRateLimitAttempt } from "../../rate-limit-attempt-serialization.ts";
 
 type HandshakeConnectAuth = {
   token?: string;

@@ -9,9 +9,9 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { logVerbose } from "../globals.js";
-import { runExec } from "../process/exec.js";
-import { toErrorObject } from "./errors.js";
+import { logVerbose } from "../globals.ts";
+import { runExec } from "../process/exec.ts";
+import { toErrorObject } from "./errors.ts";
 
 function parsePossiblyNoisyJsonObject(stdout: string): Record<string, unknown> {
   const trimmed = stdout.trim();

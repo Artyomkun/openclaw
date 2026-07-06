@@ -1,7 +1,7 @@
 // Renders chat canvas payloads into text and metadata for transcript output.
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { asOptionalRecord } from "@openclaw/normalization-core/record-coerce";
-import { parseFenceSpans } from "../../packages/markdown-core/src/fences.js";
+import { parseFenceSpans } from "../../packages/markdown-core/src/fences.ts";
 
 // Extracts assistant-message canvas previews from tool JSON or markdown embed
 // shortcodes. The returned text strips consumed shortcodes for channel delivery.

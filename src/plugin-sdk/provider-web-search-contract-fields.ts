@@ -1,5 +1,5 @@
 // Provider web-search contract fields expose shared config keys for web-search-capable providers.
-import type { SearchConfigRecord } from "../agents/tools/web-search-provider-common.js";
+import type { SearchConfigRecord } from "../agents/tools/web-search-provider-common.ts";
 import {
   getScopedCredentialValue,
   getTopLevelCredentialValue,
@@ -7,9 +7,9 @@ import {
   setScopedCredentialValue,
   setProviderWebSearchPluginConfigValue,
   setTopLevelCredentialValue,
-} from "../agents/tools/web-search-provider-config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { WebSearchProviderPlugin } from "../plugins/types.js";
+} from "../agents/tools/web-search-provider-config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { WebSearchProviderPlugin } from "../plugins/types.ts";
 
 /** Credential storage mode advertised by a web-search-capable provider. */
 export type WebSearchProviderContractCredential =
@@ -27,7 +27,7 @@ export type WebSearchProviderConfiguredCredential = {
 
 /** Inputs for building the shared credential accessors on web-search providers. */
 export type CreateWebSearchProviderContractFieldsOptions = {
-  /** Legacy or inactive secret path that should be reported for migration/doctor flows. */
+  /** Older or inactive secret path that should be reported for migration/doctor flows. */
   credentialPath: string;
   /** Additional inactive secret paths when a provider retired more than one location. */
   inactiveSecretPaths?: string[];

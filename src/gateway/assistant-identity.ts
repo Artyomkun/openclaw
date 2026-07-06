@@ -1,16 +1,16 @@
 // Gateway assistant identity resolver.
 // Combines UI, agent config, and workspace identity files for Control UI display.
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { resolveAgentIdentity } from "../agents/identity.js";
-import { loadAgentIdentity } from "../commands/agents.config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { coerceIdentityValue } from "../shared/assistant-identity-values.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { resolveAgentIdentity } from "../agents/identity.ts";
+import { loadAgentIdentity } from "../commands/agents.config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { coerceIdentityValue } from "../shared/assistant-identity-values.ts";
 import {
   isAvatarHttpUrl,
   isAvatarImageDataUrl,
   looksLikeAvatarPath,
-} from "../shared/avatar-policy.js";
+} from "../shared/avatar-policy.ts";
 
 const MAX_ASSISTANT_NAME = 50;
 // Image-bearing avatars (data: URLs, paths) need to round-trip through

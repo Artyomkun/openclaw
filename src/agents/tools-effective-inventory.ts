@@ -11,25 +11,25 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/config.js";
-import { extractModelCompat } from "../plugins/provider-model-compat.js";
-import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.js";
-import { normalizeProviderTransportWithPlugin } from "../plugins/provider-runtime.js";
-import { resolveAgentDir, resolveAgentWorkspaceDir, resolveSessionAgentId } from "./agent-scope.js";
-import { createOpenClawCodingTools } from "./agent-tools.js";
-import { resolveEffectiveToolPolicy } from "./agent-tools.policy.js";
-import { resolveModel } from "./embedded-agent-runner/model.js";
-import { resolveBundledStaticCatalogModel } from "./embedded-agent-runner/model.static-catalog.js";
-import { normalizeStaticProviderModelId } from "./model-ref-shared.js";
-import { normalizeToolName } from "./tool-policy.js";
-import { buildRuntimeCompatibleToolInventory } from "./tools-effective-inventory-build.js";
-import { buildEffectiveToolInventoryGroups } from "./tools-effective-inventory-groups.js";
+import type { OpenClawConfig } from "../config/config.ts";
+import { extractModelCompat } from "../plugins/provider-model-compat.ts";
+import type { ProviderRuntimeModel } from "../plugins/provider-runtime-model.types.ts";
+import { normalizeProviderTransportWithPlugin } from "../plugins/provider-runtime.ts";
+import { resolveAgentDir, resolveAgentWorkspaceDir, resolveSessionAgentId } from "./agent-scope.ts";
+import { createOpenClawCodingTools } from "./agent-tools.ts";
+import { resolveEffectiveToolPolicy } from "./agent-tools.policy.ts";
+import { resolveModel } from "./embedded-agent-runner/model.ts";
+import { resolveBundledStaticCatalogModel } from "./embedded-agent-runner/model.static-catalog.ts";
+import { normalizeStaticProviderModelId } from "./model-ref-shared.ts";
+import { normalizeToolName } from "./tool-policy.ts";
+import { buildRuntimeCompatibleToolInventory } from "./tools-effective-inventory-build.ts";
+import { buildEffectiveToolInventoryGroups } from "./tools-effective-inventory-groups.ts";
 import type {
   EffectiveToolInventoryNotice,
   EffectiveToolInventoryEntry,
   EffectiveToolInventoryResult,
   ResolveEffectiveToolInventoryParams,
-} from "./tools-effective-inventory.types.js";
+} from "./tools-effective-inventory.types.ts";
 
 function listIncludesTool(list: string[] | undefined, toolName: string): boolean {
   if (!Array.isArray(list)) {

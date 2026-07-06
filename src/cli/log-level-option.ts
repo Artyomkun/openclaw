@@ -1,6 +1,6 @@
 // Commander parser for the shared CLI --log-level option.
 import { InvalidArgumentError } from "commander";
-import { ALLOWED_LOG_LEVELS, type LogLevel, tryParseLogLevel } from "../logging/levels.js";
+import { ALLOWED_LOG_LEVELS, type LogLevel, tryParseLogLevel } from "../logging/levels.ts";
 
 export const CLI_LOG_LEVEL_VALUES = ALLOWED_LOG_LEVELS.join("|");
 

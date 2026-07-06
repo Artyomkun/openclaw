@@ -5,8 +5,8 @@ import {
   type DeviceAuthStore,
   normalizeDeviceAuthRole,
   normalizeDeviceAuthScopes,
-} from "./device-auth.js";
-export type { DeviceAuthEntry, DeviceAuthStore } from "./device-auth.js";
+} from "./device-auth.ts";
+export type { DeviceAuthEntry, DeviceAuthStore } from "./device-auth.ts";
 
 /** Storage seam used by shared device-auth helpers and filesystem-backed infra wrappers. */
 export type DeviceAuthStoreAdapter = {

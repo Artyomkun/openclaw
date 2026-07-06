@@ -1,5 +1,5 @@
 /** Orchestrates model-list row sources across registry, manifests, catalogs, and config. */
-import type { ModelRegistry } from "../../llm/model-registry.js";
+import type { ModelRegistry } from "../../llm/model-registry.ts";
 import {
   appendCatalogSupplementRows,
   appendAuthenticatedCatalogRows,
@@ -10,9 +10,9 @@ import {
   appendModelCatalogRows,
   appendProviderCatalogRows,
   type RowBuilderContext,
-} from "./list.rows.js";
-import type { ModelListSourcePlan } from "./list.source-plan.js";
-import type { ConfiguredEntry, ModelRow } from "./list.types.js";
+} from "./list.rows.ts";
+import type { ModelListSourcePlan } from "./list.source-plan.ts";
+import type { ConfiguredEntry, ModelRow } from "./list.types.ts";
 
 type AllModelRowSources = {
   rows: ModelRow[];

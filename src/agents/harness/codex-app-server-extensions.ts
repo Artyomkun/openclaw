@@ -4,15 +4,15 @@
  * Harness integration uses this to let registered extensions observe and adjust
  * tool results before they are returned to the agent runtime.
  */
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { listCodexAppServerExtensionFactories } from "../../plugins/codex-app-server-extension-factory.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { listCodexAppServerExtensionFactories } from "../../plugins/codex-app-server-extension-factory.ts";
 import type {
   CodexAppServerExtensionContext,
   CodexAppServerExtensionFactory,
   CodexAppServerExtensionRuntime,
   CodexAppServerToolResultEvent,
-} from "../../plugins/codex-app-server-extension-types.js";
-import type { AgentToolResult } from "../runtime/index.js";
+} from "../../plugins/codex-app-server-extension-types.ts";
+import type { AgentToolResult } from "../runtime/index.ts";
 
 const log = createSubsystemLogger("agents/harness");
 

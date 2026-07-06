@@ -1,19 +1,19 @@
 // Channel setup prompt helpers build interactive prompts for channel setup.
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import { getChannelSetupPlugin } from "../channels/plugins/setup-registry.js";
-import type { ChannelSetupPlugin } from "../channels/plugins/setup-wizard-types.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
+import { getChannelSetupPlugin } from "../channels/plugins/setup-registry.ts";
+import type { ChannelSetupPlugin } from "../channels/plugins/setup-wizard-types.ts";
 import type {
   ChannelSetupDmPolicy,
   ChannelSetupWizardAdapter,
-} from "../channels/plugins/setup-wizard-types.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { ChannelChoice } from "../commands/onboard-types.js";
-import type { DmPolicy } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.js";
+} from "../channels/plugins/setup-wizard-types.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { ChannelChoice } from "../commands/onboard-types.ts";
+import type { DmPolicy } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.ts";
 
 // Prompt helpers for channel setup flows; keeps wizard copy and config mutation centralized.
 type ConfiguredChannelAction = "update" | "disable" | "delete" | "skip";

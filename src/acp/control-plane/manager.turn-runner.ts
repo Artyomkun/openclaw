@@ -1,14 +1,14 @@
 /** Runs ACP turns, failover, timeout cleanup, and detached-task progress mirroring. */
 import type { AcpRuntime, AcpRuntimeHandle } from "@openclaw/acp-core/runtime/types";
-import { logVerbose } from "../../globals.js";
-import { AcpRuntimeError, formatAcpErrorChain, toAcpRuntimeError } from "../runtime/errors.js";
-import { clearAcpTurnActive, markAcpTurnActive } from "./active-turns.js";
+import { logVerbose } from "../../globals.ts";
+import { AcpRuntimeError, formatAcpErrorChain, toAcpRuntimeError } from "../runtime/errors.ts";
+import { clearAcpTurnActive, markAcpTurnActive } from "./active-turns.ts";
 import {
   isFailoverWorthyBackendError,
   resolveBackendCandidatePlan,
   shouldAttemptBackendFailover,
   type BackendAttempt,
-} from "./manager.backend-failover.js";
+} from "./manager.backend-failover.ts";
 import {
   appendBackgroundTaskProgressSummary,
   createBackgroundTaskRecord,
@@ -17,15 +17,15 @@ import {
   resolveBackgroundTaskContext,
   resolveBackgroundTaskFailureStatus,
   resolveBackgroundTaskTerminalResult,
-} from "./manager.background-task.js";
-import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.js";
-import { prepareFreshManagerRuntimeHandleRetry } from "./manager.runtime-resume-state.js";
-import { consumeAcpTurnStream } from "./manager.turn-stream.js";
+} from "./manager.background-task.ts";
+import type { ManagerRuntimeHandleCache } from "./manager.runtime-handle-cache.ts";
+import { prepareFreshManagerRuntimeHandleRetry } from "./manager.runtime-resume-state.ts";
+import { consumeAcpTurnStream } from "./manager.turn-stream.ts";
 import {
   awaitTurnWithTimeout,
   cleanupTimedOutTurn,
   resolveTurnTimeoutMs,
-} from "./manager.turn-timeout.js";
+} from "./manager.turn-timeout.ts";
 import type {
   AcpRunTurnInput,
   AcpSessionManagerDeps,
@@ -36,8 +36,8 @@ import type {
   SetManagerSessionState,
   SessionAcpMeta,
   WriteManagerSessionMeta,
-} from "./manager.types.js";
-import { normalizeActorKey, requireReadySessionMeta } from "./manager.utils.js";
+} from "./manager.types.ts";
+import { normalizeActorKey, requireReadySessionMeta } from "./manager.utils.ts";
 
 const ACP_TURN_TIMEOUT_GRACE_MS = 1_000;
 

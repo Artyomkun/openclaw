@@ -1,8 +1,8 @@
 // Resolves context visibility policy for accounts and sessions.
-import { resolveAccountEntry } from "../routing/account-lookup.js";
-import { normalizeAccountId } from "../routing/session-key.js";
-import type { OpenClawConfig } from "./config.js";
-import type { ContextVisibilityMode } from "./types.base.js";
+import { resolveAccountEntry } from "../routing/account-lookup.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
+import type { OpenClawConfig } from "./config.ts";
+import type { ContextVisibilityMode } from "./types.base.ts";
 
 type ChannelContextVisibilityConfig = {
   /**
@@ -53,7 +53,7 @@ export function resolveChannelContextVisibilityMode(params: {
   const accountId = normalizeAccountId(params.accountId);
   const accountMode = resolveAccountEntry(channelConfig?.accounts, accountId)?.contextVisibility;
   // Preserve the public precedence order: adapter override, account override,
-  // channel override, global default, then permissive legacy default.
+  // channel override, global default, then permissive older default.
   return (
     accountMode ??
     channelConfig?.contextVisibility ??

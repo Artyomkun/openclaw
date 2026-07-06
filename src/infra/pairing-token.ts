@@ -1,6 +1,6 @@
 // Generates and verifies pairing bearer tokens.
 import { randomBytes } from "node:crypto";
-import { safeEqualSecret } from "../security/secret-equal.js";
+import { safeEqualSecret } from "../security/secret-equal.ts";
 
 /** Random byte length for base64url device/node/bootstrap bearer tokens. */
 export const PAIRING_TOKEN_BYTES = 32;

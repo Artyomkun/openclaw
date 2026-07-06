@@ -1,7 +1,7 @@
 // Store entry shape normalization rejects unsafe persisted metadata before runtime use.
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import { validateSessionId } from "./paths.js";
-import type { SessionEntry } from "./types.js";
+import { validateSessionId } from "./paths.ts";
+import type { SessionEntry } from "./types.ts";
 
 // Persisted stores may contain old or malformed ids; reject path-like ids before use.
 function isSafeSessionId(value: unknown): value is string {

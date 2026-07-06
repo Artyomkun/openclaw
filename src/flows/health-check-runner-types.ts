@@ -7,7 +7,7 @@ import type {
   HealthRepairDiff,
   HealthRepairEffect,
   HealthRepairResult,
-} from "./health-checks.js";
+} from "./health-checks.ts";
 
 // Runnable health-check contracts used by doctor lint/fix orchestration.
 export interface HealthCheckRunContext extends HealthCheckContext {

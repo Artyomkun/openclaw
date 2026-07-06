@@ -5,12 +5,12 @@
  */
 import * as os from "node:os";
 import { getCapabilities, getImageDimensions, imageFallback } from "@earendil-works/pi-tui";
-import { keyHint } from "../../modes/interactive/components/keybinding-hints.js";
-import type { Theme } from "../../modes/interactive/theme/theme.js";
-import { sanitizeBinaryOutput } from "../../shell-utils.js";
-import { stripAnsi } from "../../utils/ansi.js";
-import type { ToolRenderResultOptions } from "../extensions/types.js";
-import { DEFAULT_MAX_BYTES, formatSize, type TruncationResult } from "./truncate.js";
+import { keyHint } from "../../modes/interactive/components/keybinding-hints.ts";
+import type { Theme } from "../../modes/interactive/theme/theme.ts";
+import { sanitizeBinaryOutput } from "../../shell-utils.ts";
+import { stripAnsi } from "../../utils/ansi.ts";
+import type { ToolRenderResultOptions } from "../extensions/types.ts";
+import { DEFAULT_MAX_BYTES, formatSize, type TruncationResult } from "./truncate.ts";
 
 /** Shortens paths under the current home directory for display. */
 export function shortenPath(path: unknown): string {

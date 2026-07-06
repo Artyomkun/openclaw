@@ -10,18 +10,18 @@ import {
   isReplyRunStreamingForSessionId,
   queueReplyRunMessage,
   waitForReplyRunEndBySessionId,
-} from "../../auto-reply/reply/reply-run-registry.js";
+} from "../../auto-reply/reply/reply-run-registry.ts";
 import {
   markDiagnosticEmbeddedRunEnded,
   markDiagnosticEmbeddedRunStarted,
-} from "../../logging/diagnostic-run-activity.js";
+} from "../../logging/diagnostic-run-activity.ts";
 import {
   diagnosticLogger as diag,
   logMessageQueued,
   logSessionStateChange,
   updateDiagnosticSessionFile,
-} from "../../logging/diagnostic.js";
-import { resolveTimerTimeoutMs } from "../../shared/number-coercion.js";
+} from "../../logging/diagnostic.ts";
+import { resolveTimerTimeoutMs } from "../../shared/number-coercion.ts";
 import {
   ACTIVE_EMBEDDED_RUNS,
   ACTIVE_EMBEDDED_RUN_SESSION_IDS_BY_FILE,
@@ -37,8 +37,8 @@ import {
   type EmbeddedAgentQueueHandle,
   type EmbeddedAgentQueueMessageOptions,
   type EmbeddedRunWaiter,
-} from "./run-state.js";
-import { resolveEmbeddedSessionFileKey } from "./session-file-key.js";
+} from "./run-state.ts";
+import { resolveEmbeddedSessionFileKey } from "./session-file-key.ts";
 
 export {
   getActiveEmbeddedRunCount,
@@ -48,7 +48,7 @@ export {
   type ActiveEmbeddedRunSnapshot,
   type EmbeddedAgentQueueHandle,
   type EmbeddedAgentQueueMessageOptions,
-} from "./run-state.js";
+} from "./run-state.ts";
 
 export type EmbeddedAgentQueueFailureReason =
   | "no_active_run"
@@ -283,50 +283,6 @@ function clearActiveRunSessionFiles(sessionId: string, sessionFile?: string): vo
       ACTIVE_EMBEDDED_RUN_SESSION_IDS_BY_FILE.delete(sessionFileKey);
     }
   }
-}
-
-/**
- * @deprecated Use queueEmbeddedAgentMessageWithOutcomeAsync for delivery decisions.
- * This boolean helper only reports immediate queue eligibility; it cannot surface
- * async runtime rejection from the active run.
- */
-export function queueEmbeddedAgentMessage(
-  sessionId: string,
-  text: string,
-  options?: EmbeddedAgentQueueMessageOptions,
-): boolean {
-  return queueEmbeddedAgentMessageWithOutcome(sessionId, text, options).queued;
-}
-
-/**
- * @deprecated Prefer queueEmbeddedAgentMessageWithOutcomeAsync when callers need to
- * know whether steering was accepted. This sync helper is fire-and-forget after
- * initial eligibility and only logs later runtime rejection.
- */
-export function queueEmbeddedAgentMessageWithOutcome(
-  sessionId: string,
-  text: string,
-  options?: EmbeddedAgentQueueMessageOptions,
-): EmbeddedAgentQueueMessageOutcome {
-  const prepared = prepareEmbeddedAgentQueueMessage(sessionId, text, options);
-  if (prepared.kind === "complete") {
-    return prepared.outcome;
-  }
-  logMessageQueued({ sessionId, source: "embedded-agent-runner" });
-  void prepared.handle
-    .queueMessage(text, options ?? { steeringMode: "all" })
-    .catch((err: unknown) => {
-      diag.debug(
-        `queue message rejected after enqueue: sessionId=${sessionId} err=${formatQueueError(err)}`,
-      );
-    });
-  return {
-    queued: true,
-    sessionId,
-    target: "embedded_run",
-    gatewayHealth: "live",
-    enqueuedAtMs: Date.now(),
-  };
 }
 
 function formatQueueError(err: unknown): string {

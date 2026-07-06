@@ -1,12 +1,12 @@
 // Node system.run approval binding matcher.
 // Verifies command approvals against argv, cwd, session, agent, and env keys.
-import type { ExecApprovalRequestPayload } from "../infra/exec-approvals.js";
+import type { ExecApprovalRequestPayload } from "../infra/exec-approvals.ts";
 import {
   buildSystemRunApprovalBinding,
   missingSystemRunApprovalBinding,
   matchSystemRunApprovalBinding,
   type SystemRunApprovalMatchResult,
-} from "../infra/system-run-approval-binding.js";
+} from "../infra/system-run-approval-binding.ts";
 
 type SystemRunApprovalBinding = {
   cwd: string | null;
@@ -23,7 +23,7 @@ function requestMismatch(): SystemRunApprovalMatchResult {
   };
 }
 
-export { toSystemRunApprovalMismatchError } from "../infra/system-run-approval-binding.js";
+export { toSystemRunApprovalMismatchError } from "../infra/system-run-approval-binding.ts";
 
 /** Evaluates whether a node system.run request matches the stored approval binding. */
 export function evaluateSystemRunApprovalMatch(params: {

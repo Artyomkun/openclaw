@@ -1,10 +1,10 @@
 /**
  * Detects providers whose model selections are backed by CLI runtimes.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveRuntimeCliBackends } from "../plugins/cli-backends.runtime.js";
-import { resolvePluginSetupCliBackendDescriptor } from "../plugins/setup-registry.runtime.js";
-import { normalizeProviderId } from "./model-selection-normalize.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveRuntimeCliBackends } from "../plugins/cli-backends.runtime.ts";
+import { resolvePluginSetupCliBackendDescriptor } from "../plugins/setup-registry.runtime.ts";
+import { normalizeProviderId } from "./model-selection-normalize.ts";
 
 /** Return true when a provider id resolves to a configured or plugin CLI backend. */
 export function isCliProvider(provider: string, cfg?: OpenClawConfig): boolean {

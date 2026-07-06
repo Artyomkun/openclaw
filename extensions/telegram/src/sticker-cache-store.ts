@@ -1,9 +1,7 @@
 // Telegram plugin module implements sticker cache store behavior.
-import path from "node:path";
 import { loadJsonFile } from "openclaw/plugin-sdk/json-store";
 import type { PluginStateSyncKeyedStore } from "openclaw/plugin-sdk/plugin-state-runtime";
 import { logVerbose } from "openclaw/plugin-sdk/runtime-env";
-import { resolveStateDir } from "openclaw/plugin-sdk/state-paths";
 import { getTelegramRuntime } from "./runtime.js";
 
 const CACHE_VERSION = 1;
@@ -29,10 +27,6 @@ type TelegramStickerCacheStore = PluginStateSyncKeyedStore<CachedSticker>;
 
 let stickerCacheStoreForTest: TelegramStickerCacheStore | undefined;
 
-function getCacheFile(): string {
-  return path.join(resolveStateDir(), "telegram", "sticker-cache.json");
-}
-
 function openStickerCacheStore(): TelegramStickerCacheStore {
   return (
     stickerCacheStoreForTest ??
@@ -41,10 +35,6 @@ function openStickerCacheStore(): TelegramStickerCacheStore {
       maxEntries: TELEGRAM_STICKER_CACHE_MAX_ENTRIES,
     })
   );
-}
-
-function loadCache(): StickerCache {
-  return loadCacheFile(getCacheFile());
 }
 
 function normalizeStickerSearchText(value: unknown): string {
@@ -183,18 +173,6 @@ export function setTelegramStickerCacheStoreForTest(
 
 export function clearTelegramStickerCacheForTest(): void {
   openStickerCacheStore().clear();
-}
-
-export function listTelegramLegacyStickerCacheEntries(
-  params: {
-    persistedPath?: string;
-  } = {},
-): Array<{ key: string; value: CachedSticker }> {
-  const cache = params.persistedPath ? loadCacheFile(params.persistedPath) : loadCache();
-  return Object.entries(cache.stickers).map(([key, value]) => ({
-    key,
-    value: normalizeCachedStickerForStore(value),
-  }));
 }
 
 function loadCacheFile(filePath: string): StickerCache {

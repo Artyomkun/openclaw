@@ -1,6 +1,6 @@
 // Re-exports terminal runtime helpers used by CLI command implementations.
-import { clearActiveProgressLine } from "../packages/terminal-core/src/progress-line.js";
-import { restoreTerminalState } from "../packages/terminal-core/src/restore.js";
+import { clearActiveProgressLine } from "../packages/terminal-core/src/progress-line.ts";
+import { restoreTerminalState } from "../packages/terminal-core/src/restore.ts";
 
 export type RuntimeEnv = {
   log: (...args: unknown[]) => void;

@@ -1,16 +1,16 @@
 /** Ensures configured channel-to-ACP bindings have live sessions and matching runtime options. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { SessionAcpMeta } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { logVerbose } from "../globals.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { getAcpSessionManager } from "./control-plane/manager.js";
+import type { SessionAcpMeta } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { logVerbose } from "../globals.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { getAcpSessionManager } from "./control-plane/manager.ts";
 import {
   buildConfiguredAcpSessionKey,
   normalizeText,
   type ConfiguredAcpBindingSpec,
   type ResolvedConfiguredAcpBinding,
-} from "./persistent-bindings.types.js";
+} from "./persistent-bindings.types.ts";
 
 // Binding lifecycle keeps configured channel conversations attached to matching ACP sessions.
 function sessionMatchesConfiguredBinding(params: {

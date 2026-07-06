@@ -1,12 +1,12 @@
 // Loads gateway dispatch config from runtime state and files.
 import fs from "node:fs";
 import path from "node:path";
-import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.js";
-import { applyConfigEnvVars } from "./config-env-vars.js";
-import { resolveConfigEnvVars } from "./env-substitution.js";
-import { readConfigIncludeFileWithGuards, resolveConfigIncludes } from "./includes.js";
-import { resolveConfigPath, resolveIncludeRoots } from "./paths.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.ts";
+import { applyConfigEnvVars } from "./config-env-vars.ts";
+import { resolveConfigEnvVars } from "./env-substitution.ts";
+import { readConfigIncludeFileWithGuards, resolveConfigIncludes } from "./includes.ts";
+import { resolveConfigPath, resolveIncludeRoots } from "./paths.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 const GATEWAY_DISPATCH_SHELL_ENV_EXPECTED_KEYS = [
   "OPENCLAW_GATEWAY_TOKEN",

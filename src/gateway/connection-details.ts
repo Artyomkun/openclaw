@@ -1,9 +1,9 @@
 // Gateway connection detail builder for CLI/user-facing target diagnostics.
 import { redactSensitiveUrlLikeString } from "@openclaw/net-policy/redact-sensitive-url";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveConfigPath, resolveGatewayPort } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { isSecureWebSocketUrl } from "./net.js";
+import { resolveConfigPath, resolveGatewayPort } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { isSecureWebSocketUrl } from "./net.ts";
 
 /** Resolved gateway target plus redacted display text for diagnostics. */
 export type GatewayConnectionDetails = {

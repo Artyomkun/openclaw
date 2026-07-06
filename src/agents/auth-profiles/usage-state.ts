@@ -4,8 +4,8 @@
  * predicates used by rotation and failure handling.
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
-import type { AuthProfileFailureReason, AuthProfileStore, ProfileUsageStats } from "./types.js";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
+import type { AuthProfileFailureReason, AuthProfileStore, ProfileUsageStats } from "./types.ts";
 
 /** Returns true for providers whose auth-profile cooldowns are provider-managed. */
 export function isAuthCooldownBypassedForProvider(provider: string | undefined): boolean {

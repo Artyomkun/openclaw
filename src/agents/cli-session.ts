@@ -1,13 +1,12 @@
 /**
  * CLI session persistence helpers.
- * Keeps provider-keyed session bindings, reuse fingerprints, and legacy
- * Claude CLI state in one normalized session-store contract.
+ * Keeps provider-keyed session bindings, reuse fingerprints.
  */
 import crypto from "node:crypto";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { CliSessionBinding, SessionEntry } from "../config/sessions.js";
-export { getCliSessionBinding, getCliSessionId } from "../config/sessions/cli-session-binding.js";
+import type { CliSessionBinding, SessionEntry } from "../config/sessions.ts";
+export { getCliSessionBinding, getCliSessionId } from "../config/sessions/cli-session-binding.ts";
 
 const CLAUDE_CLI_BACKEND_ID = "claude-cli";
 
@@ -25,7 +24,7 @@ export function setCliSessionId(entry: SessionEntry, provider: string, sessionId
   setCliSessionBinding(entry, provider, { sessionId });
 }
 
-/** Store a CLI session binding and mirror it to legacy/simple session-id fields. */
+/** Store a CLI session binding and mirror it to simple session-id fields. */
 export function setCliSessionBinding(
   entry: SessionEntry,
   provider: string,

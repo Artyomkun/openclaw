@@ -1,18 +1,18 @@
 // QR/setup-code CLI for mobile/device pairing with local or remote Gateway credentials.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { hasConfiguredSecretInput } from "../config/types.secrets.js";
-import { trimToUndefined } from "../gateway/credentials.js";
-import { resolveRequiredConfiguredSecretRefInputString } from "../gateway/resolve-configured-secret-input-string.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { hasConfiguredSecretInput } from "../config/types.secrets.ts";
+import { trimToUndefined } from "../gateway/credentials.ts";
+import { resolveRequiredConfiguredSecretRefInputString } from "../gateway/resolve-configured-secret-input-string.ts";
 import { renderQrTerminal } from "../media/qr-terminal.ts";
-import { resolvePairingSetupFromConfig, encodePairingSetupCode } from "../pairing/setup-code.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { defaultRuntime } from "../runtime.js";
-import { resolveCommandSecretRefsViaGateway } from "./command-secret-gateway.js";
-import { getQrRemoteCommandSecretTargetIds } from "./command-secret-targets.js";
+import { resolvePairingSetupFromConfig, encodePairingSetupCode } from "../pairing/setup-code.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { resolveCommandSecretRefsViaGateway } from "./command-secret-gateway.ts";
+import { getQrRemoteCommandSecretTargetIds } from "./command-secret-targets.ts";
 
 type QrCliOptions = {
   json?: boolean;

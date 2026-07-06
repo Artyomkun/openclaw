@@ -1,19 +1,19 @@
 // Trajectory metadata helpers capture environment metadata for trajectory files.
-import { resolveStateDir } from "../config/paths.js";
-import { redactConfigObject } from "../config/redact-snapshot.js";
-import type { SessionSystemPromptReport } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveCommitHash } from "../infra/git-commit.js";
-import { resolveOsSummary } from "../infra/os-summary.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { redactConfigObject } from "../config/redact-snapshot.ts";
+import type { SessionSystemPromptReport } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveCommitHash } from "../infra/git-commit.ts";
+import { resolveOsSummary } from "../infra/os-summary.ts";
 import {
   redactPathForSupport,
   sanitizeSupportSnapshotValue,
   type SupportRedactionContext,
-} from "../logging/diagnostic-support-redaction.js";
-import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { getActivePluginRegistry, listImportedRuntimePluginIds } from "../plugins/runtime.js";
-import type { SkillSnapshot } from "../skills/types.js";
-import { VERSION } from "../version.js";
+} from "../logging/diagnostic-support-redaction.ts";
+import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { getActivePluginRegistry, listImportedRuntimePluginIds } from "../plugins/runtime.ts";
+import type { SkillSnapshot } from "../skills/types.ts";
+import { VERSION } from "../version.ts";
 
 // Runtime metadata capture for trajectory events. This records enough config,
 // plugin, skill, and prompt context to explain a run after logs are exported.

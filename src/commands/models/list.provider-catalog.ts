@@ -2,29 +2,29 @@
 import { createHash } from "node:crypto";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { loadAuthProfileStoreWithoutExternalProfiles } from "../../agents/auth-profiles/store.js";
+import { loadAuthProfileStoreWithoutExternalProfiles } from "../../agents/auth-profiles/store.ts";
 import {
   buildAgentModelCatalogCacheKey,
   readCachedAgentModelCatalog,
   writeCachedAgentModelCatalog,
-} from "../../agents/model-catalog-state-cache.js";
-import { buildModelsJsonSourceFingerprint } from "../../agents/models-config.js";
+} from "../../agents/model-catalog-state-cache.ts";
+import { buildModelsJsonSourceFingerprint } from "../../agents/models-config.ts";
 import {
   createProviderApiKeyResolver,
   createProviderAuthResolver,
-} from "../../agents/models-config.providers.secrets.js";
-import type { ModelProviderConfig } from "../../config/types.models.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import type { Model } from "../../llm/types.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
+} from "../../agents/models-config.providers.secrets.ts";
+import type { ModelProviderConfig } from "../../config/types.models.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import type { Model } from "../../llm/types.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
 import {
   loadPluginRegistrySnapshotWithMetadata,
   resolvePluginContributionOwners,
   resolveProviderOwners,
   type PluginRegistrySnapshot,
-} from "../../plugins/plugin-registry.js";
+} from "../../plugins/plugin-registry.ts";
 import {
   groupPluginDiscoveryProvidersByOrder,
   normalizePluginDiscoveryResult,
@@ -32,12 +32,12 @@ import {
   resolveRuntimePluginDiscoveryProviders,
   runProviderCatalog,
   runProviderStaticCatalog,
-} from "../../plugins/provider-discovery.js";
+} from "../../plugins/provider-discovery.ts";
 import {
   resolveBundledProviderCompatPluginIds,
   resolveOwningPluginIdsForProviderRef,
-} from "../../plugins/providers.js";
-import type { ProviderPlugin } from "../../plugins/types.js";
+} from "../../plugins/providers.ts";
+import type { ProviderPlugin } from "../../plugins/types.ts";
 
 const DISCOVERY_ORDERS = ["simple", "profile", "paired", "late"] as const;
 const SELF_HOSTED_DISCOVERY_PROVIDER_IDS = new Set(["lmstudio", "ollama", "sglang", "vllm"]);

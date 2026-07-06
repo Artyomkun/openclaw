@@ -1,12 +1,12 @@
 // Sends session maintenance warnings before warn-only cleanup.
-import type { SessionMaintenanceWarning } from "../config/sessions/store-maintenance.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { deliveryContextFromSession } from "../utils/delivery-context.shared.js";
-import { isDeliverableMessageChannel, normalizeMessageChannel } from "../utils/message-channel.js";
-import { buildOutboundSessionContext } from "./outbound/session-context.js";
-import { enqueueSystemEvent } from "./system-events.js";
+import type { SessionMaintenanceWarning } from "../config/sessions/store-maintenance.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { deliveryContextFromSession } from "../utils/delivery-context.shared.ts";
+import { isDeliverableMessageChannel, normalizeMessageChannel } from "../utils/message-channel.ts";
+import { buildOutboundSessionContext } from "./outbound/session-context.ts";
+import { enqueueSystemEvent } from "./system-events.ts";
 
 // Session maintenance warnings notify an active session before warn-only
 // cleanup would prune it, with per-session dedupe and system-event fallback.

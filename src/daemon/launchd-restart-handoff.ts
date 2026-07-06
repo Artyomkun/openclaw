@@ -3,12 +3,12 @@ import { spawn } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { sanitizeHostExecEnv } from "../infra/host-env-security.js";
-import { resolveGatewayLaunchAgentLabel } from "./constants.js";
-export { isCurrentProcessLaunchdServiceLabel } from "./launchd-current-service.js";
-import { renderPosixRestartLogSetup } from "./restart-logs.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { sanitizeHostExecEnv } from "../infra/host-env-security.ts";
+import { resolveGatewayLaunchAgentLabel } from "./constants.ts";
+export { isCurrentProcessLaunchdServiceLabel } from "./launchd-current-service.ts";
+import { renderPosixRestartLogSetup } from "./restart-logs.ts";
 
 type LaunchdRestartHandoffMode = "kickstart" | "reload" | "start-after-exit";
 

@@ -4,8 +4,8 @@
  * Centralizes image names, container prefixes, workspace paths, browser ports, and registry locations.
  */
 import path from "node:path";
-import { CHANNEL_IDS } from "../../channels/ids.js";
-import { STATE_DIR } from "../../config/paths.js";
+import { CHANNEL_IDS } from "../../channels/ids.ts";
+import { STATE_DIR } from "../../config/paths.ts";
 
 export const DEFAULT_SANDBOX_WORKSPACE_ROOT = path.join(STATE_DIR, "sandboxes");
 

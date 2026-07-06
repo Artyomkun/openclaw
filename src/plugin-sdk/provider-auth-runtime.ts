@@ -4,25 +4,25 @@ import fs from "node:fs";
 import { createServer } from "node:http";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { ensureAuthProfileStore } from "../agents/auth-profiles/store.js";
-import { resolveApiKeyForProvider as resolveModelApiKeyForProvider } from "../agents/model-auth.js";
-import { normalizeProviderId } from "../agents/model-selection.js";
-import type { OpenClawConfig } from "../config/config.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
+import { ensureAuthProfileStore } from "../agents/auth-profiles/store.ts";
+import { resolveApiKeyForProvider as resolveModelApiKeyForProvider } from "../agents/model-auth.ts";
+import { normalizeProviderId } from "../agents/model-selection.ts";
+import type { OpenClawConfig } from "../config/config.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
 
-export { resolveEnvApiKey } from "../agents/model-auth-env.js";
+export { resolveEnvApiKey } from "../agents/model-auth-env.ts";
 export {
   collectProviderApiKeysForExecution,
   executeWithApiKeyRotation,
-} from "../agents/api-key-rotation.js";
-export { NON_ENV_SECRETREF_MARKER } from "../agents/model-auth-markers.js";
+} from "../agents/api-key-rotation.ts";
+export { NON_ENV_SECRETREF_MARKER } from "../agents/model-auth-markers.ts";
 export {
   requireApiKey,
   resolveAwsSdkEnvVarName,
   type ResolvedProviderAuth,
-} from "../agents/model-auth-runtime-shared.js";
-export type { ProviderPreparedRuntimeAuth } from "../plugins/types.js";
-export type { ResolvedProviderRuntimeAuth } from "../plugins/runtime/model-auth-types.js";
+} from "../agents/model-auth-runtime-shared.ts";
+export type { ProviderPreparedRuntimeAuth } from "../plugins/types.ts";
+export type { ResolvedProviderRuntimeAuth } from "../plugins/runtime/model-auth-types.ts";
 
 /**
  * OAuth authorization code and state captured by the local callback listener.
@@ -72,7 +72,7 @@ export function resolveProviderAuthProfileMetadata(params: {
 // pass the hosts that may legitimately issue preflights against the redirect
 // URI; everything else gets a 204 with no `Access-Control-Allow-*` headers,
 // which is safe for normal browser navigation but blocks cross-origin script
-// reads. The empty allowlist (default) leaves the legacy permissive SDK
+// reads. The empty allowlist (default) leaves the olders permissive SDK
 // behavior in place for existing callers.
 export function buildOAuthCallbackOriginResolver(
   /** HTTPS IdP hosts allowed to receive a CORS echo from the loopback callback. */
@@ -346,7 +346,7 @@ const RUNTIME_MODEL_AUTH_CANDIDATES = [
   "./runtime-model-auth.runtime",
   "../plugins/runtime/runtime-model-auth.runtime",
 ] as const;
-const RUNTIME_MODEL_AUTH_EXTENSIONS = [".js", ".ts", ".mjs", ".mts", ".cjs", ".cts"] as const;
+const RUNTIME_MODEL_AUTH_EXTENSIONS = [".js", ".ts", ".ts", ".ts"] as const;
 
 function resolveRuntimeModelAuthModuleHref(): string {
   const baseDir = path.dirname(fileURLToPath(import.meta.url));

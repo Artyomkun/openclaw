@@ -1,7 +1,7 @@
 // Agent media payload exports expose media roots and loaders for plugin-facing agent payloads.
-export { getAgentScopedMediaLocalRoots } from "../media/local-roots.js";
+export { getAgentScopedMediaLocalRoots } from "../media/local-roots.ts";
 
-/** Legacy agent media payload layout consumed by older agent adapters. */
+/** Older agent media payload layout consumed by older agent adapters. */
 export type AgentMediaPayload = {
   MediaPath?: string;
   MediaType?: string;
@@ -11,7 +11,7 @@ export type AgentMediaPayload = {
   MediaTypes?: string[];
 };
 
-/** Convert outbound media descriptors into the legacy agent payload field layout. */
+/** Convert outbound media descriptors into the older agent payload field layout. */
 export function buildAgentMediaPayload(
   mediaList: Array<{ path: string; contentType?: string | null }>,
 ): AgentMediaPayload {

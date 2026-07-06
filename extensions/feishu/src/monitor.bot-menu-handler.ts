@@ -112,18 +112,6 @@ export function createFeishuBotMenuHandler(params: {
         log(`feishu[${accountId}]: dropping in-flight bot-menu event for ${syntheticMessageId}`);
         return;
       }
-      const handleLegacyMenu = () =>
-        handleFeishuMessage({
-          cfg,
-          event: syntheticEvent,
-          botOpenId: getBotOpenId(accountId),
-          botName: getBotName(accountId),
-          runtime,
-          channelRuntime: params.channelRuntime,
-          chatHistories,
-          accountId,
-          processingClaimHeld: true,
-        });
 
       const promise = maybeHandleFeishuQuickActionMenu({
         cfg,
@@ -137,7 +125,6 @@ export function createFeishuBotMenuHandler(params: {
             await recordProcessedFeishuMessage(syntheticMessageId, accountId, log);
             return;
           }
-          return await handleLegacyMenu();
         })
         .catch(async (err: unknown) => {
           if (isFeishuRetryableSyntheticEventError(err)) {

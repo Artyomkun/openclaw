@@ -1,5 +1,5 @@
 // Supervisor registry tracks active and historical supervised process runs.
-import type { RunRecord, RunState, TerminationReason } from "./types.js";
+import type { RunRecord, RunState, TerminationReason } from "./types.ts";
 
 /** In-memory run index for the supervisor; callers receive detached snapshots. */
 function nowMs() {

@@ -95,11 +95,6 @@ export interface QQBotAccountConfig {
   /** QQBot-native exec approval delivery + approver authorization. */
   execApprovals?: QQBotExecApprovalConfig;
   /**
-   * @deprecated Use audioFormatPolicy.uploadDirectFormats instead.
-   * Legacy list of formats that can upload directly without SILK conversion.
-   */
-  voiceDirectUploadFormats?: string[];
-  /**
    * Audio format policy covering inbound STT and outbound upload behavior.
    */
   audioFormatPolicy?: AudioFormatPolicy;
@@ -121,14 +116,12 @@ export interface QQBotAccountConfig {
    * Block streaming + optional QQ C2C official stream API.
    * - `true`: same as `mode: "partial"` and `c2cStreamApi: true` (recommended).
    * - `false` / omitted: no official C2C stream for this account (see object form for fine control).
-   * - Object (legacy / advanced): `mode` "partial" | "off", `c2cStreamApi` for C2C `/stream_messages`.
+   * - Object (advanced): `mode` "partial" | "off", `c2cStreamApi` for C2C `/stream_messages`.
    */
   streaming?:
     | boolean
     | {
         mode?: "off" | "partial";
-        /** @deprecated Prefer `streaming: true`. */
-        c2cStreamApi?: boolean;
       };
   groups?: Record<string, QQBotGroupConfig>;
 }

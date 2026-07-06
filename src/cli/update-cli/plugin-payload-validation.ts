@@ -1,11 +1,11 @@
 // Static payload checks for installed plugins after a core update swaps package files.
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { PluginInstallRecord } from "../../config/types.plugins.js";
-import { resolvePackageExtensionEntries, type PackageManifest } from "../../plugins/manifest.js";
-import { validatePackageExtensionEntriesForInstall } from "../../plugins/package-entry-resolution.js";
-import { auditOpenClawPeerDependencyLink } from "../../plugins/plugin-peer-link.js";
-import { resolveUserPath } from "../../utils.js";
+import type { PluginInstallRecord } from "../../config/types.plugins.ts";
+import { resolvePackageExtensionEntries, type PackageManifest } from "../../plugins/manifest.ts";
+import { validatePackageExtensionEntriesForInstall } from "../../plugins/package-entry-resolution.ts";
+import { auditOpenClawPeerDependencyLink } from "../../plugins/plugin-peer-link.ts";
+import { resolveUserPath } from "../../utils.ts";
 
 export type PluginPayloadSmokeFailureReason =
   | "missing-install-path"

@@ -3,9 +3,9 @@ import type { UnifiedModelCatalogEntry } from "@openclaw/model-catalog-core/mode
 import {
   normalizeStringEntries,
   uniqueStrings,
-} from "../../packages/normalization-core/src/string-normalization.js";
-import { createProviderApiKeyAuthMethod } from "../plugins/provider-api-key-auth.js";
-import { projectProviderCatalogResultToUnifiedTextRows } from "../plugins/provider-catalog-unified-text.js";
+} from "../../packages/normalization-core/src/string-normalization.ts";
+import { createProviderApiKeyAuthMethod } from "../plugins/provider-api-key-auth.ts";
+import { projectProviderCatalogResultToUnifiedTextRows } from "../plugins/provider-catalog-unified-text.ts";
 import type {
   ProviderPlugin,
   ProviderCatalogContext,
@@ -14,15 +14,15 @@ import type {
   ProviderPluginCatalog,
   UnifiedModelCatalogProviderContext,
   ProviderPluginWizardSetup,
-} from "../plugins/types.js";
-import { copyArrayEntries, isRecord, readRecordValue } from "../shared/safe-record.js";
-import { definePluginEntry } from "./plugin-entry.js";
+} from "../plugins/types.ts";
+import { copyArrayEntries, isRecord, readRecordValue } from "../shared/safe-record.ts";
+import { definePluginEntry } from "./plugin-entry.ts";
 import type {
   OpenClawPluginApi,
   OpenClawPluginConfigSchema,
   OpenClawPluginDefinition,
-} from "./plugin-entry.js";
-import { buildSingleProviderApiKeyCatalog } from "./provider-catalog-shared.js";
+} from "./plugin-entry.ts";
+import { buildSingleProviderApiKeyCatalog } from "./provider-catalog-shared.ts";
 
 type ApiKeyAuthMethodOptions = Parameters<typeof createProviderApiKeyAuthMethod>[0];
 
@@ -100,12 +100,6 @@ export type SingleProviderPluginOptions = {
    * Short plugin description surfaced by plugin registries and setup flows.
    */
   description: string;
-  /**
-   * @deprecated Declare exclusive plugin kind in `openclaw.plugin.json` via
-   * manifest `kind`. Runtime-entry `kind` remains only as a compatibility
-   * fallback for older plugins.
-   */
-  kind?: OpenClawPluginDefinition["kind"];
   /**
    * Optional plugin configuration schema or lazy schema factory.
    */

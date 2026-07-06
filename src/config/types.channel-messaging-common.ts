@@ -5,12 +5,12 @@ import type {
   DmPolicy,
   GroupPolicy,
   MarkdownConfig,
-} from "./types.base.js";
+} from "./types.base.ts";
 import type {
   ChannelHealthMonitorConfig,
   ChannelHeartbeatVisibilityConfig,
-} from "./types.channel-health.js";
-import type { DmConfig } from "./types.messages.js";
+} from "./types.channel-health.ts";
+import type { DmConfig } from "./types.messages.ts";
 
 export type CommonChannelMessagingConfig = {
   /** Optional display name for this account (used in CLI/UI lists). */

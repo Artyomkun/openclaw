@@ -5,17 +5,17 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.js";
-import { normalizeProviderId } from "../agents/model-selection.js";
+import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.ts";
+import { normalizeProviderId } from "../agents/model-selection.ts";
 import {
   normalizeAgentModelMapForConfig,
   normalizeAgentModelRefForConfig,
-} from "../config/model-input.js";
-import { normalizeProviderConfigForConfigDefaults } from "../config/provider-policy.js";
-import type { AgentModelConfig } from "../config/types.agents-shared.js";
-import type { ModelProviderConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ProviderAuthMethod, ProviderPlugin } from "./types.js";
+} from "../config/model-input.ts";
+import { normalizeProviderConfigForConfigDefaults } from "../config/provider-policy.ts";
+import type { AgentModelConfig } from "../config/types.agents-shared.ts";
+import type { ModelProviderConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ProviderAuthMethod, ProviderPlugin } from "./types.ts";
 
 export function resolveProviderMatch(
   providers: ProviderPlugin[],

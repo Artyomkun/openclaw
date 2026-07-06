@@ -1,12 +1,12 @@
 // Defines tool availability and allowlist configuration types.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { ChatType } from "../channels/chat-type.js";
-import type { SafeBinProfileFixture } from "../infra/exec-safe-bin-policy.js";
-import type { AgentModelConfig } from "./types.agents-shared.js";
-import type { AgentElevatedAllowFromConfig, SessionSendPolicyAction } from "./types.base.js";
-import type { MemoryQmdIndexPath } from "./types.memory.js";
-import type { ConfiguredProviderRequest } from "./types.provider-request.js";
-import type { SecretInput } from "./types.secrets.js";
+import type { ChatType } from "../channels/chat-type.ts";
+import type { SafeBinProfileFixture } from "../infra/exec-safe-bin-policy.ts";
+import type { AgentModelConfig } from "./types.agents-shared.ts";
+import type { AgentElevatedAllowFromConfig, SessionSendPolicyAction } from "./types.base.ts";
+import type { MemoryQmdIndexPath } from "./types.memory.ts";
+import type { ConfiguredProviderRequest } from "./types.provider-request.ts";
+import type { SecretInput } from "./types.secrets.ts";
 
 export type MediaUnderstandingScopeMatch = {
   /** Channel/provider id to match before running media or link understanding. */
@@ -45,12 +45,6 @@ export type MediaUnderstandingAttachmentsConfig = {
 type MediaProviderRequestConfig = {
   /** Optional provider-specific query params (merged into requests). */
   providerOptions?: Record<string, Record<string, string | number | boolean>>;
-  /** @deprecated Use providerOptions.deepgram instead. */
-  deepgram?: {
-    detectLanguage?: boolean;
-    punctuate?: boolean;
-    smartFormat?: boolean;
-  };
   /** Optional base URL override for provider requests. */
   baseUrl?: string;
   /** Optional headers merged into provider requests. */
@@ -307,7 +301,7 @@ export function parseToolsBySenderTypedKey(
  * - name:<display-name>
  * - * (wildcard)
  *
- * Legacy unprefixed keys are supported for backward compatibility and are matched as senderId only.
+ * Older unprefixed keys are supported for backward compatibility and are matched as senderId only.
  */
 export type GroupToolPolicyBySenderConfig = Record<string, GroupToolPolicyConfig>;
 
@@ -379,7 +373,7 @@ export type ExecToolConfig = {
 export type FsToolsConfig = {
   /**
    * Restrict filesystem tools (read/write/edit/apply_patch) to the agent workspace directory.
-   * Default: false (unrestricted, matches legacy behavior).
+   * Default: false (unrestricted).
    */
   workspaceOnly?: boolean;
 };
@@ -753,11 +747,6 @@ export type ToolsConfig = {
 };
 
 export type MessageToolsConfig = {
-  /**
-   * @deprecated Use tools.message.crossContext settings.
-   * Allows cross-context sends across providers.
-   */
-  allowCrossContextSend?: boolean;
   crossContext?: {
     /** Allow sends to other channels within the same provider (default: true). */
     allowWithinProvider?: boolean;

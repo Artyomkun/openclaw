@@ -1,8 +1,8 @@
 // Gateway run command option registration and lazy handoff to runtime startup.
 import type { Command } from "commander";
-import type { GatewayRunOpts } from "./run-options.js";
-import { resolveGatewayRunOptions } from "./run-options.js";
-import { getGatewayRunRuntimeHooks } from "./runtime-hooks.js";
+import type { GatewayRunOpts } from "./run-options.ts";
+import { resolveGatewayRunOptions } from "./run-options.ts";
+import { getGatewayRunRuntimeHooks } from "./runtime-hooks.ts";
 
 const GATEWAY_AUTH_MODES = ["none", "token", "password", "trusted-proxy"] as const;
 const GATEWAY_TAILSCALE_MODES = ["off", "serve", "funnel"] as const;

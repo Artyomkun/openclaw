@@ -10,22 +10,22 @@ export {
   resolveSandboxDockerConfig,
   resolveSandboxPruneConfig,
   resolveSandboxScope,
-} from "./sandbox/config.js";
+} from "./sandbox/config.ts";
 export {
   DEFAULT_SANDBOX_BROWSER_IMAGE,
   DEFAULT_SANDBOX_COMMON_IMAGE,
   DEFAULT_SANDBOX_IMAGE,
-} from "./sandbox/constants.js";
-export { ensureSandboxWorkspaceForSession, resolveSandboxContext } from "./sandbox/context.js";
+} from "./sandbox/constants.ts";
+export { ensureSandboxWorkspaceForSession, resolveSandboxContext } from "./sandbox/context.ts";
 export {
   getSandboxBackendFactory,
   getSandboxBackendManager,
   getSandboxBackendWorkdirResolver,
   registerSandboxBackend,
   requireSandboxBackendFactory,
-} from "./sandbox/backend.js";
+} from "./sandbox/backend.ts";
 
-export { buildSandboxCreateArgs, isDockerDaemonUnavailable } from "./sandbox/docker.js";
+export { buildSandboxCreateArgs, isDockerDaemonUnavailable } from "./sandbox/docker.ts";
 export {
   listSandboxBrowsers,
   listSandboxContainers,
@@ -33,14 +33,14 @@ export {
   removeSandboxContainer,
   type SandboxBrowserInfo,
   type SandboxContainerInfo,
-} from "./sandbox/manage.js";
+} from "./sandbox/manage.ts";
 export {
   formatSandboxToolPolicyBlockedMessage,
   resolveSandboxRuntimeStatus,
-} from "./sandbox/runtime-status.js";
+} from "./sandbox/runtime-status.ts";
 
-export { isToolAllowed, resolveSandboxToolPolicyForAgent } from "./sandbox/tool-policy.js";
-export type { SandboxFsBridge, SandboxFsStat, SandboxResolvedPath } from "./sandbox/fs-bridge.js";
+export { isToolAllowed, resolveSandboxToolPolicyForAgent } from "./sandbox/tool-policy.ts";
+export type { SandboxFsBridge, SandboxFsStat, SandboxResolvedPath } from "./sandbox/fs-bridge.ts";
 export {
   buildExecRemoteCommand,
   buildRemoteWorkdirValidationCommand,
@@ -53,12 +53,12 @@ export {
   runSshSandboxCommand,
   shellEscape,
   uploadDirectoryToSshTarget,
-} from "./sandbox/ssh.js";
-export { sanitizeEnvVars } from "./sandbox/sanitize-env-vars.js";
-export { createRemoteShellSandboxFsBridge } from "./sandbox/remote-fs-bridge.js";
-export { createWritableRenameTargetResolver } from "./sandbox/fs-bridge-rename-targets.js";
-export { resolveWritableRenameTargets } from "./sandbox/fs-bridge-rename-targets.js";
-export { resolveWritableRenameTargetsForBridge } from "./sandbox/fs-bridge-rename-targets.js";
+} from "./sandbox/ssh.ts";
+export { sanitizeEnvVars } from "./sandbox/sanitize-env-vars.ts";
+export { createRemoteShellSandboxFsBridge } from "./sandbox/remote-fs-bridge.ts";
+export { createWritableRenameTargetResolver } from "./sandbox/fs-bridge-rename-targets.ts";
+export { resolveWritableRenameTargets } from "./sandbox/fs-bridge-rename-targets.ts";
+export { resolveWritableRenameTargetsForBridge } from "./sandbox/fs-bridge-rename-targets.ts";
 
 export type {
   CreateSandboxBackendParams,
@@ -75,13 +75,13 @@ export type {
   SandboxBackendWorkdirValidation,
   SandboxBackendWorkdirResolver,
   SandboxBackendWorkdirValidator,
-} from "./sandbox/backend.js";
-export type { RemoteShellSandboxHandle } from "./sandbox/remote-fs-bridge.js";
+} from "./sandbox/backend.ts";
+export type { RemoteShellSandboxHandle } from "./sandbox/remote-fs-bridge.ts";
 export type {
   RunSshSandboxCommandParams,
   SshSandboxSession,
   SshSandboxSettings,
-} from "./sandbox/ssh.js";
+} from "./sandbox/ssh.ts";
 
 export type {
   SandboxBrowserConfig,
@@ -97,4 +97,4 @@ export type {
   SandboxToolPolicySource,
   SandboxWorkspaceAccess,
   SandboxWorkspaceInfo,
-} from "./sandbox/types.js";
+} from "./sandbox/types.ts";

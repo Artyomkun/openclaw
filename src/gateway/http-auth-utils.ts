@@ -5,17 +5,17 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getRuntimeConfig } from "../config/io.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { AuthRateLimiter } from "./auth-rate-limit.js";
+import { getRuntimeConfig } from "../config/io.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { AuthRateLimiter } from "./auth-rate-limit.ts";
 import {
   authorizeHttpGatewayConnect,
   type GatewayAuthResult,
   type ResolvedGatewayAuth,
-} from "./auth.js";
-import { sendGatewayAuthFailure, sendMissingScopeForbidden } from "./http-common.js";
-import { ADMIN_SCOPE, CLI_DEFAULT_OPERATOR_SCOPES } from "./method-scopes.js";
-import { authorizeOperatorScopesForMethod } from "./method-scopes.js";
+} from "./auth.ts";
+import { sendGatewayAuthFailure, sendMissingScopeForbidden } from "./http-common.ts";
+import { ADMIN_SCOPE, CLI_DEFAULT_OPERATOR_SCOPES } from "./method-scopes.ts";
+import { authorizeOperatorScopesForMethod } from "./method-scopes.ts";
 
 export function getHeader(req: IncomingMessage, name: string): string | undefined {
   const raw = req.headers[normalizeLowercaseStringOrEmpty(name)];

@@ -300,11 +300,11 @@ async function rewriteMatrixSyncCacheRows(params: {
       }
       chunks.push(chunk.data);
     }
-    const syncJson = JSON.stringify(
+    const syntson = JSON.stringify(
       writePersistedMatrixSyncCursor(JSON.parse(chunks.join("")), params.cursor),
     );
     const nextGeneration = randomUUID().replaceAll("-", "");
-    const nextChunks = chunkMatrixSyncCacheJson(syncJson);
+    const nextChunks = chunkMatrixSyncCacheJson(syntson);
     const now = Date.now();
     const upsert = db.prepare(
       `INSERT INTO plugin_state_entries (plugin_id, namespace, entry_key, value_json, created_at, expires_at)
@@ -329,7 +329,7 @@ async function rewriteMatrixSyncCacheRows(params: {
         ...meta,
         generation: nextGeneration,
         chunkCount: nextChunks.length,
-        syncDigest: digestText(syncJson),
+        syncDigest: digestText(syntson),
       }),
       now,
     );

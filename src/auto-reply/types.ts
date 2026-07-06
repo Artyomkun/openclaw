@@ -5,11 +5,11 @@ export type {
   PartialReplyPayload,
   ReplyThreadingPolicy,
   TypingPolicy,
-} from "./get-reply-options.types.js";
+} from "./get-reply-options.types.ts";
 export {
   copyReplyPayloadMetadata,
   markCommandReplyForDelivery,
   markReplyPayloadForSourceSuppressionDelivery,
   setReplyPayloadMetadata,
-} from "./reply-payload.js";
-export type { ReplyPayload } from "./reply-payload.js";
+} from "./reply-payload.ts";
+export type { ReplyPayload } from "./reply-payload.ts";

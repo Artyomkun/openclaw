@@ -1,11 +1,11 @@
 /** Commands for managing default text model fallbacks. */
-import type { RuntimeEnv } from "../../runtime.js";
+import type { RuntimeEnv } from "../../runtime.ts";
 import {
   addFallbackCommand,
   clearFallbacksCommand,
   listFallbacksCommand,
   removeFallbackCommand,
-} from "./fallbacks-shared.js";
+} from "./fallbacks-shared.ts";
 
 /** Lists configured text model fallbacks. */
 export async function modelsFallbacksListCommand(

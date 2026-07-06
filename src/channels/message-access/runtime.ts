@@ -7,19 +7,19 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import type { PairingChannel } from "../../pairing/pairing-store.types.js";
-import { decideChannelIngress } from "./decision.js";
-import { resolveChannelIngressEffectiveAllowFromLists } from "./effective-allow-from.js";
+import type { PairingChannel } from "../../pairing/pairing-store.types.ts";
+import { decideChannelIngress } from "./decision.ts";
+import { resolveChannelIngressEffectiveAllowFromLists } from "./effective-allow-from.ts";
 import {
   allReferencedAccessGroupNames,
   normalizeEffectiveEntries,
   resolveRuntimeAccessGroupMembershipFacts,
-} from "./runtime-access-groups.js";
+} from "./runtime-access-groups.ts";
 import {
   createIdentityAdapter,
   createIdentitySubject,
   defineStableChannelIngressIdentity,
-} from "./runtime-identity.js";
+} from "./runtime-identity.ts";
 import type {
   ChannelMessageIngressCommandInput,
   ChannelIngressCommandPresetInput,
@@ -35,9 +35,9 @@ import type {
   ResolveChannelMessageIngressParams,
   ResolveStableChannelMessageIngressParams,
   ResolvedChannelMessageIngress,
-} from "./runtime-types.js";
-import { resolveChannelIngressState } from "./state.js";
-import { readChannelIngressStoreAllowFromForDmPolicy } from "./store-allow-from.js";
+} from "./runtime-types.ts";
+import { resolveChannelIngressState } from "./state.ts";
+import { readChannelIngressStoreAllowFromForDmPolicy } from "./store-allow-from.ts";
 import type {
   AccessGraphGate,
   ChannelIngressChannelId,
@@ -48,7 +48,7 @@ import type {
   ResolvedIngressAllowlist,
   RouteGateFacts,
   RouteSenderPolicy,
-} from "./types.js";
+} from "./types.ts";
 
 type RouteFactDefaults = {
   id: string;

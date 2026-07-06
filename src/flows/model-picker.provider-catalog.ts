@@ -1,26 +1,26 @@
 // Model picker provider catalog helpers build provider choices from catalog data.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { resolveDefaultAgentDir } from "../agents/agent-scope.js";
-import { ensureAuthProfileStoreWithoutExternalProfiles } from "../agents/auth-profiles.js";
-import type { ModelCatalogEntry } from "../agents/model-catalog.js";
-import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.js";
+import { resolveDefaultAgentDir } from "../agents/agent-scope.ts";
+import { ensureAuthProfileStoreWithoutExternalProfiles } from "../agents/auth-profiles.ts";
+import type { ModelCatalogEntry } from "../agents/model-catalog.ts";
+import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.ts";
 import {
   createProviderApiKeyResolver,
   createProviderAuthResolver,
-} from "../agents/models-config.providers.secrets.js";
-import { resolveProviderCatalogPluginIdsForFilter } from "../commands/models/list.provider-catalog.js";
-import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../agents/models-config.providers.secrets.ts";
+import { resolveProviderCatalogPluginIdsForFilter } from "../commands/models/list.provider-catalog.ts";
+import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   groupPluginDiscoveryProvidersByOrder,
   normalizePluginDiscoveryResult,
   providerMatchesFilter,
   resolveRuntimePluginDiscoveryProviders,
   runProviderCatalog,
-} from "../plugins/provider-discovery.js";
-import type { ProviderPlugin } from "../plugins/types.js";
+} from "../plugins/provider-discovery.ts";
+import type { ProviderPlugin } from "../plugins/types.ts";
 
 // Loads live provider model catalogs for the preferred-provider model picker.
 const log = createSubsystemLogger("model-picker-provider-catalog");

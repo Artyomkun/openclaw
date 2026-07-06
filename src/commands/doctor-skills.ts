@@ -1,28 +1,28 @@
 /** Doctor checks and repair prompts for unavailable configured skills. */
 import { existsSync } from "node:fs";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { SkillStatusEntry } from "../skills/discovery/status.js";
-import { buildWorkspaceSkillStatus } from "../skills/discovery/status.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { SkillStatusEntry } from "../skills/discovery/status.ts";
+import { buildWorkspaceSkillStatus } from "../skills/discovery/status.ts";
 import {
   detectGhConfigDirMismatch,
   formatGhConfigDirMismatchHint,
   type GhConfigDiscoveryInput,
   type GhConfigDiscoveryResult,
-} from "../skills/lifecycle/gh-config-discovery.js";
-import type { DoctorPrompter } from "./doctor-prompter.js";
+} from "../skills/lifecycle/gh-config-discovery.ts";
+import type { DoctorPrompter } from "./doctor-prompter.ts";
 import {
   collectUnavailableAgentSkills,
   disableUnavailableSkillsInConfig,
   formatMissingSkillSummary,
-} from "./doctor-skills-core.js";
+} from "./doctor-skills-core.ts";
 
 export {
   collectUnavailableAgentSkills,
   disableUnavailableSkillsInConfig,
-} from "./doctor-skills-core.js";
+} from "./doctor-skills-core.ts";
 
 function formatInstallHints(skill: SkillStatusEntry): string[] {
   if (skill.install.length === 0) {

@@ -10,16 +10,16 @@ import {
   auth,
   type OAuthClientProvider,
   type OAuthDiscoveryState,
-} from "@modelcontextprotocol/sdk/client/auth.js";
+} from "@modelcontextprotocol/sdk/client/auth.ts";
 import type {
   OAuthClientInformationMixed,
   OAuthClientMetadata,
   OAuthTokens,
-} from "@modelcontextprotocol/sdk/shared/auth.js";
-import type { FetchLike } from "@modelcontextprotocol/sdk/shared/transport.js";
+} from "@modelcontextprotocol/sdk/shared/auth.ts";
+import type { FetchLike } from "@modelcontextprotocol/sdk/shared/transport.ts";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveStateDir } from "../config/paths.js";
-import { sanitizeServerName } from "./agent-bundle-mcp-names.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { sanitizeServerName } from "./agent-bundle-mcp-names.ts";
 
 type McpOAuthStore = {
   clientInformation?: OAuthClientInformationMixed;
@@ -46,7 +46,6 @@ export type McpOAuthCredentialsStatus = {
   hasLastAuthorizationUrl: boolean;
 };
 
-const LEGACY_DEFAULT_REDIRECT_URL = "http://127.0.0.1:8989/oauth/callback";
 const LOCALHOST_REDIRECT_URL = "http://localhost:8989/oauth/callback";
 
 function isMcpOAuthRedirectRegistrationError(error: unknown): boolean {
@@ -87,8 +86,7 @@ async function writeStore(filePath: string, store: McpOAuthStore): Promise<void>
 function resolveOAuthRedirectUrl(config: McpOAuthConfig, store: McpOAuthStore = {}): string {
   return (
     normalizeOptionalString(config.redirectUrl) ??
-    normalizeOptionalString(store.redirectUrl) ??
-    LEGACY_DEFAULT_REDIRECT_URL
+    normalizeOptionalString(store.redirectUrl)
   );
 }
 

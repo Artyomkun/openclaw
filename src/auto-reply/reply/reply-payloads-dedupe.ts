@@ -3,20 +3,20 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isMessagingToolDuplicate } from "../../agents/embedded-agent-helpers.js";
-import type { MessagingToolSend } from "../../agents/embedded-agent-messaging.types.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import { getLoadedChannelPluginForRead } from "../../channels/plugins/registry-loaded-read.js";
-import { normalizeAnyChannelId } from "../../channels/registry.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { isMessagingToolDuplicate } from "../../agents/embedded-agent-helpers.ts";
+import type { MessagingToolSend } from "../../agents/embedded-agent-messaging.types.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import { getLoadedChannelPluginForRead } from "../../channels/plugins/registry-loaded-read.ts";
+import { normalizeAnyChannelId } from "../../channels/registry.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   channelRouteTargetsMatchExact,
   stringifyRouteThreadId,
   type ChannelRouteTargetInput,
-} from "../../plugin-sdk/channel-route.js";
-import { normalizeOptionalAccountId } from "../../routing/account-id.js";
-import { copyReplyPayloadMetadata, type ReplyDeliveryContext } from "../reply-payload.js";
-import type { ReplyPayload } from "../types.js";
+} from "../../plugin-sdk/channel-route.ts";
+import { normalizeOptionalAccountId } from "../../routing/account-id.ts";
+import { copyReplyPayloadMetadata, type ReplyDeliveryContext } from "../reply-payload.ts";
+import type { ReplyPayload } from "../types.ts";
 
 /** Removes text payloads already sent by message tools. */
 export function filterMessagingToolDuplicates(params: {

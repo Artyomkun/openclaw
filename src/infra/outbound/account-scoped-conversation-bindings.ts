@@ -1,19 +1,19 @@
 // Account-scoped conversation binding managers adapt channel-local thread maps
 // into the shared session binding service.
-import { resolveThreadBindingConversationIdFromBindingId } from "../../channels/thread-binding-id.js";
+import { resolveThreadBindingConversationIdFromBindingId } from "../../channels/thread-binding-id.ts";
 import {
   resolveThreadBindingIdleTimeoutMsForChannel,
   resolveThreadBindingMaxAgeMsForChannel,
-} from "../../channels/thread-bindings-policy.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeAccountId, resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
+} from "../../channels/thread-bindings-policy.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeAccountId, resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
 import {
   registerSessionBindingAdapter,
   unregisterSessionBindingAdapter,
   type BindingTargetKind,
   type SessionBindingAdapter,
   type SessionBindingRecord,
-} from "./session-binding-service.js";
+} from "./session-binding-service.ts";
 
 /** In-memory binding record scoped to one channel account and conversation id. */
 export type AccountScopedConversationBindingRecord<TKind extends string = string> = {

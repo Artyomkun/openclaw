@@ -10,12 +10,12 @@ export {
   isBaseFieldActiveForChannelSurface,
   normalizeSecretStringValue,
   resolveChannelAccountSurface,
-} from "../secrets/channel-secret-basic-runtime.js";
+} from "../secrets/channel-secret-basic-runtime.ts";
 export type {
   ChannelAccountEntry,
   ChannelAccountPredicate,
   ChannelAccountSurface,
-} from "../secrets/channel-secret-basic-runtime.js";
+} from "../secrets/channel-secret-basic-runtime.ts";
 export {
   collectSecretInputAssignment,
   hasOwnProperty,
@@ -23,7 +23,7 @@ export {
   pushAssignment,
   pushInactiveSurfaceWarning,
   pushWarning,
-} from "../secrets/runtime-shared.js";
-export type { ResolverContext, SecretDefaults } from "../secrets/runtime-shared.js";
-export { isRecord } from "../secrets/shared.js";
-export type { SecretTargetRegistryEntry } from "../secrets/target-registry-types.js";
+} from "../secrets/runtime-shared.ts";
+export type { ResolverContext, SecretDefaults } from "../secrets/runtime-shared.ts";
+export { isRecord } from "../secrets/shared.ts";
+export type { SecretTargetRegistryEntry } from "../secrets/target-registry-types.ts";

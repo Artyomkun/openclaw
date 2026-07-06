@@ -1,8 +1,8 @@
 /**
  * Guards against repeated tool-loop compactions that never make progress.
  */
-import type { ToolLoopPostCompactionGuardConfig } from "../../config/types.tools.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import type { ToolLoopPostCompactionGuardConfig } from "../../config/types.tools.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 
 /**
  * Detects identical tool-call loops immediately after automatic compaction.

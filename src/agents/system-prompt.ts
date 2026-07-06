@@ -13,50 +13,50 @@ import {
   normalizeStringEntriesLower,
   normalizeUniqueStringEntries,
 } from "@openclaw/normalization-core/string-normalization";
-import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.js";
-import type { ReasoningLevel, ThinkLevel } from "../auto-reply/thinking.js";
-import { SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import { normalizeChatType, type ChatType } from "../channels/chat-type.js";
+import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.ts";
+import type { ReasoningLevel, ThinkLevel } from "../auto-reply/thinking.ts";
+import { SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import { normalizeChatType, type ChatType } from "../channels/chat-type.ts";
 import {
   hasNativeApprovalPromptRuntimeCapability,
   isKnownNativeApprovalPromptChannel,
-} from "../channels/plugins/native-approval-prompt.js";
-import type { SubagentDelegationMode } from "../config/types.agent-defaults.js";
-import type { MemoryCitationsMode } from "../config/types.memory.js";
-import { buildMemoryPromptSection } from "../plugins/memory-state.js";
-import type { AgentPromptSurfaceKind } from "../plugins/types.js";
-import { listDeliverableMessageChannels } from "../utils/message-channel.js";
-import type { ActiveProcessSessionReference } from "./bash-process-references.js";
-import type { BootstrapMode } from "./bootstrap-mode.js";
+} from "../channels/plugins/native-approval-prompt.ts";
+import type { SubagentDelegationMode } from "../config/types.agent-defaults.ts";
+import type { MemoryCitationsMode } from "../config/types.memory.ts";
+import { buildMemoryPromptSection } from "../plugins/memory-state.ts";
+import type { AgentPromptSurfaceKind } from "../plugins/types.ts";
+import { listDeliverableMessageChannels } from "../utils/message-channel.ts";
+import type { ActiveProcessSessionReference } from "./bash-process-references.ts";
+import type { BootstrapMode } from "./bootstrap-mode.ts";
 import {
   buildFullBootstrapPromptLines,
   buildLimitedBootstrapPromptLines,
-} from "./bootstrap-prompt.js";
-import type { ResolvedTimeFormat } from "./date-time.js";
-import type { EmbeddedContextFile } from "./embedded-agent-helpers.js";
+} from "./bootstrap-prompt.ts";
+import type { ResolvedTimeFormat } from "./date-time.ts";
+import type { EmbeddedContextFile } from "./embedded-agent-helpers.ts";
 import type {
   EmbeddedFullAccessBlockedReason,
   EmbeddedSandboxInfo,
-} from "./embedded-agent-runner/types.js";
+} from "./embedded-agent-runner/types.ts";
 import {
   normalizePromptCapabilityIds,
   normalizeStructuredPromptSection,
-} from "./prompt-cache-stability.js";
+} from "./prompt-cache-stability.ts";
 import {
   buildOpenClawToolFallbackText,
   shouldRenderOpenClawToolWorkflowHints,
-} from "./prompt-surface.js";
-import { sanitizeForPromptLiteral } from "./sanitize-for-prompt.js";
+} from "./prompt-surface.ts";
+import { sanitizeForPromptLiteral } from "./sanitize-for-prompt.ts";
 import {
   buildSkillWorkshopPromptSection,
   SKILL_WORKSHOP_TOOL_NAME,
-} from "./skill-workshop-prompt.js";
-import { SYSTEM_PROMPT_CACHE_BOUNDARY } from "./system-prompt-cache-boundary.js";
+} from "./skill-workshop-prompt.ts";
+import { SYSTEM_PROMPT_CACHE_BOUNDARY } from "./system-prompt-cache-boundary.ts";
 import type {
   ProviderSystemPromptContribution,
   ProviderSystemPromptSectionId,
-} from "./system-prompt-contribution.js";
-import type { PromptMode, SilentReplyPromptMode } from "./system-prompt.types.js";
+} from "./system-prompt-contribution.ts";
+import type { PromptMode, SilentReplyPromptMode } from "./system-prompt.types.ts";
 
 /**
  * Controls which hardcoded sections are included in the system prompt.
@@ -404,7 +404,7 @@ function buildAssistantOutputDirectivesSection(params: {
       "## Assistant Output Directives",
       "- Visible source-channel output is delivered through `message(action=send)`.",
       "- Tool/generated media paths are attachments, not prose; send one with `media`, multiple with `attachments: [{media: ...}]`.",
-      "- Do not use legacy `MEDIA:` directives for source-channel delivery.",
+      "- Do not use older `MEDIA:` directives for source-channel delivery.",
       "- Voice-note audio hint: use message-tool `asVoice` when sending audio as a voice note.",
       "- Native quote/reply: use message-tool `replyTo` when an explicit reply target is needed.",
       "",
@@ -527,7 +527,7 @@ function buildMessagingSection(params: {
       : "- Reply in current session → automatically routes to the source channel (Signal, Telegram, etc.)",
     telegramRuntime
       ? telegramRichTextEnabled
-        ? '- Telegram rich text is available. Use Bot API 10.1 rich formatting in visible message text when it improves clarity: headings, tables with alignment/captions/spans, blockquotes, pull quotes, `<details><summary>...</summary>...</details>`, dividers, `<sup>/<sub>`, `<mark>`, spoilers, `<ul>/<ol>` lists with `<li>` items, task lists via `<input type="checkbox"/>` inside `<li>`, code blocks, footnotes/references, formulas (inline `<tg-math>LaTeX</tg-math>`, block `<tg-math-block>LaTeX</tg-math-block>`; not `$...$` or `\\(...\\)`), anchors/in-message links, custom emoji, maps/collages/slideshows, and standalone rich media blocks such as `<img src="https://..."/>`. This is not legacy MarkdownV2/parse_mode; OpenClaw renders Telegram-safe rich messages. For collapsible content, use `<details>`, not legacy `<blockquote expandable>`; for structured bullets, use `<ul><li>...</li></ul>`, not literal bullet characters. Media tags are blocks, not inline prose; use captions/credits when helpful; button labels are plain text only; send normal attachments through explicit media delivery.'
+        ? '- Telegram rich text is available. Use Bot API 10.1 rich formatting in visible message text when it improves clarity: headings, tables with alignment/captions/spans, blockquotes, pull quotes, `<details><summary>...</summary>...</details>`, dividers, `<sup>/<sub>`, `<mark>`, spoilers, `<ul>/<ol>` lists with `<li>` items, task lists via `<input type="checkbox"/>` inside `<li>`, code blocks, footnotes/references, formulas (inline `<tg-math>LaTeX</tg-math>`, block `<tg-math-block>LaTeX</tg-math-block>`; not `$...$` or `\\(...\\)`), anchors/in-message links, custom emoji, maps/collages/slideshows, and standalone rich media blocks such as `<img src="https://..."/>`. This is not older MarkdownV2/parse_mode; OpenClaw renders Telegram-safe rich messages. For collapsible content, use `<details>`, not older `<blockquote expandable>`; for structured bullets, use `<ul><li>...</li></ul>`, not literal bullet characters. Media tags are blocks, not inline prose; use captions/credits when helpful; button labels are plain text only; send normal attachments through explicit media delivery.'
         : "- Telegram rich messages are disabled for this bot/account. Do not claim Bot API 10.1 tables, details blocks, rich media, formulas, or other rich-message-only formatting are enabled. Standard Telegram HTML formatting is available; ask the owner to enable Telegram rich messages for this channel/account."
       : "",
     "- Cross-session messaging → use sessions_send(sessionKey, message)",

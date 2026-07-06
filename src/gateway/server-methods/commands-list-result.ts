@@ -4,7 +4,7 @@ import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/s
 import type {
   CommandEntry,
   CommandsListResult,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   COMMAND_ALIAS_MAX_ITEMS,
   COMMAND_ARG_CHOICES_MAX_ITEMS,
@@ -16,21 +16,21 @@ import {
   COMMAND_DESCRIPTION_MAX_LENGTH,
   COMMAND_LIST_MAX_ITEMS,
   COMMAND_NAME_MAX_LENGTH,
-} from "../../../packages/gateway-protocol/src/schema.js";
-import { listChatCommandsForConfig } from "../../auto-reply/commands-registry.js";
+} from "../../../packages/gateway-protocol/src/schema.ts";
+import { listChatCommandsForConfig } from "../../auto-reply/commands-registry.ts";
 import type {
   ChatCommandDefinition,
   CommandArgChoice,
   CommandArgDefinition,
-} from "../../auto-reply/commands-registry.types.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../auto-reply/commands-registry.types.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   getPluginCommandEntrySpecs,
   getPluginCommandEntrySpecsFromRegistrations,
-} from "../../plugins/command-specs.js";
-import { getActivePluginGatewayCommandRegistry } from "../../plugins/runtime.js";
-import { listSkillCommandsForAgents } from "../../skills/discovery/chat-commands.js";
+} from "../../plugins/command-specs.ts";
+import { getActivePluginGatewayCommandRegistry } from "../../plugins/runtime.ts";
+import { listSkillCommandsForAgents } from "../../skills/discovery/chat-commands.ts";
 
 type SerializedArg = NonNullable<CommandEntry["args"]>[number];
 type CommandNameSurface = "text" | "native";

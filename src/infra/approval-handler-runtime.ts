@@ -2,13 +2,13 @@
 import type {
   ChannelApprovalCapability,
   ChannelApprovalNativeAdapter,
-} from "../channels/plugins/types.adapters.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+} from "../channels/plugins/types.adapters.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY,
   createLazyChannelApprovalNativeRuntimeAdapter,
-} from "./approval-handler-adapter-runtime.js";
+} from "./approval-handler-adapter-runtime.ts";
 import type {
   ApprovalRequest,
   ApprovalResolved,
@@ -17,24 +17,24 @@ import type {
   ChannelApprovalNativeFinalAction,
   ChannelApprovalNativeRuntimeAdapter,
   ChannelApprovalNativeRuntimeSpec,
-} from "./approval-handler-runtime-types.js";
+} from "./approval-handler-runtime-types.ts";
 import type {
   ChannelNativeApprovalDeliveryCallbacks,
   ChannelNativeApprovalTransportSpec,
-} from "./approval-native-runtime-types.js";
-import { createChannelNativeApprovalRuntime } from "./approval-native-runtime.js";
+} from "./approval-native-runtime-types.ts";
+import { createChannelNativeApprovalRuntime } from "./approval-native-runtime.ts";
 import {
   buildExpiredApprovalView,
   buildPendingApprovalView,
   buildResolvedApprovalView,
-} from "./approval-view-model.js";
+} from "./approval-view-model.ts";
 import type {
   ExpiredApprovalView,
   PendingApprovalView,
   ResolvedApprovalView,
-} from "./approval-view-model.types.js";
-import type { ExecApprovalChannelRuntime } from "./exec-approval-channel-runtime.js";
-import type { ExecApprovalChannelRuntimeEventKind } from "./exec-approval-channel-runtime.types.js";
+} from "./approval-view-model.types.ts";
+import type { ExecApprovalChannelRuntime } from "./exec-approval-channel-runtime.ts";
+import type { ExecApprovalChannelRuntimeEventKind } from "./exec-approval-channel-runtime.types.ts";
 
 export type {
   ApprovalActionView,
@@ -49,7 +49,7 @@ export type {
   PluginApprovalPendingView,
   PluginApprovalResolvedView,
   ResolvedApprovalView,
-} from "./approval-view-model.types.js";
+} from "./approval-view-model.types.ts";
 export {
   CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY,
   createLazyChannelApprovalNativeRuntimeAdapter,
@@ -64,7 +64,7 @@ export type {
   ChannelApprovalNativeRuntimeAdapter,
   ChannelApprovalNativeRuntimeSpec,
   ChannelApprovalNativeTransportAdapter,
-} from "./approval-handler-runtime-types.js";
+} from "./approval-handler-runtime-types.ts";
 
 export type ChannelApprovalHandler<
   TRequest extends ApprovalRequest = ApprovalRequest,

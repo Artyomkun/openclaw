@@ -1,8 +1,8 @@
 /** Detects reminder commitments that were not backed by scheduled cron jobs. */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { loadCronJobsStore, resolveCronJobsStorePath } from "../../cron/store.js";
-import { copyReplyPayloadMetadata } from "../reply-payload.js";
-import type { ReplyPayload } from "../types.js";
+import { loadCronJobsStore, resolveCronJobsStorePath } from "../../cron/store.ts";
+import { copyReplyPayloadMetadata } from "../reply-payload.ts";
+import type { ReplyPayload } from "../types.ts";
 
 const UNSCHEDULED_REMINDER_NOTE =
   "Note: I did not schedule a reminder in this turn, so this will not trigger automatically.";

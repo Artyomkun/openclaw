@@ -70,7 +70,7 @@ credentials. They are valid when the target provider uses
 AWS SDK route. These profile ids may appear in `auth.order` and session
 overrides even when no matching entry exists in `auth-profiles.json`.
 
-Do not write `type: "aws-sdk"` into `auth-profiles.json`. If a legacy install
+Do not write `type: "aws-sdk"` into `auth-profiles.json`. If an older install
 has such a marker, `openclaw doctor --fix` moves it to `auth.profiles` and
 removes the marker from the credential store.
 
@@ -110,7 +110,7 @@ removes the marker from the credential store.
 - If `auth.profiles.<id>.mode` is `"oauth"`, SecretRef-backed `keyRef`/`tokenRef` input for that profile is rejected.
 - Violations are hard failures in startup/reload auth resolution paths.
 
-## Legacy-Compatible Messaging
+## Compatible Messaging
 
 For script compatibility, probe errors keep this first line unchanged:
 

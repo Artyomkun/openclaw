@@ -5,14 +5,14 @@
  * same config commit path as local onboarding.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { formatCliCommand } from "../../cli/command-format.js";
-import { logConfigUpdated } from "../../config/logging.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { applySkipBootstrapConfig } from "../onboard-config.js";
-import { applyWizardMetadata } from "../onboard-helpers.js";
-import type { OnboardOptions } from "../onboard-types.js";
-import { commitNonInteractiveOnboardConfig } from "./config-write.js";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { logConfigUpdated } from "../../config/logging.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { applySkipBootstrapConfig } from "../onboard-config.ts";
+import { applyWizardMetadata } from "../onboard-helpers.ts";
+import type { OnboardOptions } from "../onboard-types.ts";
+import { commitNonInteractiveOnboardConfig } from "./config-write.ts";
 
 /** Runs non-interactive setup for clients that connect to an existing remote gateway. */
 export async function runNonInteractiveRemoteSetup(params: {

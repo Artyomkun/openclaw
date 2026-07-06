@@ -1,14 +1,14 @@
 /** Runtime-only dispatch dependencies shared by config-driven reply delivery. */
-import { updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
+import { updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
 
-export { resolveStorePath } from "../../config/sessions/paths.js";
+export { resolveStorePath } from "../../config/sessions/paths.ts";
 export {
   loadSessionStore,
   readSessionEntry,
   resolveSessionStoreEntry,
-} from "../../config/sessions/store.js";
-export { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.js";
+} from "../../config/sessions/store.ts";
+export { createInternalHookEvent, triggerInternalHook } from "../../hooks/internal-hooks.ts";
 
 export async function updateSessionStoreEntry(params: {
   storePath: string;

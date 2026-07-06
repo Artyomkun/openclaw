@@ -1,6 +1,6 @@
 // Maintains config metadata fields written alongside user config.
-import { VERSION } from "../version.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import { VERSION } from "../version.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 /** Metadata keys automatically stamped on config writes. */
 const AUTO_MANAGED_CONFIG_META_FIELDS = {

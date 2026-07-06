@@ -1,23 +1,23 @@
 /**
  * Normalizes configured provider model rows for runtime/discovery use.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
-import { ensureAuthProfileStore } from "./auth-profiles/store.js";
-import { normalizeConfiguredProviderCatalogModelId } from "./model-ref-shared.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
+import { ensureAuthProfileStore } from "./auth-profiles/store.ts";
+import { normalizeConfiguredProviderCatalogModelId } from "./model-ref-shared.ts";
 import {
   normalizeProviderSpecificConfig,
   resolveProviderConfigApiKeyResolver,
-} from "./models-config.providers.policy.js";
-import type { ProviderConfig, SecretDefaults } from "./models-config.providers.secret-helpers.js";
+} from "./models-config.providers.policy.ts";
+import type { ProviderConfig, SecretDefaults } from "./models-config.providers.secret-helpers.ts";
 import {
   normalizeConfiguredProviderApiKey,
   normalizeHeaderValues,
   normalizeResolvedEnvApiKey,
   resolveApiKeyFromProfiles,
   resolveMissingProviderApiKey,
-} from "./models-config.providers.secret-helpers.js";
-import { enforceSourceManagedProviderSecrets } from "./models-config.providers.source-managed.js";
+} from "./models-config.providers.secret-helpers.ts";
+import { enforceSourceManagedProviderSecrets } from "./models-config.providers.source-managed.ts";
 
 type ModelsConfig = NonNullable<OpenClawConfig["models"]>;
 type ProviderModelConfig = NonNullable<

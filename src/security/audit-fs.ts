@@ -6,4 +6,4 @@ export {
   safeStat,
   type PermissionCheck,
   type PermissionCheckOptions,
-} from "../infra/permissions.js";
+} from "../infra/permissions.ts";

@@ -2,11 +2,11 @@
 import os from "node:os";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveRequiredHomeDir } from "../infra/home-dir.js";
-import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveStateDir } from "./paths.js";
-import type { OpenClawConfig } from "./types.js";
+import { resolveRequiredHomeDir } from "../infra/home-dir.ts";
+import { DEFAULT_AGENT_ID, normalizeAgentId } from "../routing/session-key.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveStateDir } from "./paths.ts";
+import type { OpenClawConfig } from "./types.ts";
 
 type DuplicateAgentDir = {
   agentDir: string;

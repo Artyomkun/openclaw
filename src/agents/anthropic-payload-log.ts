@@ -5,15 +5,15 @@
  */
 import crypto from "node:crypto";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import type { Model } from "../llm/types.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveUserPath } from "../utils.js";
-import { parseBooleanValue } from "../utils/boolean.js";
-import { safeJsonStringify } from "../utils/safe-json.js";
-import { redactAgentDiagnosticPayload } from "./diagnostic-redaction.js";
-import { getQueuedFileWriter, type QueuedFileWriter } from "./queued-file-writer.js";
-import type { AgentMessage, StreamFn } from "./runtime/index.js";
+import { resolveStateDir } from "../config/paths.ts";
+import type { Model } from "../llm/types.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveUserPath } from "../utils.ts";
+import { parseBooleanValue } from "../utils/boolean.ts";
+import { safeJsonStringify } from "../utils/safe-json.ts";
+import { redactAgentDiagnosticPayload } from "./diagnostic-redaction.ts";
+import { getQueuedFileWriter, type QueuedFileWriter } from "./queued-file-writer.ts";
+import type { AgentMessage, StreamFn } from "./runtime/index.ts";
 
 type PayloadLogStage = "request" | "usage";
 

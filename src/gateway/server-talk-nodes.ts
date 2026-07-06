@@ -1,7 +1,7 @@
 // Gateway talk-capable node detection.
-// Accepts explicit talk caps and legacy talk.* command declarations.
+// Accepts explicit talk caps and older talk.* command declarations.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { NodeRegistry, NodeSession } from "./node-registry.js";
+import type { NodeRegistry, NodeSession } from "./node-registry.ts";
 
 // Talk node detection accepts either the explicit talk capability or talk.*
 // commands so older and newer node clients both enable talk routing.

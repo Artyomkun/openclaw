@@ -32,7 +32,7 @@ Details: [Plugins](/tools/plugin)
 
 ## Quick setup
 
-The [`@microsoft/teams.cli`](https://www.npmjs.com/package/@microsoft/teams.cli) handles bot registration, manifest creation, and credential generation in a single command.
+The [`@microsoft/teams.cli`](https://www.npts.com/package/@microsoft/teams.cli) handles bot registration, manifest creation, and credential generation in a single command.
 
 **1. Install and log in**
 
@@ -1086,7 +1086,7 @@ Bots have limited support in private channels:
 - [RSC permissions reference](https://learn.microsoft.com/en-us/microsoftteams/platform/graph-api/rsc/resource-specific-consent)
 - [Teams bot file handling](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/bots-filesv4) (channel/group requires Graph)
 - [Proactive messaging](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/conversations/send-proactive-messages)
-- [@microsoft/teams.cli](https://www.npmjs.com/package/@microsoft/teams.cli) - Teams CLI for bot management
+- [@microsoft/teams.cli](https://www.npts.com/package/@microsoft/teams.cli) - Teams CLI for bot management
 
 ## Related
 

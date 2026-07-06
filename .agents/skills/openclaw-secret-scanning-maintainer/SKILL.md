@@ -16,7 +16,7 @@ Use this skill when processing alerts from `https://github.com/openclaw/openclaw
 All mechanical operations (API calls, temp file management, security enforcements) are handled by:
 
 ```
-$REPO_ROOT/.agents/skills/openclaw-secret-scanning-maintainer/scripts/secret-scanning.mjs
+$REPO_ROOT/.agents/skills/openclaw-secret-scanning-maintainer/scripts/secret-scanning.ts
 ```
 
 The script enforces:
@@ -45,13 +45,13 @@ For each alert:
 
 ```bash
 # List all open alerts
-node secret-scanning.mjs list-open
+node secret-scanning.ts list-open
 
 # Fetch specific alert metadata + locations
-node secret-scanning.mjs fetch-alert <NUMBER>
+node secret-scanning.ts fetch-alert <NUMBER>
 
 # Fetch content for each location (saves body to temp file)
-node secret-scanning.mjs fetch-content '<location-json>'
+node secret-scanning.ts fetch-content '<location-json>'
 ```
 
 The `fetch-content` output includes:
@@ -90,7 +90,7 @@ This is the only step that requires semantic understanding. Everything else is m
 For `issue_body` and `pull_request_body`: if the current body has already been redacted by the author and no plaintext credential remains, **do not post a public notification comment**. Resolve the alert with a maintainer-only resolution comment such as:
 
 ```bash
-node secret-scanning.mjs resolve <ALERT_NUMBER> revoked "Current issue/PR body is already redacted; no public notification posted."
+node secret-scanning.ts resolve <ALERT_NUMBER> revoked "Current issue/PR body is already redacted; no public notification posted."
 ```
 
 This avoids creating a fresh public pointer to historical sensitive content.
@@ -104,7 +104,7 @@ This avoids creating a fresh public pointer to historical sensitive content.
 ### For issue_body / pull_request_body
 
 ```bash
-node secret-scanning.mjs redact-body-if-needed <issue|pr> <NUMBER> <current-body-file> <redacted-body-file> <result-file>
+node secret-scanning.ts redact-body-if-needed <issue|pr> <NUMBER> <current-body-file> <redacted-body-file> <result-file>
 ```
 
 Use the `body_file` from `fetch-content` as `<current-body-file>`. The command writes `notify_required` to `<result-file>` and only PATCHes the body when the redacted file differs from the current body.
@@ -117,20 +117,20 @@ For issue/PR comments:
 
 ```bash
 # Delete original (all edit history gone)
-node secret-scanning.mjs delete-comment <COMMENT_ID>
+node secret-scanning.ts delete-comment <COMMENT_ID>
 
 # Recreate with redacted content
-node secret-scanning.mjs recreate-comment <ISSUE_NUMBER> <body-file>
+node secret-scanning.ts recreate-comment <ISSUE_NUMBER> <body-file>
 ```
 
 For discussion comments (uses GraphQL):
 
 ```bash
 # Delete original
-node secret-scanning.mjs delete-discussion-comment <COMMENT_NODE_ID>
+node secret-scanning.ts delete-discussion-comment <COMMENT_NODE_ID>
 
 # Recreate with redacted content
-node secret-scanning.mjs recreate-discussion-comment <DISCUSSION_NODE_ID> <body-file> [REPLY_TO_NODE_ID]
+node secret-scanning.ts recreate-discussion-comment <DISCUSSION_NODE_ID> <body-file> [REPLY_TO_NODE_ID]
 ```
 
 The `fetch-content` output for `discussion_comment` includes `comment_node_id` and `discussion_node_id` for these commands. When the original discussion comment was a reply, it also includes `reply_to_node_id`; pass that optional third argument so the redacted replacement stays in the original thread.
@@ -168,7 +168,7 @@ Cannot clean. Notify author to delete branch or force-push (for unmerged PRs).
 ## Step 5: Notify
 
 ```bash
-node secret-scanning.mjs notify <TARGET> <AUTHOR> <LOCATION_TYPE> <SECRET_TYPES> [REPLY_TO_NODE_ID|BODY_REDACTION_RESULT_FILE]
+node secret-scanning.ts notify <TARGET> <AUTHOR> <LOCATION_TYPE> <SECRET_TYPES> [REPLY_TO_NODE_ID|BODY_REDACTION_RESULT_FILE]
 ```
 
 - For non-discussion types, `<TARGET>` is the issue/PR number.
@@ -189,9 +189,9 @@ For `issue_body` and `pull_request_body`, only notify when the current body stil
 ## Step 6: Resolve
 
 ```bash
-node secret-scanning.mjs resolve <ALERT_NUMBER>
+node secret-scanning.ts resolve <ALERT_NUMBER>
 # or with custom resolution:
-node secret-scanning.mjs resolve <ALERT_NUMBER> revoked "Custom comment"
+node secret-scanning.ts resolve <ALERT_NUMBER> revoked "Custom comment"
 ```
 
 Resolution is `revoked` by default. As maintainers we cannot control whether users rotate — our responsibility is to remove current plaintext exposure and notify only when public notification is useful. The `revoked` means "this secret should be considered leaked", not "I confirmed it was revoked".
@@ -201,7 +201,7 @@ Resolution is `revoked` by default. As maintainers we cannot control whether use
 After processing, create a JSON results file and pass it to the summary command:
 
 ```bash
-node secret-scanning.mjs summary /tmp/results.json
+node secret-scanning.ts summary /tmp/results.json
 ```
 
 The script outputs a block delimited by `---BEGIN SUMMARY---` and `---END SUMMARY---`. **You MUST output the content between these markers verbatim to the user. Do NOT rephrase, reformat, abbreviate, or create your own summary.** The script already includes full URLs for every alert and location.

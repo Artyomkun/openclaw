@@ -4,21 +4,21 @@ import {
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
 import type {
   ChannelResolveKind,
   ChannelResolveResult,
-} from "../../channels/plugins/types.adapters.js";
-import { resolveCommandConfigWithSecrets } from "../../cli/command-config-resolution.js";
-import { formatCliCommand } from "../../cli/command-format.js";
-import { getChannelsCommandSecretTargetIds } from "../../cli/command-secret-targets.js";
-import { formatUnsupportedChannelActionMessage } from "../../cli/error-format.js";
-import { getRuntimeConfig, readConfigFileSnapshot } from "../../config/config.js";
-import { danger } from "../../globals.js";
-import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { resolveInstallableChannelPlugin } from "../channel-setup/channel-plugin-resolution.js";
-import { persistResolvedChannelPluginConfig } from "./plugin-config-persistence.js";
+} from "../../channels/plugins/types.adapters.ts";
+import { resolveCommandConfigWithSecrets } from "../../cli/command-config-resolution.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { getChannelsCommandSecretTargetIds } from "../../cli/command-secret-targets.ts";
+import { formatUnsupportedChannelActionMessage } from "../../cli/error-format.ts";
+import { getRuntimeConfig, readConfigFileSnapshot } from "../../config/config.ts";
+import { danger } from "../../globals.ts";
+import { resolveMessageChannelSelection } from "../../infra/outbound/channel-selection.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { resolveInstallableChannelPlugin } from "../channel-setup/channel-plugin-resolution.ts";
+import { persistResolvedChannelPluginConfig } from "./plugin-config-persistence.ts";
 
 export type ChannelsResolveOptions = {
   channel?: string;

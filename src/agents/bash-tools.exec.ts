@@ -11,7 +11,7 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeChatChannelId } from "../channels/ids.js";
+import { normalizeChatChannelId } from "../channels/ids.ts";
 import {
   type ExecAsk,
   type ExecHost,
@@ -23,42 +23,42 @@ import {
   requireValidExecTarget,
   resolveExecApprovalsFromFile,
   resolveExecModePolicy,
-} from "../infra/exec-approvals.js";
+} from "../infra/exec-approvals.ts";
 import {
   parseOpenClawChannelsLoginShellCommand,
   rejectUnsafeExecControlShellCommand,
-} from "../infra/exec-control-command-guard.js";
-import { resolveExecSafeBinRuntimePolicy } from "../infra/exec-safe-bin-runtime-policy.js";
+} from "../infra/exec-control-command-guard.ts";
+import { resolveExecSafeBinRuntimePolicy } from "../infra/exec-safe-bin-runtime-policy.ts";
 import {
   isDangerousHostEnvOverrideVarName,
   isDangerousHostEnvVarName,
   normalizeHostOverrideEnvVarKey,
   sanitizeHostExecEnvWithDiagnostics,
-} from "../infra/host-env-security.js";
-import { OPENCLAW_CLI_ENV_VAR } from "../infra/openclaw-exec-env.js";
+} from "../infra/host-env-security.ts";
+import { OPENCLAW_CLI_ENV_VAR } from "../infra/openclaw-exec-env.ts";
 import {
   getShellPathFromLoginShell,
   resolveShellEnvFallbackTimeoutMs,
-} from "../infra/shell-env.js";
-import { logInfo } from "../logger.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import type { PluginHookChannelContext } from "../plugins/hook-types.js";
+} from "../infra/shell-env.ts";
+import { logInfo } from "../logger.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import type { PluginHookChannelContext } from "../plugins/hook-types.ts";
 import {
   normalizeAgentId,
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
-} from "../routing/session-key.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { normalizeDeliveryContext } from "../utils/delivery-context.js";
-import { safeJsonStringify } from "../utils/safe-json.js";
-import { splitShellArgs } from "../utils/shell-argv.js";
-import type { HookContext } from "./agent-tools.before-tool-call.js";
-import { stripMalformedXmlArgValueSuffixFromKeys } from "./agent-tools.params.js";
-import { markBackgrounded } from "./bash-process-registry.js";
-import { describeExecTool } from "./bash-tools.descriptions.js";
-import { processGatewayAllowlist } from "./bash-tools.exec-host-gateway.js";
-import { executeNodeHostCommand } from "./bash-tools.exec-host-node.js";
-import { renderExecOutputText } from "./bash-tools.exec-output.js";
+} from "../routing/session-key.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { normalizeDeliveryContext } from "../utils/delivery-context.ts";
+import { safeJsonStringify } from "../utils/safe-json.ts";
+import { splitShellArgs } from "../utils/shell-argv.ts";
+import type { HookContext } from "./agent-tools.before-tool-call.ts";
+import { stripMalformedXmlArgValueSuffixFromKeys } from "./agent-tools.params.ts";
+import { markBackgrounded } from "./bash-process-registry.ts";
+import { describeExecTool } from "./bash-tools.descriptions.ts";
+import { processGatewayAllowlist } from "./bash-tools.exec-host-gateway.ts";
+import { executeNodeHostCommand } from "./bash-tools.exec-host-node.ts";
+import { renderExecOutputText } from "./bash-tools.exec-output.ts";
 import {
   DEFAULT_MAX_OUTPUT,
   DEFAULT_PATH,
@@ -73,31 +73,31 @@ import {
   buildExecRuntimeErrorOutcome,
   runExecProcess,
   execSchema,
-} from "./bash-tools.exec-runtime.js";
-import type { ExecToolDefaults, ExecToolDetails } from "./bash-tools.exec-types.js";
+} from "./bash-tools.exec-runtime.ts";
+import type { ExecToolDefaults, ExecToolDetails } from "./bash-tools.exec-types.ts";
 import {
   type ExecWorkdirResolution,
   formatUnavailableWorkdirFailure,
   resolveExecWorkdir,
-} from "./bash-tools.exec-workdir.js";
+} from "./bash-tools.exec-workdir.ts";
 import {
   buildSandboxEnv,
   clampWithDefault,
   coerceEnv,
   readEnvInt,
   truncateMiddle,
-} from "./bash-tools.shared.js";
-import { createModelExecAutoReviewer } from "./exec-auto-reviewer.js";
-import type { AgentToolResult } from "./runtime/index.js";
-import { EXEC_TOOL_DISPLAY_SUMMARY } from "./tool-description-presets.js";
-import { type AgentToolWithMeta, failedTextResult, textResult } from "./tools/common.js";
+} from "./bash-tools.shared.ts";
+import { createModelExecAutoReviewer } from "./exec-auto-reviewer.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
+import { EXEC_TOOL_DISPLAY_SUMMARY } from "./tool-description-presets.ts";
+import { type AgentToolWithMeta, failedTextResult, textResult } from "./tools/common.ts";
 
-export type { BashSandboxConfig } from "./bash-tools.shared.js";
+export type { BashSandboxConfig } from "./bash-tools.shared.ts";
 export type {
   ExecElevatedDefaults,
   ExecToolDefaults,
   ExecToolDetails,
-} from "./bash-tools.exec-types.js";
+} from "./bash-tools.exec-types.ts";
 
 type ExecToolArgs = Record<string, unknown> & {
   command: string;

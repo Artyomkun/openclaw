@@ -1,7 +1,7 @@
 /** Public singleton facade for the ACP session manager control plane. */
-import { AcpSessionManager } from "./manager.core.js";
+import { AcpSessionManager } from "./manager.core.ts";
 
-export { AcpSessionManager } from "./manager.core.js";
+export { AcpSessionManager } from "./manager.core.ts";
 export type {
   AcpCloseSessionInput,
   AcpCloseSessionResult,
@@ -12,7 +12,7 @@ export type {
   AcpSessionRuntimeOptions,
   AcpSessionStatus,
   AcpStartupIdentityReconcileResult,
-} from "./manager.types.js";
+} from "./manager.types.ts";
 
 let ACP_SESSION_MANAGER_SINGLETON: AcpSessionManager | null = null;
 

@@ -1,5 +1,5 @@
 // Lazily loads ACP dispatch runtime pieces outside the normal reply hot path.
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
 
 type ShouldBypassAcpDispatchForCommand =
   (typeof import("./dispatch-acp-command-bypass.js"))["shouldBypassAcpDispatchForCommand"];

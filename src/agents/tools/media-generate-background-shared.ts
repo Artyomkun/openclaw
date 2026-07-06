@@ -4,43 +4,43 @@
  * Image, video, and music generation use this to track tasks, wake sessions, and deliver generated media.
  */
 import crypto from "node:crypto";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { clearAgentRunContext, registerAgentRunContext } from "../../infra/agent-events.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { clearAgentRunContext, registerAgentRunContext } from "../../infra/agent-events.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
 import {
   completeTaskRunByRunId,
   createRunningTaskRun,
   failTaskRunByRunId,
   recordTaskRunProgressByRunId,
-} from "../../tasks/detached-task-runtime.js";
+} from "../../tasks/detached-task-runtime.ts";
 import {
   resolveRequiredCompletionDeliveryFailureTerminalResult,
   type RequiredCompletionTerminalResult,
-} from "../../tasks/task-completion-contract.js";
+} from "../../tasks/task-completion-contract.ts";
 import {
   deliveryContextFromSession,
   normalizeDeliveryContext,
   type DeliveryContext,
-} from "../../utils/delivery-context.js";
-import type { DeliveryContextSessionSource } from "../../utils/delivery-context.types.js";
+} from "../../utils/delivery-context.ts";
+import type { DeliveryContextSessionSource } from "../../utils/delivery-context.types.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
-} from "../../utils/message-channel.js";
+} from "../../utils/message-channel.ts";
 import {
   mediaUrlsFromGeneratedAttachments,
   type AgentGeneratedAttachment,
-} from "../generated-attachments.js";
-import { formatAgentInternalEventsForPrompt, type AgentInternalEvent } from "../internal-events.js";
-import { MEDIA_GENERATION_DELIVERING_COMPLETION_PROGRESS } from "../media-generation-task-status-shared.js";
+} from "../generated-attachments.ts";
+import { formatAgentInternalEventsForPrompt, type AgentInternalEvent } from "../internal-events.ts";
+import { MEDIA_GENERATION_DELIVERING_COMPLETION_PROGRESS } from "../media-generation-task-status-shared.ts";
 import {
   deliverSubagentAnnouncement,
   loadRequesterSessionEntry,
-} from "../subagent-announce-delivery.js";
-import type { SubagentAnnounceDeliveryFailureReason } from "../subagent-announce-dispatch.js";
-import { resolveAnnounceOrigin } from "../subagent-announce-origin.js";
+} from "../subagent-announce-delivery.ts";
+import type { SubagentAnnounceDeliveryFailureReason } from "../subagent-announce-dispatch.ts";
+import { resolveAnnounceOrigin } from "../subagent-announce-origin.ts";
 
 const log = createSubsystemLogger("agents/tools/media-generate-background-shared");
 const MEDIA_GENERATION_TASK_KEEPALIVE_INTERVAL_MS = 60_000;

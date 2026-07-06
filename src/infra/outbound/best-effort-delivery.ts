@@ -1,12 +1,12 @@
 // Best-effort delivery helpers normalize optional external destinations and
 // decide when a reply should stay session-only.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.js";
+import { stringifyRouteThreadId } from "../../plugin-sdk/channel-route.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
   normalizeMessageChannel,
-} from "../../utils/message-channel.js";
+} from "../../utils/message-channel.ts";
 
 /** Optional external destination for best-effort delivery from session-only flows. */
 export type ExternalBestEffortDeliveryTarget = {

@@ -1,16 +1,16 @@
 // Implements `openclaw dashboard` URL resolution, readiness check, clipboard, and browser launch.
-import { readConfigFileSnapshot, resolveGatewayPort } from "../config/config.js";
-import { resolveGatewayAuthToken } from "../gateway/auth-token-resolution.js";
-import { copyToClipboard } from "../infra/clipboard.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { ensureGatewayReadyForOperation } from "./gateway-readiness.js";
+import { readConfigFileSnapshot, resolveGatewayPort } from "../config/config.ts";
+import { resolveGatewayAuthToken } from "../gateway/auth-token-resolution.ts";
+import { copyToClipboard } from "../infra/clipboard.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { ensureGatewayReadyForOperation } from "./gateway-readiness.ts";
 import {
   detectBrowserOpenSupport,
   formatControlUiSshHint,
   openUrl,
   resolveControlUiLinks,
-} from "./onboard-helpers.js";
+} from "./onboard-helpers.ts";
 
 type DashboardOptions = {
   noOpen?: boolean;

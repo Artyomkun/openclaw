@@ -1,7 +1,7 @@
 /** ACP streaming and projection settings derived from config. */
 import type { AcpSessionUpdateTag } from "@openclaw/acp-core/runtime/types";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { clampPositiveInteger, resolveEffectiveBlockStreamingConfig } from "./block-streaming.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { clampPositiveInteger, resolveEffectiveBlockStreamingConfig } from "./block-streaming.ts";
 
 const DEFAULT_ACP_STREAM_COALESCE_IDLE_MS = 350;
 const DEFAULT_ACP_STREAM_MAX_CHUNK_CHARS = 1800;

@@ -2,26 +2,26 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { FinalizedMsgContext } from "../auto-reply/templating.js";
-import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { FinalizedMsgContext } from "../auto-reply/templating.ts";
+import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   freezeDiagnosticTraceContext,
   type DiagnosticTraceContext,
-} from "../infra/diagnostic-trace-context.js";
+} from "../infra/diagnostic-trace-context.ts";
 import type {
   PluginHookInboundClaimContext,
   PluginHookInboundClaimEvent,
   PluginHookMessageContext,
   PluginHookMessageReceivedEvent,
   PluginHookMessageSentEvent,
-} from "../plugins/hook-message.types.js";
+} from "../plugins/hook-message.types.ts";
 import type {
   MessagePreprocessedHookContext,
   MessageReceivedHookContext,
   MessageSentHookContext,
   MessageTranscribedHookContext,
-} from "./internal-hooks.js";
+} from "./internal-hooks.ts";
 
 export type CanonicalInboundMessageHookContext = {
   from: string;

@@ -1,7 +1,7 @@
 /**
  * Flushes attempt trajectory recorders during cleanup.
  */
-import { runAgentCleanupStep } from "../../run-cleanup-timeout.js";
+import { runAgentCleanupStep } from "../../run-cleanup-timeout.ts";
 
 /** Minimal recorder surface needed to flush trajectory data during run cleanup. */
 type EmbeddedAttemptTrajectoryRecorder = {

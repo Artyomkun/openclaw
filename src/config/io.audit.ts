@@ -1,7 +1,7 @@
 // Audits config paths and values for diagnostics and safety checks.
 import path from "node:path";
-import { redactSecrets, redactToolPayloadText } from "../logging/redact.js";
-import { resolveStateDir } from "./paths.js";
+import { redactSecrets, redactToolPayloadText } from "../logging/redact.ts";
+import { resolveStateDir } from "./paths.ts";
 
 const CONFIG_AUDIT_ARGV_CAP = 8;
 

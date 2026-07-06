@@ -1,6 +1,5 @@
 // Slack plugin module implements channel behavior.
 import {
-  buildLegacyDmAccountAllowlistAdapter,
   createAccountScopedAllowlistNameResolver,
   createFlatAllowlistOverrideResolver,
 } from "openclaw/plugin-sdk/allowlist-config-edit";
@@ -550,16 +549,6 @@ export const slackPlugin: ChannelPlugin<ResolvedSlackAccount, SlackProbe> = crea
       setup: slackSetupAdapter,
     }),
     allowlist: {
-      ...buildLegacyDmAccountAllowlistAdapter({
-        channelId: "slack",
-        resolveAccount: resolveSlackAccount,
-        normalize: ({ cfg, accountId, values }) =>
-          slackConfigAdapter.formatAllowFrom!({ cfg, accountId, allowFrom: values }),
-        resolveDmAllowFrom: (account, { cfg }) =>
-          resolveSlackAccountAllowFrom({ cfg, accountId: account.accountId }),
-        resolveGroupPolicy: (account) => account.groupPolicy,
-        resolveGroupOverrides: resolveSlackAllowlistGroupOverrides,
-      }),
       resolveNames: resolveSlackAllowlistNames,
     },
     approvalCapability: slackApprovalCapability,

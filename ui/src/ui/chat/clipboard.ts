@@ -3,7 +3,7 @@
 // The async Clipboard API is only exposed in secure contexts (HTTPS or
 // localhost). On plain-HTTP deployments (e.g. LAN access) `navigator.clipboard`
 // is undefined, so calling it throws synchronously rather than rejecting. Guard
-// the secure-context path and fall back to the legacy execCommand copy so the
+// the secure-context path and fall back to the older execCommand copy so the
 // copy buttons keep working over HTTP. Returns whether the copy succeeded.
 export async function copyToClipboard(text: string): Promise<boolean> {
   if (!text) {

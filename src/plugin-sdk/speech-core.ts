@@ -1,7 +1,7 @@
 // Shared speech-provider implementation helpers for bundled and third-party plugins.
 
-export type { SpeechProviderPlugin } from "../plugins/types.js";
-export type { ResolvedTtsConfig, ResolvedTtsModelOverrides } from "../tts/tts-types.js";
+export type { SpeechProviderPlugin } from "../plugins/types.ts";
+export type { ResolvedTtsConfig, ResolvedTtsModelOverrides } from "../tts/tts-types.ts";
 export type {
   SpeechDirectiveTokenParseContext,
   SpeechDirectiveTokenParseResult,
@@ -23,7 +23,7 @@ export type {
   SpeechVoiceOption,
   TtsDirectiveOverrides,
   TtsDirectiveParseResult,
-} from "../tts/provider-types.js";
+} from "../tts/provider-types.ts";
 
 export {
   scheduleCleanup,
@@ -32,19 +32,19 @@ export {
   normalizeLanguageCode,
   normalizeSeed,
   requireInRange,
-} from "../tts/tts-core.js";
-export { parseTtsDirectives } from "../tts/directives.js";
-export { parseSpeechDirectiveNumberOverride } from "../tts/directive-number.js";
+} from "../tts/tts-core.ts";
+export { parseTtsDirectives } from "../tts/directives.ts";
+export { parseSpeechDirectiveNumberOverride } from "../tts/directive-number.ts";
 export {
   canonicalizeSpeechProviderId,
   getSpeechProvider,
   listLoadedSpeechProviders,
   listSpeechProviders,
   normalizeSpeechProviderId,
-} from "../tts/provider-registry.js";
-export { resolveEffectiveTtsConfig } from "../tts/tts-config.js";
-export type { TtsConfigResolutionContext } from "../tts/tts-config.js";
-export { normalizeTtsAutoMode, TTS_AUTO_MODES } from "../tts/tts-auto-mode.js";
+} from "../tts/provider-registry.ts";
+export { resolveEffectiveTtsConfig } from "../tts/tts-config.ts";
+export type { TtsConfigResolutionContext } from "../tts/tts-config.ts";
+export { normalizeTtsAutoMode, TTS_AUTO_MODES } from "../tts/tts-auto-mode.ts";
 export {
   asBoolean,
   asFiniteNumber,
@@ -58,4 +58,4 @@ export {
   readResponseTextLimited,
   trimToUndefined,
   truncateErrorDetail,
-} from "../agents/provider-http-errors.js";
+} from "../agents/provider-http-errors.ts";

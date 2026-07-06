@@ -1,13 +1,13 @@
 import type {
   SessionTranscriptRuntimeScope,
   SessionTranscriptRuntimeTarget,
-} from "../../config/sessions/session-accessor.js";
-import { resolveSessionTranscriptRuntimeReadTarget } from "../../config/sessions/session-accessor.js";
+} from "../../config/sessions/session-accessor.ts";
+import { resolveSessionTranscriptRuntimeReadTarget } from "../../config/sessions/session-accessor.ts";
 import {
   persistTranscriptStateMutation,
   type TranscriptFileState,
   type TranscriptPersistedEntry,
-} from "./transcript-file-state.js";
+} from "./transcript-file-state.ts";
 
 export type RuntimeTranscriptScope = SessionTranscriptRuntimeScope;
 type RuntimeTranscriptTarget = SessionTranscriptRuntimeTarget;

@@ -1,8 +1,8 @@
 // Builds message body text from session state and reply metadata.
-import type { SessionEntry } from "../../config/sessions/types.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { setAbortMemory } from "./abort-primitives.js";
-import type { ReplySessionEntryHandle } from "./session-entry-handle.js";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { setAbortMemory } from "./abort-primitives.ts";
+import type { ReplySessionEntryHandle } from "./session-entry-handle.ts";
 
 const sessionAccessorRuntimeLoader = createLazyImportLoader(
   () => import("../../config/sessions/session-accessor.js"),

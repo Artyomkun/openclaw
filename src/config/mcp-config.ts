@@ -1,13 +1,13 @@
 // Normalizes MCP server config for runtime launch and validation.
-import { isRecord } from "../utils.js";
-import { readSourceConfigSnapshot } from "./io.js";
+import { isRecord } from "../utils.ts";
+import { readSourceConfigSnapshot } from "./io.ts";
 import {
   canonicalizeConfiguredMcpServer,
   normalizeConfiguredMcpServers,
-} from "./mcp-config-normalize.js";
-import { replaceConfigFile } from "./mutate.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
-import { validateConfigObjectWithPlugins } from "./validation.js";
+} from "./mcp-config-normalize.ts";
+import { replaceConfigFile } from "./mutate.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
+import { validateConfigObjectWithPlugins } from "./validation.ts";
 
 type ConfigMcpServers = ReturnType<typeof normalizeConfiguredMcpServers>;
 

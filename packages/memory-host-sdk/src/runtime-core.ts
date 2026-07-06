@@ -15,8 +15,6 @@ export { SILENT_REPLY_TOKEN } from "./host/openclaw-runtime-session.js";
 export { parseNonNegativeByteSize } from "./host/openclaw-runtime-config.js";
 export {
   getRuntimeConfig,
-  /** @deprecated Use getRuntimeConfig(), or pass the already loaded config through the call path. */
-  loadConfig,
 } from "./host/openclaw-runtime-config.js";
 export { resolveStateDir } from "./host/openclaw-runtime-config.js";
 export { resolveSessionTranscriptsDirForAgent } from "./host/openclaw-runtime-config.js";

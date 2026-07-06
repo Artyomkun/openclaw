@@ -145,8 +145,7 @@ export function getComfyConfig(cfg?: OpenClawConfig): ComfyProviderConfig {
   if (isRecord(pluginConfig)) {
     return pluginConfig;
   }
-  const legacyConfig = cfg?.models?.providers?.comfy;
-  return isRecord(legacyConfig) ? legacyConfig : {};
+  return {};
 }
 
 function stripNestedCapabilityConfig(config: ComfyProviderConfig): ComfyProviderConfig {

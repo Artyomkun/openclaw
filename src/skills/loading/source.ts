@@ -1,7 +1,7 @@
 // Skill source helpers normalize source metadata for loaded skill records.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { SkillTelemetrySource } from "../types.js";
-import type { Skill } from "./skill-contract.js";
+import type { SkillTelemetrySource } from "../types.ts";
+import type { Skill } from "./skill-contract.ts";
 
 type SkillSourceCompat = Skill & {
   sourceInfo?: {
@@ -16,8 +16,7 @@ export function resolveSkillSource(skill: Skill): string {
   if (canonical) {
     return canonical;
   }
-  const legacy = normalizeOptionalString(compatSkill.sourceInfo?.source) ?? "";
-  return legacy || "unknown";
+  return "unknown";
 }
 
 export function resolveSkillTelemetrySourceValue(value: unknown): SkillTelemetrySource {

@@ -2,13 +2,13 @@
 import { execFile, type ExecFileOptions } from "node:child_process";
 import { promisify } from "node:util";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { toErrorObject } from "../infra/errors.js";
-import { resolveSystemBin } from "../infra/resolve-system-bin.js";
+import { toErrorObject } from "../infra/errors.ts";
+import { resolveSystemBin } from "../infra/resolve-system-bin.ts";
 import {
   MEDIA_FFMPEG_MAX_BUFFER_BYTES,
   MEDIA_FFMPEG_TIMEOUT_MS,
   MEDIA_FFPROBE_TIMEOUT_MS,
-} from "./ffmpeg-limits.js";
+} from "./ffmpeg-limits.ts";
 
 const execFileAsync = promisify(execFile);
 

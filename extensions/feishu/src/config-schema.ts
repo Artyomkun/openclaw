@@ -136,18 +136,6 @@ const GroupSessionScopeSchema = z
   .enum(["group", "group_sender", "group_topic", "group_topic_sender"])
   .optional();
 
-/**
- * @deprecated Use groupSessionScope instead.
- *
- * Topic session isolation mode for group chats.
- * - "disabled" (default): All messages in a group share one session
- * - "enabled": Messages in different topics get separate sessions
- *
- * Topic routing uses Feishu topic-group `thread_id` when the event identifies a
- * native topic group, and keeps `root_id` precedence for normal groups so
- * reply-created threads stay on the initiating message session.
- */
-const TopicSessionModeSchema = z.enum(["disabled", "enabled"]).optional();
 const ReactionNotificationModeSchema = z.enum(["off", "own", "all"]).optional();
 
 /**

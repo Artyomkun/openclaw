@@ -34,7 +34,7 @@ export {
   throwIfBatchTerminalFailure,
   uploadBatchJsonlFile,
   withRemoteHttpResponse,
-} from "../../packages/memory-host-sdk/src/engine-embeddings.js";
+} from "../../packages/memory-host-sdk/src/engine-embeddings.ts";
 
 /** Provider batch status payload shared by memory embedding batch helpers. */
 export type EmbeddingBatchStatus = {
@@ -52,20 +52,14 @@ export type {
   ProviderBatchOutputLine,
   RemoteEmbeddingClient,
   RemoteEmbeddingProviderId,
-} from "../../packages/memory-host-sdk/src/engine-embeddings.js";
+} from "../../packages/memory-host-sdk/src/engine-embeddings.ts";
 export {
   getMemoryEmbeddingProvider,
   listMemoryEmbeddingProviders,
   listRegisteredMemoryEmbeddingProviderAdapters,
   listRegisteredMemoryEmbeddingProviders,
-} from "../plugins/memory-embedding-provider-runtime.js";
-export { clearMemoryEmbeddingProviders } from "../plugins/memory-embedding-providers.js";
-/**
- * @deprecated New embedding providers should use `api.registerEmbeddingProvider(...)`
- * and `contracts.embeddingProviders`. This memory-specific registrar remains
- * available only for compatibility while existing providers migrate.
- */
-export { registerMemoryEmbeddingProvider } from "../plugins/memory-embedding-providers.js";
+} from "../plugins/memory-embedding-provider-runtime.ts";
+export { clearMemoryEmbeddingProviders } from "../plugins/memory-embedding-providers.ts";
 export type {
   MemoryEmbeddingBatchChunk,
   MemoryEmbeddingBatchOptions,
@@ -76,4 +70,4 @@ export type {
   MemoryEmbeddingProviderCreateResult,
   MemoryEmbeddingProviderIndexIdentity,
   MemoryEmbeddingProviderRuntime,
-} from "../plugins/memory-embedding-providers.js";
+} from "../plugins/memory-embedding-providers.ts";

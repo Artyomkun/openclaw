@@ -1,11 +1,11 @@
 // Stores and resolves the last TUI session per workspace.
 import { createHash } from "node:crypto";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
-import { privateFileStore } from "../infra/private-file-store.js";
-import { normalizeAgentId, parseAgentSessionKey } from "../routing/session-key.js";
-import type { TuiSessionList } from "./tui-backend.js";
-import type { SessionScope } from "./tui-types.js";
+import { resolveStateDir } from "../config/paths.ts";
+import { privateFileStore } from "../infra/private-file-store.ts";
+import { normalizeAgentId, parseAgentSessionKey } from "../routing/session-key.ts";
+import type { TuiSessionList } from "./tui-backend.ts";
+import type { SessionScope } from "./tui-types.ts";
 
 // Persists the last human-selected TUI session per connection/agent/scope.
 type LastSessionRecord = {

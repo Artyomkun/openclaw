@@ -9,10 +9,10 @@ import { normalizeStringEntriesLower } from "@openclaw/normalization-core/string
 import {
   resolveThreadBindingSpawnPolicy,
   supportsAutomaticThreadBindingSpawn,
-} from "../channels/thread-bindings-policy.js";
-import { resolveChannelCapabilities } from "../config/channel-capabilities.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveChannelPromptCapabilities } from "./channel-tools.js";
+} from "../channels/thread-bindings-policy.ts";
+import { resolveChannelCapabilities } from "../config/channel-capabilities.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveChannelPromptCapabilities } from "./channel-tools.ts";
 
 const THREAD_BOUND_SUBAGENT_SPAWN_CAPABILITY = "threadbound-subagent-spawn";
 const THREAD_BOUND_ACP_SPAWN_CAPABILITY = "threadbound-acp-spawn";

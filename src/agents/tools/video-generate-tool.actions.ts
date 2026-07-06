@@ -3,22 +3,22 @@
  *
  * Formats provider listing, active-task status, and duplicate-guard responses for the tool.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { listSupportedVideoGenerationModes } from "../../video-generation/capabilities.js";
-import { listRuntimeVideoGenerationProviders } from "../../video-generation/runtime.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { listSupportedVideoGenerationModes } from "../../video-generation/capabilities.ts";
+import { listRuntimeVideoGenerationProviders } from "../../video-generation/runtime.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
 import {
   buildVideoGenerationTaskStatusDetails,
   buildVideoGenerationTaskStatusText,
   findActiveVideoGenerationTaskForSession,
   findDuplicateGuardVideoGenerationTaskForSession,
-} from "../video-generation-task-status.js";
+} from "../video-generation-task-status.ts";
 import {
   createMediaGenerateDuplicateGuardResult,
   createMediaGenerateProviderListActionResult,
   createMediaGenerateTaskStatusActions,
   type MediaGenerateActionResult,
-} from "./media-generate-tool-actions-shared.js";
+} from "./media-generate-tool-actions-shared.ts";
 
 type VideoGenerateActionResult = MediaGenerateActionResult;
 

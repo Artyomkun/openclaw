@@ -1,11 +1,11 @@
 // Entry points for the full configure wizard and section-limited runs.
 import process from "node:process";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import type { WizardSection } from "./configure.shared.js";
-import { CONFIGURE_WIZARD_SECTIONS, parseConfigureWizardSections } from "./configure.shared.js";
-import { runConfigureWizard } from "./configure.wizard.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import type { WizardSection } from "./configure.shared.ts";
+import { CONFIGURE_WIZARD_SECTIONS, parseConfigureWizardSections } from "./configure.shared.ts";
+import { runConfigureWizard } from "./configure.wizard.ts";
 
 /**
  * Non-interactive config subcommands surfaced when the wizard cannot run.

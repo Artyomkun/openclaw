@@ -1,16 +1,16 @@
 /** Doctor note for workspace bootstrap file size and truncation risk. */
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   buildBootstrapInjectionStats,
   analyzeBootstrapBudget,
-} from "../agents/bootstrap-budget.js";
-import { resolveBootstrapContextForRun } from "../agents/bootstrap-files.js";
+} from "../agents/bootstrap-budget.ts";
+import { resolveBootstrapContextForRun } from "../agents/bootstrap-files.ts";
 import {
   resolveBootstrapMaxChars,
   resolveBootstrapTotalMaxChars,
-} from "../agents/embedded-agent-helpers.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../agents/embedded-agent-helpers.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 function formatInt(value: number): string {
   return new Intl.NumberFormat("en-US").format(Math.max(0, Math.floor(value)));

@@ -2,10 +2,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { isInboundPathAllowed } from "@openclaw/media-core/inbound-path-policy";
-import { assertNoWindowsNetworkPath } from "../infra/local-file-access.js";
-import { isPathInside } from "../infra/path-guards.js";
-import { getDefaultMediaLocalRoots } from "./local-roots.js";
-import { resolveInboundMediaReference } from "./media-reference.js";
+import { assertNoWindowsNetworkPath } from "../infra/local-file-access.ts";
+import { isPathInside } from "../infra/path-guards.ts";
+import { getDefaultMediaLocalRoots } from "./local-roots.ts";
+import { resolveInboundMediaReference } from "./media-reference.ts";
 
 /** Machine-readable reasons local media path validation can fail. */
 export type LocalMediaAccessErrorCode =

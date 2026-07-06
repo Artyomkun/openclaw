@@ -1,18 +1,15 @@
 /**
  * Provider-scoped web-search config helpers.
- *
- * Bridges legacy top-level credentials with plugin-owned provider configuration.
  */
-import { resolvePluginWebSearchConfig } from "../../config/plugin-web-search-config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { isLegacyWebSearchProviderConfigKey } from "../../config/web-search-legacy-provider-keys.js";
+import { resolvePluginWebSearchConfig } from "../../config/plugin-web-search-config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 
-/** Reads the legacy top-level web search credential value. */
+/** Reads the top-level web search credential value. */
 export function getTopLevelCredentialValue(searchConfig?: Record<string, unknown>): unknown {
   return searchConfig?.apiKey;
 }
 
-/** Writes the legacy top-level web search credential value. */
+/** Writes the top-level web search credential value. */
 export function setTopLevelCredentialValue(
   searchConfigTarget: Record<string, unknown>,
   value: unknown,
@@ -46,7 +43,7 @@ export function setScopedCredentialValue(
   (scoped as Record<string, unknown>).apiKey = value;
 }
 
-/** Merges plugin web-search config into a provider-scoped legacy-compatible shape. */
+/** Merges plugin web-search config into a provider-scoped compatible shape. */
 export function mergeScopedSearchConfig(
   searchConfig: Record<string, unknown> | undefined,
   key: string,
@@ -64,19 +61,13 @@ export function mergeScopedSearchConfig(
       ? (searchConfig[key] as Record<string, unknown>)
       : {};
   const next: Record<string, unknown> = { ...searchConfig };
-  const existingDescriptor = searchConfig
-    ? Object.getOwnPropertyDescriptor(searchConfig, key)
-    : undefined;
-  const shouldHideRuntimeInjectedLegacyShape =
-    isLegacyWebSearchProviderConfigKey(key) && existingDescriptor === undefined;
 
-  // Runtime-injected legacy provider keys should be addressable but absent from JSON writes.
+  // Runtime-injected older provider keys should be addressable but absent from JSON writes.
   Object.defineProperty(next, key, {
     value: {
       ...currentScoped,
       ...pluginConfig,
     },
-    enumerable: !shouldHideRuntimeInjectedLegacyShape,
     configurable: true,
     writable: true,
   });

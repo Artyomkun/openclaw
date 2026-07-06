@@ -1,6 +1,6 @@
 /** Scans config-like values for SecretRefs and credential-looking fields. */
-import { coerceSecretRef } from "../config/types.secrets.js";
-import type { SecretDefaults } from "./runtime-shared.js";
+import { coerceSecretRef } from "../config/types.secrets.ts";
+import type { SecretDefaults } from "./runtime-shared.ts";
 
 /** Field names treated as credential-bearing even before a value is converted to SecretRef. */
 const CREDENTIAL_FIELD_NAMES = new Set(["apikey", "key", "token", "secret", "password"]);

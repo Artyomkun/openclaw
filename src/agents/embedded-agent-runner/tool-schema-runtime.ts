@@ -2,17 +2,17 @@
  * Normalizes and logs provider-specific tool schemas at runtime.
  */
 import type { TSchema } from "typebox";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ProviderRuntimePluginHandle } from "../../plugins/provider-hook-runtime.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ProviderRuntimePluginHandle } from "../../plugins/provider-hook-runtime.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
 import {
   inspectProviderToolSchemasWithPlugin,
   normalizeProviderToolSchemasWithPlugin,
-} from "../../plugins/provider-runtime.js";
-import type { ProviderToolSchemaDiagnostic } from "../../plugins/types.js";
-import type { AgentTool } from "../runtime/index.js";
-import type { AnyAgentTool } from "../tools/common.js";
-import { log } from "./logger.js";
+} from "../../plugins/provider-runtime.ts";
+import type { ProviderToolSchemaDiagnostic } from "../../plugins/types.ts";
+import type { AgentTool } from "../runtime/index.ts";
+import type { AnyAgentTool } from "../tools/common.ts";
+import { log } from "./logger.ts";
 
 type ProviderToolSchemaParams<TSchemaType extends TSchema = TSchema, TResult = unknown> = {
   tools: AgentTool<TSchemaType, TResult>[];

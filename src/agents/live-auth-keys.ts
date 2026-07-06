@@ -8,8 +8,8 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { getProviderEnvVars } from "../secrets/provider-env-vars.js";
-import { normalizeProviderId } from "./model-selection.js";
+import { getProviderEnvVars } from "../secrets/provider-env-vars.ts";
+import { normalizeProviderId } from "./model-selection.ts";
 
 const KEY_SPLIT_RE = /[\s,;]+/g;
 const GOOGLE_LIVE_SINGLE_KEY = "OPENCLAW_LIVE_GEMINI_KEY";

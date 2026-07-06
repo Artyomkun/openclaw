@@ -1,5 +1,5 @@
 import type { ChildProcess } from "node:child_process";
-import { signalProcessTree } from "./kill-tree.js";
+import { signalProcessTree } from "./kill-tree.ts";
 
 export function shouldDetachChildForProcessTree(): boolean {
   return process.platform !== "win32";

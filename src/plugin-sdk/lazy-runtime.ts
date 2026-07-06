@@ -7,4 +7,4 @@ export {
   createLazyRuntimeMethodBinder,
   createLazyRuntimeNamedExport,
   createLazyRuntimeSurface,
-} from "../shared/lazy-runtime.js";
+} from "../shared/lazy-runtime.ts";

@@ -1,5 +1,5 @@
 // Shares task audit classification helpers across registry audit modules.
-import type { TaskRecord } from "./task-registry.types.js";
+import type { TaskRecord } from "./task-registry.types.ts";
 
 /** Severity used by task registry audit findings. */
 export type TaskAuditSeverity = "warn" | "error";

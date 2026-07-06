@@ -4,8 +4,8 @@ import {
   analyzeArgvCommand,
   type ExecCommandAnalysis,
   type ExecCommandSegment,
-} from "../exec-approvals-analysis.js";
-import { detectInlineEvalInSegments } from "./risks.js";
+} from "../exec-approvals-analysis.ts";
+import { detectInlineEvalInSegments } from "./risks.ts";
 
 /** Normalized policy analysis result for argv and shell commands. */
 export type CommandPolicyAnalysis =

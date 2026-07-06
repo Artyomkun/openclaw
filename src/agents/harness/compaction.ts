@@ -1,25 +1,25 @@
 /**
  * Routes compaction through selected native agent harnesses when supported.
  */
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { parseAgentSessionKey } from "../../routing/session-key.js";
-import { resolveUserPath } from "../../utils.js";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { parseAgentSessionKey } from "../../routing/session-key.ts";
+import { resolveUserPath } from "../../utils.ts";
 import type { Model } from "openclaw/plugin-sdk/llm";
-import { isDefaultAgentRuntimeId, normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.js";
-import { resolveAgentDir, resolveSessionAgentIds } from "../agent-scope.js";
-import type { CompactEmbeddedAgentSessionParams } from "../embedded-agent-runner/compact.types.js";
-import { resolveModelAsync } from "../embedded-agent-runner/model.js";
-import type { EmbeddedAgentCompactResult } from "../embedded-agent-runner/types.js";
-import { getApiKeyForModel } from "../model-auth.js";
-import { isCliRuntimeAliasForProvider, isCliRuntimeProvider } from "../model-runtime-aliases.js";
-import { resolveAgentHarnessPolicy as resolveConfiguredAgentHarnessPolicy } from "./policy.js";
-import { selectAgentHarness } from "./selection.js";
+import { isDefaultAgentRuntimeId, normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.ts";
+import { resolveAgentDir, resolveSessionAgentIds } from "../agent-scope.ts";
+import type { CompactEmbeddedAgentSessionParams } from "../embedded-agent-runner/compact.types.ts";
+import { resolveModelAsync } from "../embedded-agent-runner/model.ts";
+import type { EmbeddedAgentCompactResult } from "../embedded-agent-runner/types.ts";
+import { getApiKeyForModel } from "../model-auth.ts";
+import { isCliRuntimeAliasForProvider, isCliRuntimeProvider } from "../model-runtime-aliases.ts";
+import { resolveAgentHarnessPolicy as resolveConfiguredAgentHarnessPolicy } from "./policy.ts";
+import { selectAgentHarness } from "./selection.ts";
 import type {
   AgentHarness,
   AgentHarnessCompactParams,
   AgentHarnessCompactResult,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Delegates session compaction to the selected agent harness when that runtime owns compaction.

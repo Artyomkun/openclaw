@@ -51,7 +51,7 @@ jobs:
   # so this source workflow can stay focused on OIDC publish only.
   preflight_openclaw_npm:
     if: ${{ inputs.preflight_only }}
-    # Preflight builds the full release package before publish; ubuntu-latest can OOM in tsdown.
+    # Preflight builds the full release package before publish; ubuntu-latest can OOM in tsc.
     runs-on: blacksmith-16vcpu-ubuntu-2404
     permissions:
       contents: read
@@ -205,7 +205,7 @@ jobs:
           RELEASE_NPM_DIST_TAG: ${{ inputs.npm_dist_tag }}
         run: |
           set -euo pipefail
-          node scripts/generate-dependency-release-evidence.mjs \
+          node scripts/generate-dependency-release-evidence.ts \
             --release-ref "$RELEASE_REF" \
             --npm-dist-tag "$RELEASE_NPM_DIST_TAG" \
             --output-dir "$RUNNER_TEMP/openclaw-release-dependency-evidence" \
@@ -458,7 +458,7 @@ jobs:
             echo "Direct OpenClaw npm recovery with release_publish_run_id; relying on this workflow's npm-release environment approval."
           fi
           RUN_JSON="$(gh run view "$RELEASE_PUBLISH_RUN_ID" --repo "$GITHUB_REPOSITORY" --json workflowName,headBranch,event,status,conclusion,url)"
-          printf '%s' "$RUN_JSON" | DIRECT_RELEASE_RECOVERY="${direct_recovery}" node scripts/validate-release-publish-approval.mjs
+          printf '%s' "$RUN_JSON" | DIRECT_RELEASE_RECOVERY="${direct_recovery}" node scripts/validate-release-publish-approval.ts
 
   publish_openclaw_npm:
     # KEEP THE REAL RELEASE/PUBLISH PATH ON A GITHUB-HOSTED RUNNER.

@@ -1,9 +1,9 @@
 // Normalizes logging config, log paths, and file-size limits.
 import fs from "node:fs";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { displayPath } from "../utils.js";
-import { createConfigIO } from "./io.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { displayPath } from "../utils.ts";
+import { createConfigIO } from "./io.ts";
 
 type LogConfigUpdatedOptions = {
   path?: string;

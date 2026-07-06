@@ -3,11 +3,11 @@ import type { Command } from "commander";
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../../packages/gateway-protocol/src/client-info.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { callGateway } from "../../gateway/call.js";
-import { parseTimeoutMsWithFallback } from "../parse-timeout.js";
-import { withProgress } from "../progress.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { parseTimeoutMsWithFallback } from "../parse-timeout.ts";
+import { withProgress } from "../progress.ts";
 
 export type GatewayRpcOpts = {
   config?: OpenClawConfig;

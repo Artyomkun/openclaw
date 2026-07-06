@@ -1,17 +1,17 @@
-/** Doctor notes for auth profile health, OAuth refresh failures, and legacy Codex config. */
+// Doctor notes for auth profile health, OAuth refresh failures.
 import path from "node:path";
-import { note } from "../../packages/terminal-core/src/note.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
 import {
   listAgentIds,
   resolveAgentDir,
   resolveDefaultAgentDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
+} from "../agents/agent-scope.ts";
 import {
   buildAuthHealthSummary,
   DEFAULT_OAUTH_WARN_MS,
   formatRemainingShort,
-} from "../agents/auth-health.js";
+} from "../agents/auth-health.ts";
 import {
   type AuthCredentialReasonCode,
   ensureAuthProfileStore,
@@ -19,115 +19,19 @@ import {
   hasLocalAuthProfileStoreSource,
   resolveApiKeyForProfile,
   resolveProfileUnusableUntilForDisplay,
-} from "../agents/auth-profiles.js";
-import { formatAuthDoctorHint } from "../agents/auth-profiles/doctor.js";
+} from "../agents/auth-profiles.ts";
+import { formatAuthDoctorHint } from "../agents/auth-profiles/doctor.ts";
 import {
   buildOAuthRefreshFailureLoginCommand,
   classifyOAuthRefreshFailure,
   type OAuthRefreshFailureReason,
-} from "../agents/auth-profiles/oauth-refresh-failure.js";
-import { buildProviderAuthRecoveryHint } from "../agents/provider-auth-recovery-hint.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { isRecord } from "../utils.js";
-import type { DoctorPrompter } from "./doctor-prompter.js";
+} from "../agents/auth-profiles/oauth-refresh-failure.ts";
+import { buildProviderAuthRecoveryHint } from "../agents/provider-auth-recovery-hint.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { DoctorPrompter } from "./doctor-prompter.ts";
 
-const OPENAI_PROVIDER_ID = "openai";
-const LEGACY_CODEX_PROVIDER_ID = "openai-codex";
-const CODEX_OAUTH_WARNING_TITLE = "Codex OAuth";
-const OPENAI_BASE_URL = "https://api.openai.com/v1";
-const LEGACY_CODEX_APIS = new Set(["openai-responses", "openai-completions"]);
-const DOCTOR_REAUTH_PROVIDER_ALIASES: Readonly<Record<string, string>> = {
-  [LEGACY_CODEX_PROVIDER_ID]: OPENAI_PROVIDER_ID,
-};
-
-function hasConfiguredCodexOAuthProfile(cfg: OpenClawConfig): boolean {
-  return Object.values(cfg.auth?.profiles ?? {}).some(
-    (profile) =>
-      (profile.provider === OPENAI_PROVIDER_ID || profile.provider === LEGACY_CODEX_PROVIDER_ID) &&
-      profile.mode === "oauth",
-  );
-}
-
-function hasStoredCodexOAuthProfile(): boolean {
-  const store = ensureAuthProfileStore(undefined, { allowKeychainPrompt: false });
-  return Object.values(store.profiles).some(
-    (profile) =>
-      (profile.provider === OPENAI_PROVIDER_ID || profile.provider === LEGACY_CODEX_PROVIDER_ID) &&
-      profile.type === "oauth",
-  );
-}
-
-function normalizeCodexOverrideBaseUrl(baseUrl: unknown): string | undefined {
-  if (typeof baseUrl !== "string") {
-    return undefined;
-  }
-  return baseUrl.trim().replace(/\/+$/, "");
-}
-
-function isLegacyCodexTransportShape(value: unknown, inheritedBaseUrl?: unknown): boolean {
-  if (!isRecord(value)) {
-    return false;
-  }
-  const api = typeof value.api === "string" ? value.api : undefined;
-  if (!api || !LEGACY_CODEX_APIS.has(api)) {
-    return false;
-  }
-  const baseUrl = normalizeCodexOverrideBaseUrl(value.baseUrl ?? inheritedBaseUrl);
-  return !baseUrl || baseUrl === OPENAI_BASE_URL;
-}
-
-function hasLegacyCodexTransportOverride(providerOverride: unknown): boolean {
-  if (!isRecord(providerOverride)) {
-    return false;
-  }
-  if (isLegacyCodexTransportShape(providerOverride)) {
-    return true;
-  }
-  const models = providerOverride.models;
-  if (!Array.isArray(models)) {
-    return false;
-  }
-  return models.some((model) => isLegacyCodexTransportShape(model, providerOverride.baseUrl));
-}
-
-function buildCodexProviderOverrideWarning(providerOverride: unknown): string {
-  const lines = [
-    `- models.providers.${LEGACY_CODEX_PROVIDER_ID} contains a legacy transport override while Codex OAuth is configured.`,
-    "- Older OpenAI transport settings can shadow the built-in Codex OAuth provider path.",
-  ];
-  if (isRecord(providerOverride)) {
-    const record = providerOverride;
-    if (typeof record.api === "string") {
-      lines.push(`- models.providers.${LEGACY_CODEX_PROVIDER_ID}.api=${record.api}`);
-    }
-    if (typeof record.baseUrl === "string") {
-      lines.push(`- models.providers.${LEGACY_CODEX_PROVIDER_ID}.baseUrl=${record.baseUrl}`);
-    }
-  }
-  lines.push(
-    `- Remove or rewrite the legacy transport override to restore the built-in Codex OAuth provider path after recent fixes.`,
-  );
-  lines.push(
-    "- Custom proxies and header-only overrides can stay; this warning only targets old OpenAI transport settings.",
-  );
-  return lines.join("\n");
-}
-
-/** Emits a warning when legacy Codex transport overrides can shadow configured Codex OAuth. */
-export function noteLegacyCodexProviderOverride(cfg: OpenClawConfig): void {
-  const providerOverride = cfg.models?.providers?.[LEGACY_CODEX_PROVIDER_ID];
-  if (!providerOverride) {
-    return;
-  }
-  if (!hasLegacyCodexTransportOverride(providerOverride)) {
-    return;
-  }
-  if (!hasConfiguredCodexOAuthProfile(cfg) && !hasStoredCodexOAuthProfile()) {
-    return;
-  }
-  note(buildCodexProviderOverrideWarning(providerOverride), CODEX_OAUTH_WARNING_TITLE);
-}
+const DOCTOR_REAUTH_PROVIDER_ALIASES: Readonly<Record<string, string>> = {};
 
 type AuthIssue = {
   profileId: string;

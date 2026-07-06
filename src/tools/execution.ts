@@ -1,5 +1,5 @@
 // Defines tool execution references used by the runtime dispatcher.
-import type { ToolExecutorRef } from "./types.js";
+import type { ToolExecutorRef } from "./types.ts";
 
 /**
  * Formatting helpers for tool executor references.

@@ -4,16 +4,16 @@
  * It validates daemon runtime options, resolves gateway auth inputs, and then
  * delegates the platform-specific service install.
  */
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { resolveGatewayService } from "../../../daemon/service.js";
-import { isSystemdUserServiceAvailable } from "../../../daemon/systemd.js";
-import { formatErrorMessage } from "../../../infra/errors.js";
-import type { RuntimeEnv } from "../../../runtime.js";
-import { buildGatewayInstallPlan, gatewayInstallErrorHint } from "../../daemon-install-helpers.js";
-import { DEFAULT_GATEWAY_DAEMON_RUNTIME, isGatewayDaemonRuntime } from "../../daemon-runtime.js";
-import { resolveGatewayInstallToken } from "../../gateway-install-token.js";
-import type { OnboardOptions } from "../../onboard-types.js";
-import { ensureSystemdUserLingerNonInteractive } from "../../systemd-linger.js";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { resolveGatewayService } from "../../../daemon/service.ts";
+import { isSystemdUserServiceAvailable } from "../../../daemon/systemd.ts";
+import { formatErrorMessage } from "../../../infra/errors.ts";
+import type { RuntimeEnv } from "../../../runtime.ts";
+import { buildGatewayInstallPlan, gatewayInstallErrorHint } from "../../daemon-install-helpers.ts";
+import { DEFAULT_GATEWAY_DAEMON_RUNTIME, isGatewayDaemonRuntime } from "../../daemon-runtime.ts";
+import { resolveGatewayInstallToken } from "../../gateway-install-token.ts";
+import type { OnboardOptions } from "../../onboard-types.ts";
+import { ensureSystemdUserLingerNonInteractive } from "../../systemd-linger.ts";
 
 /** Installs the managed gateway daemon when non-interactive setup requested it. */
 export async function installGatewayDaemonNonInteractive(params: {

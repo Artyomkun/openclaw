@@ -2,12 +2,12 @@
 import path from "node:path";
 import { resolvePrimaryStringValue } from "@openclaw/normalization-core/string-coerce";
 import type { ZodIssue } from "zod";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { CONFIG_PATH } from "../config/config.js";
-import { resolveAgentModelFallbackValues } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { OpenClawSchema } from "../config/zod-schema.js";
-import { isRecord } from "../utils.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { CONFIG_PATH } from "../config/config.ts";
+import { resolveAgentModelFallbackValues } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { OpenClawSchema } from "../config/zod-schema.ts";
+import { isRecord } from "../utils.ts";
 
 type UnrecognizedKeysIssue = ZodIssue & {
   code: "unrecognized_keys";
@@ -128,7 +128,7 @@ export function stripUnknownConfigKeys(config: OpenClawConfig): {
   return { config: next, removed };
 }
 
-/** Warns when legacy OpenCode provider overrides shadow the built-in catalog. */
+/** Warns when OpenCode provider overrides shadow the built-in catalog. */
 export function noteOpencodeProviderOverrides(cfg: OpenClawConfig): void {
   const providers = cfg.models?.providers;
   if (!providers) {

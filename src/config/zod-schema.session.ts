@@ -1,10 +1,10 @@
 // Defines session-related Zod schema fragments for config parsing.
 import { normalizeStringifiedOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { z } from "zod";
-import { parseByteSize } from "../cli/parse-bytes.js";
-import { parseDurationMs } from "../cli/parse-duration.js";
-import { ElevatedAllowFromSchema } from "./zod-schema.agent-runtime.js";
-import { createAllowDenyChannelRulesSchema } from "./zod-schema.allowdeny.js";
+import { parseByteSize } from "../cli/parse-bytes.ts";
+import { parseDurationMs } from "../cli/parse-duration.ts";
+import { ElevatedAllowFromSchema } from "./zod-schema.agent-runtime.ts";
+import { createAllowDenyChannelRulesSchema } from "./zod-schema.allowdeny.ts";
 import {
   GroupChatSchema,
   InboundDebounceSchema,
@@ -13,8 +13,8 @@ import {
   TypingModeSchema,
   TtsConfigSchema,
   VisibleRepliesSchema,
-} from "./zod-schema.core.js";
-import { sensitive } from "./zod-schema.sensitive.js";
+} from "./zod-schema.core.ts";
+import { sensitive } from "./zod-schema.sensitive.ts";
 
 const SessionResetConfigSchema = z
   .object({
@@ -44,8 +44,6 @@ export const SessionSchema = z
     resetByType: z
       .object({
         direct: SessionResetConfigSchema.optional(),
-        /** @deprecated Use `direct` instead. Kept for backward compatibility. */
-        dm: SessionResetConfigSchema.optional(),
         group: SessionResetConfigSchema.optional(),
         thread: SessionResetConfigSchema.optional(),
       })
@@ -85,8 +83,6 @@ export const SessionSchema = z
       .object({
         mode: z.enum(["enforce", "warn"]).optional(),
         pruneAfter: z.union([z.string(), z.number()]).optional(),
-        /** @deprecated Use pruneAfter instead. */
-        pruneDays: z.number().int().positive().optional(),
         maxEntries: z.number().int().positive().optional(),
         rotateBytes: z.union([z.string(), z.number()]).optional(),
         resetArchiveRetention: z.union([z.string(), z.number(), z.literal(false)]).optional(),

@@ -1,12 +1,12 @@
 // Access group helpers resolve plugin allowlists that reference named config groups.
-import { uniqueStrings } from "../../packages/normalization-core/src/string-normalization.js";
+import { uniqueStrings } from "../../packages/normalization-core/src/string-normalization.ts";
 import {
   ACCESS_GROUP_ALLOW_FROM_PREFIX,
   parseAccessGroupAllowFromEntry,
-} from "../channels/allow-from.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import type { AccessGroupConfig } from "../config/types.access-groups.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../channels/allow-from.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import type { AccessGroupConfig } from "../config/types.access-groups.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 
 export { ACCESS_GROUP_ALLOW_FROM_PREFIX, parseAccessGroupAllowFromEntry };
 
@@ -229,6 +229,6 @@ export async function expandAllowFromWithAccessGroups(params: {
     return allowFrom;
   }
   const senderEntry = params.senderAllowEntry ?? params.senderId;
-  // Downstream legacy sender checks still expect a concrete allowlist entry after a group match.
+  // Downstream older sender checks still expect a concrete allowlist entry after a group match.
   return uniqueStrings([...allowFrom, senderEntry]);
 }

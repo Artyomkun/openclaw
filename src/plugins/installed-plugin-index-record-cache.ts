@@ -1,5 +1,5 @@
 // Caches installed plugin index records for current process lookups.
-import type { PluginInstallRecord } from "../config/types.plugins.js";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
 
 /** Cached installed plugin records for one store/recovery key. */
 export type InstallRecordsCacheEntry = {

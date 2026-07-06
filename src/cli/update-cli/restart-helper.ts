@@ -4,19 +4,19 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { DEFAULT_GATEWAY_PORT } from "../../config/paths.js";
-import { quoteCmdScriptArg } from "../../daemon/cmd-argv.js";
+import { DEFAULT_GATEWAY_PORT } from "../../config/paths.ts";
+import { quoteCmdScriptArg } from "../../daemon/cmd-argv.ts";
 import {
   resolveGatewayLaunchAgentLabel,
   resolveGatewaySystemdServiceName,
   resolveGatewayWindowsTaskName,
-} from "../../daemon/constants.js";
+} from "../../daemon/constants.ts";
 import {
   renderPosixRestartLogSetup,
   resolveGatewayRestartLogPath,
   shellEscapeRestartLogValue,
-} from "../../daemon/restart-logs.js";
-import { getWindowsCmdExePath } from "../../infra/windows-install-roots.js";
+} from "../../daemon/restart-logs.ts";
+import { getWindowsCmdExePath } from "../../infra/windows-install-roots.ts";
 
 /**
  * Shell-escape a string for embedding in single-quoted shell arguments.

@@ -1,14 +1,14 @@
 // Core runtime types define system, config, and task helper contracts for plugins.
-import type { HeartbeatRunResult } from "../../infra/heartbeat-wake.js";
-import type { LogLevel } from "../../logging/levels.js";
-import type { MediaUnderstandingRuntime } from "../../media-understanding/runtime-types.js";
+import type { HeartbeatRunResult } from "../../infra/heartbeat-wake.ts";
+import type { LogLevel } from "../../logging/levels.ts";
+import type { MediaUnderstandingRuntime } from "../../media-understanding/runtime-types.ts";
 import type {
   ListSpeechVoices,
   TextToSpeech,
   TextToSpeechStream,
   TextToSpeechTelephony,
-} from "../../plugin-sdk/tts-runtime.types.js";
-import type { PluginRuntimeTaskFlows, PluginRuntimeTaskRuns } from "./runtime-tasks.types.js";
+} from "../../plugin-sdk/tts-runtime.types.ts";
+import type { PluginRuntimeTaskFlows, PluginRuntimeTaskRuns } from "./runtime-tasks.types.ts";
 
 export type { HeartbeatRunResult };
 
@@ -197,23 +197,6 @@ export type PluginRuntimeCore = {
     replaceConfigFile: (
       params: RuntimeReplaceConfigFileParams,
     ) => Promise<RuntimeConfigReplaceResult>;
-    /**
-     * @deprecated Use current(), or pass the already loaded config through the
-     * call path. Runtime code must not reload config on demand. Bundled
-     * plugins and repo code are blocked from using this by the
-     * deprecated-internal-config-api architecture guard.
-     */
-    loadConfig: () => import("../../config/types.openclaw.js").OpenClawConfig;
-    /**
-     * @deprecated Use mutateConfigFile() or replaceConfigFile() with an
-     * explicit afterWrite intent so restart behavior stays under host control.
-     * Bundled plugins and repo code are blocked from using this by the
-     * deprecated-internal-config-api architecture guard.
-     */
-    writeConfigFile: (
-      cfg: import("../../config/types.openclaw.js").OpenClawConfig,
-      options?: RuntimeWriteConfigOptions & { afterWrite?: RuntimeConfigAfterWrite },
-    ) => Promise<void>;
   };
   agent: {
     defaults: {
@@ -236,8 +219,6 @@ export type PluginRuntimeCore = {
       params: PluginRuntimeThinkingPolicyRequest,
     ) => PluginRuntimeThinkingPolicy;
     runEmbeddedAgent: RuntimeRunEmbeddedAgent;
-    /** @deprecated Use runEmbeddedAgent. */
-    runEmbeddedPiAgent: RuntimeRunEmbeddedAgent;
     resolveAgentTimeoutMs: typeof import("../../agents/timeout.js").resolveAgentTimeoutMs;
     ensureAgentWorkspace: typeof import("../../agents/workspace.js").ensureAgentWorkspace;
     session: {
@@ -250,47 +231,14 @@ export type PluginRuntimeCore = {
         params: RuntimeSessionStoreEntryPatchParams,
       ) => Promise<RuntimeSessionEntry | null>;
       upsertSessionEntry: (params: RuntimeUpsertSessionEntryParams) => Promise<void>;
-      /**
-       * @deprecated Use getSessionEntry/listSessionEntries for reads and
-       * patchSessionEntry/upsertSessionEntry for writes. This whole-store
-       * helper is kept only during the transition before SQLite migration.
-       * Callers must migrate away from reading sessions.json directly.
-       */
-      loadSessionStore: typeof import("../../config/sessions/store-load.js").loadSessionStore;
-      /**
-       * @deprecated Use patchSessionEntry/upsertSessionEntry for writes. This
-       * whole-store helper is kept only during the transition before SQLite
-       * migration. Callers must migrate away from writing sessions.json
-       * directly.
-       */
-      saveSessionStore: import("../../config/sessions/runtime-types.js").SaveSessionStore;
-      /**
-       * @deprecated Use patchSessionEntry/upsertSessionEntry for writes. This
-       * whole-store helper is kept only during the transition before SQLite
-       * migration. Callers must migrate away from updating sessions.json
-       * directly.
-       */
-      updateSessionStore: typeof import("../../config/sessions/store.js").updateSessionStore;
       updateSessionStoreEntry: (
         params: RuntimeSessionStoreEntryUpdateParams,
       ) => Promise<RuntimeSessionEntry | null>;
-      /**
-       * @deprecated Use getSessionEntry to read session metadata by
-       * agent/session identity. This file-path helper is kept only during the
-       * transition before SQLite migration. Callers must migrate away from
-       * resolving transcript file paths directly.
-       */
-      resolveSessionFilePath: typeof import("../../config/sessions/paths.js").resolveSessionFilePath;
     };
   };
   system: {
     enqueueSystemEvent: typeof import("../../infra/system-events.js").enqueueSystemEvent;
     requestHeartbeat: typeof import("../../infra/heartbeat-wake.js").requestHeartbeat;
-    /**
-     * @deprecated Use `requestHeartbeat({ source, intent, reason })` so wake producers declare
-     * scheduler intent explicitly.
-     */
-    requestHeartbeatNow: (opts?: RuntimeRequestHeartbeatNowOptions) => void;
     /**
      * Run a single heartbeat cycle immediately (bypassing the coalesce timer).
      * Accepts an optional `heartbeat` config override so callers can force
@@ -392,11 +340,7 @@ export type PluginRuntimeCore = {
     runs: PluginRuntimeTaskRuns;
     flows: PluginRuntimeTaskFlows;
     managedFlows: import("./runtime-taskflow.types.js").PluginRuntimeTaskFlow;
-    /** @deprecated Use runtime.tasks.flows for DTO-based TaskFlow access. */
-    flow: import("./runtime-taskflow.types.js").PluginRuntimeTaskFlow;
   };
-  /** @deprecated Use runtime.tasks.flows for DTO-based TaskFlow access. */
-  taskFlow: import("./runtime-taskflow.types.js").PluginRuntimeTaskFlow;
   llm: {
     complete: (params: LlmCompleteParams) => Promise<LlmCompleteResult>;
   };

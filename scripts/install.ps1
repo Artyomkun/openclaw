@@ -1261,8 +1261,6 @@ function Install-OpenClawFromGit {
     }
     Ensure-Pnpm -RepoDir $RepoDir
 
-    Remove-LegacySubmodule -RepoDir $RepoDir
-
     $prevPnpmChildConcurrency = $env:PNPM_CONFIG_CHILD_CONCURRENCY
     $prevPnpmNetworkConcurrency = $env:PNPM_CONFIG_NETWORK_CONCURRENCY
     $prevPnpmWorkspaceConcurrency = $env:PNPM_CONFIG_WORKSPACE_CONCURRENCY
@@ -1402,28 +1400,6 @@ function Refresh-GatewayServiceIfLoaded {
         Write-Host "[OK] Gateway service refreshed" -ForegroundColor Green
     } catch {
         Write-Host "[!] Gateway service restart failed; continuing. Run: openclaw gateway restart" -ForegroundColor Yellow
-    }
-}
-
-function Get-LegacyRepoDir {
-    if (-not [string]::IsNullOrWhiteSpace($env:OPENCLAW_GIT_DIR)) {
-        return $env:OPENCLAW_GIT_DIR
-    }
-    $userHome = [Environment]::GetFolderPath("UserProfile")
-    return (Join-Path $userHome "openclaw")
-}
-
-function Remove-LegacySubmodule {
-    param(
-        [string]$RepoDir
-    )
-    if ([string]::IsNullOrWhiteSpace($RepoDir)) {
-        $RepoDir = Get-LegacyRepoDir
-    }
-    $legacyDir = Join-Path $RepoDir "Peekaboo"
-    if (Test-Path $legacyDir) {
-        Write-Host "[!] Removing legacy submodule checkout: $legacyDir" -ForegroundColor Yellow
-        Remove-Item -Recurse -Force $legacyDir
     }
 }
 

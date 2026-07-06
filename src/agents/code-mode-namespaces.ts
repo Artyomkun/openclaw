@@ -3,8 +3,8 @@
  * namespaced tool scopes here; code mode receives descriptors, virtual API
  * files, and a guarded invocation runtime.
  */
-import { isRecord } from "../../packages/normalization-core/src/record-coerce.js";
-import { toCodeModeJsonSafe } from "./code-mode-json.js";
+import { isRecord } from "../../packages/normalization-core/src/record-coerce.ts";
+import { toCodeModeJsonSafe } from "./code-mode-json.ts";
 
 const FORBIDDEN_NAMESPACE_PATH_SEGMENTS = new Set(["__proto__", "constructor", "prototype"]);
 const NAMESPACE_PATH_KEY_SEPARATOR = "\u0000";

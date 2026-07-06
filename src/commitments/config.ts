@@ -1,6 +1,6 @@
 // Resolves commitment runtime configuration from agent and user settings.
-import { resolveUserTimezone } from "../agents/date-time.js";
-import type { OpenClawConfig } from "../config/config.js";
+import { resolveUserTimezone } from "../agents/date-time.ts";
+import type { OpenClawConfig } from "../config/config.ts";
 
 // Configuration defaults for hidden follow-up commitment extraction and
 // heartbeat delivery limits.

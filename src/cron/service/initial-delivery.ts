@@ -1,5 +1,5 @@
 /** Resolves create-time default delivery for new cron jobs. */
-import type { CronDelivery, CronJobCreate } from "../types.js";
+import type { CronDelivery, CronJobCreate } from "../types.ts";
 
 /** Resolves default cron delivery for new jobs when callers omit explicit delivery config. */
 export function resolveInitialCronDelivery(input: CronJobCreate): CronDelivery | undefined {

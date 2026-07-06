@@ -8,8 +8,8 @@ import {
   parseRawSessionConversationRef,
   parseThreadSessionSuffix,
   type ParsedThreadSessionSuffix,
-} from "../../sessions/session-key-utils.js";
-import { getLoadedChannelPluginForRead } from "./registry-loaded-read.js";
+} from "../../sessions/session-key-utils.ts";
+import { getLoadedChannelPluginForRead } from "./registry-loaded-read.ts";
 
 type SessionConversationHookResult = {
   id: string;

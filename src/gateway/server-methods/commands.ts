@@ -5,10 +5,10 @@ import {
   errorShape,
   formatValidationErrors,
   validateCommandsListParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { resolveAgentIdOrRespondError } from "./agent-id-shared.js";
-import { buildCommandsListResult } from "./commands-list-result.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { resolveAgentIdOrRespondError } from "./agent-id-shared.ts";
+import { buildCommandsListResult } from "./commands-list-result.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 export { buildCommandsListResult };
 

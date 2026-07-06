@@ -8,22 +8,22 @@ import {
   INTERNAL_RUNTIME_CONTEXT_END,
   OPENCLAW_RUNTIME_CONTEXT_NOTICE,
   escapeInternalRuntimeContextDelimiters,
-} from "../agents/internal-runtime-context.js";
-import { SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import { agentCommand } from "../commands/agent.js";
+} from "../agents/internal-runtime-context.ts";
+import { SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { agentCommand } from "../commands/agent.ts";
 import {
   resolveAgentIdFromSessionKey,
   resolveAgentMainSessionKey,
   resolveMainSessionKey,
-} from "../config/sessions/main-session.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import { preserveTemporarySessionMapping } from "../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { type RuntimeEnv, defaultRuntime } from "../runtime.js";
-import { clearBootEchoContextForSession, setBootEchoContextForSession } from "./boot-echo-guard.js";
+} from "../config/sessions/main-session.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import { preserveTemporarySessionMapping } from "../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { type RuntimeEnv, defaultRuntime } from "../runtime.ts";
+import { clearBootEchoContextForSession, setBootEchoContextForSession } from "./boot-echo-guard.ts";
 
 function generateBootSessionId(): string {
   const now = new Date();

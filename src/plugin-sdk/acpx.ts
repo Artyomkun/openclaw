@@ -1,9 +1,9 @@
 // Private ACPX runtime backend helpers for bundled extensions.
 // Keep this surface narrow and limited to the ACP runtime/backend contract.
 
-export type { AcpRuntimeErrorCode } from "../acp/runtime/errors.js";
-export { AcpRuntimeError } from "../acp/runtime/errors.js";
-export { registerAcpRuntimeBackend, unregisterAcpRuntimeBackend } from "../acp/runtime/registry.js";
+export type { AcpRuntimeErrorCode } from "../acp/runtime/errors.ts";
+export { AcpRuntimeError } from "../acp/runtime/errors.ts";
+export { registerAcpRuntimeBackend, unregisterAcpRuntimeBackend } from "../acp/runtime/registry.ts";
 export type {
   AcpRuntime,
   AcpRuntimeCapabilities,
@@ -24,18 +24,18 @@ export type {
   OpenClawPluginService,
   OpenClawPluginServiceContext,
   PluginLogger,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 export type {
   WindowsSpawnProgram,
   WindowsSpawnProgramCandidate,
   WindowsSpawnResolution,
-} from "./windows-spawn.js";
+} from "./windows-spawn.ts";
 export {
   applyWindowsSpawnProgramPolicy,
   materializeWindowsSpawnProgram,
   resolveWindowsSpawnProgramCandidate,
-} from "./windows-spawn.js";
+} from "./windows-spawn.ts";
 export {
   listKnownProviderAuthEnvVarNames,
   omitEnvKeysCaseInsensitive,
-} from "../secrets/provider-env-vars.js";
+} from "../secrets/provider-env-vars.ts";

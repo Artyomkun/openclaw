@@ -1,7 +1,7 @@
 /**
  * Releases attempt resources when an embedded-agent run aborts.
  */
-import type { EmbeddedAttemptSessionLockController } from "./attempt.session-lock.js";
+import type { EmbeddedAttemptSessionLockController } from "./attempt.session-lock.ts";
 
 type AbortLockReleaseLog = {
   warn(message: string): void;

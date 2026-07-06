@@ -1,9 +1,9 @@
 // Manages node pairing identities for gateway and remote device trust.
 import { randomUUID } from "node:crypto";
 import { normalizeArrayBackedTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { resolveMissingRequestedScope } from "../shared/operator-scope-compat.js";
-import { type NodeApprovalScope, resolveNodePairApprovalScopes } from "./node-pairing-authz.js";
-import { sameNodeApprovalSurfaceSet, sameNodePermissionSurface } from "./node-pairing-surface.js";
+import { resolveMissingRequestedScope } from "../shared/operator-scope-compat.ts";
+import { type NodeApprovalScope, resolveNodePairApprovalScopes } from "./node-pairing-authz.ts";
+import { sameNodeApprovalSurfaceSet, sameNodePermissionSurface } from "./node-pairing-surface.ts";
 import {
   createAsyncLock,
   pruneExpiredPending,
@@ -12,9 +12,9 @@ import {
   coercePairingStateRecord,
   resolvePairingPaths,
   writeJson,
-} from "./pairing-files.js";
-import { rejectPendingPairingRequest } from "./pairing-pending.js";
-import { generatePairingToken, verifyPairingToken } from "./pairing-token.js";
+} from "./pairing-files.ts";
+import { rejectPendingPairingRequest } from "./pairing-pending.ts";
+import { generatePairingToken, verifyPairingToken } from "./pairing-token.ts";
 
 type NodeDeclaredSurface = {
   nodeId: string;

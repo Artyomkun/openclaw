@@ -1,26 +1,26 @@
 /** Gateway health probes used by doctor before deeper daemon and memory diagnostics. */
-import { note } from "../../packages/terminal-core/src/note.js";
-import { probeGatewayStatus } from "../cli/daemon-cli/probe.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { probeGatewayStatus } from "../cli/daemon-cli/probe.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   buildGatewayConnectionDetails,
   buildGatewayProbeConnectionDetails,
   callGateway,
   isGatewayCredentialsRequiredError,
-} from "../gateway/call.js";
-import { isGatewaySecretRefUnavailableError } from "../gateway/credentials.js";
-import type { DoctorMemoryStatusPayload } from "../gateway/server-methods/doctor.js";
-import { collectChannelStatusIssues } from "../infra/channels-status-issues.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { VERSION } from "../version.js";
+} from "../gateway/call.ts";
+import { isGatewaySecretRefUnavailableError } from "../gateway/credentials.ts";
+import type { DoctorMemoryStatusPayload } from "../gateway/server-methods/doctor.ts";
+import { collectChannelStatusIssues } from "../infra/channels-status-issues.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { VERSION } from "../version.ts";
 import {
   GATEWAY_HEALTH_CREDENTIALS_REQUIRED_MESSAGE,
   GATEWAY_HEALTH_CREDENTIALS_REQUIRED_TITLE,
   gatewayProbeResultSawGateway,
-} from "./gateway-health-auth-diagnostic.js";
-import { formatGatewayClosedDiagnostic, formatHealthCheckFailure } from "./health-format.js";
-import type { StatusSummary } from "./status.types.js";
+} from "./gateway-health-auth-diagnostic.ts";
+import { formatGatewayClosedDiagnostic, formatHealthCheckFailure } from "./health-format.ts";
+import type { StatusSummary } from "./status.types.ts";
 
 type GatewayMemoryProbe = {
   checked: boolean;

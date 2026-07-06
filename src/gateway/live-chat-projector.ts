@@ -1,17 +1,17 @@
 // Gateway live chat projector.
 // Converts streaming assistant events into display-safe live chat text.
-import { stripInternalRuntimeContext } from "../agents/internal-runtime-context.js";
+import { stripInternalRuntimeContext } from "../agents/internal-runtime-context.ts";
 import {
   SILENT_REPLY_TOKEN,
   startsWithSilentToken,
   stripLeadingSilentToken,
-} from "../auto-reply/tokens.js";
-import { resolveAssistantEventPhase } from "../shared/chat-message-content.js";
-import { stripInlineDirectiveTagsForDisplay } from "../utils/directive-tags.js";
+} from "../auto-reply/tokens.ts";
+import { resolveAssistantEventPhase } from "../shared/chat-message-content.ts";
+import { stripInlineDirectiveTagsForDisplay } from "../utils/directive-tags.ts";
 import {
   isSuppressedControlReplyLeadFragment,
   isSuppressedControlReplyText,
-} from "./control-reply-text.js";
+} from "./control-reply-text.ts";
 
 export const MAX_LIVE_CHAT_BUFFER_CHARS = 500_000;
 

@@ -1,14 +1,14 @@
-import { copyPluginToolMeta } from "../plugins/tools.js";
+import { copyPluginToolMeta } from "../plugins/tools.ts";
 /**
  * Adjusts exec/process tool descriptions for long-running follow-up behavior.
  * Cron-aware runs can point models at scheduled follow-ups; cronless runs keep
  * guidance constrained to process polling and wake handling.
  */
-import type { AnyAgentTool } from "./agent-tools.types.js";
-import { describeExecTool, describeProcessTool } from "./bash-tools.descriptions.js";
-import { copyBeforeToolCallHookMarker } from "./before-tool-call-metadata.js";
-import { copyChannelAgentToolMeta } from "./channel-tools.js";
-import { copyToolTerminalPresentation } from "./tool-terminal-presentation.js";
+import type { AnyAgentTool } from "./agent-tools.types.ts";
+import { describeExecTool, describeProcessTool } from "./bash-tools.descriptions.ts";
+import { copyBeforeToolCallHookMarker } from "./before-tool-call-metadata.ts";
+import { copyChannelAgentToolMeta } from "./channel-tools.ts";
+import { copyToolTerminalPresentation } from "./tool-terminal-presentation.ts";
 
 function replaceDescription(tool: AnyAgentTool, description: string): AnyAgentTool {
   const updated = { ...tool, description };

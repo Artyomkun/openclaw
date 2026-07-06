@@ -1,6 +1,6 @@
 // Reasoning tag helpers find and remove model reasoning tag blocks from text.
-import { findCodeRegions, isInsideCode } from "./code-regions.js";
-import { findFinalTagMatches } from "./final-tags.js";
+import { findCodeRegions, isInsideCode } from "./code-regions.ts";
+import { findFinalTagMatches } from "./final-tags.ts";
 export type ReasoningTagMode = "strict" | "preserve";
 export type ReasoningTagTrim = "none" | "start" | "both";
 

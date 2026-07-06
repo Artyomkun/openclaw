@@ -1,6 +1,6 @@
 // User-turn transcript type contracts shared by runtime and queue option types.
-import type { AgentMessage } from "../../packages/agent-core/src/types.js";
-import type { InputProvenance } from "./input-provenance.js";
+import type { AgentMessage } from "../../packages/agent-core/src/types.ts";
+import type { InputProvenance } from "./input-provenance.ts";
 
 export type UserTurnSessionEntry = {
   sessionId: string;

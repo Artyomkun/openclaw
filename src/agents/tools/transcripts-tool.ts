@@ -7,24 +7,24 @@ import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
 import { Type } from "typebox";
-import { resolveStateDir } from "../../config/paths.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { resolveStateDir } from "../../config/paths.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   type ResolvedTranscriptsAutoStartConfig,
   resolveTranscriptsConfig,
-} from "../../transcripts/config.js";
-import { manualTranscriptSourceProvider } from "../../transcripts/manual-source.js";
+} from "../../transcripts/config.ts";
+import { manualTranscriptSourceProvider } from "../../transcripts/manual-source.ts";
 import {
   getTranscriptSourceProvider,
   listTranscriptSourceProviders,
-} from "../../transcripts/provider-registry.js";
+} from "../../transcripts/provider-registry.ts";
 import type {
   TranscriptSessionDescriptor,
   TranscriptSourceLocator,
-} from "../../transcripts/provider-types.js";
-import { TranscriptsStore, type TranscriptsSessionEntry } from "../../transcripts/store.js";
-import { summarizeTranscripts } from "../../transcripts/summary.js";
-import type { AnyAgentTool } from "./common.js";
+} from "../../transcripts/provider-types.ts";
+import { TranscriptsStore, type TranscriptsSessionEntry } from "../../transcripts/store.ts";
+import { summarizeTranscripts } from "../../transcripts/summary.ts";
+import type { AnyAgentTool } from "./common.ts";
 
 type TranscriptsLogger = {
   warn: (message: string) => void;

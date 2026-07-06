@@ -1,6 +1,6 @@
 // Gateway hook routing policy helpers.
 // Normalizes configured agent allowlists for hook dispatch.
-import { normalizeAgentId } from "../routing/session-key.js";
+import { normalizeAgentId } from "../routing/session-key.ts";
 
 // Hook policy config narrows hooks to explicit agent ids. A wildcard means no
 // restriction, matching the gateway hook routing contract.

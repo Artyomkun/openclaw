@@ -39,20 +39,20 @@ import {
   normalizeFastMode,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { EventFrame } from "../../packages/gateway-protocol/src/index.js";
-import type { GatewayClient } from "../gateway/client.js";
-import type { GatewaySessionRow, SessionsListResult } from "../gateway/session-utils.js";
+import type { EventFrame } from "../../packages/gateway-protocol/src/index.ts";
+import type { GatewayClient } from "../gateway/client.ts";
+import type { GatewaySessionRow, SessionsListResult } from "../gateway/session-utils.ts";
 import {
   createFixedWindowRateLimiter,
   resolveFixedWindowRateLimitInteger,
   type FixedWindowRateLimiter,
-} from "../infra/fixed-window-rate-limit.js";
-import { shortenHomePath } from "../utils.js";
+} from "../infra/fixed-window-rate-limit.ts";
+import { shortenHomePath } from "../utils.ts";
 import {
   createInMemoryAcpEventLedger,
   type AcpEventLedger,
   type AcpEventLedgerReplay,
-} from "./event-ledger.js";
+} from "./event-ledger.ts";
 import {
   extractAttachmentsFromPrompt,
   extractToolCallContent,
@@ -60,7 +60,7 @@ import {
   extractTextFromPrompt,
   formatToolTitle,
   inferToolKind,
-} from "./event-mapper.js";
+} from "./event-mapper.ts";
 import {
   buildAcpPermissionRequest,
   parseGatewayExecApprovalEventData,
@@ -69,8 +69,8 @@ import {
   type GatewayExecApprovalDecision,
   type GatewayExecApprovalDetails,
   type GatewayExecApprovalEvent,
-} from "./permission-relay.js";
-import { parseSessionMeta, resetSessionIfNeeded, resolveSessionKey } from "./session-mapper.js";
+} from "./permission-relay.ts";
+import { parseSessionMeta, resetSessionIfNeeded, resolveSessionKey } from "./session-mapper.ts";
 import {
   ACP_ELEVATED_LEVEL_CONFIG_ID,
   ACP_FAST_MODE_CONFIG_ID,
@@ -88,21 +88,21 @@ import {
   type ClientCapabilityState,
   type GatewaySessionPresentationRow,
   type SessionSnapshot,
-} from "./translator.presentation.js";
+} from "./translator.presentation.ts";
 import {
   extractReplayChunks,
   type GatewayChatContentBlock,
   type GatewayTranscriptMessage,
-} from "./translator.replay.js";
+} from "./translator.replay.ts";
 import {
   ACP_LIST_SESSIONS_MAX_FETCH_LIMIT,
   assertAbsoluteCwd,
   decodeListSessionsCursor,
   encodeListSessionsCursor,
   resolveListSessionsPageSize,
-} from "./translator.session-list.js";
-import { AcpTranslatorSessionUpdates } from "./translator.session-updates.js";
-import { ACP_AGENT_INFO } from "./types.js";
+} from "./translator.session-list.ts";
+import { AcpTranslatorSessionUpdates } from "./translator.session-updates.ts";
+import { ACP_AGENT_INFO } from "./types.ts";
 
 // Maximum allowed prompt size (2MB) to prevent DoS via memory exhaustion (CWE-400, GHSA-cxpw-2g23-2vgw)
 const MAX_PROMPT_BYTES = 2 * 1024 * 1024;

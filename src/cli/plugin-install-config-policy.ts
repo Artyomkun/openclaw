@@ -4,17 +4,17 @@ import fs from "node:fs";
 import path from "node:path";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
 import type { Command } from "commander";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.js";
-import { findBundledPluginSource } from "../plugins/bundled-sources.js";
-import { loadPluginManifest } from "../plugins/manifest.js";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+import { parseRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
+import { findBundledPluginSource } from "../plugins/bundled-sources.ts";
+import { loadPluginManifest } from "../plugins/manifest.ts";
 import {
   listOfficialExternalPluginCatalogEntries,
   resolveOfficialExternalPluginId,
   resolveOfficialExternalPluginInstall,
-} from "../plugins/official-external-plugin-catalog.js";
-import { resolveUserPath } from "../utils.js";
-import { parseNpmPrefixSpec, resolveFileNpmSpecToLocalPath } from "./plugins-command-helpers.js";
+} from "../plugins/official-external-plugin-catalog.ts";
+import { resolveUserPath } from "../utils.ts";
+import { parseNpmPrefixSpec, resolveFileNpmSpecToLocalPath } from "./plugins-command-helpers.ts";
 
 type PluginInstallInvalidConfigPolicy = "deny" | "allow-plugin-recovery";
 

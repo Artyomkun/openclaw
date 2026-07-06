@@ -4,26 +4,26 @@ import { normalizeOptionalString } from "@openclaw/normalization-core/string-coe
 import {
   loadOpenClawProviderIndex,
   type OpenClawProviderIndexProvider,
-} from "../model-catalog/index.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
+} from "../model-catalog/index.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.ts";
 import {
   describePluginInstallSource,
   type PluginInstallSourceInfo,
-} from "./install-source-info.js";
-import type { InstalledPluginInstallRecordInfo } from "./installed-plugin-index.js";
-import type { PluginPackageInstall } from "./manifest.js";
+} from "./install-source-info.ts";
+import type { InstalledPluginInstallRecordInfo } from "./installed-plugin-index.ts";
+import type { PluginPackageInstall } from "./manifest.ts";
 import {
   getOfficialExternalPluginCatalogManifest,
   listOfficialExternalProviderCatalogEntries,
   resolveOfficialExternalPluginInstall,
   type OfficialExternalProviderAuthChoice,
-} from "./official-external-plugin-catalog.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
-import { loadPluginRegistrySnapshot, type PluginRegistryRecord } from "./plugin-registry.js";
+} from "./official-external-plugin-catalog.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
+import { loadPluginRegistrySnapshot, type PluginRegistryRecord } from "./plugin-registry.ts";
 import {
   resolveManifestProviderAuthChoices,
   type ProviderAuthChoiceMetadata,
-} from "./provider-auth-choices.js";
+} from "./provider-auth-choices.ts";
 
 /** Provider setup choice paired with install metadata for the owning plugin. */
 export type ProviderInstallCatalogEntry = ProviderAuthChoiceMetadata & {

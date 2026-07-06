@@ -7,24 +7,24 @@ import {
   normalizeStringEntries,
   normalizeUniqueStringEntries,
 } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { buildPluginApi } from "./api-builder.js";
-import { collectPluginConfigContractMatches } from "./config-contracts.js";
-import { getCurrentPluginMetadataSnapshotState } from "./current-plugin-metadata-state.js";
-import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.js";
-import { createPluginCacheKey, PluginLruCache } from "./plugin-cache-primitives.js";
-import { resolvePluginControlPlaneFingerprint } from "./plugin-control-plane-context.js";
-import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.js";
-import { resolvePluginMetadataSnapshotMemoEnvFingerprint } from "./plugin-metadata-snapshot.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { buildPluginApi } from "./api-builder.ts";
+import { collectPluginConfigContractMatches } from "./config-contracts.ts";
+import { getCurrentPluginMetadataSnapshotState } from "./current-plugin-metadata-state.ts";
+import type { PluginManifestRecord, PluginManifestRegistry } from "./manifest-registry.ts";
+import { createPluginCacheKey, PluginLruCache } from "./plugin-cache-primitives.ts";
+import { resolvePluginControlPlaneFingerprint } from "./plugin-control-plane-context.ts";
+import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.ts";
+import { resolvePluginMetadataSnapshotMemoEnvFingerprint } from "./plugin-metadata-snapshot.ts";
 import {
   createPluginModuleLoaderCache,
   getCachedPluginModuleLoader,
   type PluginModuleLoaderFactory,
   type PluginModuleLoaderCache,
-} from "./plugin-module-loader-cache.js";
-import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.js";
-import type { PluginRuntime } from "./runtime/types.js";
-import { listSetupCliBackendIds, listSetupProviderIds } from "./setup-descriptors.js";
+} from "./plugin-module-loader-cache.ts";
+import { loadPluginManifestRegistryForPluginRegistry } from "./plugin-registry.ts";
+import type { PluginRuntime } from "./runtime/types.ts";
+import { listSetupCliBackendIds, listSetupProviderIds } from "./setup-descriptors.ts";
 import type {
   CliBackendPlugin,
   OpenClawPluginModule,
@@ -32,9 +32,9 @@ import type {
   PluginLogger,
   PluginSetupAutoEnableProbe,
   ProviderPlugin,
-} from "./types.js";
+} from "./types.ts";
 
-const SETUP_API_EXTENSIONS = [".js", ".mjs", ".cjs", ".ts", ".mts", ".cts"] as const;
+const SETUP_API_EXTENSIONS = [".js", ".ts", ".ts", ".ts"] as const;
 const CURRENT_MODULE_PATH = fileURLToPath(import.meta.url);
 const RUNNING_FROM_BUILT_ARTIFACT =
   CURRENT_MODULE_PATH.includes(`${path.sep}dist${path.sep}`) ||

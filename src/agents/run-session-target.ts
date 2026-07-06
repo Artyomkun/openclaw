@@ -1,11 +1,11 @@
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveStorePath } from "../config/sessions/paths.js";
+import { resolveStorePath } from "../config/sessions/paths.ts";
 import {
   resolveSessionTranscriptRuntimeTarget,
   type SessionTranscriptRuntimeTarget,
-} from "../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
+} from "../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
 
 /** Identifies a run transcript target without naming the current storage artifact. */
 export type AgentRunSessionTarget = {
@@ -57,7 +57,7 @@ export async function resolveAgentRunSessionTarget(params: {
   });
 }
 
-/** Applies identity fields from the explicit target before legacy backfills run. */
+/** Applies identity fields from the explicit target before older backfills run. */
 export function applyAgentRunSessionTargetIdentity<
   T extends {
     agentId?: string;

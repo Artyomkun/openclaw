@@ -2,24 +2,24 @@
  * Public Codex native web-search facade. It re-exports core activation helpers
  * and reports whether native search matters for the configured agent model.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   hasAvailableCodexAuth,
   isCodexNativeSearchEligibleModel,
-} from "./codex-native-web-search-core.js";
-import { resolveCodexNativeWebSearchConfig } from "./codex-native-web-search.shared.js";
-import { resolveDefaultModelForAgent } from "./model-selection.js";
+} from "./codex-native-web-search-core.ts";
+import { resolveCodexNativeWebSearchConfig } from "./codex-native-web-search.shared.ts";
+import { resolveDefaultModelForAgent } from "./model-selection.ts";
 
 export {
   buildCodexNativeWebSearchTool,
   patchCodexNativeWebSearchPayload,
   resolveCodexNativeSearchActivation,
   shouldSuppressManagedWebSearchTool,
-} from "./codex-native-web-search-core.js";
+} from "./codex-native-web-search-core.ts";
 export {
   describeCodexNativeWebSearch,
   resolveCodexNativeWebSearchConfig,
-} from "./codex-native-web-search.shared.js";
+} from "./codex-native-web-search.shared.ts";
 
 /** True when Codex native web search should appear relevant for an agent. */
 export function isCodexNativeWebSearchRelevant(params: {

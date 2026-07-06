@@ -1,12 +1,12 @@
 // Gmail setup utilities write helper files and normalize Gmail setup settings.
 import fs from "node:fs";
 import path from "node:path";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveExecutable } from "../infra/executable-path.js";
-import { runCommandWithTimeout, type SpawnResult } from "../process/exec.js";
-import { hasBinary } from "../skills/loading/config.js";
-import { resolveUserPath } from "../utils.js";
-import { normalizeServePath } from "./gmail.js";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveExecutable } from "../infra/executable-path.ts";
+import { runCommandWithTimeout, type SpawnResult } from "../process/exec.ts";
+import { hasBinary } from "../skills/loading/config.ts";
+import { resolveUserPath } from "../utils.ts";
+import { normalizeServePath } from "./gmail.ts";
 
 let cachedPythonPath: string | null | undefined;
 let gcloudBin: string | undefined;

@@ -1,26 +1,26 @@
 // Defines channel configuration types shared by channel plugins.
-import type { ContextVisibilityMode, GroupPolicy } from "./types.base.js";
-import type { ChannelBotLoopProtectionConfig } from "./types.bot-loop-protection.js";
+import type { ContextVisibilityMode, GroupPolicy } from "./types.base.ts";
+import type { ChannelBotLoopProtectionConfig } from "./types.bot-loop-protection.ts";
 import type {
   ChannelHealthMonitorConfig,
   ChannelHeartbeatVisibilityConfig,
-} from "./types.channel-health.js";
-import type { DiscordConfig } from "./types.discord.js";
-import type { GoogleChatConfig } from "./types.googlechat.js";
-import type { IMessageConfig } from "./types.imessage.js";
-import type { IrcConfig } from "./types.irc.js";
-import type { MentionPatternsPolicyConfig } from "./types.messages.js";
-import type { MSTeamsConfig } from "./types.msteams.js";
-import type { SignalConfig } from "./types.signal.js";
-import type { SlackConfig } from "./types.slack.js";
-import type { TelegramConfig } from "./types.telegram.js";
-import type { WhatsAppConfig } from "./types.whatsapp.js";
+} from "./types.channel-health.ts";
+import type { DiscordConfig } from "./types.discord.ts";
+import type { GoogleChatConfig } from "./types.googlechat.ts";
+import type { IMessageConfig } from "./types.imessage.ts";
+import type { IrcConfig } from "./types.irc.ts";
+import type { MentionPatternsPolicyConfig } from "./types.messages.ts";
+import type { MSTeamsConfig } from "./types.msteams.ts";
+import type { SignalConfig } from "./types.signal.ts";
+import type { SlackConfig } from "./types.slack.ts";
+import type { TelegramConfig } from "./types.telegram.ts";
+import type { WhatsAppConfig } from "./types.whatsapp.ts";
 
 export type {
   ChannelHealthMonitorConfig,
   ChannelHeartbeatVisibilityConfig,
-} from "./types.channel-health.js";
-export type { ChannelBotLoopProtectionConfig } from "./types.bot-loop-protection.js";
+} from "./types.channel-health.ts";
+export type { ChannelBotLoopProtectionConfig } from "./types.bot-loop-protection.ts";
 
 export type ChannelDefaultsConfig = {
   /** Default group-chat admission policy inherited by channels that support groups. */
@@ -107,15 +107,9 @@ export type ExtensionChannelConfig = {
     spawnSessions?: boolean;
     /** Default context mode for thread-bound native subagent spawns. */
     defaultSpawnContext?: "isolated" | "fork";
-    /** @deprecated Use spawnSessions instead. */
-    spawnAcpSessions?: boolean;
-    /** @deprecated Use spawnSessions instead. */
-    spawnSubagentSessions?: boolean;
   };
   /** Channel-specific bot loop guard settings. */
   botLoopProtection?: ChannelBotLoopProtectionConfig;
-  /** @deprecated Use threadBindings.spawnSessions instead. */
-  spawnSubagentSessions?: boolean;
   /** Explicit opt-in for channels that need private network callbacks or media fetches. */
   dangerouslyAllowPrivateNetwork?: boolean;
   /** Account-scoped channel config keyed by plugin-defined account id. */

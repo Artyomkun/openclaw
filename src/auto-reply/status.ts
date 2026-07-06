@@ -1,7 +1,7 @@
 /** Auto-reply status/help message builders for commands, status, and tool inventory output. */
-import { describeToolForVerbose } from "../agents/tool-description-summary.js";
-import { normalizeToolName } from "../agents/tool-policy-shared.js";
-import type { EffectiveToolInventoryResult } from "../agents/tools-effective-inventory.types.js";
+import { describeToolForVerbose } from "../agents/tool-description-summary.ts";
+import { normalizeToolName } from "../agents/tool-policy-shared.ts";
+import type { EffectiveToolInventoryResult } from "../agents/tools-effective-inventory.types.ts";
 
 export {
   buildCommandsMessage,
@@ -9,13 +9,13 @@ export {
   buildHelpMessage,
   type CommandsMessageOptions,
   type CommandsMessageResult,
-} from "./command-status-builders.js";
+} from "./command-status-builders.ts";
 export {
   buildStatusMessage,
   formatContextUsageShort,
   type StatusArgs,
-} from "../status/status-message.js";
-export { formatTokenCount } from "../utils/usage-format.js";
+} from "../status/status-message.ts";
+export { formatTokenCount } from "../utils/usage-format.ts";
 
 type ToolsMessageItem = {
   id: string;

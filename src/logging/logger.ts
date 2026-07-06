@@ -3,34 +3,34 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { Logger as TsLogger } from "tslog";
-import type { OpenClawConfig } from "../config/types.js";
+import type { OpenClawConfig } from "../config/types.ts";
 import {
   emitDiagnosticEvent,
   emitDiagnosticEventWithTrustedTraceContext,
-} from "../infra/diagnostic-events.js";
+} from "../infra/diagnostic-events.ts";
 import {
   getActiveDiagnosticTraceContext,
   isValidDiagnosticSpanId,
   isValidDiagnosticTraceFlags,
   isValidDiagnosticTraceId,
   type DiagnosticTraceContext,
-} from "../infra/diagnostic-trace-context.js";
-import { expandHomePrefix } from "../infra/home-dir.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import { appendRegularFileSync } from "../infra/regular-file.js";
+} from "../infra/diagnostic-trace-context.ts";
+import { expandHomePrefix } from "../infra/home-dir.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { appendRegularFileSync } from "../infra/regular-file.ts";
 import {
   POSIX_OPENCLAW_TMP_DIR,
   resolvePreferredOpenClawTmpDir,
-} from "../infra/tmp-openclaw-dir.js";
-import { readLoggingConfig, shouldSkipMutatingLoggingConfigRead } from "./config.js";
-import { resolveEnvLogLevelOverride } from "./env-log-level.js";
-import { type LogLevel, levelToMinLevel, normalizeLogLevel } from "./levels.js";
-import { canUseNodeFs, formatLocalDate, LOG_PREFIX, LOG_SUFFIX } from "./log-file-shared.js";
-import { redactSecrets, redactSensitiveText } from "./redact.js";
-import { loggingState } from "./state.js";
-import { formatTimestamp } from "./timestamps.js";
-import type { LoggerSettings } from "./types.js";
-export type { LoggerSettings } from "./types.js";
+} from "../infra/tmp-openclaw-dir.ts";
+import { readLoggingConfig, shouldSkipMutatingLoggingConfigRead } from "./config.ts";
+import { resolveEnvLogLevelOverride } from "./env-log-level.ts";
+import { type LogLevel, levelToMinLevel, normalizeLogLevel } from "./levels.ts";
+import { canUseNodeFs, formatLocalDate, LOG_PREFIX, LOG_SUFFIX } from "./log-file-shared.ts";
+import { redactSecrets, redactSensitiveText } from "./redact.ts";
+import { loggingState } from "./state.ts";
+import { formatTimestamp } from "./timestamps.ts";
+import type { LoggerSettings } from "./types.ts";
+export type { LoggerSettings } from "./types.ts";
 
 function resolveDefaultLogDir(): string {
   return canUseNodeFs() ? resolvePreferredOpenClawTmpDir() : POSIX_OPENCLAW_TMP_DIR;
@@ -43,7 +43,7 @@ function resolveDefaultLogFile(defaultLogDir: string): string {
 }
 
 export const DEFAULT_LOG_DIR = resolveDefaultLogDir();
-export const DEFAULT_LOG_FILE = resolveDefaultLogFile(DEFAULT_LOG_DIR); // legacy single-file path
+export const DEFAULT_LOG_FILE = resolveDefaultLogFile(DEFAULT_LOG_DIR);
 
 const MAX_LOG_AGE_MS = 24 * 60 * 60 * 1000; // 24h
 const DEFAULT_MAX_LOG_FILE_BYTES = 100 * 1024 * 1024; // 100 MB

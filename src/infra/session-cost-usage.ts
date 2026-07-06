@@ -4,38 +4,38 @@ import path from "node:path";
 import readline from "node:readline";
 import { asFiniteNumber } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { NormalizedUsage, UsageLike } from "../agents/usage.js";
-import { normalizeUsage } from "../agents/usage.js";
-import { stripInboundMetadata } from "../auto-reply/reply/strip-inbound-meta.js";
+import type { NormalizedUsage, UsageLike } from "../agents/usage.ts";
+import { normalizeUsage } from "../agents/usage.ts";
+import { stripInboundMetadata } from "../auto-reply/reply/strip-inbound-meta.ts";
 import {
   isPrimarySessionTranscriptFileName,
   isSessionArchiveArtifactName,
   isUsageCountedSessionTranscriptFileName,
   parseSessionArchiveTimestamp,
   parseUsageCountedSessionIdFromFileName,
-} from "../config/sessions/artifacts.js";
+} from "../config/sessions/artifacts.ts";
 import {
   resolveSessionFilePath,
   resolveSessionTranscriptsDirForAgent,
-} from "../config/sessions/paths.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { stripEnvelope, stripMessageIdHints } from "../shared/chat-envelope.js";
-import { runTasksWithConcurrency } from "../utils/run-with-concurrency.js";
-import { countToolResults, extractToolCallNames } from "../utils/transcript-tools.js";
+} from "../config/sessions/paths.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { stripEnvelope, stripMessageIdHints } from "../shared/chat-envelope.ts";
+import { runTasksWithConcurrency } from "../utils/run-with-concurrency.ts";
+import { countToolResults, extractToolCallNames } from "../utils/transcript-tools.ts";
 import {
   estimateUsageCost,
   resolveModelCostConfig,
   resolveModelCostConfigFingerprint,
-} from "../utils/usage-format.js";
-import { formatErrorMessage } from "./errors.js";
-import { replaceFileAtomic } from "./replace-file.js";
+} from "../utils/usage-format.ts";
+import { formatErrorMessage } from "./errors.ts";
+import { replaceFileAtomic } from "./replace-file.ts";
 import {
   addCostUsageTotals as addTotals,
   cloneCostUsageTotals as cloneTotals,
   createEmptyCostUsageTotals as emptyTotals,
-} from "./session-cost-usage-totals.js";
+} from "./session-cost-usage-totals.ts";
 import type {
   CostBreakdown,
   CostUsageTotals,
@@ -58,7 +58,7 @@ import type {
   SessionUsageTimePoint,
   SessionUsageTimeSeries,
   UsageCacheStatus,
-} from "./session-cost-usage.types.js";
+} from "./session-cost-usage.types.ts";
 
 export type {
   CostUsageSummary,
@@ -72,7 +72,7 @@ export type {
   SessionModelUsage,
   SessionToolUsage,
   UsageCacheStatus,
-} from "./session-cost-usage.types.js";
+} from "./session-cost-usage.types.ts";
 
 // Bump when the *meaning* of cached totals changes (not just their inputs), so durable
 // caches written by older builds are rebuilt instead of served stale. Bumped to 4:
@@ -1021,7 +1021,7 @@ const applyCostBreakdown = (totals: CostUsageTotals, costBreakdown: CostBreakdow
   totals.cacheWriteCost += costBreakdown.cacheWrite ?? 0;
 };
 
-// Legacy function for backwards compatibility (no cost breakdown available)
+// Older function for backwards compatibility (no cost breakdown available)
 const applyCostTotal = (totals: CostUsageTotals, costTotal: number | undefined) => {
   if (costTotal === undefined) {
     totals.missingCostEntries += 1;
@@ -1271,8 +1271,6 @@ export function resolveExistingUsageSessionFile(params: {
 export async function loadCostUsageSummary(params?: {
   startMs?: number;
   endMs?: number;
-  /** @deprecated Use startMs/endMs. */
-  days?: number;
   config?: OpenClawConfig;
   agentId?: string;
 }): Promise<CostUsageSummary> {
@@ -1285,7 +1283,7 @@ export async function loadCostUsageSummary(params?: {
     untilTime = params.endMs;
   } else {
     // Fallback to days-based calculation for backwards compatibility
-    const days = Math.max(1, Math.floor(params?.days ?? 30));
+    const days = Math.max(1, Math.floor(30));
     const since = new Date(now);
     since.setDate(since.getDate() - (days - 1));
     sinceTime = since.getTime();
@@ -2237,7 +2235,7 @@ export async function loadSessionCostSummary(params: {
       if (entry.timestamp) {
         const dayKey = formatDayKey(entry.timestamp);
         const entryTokenTotals = computeUsageTokenTotals(entry.usage);
-        // Preserve the legacy dailyBreakdown token basis until daily metrics are
+        // Preserve the older dailyBreakdown token basis until daily metrics are
         // refactored separately. The precise quarter-hour bucket below uses
         // entryTokenTotals.totalTokens so Usage Mosaic matches session totals.
         const entryTokens = entryTokenTotals.componentTotal;

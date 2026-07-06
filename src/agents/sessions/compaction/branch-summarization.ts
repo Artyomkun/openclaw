@@ -3,7 +3,7 @@
  *
  * Keeps session-manager branch traversal local while delegating summary generation to agent-core.
  */
-import type { Model } from "../../../llm/types.js";
+import type { Model } from "../../../llm/types.ts";
 import {
   collectEntriesForBranchSummaryFromBranches,
   generateBranchSummary as generateBranchSummaryCore,
@@ -12,8 +12,8 @@ import {
   type BranchPreparation,
   type BranchSummaryDetails,
   type FileOperations,
-} from "../../runtime/index.js";
-import type { SessionEntry, ReadonlySessionManager } from "../session-manager.js";
+} from "../../runtime/index.ts";
+import type { SessionEntry, ReadonlySessionManager } from "../session-manager.ts";
 
 export type { BranchPreparation, BranchSummaryDetails, FileOperations };
 export { prepareBranchEntries };

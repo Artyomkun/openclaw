@@ -5,9 +5,9 @@ import type {
   SessionsListParams,
   SessionsPatchParams,
   SessionsPatchResult,
-} from "../../packages/gateway-protocol/src/index.js";
+} from "../../packages/gateway-protocol/src/index.ts";
 import type { FastMode } from "@openclaw/normalization-core/string-coerce";
-import type { ResponseUsageMode, SessionInfo, SessionScope } from "./tui-types.js";
+import type { ResponseUsageMode, SessionInfo, SessionScope } from "./tui-types.ts";
 
 // Transport-agnostic backend contract consumed by the TUI runtime.
 /** Options for sending one chat turn through a TUI backend. */

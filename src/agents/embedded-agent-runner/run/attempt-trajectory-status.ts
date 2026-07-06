@@ -4,7 +4,7 @@
 import {
   hasAcceptedSessionSpawn,
   type AcceptedSessionSpawn,
-} from "../../accepted-session-spawn.js";
+} from "../../accepted-session-spawn.ts";
 
 type AttemptTrajectoryTerminalStatus = "success" | "error" | "interrupted";
 

@@ -3,13 +3,13 @@
  *
  * Performs symlink-resistant create/replace/delete operations inside a previously validated sandbox boundary.
  */
-import { PATH_ALIAS_POLICIES } from "../../infra/path-alias-guards.js";
+import { PATH_ALIAS_POLICIES } from "../../infra/path-alias-guards.ts";
 import type {
   PathSafetyCheck,
   PinnedSandboxDirectoryEntry,
   PinnedSandboxEntry,
-} from "./fs-bridge-path-safety.js";
-import type { SandboxFsCommandPlan } from "./fs-bridge-shell-command-plans.js";
+} from "./fs-bridge-path-safety.ts";
+import type { SandboxFsCommandPlan } from "./fs-bridge-shell-command-plans.ts";
 
 export const SANDBOX_PINNED_MUTATION_PYTHON_CANDIDATES = [
   "/usr/bin/python3",

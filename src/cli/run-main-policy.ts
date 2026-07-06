@@ -3,24 +3,24 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveManifestCommandAliasOwnerInRegistry,
   resolveManifestToolOwnerInRegistry,
   type PluginManifestCommandAliasRecord,
   type PluginManifestCommandAliasRegistry,
   type PluginManifestToolOwnerRecord,
-} from "../plugins/manifest-command-aliases.js";
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import { hasFlag } from "./argv.js";
+} from "../plugins/manifest-command-aliases.ts";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
+import { hasFlag } from "./argv.ts";
 import {
   resolveCliCommandPathPolicy,
   resolveCliNetworkProxyPolicy,
-} from "./command-path-policy.js";
-import { isReservedNonPluginCommandRoot } from "./command-registration-policy.js";
-import { resolvePrecomputedSubcommandHelpCommand } from "./precomputed-help.js";
-import { getCoreCliParentDefaultHelpCommands } from "./program/core-command-descriptors.js";
-import { getSubCliParentDefaultHelpCommands } from "./program/subcli-descriptors.js";
+} from "./command-path-policy.ts";
+import { isReservedNonPluginCommandRoot } from "./command-registration-policy.ts";
+import { resolvePrecomputedSubcommandHelpCommand } from "./precomputed-help.ts";
+import { getCoreCliParentDefaultHelpCommands } from "./program/core-command-descriptors.ts";
+import { getSubCliParentDefaultHelpCommands } from "./program/subcli-descriptors.ts";
 
 const ROOT_HELP_ALIASES = new Set(["tools"]);
 const SETUP_ONBOARD_CONFIGURE_HELP_COMMANDS = new Set(["setup", "onboard", "configure"]);

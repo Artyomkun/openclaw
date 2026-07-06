@@ -9,5 +9,5 @@ export {
   readSecretFileSync,
   writePrivateSecretFileAtomic,
   tryReadSecretFileSync,
-} from "../infra/secret-file.js";
-export type { SecretFileReadOptions, SecretFileReadResult } from "../infra/secret-file.js";
+} from "../infra/secret-file.ts";
+export type { SecretFileReadOptions, SecretFileReadResult } from "../infra/secret-file.ts";

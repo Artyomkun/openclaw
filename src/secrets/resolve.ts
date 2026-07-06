@@ -3,35 +3,35 @@ import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   FileSecretProviderConfig,
   ManualExecSecretProviderConfig,
   SecretProviderConfig,
   SecretRef,
   SecretRefSource,
-} from "../config/types.secrets.js";
-import { isValidEnvSecretRefId } from "../config/types.secrets.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { FsSafeError, readSecureFile } from "../infra/fs-safe.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
+} from "../config/types.secrets.ts";
+import { isValidEnvSecretRefId } from "../config/types.secrets.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { FsSafeError, readSecureFile } from "../infra/fs-safe.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
 import {
   loadPluginManifestRegistry,
   type PluginManifestRegistry,
-} from "../plugins/manifest-registry.js";
+} from "../plugins/manifest-registry.ts";
 import {
   forceKillChildProcessTree,
   shouldDetachChildForProcessTree,
-} from "../process/child-process-tree.js";
-import { inspectPathPermissions, safeStat } from "../security/audit-fs.js";
-import { isPathInside } from "../security/scan-paths.js";
-import { resolveUserPath } from "../utils.js";
-import { runTasksWithConcurrency } from "../utils/run-with-concurrency.js";
-import { readJsonPointer } from "./json-pointer.js";
+} from "../process/child-process-tree.ts";
+import { inspectPathPermissions, safeStat } from "../security/audit-fs.ts";
+import { isPathInside } from "../security/scan-paths.ts";
+import { resolveUserPath } from "../utils.ts";
+import { runTasksWithConcurrency } from "../utils/run-with-concurrency.ts";
+import { readJsonPointer } from "./json-pointer.ts";
 import {
   isPluginIntegrationSecretProviderConfig,
   resolveSecretProviderIntegrationConfig,
-} from "./provider-integrations.js";
+} from "./provider-integrations.ts";
 import {
   formatExecSecretRefIdValidationMessage,
   isValidExecSecretRefId,
@@ -40,14 +40,14 @@ import {
   SINGLE_VALUE_FILE_REF_ID,
   resolveDefaultSecretProviderAlias,
   secretRefKey,
-} from "./ref-contract.js";
-import type { SecretRefResolveCache } from "./resolve-types.js";
+} from "./ref-contract.ts";
+import type { SecretRefResolveCache } from "./resolve-types.ts";
 import {
   isNonEmptyString,
   isRecord,
   normalizePositiveInt,
   normalizePositiveTimerMs,
-} from "./shared.js";
+} from "./shared.ts";
 
 const DEFAULT_PROVIDER_CONCURRENCY = 4;
 const DEFAULT_MAX_REFS_PER_PROVIDER = 512;
@@ -59,7 +59,7 @@ const DEFAULT_EXEC_MAX_OUTPUT_BYTES = 1024 * 1024;
 const WINDOWS_ABS_PATH_PATTERN = /^[A-Za-z]:[\\/]/;
 const WINDOWS_UNC_PATH_PATTERN = /^\\\\[^\\]+\\[^\\]+/;
 
-export type { SecretRefResolveCache } from "./resolve-types.js";
+export type { SecretRefResolveCache } from "./resolve-types.ts";
 
 type ResolveSecretRefOptions = {
   config: OpenClawConfig;

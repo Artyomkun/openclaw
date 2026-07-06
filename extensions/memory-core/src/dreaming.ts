@@ -8,12 +8,6 @@ import {
   DEFAULT_MEMORY_DEEP_DREAMING_MIN_UNIQUE_QUERIES as DEFAULT_MEMORY_DREAMING_MIN_UNIQUE_QUERIES,
   DEFAULT_MEMORY_DEEP_DREAMING_MAX_PROMOTED_SNIPPET_TOKENS as DEFAULT_MEMORY_DREAMING_MAX_PROMOTED_SNIPPET_TOKENS,
   DEFAULT_MEMORY_DEEP_DREAMING_RECENCY_HALF_LIFE_DAYS as DEFAULT_MEMORY_DREAMING_RECENCY_HALF_LIFE_DAYS,
-  LEGACY_MEMORY_LIGHT_DREAMING_CRON_NAME as LEGACY_LIGHT_SLEEP_CRON_NAME,
-  LEGACY_MEMORY_LIGHT_DREAMING_CRON_TAG as LEGACY_LIGHT_SLEEP_CRON_TAG,
-  LEGACY_MEMORY_LIGHT_DREAMING_EVENT_TEXT as LEGACY_LIGHT_SLEEP_EVENT_TEXT,
-  LEGACY_MEMORY_REM_DREAMING_CRON_NAME as LEGACY_REM_SLEEP_CRON_NAME,
-  LEGACY_MEMORY_REM_DREAMING_CRON_TAG as LEGACY_REM_SLEEP_CRON_TAG,
-  LEGACY_MEMORY_REM_DREAMING_EVENT_TEXT as LEGACY_REM_SLEEP_EVENT_TEXT,
   MANAGED_MEMORY_DREAMING_CRON_NAME as MANAGED_DREAMING_CRON_NAME,
   MANAGED_MEMORY_DREAMING_CRON_TAG as MANAGED_DREAMING_CRON_TAG,
   MEMORY_DREAMING_SYSTEM_EVENT_TEXT as DREAMING_SYSTEM_EVENT_TEXT,
@@ -130,8 +124,6 @@ type ReconcileResult =
   | { status: "updated"; removed: number }
   | { status: "noop"; removed: number };
 
-type LegacyPhaseMigrationMode = "enabled" | "disabled";
-
 function formatRepairSummary(repair: {
   rewroteStore: boolean;
   removedInvalidEntries: number;
@@ -210,57 +202,8 @@ function isManagedDreamingJob(job: ManagedCronJobLike): boolean {
   return name === MANAGED_DREAMING_CRON_NAME && payloadToken === DREAMING_SYSTEM_EVENT_TEXT;
 }
 
-function isLegacyPhaseDreamingJob(job: ManagedCronJobLike): boolean {
-  const description = normalizeTrimmedString(job.description);
-  if (
-    description?.includes(LEGACY_LIGHT_SLEEP_CRON_TAG) ||
-    description?.includes(LEGACY_REM_SLEEP_CRON_TAG)
-  ) {
-    return true;
-  }
-  const name = normalizeTrimmedString(job.name);
-  const payloadText = normalizeTrimmedString(job.payload?.text);
-  if (name === LEGACY_LIGHT_SLEEP_CRON_NAME && payloadText === LEGACY_LIGHT_SLEEP_EVENT_TEXT) {
-    return true;
-  }
-  return name === LEGACY_REM_SLEEP_CRON_NAME && payloadText === LEGACY_REM_SLEEP_EVENT_TEXT;
-}
-
 function compareOptionalStrings(a: string | undefined, b: string | undefined): boolean {
   return a === b;
-}
-
-async function migrateLegacyPhaseDreamingCronJobs(params: {
-  cron: CronServiceLike;
-  legacyJobs: ManagedCronJobLike[];
-  logger: Logger;
-  mode: LegacyPhaseMigrationMode;
-}): Promise<number> {
-  let migrated = 0;
-  for (const job of params.legacyJobs) {
-    try {
-      const result = await params.cron.remove(job.id);
-      if (result.removed === true) {
-        migrated += 1;
-      }
-    } catch (err) {
-      params.logger.warn(
-        `memory-core: failed to migrate legacy phase dreaming cron job ${job.id}: ${formatErrorMessage(err)}`,
-      );
-    }
-  }
-  if (migrated > 0) {
-    if (params.mode === "enabled") {
-      params.logger.info(
-        `memory-core: migrated ${migrated} legacy phase dreaming cron job(s) to the unified dreaming controller.`,
-      );
-    } else {
-      params.logger.info(
-        `memory-core: completed legacy phase dreaming cron migration while unified dreaming is disabled (${migrated} job(s) removed).`,
-      );
-    }
-  }
-  return migrated;
 }
 
 function buildManagedDreamingPatch(
@@ -420,59 +363,11 @@ export async function reconcileShortTermDreamingCronJob(params: {
 
   const allJobs = await cron.list({ includeDisabled: true });
   const managed = allJobs.filter(isManagedDreamingJob);
-  const legacyPhaseJobs = allJobs.filter(isLegacyPhaseDreamingJob);
-
-  if (!params.config.enabled) {
-    let removed = await migrateLegacyPhaseDreamingCronJobs({
-      cron,
-      legacyJobs: legacyPhaseJobs,
-      logger: params.logger,
-      mode: "disabled",
-    });
-    for (const job of managed) {
-      try {
-        const result = await cron.remove(job.id);
-        if (result.removed === true) {
-          removed += 1;
-        }
-      } catch (err) {
-        params.logger.warn(
-          `memory-core: failed to remove managed dreaming cron job ${job.id}: ${formatErrorMessage(err)}`,
-        );
-      }
-    }
-    if (removed > 0) {
-      params.logger.info(`memory-core: removed ${removed} managed dreaming cron job(s).`);
-    }
-    return { status: "disabled", removed };
-  }
-
   const desired = buildManagedDreamingCronJob(params.config);
-  if (managed.length === 0) {
-    await cron.add(desired);
-    const migratedLegacy = await migrateLegacyPhaseDreamingCronJobs({
-      cron,
-      legacyJobs: legacyPhaseJobs,
-      logger: params.logger,
-      mode: "enabled",
-    });
-    params.logger.info("memory-core: created managed dreaming cron job.");
-    return { status: "added", removed: migratedLegacy };
-  }
-
   const [primary, ...duplicates] = sortManagedJobs(managed);
-  let removed = await migrateLegacyPhaseDreamingCronJobs({
-    cron,
-    legacyJobs: legacyPhaseJobs,
-    logger: params.logger,
-    mode: "enabled",
-  });
   for (const duplicate of duplicates) {
     try {
       const result = await cron.remove(duplicate.id);
-      if (result.removed === true) {
-        removed += 1;
-      }
     } catch (err) {
       params.logger.warn(
         `memory-core: failed to prune duplicate managed dreaming cron job ${duplicate.id}: ${formatErrorMessage(err)}`,

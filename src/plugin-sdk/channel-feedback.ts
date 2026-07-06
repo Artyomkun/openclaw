@@ -1,7 +1,7 @@
 /**
  * Public SDK subpath for channel feedback reactions, status reactions, and logging helpers.
  */
-export { resolveAckReaction } from "../agents/identity.js";
+export { resolveAckReaction } from "../agents/identity.ts";
 export {
   createAckReactionHandle,
   removeAckReactionHandleAfterReply,
@@ -12,9 +12,9 @@ export {
   type AckReactionGateParams,
   type AckReactionScope,
   type WhatsAppAckReactionMode,
-} from "../channels/ack-reactions.js";
-export { logAckFailure, logTypingFailure, type LogFn } from "../channels/logging.js";
-export { missingTargetError } from "../infra/outbound/target-errors.js";
+} from "../channels/ack-reactions.ts";
+export { logAckFailure, logTypingFailure, type LogFn } from "../channels/logging.ts";
+export { missingTargetError } from "../infra/outbound/target-errors.ts";
 export {
   BUILD_TOOL_TOKENS,
   CODING_TOOL_TOKENS,
@@ -29,4 +29,4 @@ export {
   type StatusReactionController,
   type StatusReactionEmojis,
   type StatusReactionTiming,
-} from "../channels/status-reactions.js";
+} from "../channels/status-reactions.ts";

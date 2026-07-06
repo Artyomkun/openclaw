@@ -1,11 +1,11 @@
 // Entry capability helpers validate explicit media capability tags and infer
 // shared provider entries from registry metadata.
-import type { MediaUnderstandingModelConfig } from "../config/types.tools.js";
-import { normalizeMediaProviderId } from "./provider-id.js";
+import type { MediaUnderstandingModelConfig } from "../config/types.tools.ts";
+import { normalizeMediaProviderId } from "./provider-id.ts";
 import type {
   MediaUnderstandingCapability,
   MediaUnderstandingCapabilityRegistry,
-} from "./types.js";
+} from "./types.ts";
 
 const MEDIA_CAPABILITIES = ["audio", "image", "video"] as const;
 

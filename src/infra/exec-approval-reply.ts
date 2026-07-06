@@ -3,25 +3,25 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ReplyPayload } from "../auto-reply/types.js";
+import type { ReplyPayload } from "../auto-reply/types.ts";
 import type {
   InteractiveReply,
   InteractiveReplyButton,
   MessagePresentation,
   MessagePresentationButton,
-} from "../interactive/payload.js";
-import { formatHumanList } from "../shared/human-list.js";
-import { formatApprovalDisplayPath } from "./approval-display-paths.js";
+} from "../interactive/payload.ts";
+import { formatHumanList } from "../shared/human-list.ts";
+import { formatApprovalDisplayPath } from "./approval-display-paths.ts";
 import {
   describeNativeExecApprovalClientSetup,
   listNativeExecApprovalClientLabels,
   supportsNativeExecApprovalClient,
-} from "./exec-approval-surface.js";
+} from "./exec-approval-surface.ts";
 import {
   resolveExecApprovalAllowedDecisions,
   type ExecApprovalDecision,
   type ExecHost,
-} from "./exec-approvals.js";
+} from "./exec-approvals.ts";
 
 export type ExecApprovalReplyDecision = ExecApprovalDecision;
 export type ExecApprovalUnavailableReason =
@@ -210,48 +210,6 @@ export function buildExecApprovalPresentation(params: {
   allowedDecisions?: readonly ExecApprovalReplyDecision[];
 }): MessagePresentation | undefined {
   return buildApprovalPresentation({
-    approvalId: params.approvalCommandId,
-    ask: params.ask,
-    allowedDecisions: params.allowedDecisions,
-  });
-}
-
-/**
- * @deprecated Use buildApprovalPresentationFromActionDescriptors.
- */
-export function buildApprovalInteractiveReplyFromActionDescriptors(
-  actions: readonly ExecApprovalActionDescriptor[],
-): InteractiveReply | undefined {
-  const buttons = buildApprovalInteractiveButtons(actions);
-  return buttons.length > 0 ? { blocks: [{ type: "buttons", buttons }] } : undefined;
-}
-
-/**
- * @deprecated Use buildApprovalPresentation.
- */
-export function buildApprovalInteractiveReply(params: {
-  approvalId: string;
-  ask?: string | null;
-  allowedDecisions?: readonly ExecApprovalReplyDecision[];
-}): InteractiveReply | undefined {
-  return buildApprovalInteractiveReplyFromActionDescriptors(
-    buildExecApprovalActionDescriptors({
-      approvalCommandId: params.approvalId,
-      ask: params.ask,
-      allowedDecisions: params.allowedDecisions,
-    }),
-  );
-}
-
-/**
- * @deprecated Use buildExecApprovalPresentation.
- */
-export function buildExecApprovalInteractiveReply(params: {
-  approvalCommandId: string;
-  ask?: string | null;
-  allowedDecisions?: readonly ExecApprovalReplyDecision[];
-}): InteractiveReply | undefined {
-  return buildApprovalInteractiveReply({
     approvalId: params.approvalCommandId,
     ask: params.ask,
     allowedDecisions: params.allowedDecisions,

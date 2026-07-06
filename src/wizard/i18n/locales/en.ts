@@ -1,5 +1,5 @@
 // English wizard translations provide default onboarding copy.
-import type { WizardTranslationMap } from "../types.js";
+import type { WizardTranslationMap } from "../types.ts";
 
 export const en = {
   common: {

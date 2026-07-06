@@ -2,16 +2,16 @@
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
+import { resolveAgentWorkspaceDir } from "../agents/agent-scope.ts";
 import {
   resolveEffectiveToolFsRootExpansionAllowed,
   resolveEffectiveToolFsWorkspaceOnly,
-} from "../agents/tool-fs-policy.js";
-import { resolveStateDir } from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
-import { resolveConfigDir } from "../utils.js";
-import { resolveLocalMediaPath } from "./local-media-path.js";
+} from "../agents/tool-fs-policy.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.ts";
+import { resolveConfigDir } from "../utils.ts";
+import { resolveLocalMediaPath } from "./local-media-path.ts";
 
 type BuildMediaLocalRootsOptions = {
   preferredTmpDir?: string;

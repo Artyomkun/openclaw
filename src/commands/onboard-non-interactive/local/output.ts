@@ -4,8 +4,8 @@
  * JSON success/failure payloads and human-readable gateway health diagnostics
  * are kept here so local and remote setup report failures consistently.
  */
-import { type RuntimeEnv, writeRuntimeJson } from "../../../runtime.js";
-import type { OnboardOptions } from "../../onboard-types.js";
+import { type RuntimeEnv, writeRuntimeJson } from "../../../runtime.ts";
+import type { OnboardOptions } from "../../onboard-types.ts";
 
 /** Structured daemon/service details attached to gateway health failures. */
 export type GatewayHealthFailureDiagnostics = {

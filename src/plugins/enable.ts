@@ -1,8 +1,8 @@
 // Resolves plugin enablement state from config and channel context.
-import { normalizeChatChannelId } from "../channels/ids.js";
-import { ensurePluginAllowlisted } from "../config/plugins-allowlist.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { setPluginEnabledInConfig } from "./toggle-config.js";
+import { normalizeChatChannelId } from "../channels/ids.ts";
+import { ensurePluginAllowlisted } from "../config/plugins-allowlist.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { setPluginEnabledInConfig } from "./toggle-config.ts";
 
 type PluginEnableOptions = {
   updateChannelConfig?: boolean;

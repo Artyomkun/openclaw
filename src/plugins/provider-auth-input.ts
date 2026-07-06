@@ -3,30 +3,30 @@ import {
   normalizeOptionalLowercaseString,
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { isMalformedApiKeyInput } from "../agents/auth-profiles/credential-state.js";
-import { resolveEnvApiKey } from "../agents/model-auth-env.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { SecretInput } from "../config/types.secrets.js";
-import { normalizeSecretInput } from "../utils/normalize-secret-input.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import { resolveSecretInputModeForEnvSelection } from "./provider-auth-mode.js";
+import { isMalformedApiKeyInput } from "../agents/auth-profiles/credential-state.ts";
+import { resolveEnvApiKey } from "../agents/model-auth-env.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { SecretInput } from "../config/types.secrets.ts";
+import { normalizeSecretInput } from "../utils/normalize-secret-input.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import { resolveSecretInputModeForEnvSelection } from "./provider-auth-mode.ts";
 import {
   extractEnvVarFromSourceLabel,
   promptSecretRefForSetup,
   resolveRefFallbackInput,
-} from "./provider-auth-ref.js";
-import type { SecretInputMode } from "./provider-auth-types.js";
+} from "./provider-auth-ref.ts";
+import type { SecretInputMode } from "./provider-auth-types.ts";
 
 export {
   extractEnvVarFromSourceLabel,
   promptSecretRefForSetup,
   resolveRefFallbackInput,
   type SecretRefSetupPromptCopy,
-} from "./provider-auth-ref.js";
+} from "./provider-auth-ref.ts";
 export {
   resolveSecretInputModeForEnvSelection,
   type SecretInputModePromptCopy,
-} from "./provider-auth-mode.js";
+} from "./provider-auth-mode.ts";
 
 const DEFAULT_KEY_PREVIEW = { head: 4, tail: 4 };
 

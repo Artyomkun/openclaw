@@ -1,8 +1,8 @@
 // Directory cache stores short-lived channel directory lookups and invalidates
 // them on config-object changes or resolver signature updates.
-import type { ChannelDirectoryEntryKind, ChannelId } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveNonNegativeIntegerOption } from "../numeric-options.js";
+import type { ChannelDirectoryEntryKind, ChannelId } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveNonNegativeIntegerOption } from "../numeric-options.ts";
 
 type CacheEntry<T> = {
   value: T;

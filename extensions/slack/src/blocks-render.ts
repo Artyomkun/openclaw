@@ -59,8 +59,6 @@ function resolveSlackControlValue(control: {
     if (command && parseExecApprovalCommandText(command)) {
       return command;
     }
-    const legacyValue = normalizeOptionalString(control.value);
-    return legacyValue && parseExecApprovalCommandText(legacyValue) ? legacyValue : undefined;
   }
   return resolveMessagePresentationControlValue(control);
 }
@@ -110,115 +108,6 @@ export function resolveSlackInteractiveBlockOffsets(
     );
   }
   return { buttonIndexOffset, selectIndexOffset };
-}
-
-/**
- * @deprecated Use buildSlackPresentationBlocks with MessagePresentation.
- */
-export function buildSlackInteractiveBlocks(
-  interactive?: InteractiveReply,
-  options: SlackInteractiveBlockRenderOptions = {},
-): SlackBlock[] {
-  const initialState = {
-    blocks: [] as SlackBlock[],
-    buttonIndex: options.buttonIndexOffset ?? 0,
-    selectIndex: options.selectIndexOffset ?? 0,
-  };
-  return reduceInteractiveReply(interactive, initialState, (state, block) => {
-    if (block.type === "text") {
-      const trimmed = block.text.trim();
-      if (!trimmed) {
-        return state;
-      }
-      state.blocks.push({
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: truncateSlackText(trimmed, SLACK_SECTION_TEXT_MAX),
-        },
-      });
-      return state;
-    }
-    if (block.type === "buttons") {
-      const elements = block.buttons
-        .flatMap((button, choiceIndex) => {
-          const callbackData = resolveSlackControlValue(button);
-          const value =
-            callbackData && isWithinSlackLimit(callbackData, SLACK_BUTTON_VALUE_MAX)
-              ? callbackData
-              : undefined;
-          const url =
-            button.url && isWithinSlackLimit(button.url, SLACK_BUTTON_URL_MAX)
-              ? button.url
-              : undefined;
-          if (!value && !url) {
-            return [];
-          }
-          const style = resolveSlackButtonStyle(button.style);
-          return [
-            {
-              type: "button" as const,
-              action_id: buildSlackReplyButtonActionId(state.buttonIndex + 1, choiceIndex),
-              text: {
-                type: "plain_text" as const,
-                text: truncateSlackText(button.label, SLACK_PLAIN_TEXT_MAX),
-                emoji: true,
-              },
-              ...(value ? { value } : {}),
-              ...(url ? { url } : {}),
-              ...(style ? { style } : {}),
-            },
-          ];
-        })
-        .slice(0, SLACK_ACTION_BLOCK_ELEMENTS_MAX);
-      if (elements.length === 0) {
-        return state;
-      }
-      state.blocks.push({
-        type: "actions",
-        block_id: `openclaw_reply_buttons_${++state.buttonIndex}`,
-        elements,
-      });
-      return state;
-    }
-    const optionsLocal = block.options
-      .map((option) => ({
-        label: option.label,
-        value: resolveSlackControlValue(option),
-      }))
-      .filter(isRenderableSlackOption)
-      .slice(0, SLACK_STATIC_SELECT_OPTIONS_MAX);
-    if (optionsLocal.length === 0) {
-      return state;
-    }
-    state.blocks.push({
-      type: "actions",
-      block_id: `openclaw_reply_select_${++state.selectIndex}`,
-      elements: [
-        {
-          type: "static_select",
-          action_id: buildSlackReplySelectActionId(state.selectIndex),
-          placeholder: {
-            type: "plain_text",
-            text: truncateSlackText(
-              normalizeOptionalString(block.placeholder) ?? "Choose an option",
-              SLACK_PLAIN_TEXT_MAX,
-            ),
-            emoji: true,
-          },
-          options: optionsLocal.map((option, _choiceIndex) => ({
-            text: {
-              type: "plain_text",
-              text: truncateSlackText(option.label, SLACK_PLAIN_TEXT_MAX),
-              emoji: true,
-            },
-            value: option.value,
-          })),
-        },
-      ],
-    });
-    return state;
-  }).blocks;
 }
 
 /** Render portable presentation blocks as Slack Block Kit blocks. */

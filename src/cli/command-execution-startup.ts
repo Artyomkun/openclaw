@@ -1,10 +1,10 @@
 // CLI startup context, banner/log presentation, and bootstrap orchestration.
-import type { ConfigFileSnapshot } from "../config/types.js";
-import { routeLogsToStderr } from "../logging/console.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import { ensureCliCommandBootstrap } from "./command-bootstrap.js";
-import { resolveCliStartupPolicy } from "./command-startup-policy.js";
+import type { ConfigFileSnapshot } from "../config/types.ts";
+import { routeLogsToStderr } from "../logging/console.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
+import { ensureCliCommandBootstrap } from "./command-bootstrap.ts";
+import { resolveCliStartupPolicy } from "./command-startup-policy.ts";
 
 type CliStartupPolicy = ReturnType<typeof resolveCliStartupPolicy>;
 

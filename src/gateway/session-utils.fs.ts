@@ -7,33 +7,33 @@ import {
   resolveNonNegativeIntegerOption,
 } from "@openclaw/normalization-core/number-coercion";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { deriveSessionTotalTokens, hasNonzeroUsage, normalizeUsage } from "../agents/usage.js";
+import { deriveSessionTotalTokens, hasNonzeroUsage, normalizeUsage } from "../agents/usage.ts";
 import {
   scanSessionTranscriptTree,
   selectSessionTranscriptTreePathNodes,
-} from "../config/sessions/transcript-tree.js";
-import { jsonUtf8Bytes } from "../infra/json-utf8-bytes.js";
-import { hasInterSessionUserProvenance } from "../sessions/input-provenance.js";
-import { extractAssistantVisibleText } from "../shared/chat-message-content.js";
-import { estimateStringChars, estimateTokensFromChars } from "../utils/cjk-chars.js";
-import { stripInlineDirectiveTagsForDisplay } from "../utils/directive-tags.js";
-import { extractToolCallNames, hasToolCall } from "../utils/transcript-tools.js";
-import { stripEnvelope } from "./chat-sanitize.js";
+} from "../config/sessions/transcript-tree.ts";
+import { jsonUtf8Bytes } from "../infra/json-utf8-bytes.ts";
+import { hasInterSessionUserProvenance } from "../sessions/input-provenance.ts";
+import { extractAssistantVisibleText } from "../shared/chat-message-content.ts";
+import { estimateStringChars, estimateTokensFromChars } from "../utils/cjk-chars.ts";
+import { stripInlineDirectiveTagsForDisplay } from "../utils/directive-tags.ts";
+import { extractToolCallNames, hasToolCall } from "../utils/transcript-tools.ts";
+import { stripEnvelope } from "./chat-sanitize.ts";
 import {
   resolveSessionTranscriptCandidates,
   resolveSessionTranscriptResetArchiveCandidatesAsync,
-} from "./session-transcript-files.fs.js";
+} from "./session-transcript-files.fs.ts";
 import {
   readSessionTranscriptIndex,
   type IndexedTranscriptEntry,
-} from "./session-transcript-index.fs.js";
+} from "./session-transcript-index.fs.ts";
 import {
   extractJsonNullableStringFieldPrefix,
   extractJsonNumberFieldPrefix,
   extractJsonStringFieldPrefix,
   normalizeOptionalString,
-} from "./session-transcript-json.js";
-import type { SessionPreviewItem } from "./session-utils.types.js";
+} from "./session-transcript-json.ts";
+import type { SessionPreviewItem } from "./session-utils.types.ts";
 
 type SessionTitleFields = {
   firstUserMessage: string | null;
@@ -942,7 +942,7 @@ export {
   cleanupArchivedSessionTranscripts,
   resolveSessionTranscriptCandidates,
   resolveSessionTranscriptResetArchiveCandidatesAsync,
-} from "./session-transcript-files.fs.js";
+} from "./session-transcript-files.fs.ts";
 
 export function capArrayByJsonBytes<T>(
   items: T[],

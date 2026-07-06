@@ -2,23 +2,23 @@
  * OpenClaw-owned agent session runtime.
  */
 
-export { getAgentDir, VERSION } from "../config.js";
-export * from "./agent-session.js";
-export * from "./agent-session-runtime.js";
-export * from "./agent-session-services.js";
-export * from "./auth-storage.js";
-export * from "./bash-executor.js";
-export * from "./compaction/index.js";
-export * from "./event-bus.js";
-export * from "./extensions/index.js";
-export type { ReadonlyFooterDataProvider } from "./footer-data-provider.js";
-export { convertToLlm } from "./messages.js";
-export * from "./model-registry.js";
-export * from "./model-resolver.js";
-export * from "./package-manager.js";
-export * from "./resource-loader.js";
-export * from "./sdk.js";
-export * from "./session-manager.js";
+export { getAgentDir, VERSION } from "../config.ts";
+export * from "./agent-session.ts";
+export * from "./agent-session-runtime.ts";
+export * from "./agent-session-services.ts";
+export * from "./auth-storage.ts";
+export * from "./bash-executor.ts";
+export * from "./compaction/index.ts";
+export * from "./event-bus.ts";
+export * from "./extensions/index.ts";
+export type { ReadonlyFooterDataProvider } from "./footer-data-provider.ts";
+export { convertToLlm } from "./messages.ts";
+export * from "./model-registry.ts";
+export * from "./model-resolver.ts";
+export * from "./package-manager.ts";
+export * from "./resource-loader.ts";
+export * from "./sdk.ts";
+export * from "./session-manager.ts";
 export {
   FileSettingsStorage,
   InMemorySettingsStorage,
@@ -37,7 +37,7 @@ export {
   type ThinkingBudgetsSettings,
   type TransportSetting,
   type WarningSettings,
-} from "./settings-manager.js";
-export * from "../../skills/loading/session.js";
-export * from "./source-info.js";
-export * from "./tools/index.js";
+} from "./settings-manager.ts";
+export * from "../../skills/loading/session.ts";
+export * from "./source-info.ts";
+export * from "./tools/index.ts";

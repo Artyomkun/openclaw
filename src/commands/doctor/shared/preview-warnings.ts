@@ -1,26 +1,26 @@
 // Doctor preview warning aggregation for config that can surprise users before repair.
 import { isRecord as hasRecord } from "@openclaw/normalization-core/record-coerce";
-import { resolveAgentConfig } from "../../../agents/agent-scope-config.js";
+import { resolveAgentConfig } from "../../../agents/agent-scope-config.ts";
 import {
   normalizeToolProviderPolicyKey,
   resolveProviderToolPolicy,
   resolveProviderToolPolicyEntry,
-} from "../../../agents/provider-tool-policy.js";
-import { pickSandboxToolPolicy } from "../../../agents/sandbox-tool-policy.js";
+} from "../../../agents/provider-tool-policy.ts";
+import { pickSandboxToolPolicy } from "../../../agents/sandbox-tool-policy.ts";
 import {
   isToolAllowedByPolicies,
   isToolAllowedByPolicyName,
-} from "../../../agents/tool-policy-match.js";
-import { mergeAlsoAllowPolicy, resolveToolProfilePolicy } from "../../../agents/tool-policy.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
+} from "../../../agents/tool-policy-match.ts";
+import { mergeAlsoAllowPolicy, resolveToolProfilePolicy } from "../../../agents/tool-policy.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
 import type {
   AgentToolsConfig,
   ToolPolicyConfig,
   ToolsConfig,
-} from "../../../config/types.tools.js";
-import { collectChannelRouteTargets } from "../../../routing/channel-route-targets.js";
-import { createLazyImportLoader } from "../../../shared/lazy-promise.js";
-import { resolveDoctorPrimaryModelRef } from "./primary-model-ref.js";
+} from "../../../config/types.tools.ts";
+import { collectChannelRouteTargets } from "../../../routing/channel-route-targets.ts";
+import { createLazyImportLoader } from "../../../shared/lazy-promise.ts";
+import { resolveDoctorPrimaryModelRef } from "./primary-model-ref.ts";
 
 type ChannelDoctorModule = typeof import("./channel-doctor.js");
 
@@ -717,9 +717,6 @@ export async function collectDoctorPreviewNotes(params: {
   warnings.push(...collectVisibleReplyToolPolicyWarnings(params.cfg));
   warnings.push(...collectChannelBoundMessageToolPolicyWarnings(params.cfg));
   warnings.push(...collectProfileConfiguredToolSectionWarnings(params.cfg));
-  const { collectBlockedLegacyOpenAICodexProviderWarnings } =
-    await import("./legacy-config-migrations.runtime.models.js");
-  warnings.push(...collectBlockedLegacyOpenAICodexProviderWarnings(params.cfg));
 
   const { collectActiveToolSchemaProjectionWarnings } =
     await import("./active-tool-schema-warnings.js");
@@ -850,20 +847,6 @@ export async function collectDoctorPreviewNotes(params: {
     if (emptyAllowlistWarnings.length > 0) {
       const { sanitizeForLog } = await import("../../../../packages/terminal-core/src/ansi.js");
       warnings.push(emptyAllowlistWarnings.map((line) => sanitizeForLog(line)).join("\n"));
-    }
-  }
-
-  if (hasToolsBySenderKey(params.cfg)) {
-    const { collectLegacyToolsBySenderWarnings, scanLegacyToolsBySenderKeys } =
-      await import("./legacy-tools-by-sender.js");
-    const toolsBySenderHits = scanLegacyToolsBySenderKeys(params.cfg);
-    if (toolsBySenderHits.length > 0) {
-      warnings.push(
-        collectLegacyToolsBySenderWarnings({
-          hits: toolsBySenderHits,
-          doctorFixCommand: params.doctorFixCommand,
-        }).join("\n"),
-      );
     }
   }
 

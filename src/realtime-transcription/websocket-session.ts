@@ -1,12 +1,12 @@
 // Realtime transcription websocket session streams audio to transcription providers.
 import { randomUUID } from "node:crypto";
 import WebSocket, { type RawData } from "ws";
-import { createDebugProxyWebSocketAgent, resolveDebugProxySettings } from "../proxy-capture/env.js";
-import { captureWsEvent } from "../proxy-capture/runtime.js";
+import { createDebugProxyWebSocketAgent, resolveDebugProxySettings } from "../proxy-capture/env.ts";
+import { captureWsEvent } from "../proxy-capture/runtime.ts";
 import type {
   RealtimeTranscriptionSession,
   RealtimeTranscriptionSessionCallbacks,
-} from "./provider-types.js";
+} from "./provider-types.ts";
 
 // Generic websocket-backed realtime transcription session. Providers supply URL,
 // protocol messages, and audio framing while core owns reconnection and queues.

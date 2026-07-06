@@ -3,11 +3,11 @@
  *
  * Renders sanitized runtime-owned subagent state into system prompt additions.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { sanitizeForPromptLiteral } from "./sanitize-for-prompt.js";
-import { listControlledSubagentRuns } from "./subagent-control.js";
-import { buildSubagentList } from "./subagent-list.js";
-import { resolveInternalSessionKey, resolveMainSessionAlias } from "./tools/sessions-helpers.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { sanitizeForPromptLiteral } from "./sanitize-for-prompt.ts";
+import { listControlledSubagentRuns } from "./subagent-control.ts";
+import { buildSubagentList } from "./subagent-list.ts";
+import { resolveInternalSessionKey, resolveMainSessionAlias } from "./tools/sessions-helpers.ts";
 
 // Prompt data is sanitized then JSON-quoted so active subagent state cannot add
 // executable prompt instructions through labels or task text.

@@ -3,9 +3,9 @@
  *
  * Reads channel-advertised voice delivery support for prompt and runtime routing.
  */
-import { normalizeChannelId } from "./registry.js";
-import { getChannelPlugin } from "./registry.js";
-import type { ChannelTtsVoiceDeliveryCapabilities } from "./types.core.js";
+import { normalizeChannelId } from "./registry.ts";
+import { getChannelPlugin } from "./registry.ts";
+import type { ChannelTtsVoiceDeliveryCapabilities } from "./types.core.ts";
 
 export function resolveChannelTtsVoiceDelivery(
   channel: string | undefined,

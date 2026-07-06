@@ -4,16 +4,16 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SkillConfig } from "../../config/types.skills.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SkillConfig } from "../../config/types.skills.ts";
 import {
   evaluateRuntimeEligibility,
   hasBinary,
   isConfigPathTruthyWithDefaults,
-} from "../../shared/config-eval.js";
-import type { SkillEligibilityContext, SkillEntry, SkillsInstallPreferences } from "../types.js";
-import { resolveSkillKey } from "./frontmatter.js";
-import { resolveSkillSource } from "./source.js";
+} from "../../shared/config-eval.ts";
+import type { SkillEligibilityContext, SkillEntry, SkillsInstallPreferences } from "../types.ts";
+import { resolveSkillKey } from "./frontmatter.ts";
+import { resolveSkillSource } from "./source.ts";
 
 const DEFAULT_CONFIG_VALUES: Record<string, boolean> = {
   "browser.enabled": true,

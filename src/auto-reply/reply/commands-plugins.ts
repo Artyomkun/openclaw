@@ -1,38 +1,38 @@
 // Implements plugin command listing, install, and configuration helpers.
 import fs from "node:fs";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { stripAnsi } from "../../../packages/terminal-core/src/ansi.js";
-import { buildNpmInstallRecordFields } from "../../cli/npm-resolution.js";
-import { resolveOfficialExternalNpmPackageTrust } from "../../cli/plugin-install-plan.js";
+import { stripAnsi } from "../../../packages/terminal-core/src/ansi.ts";
+import { buildNpmInstallRecordFields } from "../../cli/npm-resolution.ts";
+import { resolveOfficialExternalNpmPackageTrust } from "../../cli/plugin-install-plan.ts";
 import {
   createPluginInstallLogger,
   resolveFileNpmSpecToLocalPath,
-} from "../../cli/plugins-command-helpers.js";
+} from "../../cli/plugins-command-helpers.ts";
 import {
   persistPluginInstall,
   resolveInstallConfigMutationPreflights,
   selectInstallMutationWriteOptions,
-} from "../../cli/plugins-install-persist.js";
-import type { ConfigSnapshotForInstallPersist } from "../../cli/plugins-install-persist.js";
-import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-registry-refresh.js";
-import { readConfigFileSnapshot, readConfigFileSnapshotForWrite } from "../../config/config.js";
-import { assertConfigWriteAllowedInCurrentMode } from "../../config/nix-mode-write-guard.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../../config/types.plugins.js";
-import { resolveArchiveKind } from "../../infra/archive.js";
-import { parseClawHubPluginSpec } from "../../infra/clawhub.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { buildClawHubPluginInstallRecordFields } from "../../plugins/clawhub-install-records.js";
-import { CLAWHUB_INSTALL_ERROR_CODE, installPluginFromClawHub } from "../../plugins/clawhub.js";
-import { installPluginFromGitSpec, parseGitPluginSpec } from "../../plugins/git-install.js";
-import { installPluginFromNpmSpec, installPluginFromPath } from "../../plugins/install.js";
-import { loadInstalledPluginIndexInstallRecords } from "../../plugins/installed-plugin-index-records.js";
+} from "../../cli/plugins-install-persist.ts";
+import type { ConfigSnapshotForInstallPersist } from "../../cli/plugins-install-persist.ts";
+import { refreshPluginRegistryAfterConfigMutation } from "../../cli/plugins-registry-refresh.ts";
+import { readConfigFileSnapshot, readConfigFileSnapshotForWrite } from "../../config/config.ts";
+import { assertConfigWriteAllowedInCurrentMode } from "../../config/nix-mode-write-guard.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../../config/types.plugins.ts";
+import { resolveArchiveKind } from "../../infra/archive.ts";
+import { parseClawHubPluginSpec } from "../../infra/clawhub.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { buildClawHubPluginInstallRecordFields } from "../../plugins/clawhub-install-records.ts";
+import { CLAWHUB_INSTALL_ERROR_CODE, installPluginFromClawHub } from "../../plugins/clawhub.ts";
+import { installPluginFromGitSpec, parseGitPluginSpec } from "../../plugins/git-install.ts";
+import { installPluginFromNpmSpec, installPluginFromPath } from "../../plugins/install.ts";
+import { loadInstalledPluginIndexInstallRecords } from "../../plugins/installed-plugin-index-records.ts";
 import {
   getOfficialExternalPluginCatalogEntryForPackage,
   resolveOfficialExternalPluginId,
   resolveOfficialExternalPluginInstall,
-} from "../../plugins/official-external-plugin-catalog.js";
-import type { PluginRecord } from "../../plugins/registry.js";
+} from "../../plugins/official-external-plugin-catalog.ts";
+import type { PluginRecord } from "../../plugins/registry.ts";
 import {
   buildAllPluginInspectReports,
   buildPluginDiagnosticsReport,
@@ -40,17 +40,17 @@ import {
   buildPluginRegistrySnapshotReport,
   formatPluginCompatibilityNotice,
   type PluginStatusReport,
-} from "../../plugins/status.js";
-import { resolveUserPath } from "../../utils.js";
+} from "../../plugins/status.ts";
+import { resolveUserPath } from "../../utils.ts";
 import {
   rejectNonOwnerCommand,
   rejectUnauthorizedCommand,
   requireCommandFlagEnabled,
   requireGatewayClientScope,
-} from "./command-gates.js";
-import type { CommandHandler } from "./commands-types.js";
-import { AutoReplyConfigMutationError, setPluginEnabledFromCommand } from "./config-mutations.js";
-import { parsePluginsCommand } from "./plugins-commands.js";
+} from "./command-gates.ts";
+import type { CommandHandler } from "./commands-types.ts";
+import { AutoReplyConfigMutationError, setPluginEnabledFromCommand } from "./config-mutations.ts";
+import { parsePluginsCommand } from "./plugins-commands.ts";
 
 function renderJsonBlock(label: string, value: unknown): string {
   return `${label}\n\`\`\`json\n${JSON.stringify(value, null, 2)}\n\`\`\``;
@@ -183,8 +183,8 @@ function looksLikeLocalPluginInstallSpec(raw: string): boolean {
     raw.startsWith("/") ||
     raw.endsWith(".ts") ||
     raw.endsWith(".js") ||
-    raw.endsWith(".mjs") ||
-    raw.endsWith(".cjs") ||
+    raw.endsWith(".ts") ||
+    raw.endsWith(".ts") ||
     raw.endsWith(".tgz") ||
     raw.endsWith(".tar.gz") ||
     raw.endsWith(".tar") ||

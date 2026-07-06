@@ -12,17 +12,17 @@ import {
   uniqueValues,
 } from "@openclaw/normalization-core/string-normalization";
 import { Type } from "typebox";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getPluginToolMeta, type PluginToolMcpMeta } from "../plugins/tools.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getPluginToolMeta, type PluginToolMcpMeta } from "../plugins/tools.ts";
 import {
   isToolWrappedWithBeforeToolCallHook,
   type HookContext,
   wrapToolWithBeforeToolCallHook,
-} from "./agent-tools.before-tool-call.js";
-import type { AgentMessage, AgentToolResult, AgentToolUpdateCallback } from "./runtime/index.js";
-import type { ToolDefinition } from "./sessions/index.js";
-import { asToolParamsRecord, jsonResult, ToolInputError } from "./tools/common.js";
-import type { AnyAgentTool } from "./tools/common.js";
+} from "./agent-tools.before-tool-call.ts";
+import type { AgentMessage, AgentToolResult, AgentToolUpdateCallback } from "./runtime/index.ts";
+import type { ToolDefinition } from "./sessions/index.ts";
+import { asToolParamsRecord, jsonResult, ToolInputError } from "./tools/common.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 export const TOOL_SEARCH_CODE_MODE_TOOL_NAME = "tool_search_code";
 export const TOOL_SEARCH_RAW_TOOL_NAME = "tool_search";

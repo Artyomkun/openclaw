@@ -3,15 +3,15 @@ import {
   listConfiguredMcpServers,
   setConfiguredMcpServer,
   unsetConfiguredMcpServer,
-} from "../../config/mcp-config.js";
+} from "../../config/mcp-config.ts";
 import {
   rejectNonOwnerCommand,
   rejectUnauthorizedCommand,
   requireCommandFlagEnabled,
   requireGatewayClientScope,
-} from "./command-gates.js";
-import type { CommandHandler } from "./commands-types.js";
-import { parseMcpCommand } from "./mcp-commands.js";
+} from "./command-gates.ts";
+import type { CommandHandler } from "./commands-types.ts";
+import { parseMcpCommand } from "./mcp-commands.ts";
 
 function renderJsonBlock(label: string, value: unknown): string {
   return `${label}\n\`\`\`json\n${JSON.stringify(value, null, 2)}\n\`\`\``;

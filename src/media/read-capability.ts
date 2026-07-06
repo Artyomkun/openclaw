@@ -1,18 +1,18 @@
 // Media read capability helpers gate file reads by configured media access rules.
 import path from "node:path";
-import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
-import { resolveGroupToolPolicy } from "../agents/agent-tools.policy.js";
-import { resolvePathFromInput } from "../agents/path-policy.js";
-import { resolveEffectiveToolFsRootExpansionAllowed } from "../agents/tool-fs-policy.js";
-import { isToolAllowedByPolicies } from "../agents/tool-policy-match.js";
-import { resolveWorkspaceRoot } from "../agents/workspace-dir.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { readLocalFileSafely } from "../infra/fs-safe.js";
-import type { OutboundMediaAccess, OutboundMediaReadFile } from "./load-options.js";
+import { resolveAgentWorkspaceDir } from "../agents/agent-scope.ts";
+import { resolveGroupToolPolicy } from "../agents/agent-tools.policy.ts";
+import { resolvePathFromInput } from "../agents/path-policy.ts";
+import { resolveEffectiveToolFsRootExpansionAllowed } from "../agents/tool-fs-policy.ts";
+import { isToolAllowedByPolicies } from "../agents/tool-policy-match.ts";
+import { resolveWorkspaceRoot } from "../agents/workspace-dir.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { readLocalFileSafely } from "../infra/fs-safe.ts";
+import type { OutboundMediaAccess, OutboundMediaReadFile } from "./load-options.ts";
 import {
   getAgentScopedMediaLocalRoots,
   getAgentScopedMediaLocalRootsForSources,
-} from "./local-roots.js";
+} from "./local-roots.ts";
 
 type OutboundHostMediaPolicyContext = {
   sessionKey?: string;

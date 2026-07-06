@@ -1,11 +1,11 @@
 // Builds normalized conversation binding inputs from channel and routing facts.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { normalizeConversationText } from "../../acp/conversation-id.js";
-import { resolveConversationBindingContext } from "../../channels/conversation-binding-context.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getActivePluginChannelRegistry } from "../../plugins/runtime.js";
-import type { MsgContext } from "../templating.js";
-import type { HandleCommandsParams } from "./commands-types.js";
+import { normalizeConversationText } from "../../acp/conversation-id.ts";
+import { resolveConversationBindingContext } from "../../channels/conversation-binding-context.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getActivePluginChannelRegistry } from "../../plugins/runtime.ts";
+import type { MsgContext } from "../templating.ts";
+import type { HandleCommandsParams } from "./commands-types.ts";
 
 type BindingMsgContext = Pick<
   MsgContext,

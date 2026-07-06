@@ -4,17 +4,17 @@
  * Adds OpenClaw session-key alias normalization and sandbox requester scoping over SDK visibility contracts.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveSandboxSessionToolsVisibility } from "../../plugin-sdk/session-visibility.js";
-import { isSubagentSessionKey } from "../../routing/session-key.js";
-import { resolveInternalSessionKey, resolveMainSessionAlias } from "./sessions-resolution.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveSandboxSessionToolsVisibility } from "../../plugin-sdk/session-visibility.ts";
+import { isSubagentSessionKey } from "../../routing/session-key.ts";
+import { resolveInternalSessionKey, resolveMainSessionAlias } from "./sessions-resolution.ts";
 
 export {
   createAgentToAgentPolicy,
   createSessionVisibilityGuard,
   createSessionVisibilityRowChecker,
   resolveEffectiveSessionToolsVisibility,
-} from "../../plugin-sdk/session-visibility.js";
+} from "../../plugin-sdk/session-visibility.ts";
 
 /** Resolves the requester context used to filter sandboxed session-tool access. */
 export function resolveSandboxedSessionToolContext(params: {

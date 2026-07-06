@@ -1,42 +1,33 @@
 /**
  * Persisted auth profile store loading and migration.
- * Normalizes legacy JSON stores, SQLite/raw payloads, runtime state metadata,
- * legacy OAuth files, and merged main/agent stores.
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveOAuthPath } from "../../config/paths.js";
-import { coerceSecretRef } from "../../config/types.secrets.js";
-import { loadJsonFile } from "../../infra/json-file.js";
-import type { OpenClawAgentDatabase } from "../../state/openclaw-agent-db.js";
-import { asBoolean } from "../../utils/boolean.js";
-import { AUTH_STORE_VERSION, log } from "./constants.js";
-import { isLegacyOAuthRef } from "./legacy-oauth-ref.js";
+import { resolveOAuthPath } from "../../config/paths.ts";
+import { coerceSecretRef } from "../../config/types.secrets.ts";
+import { loadJsonFile } from "../../infra/json-file.ts";
+import type { OpenClawAgentDatabase } from "../../state/openclaw-agent-db.ts";
+import { asBoolean } from "../../utils/boolean.ts";
+import { AUTH_STORE_VERSION, log } from "./constants.ts";
 import {
-  hasOAuthIdentity,
   hasUsableOAuthCredential,
-  isSafeToAdoptMainStoreOAuthIdentity,
   normalizeAuthEmailToken,
   normalizeAuthIdentityToken,
-} from "./oauth-shared.js";
-import { resolveLegacyAuthStorePath } from "./paths.js";
-import { readPersistedAuthProfileStoreRaw } from "./sqlite.js";
+} from "./oauth-shared.ts";
+import { readPersistedAuthProfileStoreRaw } from "./sqlite.ts";
 import {
   coerceAuthProfileState,
   loadPersistedAuthProfileState,
   mergeAuthProfileState,
-} from "./state.js";
+} from "./state.ts";
 import type {
   AuthProfileCredential,
   AuthProfileSecretsStore,
   AuthProfileStore,
   OAuthCredential,
   OAuthCredentials,
-} from "./types.js";
-
-/** Legacy auth.json store shape before auth-profiles.json/SQLite. */
-type LegacyAuthStore = Record<string, AuthProfileCredential>;
+} from "./types.ts";
 
 type LoadPersistedAuthProfileStoreOptions = {
   allowKeychainPrompt?: boolean;
@@ -174,9 +165,6 @@ function normalizeRawCredentialEntry(raw: Record<string, unknown>): Partial<Auth
       type: "oauth",
       ...normalizeCommonCredentialFields(entry),
     };
-    if (isLegacyOAuthRef(entry.oauthRef)) {
-      normalized.oauthRef = entry.oauthRef;
-    }
     for (const field of [
       "access",
       "refresh",
@@ -244,28 +232,6 @@ function warnRejectedCredentialEntries(source: string, rejected: RejectedCredent
     ...(reasons.invalid_type ? { validTypes: [...AUTH_PROFILE_TYPES] } : {}),
     keys: rejected.slice(0, 10).map((entry) => entry.key),
   });
-}
-
-function coerceLegacyAuthStore(raw: unknown): LegacyAuthStore | null {
-  if (!isRecord(raw)) {
-    return null;
-  }
-  const record = raw;
-  if ("profiles" in record) {
-    return null;
-  }
-  const entries: LegacyAuthStore = {};
-  const rejected: RejectedCredentialEntry[] = [];
-  for (const [key, value] of Object.entries(record)) {
-    const parsed = parseCredentialEntry(value, key);
-    if (!parsed.ok) {
-      rejected.push({ key, reason: parsed.reason });
-      continue;
-    }
-    entries[key] = parsed.credential;
-  }
-  warnRejectedCredentialEntries("auth.json", rejected);
-  return Object.keys(entries).length > 0 ? entries : null;
 }
 
 /** Coerces a persisted auth profile store payload into the current store shape. */
@@ -387,7 +353,7 @@ function mergeProfileOrderWithOverridePrecedence(params: {
   return mergedOrder;
 }
 
-// Legacy OAuth profiles may be replaced by safer main-store profiles when the
+// Older OAuth profiles may be replaced by safer main-store profiles when the
 // main store has a newer compatible credential for the same provider identity.
 function hasComparableOAuthIdentityConflict(
   existing: OAuthCredential,
@@ -410,10 +376,6 @@ function hasComparableOAuthIdentityConflict(
   );
 }
 
-function isLegacyDefaultOAuthProfile(profileId: string, credential: OAuthCredential): boolean {
-  return profileId === `${normalizeProviderId(credential.provider)}:default`;
-}
-
 function isNewerUsableOAuthCredential(
   existing: OAuthCredential,
   candidate: OAuthCredential,
@@ -432,22 +394,14 @@ function isNewerUsableOAuthCredential(
 
 function findMainStoreOAuthReplacement(params: {
   base: AuthProfileStore;
-  legacyProfileId: string;
-  legacyCredential: OAuthCredential;
-}): string | undefined {
-  const providerKey = normalizeProviderId(params.legacyCredential.provider);
+}): string {
   const candidates = Object.entries(params.base.profiles)
     .flatMap(([profileId, credential]): Array<[string, OAuthCredential]> => {
-      if (
-        profileId === params.legacyProfileId ||
-        credential.type !== "oauth" ||
-        normalizeProviderId(credential.provider) !== providerKey
-      ) {
+      if (credential.type !== "oauth") {
         return [];
       }
       return [[profileId, credential]];
     })
-    .filter(([, credential]) => isNewerUsableOAuthCredential(params.legacyCredential, credential))
     .toSorted(([leftId, leftCredential], [rightId, rightCredential]) => {
       const leftExpires = Number.isFinite(leftCredential.expires) ? leftCredential.expires : 0;
       const rightExpires = Number.isFinite(rightCredential.expires) ? rightCredential.expires : 0;
@@ -456,27 +410,7 @@ function findMainStoreOAuthReplacement(params: {
       }
       return leftId.localeCompare(rightId);
     });
-
-  const exactIdentityCandidates = candidates.filter(([, credential]) =>
-    isSafeToAdoptMainStoreOAuthIdentity(params.legacyCredential, credential),
-  );
-  if (exactIdentityCandidates.length > 0) {
-    if (!hasOAuthIdentity(params.legacyCredential) && exactIdentityCandidates.length > 1) {
-      return undefined;
-    }
-    return exactIdentityCandidates[0]?.[0];
-  }
-
-  if (hasUsableOAuthCredential(params.legacyCredential)) {
-    return undefined;
-  }
-  const fallbackCandidates = candidates.filter(
-    ([, credential]) => !hasComparableOAuthIdentityConflict(params.legacyCredential, credential),
-  );
-  if (fallbackCandidates.length !== 1) {
-    return undefined;
-  }
-  return fallbackCandidates[0]?.[0];
+  return candidates[0]?.[0];
 }
 
 function replaceMergedProfileReferences(params: {
@@ -490,26 +424,6 @@ function replaceMergedProfileReferences(params: {
   }
 
   const profiles = { ...store.profiles };
-  for (const [legacyProfileId, replacementProfileId] of replacements) {
-    const baseCredential = base.profiles[legacyProfileId];
-    if (baseCredential) {
-      profiles[legacyProfileId] = baseCredential;
-    } else {
-      delete profiles[legacyProfileId];
-    }
-    const replacementBaseCredential = base.profiles[replacementProfileId];
-    const replacementCredential = profiles[replacementProfileId];
-    if (
-      replacementBaseCredential &&
-      (!replacementCredential ||
-        (replacementCredential.type === "oauth" &&
-          replacementBaseCredential.type === "oauth" &&
-          isNewerUsableOAuthCredential(replacementCredential, replacementBaseCredential)))
-    ) {
-      profiles[replacementProfileId] = replacementBaseCredential;
-    }
-  }
-
   const order = store.order
     ? Object.fromEntries(
         Object.entries(store.order).map(([provider, profileIds]) => [
@@ -531,17 +445,6 @@ function replaceMergedProfileReferences(params: {
     : undefined;
 
   const usageStats = store.usageStats ? { ...store.usageStats } : undefined;
-  if (usageStats) {
-    for (const legacyProfileId of replacements.keys()) {
-      const baseStats = base.usageStats?.[legacyProfileId];
-      if (baseStats) {
-        usageStats[legacyProfileId] = baseStats;
-      } else {
-        delete usageStats[legacyProfileId];
-      }
-    }
-  }
-
   return {
     ...store,
     profiles,
@@ -559,19 +462,9 @@ function reconcileMainStoreOAuthProfileDrift(params: {
   merged: AuthProfileStore;
 }): AuthProfileStore {
   const replacements = new Map<string, string>();
-  for (const [profileId, credential] of Object.entries(params.override.profiles)) {
-    if (credential.type !== "oauth") {
+  for (const [credential] of Object.entries(params.override.profiles)) {
+    if (credential !== "oauth") {
       continue;
-    }
-    const replacementProfileId = isLegacyDefaultOAuthProfile(profileId, credential)
-      ? findMainStoreOAuthReplacement({
-          base: params.base,
-          legacyProfileId: profileId,
-          legacyCredential: credential,
-        })
-      : undefined;
-    if (replacementProfileId) {
-      replacements.set(profileId, replacementProfileId);
     }
   }
   return replaceMergedProfileReferences({
@@ -731,45 +624,7 @@ export function buildPersistedAuthProfileSecretsStore(
   };
 }
 
-/** Applies legacy auth.json credentials into an auth profile store. */
-export function applyLegacyAuthStore(store: AuthProfileStore, legacy: LegacyAuthStore): void {
-  for (const [provider, cred] of Object.entries(legacy)) {
-    const profileId = `${provider}:default`;
-    const credentialProvider = cred.provider ?? provider;
-    if (cred.type === "api_key") {
-      store.profiles[profileId] = {
-        type: "api_key",
-        provider: credentialProvider,
-        key: cred.key,
-        ...(cred.email ? { email: cred.email } : {}),
-      };
-      continue;
-    }
-    if (cred.type === "token") {
-      store.profiles[profileId] = {
-        type: "token",
-        provider: credentialProvider,
-        token: cred.token,
-        ...(typeof cred.expires === "number" ? { expires: cred.expires } : {}),
-        ...(cred.email ? { email: cred.email } : {}),
-      };
-      continue;
-    }
-    store.profiles[profileId] = {
-      type: "oauth",
-      provider: credentialProvider,
-      access: cred.access,
-      refresh: cred.refresh,
-      expires: cred.expires,
-      ...(cred.enterpriseUrl ? { enterpriseUrl: cred.enterpriseUrl } : {}),
-      ...(cred.projectId ? { projectId: cred.projectId } : {}),
-      ...(cred.accountId ? { accountId: cred.accountId } : {}),
-      ...(cred.email ? { email: cred.email } : {}),
-    };
-  }
-}
-
-/** Imports the legacy oauth.json file into missing default OAuth profiles. */
+/** Imports the older oauth.json file into missing default OAuth profiles. */
 export function mergeOAuthFileIntoStore(store: AuthProfileStore): boolean {
   const oauthPath = resolveOAuthPath();
   const oauthRaw = loadJsonFile(oauthPath);
@@ -814,9 +669,4 @@ export function loadPersistedAuthProfileStore(
     ),
   };
   return merged;
-}
-
-/** Loads the legacy auth.json auth profile store if present. */
-export function loadLegacyAuthProfileStore(agentDir?: string): LegacyAuthStore | null {
-  return coerceLegacyAuthStore(loadJsonFile(resolveLegacyAuthStorePath(agentDir)));
 }

@@ -1,8 +1,8 @@
 // Doctor quarantine for plugin entries whose config fails plugin-aware validation.
-import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { validateConfigObjectWithPlugins } from "../../../config/validation.js";
-import { asObjectRecord } from "./object.js";
+import { sanitizeForLog } from "../../../../packages/terminal-core/src/ansi.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { validateConfigObjectWithPlugins } from "../../../config/validation.ts";
+import { asObjectRecord } from "./object.ts";
 
 type InvalidPluginConfigHit = {
   pluginId: string;

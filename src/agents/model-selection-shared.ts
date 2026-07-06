@@ -5,22 +5,22 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog, stripAnsi } from "../../packages/terminal-core/src/ansi.js";
-import { resolveAgentModelPrimaryValue } from "../config/model-input.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.js";
-import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.js";
-import { getActivePluginRegistryWorkspaceDirFromState } from "../plugins/runtime-state.js";
-import { resolveConfiguredProviderFallback } from "./configured-provider-fallback.js";
-import { DEFAULT_PROVIDER } from "./defaults.js";
-import { findModelCatalogEntry } from "./model-catalog-lookup.js";
-import type { ModelCatalogEntry } from "./model-catalog.types.js";
-import { splitTrailingAuthProfile } from "./model-ref-profile.js";
+import { sanitizeForLog, stripAnsi } from "../../packages/terminal-core/src/ansi.ts";
+import { resolveAgentModelPrimaryValue } from "../config/model-input.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { getCurrentPluginMetadataSnapshot } from "../plugins/current-plugin-metadata-snapshot.ts";
+import { loadManifestMetadataSnapshot } from "../plugins/manifest-contract-eligibility.ts";
+import { getActivePluginRegistryWorkspaceDirFromState } from "../plugins/runtime-state.ts";
+import { resolveConfiguredProviderFallback } from "./configured-provider-fallback.ts";
+import { DEFAULT_PROVIDER } from "./defaults.ts";
+import { findModelCatalogEntry } from "./model-catalog-lookup.ts";
+import type { ModelCatalogEntry } from "./model-catalog.types.ts";
+import { splitTrailingAuthProfile } from "./model-ref-profile.ts";
 import {
   normalizeConfiguredProviderCatalogModelId,
   normalizeStaticProviderModelId,
-} from "./model-ref-shared.js";
+} from "./model-ref-shared.ts";
 import {
   type ModelManifestNormalizationContext,
   type ModelRef,
@@ -29,7 +29,7 @@ import {
   normalizeModelRef,
   normalizeProviderId,
   parseModelRef,
-} from "./model-selection-normalize.js";
+} from "./model-selection-normalize.ts";
 
 // Shared model-selection helpers for config aliases, allowlists, provider
 // inference, and configured catalog rows used by CLI and runtime selectors.

@@ -1,7 +1,7 @@
 /**
  * Estimates message and tool-result character costs for context guards.
  */
-import type { AgentMessage } from "../runtime/index.js";
+import type { AgentMessage } from "../runtime/index.ts";
 
 export const CHARS_PER_TOKEN_ESTIMATE = 4;
 export const TOOL_RESULT_CHARS_PER_TOKEN_ESTIMATE = 2;

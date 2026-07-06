@@ -14,9 +14,9 @@ export type {
   TranscriptStopRequest,
   TranscriptsStopResult,
   TranscriptUtterance,
-} from "../transcripts/provider-types.js";
+} from "../transcripts/provider-types.ts";
 export {
   getTranscriptSourceProvider,
   listTranscriptSourceProviders,
   normalizeTranscriptSourceProviderId,
-} from "../transcripts/provider-registry.js";
+} from "../transcripts/provider-registry.ts";

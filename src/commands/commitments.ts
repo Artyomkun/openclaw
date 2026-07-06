@@ -2,18 +2,18 @@
 import { timestampMsToIsoString } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { formatCliCommand } from "../cli/command-format.js";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
 import {
   listCommitments,
   markCommitmentsStatus,
   resolveCommitmentStorePath,
-} from "../commitments/store.js";
-import type { CommitmentRecord, CommitmentStatus } from "../commitments/types.js";
-import { getRuntimeConfig } from "../config/config.js";
-import { info } from "../globals.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
+} from "../commitments/store.ts";
+import type { CommitmentRecord, CommitmentStatus } from "../commitments/types.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import { info } from "../globals.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
 
 const STATUS_VALUES = new Set<CommitmentStatus>([
   "pending",

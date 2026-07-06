@@ -1,163 +1,94 @@
 // Channel inbound contracts define plugin ingress payloads and reply dispatch metadata.
-import {
+export {
   buildChannelInboundEventContext,
-  finalizeChannelInboundContext,
   filterChannelInboundQuoteContext,
   filterChannelInboundSupplementalContext,
-  resolveChannelInboundSupplementalContext,
-  type BuildChannelInboundEventContextAsyncParams,
-  type BuildChannelInboundEventContextParams,
-  type BuiltChannelInboundEventContext,
-  type ChannelInboundSupplementalResolutionOptions,
-  type FinalizeChannelInboundContextAsyncParams,
-  type FinalizeChannelInboundContextParams,
-  type FinalizeChannelInboundContextResult,
-} from "../channels/inbound-event/context.js";
-import type { InboundEventKind } from "../channels/inbound-event/kind.js";
-
+} from "../channels/inbound-event/context.ts";
+export type {
+  BuildChannelInboundEventContextParams,
+  BuiltChannelInboundEventContext,
+} from "../channels/inbound-event/context.ts";
 export {
   createInboundDebouncer,
   resolveInboundDebounceMs,
-} from "../auto-reply/inbound-debounce.js";
+} from "../auto-reply/inbound-debounce.ts";
+export {
+  createChannelInboundDebouncer,
+  shouldDebounceTextInbound,
+} from "../channels/inbound-debounce-policy.ts";
 export {
   createDirectDmPreCryptoGuardPolicy,
   createPreCryptoDirectDmAuthorizer,
   dispatchInboundDirectDmWithRuntime,
   resolveInboundDirectDmAccessWithRuntime,
-  type AccessGroupMembershipResolver,
-  type DirectDmCommandAuthorizationRuntime,
-  type DirectDmPreCryptoGuardPolicy,
-  type DirectDmPreCryptoGuardPolicyOverrides,
-  type ResolvedInboundDirectDmAccess,
-} from "../channels/direct-dm.js";
+} from "../channels/direct-dm.ts";
+export type {
+  AccessGroupMembershipResolver,
+  DirectDmCommandAuthorizationRuntime,
+  DirectDmPreCryptoGuardPolicy,
+  DirectDmPreCryptoGuardPolicyOverrides,
+  ResolvedInboundDirectDmAccess,
+} from "../channels/direct-dm.ts";
 export {
   formatInboundEnvelope,
   formatInboundFromLabel,
   resolveEnvelopeFormatOptions,
-} from "../auto-reply/envelope.js";
-export type { EnvelopeFormatOptions } from "../auto-reply/envelope.js";
-export type {
-  PluginHookChannelChatContext,
-  PluginHookChannelContext,
-  PluginHookChannelSenderContext,
-} from "../plugins/hook-types.js";
+} from "../auto-reply/envelope.ts";
+export type { 
+  EnvelopeFormatOptions 
+} from "../auto-reply/envelope.ts";
 export {
   buildMentionRegexes,
   matchesMentionPatterns,
   matchesMentionWithExplicit,
   normalizeMentionText,
-  type BuildMentionRegexesOptions,
-} from "../auto-reply/reply/mentions.js";
+} from "../auto-reply/reply/mentions.ts";
+export type { 
+  BuildMentionRegexesOptions 
+} from "../auto-reply/reply/mentions.ts";
 export {
   resolveMentionPatternPolicy,
-  type ResolveMentionPatternPolicyParams,
-  type ResolvedMentionPatternPolicy,
-} from "../channels/mention-pattern-policy.js";
-export {
-  createChannelInboundDebouncer,
-  shouldDebounceTextInbound,
-} from "../channels/inbound-debounce-policy.js";
+} from "../channels/mention-pattern-policy.ts";
 export type {
-  InboundMentionFacts,
-  InboundMentionPolicy,
-  InboundImplicitMentionKind,
-  InboundMentionDecision,
-  MentionGateParams,
-  MentionGateResult,
-  MentionGateWithBypassParams,
-  MentionGateWithBypassResult,
-  ResolveInboundMentionDecisionFlatParams,
-  ResolveInboundMentionDecisionNestedParams,
-  ResolveInboundMentionDecisionParams,
-} from "../channels/mention-gating.js";
+  ResolveMentionPatternPolicyParams,
+  ResolvedMentionPatternPolicy,
+} from "../channels/mention-pattern-policy.ts";
 export {
   implicitMentionKindWhen,
   resolveInboundMentionDecision,
-  // @deprecated Prefer `resolveInboundMentionDecision({ facts, policy })`.
-  resolveMentionGating,
-  // @deprecated Prefer `resolveInboundMentionDecision({ facts, policy })`.
-  resolveMentionGatingWithBypass,
-} from "../channels/mention-gating.js";
-export type { LocationSource, NormalizedLocation } from "../channels/location.js";
-export { formatLocationText, toLocationContext } from "../channels/location.js";
-export type { LogFn } from "../channels/logging.js";
-export { logInboundDrop } from "../channels/logging.js";
-export { resolveInboundSessionEnvelopeContext } from "../channels/session-envelope.js";
+} from "../channels/mention-gating.ts";
+export type {
+  InboundImplicitMentionKind,
+  InboundMentionDecision,
+  InboundMentionFacts,
+  InboundMentionPolicy,
+  ResolveInboundMentionDecisionNestedParams,
+  ResolveInboundMentionDecisionParams,
+} from "../channels/mention-gating.ts";
+export { 
+  formatLocationText, 
+  toLocationContext 
+} from "../channels/location.ts";
+export type { 
+  LocationSource, 
+  NormalizedLocation 
+} from "../channels/location.ts";
+export { 
+  logInboundDrop 
+} from "../channels/logging.ts";
+export type { 
+  LogFn 
+} from "../channels/logging.ts";
+export { 
+  resolveInboundSessionEnvelopeContext 
+} from "../channels/session-envelope.ts";
 export {
   classifyChannelInboundEvent,
   resolveUnmentionedGroupInboundPolicy,
-} from "../channels/inbound-event/classification.js";
-export type { ClassifyChannelInboundEventParams } from "../channels/inbound-event/classification.js";
-export {
-  buildChannelInboundEventContext,
-  // @deprecated Prefer `buildChannelInboundEventContext`.
-  finalizeChannelInboundContext,
-  filterChannelInboundQuoteContext,
-  filterChannelInboundSupplementalContext,
-  // @deprecated Prefer `buildChannelInboundEventContext({ resolveSupplementalMedia: true })`.
-  resolveChannelInboundSupplementalContext,
-};
-export type {
-  BuildChannelInboundEventContextAsyncParams,
-  BuildChannelInboundEventContextParams,
-  BuiltChannelInboundEventContext,
-  ChannelInboundSupplementalResolutionOptions,
-  FinalizeChannelInboundContextAsyncParams,
-  FinalizeChannelInboundContextParams,
-  FinalizeChannelInboundContextResult,
-};
-/**
- * Deprecated turn-context input alias that still accepts the old `inboundTurnKind` name.
- *
- * @deprecated Use `BuildChannelInboundEventContextParams`.
- */
-export type BuildChannelTurnContextParams = Omit<
-  BuildChannelInboundEventContextParams,
-  "message"
-> & {
-  message: BuildChannelInboundEventContextParams["message"] & {
-    inboundTurnKind?: InboundEventKind;
-  };
-};
-/**
- * Deprecated turn-context result alias with the historical `InboundTurnKind` field.
- *
- * @deprecated Use `BuiltChannelInboundEventContext`.
- */
-export type BuiltChannelTurnContext = BuiltChannelInboundEventContext & {
-  InboundTurnKind: InboundEventKind;
-};
-
-/**
- * Builds inbound-event context for callers still passing `inboundTurnKind`.
- *
- * @deprecated Use `buildChannelInboundEventContext`.
- */
-export function buildChannelTurnContext(
-  params: BuildChannelTurnContextParams,
-): BuiltChannelTurnContext {
-  const inboundEventKind = params.message.inboundEventKind ?? params.message.inboundTurnKind;
-  // Normalize the legacy turn-kind field before delegating so downstream context builders
-  // only need to preserve the current inbound-event contract.
-  const ctx = buildChannelInboundEventContext({
-    ...params,
-    message: {
-      ...params.message,
-      ...(inboundEventKind ? { inboundEventKind } : {}),
-    },
-  });
-  return {
-    ...ctx,
-    InboundTurnKind: ctx.InboundEventKind,
-  };
-}
-
-/**
- * Deprecated supplemental-context filter alias retained for channel SDK compatibility.
- *
- * @deprecated Use `filterChannelInboundSupplementalContext`.
- */
-export const filterChannelTurnSupplementalContext = filterChannelInboundSupplementalContext;
+} from "../channels/inbound-event/classification.ts";
+export type { 
+  ClassifyChannelInboundEventParams 
+} from "../channels/inbound-event/classification.ts";
 export {
   runChannelInboundEvent,
   runPreparedInboundReply,
@@ -168,7 +99,7 @@ export {
   hasVisibleInboundReplyDispatch,
   recordChannelBotPairLoopAndCheckSuppression,
   resolveInboundReplyDispatchCounts,
-} from "../channels/message/inbound-reply-dispatch.js";
+} from "../channels/message/inbound-reply-dispatch.ts";
 export type {
   AssembledInboundReply,
   ChannelBotLoopProtectionFacts,
@@ -177,34 +108,31 @@ export type {
   PreparedInboundReply,
   InboundReplyDispatchResult,
   InboundReplyRecordOptions,
-} from "../channels/message/inbound-reply-dispatch.js";
-
+} from "../channels/message/inbound-reply-dispatch.ts";
 export {
   toHistoryMediaEntries,
   toInboundMediaFacts,
   buildChannelInboundMediaPayload,
-  // @deprecated Prefer `buildChannelInboundMediaPayload`.
-  buildChannelInboundMediaPayload as buildChannelTurnMediaPayload,
-} from "../channels/inbound-event/media.js";
+} from "../channels/inbound-event/media.ts";
 export type {
   ChannelInboundMediaInput,
-  ChannelInboundMediaInput as ChannelTurnMediaInput,
   ChannelInboundMediaPayload,
-  ChannelInboundMediaPayload as ChannelTurnMediaPayload,
-} from "../channels/inbound-event/media.js";
-export type {
-  CommandFacts,
-  InboundMediaFacts,
-  SupplementalContextFacts,
-} from "../channels/turn/types.js";
-export type { InboundEventKind } from "../channels/inbound-event/kind.js";
-export type { InboundEventKind as InboundTurnKind } from "../channels/inbound-event/kind.js";
+} from "../channels/inbound-event/media.ts";
+export type { 
+  InboundEventKind 
+} from "../channels/inbound-event/kind.ts";
+export type { 
+  CommandFacts, 
+  InboundMediaFacts, 
+  SupplementalContextFacts 
+} from "../channels/turn/types.ts";
 export {
   createCommandTurnContext,
   isAuthorizedTextSlashCommandTurn,
   isExplicitCommandTurn,
   isNativeCommandTurn,
   isTextSlashCommandTurn,
-} from "../auto-reply/command-turn-context.js";
-export type { CommandTurnContext } from "../auto-reply/command-turn-context.js";
-export { mergeInboundPathRoots } from "@openclaw/media-core/inbound-path-policy";
+} from "../auto-reply/command-turn-context.ts";
+export type { 
+  CommandTurnContext 
+} from "../auto-reply/command-turn-context.ts";

@@ -365,29 +365,18 @@ export function createSlackMonitorContext(params: {
           return runtimeRoute.route.sessionKey;
         }
         return resolveThreadSessionKeys({
-          baseSessionKey: runtimeRoute.route.sessionKey,
           threadId: threadTs,
-          parentSessionKey:
-            threadTs && params.threadInheritParent ? runtimeRoute.route.sessionKey : undefined,
+          parentSessionKey: threadTs && params.threadInheritParent,
         }).sessionKey;
       }
-    } catch {
-      // Fall through to legacy key derivation.
+    } catch (error) {
+      console.warn('Older key derivation failed, falling through:', 
+        error instanceof Error ? error.message : String(error)
+      );
     }
-
-    const legacySessionKey = resolveSessionKey(
-      params.sessionScope,
-      { From: from, ChatType: chatType, Provider: "slack" },
-      params.mainKey,
-      resolveDefaultAgentId(params.cfg),
-    );
     return resolveThreadSessionKeys({
-      baseSessionKey: legacySessionKey,
       threadId: normalizeOptionalString(p.threadTs),
-      parentSessionKey:
-        normalizeOptionalString(p.threadTs) && params.threadInheritParent
-          ? legacySessionKey
-          : undefined,
+      parentSessionKey: normalizeOptionalString(p.threadTs) && params.threadInheritParent,
     }).sessionKey;
   };
 

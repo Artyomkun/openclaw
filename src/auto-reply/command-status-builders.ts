@@ -4,17 +4,17 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getChannelPlugin } from "../channels/plugins/index.js";
-import { isCommandFlagEnabled } from "../config/commands.flags.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { listPluginCommands } from "../plugins/commands.js";
-import type { SkillCommandSpec } from "../skills/types.js";
+import { getChannelPlugin } from "../channels/plugins/index.ts";
+import { isCommandFlagEnabled } from "../config/commands.flags.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { listPluginCommands } from "../plugins/commands.ts";
+import type { SkillCommandSpec } from "../skills/types.ts";
 import {
   listChatCommands,
   listChatCommandsForConfig,
   type ChatCommandDefinition,
-} from "./commands-registry.js";
-import type { CommandCategory } from "./commands-registry.types.js";
+} from "./commands-registry.ts";
+import type { CommandCategory } from "./commands-registry.types.ts";
 
 const CATEGORY_LABELS: Record<CommandCategory, string> = {
   session: "Session",

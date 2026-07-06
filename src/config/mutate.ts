@@ -3,22 +3,22 @@ import { AsyncLocalStorage } from "node:async_hooks";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { isDeepStrictEqual } from "node:util";
-import { formatErrorMessage } from "../infra/errors.js";
-import { withFileLock } from "../infra/file-lock.js";
-import { root as createFsRoot, type Root as FsSafeRoot } from "../infra/fs-safe.js";
-import { isPathInside } from "../security/scan-paths.js";
-import { isRecord } from "../utils.js";
-import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.js";
-import { maintainConfigBackups } from "./backup-rotation.js";
-import { restoreEnvVarRefs } from "./env-preserve.js";
-import { resolveConfigEnvVars } from "./env-substitution.js";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { withFileLock } from "../infra/file-lock.ts";
+import { root as createFsRoot, type Root as FsSafeRoot } from "../infra/fs-safe.ts";
+import { isPathInside } from "../security/scan-paths.ts";
+import { isRecord } from "../utils.ts";
+import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.ts";
+import { maintainConfigBackups } from "./backup-rotation.ts";
+import { restoreEnvVarRefs } from "./env-preserve.ts";
+import { resolveConfigEnvVars } from "./env-substitution.ts";
 import {
   ConfigIncludeError,
   hashConfigIncludeRaw,
   INCLUDE_KEY,
   resolveConfigIncludeWritePath,
-} from "./includes.js";
-import { createInvalidConfigError, formatInvalidConfigDetails } from "./io.invalid-config.js";
+} from "./includes.ts";
+import { createInvalidConfigError, formatInvalidConfigDetails } from "./io.invalid-config.ts";
 import {
   createConfigIO,
   readConfigFileSnapshotForWrite,
@@ -27,15 +27,15 @@ import {
   writeConfigFile,
   type ConfigWriteOptions,
   type ConfigWriteResult,
-} from "./io.js";
+} from "./io.ts";
 import {
   applyUnsetPathsForWrite,
   resolveManagedUnsetPathsForWrite,
   resolveWriteEnvSnapshotForPath,
-} from "./io.write-prepare.js";
-import { ConfigMutationConflictError } from "./mutation-conflict.js";
-import { assertConfigWriteAllowedInCurrentMode } from "./nix-mode-write-guard.js";
-import { resolveConfigPath } from "./paths.js";
+} from "./io.write-prepare.ts";
+import { ConfigMutationConflictError } from "./mutation-conflict.ts";
+import { assertConfigWriteAllowedInCurrentMode } from "./nix-mode-write-guard.ts";
+import { resolveConfigPath } from "./paths.ts";
 import {
   createRuntimeConfigWriteNotification,
   finalizeRuntimeSnapshotWrite,
@@ -48,9 +48,9 @@ import {
   resolveConfigWriteFollowUp,
   type ConfigWriteAfterWrite,
   type ConfigWriteFollowUp,
-} from "./runtime-snapshot.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "./types.js";
-import { validateConfigObjectWithPlugins } from "./validation.js";
+} from "./runtime-snapshot.ts";
+import type { ConfigFileSnapshot, OpenClawConfig } from "./types.ts";
+import { validateConfigObjectWithPlugins } from "./validation.ts";
 
 /** Selects whether a mutation starts from runtime or source config shape. */
 export type ConfigMutationBase = "runtime" | "source";
@@ -70,7 +70,7 @@ const DEFAULT_CONFIG_MUTATION_RETRY_ATTEMPTS = 5;
 const activeConfigMutationLocks = new AsyncLocalStorage<Set<string>>();
 const configMutationQueueTails = new Map<string, Promise<void>>();
 
-export { ConfigMutationConflictError } from "./mutation-conflict.js";
+export { ConfigMutationConflictError } from "./mutation-conflict.ts";
 
 export type ConfigReplaceResult = {
   path: string;

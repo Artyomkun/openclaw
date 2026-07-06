@@ -13,7 +13,7 @@ export {
   readChannelIngressStoreAllowFromForDmPolicy,
   resolveChannelMessageIngress,
   resolveStableChannelMessageIngress,
-} from "../channels/message-access/index.js";
+} from "../channels/message-access/index.ts";
 export type {
   AccessGroupMembershipFact,
   ChannelIngressDecision,
@@ -41,4 +41,4 @@ export type {
   ResolveChannelMessageIngressParams,
   ResolveStableChannelMessageIngressParams,
   StableChannelIngressIdentityParams,
-} from "../channels/message-access/index.js";
+} from "../channels/message-access/index.ts";

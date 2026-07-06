@@ -1,17 +1,17 @@
 // Renders `openclaw status --all` report data into terminal lines.
 // Styling is applied here so data builders remain color/theme agnostic.
 
-import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.js";
-import { isRich, theme } from "../../../packages/terminal-core/src/theme.js";
-import type { ProgressReporter } from "../../cli/progress.js";
-import { appendStatusAllDiagnosis } from "./diagnosis.js";
+import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.ts";
+import { isRich, theme } from "../../../packages/terminal-core/src/theme.ts";
+import type { ProgressReporter } from "../../cli/progress.ts";
+import { appendStatusAllDiagnosis } from "./diagnosis.ts";
 import {
   buildStatusAgentsSection,
   buildStatusChannelDetailsSections,
   buildStatusChannelsSection,
   buildStatusOverviewSection,
-} from "./report-sections.js";
-import { appendStatusReportSections, appendStatusSectionHeading } from "./text-report.js";
+} from "./report-sections.ts";
+import { appendStatusReportSections, appendStatusSectionHeading } from "./text-report.ts";
 
 type OverviewRow = { Item: string; Value: string };
 

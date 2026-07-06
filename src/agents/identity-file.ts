@@ -6,7 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { DEFAULT_IDENTITY_FILENAME } from "./workspace.js";
+import { DEFAULT_IDENTITY_FILENAME } from "./workspace.ts";
 
 /** Parsed rich identity values from a workspace `IDENTITY.md` file. */
 export type AgentIdentityFile = {
@@ -136,8 +136,6 @@ function normalizeIdentityContent(content: string | undefined): string[] {
 }
 
 function resolveIdentityInsertIndex(lines: string[]): number {
-  // New fields stay grouped with existing rich identity fields; otherwise place
-  // them directly after the title block so legacy prose remains intact.
   let lastIdentityIndex = -1;
   for (const [index, line] of lines.entries()) {
     const cleaned = line.trim().replace(/^\s*-\s*/, "");

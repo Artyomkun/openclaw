@@ -1,8 +1,8 @@
 /**
  * Registry for native agent harness implementations and lifecycle cleanup.
  */
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { AgentHarness, AgentHarnessResetParams, RegisteredAgentHarness } from "./types.js";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { AgentHarness, AgentHarnessResetParams, RegisteredAgentHarness } from "./types.ts";
 
 /**
  * Process-wide registry for agent harnesses contributed by core and runtime plugins.

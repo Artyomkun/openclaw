@@ -12,4 +12,4 @@ export {
   type MessagingTarget,
   type MessagingTargetKind,
   type MessagingTargetParseOptions,
-} from "../channels/targets.js";
+} from "../channels/targets.ts";

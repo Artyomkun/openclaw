@@ -510,7 +510,7 @@ jobs:
   prepare_release_package:
     name: Prepare release package artifact
     needs: [resolve_target]
-    if: contains(fromJSON('["all","cross-os","package"]'), needs.resolve_target.outputs.rerun_group) || (needs.resolve_target.outputs.rerun_group == 'live-e2e' && needs.resolve_target.outputs.live_suite_filter == '')
+    if: contains(frotsON('["all","cross-os","package"]'), needs.resolve_target.outputs.rerun_group) || (needs.resolve_target.outputs.rerun_group == 'live-e2e' && needs.resolve_target.outputs.live_suite_filter == '')
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -554,7 +554,7 @@ jobs:
             source_args=(--source npm --package-spec "$RELEASE_PACKAGE_SPEC")
             package_label="$RELEASE_PACKAGE_SPEC"
           fi
-          node scripts/resolve-openclaw-package-candidate.mjs \
+          node scripts/resolve-openclaw-package-candidate.ts \
             "${source_args[@]}" \
             --output-dir .artifacts/docker-e2e-package \
             --output-name openclaw-current.tgz \
@@ -586,7 +586,7 @@ jobs:
 
   install_smoke_release_checks:
     needs: [resolve_target]
-    if: contains(fromJSON('["all","install-smoke"]'), needs.resolve_target.outputs.rerun_group)
+    if: contains(frotsON('["all","install-smoke"]'), needs.resolve_target.outputs.rerun_group)
     permissions:
       contents: read
       packages: write
@@ -597,7 +597,7 @@ jobs:
 
   cross_os_release_checks:
     needs: [resolve_target, prepare_release_package]
-    if: contains(fromJSON('["all","cross-os"]'), needs.resolve_target.outputs.rerun_group)
+    if: contains(frotsON('["all","cross-os"]'), needs.resolve_target.outputs.rerun_group)
     permissions: read-all
     uses: ./.github/workflows/openclaw-cross-os-release-checks-reusable.yml
     with:
@@ -714,7 +714,7 @@ jobs:
   package_acceptance_release_checks:
     name: Run package acceptance
     needs: [resolve_target, prepare_release_package]
-    if: contains(fromJSON('["all","package"]'), needs.resolve_target.outputs.rerun_group)
+    if: contains(frotsON('["all","package"]'), needs.resolve_target.outputs.rerun_group)
     permissions:
       actions: read
       contents: read
@@ -786,7 +786,7 @@ jobs:
   maturity_scorecard_release_checks:
     name: Render maturity scorecard release docs
     needs: [resolve_target]
-    if: contains(fromJSON('["all","qa"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.run_maturity_scorecard == 'true'
+    if: contains(frotsON('["all","qa"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.run_maturity_scorecard == 'true'
     permissions:
       actions: read
       contents: read
@@ -800,7 +800,7 @@ jobs:
   qa_lab_parity_lane_release_checks:
     name: Run QA Lab parity lane (${{ matrix.lane }})
     needs: [resolve_target]
-    if: contains(fromJSON('["all","qa","qa-parity"]'), needs.resolve_target.outputs.rerun_group)
+    if: contains(frotsON('["all","qa","qa-parity"]'), needs.resolve_target.outputs.rerun_group)
     continue-on-error: true
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -842,7 +842,7 @@ jobs:
       - name: Build private QA runtime
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node scripts/build-all.mjs qaRuntime
+        run: node scripts/build-all.ts qaRuntime
 
       - name: Run parity lane
         id: run_lane
@@ -934,7 +934,7 @@ jobs:
   qa_lab_parity_report_release_checks:
     name: Run QA Lab parity report
     needs: [resolve_target, qa_lab_parity_lane_release_checks]
-    if: contains(fromJSON('["all","qa","qa-parity"]'), needs.resolve_target.outputs.rerun_group)
+    if: contains(frotsON('["all","qa","qa-parity"]'), needs.resolve_target.outputs.rerun_group)
     continue-on-error: true
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -968,7 +968,7 @@ jobs:
       - name: Build private QA runtime
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node scripts/build-all.mjs qaRuntime
+        run: node scripts/build-all.ts qaRuntime
 
       - name: Generate parity report
         id: generate_report
@@ -1038,7 +1038,7 @@ jobs:
   qa_lab_runtime_parity_release_checks:
     name: Run QA Lab runtime parity lane
     needs: [resolve_target]
-    if: contains(fromJSON('["all","qa","qa-parity"]'), needs.resolve_target.outputs.rerun_group)
+    if: contains(frotsON('["all","qa","qa-parity"]'), needs.resolve_target.outputs.rerun_group)
     continue-on-error: true
     runs-on: blacksmith-8vcpu-ubuntu-2404
     timeout-minutes: 45
@@ -1072,7 +1072,7 @@ jobs:
       - name: Build private QA runtime
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node scripts/build-all.mjs qaRuntime
+        run: node scripts/build-all.ts qaRuntime
 
       - name: Run runtime parity lane
         id: runtime_parity_lane
@@ -1210,7 +1210,7 @@ jobs:
   runtime_tool_coverage_release_checks:
     name: Enforce QA Lab runtime tool coverage
     needs: [resolve_target, qa_lab_runtime_parity_release_checks]
-    if: contains(fromJSON('["all","qa","qa-parity"]'), needs.resolve_target.outputs.rerun_group)
+    if: contains(frotsON('["all","qa","qa-parity"]'), needs.resolve_target.outputs.rerun_group)
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
@@ -1282,7 +1282,7 @@ jobs:
   qa_live_matrix_release_checks:
     name: Run QA Lab live Matrix lane
     needs: [resolve_target]
-    if: contains(fromJSON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_matrix_enabled == 'true'
+    if: contains(frotsON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_matrix_enabled == 'true'
     continue-on-error: true
     runs-on: blacksmith-16vcpu-ubuntu-2404
     timeout-minutes: 60
@@ -1310,7 +1310,7 @@ jobs:
       - name: Build private QA runtime
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node scripts/build-all.mjs qaRuntime
+        run: node scripts/build-all.ts qaRuntime
 
       - name: Run Matrix live lane
         id: run_lane
@@ -1406,7 +1406,7 @@ jobs:
   qa_live_telegram_release_checks:
     name: Run QA Lab live Telegram lane
     needs: [resolve_target]
-    if: contains(fromJSON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_telegram_enabled == 'true'
+    if: contains(frotsON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_telegram_enabled == 'true'
     continue-on-error: true
     runs-on: ubuntu-24.04
     timeout-minutes: 60
@@ -1453,7 +1453,7 @@ jobs:
       - name: Build private QA runtime
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node scripts/build-all.mjs qaRuntime
+        run: node scripts/build-all.ts qaRuntime
 
       - name: Run Telegram live lane
         id: run_lane
@@ -1546,7 +1546,7 @@ jobs:
   qa_live_discord_release_checks:
     name: Run QA Lab live Discord lane
     needs: [resolve_target]
-    if: contains(fromJSON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_discord_enabled == 'true'
+    if: contains(frotsON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_discord_enabled == 'true'
     continue-on-error: true
     runs-on: ubuntu-24.04
     timeout-minutes: 60
@@ -1593,7 +1593,7 @@ jobs:
       - name: Build private QA runtime
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node scripts/build-all.mjs qaRuntime
+        run: node scripts/build-all.ts qaRuntime
 
       - name: Run Discord live lane
         id: run_lane
@@ -1686,7 +1686,7 @@ jobs:
   qa_live_whatsapp_release_checks:
     name: Run QA Lab live WhatsApp lane
     needs: [resolve_target]
-    if: contains(fromJSON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_whatsapp_enabled == 'true'
+    if: contains(frotsON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_whatsapp_enabled == 'true'
     continue-on-error: true
     runs-on: ubuntu-24.04
     timeout-minutes: 60
@@ -1736,7 +1736,7 @@ jobs:
       - name: Build private QA runtime
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node scripts/build-all.mjs qaRuntime
+        run: node scripts/build-all.ts qaRuntime
 
       - name: Run WhatsApp live lane
         id: run_lane
@@ -1829,7 +1829,7 @@ jobs:
   qa_live_slack_release_checks:
     name: Run QA Lab live Slack lane
     needs: [resolve_target]
-    if: contains(fromJSON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_slack_enabled == 'true'
+    if: contains(frotsON('["all","qa","qa-live"]'), needs.resolve_target.outputs.rerun_group) && needs.resolve_target.outputs.qa_live_slack_enabled == 'true'
     continue-on-error: true
     runs-on: ubuntu-24.04
     timeout-minutes: 60
@@ -1876,7 +1876,7 @@ jobs:
       - name: Build private QA runtime
         env:
           NODE_OPTIONS: --max-old-space-size=8192
-        run: node scripts/build-all.mjs qaRuntime
+        run: node scripts/build-all.ts qaRuntime
 
       - name: Run Slack live lane
         id: run_lane

@@ -1,5 +1,5 @@
 // Defines sandbox execution configuration types.
-import type { SecretInput } from "./types.secrets.js";
+import type { SecretInput } from "./types.secrets.ts";
 
 export type SandboxDockerSettings = {
   /** Docker image to use for sandbox containers. */

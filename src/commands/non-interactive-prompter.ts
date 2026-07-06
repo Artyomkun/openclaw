@@ -1,6 +1,6 @@
 /** Non-interactive wizard prompter that logs progress but rejects input prompts. */
-import type { RuntimeEnv } from "../runtime.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 
 /** Builds a WizardPrompter for commands that must fail instead of prompting. */
 export function createNonInteractiveLoggingPrompter(

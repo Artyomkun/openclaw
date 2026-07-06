@@ -1,9 +1,9 @@
 // Trajectory command export helpers implement CLI export behavior.
 import fsp from "node:fs/promises";
 import path from "node:path";
-import { pathExists } from "../infra/fs-safe.js";
-import { isPathInside } from "../infra/path-guards.js";
-import { exportTrajectoryBundle, resolveDefaultTrajectoryExportDir } from "./export.js";
+import { pathExists } from "../infra/fs-safe.ts";
+import { isPathInside } from "../infra/path-guards.ts";
+import { exportTrajectoryBundle, resolveDefaultTrajectoryExportDir } from "./export.ts";
 
 // CLI-facing trajectory export wrapper: resolves safe workspace-local paths,
 // writes the diagnostic bundle, and formats the terse success summary.

@@ -1,6 +1,6 @@
 // Extracts channel metadata used by security audit findings.
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { wrapExternalContent } from "./external-content.js";
+import { wrapExternalContent } from "./external-content.ts";
 
 const DEFAULT_MAX_CHARS = 800;
 const DEFAULT_MAX_ENTRY_CHARS = 400;

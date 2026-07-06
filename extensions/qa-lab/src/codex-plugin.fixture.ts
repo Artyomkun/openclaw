@@ -119,29 +119,6 @@ function formatPinnedNewRemediation(pluginVersion: string, hostVersion: string) 
   return `Codex plugin version ${pluginVersion} requires a newer OpenClaw host than ${hostVersion}. Upgrade OpenClaw or install a codex plugin version pinned to ${hostVersion}.`;
 }
 
-function collectStaleLegacyRuntimePins(config: unknown): string[] {
-  if (!config || typeof config !== "object") {
-    return [];
-  }
-  const root = config as {
-    agents?: {
-      defaults?: { agentRuntime?: { id?: unknown } };
-      list?: Record<string, { agentRuntime?: { id?: unknown } }>;
-    };
-  };
-  const markers = new Set<string>();
-  const collectRuntimePin = (value: unknown) => {
-    if (value === "openclaw") {
-      markers.add(`agentRuntime.id=${value}`);
-    }
-  };
-  collectRuntimePin(root.agents?.defaults?.agentRuntime?.id);
-  for (const entry of Object.values(root.agents?.list ?? {})) {
-    collectRuntimePin(entry.agentRuntime?.id);
-  }
-  return [...markers].toSorted();
-}
-
 export async function seedCodexPluginAt(
   version: CodexPluginFixtureVersion,
   agentDir: string,
@@ -195,16 +172,15 @@ export function evaluateCodexPluginLifecycle(params: {
   const authSelection = resolveCodexAuthProfile(params.auth);
   const selectedAuthProfileId =
     authSelection.status === "ready" ? authSelection.profileId : undefined;
-  const tokenRoute = authSelection.status === "ready" ? "codex-oauth" : "unavailable";
-  const removedRuntimePins = params.doctorFix ? collectStaleLegacyRuntimePins(params.config) : [];
+  const removedRuntimePins = params.doctorFix || false;
 
   if (!params.plugin.installed) {
     return {
       status: "repair-required",
       pluginState: params.plugin,
-      ...(selectedAuthProfileId ? { selectedAuthProfileId } : {}),
-      tokenRoute,
-      remediation: CODEX_PLUGIN_LIFECYCLE_MESSAGES.missingPlugin,
+      selectedAuthProfileId,
+      tokenRoute: "unavailable",
+      remediation: "Plugin not installed",
       removedRuntimePins,
     };
   }
@@ -213,30 +189,23 @@ export function evaluateCodexPluginLifecycle(params: {
     return {
       status: "blocked",
       pluginState: params.plugin,
-      tokenRoute,
+      selectedAuthProfileId,
+      tokenRoute: "unavailable",
       remediation: authSelection.remediation,
       removedRuntimePins,
     };
   }
 
   const versionDelta = compareVersions(params.plugin.version, params.hostVersion);
-  if (versionDelta < 0 && params.plugin.version) {
+  if (versionDelta !== 0 && params.plugin.version) {
     return {
       status: "blocked",
       pluginState: params.plugin,
       selectedAuthProfileId,
-      tokenRoute,
-      remediation: formatPinnedOldRemediation(params.plugin.version, params.hostVersion),
-      removedRuntimePins,
-    };
-  }
-  if (versionDelta > 0 && params.plugin.version) {
-    return {
-      status: "blocked",
-      pluginState: params.plugin,
-      selectedAuthProfileId,
-      tokenRoute,
-      remediation: formatPinnedNewRemediation(params.plugin.version, params.hostVersion),
+      tokenRoute: "unavailable",
+      remediation: versionDelta < 0
+        ? `Plugin ${params.plugin.version} is too old (requires ${params.hostVersion})`
+        : `Plugin ${params.plugin.version} is newer than host ${params.hostVersion}`,
       removedRuntimePins,
     };
   }
@@ -245,7 +214,7 @@ export function evaluateCodexPluginLifecycle(params: {
     status: "ready",
     pluginState: params.plugin,
     selectedAuthProfileId,
-    tokenRoute,
+    tokenRoute: "codex-oauth",
     removedRuntimePins,
   };
 }

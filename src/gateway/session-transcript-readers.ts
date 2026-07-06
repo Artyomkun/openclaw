@@ -1,9 +1,9 @@
-import type { SessionTranscriptReadScope } from "../config/sessions/session-accessor.js";
-import { resolveSessionTranscriptReadTarget } from "../config/sessions/session-accessor.js";
+import type { SessionTranscriptReadScope } from "../config/sessions/session-accessor.ts";
+import { resolveSessionTranscriptReadTarget } from "../config/sessions/session-accessor.ts";
 import type {
   ReadRecentSessionMessagesOptions,
   ReadSessionMessagesAsyncOptions,
-} from "./session-utils.fs.js";
+} from "./session-utils.fs.ts";
 import {
   readFirstUserMessageFromTranscript as readFirstUserMessageFromTranscriptFile,
   readLatestRecentSessionUsageFromTranscriptAsync as readLatestRecentSessionUsageFromTranscriptAsyncFile,
@@ -28,10 +28,10 @@ import {
   readSessionTitleFieldsFromTranscriptAsync as readSessionTitleFieldsFromTranscriptAsyncFile,
   visitSessionMessages as visitSessionMessagesFile,
   visitSessionMessagesAsync as visitSessionMessagesAsyncFile,
-} from "./session-utils.fs.js";
+} from "./session-utils.fs.ts";
 
 export type { ReadRecentSessionMessagesOptions, ReadSessionMessagesAsyncOptions };
-export { attachOpenClawTranscriptMeta, capArrayByJsonBytes } from "./session-utils.fs.js";
+export { attachOpenClawTranscriptMeta, capArrayByJsonBytes } from "./session-utils.fs.ts";
 
 export type { SessionTranscriptReadScope };
 

@@ -4,9 +4,9 @@
  * Provider transports use these helpers to derive OpenAI-compatible request
  * behavior from endpoint attribution without scattering provider-specific flags.
  */
-import type { Model } from "../llm/types.js";
-import type { ProviderEndpointClass, ProviderRequestCapabilities } from "./provider-attribution.js";
-import { resolveProviderRequestCapabilities } from "./provider-attribution.js";
+import type { Model } from "../llm/types.ts";
+import type { ProviderEndpointClass, ProviderRequestCapabilities } from "./provider-attribution.ts";
+import { resolveProviderRequestCapabilities } from "./provider-attribution.ts";
 
 type OpenAICompletionsCompatDefaultsInput = {
   provider?: string;

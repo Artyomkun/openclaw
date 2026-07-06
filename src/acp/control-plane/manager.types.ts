@@ -13,15 +13,15 @@ import type {
   AcpSessionRuntimeOptions,
   SessionAcpMeta,
   SessionEntry,
-} from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { AcpRuntimeError } from "../runtime/errors.js";
-import { getAcpRuntimeBackend, requireAcpRuntimeBackend } from "../runtime/registry.js";
+} from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { AcpRuntimeError } from "../runtime/errors.ts";
+import { getAcpRuntimeBackend, requireAcpRuntimeBackend } from "../runtime/registry.ts";
 import {
   listAcpSessionEntries,
   readAcpSessionEntry,
   upsertAcpSessionMeta,
-} from "../runtime/session-meta.js";
+} from "../runtime/session-meta.ts";
 
 /** Result of resolving persisted ACP metadata for a session key. */
 export type AcpSessionResolution =

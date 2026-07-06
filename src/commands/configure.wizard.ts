@@ -3,38 +3,38 @@ import fsPromises from "node:fs/promises";
 import nodePath from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { describeCodexNativeWebSearch } from "../agents/codex-native-web-search.shared.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { formatPortRangeHint } from "../cli/error-format.js";
-import { commitConfigWithPendingPluginInstalls } from "../cli/plugins-install-record-commit.js";
-import { parsePort } from "../cli/shared/parse-port.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { describeCodexNativeWebSearch } from "../agents/codex-native-web-search.shared.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { formatPortRangeHint } from "../cli/error-format.ts";
+import { commitConfigWithPendingPluginInstalls } from "../cli/plugins-install-record-commit.ts";
+import { parsePort } from "../cli/shared/parse-port.ts";
 import {
   createConfigIO,
   readConfigFileSnapshotForWrite,
   resolveGatewayPort,
-} from "../config/config.js";
-import { logConfigUpdated } from "../config/logging.js";
-import { ConfigMutationConflictError } from "../config/mutate.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
-import { resolvePluginContributionOwners } from "../plugins/plugin-registry.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { isPlainObject, resolveUserPath } from "../utils.js";
-import { createClackPrompter } from "../wizard/clack-prompter.js";
-import { WizardCancelledError } from "../wizard/prompts.js";
-import { resolveSetupSecretInputString } from "../wizard/setup.secret-input.js";
-import { removeChannelConfigWizard } from "./configure.channels.js";
-import { maybeInstallDaemon } from "./configure.daemon.js";
-import { promptAuthConfig } from "./configure.gateway-auth.js";
-import { promptGatewayConfig } from "./configure.gateway.js";
+} from "../config/config.ts";
+import { logConfigUpdated } from "../config/logging.ts";
+import { ConfigMutationConflictError } from "../config/mutate.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.ts";
+import { resolvePluginContributionOwners } from "../plugins/plugin-registry.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { isPlainObject, resolveUserPath } from "../utils.ts";
+import { createClackPrompter } from "../wizard/clack-prompter.ts";
+import { WizardCancelledError } from "../wizard/prompts.ts";
+import { resolveSetupSecretInputString } from "../wizard/setup.secret-input.ts";
+import { removeChannelConfigWizard } from "./configure.channels.ts";
+import { maybeInstallDaemon } from "./configure.daemon.ts";
+import { promptAuthConfig } from "./configure.gateway-auth.ts";
+import { promptGatewayConfig } from "./configure.gateway.ts";
 import type {
   ChannelsWizardMode,
   ConfigureWizardParams,
   WizardSection,
-} from "./configure.shared.js";
+} from "./configure.shared.ts";
 import {
   CONFIGURE_SECTION_OPTIONS,
   confirm,
@@ -42,10 +42,10 @@ import {
   outro,
   select,
   text,
-} from "./configure.shared.js";
-import { formatHealthCheckFailure } from "./health-format.js";
-import { healthCommand } from "./health.js";
-import { setupChannels } from "./onboard-channels.js";
+} from "./configure.shared.ts";
+import { formatHealthCheckFailure } from "./health-format.ts";
+import { healthCommand } from "./health.ts";
+import { setupChannels } from "./onboard-channels.ts";
 import {
   applyWizardMetadata,
   DEFAULT_WORKSPACE,
@@ -55,10 +55,10 @@ import {
   resolveControlUiLinks,
   summarizeExistingConfig,
   waitForGatewayReachable,
-} from "./onboard-helpers.js";
-import { promptRemoteGatewayConfig } from "./onboard-remote.js";
-import { setupSkills } from "./onboard-skills.js";
-import type { OnboardMode } from "./onboard-types.js";
+} from "./onboard-helpers.ts";
+import { promptRemoteGatewayConfig } from "./onboard-remote.ts";
+import { setupSkills } from "./onboard-skills.ts";
+import type { OnboardMode } from "./onboard-types.ts";
 
 type ConfigureSectionChoice = WizardSection | "__continue";
 type SetupPluginConfigModule = typeof import("../wizard/setup.plugin-config.js");

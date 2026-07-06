@@ -6,16 +6,15 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
-import { openRootFileSync } from "../../infra/boundary-file-read.js";
-import { isJavaScriptModulePath } from "../../plugins/native-module-require.js";
+import { isJavaScriptModulePath } from "../../plugins/native-module-require.ts";
 import {
   getCachedPluginModuleLoader,
   type PluginModuleLoaderCache,
   type PluginModuleLoaderFactory,
-} from "../../plugins/plugin-module-loader-cache.js";
+} from "../../plugins/plugin-module-loader-cache.ts";
 
 const nodeRequire = createRequire(import.meta.url);
-const SOURCE_MODULE_EXTENSIONS = new Set([".ts", ".tsx", ".mts", ".cts"]);
+const SOURCE_MODULE_EXTENSIONS = new Set([".ts", ".tsx", ".ts"]);
 const jitiLoaders: PluginModuleLoaderCache = new Map();
 let channelPluginModuleLoaderFactoryForTest: PluginModuleLoaderFactory | undefined;
 
@@ -89,11 +88,10 @@ function resolvePluginModuleCandidates(rootDir: string, specifier: string): stri
   return [
     resolvedPath,
     `${resolvedPath}.ts`,
-    `${resolvedPath}.mts`,
+    `${resolvedPath}.ts`,
     `${resolvedPath}.js`,
-    `${resolvedPath}.mjs`,
-    `${resolvedPath}.cts`,
-    `${resolvedPath}.cjs`,
+    `${resolvedPath}.ts`,
+    `${resolvedPath}.ts`,
   ];
 }
 

@@ -1,14 +1,14 @@
 // Tracks host hook state and scheduled turn identifiers.
 import { randomUUID } from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { SessionEntry } from "../config/sessions.js";
+import type { SessionEntry } from "../config/sessions.ts";
 import {
   resolveSessionEntryAccessTarget,
   updateResolvedSessionEntry,
-} from "../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-export { clearPluginOwnedSessionState } from "./host-hook-cleanup.js";
+} from "../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+export { clearPluginOwnedSessionState } from "./host-hook-cleanup.ts";
 import {
   buildPluginAgentTurnPrepareContext,
   isPluginJsonValue,
@@ -19,9 +19,9 @@ import {
   type PluginNextTurnInjectionRecord,
   type PluginSessionExtensionProjection,
   type PluginSessionExtensionRegistration,
-} from "./host-hooks.js";
-import { getActivePluginRegistry, getActivePluginSessionExtensionRegistry } from "./runtime.js";
-import { normalizeSessionEntrySlotKey } from "./session-entry-slot-keys.js";
+} from "./host-hooks.ts";
+import { getActivePluginRegistry, getActivePluginSessionExtensionRegistry } from "./runtime.ts";
+import { normalizeSessionEntrySlotKey } from "./session-entry-slot-keys.ts";
 
 const log = createSubsystemLogger("plugins/host-hook-state");
 const PROJECTION_FAILED = Symbol("plugin-session-extension-projection-failed");

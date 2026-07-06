@@ -49,11 +49,6 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if ! command -v uv >/dev/null 2>&1; then
-  echo "uv required but missing." >&2
-  exit 1
-fi
-
 if ! command -v adb >/dev/null 2>&1; then
   echo "adb required but missing." >&2
   exit 1
@@ -100,43 +95,6 @@ children_txt="$tmp_dir/children.txt"
 
 cd "$ANDROID_DIR"
 ./gradlew :app:installDebug --console=plain >"$tmp_dir/install.log" 2>&1
-
-if ! uv run --no-project python3 "$app_profiler" \
-  -p "$PACKAGE" \
-  -a "$ACTIVITY" \
-  -o "$OUTPUT_PERF_DATA" \
-  --ndk_path "$ndk_path" \
-  -r "-e task-clock:u -f 1000 -g --duration $DURATION_SECONDS" \
-  >"$capture_log" 2>&1; then
-  echo "simpleperf capture failed. tail(capture_log):" >&2
-  tail -n 120 "$capture_log" >&2
-  exit 1
-fi
-
-uv run --no-project python3 "$report_py" \
-  -i "$OUTPUT_PERF_DATA" \
-  --sort dso \
-  --csv \
-  --csv-separator "|" \
-  --include-process-name "$PACKAGE" \
-  >"$dso_csv" 2>"$tmp_dir/report-dso.err"
-
-uv run --no-project python3 "$report_py" \
-  -i "$OUTPUT_PERF_DATA" \
-  --sort dso,symbol \
-  --csv \
-  --csv-separator "|" \
-  --include-process-name "$PACKAGE" \
-  >"$symbols_csv" 2>"$tmp_dir/report-symbols.err"
-
-uv run --no-project python3 "$report_py" \
-  -i "$OUTPUT_PERF_DATA" \
-  --children \
-  --sort dso,symbol \
-  -n \
-  --percent-limit 0.2 \
-  --include-process-name "$PACKAGE" \
-  >"$children_txt" 2>"$tmp_dir/report-children.err"
 
 clean_csv() {
   awk 'BEGIN{print_on=0} /^Overhead\|/{print_on=1} print_on==1{print}' "$1"

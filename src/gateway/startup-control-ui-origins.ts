@@ -3,9 +3,9 @@
 import {
   ensureControlUiAllowedOriginsForNonLoopbackBind,
   type GatewayNonLoopbackBindMode,
-} from "../config/gateway-control-ui-origins.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isContainerEnvironment } from "./net.js";
+} from "../config/gateway-control-ui-origins.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isContainerEnvironment } from "./net.ts";
 
 /**
  * Seeds runtime-only Control UI origins when a non-loopback gateway bind would

@@ -1,6 +1,6 @@
 // Health check types define doctor checks, results, and repair metadata.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { RuntimeEnv } from "../runtime.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 
 // Public doctor health contracts shared by core checks, plugin checks, lint, and repair.
 export type HealthFindingSeverity = "info" | "warning" | "error";

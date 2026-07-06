@@ -7,18 +7,18 @@ import {
   readResponseTextSnippet,
   readResponseWithLimit,
 } from "@openclaw/media-core/read-response-with-limit";
-import { formatErrorMessage, toErrorObject } from "../infra/errors.js";
+import { formatErrorMessage, toErrorObject } from "../infra/errors.ts";
 import {
   fetchWithSsrFGuard,
   withStrictGuardedFetchMode,
   withTrustedExplicitProxyGuardedFetchMode,
-} from "../infra/net/fetch-guard.js";
-import type { LookupFn, PinnedDispatcherPolicy, SsrFPolicy } from "../infra/net/ssrf.js";
-import { retryAsync, type RetryOptions } from "../infra/retry.js";
-import { isAbortError, isTransientNetworkError } from "../infra/unhandled-rejections.js";
-import { redactSensitiveText } from "../logging/redact.js";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
-import { saveMediaBuffer, saveMediaStream, type SavedMedia } from "./store.js";
+} from "../infra/net/fetch-guard.ts";
+import type { LookupFn, PinnedDispatcherPolicy, SsrFPolicy } from "../infra/net/ssrf.ts";
+import { retryAsync, type RetryOptions } from "../infra/retry.ts";
+import { isAbortError, isTransientNetworkError } from "../infra/unhandled-rejections.ts";
+import { redactSensitiveText } from "../logging/redact.ts";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import { saveMediaBuffer, saveMediaStream, type SavedMedia } from "./store.ts";
 
 /** Default remote media fetch cap shared by buffer reads and store writes. */
 export const DEFAULT_FETCH_MEDIA_MAX_BYTES = MAX_DOCUMENT_BYTES;
@@ -631,9 +631,6 @@ async function saveRemoteMediaOnce(options: SaveRemoteMediaOptions): Promise<Sav
 export async function readRemoteMediaBuffer(options: FetchMediaOptions): Promise<FetchMediaResult> {
   return await withMediaFetchRetry(options, () => readRemoteMediaBufferOnce(options));
 }
-
-/** @deprecated Use `readRemoteMediaBuffer` for buffer reads or `saveRemoteMedia` for URL-to-store. */
-export const fetchRemoteMedia = readRemoteMediaBuffer;
 
 async function readRemoteMediaBufferOnce(options: FetchMediaOptions): Promise<FetchMediaResult> {
   const { response: res, finalUrl, release, sourceUrl } = await fetchGuardedMediaResponse(options);

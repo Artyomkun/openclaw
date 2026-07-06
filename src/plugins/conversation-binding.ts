@@ -4,41 +4,37 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ReplyPayload } from "../auto-reply/reply-payload.js";
+import type { ReplyPayload } from "../auto-reply/reply-payload.ts";
 import {
   createConversationBindingRecord,
   resolveConversationBindingRecord,
   unbindConversationBindingRecord,
-} from "../bindings/records.js";
-import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { executeSqliteQuerySync, getNodeSqliteKysely } from "../infra/kysely-sync.js";
-import type { ConversationRef } from "../infra/outbound/session-binding-service.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveGlobalMap, resolveGlobalSingleton } from "../shared/global-singleton.js";
-import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.js";
+} from "../bindings/records.ts";
+import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { executeSqliteQuerySync, getNodeSqliteKysely } from "../infra/kysely-sync.ts";
+import type { ConversationRef } from "../infra/outbound/session-binding-service.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveGlobalMap, resolveGlobalSingleton } from "../shared/global-singleton.ts";
+import type { DB as OpenClawStateKyselyDatabase } from "../state/openclaw-state-db.generated.ts";
 import {
   openOpenClawStateDatabase,
   runOpenClawStateWriteTransaction,
-} from "../state/openclaw-state-db.js";
+} from "../state/openclaw-state-db.ts";
 import type {
   PluginConversationBinding,
   PluginConversationBindingResolvedEvent,
   PluginConversationBindingResolutionDecision,
   PluginConversationBindingRequestParams,
   PluginConversationBindingRequestResult,
-} from "./conversation-binding.types.js";
-import { getActivePluginRegistry } from "./runtime.js";
+} from "./conversation-binding.types.ts";
+import { getActivePluginRegistry } from "./runtime.ts";
 
 const log = createSubsystemLogger("plugins/binding");
 
 const PLUGIN_BINDING_CUSTOM_ID_PREFIX = "pluginbind";
 const PLUGIN_BINDING_OWNER = "plugin";
 const PLUGIN_BINDING_SESSION_PREFIX = "plugin-binding";
-const LEGACY_CODEX_PLUGIN_SESSION_PREFIXES = [
-  "openclaw-app-server:thread:",
-  "openclaw-codex-app-server:thread:",
-] as const;
 
 // Runtime plugin conversation bindings are approval-driven and distinct from
 // configured channel bindings compiled from config.
@@ -139,7 +135,6 @@ type PluginConversationBindingState = {
     | null
     | undefined;
   binding: PluginConversationBinding | null;
-  isLegacyForeignBinding: boolean;
 };
 
 const pluginBindingGlobalStateKey = Symbol.for("openclaw.plugins.binding.global-state");
@@ -255,7 +250,6 @@ function buildPluginBindingIdentity(params: PluginBindingIdentity): PluginBindin
 
 function logPluginBindingLifecycleEvent(params: {
   event:
-    | "migrating legacy record"
     | "auto-refresh"
     | "auto-approved"
     | "requested"
@@ -279,25 +273,6 @@ function logPluginBindingLifecycleEvent(params: {
     `conversation=${params.conversationId}`,
   ];
   log.info(parts.join(" "));
-}
-
-function isLegacyPluginBindingRecord(params: {
-  record:
-    | {
-        targetSessionKey: string;
-        metadata?: Record<string, unknown>;
-      }
-    | null
-    | undefined;
-}): boolean {
-  if (!params.record || isPluginOwnedBindingMetadata(params.record.metadata)) {
-    return false;
-  }
-  const targetSessionKey = params.record.targetSessionKey.trim();
-  return (
-    targetSessionKey.startsWith(`${PLUGIN_BINDING_SESSION_PREFIX}:`) ||
-    LEGACY_CODEX_PLUGIN_SESSION_PREFIXES.some((prefix) => targetSessionKey.startsWith(prefix))
-  );
 }
 
 function buildApprovalInteractiveReply(
@@ -538,7 +513,6 @@ function resolvePluginConversationBindingState(params: {
     ref,
     record,
     binding,
-    isLegacyForeignBinding: isLegacyPluginBindingRecord({ record }),
   };
 }
 
@@ -767,24 +741,6 @@ export async function requestPluginConversationBinding(params: {
   const state = resolvePluginConversationBindingState({
     conversation,
   });
-  if (state.record && !state.binding) {
-    if (state.isLegacyForeignBinding) {
-      logPluginBindingLifecycleEvent({
-        event: "migrating legacy record",
-        pluginId: params.pluginId,
-        pluginRoot: params.pluginRoot,
-        channel: state.ref.channel,
-        accountId: state.ref.accountId,
-        conversationId: state.ref.conversationId,
-      });
-    } else {
-      return {
-        status: "error",
-        message:
-          "This conversation is already bound by core routing and cannot be claimed by a plugin.",
-      };
-    }
-  }
   if (state.binding && state.binding.pluginRoot !== params.pluginRoot) {
     return {
       status: "error",

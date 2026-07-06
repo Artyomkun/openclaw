@@ -1,26 +1,26 @@
 // Public library facade for consumers embedding OpenClaw reply runtime APIs.
-import type { getReplyFromConfig as getReplyFromConfigRuntime } from "./auto-reply/reply.runtime.js";
-import { applyTemplate } from "./auto-reply/templating.js";
-import { createDefaultDeps } from "./cli/deps.js";
-import type { promptYesNo as promptYesNoRuntime } from "./cli/prompt.js";
-import { waitForever } from "./cli/wait.js";
-import { loadConfig } from "./config/config.js";
-import { resolveStorePath } from "./config/sessions/paths.js";
-import { deriveSessionKey, resolveSessionKey } from "./config/sessions/session-key.js";
-import { loadSessionStore, saveSessionStore } from "./config/sessions/store.js";
-import type { ensureBinary as ensureBinaryRuntime } from "./infra/binaries.js";
+import type { getReplyFromConfig as getReplyFromConfigRuntime } from "./auto-reply/reply.runtime.ts";
+import { applyTemplate } from "./auto-reply/templating.ts";
+import { createDefaultDeps } from "./cli/deps.ts";
+import type { promptYesNo as promptYesNoRuntime } from "./cli/prompt.ts";
+import { waitForever } from "./cli/wait.ts";
+import { loadConfig } from "./config/config.ts";
+import { resolveStorePath } from "./config/sessions/paths.ts";
+import { deriveSessionKey, resolveSessionKey } from "./config/sessions/session-key.ts";
+import { loadSessionStore, saveSessionStore } from "./config/sessions/store.ts";
+import type { ensureBinary as ensureBinaryRuntime } from "./infra/binaries.ts";
 import {
   describePortOwner,
   ensurePortAvailable,
   handlePortError,
   PortInUseError,
-} from "./infra/ports.js";
-import type { monitorWebChannel as monitorWebChannelRuntime } from "./plugins/runtime/runtime-web-channel-plugin.js";
+} from "./infra/ports.ts";
+import type { monitorWebChannel as monitorWebChannelRuntime } from "./plugins/runtime/runtime-web-channel-plugin.ts";
 import type {
   runCommandWithTimeout as runCommandWithTimeoutRuntime,
   runExec as runExecRuntime,
-} from "./process/exec.js";
-import { normalizeE164 } from "./utils.js";
+} from "./process/exec.ts";
+import { normalizeE164 } from "./utils.ts";
 
 type GetReplyFromConfig = typeof getReplyFromConfigRuntime;
 type PromptYesNo = typeof promptYesNoRuntime;

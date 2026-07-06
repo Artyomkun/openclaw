@@ -1,18 +1,18 @@
 /** Runtime-loaded channel target helpers used by cron delivery resolution. */
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { resolveOutboundChannelPlugin } from "../../infra/outbound/channel-resolution.js";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { resolveOutboundChannelPlugin } from "../../infra/outbound/channel-resolution.ts";
 import {
   resolveOutboundSessionRoute,
   type OutboundSessionRoute,
-} from "../../infra/outbound/outbound-session.js";
+} from "../../infra/outbound/outbound-session.ts";
 import {
   resolveChannelTarget,
   type ResolvedMessagingTarget,
-} from "../../infra/outbound/target-resolver.js";
-export { getLoadedChannelPluginForRead } from "../../channels/plugins/registry-loaded-read.js";
-export { mapAllowFromEntries } from "../../plugin-sdk/channel-config-helpers.js";
-export { resolveFirstBoundAccountId } from "../../routing/bound-account-read.js";
+} from "../../infra/outbound/target-resolver.ts";
+export { getLoadedChannelPluginForRead } from "../../channels/plugins/registry-loaded-read.ts";
+export { mapAllowFromEntries } from "../../plugin-sdk/channel-config-helpers.ts";
+export { resolveFirstBoundAccountId } from "../../routing/bound-account-read.ts";
 
 /** Resolves a cron delivery target through channel plugins with bootstrap allowed. */
 export async function resolveChannelTargetForDelivery(params: {

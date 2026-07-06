@@ -9,11 +9,11 @@ import {
   normalizeOptionalString,
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getPairingAdapter } from "../channels/plugins/pairing.js";
-import type { ChannelPairingAdapter } from "../channels/plugins/pairing.types.js";
-import { withFileLock as withPathLock } from "../infra/file-lock.js";
-import { readJsonFileWithFallback, writeJsonFileAtomically } from "../plugin-sdk/json-store.js";
-import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.js";
+import { getPairingAdapter } from "../channels/plugins/pairing.ts";
+import type { ChannelPairingAdapter } from "../channels/plugins/pairing.types.ts";
+import { withFileLock as withPathLock } from "../infra/file-lock.ts";
+import { readJsonFileWithFallback, writeJsonFileAtomically } from "../plugin-sdk/json-store.ts";
+import { DEFAULT_ACCOUNT_ID } from "../routing/session-key.ts";
 import {
   clearAllowFromFileReadCacheForNamespace,
   dedupePreserveOrder,
@@ -24,11 +24,10 @@ import {
   resolvePairingCredentialsDir,
   safeChannelKey,
   setAllowFromFileReadCache,
-  shouldIncludeLegacyAllowFromEntries,
   type AllowFromStore,
-} from "./allow-from-store-file.js";
-import type { PairingChannel } from "./pairing-store.types.js";
-export type { PairingChannel } from "./pairing-store.types.js";
+} from "./allow-from-store-file.ts";
+import type { PairingChannel } from "./pairing-store.types.ts";
+export type { PairingChannel } from "./pairing-store.types.ts";
 
 const PAIRING_CODE_LENGTH = 8;
 const PAIRING_CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -446,43 +445,15 @@ async function updateAllowFromStoreEntry(params: {
   );
 }
 
-export async function readLegacyChannelAllowFromStore(
-  channel: PairingChannel,
-  env: NodeJS.ProcessEnv = process.env,
-): Promise<string[]> {
-  const filePath = resolveAllowFromFilePath(channel, env);
-  return await readAllowFromStateForPath(channel, filePath);
-}
-
 export async function readChannelAllowFromStore(
   channel: PairingChannel,
   env: NodeJS.ProcessEnv = process.env,
   accountId?: string,
 ): Promise<string[]> {
   const resolvedAccountId = resolveAllowFromAccountId(accountId);
-
-  if (!shouldIncludeLegacyAllowFromEntries(resolvedAccountId)) {
-    return await readNonDefaultAccountAllowFrom({
-      channel,
-      env,
-      accountId: resolvedAccountId,
-    });
-  }
   const scopedPath = resolveAllowFromFilePath(channel, env, resolvedAccountId);
   const scopedEntries = await readAllowFromStateForPath(channel, scopedPath);
-  // Backward compatibility: legacy channel-level allowFrom store was unscoped.
-  // Keep honoring it for default account to prevent re-pair prompts after upgrades.
-  const legacyPath = resolveAllowFromFilePath(channel, env);
-  const legacyEntries = await readAllowFromStateForPath(channel, legacyPath);
-  return dedupePreserveOrder([...scopedEntries, ...legacyEntries]);
-}
-
-export function readLegacyChannelAllowFromStoreSync(
-  channel: PairingChannel,
-  env: NodeJS.ProcessEnv = process.env,
-): string[] {
-  const filePath = resolveAllowFromFilePath(channel, env);
-  return readAllowFromStateForPathSync(channel, filePath);
+  return dedupePreserveOrder([...scopedEntries]);
 }
 
 export function readChannelAllowFromStoreSync(
@@ -491,19 +462,9 @@ export function readChannelAllowFromStoreSync(
   accountId?: string,
 ): string[] {
   const resolvedAccountId = resolveAllowFromAccountId(accountId);
-
-  if (!shouldIncludeLegacyAllowFromEntries(resolvedAccountId)) {
-    return readNonDefaultAccountAllowFromSync({
-      channel,
-      env,
-      accountId: resolvedAccountId,
-    });
-  }
   const scopedPath = resolveAllowFromFilePath(channel, env, resolvedAccountId);
   const scopedEntries = readAllowFromStateForPathSync(channel, scopedPath);
-  const legacyPath = resolveAllowFromFilePath(channel, env);
-  const legacyEntries = readAllowFromStateForPathSync(channel, legacyPath);
-  return dedupePreserveOrder([...scopedEntries, ...legacyEntries]);
+  return dedupePreserveOrder([...scopedEntries]);
 }
 
 export function clearPairingAllowFromReadCacheForTest(): void {

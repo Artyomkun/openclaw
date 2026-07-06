@@ -3,8 +3,8 @@ import {
   buildRestartSuccessContinuation,
   formatDoctorNonInteractiveHint,
   type RestartSentinelPayload,
-} from "./restart-sentinel.js";
-import type { UpdateRunResult } from "./update-runner.js";
+} from "./restart-sentinel.ts";
+import type { UpdateRunResult } from "./update-runner.ts";
 
 // Update restart sentinel payloads carry update result details across a process
 // restart so the next gateway can report completion or failure.

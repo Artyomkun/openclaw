@@ -3,13 +3,13 @@
  *
  * Builds status and text-input helpers for channel setup flows that need local binaries.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { detectBinary as defaultDetectBinary } from "../../infra/detect-binary.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { detectBinary as defaultDetectBinary } from "../../infra/detect-binary.ts";
 import type {
   ChannelSetupWizard,
   ChannelSetupWizardStatus,
   ChannelSetupWizardTextInput,
-} from "./setup-wizard.js";
+} from "./setup-wizard.ts";
 
 type SetupTextInputParams = Parameters<NonNullable<ChannelSetupWizardTextInput["currentValue"]>>[0];
 type SetupStatusParams = Parameters<NonNullable<ChannelSetupWizardStatus["resolveStatusLines"]>>[0];

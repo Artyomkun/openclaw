@@ -1,13 +1,13 @@
 /**
  * Codex CLI and app-server bundle MCP projection helpers.
  */
-import { normalizeConfiguredMcpServers } from "../../config/mcp-config-normalize.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { BundleMcpConfig, BundleMcpServerConfig } from "../../plugins/bundle-mcp.js";
-import { isValidAgentId, normalizeAgentId } from "../../routing/session-key.js";
-import { buildCodexMcpServersConfig, normalizeCodexMcpServerConfig } from "../codex-mcp-config.js";
-import { isRecord } from "./bundle-mcp-adapter-shared.js";
-import { serializeTomlInlineValue } from "./toml-inline.js";
+import { normalizeConfiguredMcpServers } from "../../config/mcp-config-normalize.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { BundleMcpConfig, BundleMcpServerConfig } from "../../plugins/bundle-mcp.ts";
+import { isValidAgentId, normalizeAgentId } from "../../routing/session-key.ts";
+import { buildCodexMcpServersConfig, normalizeCodexMcpServerConfig } from "../codex-mcp-config.ts";
+import { isRecord } from "./bundle-mcp-adapter-shared.ts";
+import { serializeTomlInlineValue } from "./toml-inline.ts";
 
 // Mutable JSON shape structurally compatible with the bundled Codex
 // app-server thread-config JsonObject (see the protocol module in the codex

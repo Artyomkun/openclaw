@@ -1,5 +1,5 @@
 /** Types for plugin-requested bindings to external channel conversations. */
-import type { ReplyPayload } from "../auto-reply/reply-payload.js";
+import type { ReplyPayload } from "../auto-reply/reply-payload.ts";
 
 /** Plugin-supplied context for requesting a channel conversation binding. */
 export type PluginConversationBindingRequestParams = {

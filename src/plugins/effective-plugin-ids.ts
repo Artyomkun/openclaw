@@ -4,18 +4,18 @@ import { sortUniqueStrings } from "@openclaw/normalization-core/string-normaliza
 import {
   listExplicitlyDisabledChannelIdsForConfig,
   listPotentialConfiguredChannelIds,
-} from "../channels/config-presence.js";
-import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../channels/config-presence.ts";
+import { applyPluginAutoEnable } from "../config/plugin-auto-enable.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   listExplicitConfiguredChannelIdsForConfig,
   loadGatewayStartupPluginPlan,
   resolveConfiguredChannelPluginIds,
-} from "./channel-plugin-ids.js";
-import { normalizePluginsConfig } from "./config-state.js";
-import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.js";
-import { passesManifestOwnerBasePolicy } from "./manifest-owner-policy.js";
-import { defaultSlotIdForKey } from "./slots.js";
+} from "./channel-plugin-ids.ts";
+import { normalizePluginsConfig } from "./config-state.ts";
+import { loadManifestMetadataSnapshot } from "./manifest-contract-eligibility.ts";
+import { passesManifestOwnerBasePolicy } from "./manifest-owner-policy.ts";
+import { defaultSlotIdForKey } from "./slots.ts";
 
 function collectConfiguredChannelIds(
   config: OpenClawConfig,

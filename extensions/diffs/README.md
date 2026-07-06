@@ -75,7 +75,7 @@ Useful options:
 - `baseUrl`: override the gateway base URL used in the returned viewer link (origin or origin+base path only; no query/hash)
 - `viewerBaseUrl` plugin config: persistent fallback used when a tool call omits `baseUrl`
 
-Legacy input aliases still accepted for backward compatibility:
+Input aliases for backward compatibility:
 
 - `format` -> `fileFormat`
 - `imageFormat` -> `fileFormat`

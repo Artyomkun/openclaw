@@ -1,10 +1,10 @@
 // Crestodian command registration: setup/repair assistant entrypoint exposed from the root CLI.
 import type { Command } from "commander";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { runCrestodian } from "../../crestodian/crestodian.js";
-import { defaultRuntime } from "../../runtime.js";
-import { runCommandWithRuntime } from "../cli-utils.js";
-import { formatHelpExamples } from "../help-format.js";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { runCrestodian } from "../../crestodian/crestodian.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { runCommandWithRuntime } from "../cli-utils.ts";
+import { formatHelpExamples } from "../help-format.ts";
 
 /** Register the Crestodian helper command and its one-shot request flags. */
 export function registerCrestodianCommand(program: Command) {

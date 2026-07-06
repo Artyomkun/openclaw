@@ -378,7 +378,7 @@ jobs:
             artifact_dir=".artifacts/package-candidate-input"
           fi
 
-          node scripts/resolve-openclaw-package-candidate.mjs \
+          node scripts/resolve-openclaw-package-candidate.ts \
             --source "$SOURCE" \
             --package-ref "$PACKAGE_REF" \
             --package-spec "$PACKAGE_SPEC" \
@@ -489,7 +489,7 @@ jobs:
               --pre-date 2026-03-15T00:00:00Z
             )
           fi
-          node scripts/resolve-upgrade-survivor-baselines.mjs "${args[@]}" >/dev/null
+          node scripts/resolve-upgrade-survivor-baselines.ts "${args[@]}" >/dev/null
 
       - name: Upload package-under-test artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -558,7 +558,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node scripts/check-openclaw-package-tarball.mjs .artifacts/docker-e2e-package/openclaw-current.tgz
+          node scripts/check-openclaw-package-tarball.ts .artifacts/docker-e2e-package/openclaw-current.tgz
 
   docker_acceptance:
     name: Docker product acceptance

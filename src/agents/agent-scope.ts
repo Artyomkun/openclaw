@@ -1,35 +1,35 @@
 /** Higher-level agent scope helpers for model selection, fallbacks, skills, and workspaces. */
 import fs from "node:fs";
 import path from "node:path";
-import { resolveAgentModelFallbackValues } from "../config/model-input.js";
-import { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.js";
-export { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.js";
+import { resolveAgentModelFallbackValues } from "../config/model-input.ts";
+import { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.ts";
+export { hasSessionAutoModelFallbackProvenance } from "../config/sessions/model-override-provenance.ts";
 import {
   lowercasePreservingWhitespace,
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
   resolvePrimaryStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { AgentDefaultsConfig } from "../config/types.agent-defaults.js";
-import type { AgentModelConfig } from "../config/types.agents-shared.js";
-import type { AgentConfig } from "../config/types.agents.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { isPathInside } from "../infra/path-guards.js";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { AgentDefaultsConfig } from "../config/types.agent-defaults.ts";
+import type { AgentModelConfig } from "../config/types.agents-shared.ts";
+import type { AgentConfig } from "../config/types.agents.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { isPathInside } from "../infra/path-guards.ts";
 import {
   isSubagentSessionKey,
   normalizeAgentId,
   parseAgentSessionKey,
   resolveAgentIdFromSessionKey,
-} from "../routing/session-key.js";
-import { resolveEffectiveAgentSkillFilter } from "../skills/discovery/agent-filter.js";
-import { resolveUserPath } from "../utils.js";
+} from "../routing/session-key.ts";
+import { resolveEffectiveAgentSkillFilter } from "../skills/discovery/agent-filter.ts";
+import { resolveUserPath } from "../utils.ts";
 import {
   listAgentIds,
   resolveAgentConfig,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "./agent-scope-config.js";
+} from "./agent-scope-config.ts";
 export {
   listAgentEntries,
   listAgentIds,
@@ -40,7 +40,7 @@ export {
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
   type ResolvedAgentConfig,
-} from "./agent-scope-config.js";
+} from "./agent-scope-config.ts";
 
 /** Strip null bytes from paths to prevent ENOTDIR errors. */
 function stripNullBytes(s: string): string {
@@ -98,25 +98,6 @@ export type AutoFallbackPrimaryProbe = {
   fallbackAuthProfileId?: string;
   fallbackAuthProfileIdSource?: "auto" | "user";
 };
-
-/** Detects old auto-fallback session entries that lack primary-origin metadata. */
-export function hasLegacyAutoFallbackWithoutOrigin(
-  entry:
-    | Pick<
-        SessionEntry,
-        | "modelOverrideSource"
-        | "modelOverrideFallbackOriginProvider"
-        | "modelOverrideFallbackOriginModel"
-      >
-    | null
-    | undefined,
-): boolean {
-  return (
-    entry?.modelOverrideSource === "auto" &&
-    (!normalizeOptionalString(entry.modelOverrideFallbackOriginProvider) ||
-      !normalizeOptionalString(entry.modelOverrideFallbackOriginModel))
-  );
-}
 
 export function resolveAutoFallbackPrimaryProbe(params: {
   entry:
@@ -401,11 +382,6 @@ export function setAgentEffectiveModelPrimary(
   cfg.agents.defaults ??= {};
   cfg.agents.defaults.model = updateAgentModelPrimary(cfg.agents.defaults.model, primary);
   return "defaults";
-}
-
-/** @deprecated Prefer explicit/effective helpers at new call sites. */
-export function resolveAgentModelPrimary(cfg: OpenClawConfig, agentId: string): string | undefined {
-  return resolveAgentExplicitModelPrimary(cfg, agentId);
 }
 
 export function resolveAgentModelFallbacksOverride(

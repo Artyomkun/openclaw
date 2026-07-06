@@ -5,9 +5,9 @@ import {
   normalizeOptionalString,
   normalizeOptionalThreadValue,
 } from "@openclaw/normalization-core/string-coerce";
-import type { CronFailureDestinationConfig } from "../config/types.cron.js";
-import { resolveTargetPrefixedChannel } from "../infra/outbound/channel-target-prefix.js";
-import type { CronDelivery, CronDeliveryMode, CronJob, CronMessageChannel } from "./types.js";
+import type { CronFailureDestinationConfig } from "../config/types.cron.ts";
+import { resolveTargetPrefixedChannel } from "../infra/outbound/channel-target-prefix.ts";
+import type { CronDelivery, CronDeliveryMode, CronJob, CronMessageChannel } from "./types.ts";
 
 /** Normalized routing plan for a cron job's primary delivery behavior. */
 export type CronDeliveryPlan = {

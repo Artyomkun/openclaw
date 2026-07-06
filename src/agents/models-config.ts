@@ -10,36 +10,36 @@ import {
   getRuntimeConfigSourceSnapshot,
   projectConfigOntoRuntimeSourceSnapshot,
   type OpenClawConfig,
-} from "../config/config.js";
-import { createConfigRuntimeEnv } from "../config/env-vars.js";
-import { privateFileStore } from "../infra/private-file-store.js";
-import { resolveInstalledManifestRegistryIndexFingerprint } from "../plugins/manifest-registry-installed.js";
+} from "../config/config.ts";
+import { createConfigRuntimeEnv } from "../config/env-vars.ts";
+import { privateFileStore } from "../infra/private-file-store.ts";
+import { resolveInstalledManifestRegistryIndexFingerprint } from "../plugins/manifest-registry-installed.ts";
 import {
   resolvePluginMetadataSnapshot,
   type PluginMetadataSnapshot,
-} from "../plugins/plugin-metadata-snapshot.js";
+} from "../plugins/plugin-metadata-snapshot.ts";
 import {
   resolveAgentWorkspaceDir,
   resolveDefaultAgentDir,
   resolveDefaultAgentId,
-} from "./agent-scope.js";
-import { resolveAuthProfileDatabasePath } from "./auth-profiles/sqlite.js";
+} from "./agent-scope.ts";
+import { resolveAuthProfileDatabasePath } from "./auth-profiles/sqlite.ts";
 import {
   MODELS_JSON_STATE,
   type ModelsJsonReadyResult,
   type ModelsJsonReadyState,
-} from "./models-config-state.js";
-import { planOpenClawModelsJson } from "./models-config.plan.js";
+} from "./models-config-state.ts";
+import { planOpenClawModelsJson } from "./models-config.plan.ts";
 import {
   decodePluginModelCatalogRelativePathPluginId,
   isGeneratedPluginModelCatalog,
   isPluginModelCatalogRelativePath,
   listPluginModelCatalogRelativePaths,
   resolvePluginModelCatalogOwnerPluginId,
-} from "./plugin-model-catalog.js";
-import { stableStringify } from "./stable-stringify.js";
+} from "./plugin-model-catalog.ts";
+import { stableStringify } from "./stable-stringify.ts";
 
-export { resetModelsJsonReadyCacheForTest } from "./models-config-state.js";
+export { resetModelsJsonReadyCacheForTest } from "./models-config-state.ts";
 
 export type PreparedOpenClawModelsJsonSource = ModelsJsonReadyResult & {
   fingerprint: string;

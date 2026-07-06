@@ -5,43 +5,43 @@
  */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { Type } from "typebox";
-import { getRuntimeConfig } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SsrFPolicy } from "../../infra/net/ssrf.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { resolveGeneratedMediaMaxBytes } from "../../media/configured-max-bytes.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SsrFPolicy } from "../../infra/net/ssrf.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { resolveGeneratedMediaMaxBytes } from "../../media/configured-max-bytes.ts";
 import {
   classifyMediaReferenceSource,
   normalizeMediaReferenceSource,
-} from "../../media/media-reference.js";
-import { saveMediaBuffer } from "../../media/store.js";
-import { loadWebMedia } from "../../media/web-media.js";
-import { resolveMusicGenerationModeCapabilities } from "../../music-generation/capabilities.js";
-import { parseMusicGenerationModelRef } from "../../music-generation/model-ref.js";
+} from "../../media/media-reference.ts";
+import { saveMediaBuffer } from "../../media/store.ts";
+import { loadWebMedia } from "../../media/web-media.ts";
+import { resolveMusicGenerationModeCapabilities } from "../../music-generation/capabilities.ts";
+import { parseMusicGenerationModelRef } from "../../music-generation/model-ref.ts";
 import {
   generateMusic,
   listRuntimeMusicGenerationProviders,
-} from "../../music-generation/runtime.js";
-import type { MusicGenerationOutputFormat } from "../../music-generation/types.js";
+} from "../../music-generation/runtime.ts";
+import type { MusicGenerationOutputFormat } from "../../music-generation/types.ts";
 import type {
   MusicGenerationProvider,
   MusicGenerationSourceImage,
-} from "../../music-generation/types.js";
-import { readSnakeCaseParamRaw } from "../../param-key.js";
-import { resolveUserPath } from "../../utils.js";
-import type { DeliveryContext } from "../../utils/delivery-context.js";
-import { buildTimeoutAbortSignal } from "../../utils/fetch-timeout.js";
-import type { AuthProfileStore } from "../auth-profiles/types.js";
+} from "../../music-generation/types.ts";
+import { readSnakeCaseParamRaw } from "../../param-key.ts";
+import { resolveUserPath } from "../../utils.ts";
+import type { DeliveryContext } from "../../utils/delivery-context.ts";
+import { buildTimeoutAbortSignal } from "../../utils/fetch-timeout.ts";
+import type { AuthProfileStore } from "../auth-profiles/types.ts";
 import {
   formatGeneratedAttachmentLines,
   type AgentGeneratedAttachment,
-} from "../generated-attachments.js";
+} from "../generated-attachments.ts";
 import {
   buildMediaGenerationRequestKey,
   recordRecentMediaGenerationTaskStartForSession,
-} from "../media-generation-task-status-shared.js";
-import { ToolInputError, readNumberParam, readStringParam } from "./common.js";
-import { decodeDataUrl } from "./image-tool.helpers.js";
+} from "../media-generation-task-status-shared.ts";
+import { ToolInputError, readNumberParam, readStringParam } from "./common.ts";
+import { decodeDataUrl } from "./image-tool.helpers.ts";
 import {
   buildMediaGenerationStartedToolResult,
   createDefaultMediaGenerateBackgroundScheduler,
@@ -50,7 +50,7 @@ import {
   shouldDetachMediaGenerationTask,
   type MediaGenerateAsyncStartCallback,
   type MediaGenerateBackgroundScheduler,
-} from "./media-generate-background-shared.js";
+} from "./media-generate-background-shared.ts";
 import {
   applyMusicGenerationModelConfigDefaults,
   buildMediaReferenceDetails,
@@ -63,12 +63,12 @@ import {
   resolveMediaToolLocalRoots,
   resolveRemoteMediaSsrfPolicy,
   resolveSelectedCapabilityProvider,
-} from "./media-tool-shared.js";
+} from "./media-tool-shared.ts";
 import {
   coerceToolModelConfig,
   hasToolModelConfig,
   type ToolModelConfig,
-} from "./model-config.helpers.js";
+} from "./model-config.helpers.ts";
 import {
   completeMusicGenerationTaskRun,
   createMusicGenerationTaskRun,
@@ -76,19 +76,19 @@ import {
   musicGenerationTaskLifecycle,
   recordMusicGenerationTaskProgress,
   type MusicGenerationTaskHandle,
-} from "./music-generate-background.js";
+} from "./music-generate-background.ts";
 import {
   createMusicGenerateDuplicateGuardResult,
   createMusicGenerateListActionResult,
   createMusicGenerateStatusActionResult,
-} from "./music-generate-tool.actions.js";
+} from "./music-generate-tool.actions.ts";
 import {
   createSandboxBridgeReadFile,
   resolveSandboxedBridgeMediaPath,
   type AnyAgentTool,
   type SandboxFsBridge,
   type ToolFsPolicy,
-} from "./tool-runtime.helpers.js";
+} from "./tool-runtime.helpers.ts";
 
 const log = createSubsystemLogger("agents/tools/music-generate");
 const MAX_INPUT_IMAGES = 10;

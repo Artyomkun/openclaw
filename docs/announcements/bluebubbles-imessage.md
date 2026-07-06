@@ -11,7 +11,7 @@ title: "BlueBubbles removal and the imsg iMessage path"
 
 OpenClaw no longer ships the BlueBubbles channel. iMessage support now runs through the bundled `imessage` plugin, which starts [`imsg`](https://github.com/steipete/imsg) locally or through an SSH wrapper and talks JSON-RPC over stdin/stdout.
 
-If your config still contains `channels.bluebubbles`, migrate it to `channels.imessage`. The legacy `/channels/bluebubbles` docs URL redirects to [Coming from BlueBubbles](/channels/imessage-from-bluebubbles), which has the full config translation table and cutover checklist.
+If your config still contains `channels.bluebubbles`, migrate it to `channels.imessage`. The old `/channels/bluebubbles` docs URL redirects to [Coming from BlueBubbles](/channels/imessage-from-bluebubbles), which has the full config translation table and cutover checklist.
 
 ## What changed
 

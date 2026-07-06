@@ -5,29 +5,29 @@ import {
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { formatPortRangeHint } from "../cli/error-format.js";
-import { parsePort } from "../cli/shared/parse-port.js";
-import { resolveGatewayPort } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isValidEnvSecretRefId, type SecretInput } from "../config/types.secrets.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { formatPortRangeHint } from "../cli/error-format.ts";
+import { parsePort } from "../cli/shared/parse-port.ts";
+import { resolveGatewayPort } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isValidEnvSecretRefId, type SecretInput } from "../config/types.secrets.ts";
 import {
   maybeAddTailnetOriginToControlUiAllowedOrigins,
   TAILSCALE_DOCS_LINES,
   TAILSCALE_EXPOSURE_OPTIONS,
   TAILSCALE_MISSING_BIN_NOTE_LINES,
-} from "../gateway/gateway-config-prompts.shared.js";
-import { findTailscaleBinary } from "../infra/tailscale.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.js";
-import { buildGatewayAuthConfig } from "./configure.gateway-auth.js";
-import { confirm, password, select, text } from "./configure.shared.js";
+} from "../gateway/gateway-config-prompts.shared.ts";
+import { findTailscaleBinary } from "../infra/tailscale.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.ts";
+import { buildGatewayAuthConfig } from "./configure.gateway-auth.ts";
+import { confirm, password, select, text } from "./configure.shared.ts";
 import {
   guardCancel,
   normalizeGatewayTokenInput,
   randomToken,
   validateGatewayPasswordInput,
-} from "./onboard-helpers.js";
+} from "./onboard-helpers.ts";
 
 type GatewayAuthChoice = "token" | "password" | "trusted-proxy";
 type GatewayTokenInputMode = "plaintext" | "ref";

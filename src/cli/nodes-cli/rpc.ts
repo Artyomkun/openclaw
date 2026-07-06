@@ -2,16 +2,16 @@
 import { randomUUID } from "node:crypto";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import type { OperatorScope } from "../../gateway/method-scopes.js";
+import type { OperatorScope } from "../../gateway/method-scopes.ts";
 import {
   parseStrictFiniteNumber,
   parseStrictNonNegativeInteger,
   parseStrictPositiveInteger,
-} from "../../infra/parse-finite-number.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveNodeFromNodeList } from "../../shared/node-resolve.js";
-import { parseNodeList, parsePairingList } from "./format.js";
-import type { NodeListNode, NodesRpcOpts } from "./types.js";
+} from "../../infra/parse-finite-number.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveNodeFromNodeList } from "../../shared/node-resolve.ts";
+import { parseNodeList, parsePairingList } from "./format.ts";
+import type { NodeListNode, NodesRpcOpts } from "./types.ts";
 
 type NodesCliRpcRuntimeModule = typeof import("./rpc.runtime.js");
 

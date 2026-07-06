@@ -1,5 +1,5 @@
 // Defines base configuration types shared by multiple config sections.
-import type { ChatType } from "../channels/chat-type.js";
+import type { ChatType } from "../channels/chat-type.ts";
 
 /** Reply handling mode for chat command surfaces. */
 export type ReplyMode = "text" | "command";
@@ -174,8 +174,6 @@ export type SessionResetConfig = {
 };
 export type SessionResetByTypeConfig = {
   direct?: SessionResetConfig;
-  /** @deprecated Use `direct` instead. Kept for backward compatibility. */
-  dm?: SessionResetConfig;
   group?: SessionResetConfig;
   thread?: SessionResetConfig;
 };
@@ -255,12 +253,8 @@ export type SessionMaintenanceConfig = {
   mode?: SessionMaintenanceMode;
   /** Remove session entries older than this duration (e.g. "30d", "12h"). Default: "30d". */
   pruneAfter?: string | number;
-  /** @deprecated Use pruneAfter instead. */
-  pruneDays?: number;
   /** Maximum number of session entries to keep. Default: 500. */
   maxEntries?: number;
-  /** @deprecated Ignored. Run `openclaw doctor --fix` to remove. */
-  rotateBytes?: number | string;
   /**
    * Retention for archived reset transcripts (`*.reset.<timestamp>`).
    * Set `false` to disable reset-archive cleanup. Default: same as `pruneAfter` (30d).

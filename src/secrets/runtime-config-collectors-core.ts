@@ -1,20 +1,20 @@
 /** Collects core config secret refs during runtime preparation. */
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { MediaUnderstandingModelConfig } from "../config/types.tools.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { MediaUnderstandingModelConfig } from "../config/types.tools.ts";
 import {
   resolveConfiguredMediaEntryCapabilities,
   resolveEffectiveMediaEntryCapabilities,
-} from "../media-understanding/entry-capabilities.js";
-import { buildMediaUnderstandingCapabilityRegistry } from "../media-understanding/provider-capability-registry.js";
-import { collectTtsApiKeyAssignments } from "./runtime-config-collectors-tts.js";
-import { evaluateGatewayAuthSurfaceStates } from "./runtime-gateway-auth-surfaces.js";
+} from "../media-understanding/entry-capabilities.ts";
+import { buildMediaUnderstandingCapabilityRegistry } from "../media-understanding/provider-capability-registry.ts";
+import { collectTtsApiKeyAssignments } from "./runtime-config-collectors-tts.ts";
+import { evaluateGatewayAuthSurfaceStates } from "./runtime-gateway-auth-surfaces.ts";
 import {
   collectSecretInputAssignment,
   type ResolverContext,
   type SecretDefaults,
-} from "./runtime-shared.js";
-import { isRecord } from "./shared.js";
+} from "./runtime-shared.ts";
+import { isRecord } from "./shared.ts";
 
 type ProviderLike = {
   apiKey?: unknown;

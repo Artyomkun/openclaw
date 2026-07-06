@@ -36,7 +36,6 @@ import {
   type ResolvedGoogleChatAccount,
 } from "./channel.deps.runtime.js";
 import {
-  legacyConfigRules as GOOGLECHAT_LEGACY_CONFIG_RULES,
   normalizeCompatibilityConfig as normalizeGoogleChatCompatibilityConfig,
 } from "./doctor-contract.js";
 import { collectGoogleChatMutableAllowlistWarnings } from "./doctor.js";
@@ -129,7 +128,6 @@ export const googlechatPlugin = createChatChannelPlugin({
       groupModel: "route",
       groupAllowFromFallbackToAllowFrom: false,
       warnOnEmptyGroupSenderAllowlist: false,
-      legacyConfigRules: GOOGLECHAT_LEGACY_CONFIG_RULES,
       normalizeCompatibilityConfig: normalizeGoogleChatCompatibilityConfig,
       collectMutableAllowlistWarnings: collectGoogleChatMutableAllowlistWarnings,
     },

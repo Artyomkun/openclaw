@@ -1,7 +1,7 @@
 /** Type contracts for plugin-owned CLI backend integrations. */
-import type { CliBackendConfig } from "../config/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ContextEngineHostCapability } from "../context-engine/types.js";
+import type { CliBackendConfig } from "../config/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ContextEngineHostCapability } from "../context-engine/types.ts";
 
 export type PluginTextReplacement = {
   from: string | RegExp;
@@ -167,7 +167,7 @@ export type CliBackendPlugin = {
   /**
    * Session/auth epoch source policy.
    *
-   * `combined` keeps the legacy "host credential + auth profile" fingerprint.
+   * `combined` keeps the older "host credential + auth profile" fingerprint.
    * `profile-only` treats the selected OpenClaw auth profile as the sole auth
    * owner for session invalidation when one is present.
    */

@@ -1,6 +1,6 @@
 // Defines Zod schema fragments for agent default configuration.
 import { z } from "zod";
-import { isValidNonNegativeByteSizeString } from "./byte-size.js";
+import { isValidNonNegativeByteSizeString } from "./byte-size.ts";
 import {
   HeartbeatSchema,
   AgentSandboxSchema,
@@ -10,14 +10,14 @@ import {
   AgentToolModelSchema,
   MemorySearchSchema,
   AgentRunRetriesConfigSchema,
-} from "./zod-schema.agent-runtime.js";
+} from "./zod-schema.agent-runtime.ts";
 import {
   BlockStreamingChunkSchema,
   BlockStreamingCoalesceSchema,
   CliBackendSchema,
   HumanDelaySchema,
   TypingModeSchema,
-} from "./zod-schema.core.js";
+} from "./zod-schema.core.ts";
 
 const SilentReplyPolicySchema = z.union([z.literal("allow"), z.literal("disallow")]);
 

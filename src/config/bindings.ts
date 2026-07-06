@@ -1,9 +1,9 @@
 // Normalizes agent binding config for channels, routes, and ACP sessions.
-import type { AgentAcpBinding, AgentBinding, AgentRouteBinding } from "./types.agents.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { AgentAcpBinding, AgentBinding, AgentRouteBinding } from "./types.agents.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 function normalizeBindingType(binding: AgentBinding): "route" | "acp" {
-  // Missing `type` is the legacy/default route binding shape.
+  // Missing `type` is the default route binding shape.
   return binding.type === "acp" ? "acp" : "route";
 }
 
@@ -21,7 +21,7 @@ export function listConfiguredBindings(cfg: OpenClawConfig): AgentBinding[] {
   return Array.isArray(cfg.bindings) ? cfg.bindings : [];
 }
 
-/** Lists channel route bindings, including legacy bindings without an explicit type. */
+/** Lists channel route bindings, including older bindings without an explicit type. */
 export function listRouteBindings(cfg: OpenClawConfig): AgentRouteBinding[] {
   return listConfiguredBindings(cfg).filter(isRouteBinding);
 }

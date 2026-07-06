@@ -1,11 +1,11 @@
 // Command config resolver that combines secret materialization with optional plugin auto-enable.
-import { applyPluginAutoEnable } from "../config/plugin-auto-enable.js";
-import type { OpenClawConfig } from "../config/types.js";
-import type { RuntimeEnv } from "../runtime.js";
+import { applyPluginAutoEnable } from "../config/plugin-auto-enable.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 import {
   type CommandSecretResolutionMode,
   resolveCommandSecretRefsViaGateway,
-} from "./command-secret-gateway.js";
+} from "./command-secret-gateway.ts";
 
 /** Resolve command-scoped secrets and return both raw resolved and effective config views. */
 export async function resolveCommandConfigWithSecrets<TConfig extends OpenClawConfig>(params: {

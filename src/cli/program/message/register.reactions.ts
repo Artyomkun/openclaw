@@ -1,6 +1,6 @@
 // Reaction command registration for adding/removing and listing message reactions.
 import type { Command } from "commander";
-import type { MessageCliHelpers } from "./helpers.js";
+import type { MessageCliHelpers } from "./helpers.ts";
 
 /** Register reaction mutation/list commands. */
 export function registerMessageReactionsCommands(message: Command, helpers: MessageCliHelpers) {

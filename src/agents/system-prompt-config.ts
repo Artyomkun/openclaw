@@ -4,13 +4,13 @@
  * This module gathers agent/config knobs before rendering the canonical system
  * prompt so callers do not duplicate owner, TTS, alias, memory, or FS policy.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { buildTtsSystemPromptHint } from "../tts/tts.js";
-import { resolveAgentConfig } from "./agent-scope.js";
-import { buildModelAliasLines } from "./model-alias-lines.js";
-import { resolveOwnerDisplaySetting } from "./owner-display.js";
-import { buildAgentSystemPrompt } from "./system-prompt.js";
-import { resolveEffectiveToolFsWorkspaceOnly } from "./tool-fs-policy.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { buildTtsSystemPromptHint } from "../tts/tts.ts";
+import { resolveAgentConfig } from "./agent-scope.ts";
+import { buildModelAliasLines } from "./model-alias-lines.ts";
+import { resolveOwnerDisplaySetting } from "./owner-display.ts";
+import { buildAgentSystemPrompt } from "./system-prompt.ts";
+import { resolveEffectiveToolFsWorkspaceOnly } from "./tool-fs-policy.ts";
 
 type AgentSystemPromptRenderParams = Parameters<typeof buildAgentSystemPrompt>[0];
 

@@ -3,12 +3,12 @@ import type {
   ChannelApprovalNativeAdapter,
   ChannelApprovalNativeSurface,
   ChannelApprovalNativeTarget,
-} from "../channels/plugins/approval-native.types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { buildChannelApprovalNativeTargetKey } from "./approval-native-target-key.js";
-import type { ChannelApprovalKind } from "./approval-types.js";
-import type { ExecApprovalRequest } from "./exec-approvals.js";
-import type { PluginApprovalRequest } from "./plugin-approvals.js";
+} from "../channels/plugins/approval-native.types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { buildChannelApprovalNativeTargetKey } from "./approval-native-target-key.ts";
+import type { ChannelApprovalKind } from "./approval-types.ts";
+import type { ExecApprovalRequest } from "./exec-approvals.ts";
+import type { PluginApprovalRequest } from "./plugin-approvals.ts";
 
 type ApprovalRequest = ExecApprovalRequest | PluginApprovalRequest;
 

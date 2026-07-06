@@ -4,7 +4,7 @@ import type {
   MusicGenerationMode,
   MusicGenerationModeCapabilities,
   MusicGenerationProvider,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Capability helpers for music generation providers.

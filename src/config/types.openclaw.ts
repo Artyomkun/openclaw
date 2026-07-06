@@ -1,36 +1,36 @@
 // Defines the top-level OpenClaw configuration type.
-import type { SilentReplyPolicyShape } from "../shared/silent-reply-policy.js";
-import type { TranscriptsConfig } from "../transcripts/config.js";
-import type { AccessGroupsConfig } from "./types.access-groups.js";
-import type { AcpConfig } from "./types.acp.js";
-import type { AgentBinding, AgentsConfig } from "./types.agents.js";
-import type { ApprovalsConfig } from "./types.approvals.js";
-import type { AuthConfig } from "./types.auth.js";
-import type { DiagnosticsConfig, LoggingConfig, SessionConfig, WebConfig } from "./types.base.js";
-import type { BrowserConfig } from "./types.browser.js";
-import type { ChannelsConfig } from "./types.channels.js";
-import type { CliConfig } from "./types.cli.js";
-import type { CommitmentsConfig } from "./types.commitments.js";
-import type { CrestodianConfig } from "./types.crestodian.js";
-import type { CronConfig } from "./types.cron.js";
-import type { DiscoveryConfig, GatewayConfig, TalkConfig } from "./types.gateway.js";
-import type { HooksConfig } from "./types.hooks.js";
-import type { MarketplacesConfig } from "./types.marketplaces.js";
-import type { McpConfig } from "./types.mcp.js";
-import type { MemoryConfig } from "./types.memory.js";
+import type { SilentReplyPolicyShape } from "../shared/silent-reply-policy.ts";
+import type { TranscriptsConfig } from "../transcripts/config.ts";
+import type { AccessGroupsConfig } from "./types.access-groups.ts";
+import type { AcpConfig } from "./types.acp.ts";
+import type { AgentBinding, AgentsConfig } from "./types.agents.ts";
+import type { ApprovalsConfig } from "./types.approvals.ts";
+import type { AuthConfig } from "./types.auth.ts";
+import type { DiagnosticsConfig, LoggingConfig, SessionConfig, WebConfig } from "./types.base.ts";
+import type { BrowserConfig } from "./types.browser.ts";
+import type { ChannelsConfig } from "./types.channels.ts";
+import type { CliConfig } from "./types.cli.ts";
+import type { CommitmentsConfig } from "./types.commitments.ts";
+import type { CrestodianConfig } from "./types.crestodian.ts";
+import type { CronConfig } from "./types.cron.ts";
+import type { DiscoveryConfig, GatewayConfig, TalkConfig } from "./types.gateway.ts";
+import type { HooksConfig } from "./types.hooks.ts";
+import type { MarketplacesConfig } from "./types.marketplaces.ts";
+import type { McpConfig } from "./types.mcp.ts";
+import type { MemoryConfig } from "./types.memory.ts";
 import type {
   AudioConfig,
   BroadcastConfig,
   CommandsConfig,
   MessagesConfig,
-} from "./types.messages.js";
-import type { ModelsConfig, ModelsConfigInput } from "./types.models.js";
-import type { NodeHostConfig } from "./types.node-host.js";
-import type { PluginsConfig } from "./types.plugins.js";
-import type { SecretsConfig } from "./types.secrets.js";
-import type { SkillsConfig } from "./types.skills.js";
-import type { ToolsConfig } from "./types.tools.js";
-import type { ProxyConfig } from "./zod-schema.proxy.js";
+} from "./types.messages.ts";
+import type { ModelsConfig, ModelsConfigInput } from "./types.models.ts";
+import type { NodeHostConfig } from "./types.node-host.ts";
+import type { PluginsConfig } from "./types.plugins.ts";
+import type { SecretsConfig } from "./types.secrets.ts";
+import type { SkillsConfig } from "./types.skills.ts";
+import type { ToolsConfig } from "./types.tools.ts";
+import type { ProxyConfig } from "./zod-schema.proxy.ts";
 
 /** One persisted suppression for a known security audit finding. */
 export type SecurityAuditSuppression = {
@@ -193,7 +193,7 @@ export type OpenClawConfig = {
   agents?: AgentsConfig;
   /** Tool exposure, policy, web/media tools, exec, and code-mode settings. */
   tools?: ToolsConfig;
-  /** Legacy/direct agent bindings used by runtime resolution. */
+  /** Direct agent bindings used by runtime resolution. */
   bindings?: AgentBinding[];
   /** Broadcast command and delivery settings. */
   broadcast?: BroadcastConfig;
@@ -258,7 +258,7 @@ export type ResolvedSourceConfig = BrandedConfigState<"resolved-source">;
 export type RuntimeConfig = BrandedConfigState<"runtime">;
 
 export type ConfigValidationIssue = {
-  /** Dot-path to the invalid or legacy config value. */
+  /** Dot-path to the invalid or older config value. */
   path: string;
   /** Human-readable validation message. */
   message: string;
@@ -266,13 +266,6 @@ export type ConfigValidationIssue = {
   allowedValues?: string[];
   /** Number of allowed values omitted from the display list. */
   allowedValuesHiddenCount?: number;
-};
-
-export type LegacyConfigIssue = {
-  /** Dot-path to the legacy config value. */
-  path: string;
-  /** Human-readable migration or rejection message. */
-  message: string;
 };
 
 export type ConfigFileSnapshot = {
@@ -298,10 +291,7 @@ export type ConfigFileSnapshot = {
   valid: boolean;
   /** Runtime-shaped config used by in-process readers. */
   runtimeConfig: RuntimeConfig;
-  /** @deprecated Prefer runtimeConfig. */
-  config: RuntimeConfig;
   hash?: string;
   issues: ConfigValidationIssue[];
   warnings: ConfigValidationIssue[];
-  legacyIssues: LegacyConfigIssue[];
 };

@@ -14,14 +14,14 @@
  * (e.g. the SDK `addTestHook` helper) dispatch immediately.
  */
 
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import type { GlobalHookRunnerRegistry } from "./hook-registry.types.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import type { GlobalHookRunnerRegistry } from "./hook-registry.types.ts";
 import {
   createComposedHookRegistryFacade,
   getHookRunnerGlobalState,
-} from "./hook-runner-global-state.js";
-import type { PluginHookGatewayContext, PluginHookGatewayStopEvent } from "./hook-types.js";
-import { createHookRunner, type HookRunner } from "./hooks.js";
+} from "./hook-runner-global-state.ts";
+import type { PluginHookGatewayContext, PluginHookGatewayStopEvent } from "./hook-types.ts";
+import { createHookRunner, type HookRunner } from "./hooks.ts";
 
 const getLog = () => createSubsystemLogger("plugins");
 

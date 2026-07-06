@@ -1,12 +1,12 @@
 // Computes git, dependency, and registry update status for OpenClaw installs.
 import fs from "node:fs/promises";
 import path from "node:path";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { fetchWithTimeout } from "../utils/fetch-timeout.js";
-import { detectPackageManager as detectPackageManagerImpl } from "./detect-package-manager.js";
-import { compareOpenClawReleaseVersions } from "./npm-registry-spec.js";
-import { compareComparableSemver, parseComparableSemver } from "./semver-compare.js";
-import { channelToNpmTag, type UpdateChannel } from "./update-channels.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { fetchWithTimeout } from "../utils/fetch-timeout.ts";
+import { detectPackageManager as detectPackageManagerImpl } from "./detect-package-manager.ts";
+import { compareOpenClawReleaseVersions } from "./npm-registry-spec.ts";
+import { compareComparableSemver, parseComparableSemver } from "./semver-compare.ts";
+import { channelToNpmTag, type UpdateChannel } from "./update-channels.ts";
 
 export type PackageManager = "pnpm" | "bun" | "npm" | "unknown";
 
@@ -113,7 +113,7 @@ async function fetchPublicNpmPackageTargetStatus(params: {
   let res: Response | undefined;
   try {
     res = await fetchWithTimeout(
-      `https://registry.npmjs.org/openclaw/${encodeURIComponent(params.target)}`,
+      `https://registry.npts.org/openclaw/${encodeURIComponent(params.target)}`,
       {},
       Math.max(250, params.timeoutMs),
     );
@@ -544,8 +544,8 @@ export function compareSemverStrings(a: string | null, b: string | null): number
     }
   }
   return compareComparableSemver(
-    parseComparableSemver(a, { normalizeLegacyDotBeta: true }),
-    parseComparableSemver(b, { normalizeLegacyDotBeta: true }),
+    parseComparableSemver(a),
+    parseComparableSemver(b),
   );
 }
 

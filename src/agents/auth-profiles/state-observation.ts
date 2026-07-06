@@ -2,10 +2,10 @@
  * Structured logging for auth profile failure state changes.
  * Log payloads keep machine-readable fields while redacting console-facing ids.
  */
-import { redactIdentifier } from "../../logging/redact-identifier.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { sanitizeForConsole } from "../console-sanitize.js";
-import type { AuthProfileFailureReason, ProfileUsageStats } from "./types.js";
+import { redactIdentifier } from "../../logging/redact-identifier.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { sanitizeForConsole } from "../console-sanitize.ts";
+import type { AuthProfileFailureReason, ProfileUsageStats } from "./types.ts";
 
 const observationLog = createSubsystemLogger("agent/embedded");
 

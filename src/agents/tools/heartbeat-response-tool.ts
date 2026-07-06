@@ -11,11 +11,11 @@ import {
   HEARTBEAT_TOOL_OUTCOMES,
   HEARTBEAT_TOOL_PRIORITIES,
   normalizeHeartbeatToolResponse,
-} from "../../auto-reply/heartbeat-tool-response.js";
-import { readSnakeCaseParamRaw } from "../../param-key.js";
-import { optionalStringEnum, stringEnum } from "../schema/string-enum.js";
-import type { AnyAgentTool } from "./common.js";
-import { jsonResult, ToolInputError } from "./common.js";
+} from "../../auto-reply/heartbeat-tool-response.ts";
+import { readSnakeCaseParamRaw } from "../../param-key.ts";
+import { optionalStringEnum, stringEnum } from "../schema/string-enum.ts";
+import type { AnyAgentTool } from "./common.ts";
+import { jsonResult, ToolInputError } from "./common.ts";
 
 const HeartbeatResponseToolSchema = Type.Object(
   {

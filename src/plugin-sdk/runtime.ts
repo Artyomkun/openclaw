@@ -1,15 +1,15 @@
 /**
  * Public SDK subpath for runtime logging, env, backup, and process helpers.
  */
-export type { OutputRuntimeEnv, RuntimeEnv } from "../runtime.js";
-export { createNonExitingRuntime, defaultRuntime } from "../runtime.js";
-export { resolveCommandSecretRefsViaGateway } from "../cli/command-secret-gateway.js";
-export { getChannelsCommandSecretTargetIds } from "../cli/command-secret-targets.js";
+export type { OutputRuntimeEnv, RuntimeEnv } from "../runtime.ts";
+export { createNonExitingRuntime, defaultRuntime } from "../runtime.ts";
+export { resolveCommandSecretRefsViaGateway } from "../cli/command-secret-gateway.ts";
+export { getChannelsCommandSecretTargetIds } from "../cli/command-secret-targets.ts";
 export {
   createLoggerBackedRuntime,
   resolveRuntimeEnv,
   resolveRuntimeEnvWithUnavailableExit,
-} from "./runtime-logger.js";
+} from "./runtime-logger.ts";
 export {
   danger,
   info,
@@ -22,17 +22,17 @@ export {
   shouldLogVerbose,
   success,
   warn,
-} from "../globals.js";
-export * from "../logging.js";
-export { waitForAbortSignal } from "../infra/abort-signal.js";
-export { createBackupArchive } from "../infra/backup-create.js";
+} from "../globals.ts";
+export * from "../logging.ts";
+export { waitForAbortSignal } from "../infra/abort-signal.ts";
+export { createBackupArchive } from "../infra/backup-create.ts";
 export {
   detectPluginInstallPathIssue,
   formatPluginInstallPathIssue,
-} from "../infra/plugin-install-path-warnings.js";
-export { collectProviderDangerousNameMatchingScopes } from "../config/dangerous-name-matching.js";
+} from "../infra/plugin-install-path-warnings.ts";
+export { collectProviderDangerousNameMatchingScopes } from "../config/dangerous-name-matching.ts";
 export {
   registerUncaughtExceptionHandler,
   registerUnhandledRejectionHandler,
-} from "../infra/unhandled-rejections.js";
-export { removePluginFromConfig } from "../plugins/uninstall.js";
+} from "../infra/unhandled-rejections.ts";
+export { removePluginFromConfig } from "../plugins/uninstall.ts";

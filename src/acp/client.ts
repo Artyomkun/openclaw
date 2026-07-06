@@ -13,14 +13,14 @@ import {
   type SessionNotification,
 } from "@agentclientprotocol/sdk";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { ensureOpenClawCliOnPath } from "../infra/path-env.js";
+import { ensureOpenClawCliOnPath } from "../infra/path-env.ts";
 import {
   buildAcpClientStripKeys,
   resolveAcpClientSpawnEnv,
   resolveAcpClientSpawnInvocation,
   resolvePermissionRequest,
   shouldStripProviderAuthEnvVarsForAcpServer,
-} from "./client-helpers.js";
+} from "./client-helpers.ts";
 
 type AcpClientOptions = {
   cwd?: string;

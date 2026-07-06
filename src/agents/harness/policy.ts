@@ -1,11 +1,11 @@
 /**
  * Resolves configured native harness policy for agent ids.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { AUTO_AGENT_RUNTIME_ID, type EmbeddedAgentRuntime } from "../agent-runtime-id.js";
-import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.js";
-import { resolveModelRuntimePolicy } from "../model-runtime-policy.js";
-import { openAIProviderUsesCodexRuntimeByDefault } from "../openai-routing.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { AUTO_AGENT_RUNTIME_ID, type EmbeddedAgentRuntime } from "../agent-runtime-id.ts";
+import { normalizeOptionalAgentRuntimeId } from "../agent-runtime-id.ts";
+import { resolveModelRuntimePolicy } from "../model-runtime-policy.ts";
+import { openAIProviderUsesCodexRuntimeByDefault } from "../openai-routing.ts";
 
 /**
  * Effective runtime policy for selecting the agent harness that should execute a turn.

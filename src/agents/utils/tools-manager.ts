@@ -20,12 +20,12 @@ import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
 import type { ReadableStream as NodeReadableStream } from "node:stream/web";
 import chalk from "chalk";
-import { fetchWithSsrFGuard } from "../../infra/net/fetch-guard.js";
+import { fetchWithSsrFGuard } from "../../infra/net/fetch-guard.ts";
 import {
   getWindowsPowerShellExePath,
   getWindowsSystem32ExePath,
-} from "../../infra/windows-install-roots.js";
-import { APP_NAME, getBinDir } from "../config.js";
+} from "../../infra/windows-install-roots.ts";
+import { APP_NAME, getBinDir } from "../config.ts";
 
 const TOOLS_DIR = getBinDir();
 const NETWORK_TIMEOUT_MS = 10_000;

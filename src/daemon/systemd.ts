@@ -5,35 +5,34 @@ import os from "node:os";
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveStateDir } from "../config/paths.js";
+import { resolveStateDir } from "../config/paths.ts";
 import {
   isUnresolvedShellReference,
   readStateDirDotEnvFromStateDir,
-} from "../config/state-dir-dotenv.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { normalizeEnvVarKey } from "../infra/host-env-security.js";
+} from "../config/state-dir-dotenv.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { normalizeEnvVarKey } from "../infra/host-env-security.ts";
 import {
   parseStrictInteger,
   parseStrictNonNegativeInteger,
   parseStrictPositiveInteger,
-} from "../infra/parse-finite-number.js";
-import { splitArgsPreservingQuotes } from "./arg-split.js";
+} from "../infra/parse-finite-number.ts";
+import { splitArgsPreservingQuotes } from "./arg-split.ts";
 import {
-  LEGACY_GATEWAY_SYSTEMD_SERVICE_NAMES,
   resolveGatewayServiceDescription,
   resolveGatewaySystemdServiceName,
-} from "./constants.js";
-import { execFileUtf8 } from "./exec-file.js";
-import { formatLine, toPosixPath, writeFormattedLines } from "./output.js";
-import { resolveHomeDir } from "./paths.js";
-import { parseKeyValueOutput } from "./runtime-parse.js";
+} from "./constants.ts";
+import { execFileUtf8 } from "./exec-file.ts";
+import { formatLine, toPosixPath, writeFormattedLines } from "./output.ts";
+import { resolveHomeDir } from "./paths.ts";
+import { parseKeyValueOutput } from "./runtime-parse.ts";
 import {
   hasEnvironmentFileSource,
   hasInlineEnvironmentSource,
   isEnvironmentFileOnlySource,
   readManagedServiceEnvKeysFromEnvironment,
-} from "./service-managed-env.js";
-import type { GatewayServiceRuntime } from "./service-runtime.js";
+} from "./service-managed-env.ts";
+import type { GatewayServiceRuntime } from "./service-runtime.ts";
 import type {
   GatewayServiceCommandConfig,
   GatewayServiceControlArgs,
@@ -43,20 +42,20 @@ import type {
   GatewayServiceInstallArgs,
   GatewayServiceManageArgs,
   GatewayServiceRestartResult,
-} from "./service-types.js";
-import { enableSystemdUserLinger, readSystemdUserLingerStatus } from "./systemd-linger.js";
+} from "./service-types.ts";
+import { enableSystemdUserLinger, readSystemdUserLingerStatus } from "./systemd-linger.ts";
 import {
   classifySystemdUnavailableDetail,
   isSystemctlMissingDetail,
   isSystemdUserBusUnavailableDetail,
-} from "./systemd-unavailable.js";
+} from "./systemd-unavailable.ts";
 import {
   buildSystemdUnit,
   parseSystemdEnvAssignment,
   parseSystemdEnvAssignments,
   parseSystemdExecStart,
   renderSystemdEnvAssignment,
-} from "./systemd-unit.js";
+} from "./systemd-unit.ts";
 
 const SYSTEMD_GATEWAY_DOTENV_FILENAME = "gateway.systemd.env";
 const SYSTEMD_NODE_DOTENV_FILENAME = "node.systemd.env";
@@ -375,18 +374,6 @@ function resolveSystemdEnvironmentFilePath(params: {
   const filename =
     serviceKind === "node" ? SYSTEMD_NODE_DOTENV_FILENAME : SYSTEMD_GATEWAY_DOTENV_FILENAME;
   return path.join(params.stateDir, filename);
-}
-
-function resolveLegacyNodeSystemdEnvironmentFilePath(params: {
-  stateDir: string;
-  environment?: GatewayServiceEnv;
-}): string | null {
-  if (params.environment?.OPENCLAW_SERVICE_KIND?.trim() !== "node") {
-    return null;
-  }
-  const legacyPath = path.join(params.stateDir, SYSTEMD_GATEWAY_DOTENV_FILENAME);
-  const currentPath = resolveSystemdEnvironmentFilePath(params);
-  return legacyPath === currentPath ? null : legacyPath;
 }
 
 function isNodeSystemdEnvironment(env: GatewayServiceEnv): boolean {
@@ -949,11 +936,7 @@ async function writeSystemdGatewayEnvironmentFile(params: {
   // file copy would override the fresh inline Environment= value because systemd's
   // EnvironmentFile takes precedence over inline Environment= directives.
   const existing: Record<string, string> = {};
-  const legacyNodeEnvFilePath = resolveLegacyNodeSystemdEnvironmentFilePath({
-    stateDir: params.stateDir,
-    environment: params.environment,
-  });
-  for (const sourceEnvFilePath of [legacyNodeEnvFilePath, envFilePath]) {
+  for (const sourceEnvFilePath of envFilePath) {
     if (!sourceEnvFilePath) {
       continue;
     }
@@ -1296,70 +1279,4 @@ export async function readSystemdServiceRuntime(
       memoryCurrent: parsed.memoryCurrent,
     },
   };
-}
-type LegacySystemdUnit = {
-  name: string;
-  unitPath: string;
-  enabled: boolean;
-  exists: boolean;
-};
-
-async function isSystemctlAvailable(env: GatewayServiceEnv): Promise<boolean> {
-  const res = await execSystemctlUser(env, ["status"]);
-  if (res.code === 0) {
-    return true;
-  }
-  return !isSystemctlMissing(readSystemctlDetail(res));
-}
-
-async function findLegacySystemdUnits(env: GatewayServiceEnv): Promise<LegacySystemdUnit[]> {
-  const results: LegacySystemdUnit[] = [];
-  const systemctlAvailable = await isSystemctlAvailable(env);
-  for (const name of LEGACY_GATEWAY_SYSTEMD_SERVICE_NAMES) {
-    const unitPath = resolveSystemdUnitPathForName(env, name);
-    let exists = false;
-    try {
-      await fs.access(unitPath);
-      exists = true;
-    } catch {
-      // ignore
-    }
-    let enabled = false;
-    if (systemctlAvailable) {
-      const res = await execSystemctlUser(env, ["is-enabled", `${name}.service`]);
-      enabled = res.code === 0;
-    }
-    if (exists || enabled) {
-      results.push({ name, unitPath, enabled, exists });
-    }
-  }
-  return results;
-}
-
-export async function uninstallLegacySystemdUnits({
-  env,
-  stdout,
-}: GatewayServiceManageArgs): Promise<LegacySystemdUnit[]> {
-  const units = await findLegacySystemdUnits(env);
-  if (units.length === 0) {
-    return units;
-  }
-
-  const systemctlAvailable = await isSystemctlAvailable(env);
-  for (const unit of units) {
-    if (systemctlAvailable) {
-      await execSystemctlUser(env, ["disable", "--now", `${unit.name}.service`]);
-    } else {
-      stdout.write(`systemctl unavailable; removed legacy unit file only: ${unit.name}.service\n`);
-    }
-
-    try {
-      await fs.unlink(unit.unitPath);
-      stdout.write(`${formatLine("Removed legacy systemd service", unit.unitPath)}\n`);
-    } catch {
-      stdout.write(`Legacy systemd unit not found at ${unit.unitPath}\n`);
-    }
-  }
-
-  return units;
 }

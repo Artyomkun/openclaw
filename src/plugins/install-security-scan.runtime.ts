@@ -1,19 +1,19 @@
 // Runtime bridge for plugin install security scanning.
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { tryReadJson } from "../infra/json-files.js";
-import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { tryReadJson } from "../infra/json-files.ts";
+import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
 import {
   runInstallPolicy,
   type InstallPolicyFinding,
   type InstallPolicyOrigin,
   type InstallPolicyRequestKind,
   type InstallPolicySource,
-} from "../security/install-policy.js";
-import { isPathInside } from "../security/scan-paths.js";
+} from "../security/install-policy.ts";
+import { isPathInside } from "../security/scan-paths.ts";
 import {
   findBlockedManifestDependencies,
   findBlockedNodeModulesDirectory,
@@ -22,10 +22,10 @@ import {
   findBlockedPackageFileAliasInPath,
   type BlockedPackageDirectoryFinding,
   type BlockedPackageFileFinding,
-} from "./dependency-denylist.js";
-import { getGlobalHookRunner } from "./hook-runner-global.js";
-import { createBeforeInstallHookPayload } from "./install-policy-context.js";
-import type { InstallSafetyOverrides } from "./install-security-scan.types.js";
+} from "./dependency-denylist.ts";
+import { getGlobalHookRunner } from "./hook-runner-global.ts";
+import { createBeforeInstallHookPayload } from "./install-policy-context.ts";
+import type { InstallSafetyOverrides } from "./install-security-scan.types.ts";
 
 type InstallScanLogger = {
   warn?: (message: string) => void;
@@ -94,7 +94,7 @@ type InstalledPackageScanRoot = {
 
 type SkillInstallSpec = {
   id?: string;
-  kind: "brew" | "node" | "go" | "uv" | "download";
+  kind: "brew" | "node" | "download";
   label?: string;
   bins?: string[];
   os?: string[];

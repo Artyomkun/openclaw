@@ -241,7 +241,7 @@ jobs:
           cat > "$HOME/.local/bin/kova" <<EOF
           #!/usr/bin/env bash
           export KOVA_HOME="${KOVA_HOME}"
-          exec node "${KOVA_SRC}/bin/kova.mjs" "\$@"
+          exec node "${KOVA_SRC}/bin/kova.ts" "\$@"
           EOF
           chmod 0755 "$HOME/.local/bin/kova"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
@@ -256,9 +256,9 @@ jobs:
           const path = require("node:path");
           const root = process.env.KOVA_SRC;
           const files = [
-            "support/configure-openclaw-mock-auth.mjs",
-            "support/configure-openclaw-live-auth.mjs",
-            "support/mock-openai-server.mjs",
+            "support/configure-openclaw-mock-auth.ts",
+            "support/configure-openclaw-live-auth.ts",
+            "support/mock-openai-server.ts",
             "states/mock-openai-provider.json"
           ];
           for (const rel of files) {
@@ -351,7 +351,7 @@ jobs:
           report_md="${report_json%.json}.md"
           effective_status="$status"
           if [[ "$FAIL_ON_REGRESSION" == "true" && "$status" != "0" ]]; then
-            if node "$PERFORMANCE_HELPER_DIR/scripts/lib/kova-report-gate.mjs" "$report_json"
+            if node "$PERFORMANCE_HELPER_DIR/scripts/lib/kova-report-gate.ts" "$report_json"
             then
               effective_status=0
               {
@@ -374,7 +374,7 @@ jobs:
             report_url="https://github.com/openclaw/clawgrit-reports/tree/main/openclaw-performance/${ref_slug}/${run_slug}/${LANE_ID}"
           fi
           summary_path="$SUMMARY_DIR/${LANE_ID}.md"
-          summary_args=(node "$PERFORMANCE_HELPER_DIR/scripts/kova-ci-summary.mjs" --report "$report_json" --output "$summary_path" --lane "$LANE_ID")
+          summary_args=(node "$PERFORMANCE_HELPER_DIR/scripts/kova-ci-summary.ts" --report "$report_json" --output "$summary_path" --lane "$LANE_ID")
           if [[ -n "$report_url" ]]; then
             summary_args+=(--report-url "$report_url")
           fi
@@ -471,7 +471,7 @@ jobs:
           fi
 
           mkdir -p "$SOURCE_PERF_DIR/mock-hello"
-          if ! node -e "const fs=require('node:fs'); const scripts=require('./package.json').scripts||{}; process.exit(scripts['test:gateway:cpu-scenarios'] && scripts['test:extensions:memory'] && scripts.openclaw && fs.existsSync('scripts/bench-cli-startup.ts') && fs.existsSync('scripts/profile-extension-memory.mjs') ? 0 : 1)"; then
+          if ! node -e "const fs=require('node:fs'); const scripts=require('./package.json').scripts||{}; process.exit(scripts['test:gateway:cpu-scenarios'] && scripts['test:extensions:memory'] && scripts.openclaw && fs.existsSync('scripts/bench-cli-startup.ts') && fs.existsSync('scripts/profile-extension-memory.ts') ? 0 : 1)"; then
             cat > "$SOURCE_PERF_DIR/index.md" <<EOF
           # OpenClaw Source Performance
 
@@ -483,7 +483,7 @@ jobs:
 
           - Tested ref: ${TESTED_REF}
           - Tested SHA: ${TESTED_SHA}
-          - Required scripts: test:gateway:cpu-scenarios, test:extensions:memory, openclaw, scripts/bench-cli-startup.ts, scripts/profile-extension-memory.mjs
+          - Required scripts: test:gateway:cpu-scenarios, test:extensions:memory, openclaw, scripts/bench-cli-startup.ts, scripts/profile-extension-memory.ts
           EOF
             cat "$SOURCE_PERF_DIR/index.md" >> "$GITHUB_STEP_SUMMARY"
             exit 0
@@ -582,7 +582,7 @@ jobs:
             echo "SQLite state smoke probe is not available in ${TESTED_REF}; continuing with the remaining source probes." >> "$GITHUB_STEP_SUMMARY"
           fi
 
-          summary_args=(node "$PERFORMANCE_HELPER_DIR/scripts/openclaw-performance-source-summary.mjs" \
+          summary_args=(node "$PERFORMANCE_HELPER_DIR/scripts/openclaw-performance-source-summary.ts" \
             --source-dir "$SOURCE_PERF_DIR" \
             --output "$SOURCE_PERF_DIR/index.md")
           if [[ -n "${SOURCE_PERF_BASELINE_DIR:-}" && -d "$SOURCE_PERF_BASELINE_DIR" ]]; then

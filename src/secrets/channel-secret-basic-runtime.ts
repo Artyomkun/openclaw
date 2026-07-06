@@ -1,5 +1,5 @@
 /** Basic channel secret runtime helpers for account/root credential collection. */
-import { coerceSecretRef } from "../config/types.secrets.js";
+import { coerceSecretRef } from "../config/types.secrets.ts";
 import {
   collectSecretInputAssignment,
   hasOwnProperty,
@@ -7,8 +7,8 @@ import {
   isEnabledFlag,
   type ResolverContext,
   type SecretDefaults,
-} from "./runtime-shared.js";
-import { isRecord } from "./shared.js";
+} from "./runtime-shared.ts";
+import { isRecord } from "./shared.ts";
 
 export type ChannelAccountEntry = {
   accountId: string;

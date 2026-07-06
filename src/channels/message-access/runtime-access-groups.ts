@@ -7,9 +7,9 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import { parseAccessGroupAllowFromEntry } from "../allow-from.js";
-import type { ChannelIngressAdapter, ResolveChannelMessageIngressParams } from "./runtime-types.js";
-import type { AccessGroupMembershipFact, ChannelIngressChannelId } from "./types.js";
+import { parseAccessGroupAllowFromEntry } from "../allow-from.ts";
+import type { ChannelIngressAdapter, ResolveChannelMessageIngressParams } from "./runtime-types.ts";
+import type { AccessGroupMembershipFact, ChannelIngressChannelId } from "./types.ts";
 
 function accessGroupNames(entries: readonly (string | number)[]): string[] {
   return uniqueStrings(

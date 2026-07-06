@@ -3,23 +3,23 @@ import {
   clearCliSession,
   setCliSessionBinding,
   setCliSessionId,
-} from "../../agents/cli-session.js";
+} from "../../agents/cli-session.ts";
 import {
   deriveSessionTotalTokens,
   hasNonzeroUsage,
   type NormalizedUsage,
-} from "../../agents/usage.js";
-import { getRuntimeConfig } from "../../config/config.js";
+} from "../../agents/usage.ts";
+import { getRuntimeConfig } from "../../config/config.ts";
 import {
   resolveSessionGoalDisplayState,
   type SessionSystemPromptReport,
   type SessionEntry,
-} from "../../config/sessions.js";
-import { updateSessionEntry } from "../../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { resolveNonNegativeNumber } from "../../shared/number-coercion.js";
-import { estimateUsageCost, resolveModelCostConfig } from "../../utils/usage-format.js";
+} from "../../config/sessions.ts";
+import { updateSessionEntry } from "../../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { resolveNonNegativeNumber } from "../../shared/number-coercion.ts";
+import { estimateUsageCost, resolveModelCostConfig } from "../../utils/usage-format.ts";
 
 function applyCliSessionIdToSessionPatch(
   params: {

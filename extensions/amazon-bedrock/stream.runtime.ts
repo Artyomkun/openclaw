@@ -329,12 +329,10 @@ export const streamBedrock: StreamFunction<"bedrock-converse-stream", BedrockOpt
 
   return stream;
 };
-
-/**
- * Human-readable prefixes for Bedrock SDK exception names.
+/*
  * The downstream retry logic in agent-session matches patterns like
- * `server.?error` and `service.?unavailable`, so we preserve the legacy
- * prefix format rather than using the raw SDK exception name.
+ * `server.?error` and `service.?unavailable`, so we preserve this
+ * prefix format for consistency with existing retry behavior.
  */
 const BEDROCK_ERROR_PREFIXES: Record<string, string> = {
   InternalServerException: "Internal server error",

@@ -1,25 +1,25 @@
 /** Prepares secrets runtime snapshots from config, auth stores, plugins, and env. */
 import { isDeepStrictEqual } from "node:util";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope-config.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope-config.ts";
 import {
   clearRuntimeAuthProfileStoreSnapshots,
   loadAuthProfileStoreForSecretsRuntime,
   loadAuthProfileStoreWithoutExternalProfiles,
-} from "../agents/auth-profiles.js";
-import type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
-import { resolveUserPath } from "../utils.js";
+} from "../agents/auth-profiles.ts";
+import type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import type { PluginOrigin } from "../plugins/plugin-origin.types.ts";
+import { resolveUserPath } from "../utils.ts";
 import {
   canUseSecretsRuntimeFastPath,
   collectCandidateAgentDirs,
   createEmptyRuntimeWebToolsMetadata,
   mergeSecretsRuntimeEnv,
   resolveRefreshAgentDirs,
-} from "./runtime-fast-path.js";
+} from "./runtime-fast-path.ts";
 import {
   activateSecretsRuntimeSnapshotState,
   clearSecretsRuntimeSnapshot as clearSecretsRuntimeSnapshotState,
@@ -32,12 +32,12 @@ import {
   setPreparedSecretsRuntimeSnapshotRefreshContext,
   type PreparedSecretsRuntimeSnapshot,
   type SecretsRuntimeRefreshContext,
-} from "./runtime-state.js";
-import { getActiveRuntimeWebToolsMetadata as getActiveRuntimeWebToolsMetadataFromState } from "./runtime-web-tools-state.js";
-import type { RuntimeWebToolsMetadata } from "./runtime-web-tools.types.js";
+} from "./runtime-state.ts";
+import { getActiveRuntimeWebToolsMetadata as getActiveRuntimeWebToolsMetadataFromState } from "./runtime-web-tools-state.ts";
+import type { RuntimeWebToolsMetadata } from "./runtime-web-tools.types.ts";
 
-export type { SecretResolverWarning } from "./runtime-shared.js";
-export type { PreparedSecretsRuntimeSnapshot } from "./runtime-state.js";
+export type { SecretResolverWarning } from "./runtime-shared.ts";
+export type { PreparedSecretsRuntimeSnapshot } from "./runtime-state.ts";
 
 registerSecretsRuntimeStateClearHook(clearRuntimeAuthProfileStoreSnapshots);
 

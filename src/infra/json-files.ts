@@ -1,81 +1,15 @@
-// Wraps fs-safe JSON reads and atomic writes with OpenClaw defaults.
-import "./fs-safe-defaults.js";
-import {
-  JsonFileReadError,
-  readJson as readJsonImpl,
-  readJsonIfExists as readJsonIfExistsImpl,
-} from "@openclaw/fs-safe/json";
-import { replaceFileAtomic } from "./replace-file.js";
+// JSON reads and atomic writes with OpenClaw defaults.
+// All filesystem operations use native Node.js fs/promises.
+
+import fs from 'node:fs/promises';
+import fsSync from 'node:fs';
+import path from 'node:path';
+import { replaceFileAtomic } from './replace-file.ts';
 
 type WriteTextAtomicBeforeRename = (params: {
   filePath: string;
   tempPath: string;
 }) => Promise<void>;
-
-export {
-  JsonFileReadError,
-  readJsonSync,
-  readRootJsonObjectSync,
-  readRootJsonSync,
-  readRootStructuredFileSync,
-  tryReadJsonSync,
-  tryReadJsonSync as readJsonFileSync,
-  writeJson,
-  writeJson as writeJsonAtomic,
-  writeJsonSync,
-} from "@openclaw/fs-safe/json";
-
-/** Reads and parses JSON, wrapping unexpected read failures in JsonFileReadError. */
-export async function readJson<T>(filePath: string): Promise<T> {
-  try {
-    return await readJsonImpl<T>(filePath);
-  } catch (err) {
-    throw err instanceof JsonFileReadError ? err : new JsonFileReadError(filePath, "read", err);
-  }
-}
-
-/** Strict JSON read alias for callers that must fail on missing or invalid files. */
-export async function readJsonFileStrict<T>(filePath: string): Promise<T> {
-  return readJson<T>(filePath);
-}
-
-/** Reads JSON when the file exists, returning null only for a missing path. */
-export async function readJsonIfExists<T>(filePath: string): Promise<T | null> {
-  try {
-    return await readJsonIfExistsImpl<T>(filePath);
-  } catch (err) {
-    if (err instanceof JsonFileReadError) {
-      throw err;
-    }
-    throw new JsonFileReadError(filePath, "read", err);
-  }
-}
-
-/** Durable JSON read alias that keeps parse/read errors visible to callers. */
-export async function readDurableJsonFile<T>(filePath: string): Promise<T | null> {
-  return readJsonIfExists<T>(filePath);
-}
-
-/**
- * tryReadJson delegates to readJsonIfExists instead of the internal
- * tryReadJsonImpl from @openclaw/fs-safe. The fs-safe implementation retries
- * race conditions before propagating errors; this wrapper keeps the historical
- * null-on-error contract for callers that intentionally treat reads as optional.
- */
-export async function tryReadJson<T>(filePath: string): Promise<T | null> {
-  try {
-    return await readJsonIfExists<T>(filePath);
-  } catch {
-    return null;
-  }
-}
-
-/** Optional JSON read that returns null for missing, invalid, or racing files. */
-export async function readJsonFile<T>(filePath: string): Promise<T | null> {
-  return tryReadJson<T>(filePath);
-}
-
-export { createAsyncLock } from "@openclaw/fs-safe/advanced";
 
 export type WriteTextAtomicOptions = {
   mode?: number;
@@ -83,21 +17,78 @@ export type WriteTextAtomicOptions = {
   trailingNewline?: boolean;
   durable?: boolean;
   beforeRename?: WriteTextAtomicBeforeRename;
-  /**
-   * Prefix for the staged `<prefix>.<pid>.<uuid>.tmp` file. Defaults to the
-   * generic `.fs-safe-replace`; pass a target-specific prefix so an orphaned
-   * temp (from a crash between write and rename) is identifiable and reclaimable.
-   */
   tempPrefix?: string;
 };
 
-/** Writes text through the repo atomic replace helper with durable fsync by default. */
+// ─── JSON read / write helpers ─────────────────────────────────
+
+async function readJsonImpl<T>(filePath: string): Promise<T> {
+  const content = await fs.readFile(filePath, 'utf8');
+  return JSON.parse(content) as T;
+}
+
+export async function readJson<T>(filePath: string): Promise<T> {
+  try {
+    return await readJsonImpl<T>(filePath);
+  } catch (err: any) {
+    if (err.code === 'ENOENT') {
+      throw new Error(`JSON file not found: ${filePath}`);
+    }
+    throw new Error(`Failed to read JSON: ${err.message}`);
+  }
+}
+
+export async function readJsonIfExists<T>(filePath: string): Promise<T | null> {
+  try {
+    return await readJsonImpl<T>(filePath);
+  } catch (err: any) {
+    if (err.code === 'ENOENT') {
+      return null;
+    }
+    throw err;
+  }
+}
+
+export async function readJsonFileStrict<T>(filePath: string): Promise<T> {
+  return readJson<T>(filePath);
+}
+
+export async function readDurableJsonFile<T>(filePath: string): Promise<T | null> {
+  return readJsonIfExists<T>(filePath);
+}
+
+export async function tryReadJson<T>(filePath: string): Promise<T | null> {
+  return readJsonIfExists<T>(filePath);
+}
+
+export async function readJsonFile<T>(filePath: string): Promise<T | null> {
+  return tryReadJson<T>(filePath);
+}
+
+export async function writeJson(filePath: string, data: unknown): Promise<void> {
+  const content = JSON.stringify(data, null, 2);
+  const tempPath = `${filePath}.tmp-${process.pid}`;
+  try {
+    await fs.writeFile(tempPath, content, 'utf8');
+    await fs.rename(tempPath, filePath);
+  } catch (err) {
+    try {
+      await fs.unlink(tempPath);
+    } catch (cleanupError) {
+      console.warn(`Failed to clean up temp file ${tempPath}:`, cleanupError);
+    }
+    throw err;
+  }
+}
+
+// ─── Atomic text write ─────────────────────────────────────────
+
 export async function writeTextAtomic(
   filePath: string,
   content: string,
   options?: WriteTextAtomicOptions,
 ): Promise<void> {
-  const payload = options?.trailingNewline && !content.endsWith("\n") ? `${content}\n` : content;
+  const payload = options?.trailingNewline && !content.endsWith('\n') ? `${content}\n` : content;
   await replaceFileAtomic({
     filePath,
     content: payload,

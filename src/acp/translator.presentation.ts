@@ -13,8 +13,8 @@ import {
   normalizeFastMode,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { BASE_THINKING_LEVELS } from "../auto-reply/thinking.shared.js";
-import type { GatewaySessionRow } from "../gateway/session-utils.js";
+import { BASE_THINKING_LEVELS } from "../auto-reply/thinking.shared.ts";
+import type { GatewaySessionRow } from "../gateway/session-utils.ts";
 
 /** ACP config option ids exposed to compatible ACP clients. */
 export const ACP_THOUGHT_LEVEL_CONFIG_ID = "thought_level";

@@ -9,7 +9,7 @@ export {
   type ExecApprovalRequestPayload,
   type ExecApprovalResolved,
   type ExecHost,
-} from "../infra/exec-approvals.js";
+} from "../infra/exec-approvals.ts";
 export {
   buildExecApprovalPendingReplyPayload,
   getExecApprovalApproverDmNoticeText,
@@ -17,24 +17,24 @@ export {
   type ExecApprovalPendingReplyParams,
   type ExecApprovalReplyDecision,
   type ExecApprovalReplyMetadata,
-} from "../infra/exec-approval-reply.js";
-export { resolveExecApprovalCommandDisplay } from "../infra/exec-approval-command-display.js";
-export { formatApprovalDisplayPath } from "../infra/approval-display-paths.js";
+} from "../infra/exec-approval-reply.ts";
+export { resolveExecApprovalCommandDisplay } from "../infra/exec-approval-command-display.ts";
+export { formatApprovalDisplayPath } from "../infra/approval-display-paths.ts";
 export {
   createChannelApproverDmTargetResolver,
   createChannelNativeOriginTargetResolver,
-} from "./approval-native-helpers.js";
+} from "./approval-native-helpers.ts";
 export {
   resolveApprovalRequestOriginTarget,
   resolveApprovalRequestSessionTarget,
   resolveExecApprovalSessionTarget,
   type ExecApprovalSessionTarget,
-} from "../infra/exec-approval-session-target.js";
+} from "../infra/exec-approval-session-target.ts";
 export {
   doesApprovalRequestMatchChannelAccount,
   resolveApprovalRequestAccountId,
   resolveApprovalRequestChannelAccountId,
-} from "../infra/approval-request-account-binding.js";
+} from "../infra/approval-request-account-binding.ts";
 export {
   buildPluginApprovalExpiredMessage,
   buildPluginApprovalRequestMessage,
@@ -44,29 +44,29 @@ export {
   type PluginApprovalRequest,
   type PluginApprovalRequestPayload,
   type PluginApprovalResolved,
-} from "../infra/plugin-approvals.js";
-export { createResolvedApproverActionAuthAdapter } from "./approval-auth-helpers.js";
+} from "../infra/plugin-approvals.ts";
+export { createResolvedApproverActionAuthAdapter } from "./approval-auth-helpers.ts";
 export {
   createChannelExecApprovalProfile,
   isChannelExecApprovalClientEnabledFromConfig,
   isChannelExecApprovalTargetRecipient,
-} from "./approval-client-helpers.js";
-export { createChannelNativeApprovalRuntime } from "../infra/approval-native-runtime.js";
+} from "./approval-client-helpers.ts";
+export { createChannelNativeApprovalRuntime } from "../infra/approval-native-runtime.ts";
 export {
   createApproverRestrictedNativeApprovalAdapter,
   createApproverRestrictedNativeApprovalCapability,
   createChannelApprovalCapability,
   splitChannelApprovalCapability,
-} from "./approval-delivery-helpers.js";
-export { resolveApprovalApprovers } from "./approval-approvers.js";
+} from "./approval-delivery-helpers.ts";
+export { resolveApprovalApprovers } from "./approval-approvers.ts";
 export {
   matchesApprovalRequestFilters,
   matchesApprovalRequestSessionFilter,
   type ApprovalRequestFilterInput,
-} from "../infra/approval-request-filters.js";
+} from "../infra/approval-request-filters.ts";
 export {
   buildApprovalPendingReplyPayload,
   buildApprovalResolvedReplyPayload,
   buildPluginApprovalPendingReplyPayload,
   buildPluginApprovalResolvedReplyPayload,
-} from "./approval-renderers.js";
+} from "./approval-renderers.ts";

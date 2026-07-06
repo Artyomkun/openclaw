@@ -1,13 +1,13 @@
 // Status-tool session resolution helpers keep storage lookup out of the tool body.
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveSessionEntryCandidateTarget, type SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { resolveSessionEntryCandidateTarget, type SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   buildAgentMainSessionKey,
   DEFAULT_AGENT_ID,
   parseAgentSessionKey,
-} from "../../routing/session-key.js";
-import { resolveInternalSessionKey } from "./sessions-helpers.js";
+} from "../../routing/session-key.ts";
+import { resolveInternalSessionKey } from "./sessions-helpers.ts";
 
 export type ResolvedStatusSessionEntry = {
   entry: SessionEntry;
@@ -75,7 +75,7 @@ export function resolveSessionStatusEntry(params: {
     : null;
 }
 
-/** Maps requester keys into the currently selected agent store's legacy main key shape. */
+/** Maps requester keys into the currently selected agent store's main key shape. */
 export function resolveStoreScopedRequesterKey(params: {
   agentId: string;
   mainKey: string;

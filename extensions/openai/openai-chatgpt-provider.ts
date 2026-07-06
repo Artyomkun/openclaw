@@ -53,7 +53,6 @@ const OPENAI_CODEX_DEVICE_PAIRING_ASSISTANT_PRIORITY = -10;
 const OPENAI_CODEX_GPT_55_MODEL_ID = "gpt-5.5";
 const OPENAI_CODEX_GPT_55_PRO_MODEL_ID = "gpt-5.5-pro";
 const OPENAI_CODEX_GPT_54_MODEL_ID = "gpt-5.4";
-const OPENAI_CODEX_GPT_54_LEGACY_MODEL_ID = "gpt-5.4-codex";
 const OPENAI_CODEX_GPT_54_MINI_MODEL_ID = "gpt-5.4-mini";
 const OPENAI_CODEX_GPT_54_PRO_MODEL_ID = "gpt-5.4-pro";
 const OPENAI_CODEX_GPT_53_SPARK_MODEL_ID = "gpt-5.3-codex-spark";
@@ -91,7 +90,6 @@ const OPENAI_CODEX_GPT_54_MINI_COST = {
   cacheWrite: 0,
 } as const;
 const OPENAI_CODEX_GPT_54_TEMPLATE_MODEL_IDS = ["gpt-5.3-codex"] as const;
-/** Legacy codex rows first; fall back to catalog `gpt-5.4` when the API omits 5.3/5.2. */
 const OPENAI_CODEX_GPT_54_CATALOG_SYNTH_TEMPLATE_MODEL_IDS = [
   ...OPENAI_CODEX_GPT_54_TEMPLATE_MODEL_IDS,
   OPENAI_CODEX_GPT_54_MODEL_ID,
@@ -117,18 +115,6 @@ const OPENAI_CODEX_IMAGE_CAPABLE_MODEL_IDS = [
   OPENAI_CODEX_GPT_54_MINI_MODEL_ID,
 ] as const;
 
-function isOpenAIOrLegacyCodexProvider(provider: string | undefined): boolean {
-  const normalized = normalizeProviderId(provider ?? "");
-  return normalized === PROVIDER_ID;
-}
-
-function isLegacyCodexCompatBaseUrl(baseUrl?: string): boolean {
-  const trimmed = baseUrl?.trim();
-  return (
-    trimmed !== undefined && /^https?:\/\/api\.githubcopilot\.com(?:\/v1)?\/?$/iu.test(trimmed)
-  );
-}
-
 function normalizeCodexTransportFields(params: {
   api?: ProviderRuntimeModel["api"] | null;
   baseUrl?: string;
@@ -139,8 +125,7 @@ function normalizeCodexTransportFields(params: {
   const useCodexTransport =
     !params.baseUrl ||
     isOpenAIApiBaseUrl(params.baseUrl) ||
-    isOpenAICodexBaseUrl(params.baseUrl) ||
-    isLegacyCodexCompatBaseUrl(params.baseUrl);
+    isOpenAICodexBaseUrl(params.baseUrl);
   const api =
     useCodexTransport &&
     (!params.api || params.api === "openai-responses" || params.api === "openai-completions")
@@ -193,11 +178,9 @@ function applyOpenAICodexImageInputCapability(params: {
 function normalizeCodexTransport(model: ProviderRuntimeModel): ProviderRuntimeModel {
   const lowerModelId = normalizeLowercaseStringOrEmpty(model.id);
   const canonicalModelId =
-    lowerModelId === OPENAI_CODEX_GPT_54_LEGACY_MODEL_ID ? OPENAI_CODEX_GPT_54_MODEL_ID : model.id;
-  const canonicalName =
-    normalizeLowercaseStringOrEmpty(model.name) === OPENAI_CODEX_GPT_54_LEGACY_MODEL_ID
-      ? OPENAI_CODEX_GPT_54_MODEL_ID
-      : model.name;
+    lowerModelId === OPENAI_CODEX_GPT_54_MODEL_ID || model.id;
+  const canonicalName = 
+    normalizeLowercaseStringOrEmpty(model.name) ===  OPENAI_CODEX_GPT_54_MODEL_ID || model.name;
   const normalizedTransport = normalizeCodexTransportFields({
     api: model.api,
     baseUrl: model.baseUrl,
@@ -263,8 +246,7 @@ function resolveCodexForwardCompatModel(ctx: ProviderResolveDynamicModelContext)
       cost: OPENAI_CODEX_GPT_55_PRO_COST,
     };
   } else if (
-    lower === OPENAI_CODEX_GPT_54_MODEL_ID ||
-    lower === OPENAI_CODEX_GPT_54_LEGACY_MODEL_ID
+    lower === OPENAI_CODEX_GPT_54_MODEL_ID
   ) {
     templateIds = OPENAI_CODEX_GPT_54_CATALOG_SYNTH_TEMPLATE_MODEL_IDS;
     patch = {
@@ -311,22 +293,16 @@ function resolveCodexForwardCompatModel(ctx: ProviderResolveDynamicModelContext)
     cloneFirstTemplateModel({
       providerId: PROVIDER_ID,
       modelId:
-        lower === OPENAI_CODEX_GPT_54_LEGACY_MODEL_ID
-          ? OPENAI_CODEX_GPT_54_MODEL_ID
-          : trimmedModelId,
+        lower ===OPENAI_CODEX_GPT_54_MODEL_ID || trimmedModelId,
       templateIds,
       ctx,
       patch,
     }) ??
     normalizeModelCompat({
       id:
-        lower === OPENAI_CODEX_GPT_54_LEGACY_MODEL_ID
-          ? OPENAI_CODEX_GPT_54_MODEL_ID
-          : trimmedModelId,
+        lower === OPENAI_CODEX_GPT_54_MODEL_ID || trimmedModelId,
       name:
-        lower === OPENAI_CODEX_GPT_54_LEGACY_MODEL_ID
-          ? OPENAI_CODEX_GPT_54_MODEL_ID
-          : trimmedModelId,
+        lower === OPENAI_CODEX_GPT_54_MODEL_ID || trimmedModelId,
       api: "openai-chatgpt-responses",
       provider: PROVIDER_ID,
       baseUrl: synthBaseUrl,
@@ -592,9 +568,6 @@ export function buildOpenAICodexProviderHooks(): Pick<
     resolveThinkingProfile: ({ modelId }) => resolveOpenAICodexThinkingProfile(modelId),
     isModernModelRef: ({ modelId }) => matchesExactOrPrefix(modelId, OPENAI_CODEX_MODERN_MODEL_IDS),
     preferRuntimeResolvedModel: (ctx) => {
-      if (!isOpenAIOrLegacyCodexProvider(ctx.provider)) {
-        return false;
-      }
       const id = ctx.modelId.trim().toLowerCase();
       return [
         OPENAI_CODEX_GPT_55_MODEL_ID,
@@ -608,9 +581,6 @@ export function buildOpenAICodexProviderHooks(): Pick<
     ...buildOpenAIResponsesProviderHooks(),
     resolveReasoningOutputMode: () => "native",
     normalizeResolvedModel: (ctx) => {
-      if (!isOpenAIOrLegacyCodexProvider(ctx.provider)) {
-        return undefined;
-      }
       const transportNormalized = normalizeCodexTransport(ctx.model);
       const imageCapable =
         applyOpenAICodexImageInputCapability({
@@ -620,9 +590,6 @@ export function buildOpenAICodexProviderHooks(): Pick<
       return imageCapable === ctx.model ? undefined : imageCapable;
     },
     normalizeTransport: ({ provider, api, baseUrl }) => {
-      if (!isOpenAIOrLegacyCodexProvider(provider)) {
-        return undefined;
-      }
       const normalized = normalizeCodexTransportFields({ api, baseUrl });
       if (normalized.api === api && normalized.baseUrl === baseUrl) {
         return undefined;

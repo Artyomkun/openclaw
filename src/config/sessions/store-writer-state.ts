@@ -3,8 +3,8 @@ import {
   clearStoreWriterQueuesForTest,
   drainStoreWriterQueuesForTest,
   type StoreWriterQueue,
-} from "../../shared/store-writer-queue.js";
-import { clearSessionStoreCaches } from "./store-cache.js";
+} from "../../shared/store-writer-queue.ts";
+import { clearSessionStoreCaches } from "./store-cache.ts";
 
 export type SessionStoreWriterQueue = StoreWriterQueue;
 

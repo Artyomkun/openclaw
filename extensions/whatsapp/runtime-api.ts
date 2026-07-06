@@ -50,7 +50,6 @@ export {
   extractText,
   monitorWebInbox,
   resetWebInboundDedupe,
-  type LegacyFlatWebInboundMessage,
   type WebInboundCallbackMessage,
   type WebInboundMessage,
   type WebInboundMessageInput,

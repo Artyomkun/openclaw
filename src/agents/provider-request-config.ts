@@ -4,25 +4,25 @@
  * Normalizes operator request overrides into transport-ready auth, proxy, TLS, header, and SSRF policy state.
  */
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { ModelDefinitionConfig } from "../config/types.js";
+import type { ModelDefinitionConfig } from "../config/types.ts";
 import type {
   ConfiguredModelProviderRequest,
   ConfiguredProviderRequest,
-} from "../config/types.provider-request.js";
-import { assertSecretInputResolved } from "../config/types.secrets.js";
-import type { PinnedDispatcherPolicy } from "../infra/net/ssrf.js";
-import type { Api } from "../llm/types.js";
-import { COPILOT_INTEGRATION_ID, buildCopilotIdeHeaders } from "./copilot-dynamic-headers.js";
+} from "../config/types.provider-request.ts";
+import { assertSecretInputResolved } from "../config/types.secrets.ts";
+import type { PinnedDispatcherPolicy } from "../infra/net/ssrf.ts";
+import type { Api } from "../llm/types.ts";
+import { COPILOT_INTEGRATION_ID, buildCopilotIdeHeaders } from "./copilot-dynamic-headers.ts";
 import type {
   ProviderRequestCapabilities,
   ProviderRequestCapability,
   ProviderRequestTransport,
-} from "./provider-attribution.js";
+} from "./provider-attribution.ts";
 import {
   resolveProviderRequestCapabilities,
   resolveProviderRequestPolicy,
   type ProviderRequestPolicyResolution,
-} from "./provider-attribution.js";
+} from "./provider-attribution.ts";
 
 type RequestApi = Api | ModelDefinitionConfig["api"];
 

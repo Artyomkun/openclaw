@@ -1,4 +1,4 @@
-import type { AnyAgentTool } from "./tools/common.js";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 export type BeforeToolCallDiagnosticOptions = {
   emitDiagnostics: boolean;

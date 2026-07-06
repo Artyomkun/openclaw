@@ -1,43 +1,43 @@
 // Public gateway/client helpers for plugins that talk to the host gateway surface.
 
-export * from "../gateway/channel-status-patches.js";
-export { addGatewayClientOptions, callGatewayFromCli } from "../cli/gateway-rpc.js";
-export type { GatewayRpcOpts } from "../cli/gateway-rpc.js";
-export { isLoopbackHost } from "../gateway/net.js";
-export { resolveHostedPluginSurfaceUrl } from "../gateway/hosted-plugin-surface-url.js";
-export type { HostedPluginSurfaceUrlParams } from "../gateway/hosted-plugin-surface-url.js";
+export * from "../gateway/channel-status-patches.ts";
+export { addGatewayClientOptions, callGatewayFromCli } from "../cli/gateway-rpc.ts";
+export type { GatewayRpcOpts } from "../cli/gateway-rpc.ts";
+export { isLoopbackHost } from "../gateway/net.ts";
+export { resolveHostedPluginSurfaceUrl } from "../gateway/hosted-plugin-surface-url.ts";
+export type { HostedPluginSurfaceUrlParams } from "../gateway/hosted-plugin-surface-url.ts";
 export {
   buildPluginNodeCapabilityScopedHostUrl,
   DEFAULT_PLUGIN_NODE_CAPABILITY_TTL_MS,
   mintPluginNodeCapabilityToken,
   normalizePluginNodeCapabilityScopedUrl,
   PLUGIN_NODE_CAPABILITY_PATH_PREFIX,
-} from "../gateway/plugin-node-capability.js";
+} from "../gateway/plugin-node-capability.ts";
 export type {
   NormalizedPluginNodeCapabilityUrl,
   PluginNodeCapabilitySurface,
-} from "../gateway/plugin-node-capability.js";
+} from "../gateway/plugin-node-capability.ts";
 export {
   isNodeCommandAllowed,
   resolveNodeCommandAllowlist,
-} from "../gateway/node-command-policy.js";
-export type { NodeSession } from "../gateway/node-registry.js";
-export { resolveNodeFromNodeList, resolveNodeIdFromNodeList } from "../shared/node-resolve.js";
-export type { NodeMatchCandidate } from "../shared/node-match.js";
+} from "../gateway/node-command-policy.ts";
+export type { NodeSession } from "../gateway/node-registry.ts";
+export { resolveNodeFromNodeList, resolveNodeIdFromNodeList } from "../shared/node-resolve.ts";
+export type { NodeMatchCandidate } from "../shared/node-match.ts";
 export {
   respondUnavailableOnNodeInvokeError,
   safeParseJson,
-} from "../gateway/server-methods/nodes.helpers.js";
-export type { GatewayRequestHandlers } from "../gateway/server-methods/types.js";
-export { ensureGatewayStartupAuth } from "../gateway/startup-auth.js";
-export { resolveGatewayAuth } from "../gateway/auth.js";
-export { rawDataToString } from "../infra/ws.js";
-export { GatewayClient } from "../gateway/client.js";
-export { startGatewayClientWhenEventLoopReady } from "../gateway/client-start-readiness.js";
+} from "../gateway/server-methods/nodes.helpers.ts";
+export type { GatewayRequestHandlers } from "../gateway/server-methods/types.ts";
+export { ensureGatewayStartupAuth } from "../gateway/startup-auth.ts";
+export { resolveGatewayAuth } from "../gateway/auth.ts";
+export { rawDataToString } from "../infra/ws.ts";
+export { GatewayClient } from "../gateway/client.ts";
+export { startGatewayClientWhenEventLoopReady } from "../gateway/client-start-readiness.ts";
 export {
   createOperatorApprovalsGatewayClient,
   withOperatorApprovalsGatewayClient,
-} from "../gateway/operator-approvals-client.js";
-export { ErrorCodes, errorShape } from "../../packages/gateway-protocol/src/index.js";
-export type { EventFrame } from "../../packages/gateway-protocol/src/index.js";
-export type { GatewayRequestHandlerOptions } from "../gateway/server-methods/types.js";
+} from "../gateway/operator-approvals-client.ts";
+export { ErrorCodes, errorShape } from "../../packages/gateway-protocol/src/index.ts";
+export type { EventFrame } from "../../packages/gateway-protocol/src/index.ts";
+export type { GatewayRequestHandlerOptions } from "../gateway/server-methods/types.ts";

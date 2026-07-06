@@ -7,21 +7,21 @@ import {
 import type {
   ChannelMessageSendCommitContext,
   ChannelMessageUnknownSendReconciliationResult,
-} from "../../channels/message/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../channels/message/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   claimRecoveryEntry as claimSharedRecoveryEntry,
   computeBackoffMs,
   getErrnoCode,
   releaseRecoveryEntry as releaseSharedRecoveryEntry,
-} from "../delivery-recovery.shared.js";
-import { formatErrorMessage } from "../errors.js";
-import { resolveOutboundChannelMessageAdapter } from "./channel-resolution.js";
-import type { OutboundDeliveryResult } from "./deliver-types.js";
+} from "../delivery-recovery.shared.ts";
+import { formatErrorMessage } from "../errors.ts";
+import { resolveOutboundChannelMessageAdapter } from "./channel-resolution.ts";
+import type { OutboundDeliveryResult } from "./deliver-types.ts";
 import {
   isOutboundDeliveryResultArray,
   runOutboundDeliveryCommitHooks,
-} from "./delivery-commit-hooks.js";
+} from "./delivery-commit-hooks.ts";
 import {
   ackDelivery,
   failDelivery,
@@ -30,7 +30,7 @@ import {
   moveToFailed,
   type QueuedDelivery,
   type QueuedDeliveryPayload,
-} from "./delivery-queue-storage.js";
+} from "./delivery-queue-storage.ts";
 
 export { computeBackoffMs };
 

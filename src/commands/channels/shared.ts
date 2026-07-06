@@ -1,16 +1,16 @@
 // Shared config loading and account-line formatting helpers for channel commands.
-import { hasConfiguredUnavailableCredentialStatus } from "../../channels/account-snapshot-fields.js";
-import type { ChannelId } from "../../channels/plugins/types.public.js";
-import { resolveCommandConfigWithSecrets } from "../../cli/command-config-resolution.js";
-import type { CommandSecretResolutionMode } from "../../cli/command-secret-gateway.js";
-import { getChannelsCommandSecretTargetIds } from "../../cli/command-secret-targets.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
-import { defaultRuntime, type RuntimeEnv } from "../../runtime.js";
+import { hasConfiguredUnavailableCredentialStatus } from "../../channels/account-snapshot-fields.ts";
+import type { ChannelId } from "../../channels/plugins/types.public.ts";
+import { resolveCommandConfigWithSecrets } from "../../cli/command-config-resolution.ts";
+import type { CommandSecretResolutionMode } from "../../cli/command-secret-gateway.ts";
+import { getChannelsCommandSecretTargetIds } from "../../cli/command-secret-targets.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.ts";
+import { defaultRuntime, type RuntimeEnv } from "../../runtime.ts";
 import {
   requireValidConfigFileSnapshot,
   requireValidConfigSnapshot,
-} from "../config-validation.js";
+} from "../config-validation.ts";
 
 export type ChatChannel = ChannelId;
 

@@ -3,15 +3,15 @@
  */
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { CliBackendConfig } from "../../config/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { AGENT_LANE_SUBAGENT } from "../lanes.js";
+import type { CliBackendConfig } from "../../config/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { AGENT_LANE_SUBAGENT } from "../lanes.ts";
 import {
   CLI_FRESH_WATCHDOG_DEFAULTS,
   CLI_RESUME_WATCHDOG_DEFAULTS,
   CLI_WATCHDOG_MIN_TIMEOUT_MS,
-} from "../cli-watchdog-defaults.js";
-import type { EmbeddedRunTrigger } from "../embedded-agent-runner/run/params.js";
+} from "../cli-watchdog-defaults.ts";
+import type { EmbeddedRunTrigger } from "../embedded-agent-runner/run/params.ts";
 
 function pickWatchdogProfile(
   backend: CliBackendConfig,

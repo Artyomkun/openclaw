@@ -1,16 +1,16 @@
 // Hook update helpers refresh installed hook records and config references.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { buildNpmResolutionFields } from "../infra/install-source-utils.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { buildNpmResolutionFields } from "../infra/install-source-utils.ts";
 import {
   expectedIntegrityForUpdate,
   readInstalledPackageVersion,
-} from "../infra/package-update-utils.js";
+} from "../infra/package-update-utils.ts";
 import {
   installHooksFromNpmSpec,
   type HookNpmIntegrityDriftParams,
   resolveHookInstallDir,
-} from "./install.js";
-import { recordHookInstall } from "./installs.js";
+} from "./install.ts";
+import { recordHookInstall } from "./installs.ts";
 
 /** Logger contract for hook pack update operations. */
 export type HookPackUpdateLogger = {

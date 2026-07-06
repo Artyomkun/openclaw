@@ -3,29 +3,29 @@
  *
  * Owns registration, lifecycle, delivery retry, steering, orphan recovery, persistence, and cleanup for child runs.
  */
-import type { cleanupBrowserSessionsForLifecycleEnd } from "../browser-lifecycle-cleanup.js";
-import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ResolveContextEngineOptions } from "../context-engine/registry.js";
-import type { ContextEngine, SubagentEndReason } from "../context-engine/types.js";
-import { callGateway } from "../gateway/call.js";
-import { getAgentRunContext, onAgentEvent } from "../infra/agent-events.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { formatBlockedLivenessError, isBlockedLivenessState } from "../shared/agent-liveness.js";
-import { createLazyImportLoader, createLazyPromiseLoader } from "../shared/lazy-promise.js";
-import { importRuntimeModule } from "../shared/runtime-import.js";
-import { normalizeDeliveryContext } from "../utils/delivery-context.shared.js";
-import type { DeliveryContext } from "../utils/delivery-context.types.js";
+import type { cleanupBrowserSessionsForLifecycleEnd } from "../browser-lifecycle-cleanup.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ResolveContextEngineOptions } from "../context-engine/registry.ts";
+import type { ContextEngine, SubagentEndReason } from "../context-engine/types.ts";
+import { callGateway } from "../gateway/call.ts";
+import { getAgentRunContext, onAgentEvent } from "../infra/agent-events.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { formatBlockedLivenessError, isBlockedLivenessState } from "../shared/agent-liveness.ts";
+import { createLazyImportLoader, createLazyPromiseLoader } from "../shared/lazy-promise.ts";
+import { importRuntimeModule } from "../shared/runtime-import.ts";
+import { normalizeDeliveryContext } from "../utils/delivery-context.shared.ts";
+import type { DeliveryContext } from "../utils/delivery-context.types.ts";
 import {
   ackLeasedAgentSteeringItemsFromSubagentRuns,
   leasePendingAgentSteeringItemsFromSubagentRuns,
   prependAgentSteeringPrompt,
   releaseLeasedAgentSteeringItemsFromSubagentRuns,
-} from "./agent-steering-queue.js";
-import { removeInternalSessionEffectsTranscript } from "./internal-session-effects.js";
-import { isAbortedAgentStopReason } from "./run-termination.js";
-import type { ensureRuntimePluginsLoaded as ensureRuntimePluginsLoadedFn } from "./runtime-plugins.js";
-import type { SubagentRunOutcome } from "./subagent-announce-output.js";
+} from "./agent-steering-queue.ts";
+import { removeInternalSessionEffectsTranscript } from "./internal-session-effects.ts";
+import { isAbortedAgentStopReason } from "./run-termination.ts";
+import type { ensureRuntimePluginsLoaded as ensureRuntimePluginsLoadedFn } from "./runtime-plugins.ts";
+import type { SubagentRunOutcome } from "./subagent-announce-output.ts";
 import {
   ensureCompletionState,
   ensureDeliveryState,
@@ -33,17 +33,17 @@ import {
   getDeliveryLastAttemptAt,
   getDeliveryLastError,
   isDeliverySuspended,
-} from "./subagent-delivery-state.js";
+} from "./subagent-delivery-state.ts";
 import {
   SUBAGENT_ENDED_REASON_COMPLETE,
   SUBAGENT_ENDED_REASON_ERROR,
   SUBAGENT_ENDED_REASON_KILLED,
   type SubagentLifecycleEndedReason,
-} from "./subagent-lifecycle-events.js";
+} from "./subagent-lifecycle-events.ts";
 import {
   emitSubagentEndedHookOnce,
   resolveLifecycleOutcomeFromRunOutcome,
-} from "./subagent-registry-completion.js";
+} from "./subagent-registry-completion.ts";
 import {
   ANNOUNCE_EXPIRY_MS,
   MAX_ANNOUNCE_RETRY_COUNT,
@@ -51,9 +51,9 @@ import {
   reconcileOrphanedRun,
   resolveAnnounceRetryDelayMs,
   safeRemoveAttachmentsDir,
-} from "./subagent-registry-helpers.js";
-import { createSubagentRegistryLifecycleController } from "./subagent-registry-lifecycle.js";
-import { subagentRuns } from "./subagent-registry-memory.js";
+} from "./subagent-registry-helpers.ts";
+import { createSubagentRegistryLifecycleController } from "./subagent-registry-lifecycle.ts";
+import { subagentRuns } from "./subagent-registry-memory.ts";
 import {
   countActiveDescendantRunsFromRuns,
   countActiveRunsForSessionFromRuns,
@@ -66,21 +66,21 @@ import {
   listRunsForRequesterFromRuns,
   resolveRequesterForChildSessionFromRuns,
   shouldIgnorePostCompletionAnnounceForSessionFromRuns,
-} from "./subagent-registry-queries.js";
+} from "./subagent-registry-queries.ts";
 import {
   createSubagentRunManager,
   markSubagentRunPausedAfterYield,
   type RegisterSubagentRunParams,
-} from "./subagent-registry-run-manager.js";
+} from "./subagent-registry-run-manager.ts";
 import {
   clearSubagentRunsReadCacheForTest,
   getSubagentRunsSnapshotForRead,
   persistSubagentRunsToDisk,
   persistSubagentRunsToDiskOrThrow,
   restoreSubagentRunsFromDisk,
-} from "./subagent-registry-state.js";
-import { configureSubagentRegistrySteerRuntime } from "./subagent-registry-steer-runtime.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "./subagent-registry-state.ts";
+import { configureSubagentRegistrySteerRuntime } from "./subagent-registry-steer-runtime.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 import {
   loadSubagentSessionEntry,
   resolveCompletionFromSessionEntry,
@@ -88,15 +88,15 @@ import {
   resolveSubagentSessionCompletion,
   resolveSubagentSessionStartedAt,
   type SubagentSessionStoreCache,
-} from "./subagent-session-reconciliation.js";
-import { resolveAgentTimeoutMs } from "./timeout.js";
+} from "./subagent-session-reconciliation.ts";
+import { resolveAgentTimeoutMs } from "./timeout.ts";
 
-export type { SubagentRunRecord } from "./subagent-registry.types.js";
+export type { SubagentRunRecord } from "./subagent-registry.types.ts";
 export {
   getSubagentSessionRuntimeMs,
   getSubagentSessionStartedAt,
   resolveSubagentSessionStatus,
-} from "./subagent-registry-helpers.js";
+} from "./subagent-registry-helpers.ts";
 const log = createSubsystemLogger("agents/subagent-registry");
 
 type SubagentAnnounceModule = Pick<
@@ -1539,5 +1539,5 @@ export function initSubagentRegistry() {
 
 // Importing this module also registers the subagent maintenance preserve-key
 // provider as a side effect (see subagent-registry-maintenance.ts).
-export { listSessionMaintenanceProtectedSubagentSessionKeys } from "./subagent-registry-maintenance.js";
+export { listSessionMaintenanceProtectedSubagentSessionKeys } from "./subagent-registry-maintenance.ts";
 export { testing as __testing };

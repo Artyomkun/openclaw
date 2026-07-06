@@ -2,30 +2,30 @@
 // Projects transcript and lifecycle updates to websocket subscribers.
 import { asPositiveSafeInteger } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { getRuntimeConfig } from "../config/io.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import type { SessionLifecycleEvent } from "../sessions/session-lifecycle-events.js";
-import type { InternalSessionTranscriptUpdate } from "../sessions/transcript-events.js";
-import type { ChatAbortControllerEntry } from "./chat-abort.js";
-import { projectChatDisplayMessage } from "./chat-display-projection.js";
-import type { GatewayBroadcastToConnIdsFn } from "./server-broadcast-types.js";
+import { resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { getRuntimeConfig } from "../config/io.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import type { SessionLifecycleEvent } from "../sessions/session-lifecycle-events.ts";
+import type { InternalSessionTranscriptUpdate } from "../sessions/transcript-events.ts";
+import type { ChatAbortControllerEntry } from "./chat-abort.ts";
+import { projectChatDisplayMessage } from "./chat-display-projection.ts";
+import type { GatewayBroadcastToConnIdsFn } from "./server-broadcast-types.ts";
 import type {
   SessionEventSubscriberRegistry,
   SessionMessageSubscriberRegistry,
-} from "./server-chat.js";
-import { hasTrackedActiveSessionRun } from "./server-methods/session-active-runs.js";
-import { buildGatewaySessionEventFields } from "./session-event-payload.js";
-import { resolveSessionKeyForTranscriptFile } from "./session-transcript-key.js";
+} from "./server-chat.ts";
+import { hasTrackedActiveSessionRun } from "./server-methods/session-active-runs.ts";
+import { buildGatewaySessionEventFields } from "./session-event-payload.ts";
+import { resolveSessionKeyForTranscriptFile } from "./session-transcript-key.ts";
 import {
   attachOpenClawTranscriptMeta,
   readSessionMessageCountAsync,
-} from "./session-transcript-readers.js";
+} from "./session-transcript-readers.ts";
 import {
   loadGatewaySessionRow,
   loadSessionEntry,
   type GatewaySessionRow,
-} from "./session-utils.js";
+} from "./session-utils.ts";
 
 type SessionEventSubscribers = Pick<SessionEventSubscriberRegistry, "getAll">;
 type SessionMessageSubscribers = Pick<SessionMessageSubscriberRegistry, "get">;

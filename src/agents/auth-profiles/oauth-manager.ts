@@ -3,19 +3,19 @@
  * Resolves usable access tokens, refreshes expired credentials under global
  * locks, adopts safer main-store credentials, and mirrors refreshed tokens.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeSecretInputString } from "../../config/types.secrets.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { withFileLock } from "../../infra/file-lock.js";
-import { redactSensitiveText } from "../../logging/redact.js";
-import { asDateTimestampMs } from "../../shared/number-coercion.js";
-import { OAUTH_REFRESH_CALL_TIMEOUT_MS, OAUTH_REFRESH_LOCK_OPTIONS, log } from "./constants.js";
-import { shouldMirrorRefreshedOAuthCredential } from "./oauth-identity.js";
-import { OAuthRefreshFailureError } from "./oauth-refresh-failure.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeSecretInputString } from "../../config/types.secrets.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { withFileLock } from "../../infra/file-lock.ts";
+import { redactSensitiveText } from "../../logging/redact.ts";
+import { asDateTimestampMs } from "../../shared/number-coercion.ts";
+import { OAUTH_REFRESH_CALL_TIMEOUT_MS, OAUTH_REFRESH_LOCK_OPTIONS, log } from "./constants.ts";
+import { shouldMirrorRefreshedOAuthCredential } from "./oauth-identity.ts";
+import { OAuthRefreshFailureError } from "./oauth-refresh-failure.ts";
 import {
   buildRefreshContentionError,
   isGlobalRefreshLockTimeoutError,
-} from "./oauth-refresh-lock-errors.js";
+} from "./oauth-refresh-lock-errors.ts";
 import {
   areOAuthCredentialsEquivalent,
   hasMatchingOAuthIdentity,
@@ -28,15 +28,15 @@ import {
   shouldPersistRuntimeExternalOAuthProfile,
   shouldReplaceStoredOAuthCredential,
   type RuntimeExternalOAuthProfile,
-} from "./oauth-shared.js";
-import { resolveAuthStorePath, resolveOAuthRefreshLockPath } from "./paths.js";
+} from "./oauth-shared.ts";
+import { resolveAuthStorePath, resolveOAuthRefreshLockPath } from "./paths.ts";
 import {
   ensureAuthProfileStoreWithoutExternalProfiles,
   loadAuthProfileStoreWithoutExternalProfiles,
   resolvePersistedAuthProfileOwnerAgentDir,
   updateAuthProfileStoreWithLock,
-} from "./store.js";
-import type { AuthProfileStore, OAuthCredential, OAuthCredentials } from "./types.js";
+} from "./store.ts";
+import type { AuthProfileStore, OAuthCredential, OAuthCredentials } from "./types.ts";
 
 export type OAuthManagerAdapter = {
   buildApiKey: (

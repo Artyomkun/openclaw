@@ -5,22 +5,22 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { retireSessionMcpRuntime } from "../../agents/agent-bundle-mcp-tools.js";
-import { resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { clearBootstrapSnapshotOnSessionRollover } from "../../agents/bootstrap-cache.js";
-import { getCliSessionBinding } from "../../agents/cli-session.js";
-import { resetRegisteredAgentHarnessSessions } from "../../agents/harness/registry.js";
-import { cleanupBrowserSessionsForLifecycleEnd } from "../../browser-lifecycle-cleanup.js";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import { resolveGroupSessionKey } from "../../config/sessions/group.js";
+import { retireSessionMcpRuntime } from "../../agents/agent-bundle-mcp-tools.ts";
+import { resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { clearBootstrapSnapshotOnSessionRollover } from "../../agents/bootstrap-cache.ts";
+import { getCliSessionBinding } from "../../agents/cli-session.ts";
+import { resetRegisteredAgentHarnessSessions } from "../../agents/harness/registry.ts";
+import { cleanupBrowserSessionsForLifecycleEnd } from "../../browser-lifecycle-cleanup.ts";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import { resolveGroupSessionKey } from "../../config/sessions/group.ts";
 import {
   hasTerminalMainSessionTranscriptNewerThanRegistry,
   resolveSessionLifecycleTimestamps,
-} from "../../config/sessions/lifecycle.js";
-import { canonicalizeMainSessionAlias } from "../../config/sessions/main-session.js";
-import { deriveSessionMetaPatch } from "../../config/sessions/metadata.js";
-import { resolveSessionTranscriptPath, resolveStorePath } from "../../config/sessions/paths.js";
-import { resolveResetPreservedSelection } from "../../config/sessions/reset-preserved-selection.js";
+} from "../../config/sessions/lifecycle.ts";
+import { canonicalizeMainSessionAlias } from "../../config/sessions/main-session.ts";
+import { deriveSessionMetaPatch } from "../../config/sessions/metadata.ts";
+import { resolveSessionTranscriptPath, resolveStorePath } from "../../config/sessions/paths.ts";
+import { resolveResetPreservedSelection } from "../../config/sessions/reset-preserved-selection.ts";
 import {
   evaluateSessionFreshness,
   resolveChannelResetConfig,
@@ -28,64 +28,63 @@ import {
   resolveSessionResetType,
   resolveThreadFlag,
   type SessionFreshness,
-} from "../../config/sessions/reset.js";
+} from "../../config/sessions/reset.ts";
 import {
   commitReplySessionInitialization,
   loadReplySessionInitializationSnapshot,
-} from "../../config/sessions/session-accessor.js";
-import { resolveSessionKey } from "../../config/sessions/session-key.js";
-import { resolveMaintenanceConfigFromInput } from "../../config/sessions/store-maintenance.js";
-import { runExclusiveSessionStoreWrite } from "../../config/sessions/store-writer.js";
-import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.js";
+} from "../../config/sessions/session-accessor.ts";
+import { resolveSessionKey } from "../../config/sessions/session-key.ts";
+import { resolveMaintenanceConfigFromInput } from "../../config/sessions/store-maintenance.ts";
+import { runExclusiveSessionStoreWrite } from "../../config/sessions/store-writer.ts";
+import { parseSessionThreadInfoFast } from "../../config/sessions/thread-info.ts";
 import {
   DEFAULT_RESET_TRIGGERS,
   type GroupKeyResolution,
   type SessionEntry,
   type SessionScope,
-} from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { TtsAutoMode } from "../../config/types.tts.js";
+} from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { TtsAutoMode } from "../../config/types.tts.ts";
 import {
   forgetActiveSessionForShutdown,
   noteActiveSessionForShutdown,
-} from "../../gateway/active-sessions-shutdown-tracker.js";
-import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
-import { deliverSessionMaintenanceWarning } from "../../infra/session-maintenance-warning.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import type { PluginHookSessionEndReason } from "../../plugins/hook-types.js";
+} from "../../gateway/active-sessions-shutdown-tracker.ts";
+import { getSessionBindingService } from "../../infra/outbound/session-binding-service.ts";
+import { deliverSessionMaintenanceWarning } from "../../infra/session-maintenance-warning.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import type { PluginHookSessionEndReason } from "../../plugins/hook-types.ts";
 import {
   buildAgentMainSessionKey,
   isAcpSessionKey,
   normalizeMainKey,
-} from "../../routing/session-key.js";
-import { isInterSessionInputProvenance } from "../../sessions/input-provenance.js";
+} from "../../routing/session-key.ts";
+import { isInterSessionInputProvenance } from "../../sessions/input-provenance.ts";
 import {
   normalizeDeliveryChannelRoute,
   normalizeSessionDeliveryFields,
-} from "../../utils/delivery-context.shared.js";
-import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.js";
-import { normalizeCommandBody } from "../commands-registry.js";
-import type { MsgContext, TemplateContext } from "../templating.js";
-import { resolveEffectiveResetTargetSessionKey } from "./acp-reset-target.js";
-import { parseSoftResetCommand } from "./commands-reset-mode.js";
-import { resolveConversationBindingContextFromMessage } from "./conversation-binding-input.js";
-import { normalizeInboundTextNewlines } from "./inbound-text.js";
-import { stripMentions, stripStructuralPrefixes } from "./mentions.js";
-import { isResetAuthorizedForContext } from "./reset-authorization.js";
+} from "../../utils/delivery-context.shared.ts";
+import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.ts";
+import { normalizeCommandBody } from "../commands-registry.ts";
+import type { MsgContext, TemplateContext } from "../templating.ts";
+import { resolveEffectiveResetTargetSessionKey } from "./acp-reset-target.ts";
+import { parseSoftResetCommand } from "./commands-reset-mode.ts";
+import { resolveConversationBindingContextFromMessage } from "./conversation-binding-input.ts";
+import { normalizeInboundTextNewlines } from "./inbound-text.ts";
+import { stripMentions, stripStructuralPrefixes } from "./mentions.ts";
+import { isResetAuthorizedForContext } from "./reset-authorization.ts";
 import {
-  maybeRetireLegacyMainDeliveryRoute,
   resolveLastChannelRaw,
   resolveLastToRaw,
-} from "./session-delivery.js";
-import { replyRunRegistry } from "./reply-run-registry.js";
+} from "./session-delivery.ts";
+import { replyRunRegistry } from "./reply-run-registry.ts";
 import {
   createReplySessionEntryHandle,
   type ReplySessionEntryHandle,
-} from "./session-entry-handle.js";
-import { buildSessionEndHookPayload, buildSessionStartHookPayload } from "./session-hooks.js";
-import { prepareReplySessionParentFork } from "./session-parent-fork-prepare.js";
-import { clearSessionResetRuntimeState } from "./session-reset-cleanup.js";
+} from "./session-entry-handle.ts";
+import { buildSessionEndHookPayload, buildSessionStartHookPayload } from "./session-hooks.ts";
+import { prepareReplySessionParentFork } from "./session-parent-fork-prepare.ts";
+import { clearSessionResetRuntimeState } from "./session-reset-cleanup.ts";
 
 const log = createSubsystemLogger("session-init");
 
@@ -447,20 +446,6 @@ async function initSessionStateAttemptLocked(
         `elapsedMs=${Date.now() - sessionStoreLoadStartMs} path=${storePath}`,
     );
   }
-  const retiredLegacyMainDelivery = maybeRetireLegacyMainDeliveryRoute({
-    sessionCfg,
-    sessionKey,
-    legacyMain: initializationSnapshot.readEntry(
-      buildAgentMainSessionKey({
-        agentId,
-        mainKey,
-      }),
-    ),
-    agentId,
-    mainKey,
-    isGroup,
-    ctx,
-  });
   const entry = initializationSnapshot.currentEntry;
   const now = Date.now();
   const isThread = resolveThreadFlag({
@@ -896,7 +881,6 @@ async function initSessionStateAttemptLocked(
         warn: (message) => log.warn(message),
       }),
     previousEntry: previousSessionEntry,
-    retiredEntry: retiredLegacyMainDelivery,
     sessionEntry,
     sessionKey,
     storePath,

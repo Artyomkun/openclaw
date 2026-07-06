@@ -11,11 +11,11 @@ import {
   resolveTimestampMsToIsoString,
 } from "@openclaw/normalization-core/number-coercion";
 import { z } from "zod";
-import { resolveConfigPath, resolveGatewayLockDir, resolveStateDir } from "../config/paths.js";
-import { isPidAlive } from "../shared/pid-alive.js";
-import { safeParseJsonWithSchema } from "../utils/zod-parse.js";
-import { isGatewayArgv, parseProcCmdline } from "./gateway-process-argv.js";
-import { readWindowsProcessArgsSync } from "./windows-port-pids.js";
+import { resolveConfigPath, resolveGatewayLockDir, resolveStateDir } from "../config/paths.ts";
+import { isPidAlive } from "../shared/pid-alive.ts";
+import { safeParseJsonWithSchema } from "../utils/zod-parse.ts";
+import { isGatewayArgv, parseProcCmdline } from "./gateway-process-argv.ts";
+import { readWindowsProcessArgsSync } from "./windows-port-pids.ts";
 
 const DEFAULT_TIMEOUT_MS = 5000;
 const DEFAULT_POLL_INTERVAL_MS = 100;
@@ -200,7 +200,7 @@ async function resolveGatewayOwnerStatus(
   const readFn = readCmdline ?? ((p: number) => defaultReadProcessCmdline(p, platform));
   const args = readFn(pid);
   if (!args) {
-    // Cmdline reader unavailable or failed. On Linux legacy locks (no
+    // Cmdline reader unavailable or failed. On Linux older locks (no
     // start-time), "unknown" lets the stale-lock heuristic eventually reclaim
     // very old locks. On win32/darwin/other, conservatively assume "alive" to
     // preserve single-instance guarantees when wmic/ps is unavailable.

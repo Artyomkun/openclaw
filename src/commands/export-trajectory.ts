@@ -1,22 +1,22 @@
 /** CLI command for exporting a session transcript as a trajectory artifact. */
 import path from "node:path";
-import { formatCliCommand } from "../cli/command-format.js";
-import { getRuntimeConfig } from "../config/config.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   resolveStorePath,
-} from "../config/sessions/paths.js";
-import { loadSessionEntry } from "../config/sessions/session-accessor.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { pathExists } from "../infra/fs-safe.js";
-import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
+} from "../config/sessions/paths.ts";
+import { loadSessionEntry } from "../config/sessions/session-accessor.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { pathExists } from "../infra/fs-safe.ts";
+import { resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
 import {
   exportTrajectoryForCommand,
   formatTrajectoryCommandExportSummary,
   type TrajectoryCommandExportSummary,
-} from "../trajectory/command-export.js";
+} from "../trajectory/command-export.ts";
 
 type ExportTrajectoryCommandOptions = {
   sessionKey?: string;

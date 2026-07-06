@@ -1,15 +1,15 @@
 // Secrets CLI for reload, audit, configure, and apply workflows.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { danger } from "../globals.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { defaultRuntime } from "../runtime.js";
-import type { SecretsApplyPlan } from "../secrets/plan.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { formatCliCommand } from "./command-format.js";
-import { formatGatewayCommandFailure } from "./error-format.js";
-import { addGatewayClientOptions, callGatewayFromCli, type GatewayRpcOpts } from "./gateway-rpc.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { danger } from "../globals.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { defaultRuntime } from "../runtime.ts";
+import type { SecretsApplyPlan } from "../secrets/plan.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { formatGatewayCommandFailure } from "./error-format.ts";
+import { addGatewayClientOptions, callGatewayFromCli, type GatewayRpcOpts } from "./gateway-rpc.ts";
 
 type FsModule = typeof import("node:fs");
 type ClackPromptsModule = typeof import("@clack/prompts");
@@ -129,7 +129,7 @@ export function registerSecretsCli(program: Command): void {
           defaultRuntime.writeJson(report);
         } else {
           defaultRuntime.log(
-            `Secrets audit: ${report.status}. plaintext=${report.summary.plaintextCount}, unresolved=${report.summary.unresolvedRefCount}, shadowed=${report.summary.shadowedRefCount}, legacy=${report.summary.legacyResidueCount}.`,
+            `Secrets audit: ${report.status}. plaintext=${report.summary.plaintextCount}, unresolved=${report.summary.unresolvedRefCount}, shadowed=${report.summary.shadowedRefCount}.`,
           );
           if (report.findings.length > 0) {
             for (const finding of report.findings.slice(0, 20)) {

@@ -1,4 +1,4 @@
-import { createSessionManagerRuntimeRegistry } from "../agent-hooks/session-manager-runtime-registry.js";
+import { createSessionManagerRuntimeRegistry } from "../agent-hooks/session-manager-runtime-registry.ts";
 
 type ToolSendReceiptResult = {
   details: {

@@ -1,11 +1,11 @@
 // Formats update-restart sentinel state for status reports.
 // The sentinel is written by update flows; status only turns it into operator-facing hints.
 
-import type { RestartSentinelPayload } from "../infra/restart-sentinel.js";
+import type { RestartSentinelPayload } from "../infra/restart-sentinel.ts";
 import {
   CONTROL_PLANE_UPDATE_HANDOFF_STARTED_REASON,
   CONTROL_PLANE_UPDATE_RESTART_HEALTH_PENDING_REASON,
-} from "../infra/update-control-plane-sentinel.js";
+} from "../infra/update-control-plane-sentinel.ts";
 
 type Formatter = (value: string) => string;
 

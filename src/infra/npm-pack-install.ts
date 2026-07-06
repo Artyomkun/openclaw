@@ -4,16 +4,16 @@ import {
   type NpmSpecResolution,
   packNpmSpecToArchive,
   withTempDir,
-} from "./install-source-utils.js";
+} from "./install-source-utils.ts";
 import {
   type NpmIntegrityDriftPayload,
   resolveNpmIntegrityDriftWithDefaultMessage,
-} from "./npm-integrity.js";
+} from "./npm-integrity.ts";
 import {
   formatPrereleaseResolutionError,
   isPrereleaseResolutionAllowed,
   parseRegistryNpmSpec,
-} from "./npm-registry-spec.js";
+} from "./npm-registry-spec.ts";
 
 type NpmSpecArchiveInstallFlowResult<TResult extends { ok: boolean }> =
   | {

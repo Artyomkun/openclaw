@@ -4,15 +4,15 @@
  * Adapts declarative wizard definitions into imperative setup adapters used by onboarding.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
-import { configureChannelAccessWithAllowlist } from "./setup-group-access-configure.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.ts";
+import { configureChannelAccessWithAllowlist } from "./setup-group-access-configure.ts";
 import {
   promptResolvedAllowFrom,
   resolveAccountIdForConfigure,
   runSingleChannelSecretStep,
   splitSetupEntries,
-} from "./setup-wizard-helpers.js";
+} from "./setup-wizard-helpers.ts";
 import type {
   ChannelSetupPlugin,
   ChannelSetupWizardAdapter,
@@ -21,8 +21,8 @@ import type {
   ChannelSetupWizardTextInput,
   ChannelSetupStatus,
   ChannelSetupStatusContext,
-} from "./setup-wizard-types.js";
-import type { ChannelSetupInput } from "./types.core.js";
+} from "./setup-wizard-types.ts";
+import type { ChannelSetupInput } from "./types.core.ts";
 
 export type {
   ChannelSetupWizard,
@@ -37,7 +37,7 @@ export type {
   ChannelSetupWizardPrepare,
   ChannelSetupWizardStatus,
   ChannelSetupWizardTextInput,
-} from "./setup-wizard-types.js";
+} from "./setup-wizard-types.ts";
 
 type ChannelSetupWizardPlugin = ChannelSetupPlugin;
 
@@ -76,7 +76,7 @@ async function buildStatus(
   };
 }
 
-// Legacy setup adapters still own the canonical config write path. Wizard
+// Setup adapters still own the canonical config write path. Wizard
 // inputs funnel through them unless a field supplies a narrower writer.
 function applySetupInput(params: {
   plugin: ChannelSetupWizardPlugin;

@@ -1,15 +1,15 @@
 // Session transcript hit helpers describe and load matched transcript snippets for plugins.
 import path from "node:path";
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
-import { uniqueStrings } from "../../packages/normalization-core/src/string-normalization.js";
-import { parseUsageCountedSessionIdFromFileName } from "../config/sessions/artifacts.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import { normalizeAgentId } from "../routing/session-key.js";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
+import { uniqueStrings } from "../../packages/normalization-core/src/string-normalization.ts";
+import { parseUsageCountedSessionIdFromFileName } from "../config/sessions/artifacts.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
 export {
   formatSessionTranscriptMemoryHitKey,
   parseSessionTranscriptMemoryHitKey,
   resolveSessionTranscriptMemoryHitKeyToSessionKeys,
-} from "./session-transcript-memory-hit.js";
+} from "./session-transcript-memory-hit.ts";
 export type {
   ResolveSessionTranscriptMemoryHitKeyParams,
   SessionTranscriptIdentity,
@@ -17,9 +17,9 @@ export type {
   SessionTranscriptMemoryHitKey,
   SessionTranscriptMemoryHitKeyParams,
   SessionTranscriptReadParams,
-} from "./session-transcript-memory-hit.js";
+} from "./session-transcript-memory-hit.ts";
 
-export { loadCombinedSessionStoreForGateway } from "../config/sessions/combined-store-gateway.js";
+export { loadCombinedSessionStoreForGateway } from "../config/sessions/combined-store-gateway.ts";
 
 const QMD_ARCHIVE_STEM_RE = /^(.+)-jsonl-(reset|deleted)-(.+)$/;
 const QMD_ARCHIVE_TIMESTAMP_RE =

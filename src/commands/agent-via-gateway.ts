@@ -7,16 +7,16 @@ import { normalizeOptionalString } from "@openclaw/normalization-core/string-coe
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { listAgentIds, resolveDefaultAgentId } from "../agents/agent-scope-config.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import { withProgress } from "../cli/progress.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { listAgentIds, resolveDefaultAgentId } from "../agents/agent-scope-config.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { withProgress } from "../cli/progress.ts";
 import {
   readGatewayDispatchConfig,
   readGatewayDispatchConfigWithShellEnvFallback,
-} from "../config/gateway-dispatch-config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../config/gateway-dispatch-config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   callGateway,
   isGatewayCredentialsRequiredError,
@@ -24,20 +24,17 @@ import {
   isGatewayTransportError,
   randomIdempotencyKey,
   type GatewayRequestFunction,
-} from "../gateway/call.js";
-import { isGatewaySecretRefUnavailableError } from "../gateway/credentials.js";
-import { ADMIN_SCOPE } from "../gateway/operator-scopes.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
-import { routeLogsToStderr } from "../logging/console.js";
+} from "../gateway/call.ts";
+import { isGatewaySecretRefUnavailableError } from "../gateway/credentials.ts";
+import { ADMIN_SCOPE } from "../gateway/operator-scopes.ts";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
+import { routeLogsToStderr } from "../logging/console.ts";
 import {
-  classifySessionKeyShape,
-  isUnscopedSessionKeySentinel,
   normalizeAgentId,
   resolveAgentIdFromSessionKey,
-  scopeLegacySessionKeyToAgent,
-} from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { normalizeMessageChannel } from "../utils/message-channel-normalize.js";
+} from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { normalizeMessageChannel } from "../utils/message-channel-normalize.ts";
 
 type AgentGatewayResult = {
   payloads?: Array<{
@@ -356,35 +353,18 @@ async function normalizeSessionKeyOptsForDispatch(
 ): Promise<AgentDispatchOpts> {
   const rawSessionKey = opts.sessionKey?.trim();
   const rawTo = opts.to?.trim();
-  if (!rawSessionKey && !opts.sessionId?.trim() && classifySessionKeyShape(rawTo) === "agent") {
+  if (!rawSessionKey && !opts.sessionId?.trim()) {
     return {
       ...opts,
       to: undefined,
       sessionKey: rawTo,
     };
   }
-  const isLegacySessionKey =
-    rawSessionKey && classifySessionKeyShape(rawSessionKey) === "legacy_or_alias";
-  const agentIdRaw = opts.agent?.trim();
-  const shouldScopeDefaultAgentKey =
-    isLegacySessionKey && !agentIdRaw && !isUnscopedSessionKeySentinel(rawSessionKey);
-  const cfg =
-    isLegacySessionKey && (agentIdRaw || shouldScopeDefaultAgentKey)
-      ? opts.local === true
-        ? await loadRuntimeConfig()
-        : await getGatewayDispatchConfig()
-      : undefined;
-  const sessionKey = scopeLegacySessionKeyToAgent({
-    agentId: agentIdRaw ?? (shouldScopeDefaultAgentKey ? resolveDefaultAgentId(cfg!) : undefined),
-    sessionKey: opts.sessionKey,
-    mainKey: cfg?.session?.mainKey,
-  });
-  if (sessionKey === opts.sessionKey) {
+  if (opts.sessionKey) {
     return opts;
   }
   return {
-    ...opts,
-    sessionKey,
+    ...opts
   };
 }
 

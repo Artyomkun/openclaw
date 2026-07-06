@@ -7,17 +7,17 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { ConversationRef } from "../../infra/outbound/session-binding-service.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
+import type { ConversationRef } from "../../infra/outbound/session-binding-service.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.ts";
 import type {
   CompiledConfiguredBinding,
   ConfiguredBindingChannel,
   ConfiguredBindingRecordResolution,
-} from "./binding-types.js";
+} from "./binding-types.ts";
 import type {
   ChannelConfiguredBindingConversationRef,
   ChannelConfiguredBindingMatch,
-} from "./types.adapters.js";
+} from "./types.adapters.ts";
 
 /**
  * Ranks account pattern matches for configured binding rules.

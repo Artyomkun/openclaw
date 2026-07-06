@@ -2,12 +2,12 @@
  * Identifies messaging tools and send actions during embedded-agent runs.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.js";
+import { getChannelPlugin, normalizeChannelId } from "../channels/plugins/index.ts";
 import {
   CHANNEL_MESSAGE_ACTION_NAMES,
   type ChannelMessageActionName,
-} from "../channels/plugins/types.public.js";
-import { shouldApplyCrossContextMarker } from "../infra/outbound/outbound-policy.js";
+} from "../channels/plugins/types.public.ts";
+import { shouldApplyCrossContextMarker } from "../infra/outbound/outbound-policy.ts";
 
 const CORE_MESSAGING_TOOLS = new Set(["sessions_send", "message"]);
 const MESSAGE_TOOL_SEND_ACTIONS = new Set([

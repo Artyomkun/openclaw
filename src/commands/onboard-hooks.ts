@@ -1,11 +1,11 @@
 /** Interactive onboarding step for enabling workspace hooks. */
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { buildWorkspaceHookStatus } from "../hooks/hooks-status.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { t } from "../wizard/i18n/index.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { buildWorkspaceHookStatus } from "../hooks/hooks-status.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { t } from "../wizard/i18n/index.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
 
 /** Prompts for loadable internal hooks and writes selected hook entries. */
 export async function setupInternalHooks(

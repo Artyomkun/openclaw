@@ -7,52 +7,52 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { resolveExecDefaults } from "../agents/exec-defaults.js";
-import { resolveSandboxConfigForAgent } from "../agents/sandbox/config.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { ConfigFileSnapshot, OpenClawConfig } from "../config/config.js";
-import { resolveConfigPath, resolveStateDir } from "../config/paths.js";
-import type { CliBackendConfig } from "../config/types.agent-defaults.js";
-import type { GatewayAuthConfig } from "../config/types.gateway.js";
-import type { SecurityAuditSuppression } from "../config/types.openclaw.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { resolveExecDefaults } from "../agents/exec-defaults.ts";
+import { resolveSandboxConfigForAgent } from "../agents/sandbox/config.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { ConfigFileSnapshot, OpenClawConfig } from "../config/config.ts";
+import { resolveConfigPath, resolveStateDir } from "../config/paths.ts";
+import type { CliBackendConfig } from "../config/types.agent-defaults.ts";
+import type { GatewayAuthConfig } from "../config/types.gateway.ts";
+import type { SecurityAuditSuppression } from "../config/types.openclaw.ts";
 import {
   canMaterializeGatewayAuthSecretRefsWithoutExec,
   materializeGatewayAuthSecretRefs,
-} from "../gateway/auth-config-utils.js";
-import { isInterpreterLikeAllowlistPattern } from "../infra/command-analysis/inline-eval.js";
+} from "../gateway/auth-config-utils.ts";
+import { isInterpreterLikeAllowlistPattern } from "../infra/command-analysis/inline-eval.ts";
 import {
   type ExecApprovalsFile,
   loadExecApprovals,
   maxAsk,
   minSecurity,
   resolveExecApprovalsFromFile,
-} from "../infra/exec-approvals.js";
+} from "../infra/exec-approvals.ts";
 import {
   listInterpreterLikeSafeBins,
   resolveMergedSafeBinProfileFixtures,
-} from "../infra/exec-safe-bin-runtime-policy.js";
-import { listRiskyConfiguredSafeBins } from "../infra/exec-safe-bin-semantics.js";
-import { normalizeTrustedSafeBinDirs } from "../infra/exec-safe-bin-trust.js";
-import { emitTrustedSecurityEvent } from "../infra/diagnostic-events.js";
-import { DEFAULT_AGENT_ID } from "../routing/session-key.js";
-import { collectDeepCodeSafetyFindings } from "./audit-deep-code-safety.js";
-import { collectDeepProbeFindings } from "./audit-deep-probe-findings.js";
+} from "../infra/exec-safe-bin-runtime-policy.ts";
+import { listRiskyConfiguredSafeBins } from "../infra/exec-safe-bin-semantics.ts";
+import { normalizeTrustedSafeBinDirs } from "../infra/exec-safe-bin-trust.ts";
+import { emitTrustedSecurityEvent } from "../infra/diagnostic-events.ts";
+import { DEFAULT_AGENT_ID } from "../routing/session-key.ts";
+import { collectDeepCodeSafetyFindings } from "./audit-deep-code-safety.ts";
+import { collectDeepProbeFindings } from "./audit-deep-probe-findings.ts";
 import {
   formatPermissionDetail,
   formatPermissionRemediation,
   inspectPathPermissions,
-} from "./audit-fs.js";
-import { collectGatewayConfigFindings as collectGatewayConfigFindingsBase } from "./audit-gateway-config.js";
+} from "./audit-fs.ts";
+import { collectGatewayConfigFindings as collectGatewayConfigFindingsBase } from "./audit-gateway-config.ts";
 import type {
   SecurityAuditFinding,
   SecurityAuditReport,
   SecurityAuditSummary,
   SecurityAuditSuppressedFinding,
-} from "./audit.types.js";
-import { collectEnabledInsecureOrDangerousFlags } from "./dangerous-config-flags.js";
-import { collectExecFilesystemPolicyDriftHits } from "./exec-filesystem-policy.js";
-import type { ExecFn } from "./windows-acl.js";
+} from "./audit.types.ts";
+import { collectEnabledInsecureOrDangerousFlags } from "./dangerous-config-flags.ts";
+import { collectExecFilesystemPolicyDriftHits } from "./exec-filesystem-policy.ts";
+import type { ExecFn } from "./windows-acl.ts";
 
 type ExecDockerRawFn = typeof import("../agents/sandbox/docker.js").execDockerRaw;
 type ProbeGatewayFn = typeof import("../gateway/probe.js").probeGateway;
@@ -71,7 +71,7 @@ export type {
   SecurityAuditReport,
   SecurityAuditSeverity,
   SecurityAuditSummary,
-} from "./audit.types.js";
+} from "./audit.types.ts";
 
 export type SecurityAuditOptions = {
   config: OpenClawConfig;

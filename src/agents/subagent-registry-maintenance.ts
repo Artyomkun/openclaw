@@ -3,11 +3,11 @@
  * Preserves child session keys while runs are active, pending delivery, or
  * awaiting completion announces so pruning cannot delete needed transcripts.
  */
-import { registerSessionMaintenancePreserveKeysProvider } from "../config/sessions/store-maintenance-preserve.js";
-import { isDeliverySuspended } from "./subagent-delivery-state.js";
-import { subagentRuns } from "./subagent-registry-memory.js";
-import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+import { registerSessionMaintenancePreserveKeysProvider } from "../config/sessions/store-maintenance-preserve.ts";
+import { isDeliverySuspended } from "./subagent-delivery-state.ts";
+import { subagentRuns } from "./subagent-registry-memory.ts";
+import { getSubagentRunsSnapshotForRead } from "./subagent-registry-state.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 function isCleanupCompleteForMaintenance(entry: SubagentRunRecord): boolean {
   return typeof entry.cleanupCompletedAt === "number";

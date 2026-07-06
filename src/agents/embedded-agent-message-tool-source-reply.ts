@@ -1,14 +1,14 @@
 /**
  * Detects message-tool sends that delivered a visible reply to the current source.
  */
-import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.js";
+import type { SourceReplyDeliveryMode } from "../auto-reply/get-reply-options.types.ts";
 import {
   isMessageToolConversationCreateActionName,
   isMessageToolSendActionName,
   isMessagingToolDeliveryAction,
-} from "./embedded-agent-messaging.js";
-import { isToolResultError } from "./embedded-agent-subscribe.tools.js";
-import { normalizeToolName } from "./tool-policy.js";
+} from "./embedded-agent-messaging.ts";
+import { isToolResultError } from "./embedded-agent-subscribe.tools.ts";
+import { normalizeToolName } from "./tool-policy.ts";
 
 const MESSAGE_TOOL_NAME = "message";
 const SESSIONS_SEND_TOOL_NAME = "sessions_send";

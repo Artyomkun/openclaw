@@ -16,12 +16,12 @@ import {
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
 import { Type } from "typebox";
-import { formatErrorMessage } from "../infra/errors.js";
-import { getEnvApiKey } from "../llm/env-api-keys.js";
-import type { OpenAICompletionsOptions } from "../llm/providers/openai-completions.js";
-import { complete } from "../llm/stream.js";
-import type { Context, Model, Tool } from "../llm/types.js";
-import { inferParamBFromIdOrName } from "../shared/model-param-b.js";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { getEnvApiKey } from "../llm/env-api-keys.ts";
+import type { OpenAICompletionsOptions } from "../llm/providers/openai-completions.ts";
+import { complete } from "../llm/stream.ts";
+import type { Context, Model, Tool } from "../llm/types.ts";
+import { inferParamBFromIdOrName } from "../shared/model-param-b.ts";
 
 const OPENROUTER_MODELS_URL = "https://openrouter.ai/api/v1/models";
 const DEFAULT_TIMEOUT_MS = 12_000;

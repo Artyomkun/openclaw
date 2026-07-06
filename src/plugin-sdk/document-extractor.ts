@@ -6,4 +6,4 @@ export type {
   DocumentExtractionRequest,
   DocumentExtractionResult,
   DocumentExtractorPlugin,
-} from "../plugins/document-extractor-types.js";
+} from "../plugins/document-extractor-types.ts";

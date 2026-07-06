@@ -8,17 +8,17 @@ import {
   normalizeStringEntries,
   uniqueStrings,
 } from "@openclaw/normalization-core/string-normalization";
-import type { DmPolicy, GroupPolicy } from "../../config/types.base.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SecretInput } from "../../config/types.secrets.js";
-import { resolveSecretInputModeForEnvSelection } from "../../plugins/provider-auth-mode.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.js";
-import type { WizardPrompter } from "../../wizard/prompts.js";
-import { resolveChannelDmAllowFrom, resolveChannelDmPolicy } from "./dm-access.js";
+import type { DmPolicy, GroupPolicy } from "../../config/types.base.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SecretInput } from "../../config/types.secrets.ts";
+import { resolveSecretInputModeForEnvSelection } from "../../plugins/provider-auth-mode.ts";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../routing/session-key.ts";
+import type { WizardPrompter } from "../../wizard/prompts.ts";
+import { resolveChannelDmAllowFrom, resolveChannelDmPolicy } from "./dm-access.ts";
 import {
   moveSingleAccountChannelSectionToDefaultAccount,
   patchScopedAccountConfig,
-} from "./setup-helpers.js";
+} from "./setup-helpers.ts";
 import type {
   ChannelSetupDmPolicy,
   ChannelSetupWizard,
@@ -26,7 +26,7 @@ import type {
   ChannelSetupWizardStatus,
   PromptAccountId,
   PromptAccountIdParams,
-} from "./setup-wizard-types.js";
+} from "./setup-wizard-types.ts";
 
 let providerAuthInputPromise:
   | Promise<Pick<typeof import("../../plugins/provider-auth-ref.js"), "promptSecretRefForSetup">>
@@ -1544,81 +1544,3 @@ export async function promptResolvedAllowFrom(params: {
     return mergeAllowFromEntries(params.existing, ids);
   }
 }
-
-export async function promptLegacyChannelAllowFrom(params: {
-  cfg: OpenClawConfig;
-  channel: CompatDmChannel;
-  prompter: WizardPrompter;
-  existing: Array<string | number>;
-  token?: string | null;
-  noteTitle: string;
-  noteLines: string[];
-  message: string;
-  placeholder: string;
-  parseId: (value: string) => string | null;
-  invalidWithoutTokenNote: string;
-  resolveEntries: (params: { token: string; entries: string[] }) => Promise<AllowFromResolution[]>;
-}): Promise<OpenClawConfig> {
-  await params.prompter.note(params.noteLines.join("\n"), params.noteTitle);
-  const unique = await promptResolvedAllowFrom({
-    prompter: params.prompter,
-    existing: params.existing,
-    token: params.token,
-    message: params.message,
-    placeholder: params.placeholder,
-    label: params.noteTitle,
-    parseInputs: splitSetupEntries,
-    parseId: params.parseId,
-    invalidWithoutTokenNote: params.invalidWithoutTokenNote,
-    resolveEntries: params.resolveEntries,
-  });
-  return setCompatChannelAllowFrom({
-    cfg: params.cfg,
-    channel: params.channel,
-    allowFrom: unique,
-  });
-}
-
-export async function promptLegacyChannelAllowFromForAccount<TAccount>(params: {
-  cfg: OpenClawConfig;
-  channel: CompatDmChannel;
-  prompter: WizardPrompter;
-  accountId?: string;
-  defaultAccountId: string;
-  resolveAccount: (cfg: OpenClawConfig, accountId: string) => TAccount;
-  resolveExisting: (account: TAccount, cfg: OpenClawConfig) => Array<string | number>;
-  resolveToken: (account: TAccount) => string | null | undefined;
-  noteTitle: string;
-  noteLines: string[];
-  message: string;
-  placeholder: string;
-  parseId: (value: string) => string | null;
-  invalidWithoutTokenNote: string;
-  resolveEntries: (params: { token: string; entries: string[] }) => Promise<AllowFromResolution[]>;
-}): Promise<OpenClawConfig> {
-  const accountId = resolveSetupAccountId({
-    accountId: params.accountId,
-    defaultAccountId: params.defaultAccountId,
-  });
-  const account = params.resolveAccount(params.cfg, accountId);
-  return await promptLegacyChannelAllowFrom({
-    cfg: params.cfg,
-    channel: params.channel,
-    prompter: params.prompter,
-    existing: params.resolveExisting(account, params.cfg),
-    token: params.resolveToken(account),
-    noteTitle: params.noteTitle,
-    noteLines: params.noteLines,
-    message: params.message,
-    placeholder: params.placeholder,
-    parseId: params.parseId,
-    invalidWithoutTokenNote: params.invalidWithoutTokenNote,
-    resolveEntries: params.resolveEntries,
-  });
-}
-
-// Backwards-compatible aliases for existing setup SDK consumers.
-export const patchLegacyDmChannelConfig = patchCompatDmChannelConfig;
-export const setLegacyChannelDmPolicyWithAllowFrom = setCompatChannelDmPolicyWithAllowFrom;
-export const setLegacyChannelAllowFrom = setCompatChannelAllowFrom;
-export const createLegacyCompatChannelDmPolicy = createCompatChannelDmPolicy;

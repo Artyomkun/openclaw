@@ -1,14 +1,14 @@
 // Gateway method authorization scope resolver.
 // Maps static and plugin-defined gateway methods to operator scopes.
 import { normalizeOptionalString as normalizeSessionActionParam } from "@openclaw/normalization-core/string-coerce";
-import { getPluginRegistryState } from "../plugins/runtime-state.js";
-import { resolveReservedGatewayMethodScope } from "../shared/gateway-method-policy.js";
+import { getPluginRegistryState } from "../plugins/runtime-state.ts";
+import { resolveReservedGatewayMethodScope } from "../shared/gateway-method-policy.ts";
 import {
   isCoreGatewayMethodClassified,
   isCoreNodeGatewayMethod,
   isDynamicOperatorGatewayMethod,
   resolveCoreOperatorGatewayMethodScope,
-} from "./methods/core-descriptors.js";
+} from "./methods/core-descriptors.ts";
 import {
   ADMIN_SCOPE,
   APPROVALS_SCOPE,
@@ -18,7 +18,7 @@ import {
   WRITE_SCOPE,
   isOperatorScope,
   type OperatorScope,
-} from "./operator-scopes.js";
+} from "./operator-scopes.ts";
 
 export {
   ADMIN_SCOPE,

@@ -149,7 +149,7 @@ export async function runOpenClawCliJson<T>(args: string[], env: NodeJS.ProcessE
   const cliArgs = args.includes("--timeout")
     ? args
     : [...args, "--timeout", String(OPENCLAW_CLI_GATEWAY_TIMEOUT_MS)];
-  const { stdout, stderr } = await execFileAsync(process.execPath, ["openclaw.mjs", ...cliArgs], {
+  const { stdout, stderr } = await execFileAsync(process.execPath, ["openclaw.ts", ...cliArgs], {
     cwd: process.cwd(),
     env: childEnv,
     timeout: OPENCLAW_CLI_CHILD_TIMEOUT_MS,

@@ -9,7 +9,7 @@ import {
 } from "@earendil-works/pi-tui";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import chalk from "chalk";
-import { fuzzyFilterLower, prepareSearchItems } from "./fuzzy-filter.js";
+import { fuzzyFilterLower, prepareSearchItems } from "./fuzzy-filter.ts";
 
 export interface FilterableSelectItem extends SelectItem {
   /** Additional searchable fields beyond label */

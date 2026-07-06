@@ -2,11 +2,11 @@
  * Warns when assistant text appears to expose raw tool-call syntax.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { AssistantMessage } from "../llm/types.js";
-import { extractTextFromChatContent } from "../shared/chat-content.js";
-import { detectToolCallShapedText } from "../shared/text/tool-call-shaped-text.js";
-import type { EmbeddedAgentSubscribeContext } from "./embedded-agent-subscribe.handlers.types.js";
-import { normalizeToolName } from "./tool-policy.js";
+import type { AssistantMessage } from "../llm/types.ts";
+import { extractTextFromChatContent } from "../shared/chat-content.ts";
+import { detectToolCallShapedText } from "../shared/text/tool-call-shaped-text.ts";
+import type { EmbeddedAgentSubscribeContext } from "./embedded-agent-subscribe.handlers.types.ts";
+import { normalizeToolName } from "./tool-policy.ts";
 
 // Detect provider/model bugs where a reply serializes a tool call as plain
 // assistant text instead of emitting a structured invocation block.

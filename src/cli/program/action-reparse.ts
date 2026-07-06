@@ -1,7 +1,7 @@
 // Reparse support for lazy commands after their placeholder has been replaced.
 import type { Command } from "commander";
-import { buildParseArgv } from "../argv.js";
-import { resolveActionArgs, resolveCommandOptionArgs } from "./helpers.js";
+import { buildParseArgv } from "../argv.ts";
+import { resolveActionArgs, resolveCommandOptionArgs } from "./helpers.ts";
 
 function getCommandPathFromRoot(command: Command | undefined): string[] {
   const path: string[] = [];

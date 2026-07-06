@@ -2,14 +2,14 @@
 import {
   resolveConfiguredBindingRecord,
   resolveConfiguredBindingRecordBySessionKey,
-} from "../channels/plugins/binding-registry.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../channels/plugins/binding-registry.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveConfiguredAcpBindingSpecFromRecord,
   toResolvedConfiguredAcpBinding,
   type ConfiguredAcpBindingSpec,
   type ResolvedConfiguredAcpBinding,
-} from "./persistent-bindings.types.js";
+} from "./persistent-bindings.types.ts";
 
 /** Resolves a configured ACP binding for a concrete channel conversation. */
 export function resolveConfiguredAcpBindingRecord(params: {

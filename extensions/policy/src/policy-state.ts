@@ -478,190 +478,6 @@ function readExecApprovalAsk(value: unknown): string | undefined {
     : undefined;
 }
 
-type NormalizedExecApprovalAllowlistEntry = ReturnType<
-  typeof execApprovalAllowlistEntries
->[number] & {
-  readonly sourceAgentId: string;
-};
-
-type NormalizedExecApprovalAgent = {
-  readonly agentId: string;
-  readonly sourceAgentId: string;
-  readonly value: Record<string, unknown>;
-  readonly allowlistEntries: readonly NormalizedExecApprovalAllowlistEntry[];
-};
-
-function normalizedExecApprovalAgents(rawAgents: unknown): readonly NormalizedExecApprovalAgent[] {
-  if (!isRecord(rawAgents)) {
-    return [];
-  }
-  const agents = Object.entries(rawAgents).filter(
-    (entry): entry is [string, Record<string, unknown>] => isRecord(entry[1]),
-  );
-  const legacyDefault = agents.find(([agentId]) => agentId === "default")?.[1];
-  const normalized = agents
-    .filter(([agentId]) => agentId !== "default")
-    .map(([agentId, value]): NormalizedExecApprovalAgent => {
-      if (agentId === DEFAULT_EXEC_APPROVAL_AGENT_ID && legacyDefault !== undefined) {
-        return {
-          agentId,
-          sourceAgentId: agentId,
-          value: mergeLegacyExecApprovalAgent(value, legacyDefault),
-          allowlistEntries: mergedExecApprovalAllowlistEntries(
-            value.allowlist,
-            legacyDefault.allowlist,
-          ),
-        };
-      }
-      return execApprovalAgentFromParts(agentId, agentId, value);
-    });
-  if (
-    legacyDefault !== undefined &&
-    !agents.some(([agentId]) => agentId === DEFAULT_EXEC_APPROVAL_AGENT_ID)
-  ) {
-    normalized.push(
-      execApprovalAgentFromParts(DEFAULT_EXEC_APPROVAL_AGENT_ID, "default", legacyDefault),
-    );
-  }
-  return normalized.toSorted((a, b) => a.agentId.localeCompare(b.agentId));
-}
-
-function execApprovalAgentFromParts(
-  agentId: string,
-  sourceAgentId: string,
-  value: Record<string, unknown>,
-): NormalizedExecApprovalAgent {
-  const allowlistEntries = execApprovalAllowlistEntries(value.allowlist).map(
-    (entry): NormalizedExecApprovalAllowlistEntry => ({
-      index: entry.index,
-      pattern: entry.pattern,
-      argPattern: entry.argPattern,
-      entrySource: entry.entrySource,
-      sourceAgentId,
-    }),
-  );
-  return {
-    agentId,
-    sourceAgentId,
-    value,
-    allowlistEntries,
-  };
-}
-
-function mergeLegacyExecApprovalAgent(
-  current: Record<string, unknown>,
-  legacy: Record<string, unknown>,
-): Record<string, unknown> {
-  return {
-    ...legacy,
-    ...current,
-    security: current.security ?? legacy.security,
-    ask: current.ask ?? legacy.ask,
-    askFallback: current.askFallback ?? legacy.askFallback,
-    autoAllowSkills: current.autoAllowSkills ?? legacy.autoAllowSkills,
-    allowlist: mergedExecApprovalAllowlist(current.allowlist, legacy.allowlist),
-  };
-}
-
-function mergedExecApprovalAllowlist(
-  current: unknown,
-  legacy: unknown,
-): readonly unknown[] | undefined {
-  const entries = mergedExecApprovalAllowlistEntries(current, legacy).map((entry) => {
-    const allowlistEntry: Record<string, unknown> = { pattern: entry.pattern };
-    if (entry.argPattern !== undefined) {
-      allowlistEntry.argPattern = entry.argPattern;
-    }
-    if (entry.entrySource !== undefined) {
-      allowlistEntry.source = entry.entrySource;
-    }
-    return allowlistEntry;
-  });
-  return entries.length === 0 ? undefined : entries;
-}
-
-function mergedExecApprovalAllowlistEntries(
-  current: unknown,
-  legacy: unknown,
-): readonly NormalizedExecApprovalAllowlistEntry[] {
-  const entries: NormalizedExecApprovalAllowlistEntry[] = [];
-  const seen = new Set<string>();
-  const appendEntries = (sourceEntries: readonly NormalizedExecApprovalAllowlistEntry[]) => {
-    for (const sourceEntry of sourceEntries) {
-      const key = `${sourceEntry.pattern.toLowerCase()}\x00${sourceEntry.argPattern ?? ""}`;
-      if (seen.has(key)) {
-        continue;
-      }
-      seen.add(key);
-      entries.push(sourceEntry);
-    }
-  };
-  appendEntries(withExecApprovalAllowlistSource(current, DEFAULT_EXEC_APPROVAL_AGENT_ID));
-  appendEntries(withExecApprovalAllowlistSource(legacy, "default"));
-  return entries;
-}
-
-function withExecApprovalAllowlistSource(
-  value: unknown,
-  sourceAgentId: string,
-): readonly NormalizedExecApprovalAllowlistEntry[] {
-  return execApprovalAllowlistEntries(value).map(
-    (entry): NormalizedExecApprovalAllowlistEntry => ({
-      index: entry.index,
-      pattern: entry.pattern,
-      argPattern: entry.argPattern,
-      entrySource: entry.entrySource,
-      sourceAgentId,
-    }),
-  );
-}
-
-function readExecApprovalAllowlistEntrySource(value: unknown): "allow-always" | undefined {
-  return readString(value) === "allow-always" ? "allow-always" : undefined;
-}
-
-function execApprovalAllowlistEntries(value: unknown): readonly {
-  readonly index: number;
-  readonly pattern: string;
-  readonly argPattern?: string;
-  readonly entrySource?: string;
-}[] {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-  const entries: {
-    readonly index: number;
-    readonly pattern: string;
-    readonly argPattern?: string;
-    readonly entrySource?: string;
-  }[] = [];
-  for (const [index, entry] of value.entries()) {
-    if (typeof entry === "string") {
-      const pattern = entry.trim();
-      if (pattern !== "") {
-        entries.push({ index, pattern });
-      }
-      continue;
-    }
-    if (!isRecord(entry)) {
-      continue;
-    }
-    const pattern = readString(entry.pattern);
-    if (pattern === undefined) {
-      continue;
-    }
-    const argPattern = readString(entry.argPattern);
-    const entrySource = readExecApprovalAllowlistEntrySource(entry.source);
-    entries.push({
-      index,
-      pattern,
-      ...(argPattern === undefined ? {} : { argPattern }),
-      ...(entrySource === undefined ? {} : { entrySource }),
-    });
-  }
-  return entries;
-}
-
 export function scanPolicyChannels(cfg: Record<string, unknown>): readonly PolicyChannelEvidence[] {
   return Object.entries(configuredChannels(cfg))
     .filter(([id]) => !RESERVED_CHANNEL_CONFIG_KEYS.has(id))
@@ -747,21 +563,9 @@ export function scanPolicyNetwork(cfg: Record<string, unknown>): readonly Policy
     ),
     networkBooleanEvidence(
       cfg,
-      "browser-private-network-legacy",
-      ["browser", "ssrfPolicy", "allowPrivateNetwork"],
-      "oc://openclaw.config/browser/ssrfPolicy/allowPrivateNetwork",
-    ),
-    networkBooleanEvidence(
-      cfg,
       "web-fetch-private-network",
       ["tools", "web", "fetch", "ssrfPolicy", "dangerouslyAllowPrivateNetwork"],
       "oc://openclaw.config/tools/web/fetch/ssrfPolicy/dangerouslyAllowPrivateNetwork",
-    ),
-    networkBooleanEvidence(
-      cfg,
-      "web-fetch-private-network-legacy",
-      ["tools", "web", "fetch", "ssrfPolicy", "allowPrivateNetwork"],
-      "oc://openclaw.config/tools/web/fetch/ssrfPolicy/allowPrivateNetwork",
     ),
     networkBooleanEvidence(
       cfg,
@@ -2502,39 +2306,6 @@ type ChannelIngressParams = {
 };
 
 function pushChannelIngress(entries: PolicyIngressEvidence[], params: ChannelIngressParams): void {
-  const localDmPolicy = channelDmPolicy(params.config);
-  const inheritedDmPolicy = channelDmPolicy(params.inheritedConfig);
-  const fallbackDmPolicy = channelDmPolicy(params.fallbackConfig ?? {});
-  const effectiveDmPolicy =
-    localDmPolicy.disabledByEnabled === true
-      ? localDmPolicy
-      : localDmPolicy.value !== undefined
-        ? localDmPolicy
-        : inheritedDmPolicy.disabledByEnabled === true
-          ? inheritedDmPolicy
-          : inheritedDmPolicy.value !== undefined
-            ? inheritedDmPolicy
-            : fallbackDmPolicy.disabledByEnabled === true || fallbackDmPolicy.value !== undefined
-              ? fallbackDmPolicy
-              : undefined;
-  const dmPolicySource =
-    effectiveDmPolicy?.sourceSuffix === undefined
-      ? `${params.fallbackSourceBase}/dmPolicy`
-      : effectiveDmPolicy === localDmPolicy
-        ? `${params.sourceBase}/${effectiveDmPolicy.sourceSuffix}`
-        : effectiveDmPolicy === inheritedDmPolicy
-          ? `${params.inheritedSourceBase}/${effectiveDmPolicy.sourceSuffix}`
-          : `${params.fallbackSourceBase}/${effectiveDmPolicy.sourceSuffix}`;
-  entries.push({
-    id: channelIngressId(params, "dm-policy"),
-    kind: "channelDmPolicy",
-    source: dmPolicySource,
-    channel: params.channel,
-    ...(params.accountId === undefined ? {} : { accountId: params.accountId }),
-    value: effectiveDmPolicy?.value ?? "pairing",
-    explicit: effectiveDmPolicy !== undefined,
-  });
-
   const localGroupPolicy = readString(params.config.groupPolicy);
   const inheritedGroupPolicy = readString(params.inheritedConfig.groupPolicy);
   const fallbackGroupPolicy = readString(params.fallbackConfig?.groupPolicy);
@@ -2757,23 +2528,6 @@ function pushNestedRequireMentionIngress(
       }
     }
   }
-}
-
-function channelDmPolicy(config: Record<string, unknown>): {
-  readonly value?: string;
-  readonly sourceSuffix?: string;
-  readonly disabledByEnabled?: boolean;
-} {
-  const dm = isRecord(config.dm) ? config.dm : {};
-  if (dm.enabled === false) {
-    return { value: "disabled", sourceSuffix: "dm/enabled", disabledByEnabled: true };
-  }
-  const direct = readString(config.dmPolicy);
-  if (direct !== undefined) {
-    return { value: direct, sourceSuffix: "dmPolicy" };
-  }
-  const legacy = readString(dm.policy);
-  return legacy === undefined ? {} : { value: legacy, sourceSuffix: "dm/policy" };
 }
 
 function channelIngressId(params: ChannelIngressParams, suffix: string): string {

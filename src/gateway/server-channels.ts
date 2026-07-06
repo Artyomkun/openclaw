@@ -1,32 +1,32 @@
 // Gateway channel manager.
 // Starts, stops, restarts, and snapshots plugin channel account runtimes.
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import { type ChannelId, getChannelPlugin, listChannelPlugins } from "../channels/plugins/index.js";
-import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { startChannelApprovalHandlerBootstrap } from "../infra/approval-handler-bootstrap.js";
-import { type BackoffPolicy, computeBackoff, sleepWithAbort } from "../infra/backoff.js";
-import { createTaskScopedChannelRuntime } from "../infra/channel-runtime-context.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resetDirectoryCache } from "../infra/outbound/target-resolver.js";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.ts";
+import { type ChannelId, getChannelPlugin, listChannelPlugins } from "../channels/plugins/index.ts";
+import type { ChannelAccountSnapshot } from "../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { startChannelApprovalHandlerBootstrap } from "../infra/approval-handler-bootstrap.ts";
+import { type BackoffPolicy, computeBackoff, sleepWithAbort } from "../infra/backoff.ts";
+import { createTaskScopedChannelRuntime } from "../infra/channel-runtime-context.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resetDirectoryCache } from "../infra/outbound/target-resolver.ts";
 import {
   createSubsystemLogger,
   runtimeForLogger,
   type SubsystemLogger,
-} from "../logging/subsystem.js";
-import { withPluginHttpRouteRegistry } from "../plugins/http-registry.js";
-import type { PluginRegistry } from "../plugins/registry.js";
-import type { PluginRuntimeChannel } from "../plugins/runtime/types-channel.js";
-import { resolveAccountEntry, resolveNormalizedAccountEntry } from "../routing/account-lookup.js";
+} from "../logging/subsystem.ts";
+import { withPluginHttpRouteRegistry } from "../plugins/http-registry.ts";
+import type { PluginRegistry } from "../plugins/registry.ts";
+import type { PluginRuntimeChannel } from "../plugins/runtime/types-channel.ts";
+import { resolveAccountEntry, resolveNormalizedAccountEntry } from "../routing/account-lookup.ts";
 import {
   DEFAULT_ACCOUNT_ID,
   normalizeAccountId,
   normalizeOptionalAccountId,
-} from "../routing/session-key.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { isAccountEnabled } from "../shared/account-enabled.js";
-import { runTasksWithConcurrency } from "../utils/run-with-concurrency.js";
-import type { ChannelRuntimeSnapshot } from "./server-channel-runtime.types.js";
+} from "../routing/session-key.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { isAccountEnabled } from "../shared/account-enabled.ts";
+import { runTasksWithConcurrency } from "../utils/run-with-concurrency.ts";
+import type { ChannelRuntimeSnapshot } from "./server-channel-runtime.types.ts";
 export type { ChannelRuntimeSnapshot };
 
 const CHANNEL_RESTART_POLICY: BackoffPolicy = {
@@ -180,7 +180,7 @@ type ChannelManagerOptions = {
    *
    * @example
    * ```typescript
-   * import { createPluginRuntime } from "../plugins/runtime/index.js";
+   * import { createPluginRuntime } from "../plugins/runtime/index.ts";
    *
    * const channelManager = createChannelManager({
    *   getRuntimeConfig,

@@ -7,26 +7,26 @@ import {
   migrateSessionEntries,
   SessionManager,
   type FileEntry as SessionFileEntry,
-} from "../agents/sessions/session-manager.js";
+} from "../agents/sessions/session-manager.ts";
 import type {
   SessionCompactionCheckpoint,
   SessionCompactionCheckpointReason,
   SessionEntry,
-} from "../config/sessions.js";
-import { isCompactionCheckpointTranscriptFileName } from "../config/sessions/artifacts.js";
-import { readFileRangeAsync } from "../config/sessions/file-range.js";
+} from "../config/sessions.ts";
+import { isCompactionCheckpointTranscriptFileName } from "../config/sessions/artifacts.ts";
+import { readFileRangeAsync } from "../config/sessions/file-range.ts";
 import {
   branchSessionFromCompactionCheckpoint,
   restoreSessionFromCompactionCheckpoint,
   type SessionCompactionCheckpointMutationResult,
   updateSessionEntry,
-} from "../config/sessions/session-accessor.js";
-import { streamSessionTranscriptLines } from "../config/sessions/transcript-stream.js";
-import { scanSessionTranscriptTree } from "../config/sessions/transcript-tree.js";
-import { CURRENT_SESSION_VERSION } from "../config/sessions/version.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveGatewaySessionStoreTarget } from "./session-utils.js";
+} from "../config/sessions/session-accessor.ts";
+import { streamSessionTranscriptLines } from "../config/sessions/transcript-stream.ts";
+import { scanSessionTranscriptTree } from "../config/sessions/transcript-tree.ts";
+import { CURRENT_SESSION_VERSION } from "../config/sessions/version.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveGatewaySessionStoreTarget } from "./session-utils.ts";
 
 const log = createSubsystemLogger("gateway/session-compaction-checkpoints");
 const MAX_COMPACTION_CHECKPOINTS_PER_SESSION = 25;
@@ -115,7 +115,7 @@ export type CompactionCheckpointStore = {
   persistCheckpoint: (
     params: PersistSessionCompactionCheckpointParams,
   ) => Promise<SessionCompactionCheckpoint | null>;
-  /** Cleans unpersisted legacy snapshot artifacts after failed persistence. */
+  /** Cleans unpersisted older snapshot artifacts after failed persistence. */
   cleanupSnapshot: typeof cleanupCompactionCheckpointSnapshot;
   /**
    * Creates a checkpoint branch and records its session entry in one logical
@@ -642,7 +642,7 @@ export function createFileBackedCompactionCheckpointStore(): CompactionCheckpoin
 
 /**
  * Capture the stable pre-compaction identity without duplicating the transcript.
- * Branch/restore uses the compacted successor transcript, while legacy
+ * Branch/restore uses the compacted successor transcript, while older
  * checkpoints that already have a snapshot file keep working.
  */
 export async function captureCompactionCheckpointSnapshotAsync(params: {

@@ -1,29 +1,29 @@
-import { explainShellCommand } from "./command-explainer/extract.js";
+import { explainShellCommand } from "./command-explainer/extract.ts";
 import type {
   CommandExplanation,
   CommandOperator,
   CommandRisk,
   CommandStep,
-} from "./command-explainer/types.js";
-import { isDispatchWrapperExecutable } from "./dispatch-wrapper-resolution.js";
+} from "./command-explainer/types.ts";
+import { isDispatchWrapperExecutable } from "./dispatch-wrapper-resolution.ts";
 import {
   type ExecCommandAnalysis,
   type ExecCommandSegment,
   resolveCommandResolutionFromArgv,
   type ShellChainOperator,
-} from "./exec-approvals-analysis.js";
+} from "./exec-approvals-analysis.ts";
 import {
   extractBindableShellWrapperInlineCommand,
   normalizeExecutableToken,
-} from "./exec-wrapper-resolution.js";
+} from "./exec-wrapper-resolution.ts";
 import {
   hasPosixInteractiveStartupBeforeInlineCommand,
   hasPosixLoginStartupBeforeInlineCommand,
   isDirectShellPositionalCarrierCommand,
   POSIX_INLINE_COMMAND_FLAGS,
   resolveInlineCommandMatch,
-} from "./shell-inline-command.js";
-import { POSIX_SHELL_WRAPPERS } from "./shell-wrapper-resolution.js";
+} from "./shell-inline-command.ts";
+import { POSIX_SHELL_WRAPPERS } from "./shell-wrapper-resolution.ts";
 
 const POSIX_SHELL_NAMES: ReadonlySet<string> = new Set(POSIX_SHELL_WRAPPERS);
 

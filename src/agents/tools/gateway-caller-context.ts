@@ -1,10 +1,10 @@
 // Ambient trusted caller context for model-mediated Gateway tool calls.
 import { AsyncLocalStorage } from "node:async_hooks";
-import { copyPluginToolMeta } from "../../plugins/tools.js";
-import { copyBeforeToolCallHookMarker } from "../before-tool-call-metadata.js";
-import { copyChannelAgentToolMeta } from "../channel-tools.js";
-import { copyToolTerminalPresentation } from "../tool-terminal-presentation.js";
-import type { AnyAgentTool } from "./common.js";
+import { copyPluginToolMeta } from "../../plugins/tools.ts";
+import { copyBeforeToolCallHookMarker } from "../before-tool-call-metadata.ts";
+import { copyChannelAgentToolMeta } from "../channel-tools.ts";
+import { copyToolTerminalPresentation } from "../tool-terminal-presentation.ts";
+import type { AnyAgentTool } from "./common.ts";
 
 export type GatewayToolCallerIdentity = {
   agentId: string;

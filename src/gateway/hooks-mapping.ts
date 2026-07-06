@@ -6,10 +6,10 @@ import {
   normalizeOptionalString,
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveConfigPathCandidate } from "../config/paths.js";
-import type { HookMappingConfig, HooksConfig } from "../config/types.hooks.js";
-import { importFileModule, resolveFunctionModuleExport } from "../hooks/module-loader.js";
-import type { HookMessageChannel } from "./hooks.types.js";
+import { resolveConfigPathCandidate } from "../config/paths.ts";
+import type { HookMappingConfig, HooksConfig } from "../config/types.hooks.ts";
+import { importFileModule, resolveFunctionModuleExport } from "../hooks/module-loader.ts";
+import type { HookMessageChannel } from "./hooks.types.ts";
 
 export type HookMappingResolved = {
   id: string;

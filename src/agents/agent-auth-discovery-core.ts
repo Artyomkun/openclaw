@@ -1,11 +1,11 @@
 /** Env/config-backed credential discovery shared by agent auth discovery modes. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { AgentCredentialMap } from "./agent-auth-credentials.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { AgentCredentialMap } from "./agent-auth-credentials.ts";
 import {
   listProviderEnvAuthLookupKeys,
   resolveProviderEnvAuthLookupMaps,
-} from "./model-auth-env-vars.js";
-import { resolveEnvApiKey } from "./model-auth-env.js";
+} from "./model-auth-env-vars.ts";
+import { resolveEnvApiKey } from "./model-auth-env.ts";
 
 /** Options for discovering env-backed credentials during agent auth discovery. */
 export type AgentDiscoveryAuthLookupOptions = {

@@ -5,23 +5,23 @@
  * stops managed gateway services before deleting broader state.
  */
 import { cancel, confirm, isCancel } from "@clack/prompts";
-import { selectStyled } from "../../packages/terminal-core/src/prompt-select-styled.js";
+import { selectStyled } from "../../packages/terminal-core/src/prompt-select-styled.ts";
 import {
   stylePromptMessage,
   stylePromptTitle,
-} from "../../packages/terminal-core/src/prompt-style.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { isNixMode } from "../config/config.js";
-import { resolveGatewayService } from "../daemon/service.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { resolveCleanupPlanFromDisk } from "./cleanup-plan.js";
+} from "../../packages/terminal-core/src/prompt-style.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { isNixMode } from "../config/config.ts";
+import { resolveGatewayService } from "../daemon/service.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { resolveCleanupPlanFromDisk } from "./cleanup-plan.ts";
 import {
   listAgentSessionDirs,
   removePath,
   removeStateAndLinkedPaths,
   removeWorkspaceAttestationPaths,
   removeWorkspaceDirs,
-} from "./cleanup-utils.js";
+} from "./cleanup-utils.ts";
 
 export type ResetScope = "config" | "config+creds+sessions" | "full";
 

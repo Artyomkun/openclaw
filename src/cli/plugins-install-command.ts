@@ -2,69 +2,69 @@
 import fs from "node:fs";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { theme } from "../../packages/terminal-core/src/theme.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   assertConfigWriteAllowedInCurrentMode,
   readConfigFileSnapshotForWrite,
-} from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   installHooksFromNpmSpec,
   installHooksFromPath,
   type InstallHooksResult,
-} from "../hooks/install.js";
-import { resolveArchiveKind } from "../infra/archive.js";
-import { parseClawHubPluginSpec } from "../infra/clawhub.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { type BundledPluginSource, findBundledPluginSource } from "../plugins/bundled-sources.js";
-import { buildClawHubPluginInstallRecordFields } from "../plugins/clawhub-install-records.js";
-import { CLAWHUB_INSTALL_ERROR_CODE, installPluginFromClawHub } from "../plugins/clawhub.js";
-import { installPluginFromGitSpec, parseGitPluginSpec } from "../plugins/git-install.js";
-import { resolveDefaultPluginExtensionsDir } from "../plugins/install-paths.js";
-import type { InstallSafetyOverrides } from "../plugins/install-security-scan.js";
+} from "../hooks/install.ts";
+import { resolveArchiveKind } from "../infra/archive.ts";
+import { parseClawHubPluginSpec } from "../infra/clawhub.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { type BundledPluginSource, findBundledPluginSource } from "../plugins/bundled-sources.ts";
+import { buildClawHubPluginInstallRecordFields } from "../plugins/clawhub-install-records.ts";
+import { CLAWHUB_INSTALL_ERROR_CODE, installPluginFromClawHub } from "../plugins/clawhub.ts";
+import { installPluginFromGitSpec, parseGitPluginSpec } from "../plugins/git-install.ts";
+import { resolveDefaultPluginExtensionsDir } from "../plugins/install-paths.ts";
+import type { InstallSafetyOverrides } from "../plugins/install-security-scan.ts";
 import {
   PLUGIN_INSTALL_ERROR_CODE,
   installPluginFromNpmPackArchive,
   installPluginFromNpmSpec,
   installPluginFromPath,
-} from "../plugins/install.js";
-import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-records.js";
+} from "../plugins/install.ts";
+import { loadInstalledPluginIndexInstallRecords } from "../plugins/installed-plugin-index-records.ts";
 import {
   installPluginFromMarketplace,
   resolveMarketplaceInstallShortcut,
-} from "../plugins/marketplace.js";
+} from "../plugins/marketplace.ts";
 import {
   getOfficialExternalPluginCatalogEntryForPackage,
   getOfficialExternalPluginCatalogEntry,
   resolveOfficialExternalPluginId,
   resolveOfficialExternalPluginInstall,
-} from "../plugins/official-external-plugin-catalog.js";
-import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.js";
-import { validateJsonSchemaValue } from "../plugins/schema-validator.js";
-import { defaultRuntime, type RuntimeEnv } from "../runtime.js";
-import { resolveUserPath, shortenHomePath } from "../utils.js";
-import { resolveClawHubRiskAcknowledgementCliOptions } from "./clawhub-risk-acknowledgement.js";
-import { formatCliCommand } from "./command-format.js";
-import { looksLikeLocalInstallSpec } from "./install-spec.js";
-import { resolvePinnedNpmInstallRecordForCli } from "./npm-resolution.js";
+} from "../plugins/official-external-plugin-catalog.ts";
+import { tracePluginLifecyclePhaseAsync } from "../plugins/plugin-lifecycle-trace.ts";
+import { validateJsonSchemaValue } from "../plugins/schema-validator.ts";
+import { defaultRuntime, type RuntimeEnv } from "../runtime.ts";
+import { resolveUserPath, shortenHomePath } from "../utils.ts";
+import { resolveClawHubRiskAcknowledgementCliOptions } from "./clawhub-risk-acknowledgement.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { looksLikeLocalInstallSpec } from "./install-spec.ts";
+import { resolvePinnedNpmInstallRecordForCli } from "./npm-resolution.ts";
 import {
   resolvePluginInstallInvalidConfigPolicy,
   resolvePluginInstallRequestContext,
   type PluginInstallRequestContext,
-} from "./plugin-install-config-policy.js";
+} from "./plugin-install-config-policy.ts";
 import {
   resolveBundledInstallPlanBeforeNpm,
   resolveBundledInstallPlanForNpmFailure,
   resolveOfficialExternalInstallPlanBeforeNpm,
   resolveOfficialExternalNpmPackageTrust,
-} from "./plugin-install-plan.js";
+} from "./plugin-install-plan.ts";
 import {
   createHookPackInstallLogger,
   createPluginInstallLogger,
   formatPluginInstallWithHookFallbackError,
   parseNpmPackPrefixPath,
   parseNpmPrefixSpec,
-} from "./plugins-command-helpers.js";
+} from "./plugins-command-helpers.ts";
 import {
   persistHookPackInstall,
   persistPluginInstall,
@@ -73,8 +73,8 @@ import {
   supportsInstallConfigSingleTopLevelIncludeShape,
   type ConfigMutationPreflight,
   type ConfigSnapshotForInstallPersist,
-} from "./plugins-install-persist.js";
-import { listPersistedBundledPluginRecoveryLocations } from "./plugins-location-bridges.js";
+} from "./plugins-install-persist.ts";
+import { listPersistedBundledPluginRecoveryLocations } from "./plugins-location-bridges.ts";
 
 type ConfigSnapshotForInstallExecution = ConfigSnapshotForInstallPersist & {
   hookMutation: ConfigMutationPreflight;
@@ -794,7 +794,6 @@ async function loadConfigFromSnapshotForInstall(
     process.env,
   );
   if (
-    snapshot.legacyIssues.length > 0 ||
     snapshot.issues.length === 0 ||
     snapshot.issues.some((issue) => !isAllowedPluginRecoveryIssue(issue, request, ownedLoadPaths))
   ) {
@@ -1254,8 +1253,7 @@ export async function runPluginInstallCommand(params: {
     looksLikeLocalInstallSpec(raw, [
       ".ts",
       ".js",
-      ".mjs",
-      ".cjs",
+      ".ts",
       ".tgz",
       ".tar.gz",
       ".tar",

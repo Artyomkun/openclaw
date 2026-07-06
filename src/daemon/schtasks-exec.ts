@@ -1,5 +1,5 @@
 /** Executes Windows Task Scheduler commands with daemon-friendly timeouts. */
-import { runCommandWithTimeout } from "../process/exec.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
 
 const SCHTASKS_TIMEOUT_MS = 15_000;
 const SCHTASKS_NO_OUTPUT_TIMEOUT_MS = 30_000;

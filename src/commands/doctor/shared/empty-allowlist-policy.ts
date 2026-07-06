@@ -1,9 +1,9 @@
 // Doctor warning builder for allowlist policies that would block every sender.
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { getDoctorChannelCapabilities } from "../channel-capabilities.js";
-import type { DoctorAccountRecord, DoctorAllowFromList } from "../types.js";
-import { hasAllowFromEntries } from "./allowlist.js";
-import { shouldSkipChannelDoctorDefaultEmptyGroupAllowlistWarning } from "./channel-doctor.js";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { getDoctorChannelCapabilities } from "../channel-capabilities.ts";
+import type { DoctorAccountRecord, DoctorAllowFromList } from "../types.ts";
+import { hasAllowFromEntries } from "./allowlist.ts";
+import { shouldSkipChannelDoctorDefaultEmptyGroupAllowlistWarning } from "./channel-doctor.ts";
 
 type CollectEmptyAllowlistPolicyWarningsParams = {
   account: DoctorAccountRecord;

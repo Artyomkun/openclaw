@@ -1,10 +1,10 @@
 // Normalizes typing indicator modes from config and directives.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { TypingMode } from "../../config/types.js";
-import type { SourceReplyDeliveryMode } from "../get-reply-options.types.js";
-import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../tokens.js";
-import type { TypingPolicy } from "../types.js";
-import type { TypingController } from "./typing.js";
+import type { TypingMode } from "../../config/types.ts";
+import type { SourceReplyDeliveryMode } from "../get-reply-options.types.ts";
+import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../tokens.ts";
+import type { TypingPolicy } from "../types.ts";
+import type { TypingController } from "./typing.ts";
 
 /** Inputs that decide when a channel typing indicator should be shown. */
 export type TypingModeContext = {

@@ -3,7 +3,7 @@
  * Accepts OpenClaw and upstream MCP config field names, keeping only
  * command/args/env/cwd needed to spawn a stdio server.
  */
-import { isMcpConfigRecord, toMcpEnvRecord, toMcpStringArray } from "./mcp-config-shared.js";
+import { isMcpConfigRecord, toMcpEnvRecord, toMcpStringArray } from "./mcp-config-shared.ts";
 
 /** Normalized stdio MCP server launch config. */
 export type StdioMcpServerLaunchConfig = {

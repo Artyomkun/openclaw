@@ -1,24 +1,24 @@
 /**
  * Resolves hook-selected model state and pre-model attachments for a run.
  */
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import type { ProviderRuntimeModel } from "../../../plugins/provider-runtime-model.types.js";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import type { ProviderRuntimeModel } from "../../../plugins/provider-runtime-model.types.ts";
 import type {
   PluginHookBeforeAgentStartResult,
   PluginHookBeforeModelResolveAttachment,
   PluginHookBeforeModelResolveEvent,
-} from "../../../plugins/types.js";
+} from "../../../plugins/types.ts";
 import {
   evaluateContextWindowGuard,
   formatContextWindowBlockMessage,
   formatContextWindowWarningMessage,
   resolveContextWindowInfo,
   type ContextWindowInfo,
-} from "../../context-window-guard.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../../defaults.js";
-import { FailoverError } from "../../failover-error.js";
-import { log } from "../logger.js";
-import { readAgentModelContextTokens } from "../model-context-tokens.js";
+} from "../../context-window-guard.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../../defaults.ts";
+import { FailoverError } from "../../failover-error.ts";
+import { log } from "../logger.ts";
+import { readAgentModelContextTokens } from "../model-context-tokens.ts";
 
 type HookContext = {
   agentId?: string;
@@ -44,7 +44,7 @@ type HookRunnerLike = {
 
 /**
  * Runs model-selection hooks before resolving the runtime model. The dedicated
- * `before_model_resolve` hook wins over legacy `before_agent_start` overrides
+ * `before_model_resolve` hook wins over older `before_agent_start` overrides
  * when both provide provider/model changes.
  */
 export async function resolveHookModelSelection(params: {
@@ -64,7 +64,7 @@ export async function resolveHookModelSelection(params: {
   // Run before_model_resolve hooks early so plugins can override the
   // provider/model before resolveModel().
   //
-  // Legacy compatibility: before_agent_start is also checked for override
+  // Older compatibility: before_agent_start is also checked for override
   // fields if present. New hook takes precedence when both are set.
   if (hookRunner?.hasHooks("before_model_resolve")) {
     try {

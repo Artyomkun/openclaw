@@ -13,7 +13,7 @@ import {
   parseCameraSnapPayload,
   writeCameraClipPayloadToFile,
   writeCameraPayloadToFile,
-} from "../../cli/nodes-camera.js";
+} from "../../cli/nodes-camera.ts";
 import {
   parseScreenRecordPayload,
   parseScreenSnapshotPayload,
@@ -21,19 +21,19 @@ import {
   screenSnapshotTempPath,
   writeScreenRecordToFile,
   writeScreenSnapshotToFile,
-} from "../../cli/nodes-screen.js";
-import { parseDurationMs } from "../../cli/parse-duration.js";
-import type { ImageSanitizationLimits } from "../image-sanitization.js";
-import type { AgentToolResult } from "../runtime/index.js";
-import { sanitizeToolResultImages } from "../tool-images.js";
+} from "../../cli/nodes-screen.ts";
+import { parseDurationMs } from "../../cli/parse-duration.ts";
+import type { ImageSanitizationLimits } from "../image-sanitization.ts";
+import type { AgentToolResult } from "../runtime/index.ts";
+import { sanitizeToolResultImages } from "../tool-images.ts";
 import {
   readFiniteNumberParam,
   readNonNegativeIntegerParam,
   readPositiveIntegerParam,
-} from "./common.js";
-import type { GatewayCallOptions } from "./gateway.js";
-import { callGatewayTool } from "./gateway.js";
-import { resolveNode, resolveNodeId } from "./nodes-utils.js";
+} from "./common.ts";
+import type { GatewayCallOptions } from "./gateway.ts";
+import { callGatewayTool } from "./gateway.ts";
+import { resolveNode, resolveNodeId } from "./nodes-utils.ts";
 
 export const MEDIA_INVOKE_ACTIONS = {
   "camera.snap": "camera_snap",

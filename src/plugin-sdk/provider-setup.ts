@@ -8,7 +8,7 @@ export type {
   ProviderDiscoveryContext,
   ProviderPrepareDynamicModelContext,
   ProviderRuntimeModel,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 
 export {
   applyProviderDefaultModel,
@@ -20,4 +20,4 @@ export {
   SELF_HOSTED_DEFAULT_CONTEXT_WINDOW,
   SELF_HOSTED_DEFAULT_COST,
   SELF_HOSTED_DEFAULT_MAX_TOKENS,
-} from "../plugins/provider-self-hosted-setup.js";
+} from "../plugins/provider-self-hosted-setup.ts";

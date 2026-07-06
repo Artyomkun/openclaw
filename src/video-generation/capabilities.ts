@@ -4,7 +4,7 @@ import type {
   VideoGenerationModeCapabilities,
   VideoGenerationProvider,
   VideoGenerationTransformCapabilities,
-} from "./types.js";
+} from "./types.ts";
 
 // Video generation mode helpers derive the active mode from reference inputs
 // and expose the provider capability block that applies to that mode/model.

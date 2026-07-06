@@ -1,13 +1,13 @@
 /** Builds doctor/install repair hints for missing official external plugin owners. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveConfiguredChannelPresencePolicy } from "./channel-plugin-ids.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveConfiguredChannelPresencePolicy } from "./channel-plugin-ids.ts";
 import {
   getOfficialExternalPluginCatalogEntry,
   getOfficialExternalPluginCatalogManifest,
   resolveOfficialExternalPluginId,
   resolveOfficialExternalPluginInstall,
   resolveOfficialExternalPluginLabel,
-} from "./official-external-plugin-catalog.js";
+} from "./official-external-plugin-catalog.ts";
 
 /** Repair hint for installing an official external plugin that owns a missing surface. */
 export type OfficialExternalPluginRepairHint = {

@@ -3,13 +3,13 @@ import {
   resolveDefaultSessionStorePath,
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
-} from "../../config/sessions/paths.js";
-import { loadSessionStore } from "../../config/sessions/store.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import type { ReplyPayload } from "../types.js";
-import type { HandleCommandsParams } from "./commands-types.js";
+} from "../../config/sessions/paths.ts";
+import { loadSessionStore } from "../../config/sessions/store.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import type { ReplyPayload } from "../types.ts";
+import type { HandleCommandsParams } from "./commands-types.ts";
 
 /** Resolved session entry and transcript file targeted by an export command. */
 interface ExportCommandSessionTarget {

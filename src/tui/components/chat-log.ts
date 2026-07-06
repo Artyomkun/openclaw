@@ -1,11 +1,11 @@
 // Chat log component lays out conversation messages for the TUI viewport.
 import type { Component } from "@earendil-works/pi-tui";
 import { Container, Spacer, Text } from "@earendil-works/pi-tui";
-import { theme } from "../theme/theme.js";
-import { AssistantMessageComponent } from "./assistant-message.js";
-import { BtwInlineMessage } from "./btw-inline-message.js";
-import { ToolExecutionComponent } from "./tool-execution.js";
-import { UserMessageComponent } from "./user-message.js";
+import { theme } from "../theme/theme.ts";
+import { AssistantMessageComponent } from "./assistant-message.ts";
+import { BtwInlineMessage } from "./btw-inline-message.ts";
+import { ToolExecutionComponent } from "./tool-execution.ts";
+import { UserMessageComponent } from "./user-message.ts";
 
 // Tolerates history timestamps slightly before locally pending messages.
 const PENDING_HISTORY_CLOCK_SKEW_TOLERANCE_MS = 60_000;

@@ -13,7 +13,7 @@ import {
   TUI_KEYBINDINGS,
   KeybindingsManager as TuiKeybindingsManager,
 } from "@earendil-works/pi-tui";
-import { getAgentDir } from "../config.js";
+import { getAgentDir } from "../config.ts";
 
 /** OpenClaw-specific key ids added to the shared pi-tui keybinding registry. */
 export interface AppKeybindings {
@@ -275,10 +275,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function isLegacyKeybindingName(key: string): key is keyof typeof KEYBINDING_NAME_MIGRATIONS {
-  return key in KEYBINDING_NAME_MIGRATIONS;
-}
-
 function toKeybindingsConfig(value: unknown): KeybindingsConfig {
   if (!isRecord(value)) {
     return {};
@@ -297,7 +293,7 @@ function toKeybindingsConfig(value: unknown): KeybindingsConfig {
   return config;
 }
 
-/** Migrates legacy keybinding names and orders known entries ahead of unknown extras. */
+/** Migrates keybinding names and orders known entries ahead of unknown extras. */
 export function migrateKeybindingsConfig(rawConfig: Record<string, unknown>): {
   config: Record<string, unknown>;
   migrated: boolean;
@@ -306,12 +302,11 @@ export function migrateKeybindingsConfig(rawConfig: Record<string, unknown>): {
   let migrated = false;
 
   for (const [key, value] of Object.entries(rawConfig)) {
-    const nextKey = isLegacyKeybindingName(key) ? KEYBINDING_NAME_MIGRATIONS[key] : key;
+    const nextKey = KEYBINDING_NAME_MIGRATIONS[key];
     if (nextKey !== key) {
       migrated = true;
     }
     if (key !== nextKey && Object.hasOwn(rawConfig, nextKey)) {
-      // New names win when both legacy and migrated keys are present.
       migrated = true;
       continue;
     }

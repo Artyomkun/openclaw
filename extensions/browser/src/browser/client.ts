@@ -320,7 +320,7 @@ export async function browserCloseTab(
   await sendTabTargetRequest({ baseUrl, path, method: "DELETE", opts });
 }
 
-/** Execute legacy index-based tab actions. */
+/** Execute index-based tab actions. */
 export async function browserTabAction(
   baseUrl: string | undefined,
   opts: {

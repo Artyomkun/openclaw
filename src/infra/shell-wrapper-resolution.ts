@@ -4,8 +4,8 @@ import {
   MAX_DISPATCH_WRAPPER_DEPTH,
   hasDispatchEnvManipulation,
   unwrapKnownDispatchWrapperInvocation,
-} from "./dispatch-wrapper-resolution.js";
-import { normalizeExecutableToken } from "./exec-wrapper-tokens.js";
+} from "./dispatch-wrapper-resolution.ts";
+import { normalizeExecutableToken } from "./exec-wrapper-tokens.ts";
 import {
   hasFishAttachedCommandOption,
   hasFishInitCommandOption,
@@ -14,7 +14,7 @@ import {
   POSIX_INLINE_COMMAND_FLAGS,
   resolveInlineCommandMatch,
   resolvePowerShellInlineCommandMatch,
-} from "./shell-inline-command.js";
+} from "./shell-inline-command.ts";
 
 // Shell wrapper resolution unwraps dispatch wrappers and shell multiplexers so
 // approval policy can reason about the actual inline command being run.
@@ -243,15 +243,6 @@ function extractShellWrapperPayload(argv: string[], spec: ShellWrapperSpec): str
     case "powershell":
       return extractPowerShellInlineCommand(argv);
   }
-  throw new Error("Unsupported shell wrapper kind");
-}
-
-function isLegacyLoginInlineForm(argv: string[]): boolean {
-  return argv[1]?.trim() === "-lc";
-}
-
-function isLegacyShLoginInlineForm(argv: string[], baseExecutable: string): boolean {
-  return baseExecutable === "sh" && isLegacyLoginInlineForm(argv);
 }
 
 function formatShellWrapperArgv(argv: string[]): string {
@@ -269,8 +260,7 @@ function startupWrapperRequiresFullArgv(params: {
   argv: string[];
   spec: ShellWrapperSpec;
   baseExecutable: string;
-  includeLegacyLoginInlineForm: boolean;
-}): boolean {
+}): any {
   if (params.spec.kind !== "posix") {
     return false;
   }
@@ -280,12 +270,7 @@ function startupWrapperRequiresFullArgv(params: {
   if (
     LOGIN_STARTUP_SHELL_WRAPPER_CANONICAL.has(params.baseExecutable) &&
     hasPosixLoginStartupBeforeInlineCommand(params.argv, POSIX_INLINE_COMMAND_FLAGS)
-  ) {
-    return (
-      params.includeLegacyLoginInlineForm ||
-      !isLegacyShLoginInlineForm(params.argv, params.baseExecutable)
-    );
-  }
+  )
   return hasPosixInteractiveStartupBeforeInlineCommand(params.argv, POSIX_INLINE_COMMAND_FLAGS);
 }
 
@@ -346,17 +331,12 @@ function extractShellWrapperCommandInternal(
   ) {
     return { isWrapper: true, command: null };
   }
-  const rawMatchesPayload = rawCommand === payload;
   const rawMatchesCanonicalArgv = rawCommand === formatShellWrapperArgv(candidate.argv);
-  const allowLegacyShLoginPayloadBinding =
-    isLegacyShLoginInlineForm(candidate.argv, baseExecutable) &&
-    (rawMatchesPayload || rawMatchesCanonicalArgv);
   if (
     startupWrapperRequiresFullArgv({
       argv: candidate.argv,
       spec: wrapper,
-      baseExecutable,
-      includeLegacyLoginInlineForm: !allowLegacyShLoginPayloadBinding,
+      baseExecutable
     })
   ) {
     return { isWrapper: true, command: null };

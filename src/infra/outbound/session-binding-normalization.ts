@@ -4,7 +4,7 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { normalizeAccountId } from "../../routing/session-key.js";
+import { normalizeAccountId } from "../../routing/session-key.ts";
 
 /**
  * Minimal conversation shape normalized before binding lookup or storage.

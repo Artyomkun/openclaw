@@ -7,25 +7,25 @@ import {
   parseSessionEntries,
   type SessionEntry as AgentSessionEntry,
   type SessionHeader,
-} from "../../agents/sessions/session-manager.js";
-import { derivePromptTokens } from "../../agents/usage.js";
+} from "../../agents/sessions/session-manager.ts";
+import { derivePromptTokens } from "../../agents/usage.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
-} from "../../config/sessions/paths.js";
+} from "../../config/sessions/paths.ts";
 import {
   isSessionTranscriptLeafControl,
   mergeSessionTranscriptVisiblePathWithOpaqueAppendPath,
   scanSessionTranscriptTree,
   selectSessionTranscriptTreePathNodes,
-} from "../../config/sessions/transcript-tree.js";
+} from "../../config/sessions/transcript-tree.ts";
 import {
   resolveFreshSessionTotalTokens,
   type SessionEntry as StoreSessionEntry,
-} from "../../config/sessions/types.js";
-import { CURRENT_SESSION_VERSION } from "../../config/sessions/version.js";
-import { readLatestRecentSessionUsageFromTranscriptAsync } from "../../gateway/session-utils.fs.js";
-import { readRegularFile } from "../../infra/fs-safe.js";
+} from "../../config/sessions/types.ts";
+import { CURRENT_SESSION_VERSION } from "../../config/sessions/version.ts";
+import { readLatestRecentSessionUsageFromTranscriptAsync } from "../../gateway/session-utils.fs.ts";
+import { readRegularFile } from "../../infra/fs-safe.ts";
 
 type ForkSourceTranscript = {
   cwd: string;

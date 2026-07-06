@@ -2,10 +2,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { lowercasePreservingWhitespace } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isPathInside } from "../infra/path-guards.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { listAgentEntries, resolveAgentWorkspaceDir } from "./agent-scope.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isPathInside } from "../infra/path-guards.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { listAgentEntries, resolveAgentWorkspaceDir } from "./agent-scope.ts";
 
 function normalizeWorkspacePathForComparison(input: string): string {
   const resolved = path.resolve(input.replaceAll("\0", ""));

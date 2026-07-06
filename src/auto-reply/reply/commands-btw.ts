@@ -1,10 +1,10 @@
 /** Handles /btw side-question commands against the active session context. */
-import { resolveAgentDir, resolveSessionAgentId } from "../../agents/agent-scope.js";
-import { runBtwSideQuestion } from "../../agents/btw.js";
-import { resolveGroupSessionKey } from "../../config/sessions/group.js";
-import { extractBtwQuestion } from "./btw-command.js";
-import { rejectUnauthorizedCommand } from "./command-gates.js";
-import type { CommandHandler } from "./commands-types.js";
+import { resolveAgentDir, resolveSessionAgentId } from "../../agents/agent-scope.ts";
+import { runBtwSideQuestion } from "../../agents/btw.ts";
+import { resolveGroupSessionKey } from "../../config/sessions/group.ts";
+import { extractBtwQuestion } from "./btw-command.ts";
+import { rejectUnauthorizedCommand } from "./command-gates.ts";
+import type { CommandHandler } from "./commands-types.ts";
 
 const BTW_USAGE = "Usage: /btw [side question]";
 

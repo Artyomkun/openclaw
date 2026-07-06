@@ -1,7 +1,7 @@
 // Persists device authorization records for paired nodes.
 import fs from "node:fs";
 import path from "node:path";
-import { resolveStateDir } from "../config/paths.js";
+import { resolveStateDir } from "../config/paths.ts";
 import {
   clearDeviceAuthTokenFromStore,
   coerceDeviceAuthStore,
@@ -9,8 +9,8 @@ import {
   type DeviceAuthStore,
   loadDeviceAuthTokenFromStore,
   storeDeviceAuthTokenInStore,
-} from "../shared/device-auth-store.js";
-import { privateFileStoreSync } from "./private-file-store.js";
+} from "../shared/device-auth-store.ts";
+import { privateFileStoreSync } from "./private-file-store.ts";
 
 const DEVICE_AUTH_FILE = "device-auth.json";
 

@@ -3,39 +3,39 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveFastModeState } from "../../agents/fast-mode.js";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
+import { resolveFastModeState } from "../../agents/fast-mode.ts";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
 import type {
   ChannelId,
   ChannelThreadingToolContext,
-} from "../../channels/plugins/types.public.js";
-import { normalizeAnyChannelId, normalizeChannelId } from "../../channels/registry.js";
-import { resolveCommandSecretRefsViaGateway } from "../../cli/command-secret-gateway.js";
+} from "../../channels/plugins/types.public.ts";
+import { normalizeAnyChannelId, normalizeChannelId } from "../../channels/registry.ts";
+import { resolveCommandSecretRefsViaGateway } from "../../cli/command-secret-gateway.ts";
 import {
   getAgentRuntimeCommandSecretTargetIds,
   getScopedChannelsCommandSecretTargets,
-} from "../../cli/command-secret-targets.js";
-import { resolveMessageSecretScope } from "../../cli/message-secret-scope.js";
+} from "../../cli/command-secret-targets.ts";
+import { resolveMessageSecretScope } from "../../cli/message-secret-scope.ts";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
   selectApplicableRuntimeConfig,
   type OpenClawConfig,
-} from "../../config/config.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import { isReasoningTagProvider } from "../../utils/provider-utils.js";
-import type { TemplateContext } from "../templating.js";
+} from "../../config/config.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import { isReasoningTagProvider } from "../../utils/provider-utils.ts";
+import type { TemplateContext } from "../templating.ts";
 import {
   resolveProviderScopedAuthProfile,
   resolveRunAuthProfile,
-} from "./agent-runner-auth-profile.js";
+} from "./agent-runner-auth-profile.ts";
 export { resolveProviderScopedAuthProfile, resolveRunAuthProfile };
-import { buildEmbeddedRunBaseParams as buildEmbeddedRunBaseParamsCore } from "./agent-runner-run-params.js";
-export { resolveModelFallbackOptions } from "./agent-runner-run-params.js";
-import { hasInboundAudio } from "./inbound-media.js";
-import { resolveOriginMessageProvider, resolveOriginMessageTo } from "./origin-routing.js";
-import type { FollowupRun } from "./queue.js";
+import { buildEmbeddedRunBaseParams as buildEmbeddedRunBaseParamsCore } from "./agent-runner-run-params.ts";
+export { resolveModelFallbackOptions } from "./agent-runner-run-params.ts";
+import { hasInboundAudio } from "./inbound-media.ts";
+import { resolveOriginMessageProvider, resolveOriginMessageTo } from "./origin-routing.ts";
+import type { FollowupRun } from "./queue.ts";
 
 const BUN_FETCH_SOCKET_ERROR_RE = /socket connection was closed unexpectedly/i;
 type EmbeddedReplyRoute = Pick<

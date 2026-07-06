@@ -7,19 +7,19 @@
 import {
   SSEClientTransport,
   type SSEClientTransportOptions,
-} from "@modelcontextprotocol/sdk/client/sse.js";
-import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import type { FetchLike, Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
+} from "@modelcontextprotocol/sdk/client/sse.ts";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.ts";
+import type { FetchLike, Transport } from "@modelcontextprotocol/sdk/shared/transport.ts";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { logDebug } from "../logger.js";
+import { logDebug } from "../logger.ts";
 import {
   buildMcpHttpFetch,
   withoutMcpAuthorizationHeader,
   withSameOriginMcpHttpHeaders,
-} from "./mcp-http-fetch.js";
-import { createMcpOAuthClientProvider } from "./mcp-oauth.js";
-import { OpenClawStdioClientTransport } from "./mcp-stdio-transport.js";
-import { resolveMcpTransportConfig } from "./mcp-transport-config.js";
+} from "./mcp-http-fetch.ts";
+import { createMcpOAuthClientProvider } from "./mcp-oauth.ts";
+import { OpenClawStdioClientTransport } from "./mcp-stdio-transport.ts";
+import { resolveMcpTransportConfig } from "./mcp-transport-config.ts";
 
 type ResolvedMcpTransport = {
   transport: Transport;

@@ -2,7 +2,6 @@
 import type { OpenClawConfig } from "openclaw/plugin-sdk/plugin-entry";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { isRecord } from "openclaw/plugin-sdk/string-coerce-runtime";
-import { migrateVoiceCallLegacyConfigInput } from "./config-api.js";
 
 // Setup-time entrypoint for voice-call config migrations.
 
@@ -15,13 +14,6 @@ function migrateVoiceCallPluginConfig(config: OpenClawConfig): {
   if (!isRecord(rawVoiceCallConfig)) {
     return null;
   }
-  const migration = migrateVoiceCallLegacyConfigInput({
-    value: rawVoiceCallConfig,
-    configPathPrefix: "plugins.entries.voice-call.config",
-  });
-  if (migration.changes.length === 0) {
-    return null;
-  }
   const plugins = structuredClone(config.plugins ?? {});
   const entries = { ...plugins.entries };
   const existingVoiceCallEntry = isRecord(entries["voice-call"])
@@ -29,7 +21,6 @@ function migrateVoiceCallPluginConfig(config: OpenClawConfig): {
     : {};
   entries["voice-call"] = {
     ...existingVoiceCallEntry,
-    config: migration.config,
   };
   plugins.entries = entries;
   return {
@@ -37,7 +28,6 @@ function migrateVoiceCallPluginConfig(config: OpenClawConfig): {
       ...config,
       plugins,
     },
-    changes: migration.changes,
   };
 }
 

@@ -1,6 +1,6 @@
 // Resolves OpenClaw update channels from config, tags, and versions.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import { parseComparableSemver } from "./semver-compare.js";
+import { parseComparableSemver } from "./semver-compare.ts";
 
 /** Release stream used to choose registry tags and update policy defaults. */
 export type UpdateChannel = "stable" | "beta" | "dev";
@@ -55,9 +55,9 @@ export function isBetaTag(tag: string): boolean {
   return /(?:^|[.-])beta(?:[.-]|$)/i.test(tag);
 }
 
-/** Detects prerelease tags, including legacy dot-beta tags and named prerelease channels. */
+/** Detects prerelease tags and named prerelease channels. */
 export function isPrereleaseTag(tag: string): boolean {
-  const parsed = parseComparableSemver(tag, { normalizeLegacyDotBeta: true });
+  const parsed = parseComparableSemver(tag);
   if (parsed) {
     return Boolean(parsed.prerelease?.some((part) => !/^[0-9]+$/.test(part)));
   }

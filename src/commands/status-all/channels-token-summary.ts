@@ -3,9 +3,9 @@
 
 import { asRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { hasConfiguredUnavailableCredentialStatus } from "../../channels/account-snapshot-fields.js";
-import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.js";
-import { sha256HexPrefix } from "../../logging/redact-identifier.js";
+import { hasConfiguredUnavailableCredentialStatus } from "../../channels/account-snapshot-fields.ts";
+import type { ChannelAccountSnapshot } from "../../channels/plugins/types.public.ts";
+import { sha256HexPrefix } from "../../logging/redact-identifier.ts";
 
 export type ChannelAccountTokenSummaryRow = {
   account: unknown;

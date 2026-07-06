@@ -4,8 +4,8 @@
  */
 import crypto from "node:crypto";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { loadAuthProfileStoreForRuntime } from "./auth-profiles/store.js";
-import type { AuthProfileCredential, AuthProfileStore } from "./auth-profiles/types.js";
+import { loadAuthProfileStoreForRuntime } from "./auth-profiles/store.ts";
+import type { AuthProfileCredential, AuthProfileStore } from "./auth-profiles/types.ts";
 import {
   readClaudeCliCredentialsCached,
   readCodexCliCredentialsCached,
@@ -13,7 +13,7 @@ import {
   type ClaudeCliCredential,
   type CodexCliCredential,
   type GeminiCliCredential,
-} from "./cli-credentials.js";
+} from "./cli-credentials.ts";
 
 type CliAuthEpochDeps = {
   readClaudeCliCredentialsCached: typeof readClaudeCliCredentialsCached;

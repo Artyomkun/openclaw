@@ -2,8 +2,8 @@
  * Internal opt-in for deterministic terminal summaries from trusted built-in tools.
  * This is intentionally absent from the public AgentTool and Plugin SDK contracts.
  */
-import type { AgentToolResult } from "./runtime/index.js";
-import type { AnyAgentTool } from "./tools/common.js";
+import type { AgentToolResult } from "./runtime/index.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 type TerminalToolPresentation = { text: string };
 type TerminalToolPresentationFormatter = (

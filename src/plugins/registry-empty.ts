@@ -1,5 +1,5 @@
 // Provides the empty plugin registry used before discovery completes.
-import type { PluginRegistry } from "./registry-types.js";
+import type { PluginRegistry } from "./registry-types.ts";
 
 export function createEmptyPluginRegistry(): PluginRegistry {
   return {

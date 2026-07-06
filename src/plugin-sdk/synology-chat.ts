@@ -1,6 +1,6 @@
 // Manual facade. Keep loader boundary explicit.
-import type { SecurityAuditFinding } from "../security/audit.types.js";
-import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.js";
+import type { SecurityAuditFinding } from "../security/audit.types.ts";
+import { loadBundledPluginPublicSurfaceModuleSync } from "./facade-loader.ts";
 
 type FacadeModule = {
   collectSynologyChatSecurityAuditFindings: (params: {

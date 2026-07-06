@@ -7,7 +7,6 @@ import {
 } from "openclaw/plugin-sdk/account-resolution";
 import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
 import {
-  hasLegacyFlatAllowPrivateNetworkAlias,
   isPrivateNetworkOptInEnabled,
 } from "openclaw/plugin-sdk/ssrf-runtime";
 
@@ -113,9 +112,6 @@ export function resolveTlonAccount(
     ? true
     : typeof merged.network?.dangerouslyAllowPrivateNetwork === "boolean"
       ? merged.network.dangerouslyAllowPrivateNetwork
-      : hasLegacyFlatAllowPrivateNetworkAlias(merged) &&
-          typeof merged.allowPrivateNetwork === "boolean"
-        ? merged.allowPrivateNetwork
         : null;
   const groupChannels = merged.groupChannels ?? [];
   const dmAllowlist = merged.dmAllowlist ?? [];

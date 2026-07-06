@@ -6,9 +6,9 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import JSZip from "jszip";
-import { visibleWidth } from "../../packages/terminal-core/src/ansi.js";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { formatTerminalLink } from "../../packages/terminal-core/src/terminal-link.js";
+import { visibleWidth } from "../../packages/terminal-core/src/ansi.ts";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { formatTerminalLink } from "../../packages/terminal-core/src/terminal-link.ts";
 import {
   ARCHIVE_LIMIT_ERROR_CODE,
   ArchiveLimitError,
@@ -17,11 +17,11 @@ import {
   DEFAULT_MAX_EXTRACTED_BYTES,
   DEFAULT_MAX_ENTRY_BYTES,
   loadZipArchiveWithPreflight,
-} from "../infra/archive.js";
+} from "../infra/archive.ts";
 import {
   ensureClawHubPackageTrustAcknowledged,
   type ClawHubRiskAcknowledgementRequest,
-} from "../infra/clawhub-install-trust.js";
+} from "../infra/clawhub-install-trust.ts";
 import {
   ClawHubRequestError,
   downloadClawHubPackageArchive,
@@ -43,14 +43,14 @@ import {
   type ClawHubPackageClawPackSummary,
   type ClawHubResolvedArtifact,
   type ClawHubPackageVersion,
-} from "../infra/clawhub.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveCompatibilityHostVersion } from "../version.js";
-import type { RuntimeVersionEnv } from "../version.js";
-import { CLAWHUB_INSTALL_ERROR_CODE, type ClawHubInstallErrorCode } from "./clawhub-error-codes.js";
-import type { ClawHubPluginInstallRecordFields } from "./clawhub-install-records.js";
-import type { InstallSafetyOverrides } from "./install-security-scan.js";
-import { installPluginFromArchive, type InstallPluginResult } from "./install.js";
+} from "../infra/clawhub.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveCompatibilityHostVersion } from "../version.ts";
+import type { RuntimeVersionEnv } from "../version.ts";
+import { CLAWHUB_INSTALL_ERROR_CODE, type ClawHubInstallErrorCode } from "./clawhub-error-codes.ts";
+import type { ClawHubPluginInstallRecordFields } from "./clawhub-install-records.ts";
+import type { InstallSafetyOverrides } from "./install-security-scan.ts";
+import { installPluginFromArchive, type InstallPluginResult } from "./install.ts";
 
 export { CLAWHUB_INSTALL_ERROR_CODE };
 export type { ClawHubInstallErrorCode, ClawHubRiskAcknowledgementRequest };
@@ -145,8 +145,7 @@ function normalizeClawHubClawPackInstallFields(
 > {
   const isNpmPackArtifact =
     clawpack && "kind" in clawpack && normalizeOptionalString(clawpack.kind) === "npm-pack";
-  const isLegacyClawPack = clawpack && "available" in clawpack && clawpack.available;
-  if (!isNpmPackArtifact && !isLegacyClawPack) {
+  if (!isNpmPackArtifact) {
     return {};
   }
 
@@ -210,8 +209,7 @@ function resolveClawHubClawPackArtifactSha256(
 ): string | null {
   const isNpmPackArtifact =
     clawpack && "kind" in clawpack && normalizeOptionalString(clawpack.kind) === "npm-pack";
-  const isLegacyClawPack = clawpack && "available" in clawpack && clawpack.available;
-  if ((!isNpmPackArtifact && !isLegacyClawPack) || typeof clawpack.sha256 !== "string") {
+  if ((!isNpmPackArtifact) || typeof clawpack.sha256 !== "string") {
     return null;
   }
   return normalizeClawHubSha256Hex(clawpack.sha256);
@@ -308,19 +306,6 @@ function resolveTopLevelNpmPackArtifact(
     npmShasum: wire.npmShasum ?? null,
     downloadUrl: wire.downloadUrl ?? null,
   };
-}
-
-function resolveTopLevelLegacyArchiveVerification(
-  artifact: ClawHubResolvedArtifact | null | undefined,
-): ClawHubArchiveVerification | null {
-  const wire = artifact as ClawHubResolvedArtifactWire | null | undefined;
-  const artifactKind = wire?.artifactKind ?? wire?.kind;
-  const artifactSha256 = wire?.artifactSha256 ?? wire?.sha256;
-  if (artifactKind !== "legacy-zip" || typeof artifactSha256 !== "string") {
-    return null;
-  }
-  const integrity = normalizeClawHubSha256Integrity(artifactSha256);
-  return integrity ? { kind: "archive-integrity", integrity } : null;
 }
 
 export function formatClawHubSpecifier(params: { name: string; version?: string }): string {
@@ -1044,9 +1029,6 @@ async function resolveCompatiblePackageVersion(params: {
       clawpack,
     };
   }
-  const topLevelLegacyVerification = resolveTopLevelLegacyArchiveVerification(
-    artifactResponse.artifact,
-  );
   return {
     ok: true,
     version: resolvedVersion,
@@ -1054,7 +1036,7 @@ async function resolveCompatiblePackageVersion(params: {
       versionDetail.version?.compatibility ??
       versionEndpointCompatibility ??
       packageCompatibilityFallback,
-    verification: verificationState.verification ?? topLevelLegacyVerification,
+    verification: verificationState.verification,
     clawpack,
   };
 }
@@ -1407,7 +1389,6 @@ export async function installPluginFromClawHub(
             ...(archive.npmTarballName ? { npmTarballName: archive.npmTarballName } : {}),
           } satisfies Partial<ClawHubPluginInstallRecordFields>)
         : ({
-            artifactKind: "legacy-zip",
             artifactFormat: "zip",
           } satisfies Partial<ClawHubPluginInstallRecordFields>);
     const expectedTarballName = resolveClawHubNpmTarballName(versionState.clawpack);

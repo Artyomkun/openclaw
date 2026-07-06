@@ -1,8 +1,8 @@
 /** Reads or waits for descendant subagent summaries after isolated cron orchestration. */
-import { readLatestAssistantReply, waitForAgentRunsToDrain } from "../../agents/run-wait.js";
-import { listDescendantRunsForRequester } from "../../agents/subagent-registry-read.js";
-import { SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.js";
-import { isLikelyInterimCronMessage } from "./subagent-followup-hints.js";
+import { readLatestAssistantReply, waitForAgentRunsToDrain } from "../../agents/run-wait.ts";
+import { listDescendantRunsForRequester } from "../../agents/subagent-registry-read.ts";
+import { SILENT_REPLY_TOKEN } from "../../auto-reply/tokens.ts";
+import { isLikelyInterimCronMessage } from "./subagent-followup-hints.ts";
 
 function resolveCronSubagentTimings() {
   const fastTestMode = process.env.OPENCLAW_TEST_FAST === "1";

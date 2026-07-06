@@ -8,9 +8,9 @@ import {
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../../config/types.js";
-import type { DirectoryConfigParams } from "./directory-types.js";
-import type { ChannelDirectoryEntry } from "./types.public.js";
+import type { OpenClawConfig } from "../../config/types.ts";
+import type { DirectoryConfigParams } from "./directory-types.ts";
+import type { ChannelDirectoryEntry } from "./types.public.ts";
 
 function resolveDirectoryQuery(query?: string | null): string {
   return normalizeLowercaseStringOrEmpty(query);

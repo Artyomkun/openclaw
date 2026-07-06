@@ -15,7 +15,6 @@ import {
   normalizeOptionalString,
 } from "openclaw/plugin-sdk/string-coerce-runtime";
 import {
-  normalizeTelegramChatId,
   normalizeTelegramLookupTarget,
   parseTelegramTarget,
 } from "./targets.js";
@@ -46,43 +45,6 @@ function normalizeTelegramTargetForMatch(raw: string): string | undefined {
   }
   const threadKey = parsed.messageThreadId == null ? "" : String(parsed.messageThreadId);
   return `${normalized}|${threadKey}`;
-}
-
-function buildResolvedTelegramTarget(params: {
-  raw: string;
-  parsed: ReturnType<typeof parseTelegramTarget>;
-  resolvedChatId: string;
-}): string {
-  const { raw, parsed, resolvedChatId } = params;
-  if (parsed.messageThreadId == null) {
-    return resolvedChatId;
-  }
-  return raw.includes(":topic:")
-    ? `${resolvedChatId}:topic:${parsed.messageThreadId}`
-    : `${resolvedChatId}:${parsed.messageThreadId}`;
-}
-
-function resolveLegacyRewrite(params: {
-  raw: string;
-  resolvedChatId: string;
-}): { matchKey: string; resolvedTarget: string } | null {
-  const parsed = parseTelegramTarget(params.raw);
-  if (normalizeTelegramChatId(parsed.chatId)) {
-    return null;
-  }
-  const normalized = normalizeTelegramLookupTargetForMatch(parsed.chatId);
-  if (!normalized) {
-    return null;
-  }
-  const threadKey = parsed.messageThreadId == null ? "" : String(parsed.messageThreadId);
-  return {
-    matchKey: `${normalized}|${threadKey}`,
-    resolvedTarget: buildResolvedTelegramTarget({
-      raw: params.raw,
-      parsed,
-      resolvedChatId: params.resolvedChatId,
-    }),
-  };
 }
 
 function rewriteTargetIfMatch(params: {
@@ -154,14 +116,6 @@ export async function maybePersistResolvedTelegramTarget(params: {
   if (!raw) {
     return;
   }
-  const rewrite = resolveLegacyRewrite({
-    raw,
-    resolvedChatId: params.resolvedChatId,
-  });
-  if (!rewrite) {
-    return;
-  }
-  const { matchKey, resolvedTarget } = rewrite;
   const hasGatewayAdminScope = params.gatewayClientScopes?.includes(TELEGRAM_ADMIN_SCOPE) === true;
   const trustedInternalWriteback =
     params.gatewayClientScopes === undefined && params.trustedInternalWriteback === true;
@@ -173,31 +127,6 @@ export async function maybePersistResolvedTelegramTarget(params: {
   }
 
   try {
-    const { snapshot, writeOptions } = await readConfigFileSnapshotForWrite();
-    const nextConfig = structuredClone(snapshot.config ?? {});
-    const configChanged = replaceTelegramDefaultToTargets({
-      cfg: nextConfig,
-      matchKey,
-      resolvedTarget,
-    });
-    if (configChanged) {
-      await replaceConfigFile({
-        nextConfig,
-        snapshot,
-        writeOptions,
-        afterWrite: { mode: "auto" },
-      });
-      if (params.verbose) {
-        writebackLogger.warn(`resolved Telegram defaultTo target ${raw} -> ${resolvedTarget}`);
-      }
-    }
-  } catch (err) {
-    if (params.verbose) {
-      writebackLogger.warn(`failed to persist Telegram defaultTo target ${raw}: ${String(err)}`);
-    }
-  }
-
-  try {
     const storePath = resolveCronStorePath(params.cfg.cron?.store);
     const store = await loadCronStore(storePath);
     let cronChanged = false;
@@ -205,15 +134,6 @@ export async function maybePersistResolvedTelegramTarget(params: {
       if (job.delivery?.channel !== "telegram") {
         continue;
       }
-      const nextTarget = rewriteTargetIfMatch({
-        rawValue: job.delivery.to,
-        matchKey,
-        resolvedTarget,
-      });
-      if (!nextTarget) {
-        continue;
-      }
-      job.delivery.to = nextTarget;
       cronChanged = true;
     }
     if (cronChanged) {

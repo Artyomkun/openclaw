@@ -1,7 +1,7 @@
 // Utilities for defining safe Commander placeholder descriptors and descriptor catalogs.
 import type { Command } from "commander";
-import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.js";
-import type { NamedCommandDescriptor } from "./command-group-descriptors.js";
+import { sanitizeForLog } from "../../../packages/terminal-core/src/ansi.ts";
+import type { NamedCommandDescriptor } from "./command-group-descriptors.ts";
 
 /** Minimal descriptor shape used before a command is fully registered. */
 export type CommandDescriptorLike = Pick<NamedCommandDescriptor, "name" | "description">;

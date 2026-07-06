@@ -1,7 +1,7 @@
 // Poll command registration for channel-backed poll creation.
 import type { Command } from "commander";
-import { collectOption } from "../helpers.js";
-import type { MessageCliHelpers } from "./helpers.js";
+import { collectOption } from "../helpers.ts";
+import type { MessageCliHelpers } from "./helpers.ts";
 
 /** Register `message poll` and validate poll-specific flags through the shared action path. */
 export function registerMessagePollCommand(message: Command, helpers: MessageCliHelpers) {

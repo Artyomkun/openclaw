@@ -1,5 +1,5 @@
 // Usage types define shared usage accounting structures for sessions and runs.
-import type { SessionSystemPromptReport } from "../config/sessions/types.js";
+import type { SessionSystemPromptReport } from "../config/sessions/types.ts";
 import type {
   CostUsageSummary,
   SessionCostSummary,
@@ -9,7 +9,7 @@ import type {
   SessionMessageCounts,
   SessionModelUsage,
   SessionToolUsage,
-} from "../infra/session-cost-usage.js";
+} from "../infra/session-cost-usage.ts";
 
 /** One session or session-family row returned by the gateway usage endpoint. */
 export type SessionUsageEntry = {

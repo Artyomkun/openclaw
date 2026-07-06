@@ -1,10 +1,10 @@
 /** Reply payload contracts and metadata helpers shared by dispatch and channel renderers. */
-import type { ReplyToMode } from "../config/types.base.js";
+import type { ReplyToMode } from "../config/types.base.ts";
 import type {
   InteractiveReply,
   MessagePresentation,
   ReplyPayloadDelivery,
-} from "../interactive/payload.js";
+} from "../interactive/payload.ts";
 
 /** Channel-agnostic assistant reply payload. */
 export type ReplyPayload = {
@@ -19,12 +19,6 @@ export type ReplyPayload = {
   presentation?: MessagePresentation;
   /** Channel-agnostic delivery preferences, e.g. pin the sent message when supported. */
   delivery?: ReplyPayloadDelivery;
-  /**
-   * @deprecated Use presentation.
-   *
-   * Internal legacy representation used by existing approval/reply helpers during migration.
-   */
-  interactive?: InteractiveReply;
   btw?: {
     question: string;
   };

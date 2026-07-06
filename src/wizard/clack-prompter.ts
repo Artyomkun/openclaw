@@ -15,17 +15,17 @@ import {
   text,
 } from "@clack/prompts";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { stripAnsi } from "../../packages/terminal-core/src/ansi.js";
-import { note as emitNote } from "../../packages/terminal-core/src/note.js";
+import { stripAnsi } from "../../packages/terminal-core/src/ansi.ts";
+import { note as emitNote } from "../../packages/terminal-core/src/note.ts";
 import {
   stylePromptHint,
   stylePromptMessage,
   stylePromptTitle,
-} from "../../packages/terminal-core/src/prompt-style.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { createCliProgress } from "../cli/progress.js";
-import type { WizardProgress, WizardPrompter } from "./prompts.js";
-import { WizardCancelledError } from "./prompts.js";
+} from "../../packages/terminal-core/src/prompt-style.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { createCliProgress } from "../cli/progress.ts";
+import type { WizardProgress, WizardPrompter } from "./prompts.ts";
+import { WizardCancelledError } from "./prompts.ts";
 
 // Clack-backed WizardPrompter implementation for interactive CLI setup. It
 // converts the generic wizard prompt contract into styled Clack prompts.

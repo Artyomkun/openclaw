@@ -2,12 +2,6 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "openclaw/plugin-sdk/account-id";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
-import {
-  requiresExplicitMatrixDefaultAccount,
-  resolveMatrixDefaultOrOnlyAccountId,
-} from "../account-selection.js";
 import { getMatrixRuntime } from "../runtime.js";
 import {
   resolveMatrixCredentialsDir as resolveSharedMatrixCredentialsDir,
@@ -23,7 +17,7 @@ export type MatrixStoredCredentials = {
   lastUsedAt?: string;
 };
 
-type MatrixCredentialsSource = "current" | "legacy";
+type MatrixCredentialsSource = "current";
 
 type MatrixCredentialsFileLoadResult =
   | {
@@ -39,8 +33,6 @@ function resolveStateDir(env: NodeJS.ProcessEnv): string {
   try {
     return getMatrixRuntime().state.resolveStateDir(env, os.homedir);
   } catch {
-    // Some config-only helpers read stored credentials before the Matrix plugin
-    // runtime is installed. Fall back to the standard state-dir env contract.
     const override = env.OPENCLAW_STATE_DIR?.trim();
     if (override) {
       return path.resolve(override);
@@ -48,33 +40,6 @@ function resolveStateDir(env: NodeJS.ProcessEnv): string {
     const homeDir = env.OPENCLAW_HOME?.trim() || env.HOME?.trim() || os.homedir();
     return path.join(homeDir, ".openclaw");
   }
-}
-
-function resolveLegacyMatrixCredentialsPath(env: NodeJS.ProcessEnv): string {
-  return path.join(resolveMatrixCredentialsDir(env), "credentials.json");
-}
-
-function shouldReadLegacyCredentialsForAccount(accountId?: string | null): boolean {
-  const normalizedAccountId = normalizeAccountId(accountId);
-  const cfg = getMatrixRuntime().config.current() as OpenClawConfig;
-  if (!cfg.channels?.matrix || typeof cfg.channels.matrix !== "object") {
-    return normalizedAccountId === DEFAULT_ACCOUNT_ID;
-  }
-  if (requiresExplicitMatrixDefaultAccount(cfg)) {
-    return false;
-  }
-  return normalizeAccountId(resolveMatrixDefaultOrOnlyAccountId(cfg)) === normalizedAccountId;
-}
-
-function resolveLegacyMigrationSourcePath(
-  env: NodeJS.ProcessEnv,
-  accountId?: string | null,
-): string | null {
-  if (!shouldReadLegacyCredentialsForAccount(accountId)) {
-    return null;
-  }
-  const legacyPath = resolveLegacyMatrixCredentialsPath(env);
-  return legacyPath === resolveMatrixCredentialsPath(env, accountId) ? null : legacyPath;
 }
 
 function parseMatrixCredentialsFile(filePath: string): MatrixStoredCredentials | null {
@@ -108,17 +73,6 @@ function loadMatrixCredentialsFile(
   }
 }
 
-function loadLegacyMatrixCredentialsWithCurrentFallback(params: {
-  legacyPath: string;
-  currentPath: string;
-}): MatrixCredentialsFileLoadResult {
-  const legacy = loadMatrixCredentialsFile(params.legacyPath, "legacy");
-  if (legacy.kind === "loaded") {
-    return legacy;
-  }
-  return loadMatrixCredentialsFile(params.currentPath, "current");
-}
-
 export function resolveMatrixCredentialsDir(
   env: NodeJS.ProcessEnv = process.env,
   stateDir?: string,
@@ -145,30 +99,7 @@ export function loadMatrixCredentials(
     if (current.kind === "loaded") {
       return current.credentials;
     }
-
-    const legacyPath = resolveLegacyMigrationSourcePath(env, accountId);
-    if (!legacyPath) {
-      return null;
-    }
-
-    const loaded = loadLegacyMatrixCredentialsWithCurrentFallback({
-      legacyPath,
-      currentPath,
-    });
-    if (loaded.kind !== "loaded" || !loaded.credentials) {
-      return null;
-    }
-
-    if (loaded.source === "legacy") {
-      try {
-        fs.mkdirSync(path.dirname(currentPath), { recursive: true });
-        fs.renameSync(legacyPath, currentPath);
-      } catch {
-        // Keep returning the legacy credentials even if migration fails.
-      }
-    }
-
-    return loaded.credentials;
+    return null;
   } catch {
     return null;
   }
@@ -179,8 +110,7 @@ export function clearMatrixCredentials(
   accountId?: string | null,
 ): void {
   const paths = [
-    resolveMatrixCredentialsPath(env, accountId),
-    resolveLegacyMigrationSourcePath(env, accountId),
+    resolveMatrixCredentialsPath(env, accountId)
   ];
   for (const filePath of paths) {
     if (!filePath) {
@@ -188,8 +118,8 @@ export function clearMatrixCredentials(
     }
     try {
       fs.unlinkSync(filePath);
-    } catch {
-      // ignore
+    } catch (err) {
+      console.warn(`Failed to clear Matrix credentials at ${filePath}:`, err);
     }
   }
 }

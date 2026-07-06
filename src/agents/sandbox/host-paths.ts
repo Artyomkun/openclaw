@@ -4,7 +4,7 @@
  * Handles POSIX, Windows drive, and namespace-prefixed paths before policy-key comparison.
  */
 import { posix } from "node:path";
-import { resolvePathViaExistingAncestorSync } from "../../infra/boundary-path.js";
+import { resolvePathViaExistingAncestorSync } from "../../infra/boundary-path.ts";
 
 function stripWindowsNamespacePrefix(input: string): string {
   if (input.startsWith("\\\\?\\")) {

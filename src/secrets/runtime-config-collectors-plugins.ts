@@ -1,20 +1,20 @@
 /** Collects plugin config secret refs from runtime plugin metadata. */
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   collectPluginConfigContractMatches,
   resolvePluginConfigContractsById,
-} from "../plugins/config-contracts.js";
-import { normalizePluginsConfig, resolveEnableState } from "../plugins/config-state.js";
-import type { PluginOrigin } from "../plugins/plugin-origin.types.js";
-import { parseConfigPathArrayIndex } from "../shared/path-array-index.js";
+} from "../plugins/config-contracts.ts";
+import { normalizePluginsConfig, resolveEnableState } from "../plugins/config-state.ts";
+import type { PluginOrigin } from "../plugins/plugin-origin.types.ts";
+import { parseConfigPathArrayIndex } from "../shared/path-array-index.ts";
 import {
   collectSecretInputAssignment,
   type ResolverContext,
   type SecretDefaults,
-} from "./runtime-shared.js";
-import { isRecord } from "./shared.js";
+} from "./runtime-shared.ts";
+import { isRecord } from "./shared.ts";
 
 function parsePluginConfigArrayIndex(segment: string): number | undefined {
   return parseConfigPathArrayIndex(segment);

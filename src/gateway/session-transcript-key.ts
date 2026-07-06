@@ -1,16 +1,16 @@
 // Session transcript key resolver.
 // Maps transcript file paths back to Gateway session keys for live broadcasts.
-import { getRuntimeConfig } from "../config/io.js";
-import type { SessionEntry } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { resolvePreferredSessionKeyForSessionIdMatches } from "../sessions/session-id-resolution.js";
-import { resolveTranscriptPathForComparison } from "./session-transcript-path.js";
+import { getRuntimeConfig } from "../config/io.ts";
+import type { SessionEntry } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { resolvePreferredSessionKeyForSessionIdMatches } from "../sessions/session-id-resolution.ts";
+import { resolveTranscriptPathForComparison } from "./session-transcript-path.ts";
 import {
   loadCombinedSessionStoreForGateway,
   resolveGatewaySessionStoreTarget,
   resolveSessionTranscriptCandidates,
-} from "./session-utils.js";
+} from "./session-utils.ts";
 
 const TRANSCRIPT_SESSION_KEY_CACHE = new Map<string, string>();
 const TRANSCRIPT_SESSION_KEY_CACHE_MAX = 256;

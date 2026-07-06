@@ -1,12 +1,12 @@
 // Defines WhatsApp provider schema fragments for config parsing.
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
 import { z } from "zod";
-import { resolveAccountEntry } from "../routing/account-lookup.js";
-import { ToolPolicySchema } from "./zod-schema.agent-runtime.js";
+import { resolveAccountEntry } from "../routing/account-lookup.ts";
+import { ToolPolicySchema } from "./zod-schema.agent-runtime.ts";
 import {
   ChannelHealthMonitorSchema,
   ChannelHeartbeatVisibilitySchema,
-} from "./zod-schema.channels.js";
+} from "./zod-schema.channels.ts";
 import {
   BlockStreamingCoalesceSchema,
   ContextVisibilityModeSchema,
@@ -16,7 +16,7 @@ import {
   MarkdownConfigSchema,
   MentionPatternsPolicySchema,
   ReplyToModeSchema,
-} from "./zod-schema.core.js";
+} from "./zod-schema.core.ts";
 
 const ToolPolicyBySenderSchema = z.record(z.string(), ToolPolicySchema).optional();
 

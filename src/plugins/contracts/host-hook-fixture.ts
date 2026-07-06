@@ -1,5 +1,5 @@
 // Host hook fixtures provide reusable plugin host-hook doubles for contract tests.
-import type { OpenClawPluginApi } from "../types.js";
+import type { OpenClawPluginApi } from "../types.ts";
 
 export function registerHostHookFixture(api: OpenClawPluginApi) {
   api.session.state.registerSessionExtension({

@@ -4,4 +4,4 @@
 export {
   isDangerousNameMatchingEnabled,
   resolveDangerousNameMatchingEnabled,
-} from "../config/dangerous-name-matching.js";
+} from "../config/dangerous-name-matching.ts";

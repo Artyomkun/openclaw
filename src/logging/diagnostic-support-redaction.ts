@@ -2,9 +2,9 @@
 import path from "node:path";
 import { isSensitiveUrlQueryParamName } from "@openclaw/net-policy/redact-sensitive-url";
 import { asOptionalRecord } from "@openclaw/normalization-core/record-coerce";
-import { isSecretRefShape } from "../config/redact-snapshot.secret-ref.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import { redactSensitiveText } from "./redact.js";
+import { isSecretRefShape } from "../config/redact-snapshot.secret-ref.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { redactSensitiveText } from "./redact.ts";
 
 // Redaction helpers for support bundles; preserve operational shape while removing private data.
 const SECRET_SUPPORT_FIELD_RE =

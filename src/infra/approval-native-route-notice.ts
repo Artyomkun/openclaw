@@ -1,7 +1,7 @@
 // Formats native-route approval notices shown when command approvals leave the current channel.
 import { sortUniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { formatHumanList } from "../shared/human-list.js";
-import type { ChannelApprovalNativePlannedTarget } from "./approval-native-delivery.js";
+import { formatHumanList } from "../shared/human-list.ts";
+import type { ChannelApprovalNativePlannedTarget } from "./approval-native-delivery.ts";
 
 /** Formats the human destination label for where native approval prompts were delivered. */
 export function describeApprovalDeliveryDestination(params: {

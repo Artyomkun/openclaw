@@ -2,14 +2,14 @@
 // CLI backend and poll for externally visible live results.
 import { randomUUID } from "node:crypto";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { renderCatFacePngBase64 } from "../../test/helpers/live-image-probe.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import type { GatewayClient } from "./client.js";
+import { renderCatFacePngBase64 } from "../../test/helpers/live-image-probe.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import type { GatewayClient } from "./client.ts";
 import {
   shouldRetryCliCronMcpProbeReply,
   type BootstrapWorkspaceContext,
-} from "./gateway-cli-backend.live-helpers.js";
+} from "./gateway-cli-backend.live-helpers.ts";
 import {
   assertCronJobMatches,
   assertCronJobVisibleViaCli,
@@ -18,9 +18,9 @@ import {
   createLiveCronProbeSpec,
   runOpenClawCliJson,
   type CronListJob,
-} from "./live-agent-probes.js";
-import { getActiveMcpLoopbackRuntime } from "./mcp-http.js";
-import { extractPayloadText } from "./test-helpers.agent-results.js";
+} from "./live-agent-probes.ts";
+import { getActiveMcpLoopbackRuntime } from "./mcp-http.ts";
+import { extractPayloadText } from "./test-helpers.agent-results.ts";
 
 // CI Docker live lanes can see repeated cancelled cron tool calls before a job
 // finally sticks, and the created job may take extra time to surface via the CLI.

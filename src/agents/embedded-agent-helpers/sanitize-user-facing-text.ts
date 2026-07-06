@@ -4,9 +4,9 @@
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
-} from "../../../packages/normalization-core/src/string-coerce.js";
-import { stripPlainTextToolCallBlocks } from "../../../packages/tool-call-repair/src/index.js";
-import { stripInboundMetadata } from "../../auto-reply/reply/strip-inbound-meta.js";
+} from "../../../packages/normalization-core/src/string-coerce.ts";
+import { stripPlainTextToolCallBlocks } from "../../../packages/tool-call-repair/src/index.ts";
+import { stripInboundMetadata } from "../../auto-reply/reply/strip-inbound-meta.ts";
 import {
   extractLeadingHttpStatus,
   formatRawAssistantErrorForUi,
@@ -15,24 +15,22 @@ import {
   MALFORMED_STREAMING_FRAGMENT_ERROR_MESSAGE,
   parseApiErrorInfo,
   parseApiErrorPayload,
-} from "../../shared/assistant-error-format.js";
-import { coerceChatContentText } from "../../shared/chat-content.js";
+} from "../../shared/assistant-error-format.ts";
+import { coerceChatContentText } from "../../shared/chat-content.ts";
 import {
   stripAssistantInternalTraceLines,
-  stripLegacyBracketToolCallBlocks,
   stripMinimaxToolCallXml,
   stripToolCallXmlTags,
-} from "../../shared/text/assistant-visible-text.js";
-import { stripFinalTags } from "../../shared/text/final-tags.js";
-import { formatExecDeniedUserMessage } from "../exec-approval-result.js";
-import { stripInternalRuntimeContext } from "../internal-runtime-context.js";
-import { stableStringify } from "../stable-stringify.js";
+} from "../../shared/text/assistant-visible-text.ts";
+import { stripFinalTags } from "../../shared/text/final-tags.ts";
+import { formatExecDeniedUserMessage } from "../exec-approval-result.ts";
+import { stableStringify } from "../stable-stringify.ts";
 import {
   isBillingErrorMessage,
   isOverloadedErrorMessage,
   isRateLimitErrorMessage,
   isTimeoutErrorMessage,
-} from "./failover-matches.js";
+} from "./failover-matches.ts";
 
 /** Format the billing failure copy with optional provider/model context.
  *
@@ -430,7 +428,7 @@ export function sanitizeUserFacingText(text: unknown, opts?: { errorContext?: bo
     return raw;
   }
   const errorContext = opts?.errorContext ?? false;
-  const stripped = stripInboundMetadata(stripInternalRuntimeContext(stripFinalTagsFromText(raw)));
+  const stripped = stripInboundMetadata(stripFinalTagsFromText(raw));
   const withoutToolCallXml = stripToolCallXmlTags(stripMinimaxToolCallXml(stripped), {
     stripFunctionCallsXmlPayloads: true,
   });
@@ -442,7 +440,7 @@ export function sanitizeUserFacingText(text: unknown, opts?: { errorContext?: bo
     ? stripAssistantInternalTraceLines(withoutPlaceholder)
     : withoutPlaceholder;
   const withoutToolCallBlocks = stripPlainTextToolCallBlocks(
-    stripLegacyBracketToolCallBlocks(withoutInternalTraceLines),
+    withoutInternalTraceLines
   );
   const trimmed = withoutToolCallBlocks.trim();
   if (!trimmed) {

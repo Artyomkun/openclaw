@@ -3,21 +3,21 @@
  */
 import path from "node:path";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { formatErrorMessage } from "../../../infra/errors.js";
-import { assertNoWindowsNetworkPath, safeFileURLToPath } from "../../../infra/local-file-access.js";
-import type { ImageContent } from "../../../llm/types.js";
-import { resolveMediaReferenceLocalPath } from "../../../media/media-reference.js";
-import type { PromptImageOrderEntry } from "../../../media/prompt-image-order.js";
-import { loadWebMedia } from "../../../media/web-media.js";
-import { resolveUserPath } from "../../../utils.js";
-import type { ImageSanitizationLimits } from "../../image-sanitization.js";
+import { formatErrorMessage } from "../../../infra/errors.ts";
+import { assertNoWindowsNetworkPath, safeFileURLToPath } from "../../../infra/local-file-access.ts";
+import type { ImageContent } from "../../../llm/types.ts";
+import { resolveMediaReferenceLocalPath } from "../../../media/media-reference.ts";
+import type { PromptImageOrderEntry } from "../../../media/prompt-image-order.ts";
+import { loadWebMedia } from "../../../media/web-media.ts";
+import { resolveUserPath } from "../../../utils.ts";
+import type { ImageSanitizationLimits } from "../../image-sanitization.ts";
 import {
   createSandboxBridgeReadFile,
   resolveSandboxedBridgeMediaPath,
-} from "../../sandbox-media-paths.js";
-import type { SandboxFsBridge } from "../../sandbox/fs-bridge.js";
-import { sanitizeImageBlocks } from "../../tool-images.js";
-import { log } from "../logger.js";
+} from "../../sandbox-media-paths.ts";
+import type { SandboxFsBridge } from "../../sandbox/fs-bridge.ts";
+import { sanitizeImageBlocks } from "../../tool-images.ts";
+import { log } from "../logger.ts";
 
 /**
  * Common image file extensions for detection.

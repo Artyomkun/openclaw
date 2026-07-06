@@ -2,10 +2,10 @@
 import { spawnSync } from "node:child_process";
 import { isIP } from "node:net";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { consumeRootOptionToken, FLAG_TERMINATOR } from "../infra/cli-root-options.js";
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import { scanCliRootOptions } from "./root-option-scan.js";
-import { takeCliRootOptionValue } from "./root-option-value.js";
+import { consumeRootOptionToken, FLAG_TERMINATOR } from "../infra/cli-root-options.ts";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
+import { scanCliRootOptions } from "./root-option-scan.ts";
+import { takeCliRootOptionValue } from "./root-option-value.ts";
 
 type CliContainerParseResult =
   | { ok: true; container: string | null; argv: string[] }

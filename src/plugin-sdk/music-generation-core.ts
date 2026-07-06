@@ -4,10 +4,10 @@
  * is needed by bundled extensions.
  */
 
-export type { AuthProfileStore } from "../agents/auth-profiles/types.js";
-export type { FallbackAttempt } from "../agents/model-fallback.types.js";
-export type { OpenClawConfig } from "../config/types.openclaw.js";
-export type { MusicGenerationProviderPlugin } from "../plugins/types.js";
+export type { AuthProfileStore } from "../agents/auth-profiles/types.ts";
+export type { FallbackAttempt } from "../agents/model-fallback.types.ts";
+export type { OpenClawConfig } from "../config/types.openclaw.ts";
+export type { MusicGenerationProviderPlugin } from "../plugins/types.ts";
 export type {
   GeneratedMusicAsset,
   MusicGenerationOutputFormat,
@@ -16,17 +16,17 @@ export type {
   MusicGenerationRequest,
   MusicGenerationResult,
   MusicGenerationSourceImage,
-} from "../music-generation/types.js";
+} from "../music-generation/types.ts";
 
-export { describeFailoverError, isFailoverError } from "../agents/failover-error.js";
+export { describeFailoverError, isFailoverError } from "../agents/failover-error.ts";
 export {
   resolveAgentModelFallbackValues,
   resolveAgentModelPrimaryValue,
-} from "../config/model-input.js";
-export { createSubsystemLogger } from "../logging/subsystem.js";
-export { parseMusicGenerationModelRef } from "../music-generation/model-ref.js";
+} from "../config/model-input.ts";
+export { createSubsystemLogger } from "../logging/subsystem.ts";
+export { parseMusicGenerationModelRef } from "../music-generation/model-ref.ts";
 export {
   getMusicGenerationProvider,
   listMusicGenerationProviders,
-} from "../music-generation/provider-registry.js";
-export { getProviderEnvVars } from "../secrets/provider-env-vars.js";
+} from "../music-generation/provider-registry.ts";
+export { getProviderEnvVars } from "../secrets/provider-env-vars.ts";

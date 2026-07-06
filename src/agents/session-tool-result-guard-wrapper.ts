@@ -3,21 +3,21 @@
  *
  * Installs message-write hooks, input provenance handling, and pending tool-result flush behavior once per manager.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
 import {
   applyInputProvenanceToUserMessage,
   type InputProvenance,
-} from "../sessions/input-provenance.js";
+} from "../sessions/input-provenance.ts";
 import {
   mergePreparedUserTurnMessageForRuntime,
   type PersistedUserTurnMessage,
-} from "../sessions/user-turn-transcript.js";
-import { resolveLiveToolResultMaxChars } from "./embedded-agent-runner/tool-result-truncation.js";
-import type { AgentMessage } from "./runtime/index.js";
-import { installSessionToolResultGuard } from "./session-tool-result-guard.js";
-import type { SessionManager } from "./sessions/index.js";
-import { redactTranscriptMessage } from "./transcript-redact.js";
+} from "../sessions/user-turn-transcript.ts";
+import { resolveLiveToolResultMaxChars } from "./embedded-agent-runner/tool-result-truncation.ts";
+import type { AgentMessage } from "./runtime/index.ts";
+import { installSessionToolResultGuard } from "./session-tool-result-guard.ts";
+import type { SessionManager } from "./sessions/index.ts";
+import { redactTranscriptMessage } from "./transcript-redact.ts";
 
 type GuardedSessionManager = SessionManager & {
   /** Flush any synthetic tool results for pending tool calls. Idempotent. */

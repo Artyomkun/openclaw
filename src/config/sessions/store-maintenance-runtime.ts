@@ -1,10 +1,10 @@
 // Runtime maintenance config reads current config and falls back for narrow helpers/tests.
-import { getRuntimeConfig } from "../config.js";
-import type { SessionMaintenanceConfig } from "../types.base.js";
+import { getRuntimeConfig } from "../config.ts";
+import type { SessionMaintenanceConfig } from "../types.base.ts";
 import {
   resolveMaintenanceConfigFromInput,
   type ResolvedSessionMaintenanceConfig,
-} from "./store-maintenance.js";
+} from "./store-maintenance.ts";
 
 export function resolveMaintenanceConfig(): ResolvedSessionMaintenanceConfig {
   let maintenance: SessionMaintenanceConfig | undefined;

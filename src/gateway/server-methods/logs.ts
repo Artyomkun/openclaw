@@ -4,9 +4,9 @@ import {
   errorShape,
   formatValidationErrors,
   validateLogsTailParams,
-} from "../../../packages/gateway-protocol/src/index.js";
-import { readConfiguredLogTail } from "../../logging/log-tail.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
+import { readConfiguredLogTail } from "../../logging/log-tail.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /** Gateway handler for bounded reads from the configured gateway log. */
 export const logsHandlers: GatewayRequestHandlers = {

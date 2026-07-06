@@ -3,9 +3,9 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalLowercaseString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveLoadedSessionThreadInfo } from "../../channels/plugins/session-thread-info-loaded.js";
-import { normalizeMessageChannel } from "../../utils/message-channel.js";
-import type { SessionConfig, SessionResetConfig } from "../types.base.js";
+import { resolveLoadedSessionThreadInfo } from "../../channels/plugins/session-thread-info-loaded.ts";
+import { normalizeMessageChannel } from "../../utils/message-channel.ts";
+import type { SessionConfig, SessionResetConfig } from "../types.base.ts";
 /** Public reset policy exports plus helpers that classify direct, group, and thread sessions. */
 export {
   DEFAULT_RESET_AT_HOUR,
@@ -17,8 +17,8 @@ export {
   type SessionResetMode,
   type SessionResetPolicy,
   type SessionResetType,
-} from "./reset-policy.js";
-import type { SessionResetType } from "./reset-policy.js";
+} from "./reset-policy.ts";
+import type { SessionResetType } from "./reset-policy.ts";
 
 const GROUP_SESSION_MARKERS = [":group:", ":channel:"];
 

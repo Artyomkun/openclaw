@@ -5,20 +5,20 @@ import {
   parseFiniteNumber as readFiniteNumber,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import type { RealtimeTranscriptionProviderPlugin } from "../plugins/types.js";
-import type { RealtimeTranscriptionProviderConfig } from "../realtime-transcription/provider-types.js";
-import { recordTalkObservabilityEvent } from "../talk/observability.js";
+import type { RealtimeTranscriptionProviderPlugin } from "../plugins/types.ts";
+import type { RealtimeTranscriptionProviderConfig } from "../realtime-transcription/provider-types.ts";
+import { recordTalkObservabilityEvent } from "../talk/observability.ts";
 import {
   type TalkEvent,
   type TalkEventInput,
   type TalkSessionController,
   createTalkSessionController,
-} from "../talk/talk-session-controller.js";
-import type { GatewayRequestContext } from "./server-methods/shared-types.js";
+} from "../talk/talk-session-controller.ts";
+import type { GatewayRequestContext } from "./server-methods/shared-types.ts";
 import {
   closeExpiredTalkRelaySessions,
   requireActiveTalkRelaySession,
-} from "./talk-relay-session-lifecycle.js";
+} from "./talk-relay-session-lifecycle.ts";
 
 /**
  * Gateway-owned relay for streaming speech-to-text providers used by Talk.

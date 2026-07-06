@@ -3,10 +3,10 @@
  *
  * Runtime creation and lifecycle cleanup stay behind this backend boundary.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { SandboxBackendHandle } from "./backend-handle.types.js";
-import type { SandboxRegistryEntry } from "./registry.js";
-import type { SandboxConfig } from "./types.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { SandboxBackendHandle } from "./backend-handle.types.ts";
+import type { SandboxRegistryEntry } from "./registry.ts";
+import type { SandboxConfig } from "./types.ts";
 
 /** Current runtime state reported by a sandbox backend manager. */
 export type SandboxBackendRuntimeInfo = {
@@ -63,7 +63,7 @@ export type RegisteredSandboxBackend = {
   resolveWorkdir?: SandboxBackendWorkdirResolver;
 };
 
-export type { SandboxBackendHandle, SandboxBackendId } from "./backend-handle.types.js";
+export type { SandboxBackendHandle, SandboxBackendId } from "./backend-handle.types.ts";
 export type {
   SandboxBackendCommandParams,
   SandboxBackendCommandResult,
@@ -72,4 +72,4 @@ export type {
   SandboxBackendWorkdirValidation,
   SandboxBackendWorkdirValidator,
   SandboxFsBridgeContext,
-} from "./backend-handle.types.js";
+} from "./backend-handle.types.ts";

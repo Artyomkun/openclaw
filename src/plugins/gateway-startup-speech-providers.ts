@@ -1,8 +1,8 @@
 // Collects startup speech provider metadata from plugin manifests.
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveEffectiveTtsConfig } from "../tts/tts-config.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveEffectiveTtsConfig } from "../tts/tts-config.ts";
 
 const TTS_PROVIDER_CONFIG_RESERVED_KEYS = new Set([
   "auto",
@@ -42,7 +42,7 @@ export function normalizeConfiguredSpeechProviderIdForStartup(value: unknown): s
   return normalized === "edge" ? "microsoft" : normalized;
 }
 
-/** Resolves provider activation from both canonical providers maps and legacy root keys. */
+/** Resolves provider activation from both canonical providers maps and olders roots keys. */
 function resolveProviderConfigActivation(
   ttsConfig: Record<string, unknown>,
   providerId: string,

@@ -3,9 +3,9 @@ import { asOptionalRecord } from "@openclaw/normalization-core/record-coerce";
 import {
   collectConfiguredAgentHarnessRuntimes,
   type ConfiguredAgentHarnessRuntimeOptions,
-} from "../../../agents/harness-runtimes.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import type { PluginPackageInstall } from "../../../plugins/manifest.js";
+} from "../../../agents/harness-runtimes.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import type { PluginPackageInstall } from "../../../plugins/manifest.ts";
 
 type ConfiguredRuntimePluginInstallCandidate = {
   /** Runtime/plugin id used in config and plugin installation records. */

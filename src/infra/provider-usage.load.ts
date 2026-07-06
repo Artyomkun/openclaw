@@ -1,21 +1,21 @@
 // Loads provider usage snapshots from built-in and plugin providers.
-import { getRuntimeConfig, type OpenClawConfig } from "../config/config.js";
-import { resolveProviderUsageSnapshotWithPlugin } from "../plugins/provider-runtime.js";
-import { resolveFetch } from "./fetch.js";
-import { resolveProxyFetchFromEnv } from "./net/proxy-fetch.js";
-import { type ProviderAuth, resolveProviderAuths } from "./provider-usage.auth.js";
+import { getRuntimeConfig, type OpenClawConfig } from "../config/config.ts";
+import { resolveProviderUsageSnapshotWithPlugin } from "../plugins/provider-runtime.ts";
+import { resolveFetch } from "./fetch.ts";
+import { resolveProxyFetchFromEnv } from "./net/proxy-fetch.ts";
+import { type ProviderAuth, resolveProviderAuths } from "./provider-usage.auth.ts";
 import {
   DEFAULT_TIMEOUT_MS,
   ignoredErrors,
   PROVIDER_LABELS,
   usageProviders,
   withTimeout,
-} from "./provider-usage.shared.js";
+} from "./provider-usage.shared.ts";
 import type {
   ProviderUsageSnapshot,
   UsageProviderId,
   UsageSummary,
-} from "./provider-usage.types.js";
+} from "./provider-usage.types.ts";
 
 // Built-in fallback intentionally reports unsupported until a plugin supplies usage behavior.
 async function fetchProviderUsageSnapshotFallback(params: {

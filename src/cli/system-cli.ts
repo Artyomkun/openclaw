@@ -1,13 +1,13 @@
 // System CLI commands that call Gateway RPC methods for events, heartbeats, and presence.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { danger } from "../globals.js";
-import { defaultRuntime } from "../runtime.js";
-import { formatCliCommand } from "./command-format.js";
-import type { GatewayRpcOpts } from "./gateway-rpc.js";
-import { addGatewayClientOptions, callGatewayFromCli } from "./gateway-rpc.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { danger } from "../globals.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { formatCliCommand } from "./command-format.ts";
+import type { GatewayRpcOpts } from "./gateway-rpc.ts";
+import { addGatewayClientOptions, callGatewayFromCli } from "./gateway-rpc.ts";
 
 type SystemEventOpts = GatewayRpcOpts & {
   text?: string;

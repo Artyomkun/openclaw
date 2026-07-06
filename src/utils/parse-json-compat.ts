@@ -1,6 +1,6 @@
 /**
- * JSON parser compatibility helper for persisted config, manifests, and legacy stores.
- * Strict JSON stays the fast path; JSON5 is only the authored/legacy fallback.
+ * JSON parser compatibility helper for persisted config, manifests.
+ * Strict JSON stays the fast path; JSON5 is only the authored fallback.
  */
 import JSON5 from "json5";
 

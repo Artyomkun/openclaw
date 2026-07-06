@@ -3,14 +3,14 @@
  *
  * Lazily registers built-in binding providers before resolving configured bindings.
  */
-import { ensureConfiguredBindingBuiltinsRegistered } from "./configured-binding-builtins.js";
+import { ensureConfiguredBindingBuiltinsRegistered } from "./configured-binding-builtins.ts";
 import {
   primeConfiguredBindingRegistry as primeConfiguredBindingRegistryRaw,
   resolveConfiguredBinding as resolveConfiguredBindingRaw,
   resolveConfiguredBindingRecord as resolveConfiguredBindingRecordRaw,
   resolveConfiguredBindingRecordBySessionKey as resolveConfiguredBindingRecordBySessionKeyRaw,
   resolveConfiguredBindingRecordForConversation as resolveConfiguredBindingRecordForConversationRaw,
-} from "./configured-binding-registry.js";
+} from "./configured-binding-registry.ts";
 
 export function primeConfiguredBindingRegistry(
   ...args: Parameters<typeof primeConfiguredBindingRegistryRaw>

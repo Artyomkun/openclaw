@@ -3,11 +3,11 @@
  * token usage, chooses chunking strategy, and preserves active tool-use pairs
  * while splitting history for summaries.
  */
-import { stripRuntimeContextCustomMessages } from "./internal-runtime-context.js";
-import type { AgentMessage } from "./runtime/index.js";
-import { repairToolUseResultPairing, stripToolResultDetails } from "./session-transcript-repair.js";
-import { estimateTokens } from "./sessions/index.js";
-import { extractToolCallsFromAssistant, extractToolResultId } from "./tool-call-id.js";
+import { stripRuntimeContextCustomMessages } from "./internal-runtime-context.ts";
+import type { AgentMessage } from "./runtime/index.ts";
+import { repairToolUseResultPairing, stripToolResultDetails } from "./session-transcript-repair.ts";
+import { estimateTokens } from "./sessions/index.ts";
+import { extractToolCallsFromAssistant, extractToolResultId } from "./tool-call-id.ts";
 
 /** Default share of context window targeted for compaction chunks. */
 export const BASE_CHUNK_RATIO = 0.4;

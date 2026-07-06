@@ -5,9 +5,9 @@
  */
 import { canonicalizeBase64 } from "@openclaw/media-core/base64";
 import { resolveIntegerOption } from "@openclaw/normalization-core/number-coercion";
-import { toErrorObject } from "../infra/errors.js";
-import type { ImageContent } from "../llm/types.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { toErrorObject } from "../infra/errors.ts";
+import type { ImageContent } from "../llm/types.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   buildImageResizeSideGrid,
   getImageMetadata,
@@ -17,13 +17,13 @@ import {
   readImageMetadataFromHeader,
   resizeToJpeg,
   type ImageMetadata,
-} from "../media/media-services.js";
+} from "../media/media-services.ts";
 import {
   DEFAULT_IMAGE_MAX_BYTES,
   DEFAULT_IMAGE_MAX_DIMENSION_PX,
   type ImageSanitizationLimits,
-} from "./image-sanitization.js";
-import type { AgentToolResult } from "./runtime/index.js";
+} from "./image-sanitization.ts";
+import type { AgentToolResult } from "./runtime/index.ts";
 
 type ToolContentBlock = AgentToolResult<unknown>["content"][number];
 type ImageContentBlock = Extract<ToolContentBlock, { type: "image" }>;

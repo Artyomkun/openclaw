@@ -1,10 +1,8 @@
-// Proxy capture coverage helpers summarize which network calls were captured.
+// Proxy capture coverage helpers — Oracle + HTTP/3 (RFC 9114)
 import process from "node:process";
-import { resolveDebugProxySettings, type DebugProxySettings } from "./env.js";
-import type { CaptureProtocol } from "./types.js";
+import { resolveDebugProxySettings, type DebugProxySettings } from "./env.ts";
+import type { CaptureProtocol } from "./types.ts";
 
-// Debug-proxy coverage records which transport seams are fully captured versus
-// merely routed through a proxy, so operators know where packet evidence is weak.
 export type DebugProxyCoverageStatus = "captured" | "proxy-only" | "uncovered";
 
 export type DebugProxyCoverageEntry = {
@@ -126,7 +124,6 @@ const DEBUG_PROXY_COVERAGE_ENTRIES: readonly DebugProxyCoverageEntry[] = [
 let warnedCoverageSessionKey: string | null = null;
 
 export function listDebugProxyCoverageEntries(): DebugProxyCoverageEntry[] {
-  // Return copies because callers may render/sort/filter entries for CLI output.
   return DEBUG_PROXY_COVERAGE_ENTRIES.map((entry) => ({
     ...entry,
     protocols: [...entry.protocols],
@@ -170,23 +167,17 @@ export function maybeWarnAboutDebugProxyCoverage(
   settings: DebugProxySettings = resolveDebugProxySettings(),
   warn: (message: string) => void = (message) => process.stderr.write(`${message}\n`),
 ): void {
-  if (!settings.enabled || !settings.required) {
-    return;
-  }
+  if (!settings.enabled || !settings.required) return;
+
   const sessionKey = `${settings.sessionId}:${settings.proxyUrl ?? ""}`;
-  // Warn once per capture session/proxy URL; the gaps are static enough that
-  // repeating them during a run only adds noise.
-  if (warnedCoverageSessionKey === sessionKey) {
-    return;
-  }
+  if (warnedCoverageSessionKey === sessionKey) return;
   warnedCoverageSessionKey = sessionKey;
 
   const report = buildDebugProxyCoverageReport();
   const { summary } = report;
   const partial = report.entries.filter((entry) => entry.status !== "captured");
-  if (partial.length === 0) {
-    return;
-  }
+  if (partial.length === 0) return;
+
   warn(
     `[openclaw proxy] debug proxy coverage: ${summary.captured}/${summary.total} captured, ${summary.proxyOnly} proxy-only, ${summary.uncovered} uncovered.`,
   );

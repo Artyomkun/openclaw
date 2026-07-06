@@ -1,7 +1,7 @@
 // Frontmatter helpers parse skill metadata from SKILL.md files.
 import { readStringValue } from "@openclaw/normalization-core/string-coerce";
-import { parseFrontmatterBlock } from "../../../packages/markdown-core/src/frontmatter.js";
-import { validateRegistryNpmSpec } from "../../infra/npm-registry-spec.js";
+import { parseFrontmatterBlock } from "../../../packages/markdown-core/src/frontmatter.ts";
+import { validateRegistryNpmSpec } from "../../infra/npm-registry-spec.ts";
 import {
   applyOpenClawManifestInstallCommonFields,
   getFrontmatterString,
@@ -12,23 +12,21 @@ import {
   resolveOpenClawManifestInstall,
   resolveOpenClawManifestOs,
   resolveOpenClawManifestRequires,
-} from "../../shared/frontmatter.js";
+} from "../../shared/frontmatter.ts";
 import type {
   OpenClawSkillMetadata,
   ParsedSkillFrontmatter,
   SkillEntry,
   SkillInstallSpec,
   SkillInvocationPolicy,
-} from "../types.js";
-import type { Skill } from "./skill-contract.js";
+} from "../types.ts";
+import type { Skill } from "./skill-contract.ts";
 
 export function parseFrontmatter(content: string): ParsedSkillFrontmatter {
   return parseFrontmatterBlock(content);
 }
 
 const BREW_FORMULA_PATTERN = /^[A-Za-z0-9][A-Za-z0-9@+._/-]*$/;
-const GO_MODULE_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._~+\-/]*(?:@[A-Za-z0-9][A-Za-z0-9._~+\-/]*)?$/;
-const UV_PACKAGE_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._\-[\]=<>!~+,]*$/;
 
 function normalizeSafeBrewFormula(raw: unknown): string | undefined {
   if (typeof raw !== "string") {
@@ -71,24 +69,7 @@ function normalizeSafeGoModule(raw: unknown): string | undefined {
   ) {
     return undefined;
   }
-  if (!GO_MODULE_PATTERN.test(moduleSpec)) {
-    return undefined;
-  }
   return moduleSpec;
-}
-
-function normalizeSafeUvPackage(raw: unknown): string | undefined {
-  if (typeof raw !== "string") {
-    return undefined;
-  }
-  const pkg = raw.trim();
-  if (!pkg || pkg.startsWith("-") || pkg.includes("\\") || pkg.includes("://")) {
-    return undefined;
-  }
-  if (!UV_PACKAGE_PATTERN.test(pkg)) {
-    return undefined;
-  }
-  return pkg;
 }
 
 function normalizeSafeDownloadUrl(raw: unknown): string | undefined {
@@ -111,7 +92,7 @@ function normalizeSafeDownloadUrl(raw: unknown): string | undefined {
 }
 
 function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
-  const parsed = parseOpenClawManifestInstallBase(input, ["brew", "node", "go", "uv", "download"]);
+  const parsed = parseOpenClawManifestInstallBase(input, ["brew", "node", "download"]);
   if (!parsed) {
     return undefined;
   }
@@ -136,11 +117,6 @@ function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
   }
   if (spec.kind === "node") {
     const pkg = normalizeSafeNpmSpec(raw.package);
-    if (pkg) {
-      spec.package = pkg;
-    }
-  } else if (spec.kind === "uv") {
-    const pkg = normalizeSafeUvPackage(raw.package);
     if (pkg) {
       spec.package = pkg;
     }
@@ -170,12 +146,6 @@ function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
     return undefined;
   }
   if (spec.kind === "node" && !spec.package) {
-    return undefined;
-  }
-  if (spec.kind === "go" && !spec.module) {
-    return undefined;
-  }
-  if (spec.kind === "uv" && !spec.package) {
     return undefined;
   }
   if (spec.kind === "download" && !spec.url) {

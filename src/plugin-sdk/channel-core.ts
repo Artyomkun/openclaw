@@ -9,9 +9,9 @@ export type {
   PluginCommandContext,
   PluginRuntime,
   ChannelOutboundSessionRouteParams,
-} from "./core.js";
+} from "./core.ts";
 
-import { createChannelPluginBase as createChannelPluginBaseFromCore } from "./core.js";
+import { createChannelPluginBase as createChannelPluginBaseFromCore } from "./core.ts";
 
 /** Creates a channel plugin base while keeping the public import on this SDK subpath. */
 export const createChannelPluginBase: typeof createChannelPluginBaseFromCore = (params) =>
@@ -30,4 +30,4 @@ export {
   stripChannelTargetPrefix,
   stripTargetKindPrefix,
   tryReadSecretFileSync,
-} from "./core.js";
+} from "./core.ts";

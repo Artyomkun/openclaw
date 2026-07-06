@@ -5,12 +5,12 @@
  * from agent entries, model catalog config, provider config, or QA overrides.
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import type { AgentModelEntryConfig } from "../config/types.agent-defaults.js";
-import type { AgentRuntimePolicyConfig } from "../config/types.agents-shared.js";
-import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { listAgentEntries, resolveSessionAgentIds } from "./agent-scope.js";
+import type { AgentModelEntryConfig } from "../config/types.agent-defaults.ts";
+import type { AgentRuntimePolicyConfig } from "../config/types.agents-shared.ts";
+import type { ModelDefinitionConfig, ModelProviderConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { listAgentEntries, resolveSessionAgentIds } from "./agent-scope.ts";
 
 /** Config surface that supplied a resolved model runtime policy. */
 type ModelRuntimePolicySource = "model" | "provider";

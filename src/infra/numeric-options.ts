@@ -4,7 +4,7 @@ import {
   resolveNonNegativeIntegerOption as resolveSharedNonNegativeIntegerOption,
 } from "@openclaw/normalization-core/number-coercion";
 
-// Numeric option facades keep legacy infra imports aligned with shared
+// Numeric option facades keep older infra imports aligned with shared
 // normalization-core semantics.
 /** Resolve a non-negative integer option or return the fallback. */
 export function resolveNonNegativeIntegerOption(value: number, fallback: number): number {

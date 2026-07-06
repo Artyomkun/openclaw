@@ -6,9 +6,9 @@ import {
   resolveConfigPath,
   resolveOAuthDir,
   resolveStateDir,
-} from "../config/config.js";
-import { pathExists, shortenHomePath } from "../utils.js";
-import { buildCleanupPlan, isPathWithin } from "./cleanup-utils.js";
+} from "../config/config.ts";
+import { pathExists, shortenHomePath } from "../utils.ts";
+import { buildCleanupPlan, isPathWithin } from "./cleanup-utils.ts";
 
 export type BackupAssetKind = "state" | "config" | "credentials" | "workspace";
 export type BackupSkipReason = "covered" | "missing";

@@ -1,6 +1,6 @@
 // Defines markdown table config types used by rendering surfaces.
-import type { MarkdownTableMode } from "./types.base.js";
-import type { OpenClawConfig } from "./types.openclaw.js";
+import type { MarkdownTableMode } from "./types.base.ts";
+import type { OpenClawConfig } from "./types.openclaw.ts";
 
 /** Parameters for resolving markdown table rendering per config and channel. */
 export type ResolveMarkdownTableModeParams = {

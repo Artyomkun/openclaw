@@ -88,7 +88,7 @@ Pinned iOS version `2026.4.10` maps to:
   - writes the local numeric build override file in `apps/ios/build/Version.xcconfig`
 - `scripts/ios-release-prepare.sh`
   - prepares App Store distribution signing and bundle settings against the pinned iOS version
-- `scripts/ios-release-signing.mjs`
+- `scripts/ios-release-signing.ts`
   - validates the checked-in App Store signing manifest
   - renders the temporary release xcconfig profile pins
 - `apps/ios/fastlane/Fastfile`

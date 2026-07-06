@@ -3,20 +3,20 @@
  *
  * Creates/reuses Docker containers and exposes backend-neutral exec and shell-command handles.
  */
-import { buildDockerExecArgs } from "../bash-tools.shared.js";
-import type { SandboxBackendCommandParams } from "./backend-handle.types.js";
+import { buildDockerExecArgs } from "../bash-tools.shared.ts";
+import type { SandboxBackendCommandParams } from "./backend-handle.types.ts";
 import type {
   CreateSandboxBackendParams,
   SandboxBackendHandle,
   SandboxBackendManager,
-} from "./backend.types.js";
-import { resolveSandboxConfigForAgent } from "./config.js";
+} from "./backend.types.ts";
+import { resolveSandboxConfigForAgent } from "./config.ts";
 import {
   dockerContainerState,
   ensureSandboxContainer,
   execDocker,
   execDockerRaw,
-} from "./docker.js";
+} from "./docker.ts";
 
 function resolveConfiguredDockerRuntimeImage(params: {
   config: CreateSandboxBackendParams["cfg"] | import("../../config/config.js").OpenClawConfig;

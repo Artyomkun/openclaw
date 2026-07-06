@@ -5,13 +5,13 @@ import {
   normalizeExecutableToken,
   unwrapDispatchWrappersForResolution,
   unwrapKnownShellMultiplexerInvocation,
-} from "./exec-wrapper-resolution.js";
+} from "./exec-wrapper-resolution.ts";
 import {
   POSIX_INLINE_COMMAND_FLAGS,
   isPowerShellInlineRestCommandFlag,
   resolveInlineCommandMatch,
   resolvePowerShellInlineCommandMatch,
-} from "./shell-inline-command.js";
+} from "./shell-inline-command.ts";
 
 // System-run command helpers keep argv authoritative while still exposing a
 // human-readable shell preview when the wrapper shape is unambiguous.
@@ -149,7 +149,6 @@ function normalizeRawCommandText(rawCommand?: unknown): string | null {
 export function validateSystemRunCommandConsistency(params: {
   argv: string[];
   rawCommand?: string | null;
-  allowLegacyShellText?: boolean;
 }): SystemRunCommandValidation {
   const raw = normalizeRawCommandText(params.rawCommand);
   const display = buildSystemRunCommandDisplay(params.argv, raw);
@@ -158,11 +157,7 @@ export function validateSystemRunCommandConsistency(params: {
     // rawCommand is display-only metadata. Reject mismatches so approvals cannot
     // show one command while executing a different argv.
     const matchesCanonicalArgv = raw === display.commandText;
-    const matchesLegacyShellText =
-      params.allowLegacyShellText === true &&
-      display.previewText !== null &&
-      raw === display.previewText;
-    if (!matchesCanonicalArgv && !matchesLegacyShellText) {
+    if (!matchesCanonicalArgv) {
       return {
         ok: false,
         message: "INVALID_REQUEST: rawCommand does not match command",
@@ -184,7 +179,7 @@ export function validateSystemRunCommandConsistency(params: {
   };
 }
 
-/** Resolve request command fields while accepting the legacy shell-preview text. */
+/** Resolve request command fields while accepting the older shell-preview text. */
 export function resolveSystemRunCommandRequest(params: {
   command?: unknown;
   rawCommand?: unknown;
@@ -197,7 +192,6 @@ function resolveSystemRunCommandWithMode(
     command?: unknown;
     rawCommand?: unknown;
   },
-  allowLegacyShellText: boolean,
 ): ResolvedSystemRunCommand {
   const raw = normalizeRawCommandText(params.rawCommand);
   const command = Array.isArray(params.command) ? params.command : [];
@@ -222,7 +216,6 @@ function resolveSystemRunCommandWithMode(
   const validation = validateSystemRunCommandConsistency({
     argv,
     rawCommand: raw,
-    allowLegacyShellText,
   });
   if (!validation.ok) {
     return {

@@ -3,13 +3,13 @@
  *
  * Normalizes workspace, delivery, browser, sandbox, and active-model inputs before plugin tool invocation.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { normalizeDeliveryContext } from "../utils/delivery-context.js";
-import type { GatewayMessageChannel } from "../utils/message-channel.js";
-import { resolveAgentWorkspaceDir, resolveSessionAgentIds } from "./agent-scope.js";
-import { modelKey } from "./model-ref-shared.js";
-import type { ToolFsPolicy } from "./tool-fs-policy.js";
-import { resolveWorkspaceRoot } from "./workspace-dir.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { normalizeDeliveryContext } from "../utils/delivery-context.ts";
+import type { GatewayMessageChannel } from "../utils/message-channel.ts";
+import { resolveAgentWorkspaceDir, resolveSessionAgentIds } from "./agent-scope.ts";
+import { modelKey } from "./model-ref-shared.ts";
+import type { ToolFsPolicy } from "./tool-fs-policy.ts";
+import { resolveWorkspaceRoot } from "./workspace-dir.ts";
 
 /** Options provided by agent runtime callers when invoking OpenClaw plugin tools. */
 export type OpenClawPluginToolOptions = {

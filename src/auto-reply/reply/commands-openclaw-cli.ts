@@ -2,16 +2,16 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
-import { isBunRuntime } from "../../daemon/runtime-binary.js";
-import { resolveOpenClawPackageRootSync } from "../../infra/openclaw-root.js";
+import { isBunRuntime } from "../../daemon/runtime-binary.ts";
+import { resolveOpenClawPackageRootSync } from "../../infra/openclaw-root.ts";
 
 const requireFromHere = createRequire(import.meta.url);
-const OPENCLAW_CLI_ENTRY_BASENAMES = new Set(["openclaw", "openclaw.mjs"]);
+const OPENCLAW_CLI_ENTRY_BASENAMES = new Set(["openclaw", "openclaw.ts"]);
 const OPENCLAW_PACKAGE_ENTRY_PATHS = new Set([
   path.join("dist", "entry.js"),
-  path.join("dist", "entry.mjs"),
+  path.join("dist", "entry.ts"),
   path.join("dist", "index.js"),
-  path.join("dist", "index.mjs"),
+  path.join("dist", "index.ts"),
   path.join("src", "entry.ts"),
 ]);
 const TEST_RUNNER_ENV_PREFIXES = ["VITEST_", "OPENCLAW_VITEST_"];
@@ -48,9 +48,9 @@ function buildPackageRootCliArgvPrefix(packageRoot: string): string[] {
       ? [process.execPath, sourceEntry]
       : tsxLoader
         ? [process.execPath, "--import", tsxLoader, sourceEntry]
-        : [process.execPath, path.join(packageRoot, "openclaw.mjs")];
+        : [process.execPath, path.join(packageRoot, "openclaw.ts")];
   }
-  return [process.execPath, path.join(packageRoot, "openclaw.mjs")];
+  return [process.execPath, path.join(packageRoot, "openclaw.ts")];
 }
 
 function resolveTrustedTsxLoader(packageRoot: string): string | null {

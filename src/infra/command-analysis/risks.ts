@@ -1,24 +1,24 @@
 // Command risk detection follows nested carriers, shell wrappers, and inline
 // interpreter eval paths used by approval policy and command explanations.
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { splitShellArgs } from "../../utils/shell-argv.js";
+import { splitShellArgs } from "../../utils/shell-argv.ts";
 import {
   COMMAND_CARRIER_EXECUTABLES,
   isEnvAssignmentToken,
   parseEnvInvocationPrelude,
   resolveCarrierCommandArgv,
   SOURCE_EXECUTABLES,
-} from "../command-carriers.js";
-import { unwrapKnownDispatchWrapperInvocation } from "../dispatch-wrapper-resolution.js";
-import type { ExecCommandSegment } from "../exec-approvals-analysis.js";
-import { normalizeExecutableToken } from "../exec-wrapper-resolution.js";
-import { parseStrictPositiveInteger } from "../parse-finite-number.js";
-import { POSIX_INLINE_COMMAND_FLAGS, resolveInlineCommandMatch } from "../shell-inline-command.js";
+} from "../command-carriers.ts";
+import { unwrapKnownDispatchWrapperInvocation } from "../dispatch-wrapper-resolution.ts";
+import type { ExecCommandSegment } from "../exec-approvals-analysis.ts";
+import { normalizeExecutableToken } from "../exec-wrapper-resolution.ts";
+import { parseStrictPositiveInteger } from "../parse-finite-number.ts";
+import { POSIX_INLINE_COMMAND_FLAGS, resolveInlineCommandMatch } from "../shell-inline-command.ts";
 import {
   extractShellWrapperInlineCommand,
   isShellWrapperExecutable,
-} from "../shell-wrapper-resolution.js";
-import { detectInterpreterInlineEvalArgv, type InterpreterInlineEvalHit } from "./inline-eval.js";
+} from "../shell-wrapper-resolution.ts";
+import { detectInterpreterInlineEvalArgv, type InterpreterInlineEvalHit } from "./inline-eval.ts";
 
 /** Shared command carrier constants used by approval policy and command explanation. */
 export { COMMAND_CARRIER_EXECUTABLES, resolveCarrierCommandArgv, SOURCE_EXECUTABLES };

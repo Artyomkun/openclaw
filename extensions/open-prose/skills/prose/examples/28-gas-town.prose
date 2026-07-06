@@ -786,7 +786,7 @@ Return MR details or "EMPTY" if none.
 Process MR for {rig_name}:
 1. git checkout {next_mr.branch}
 2. git rebase main
-3. Run tests: npm test / pytest / cargo test
+3. Run tests: npm test
 4. Run lint and type checks
 5. If all pass, merge to main
 6. Update convoy status

@@ -5,7 +5,7 @@ import {
   DEFAULT_UNDICI_STREAM_TIMEOUT_MS,
   ensureGlobalUndiciDispatcherStreamTimeouts,
   ensureGlobalUndiciEnvProxyDispatcher,
-} from "../../../infra/net/undici-global-dispatcher.js";
+} from "../../../infra/net/undici-global-dispatcher.ts";
 
 /** Configures process-wide Undici proxy and stream timeout behavior for one embedded attempt. */
 export function configureEmbeddedAttemptHttpRuntime(params: { timeoutMs: number }): void {

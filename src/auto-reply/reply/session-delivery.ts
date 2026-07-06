@@ -4,25 +4,12 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { SessionEntry } from "../../config/sessions.js";
-import { buildAgentMainSessionKey } from "../../routing/session-key.js";
-import { parseAgentSessionKey } from "../../sessions/session-key-utils.js";
-import {
-  deliveryContextFromSession,
-  deliveryContextKey,
-  normalizeDeliveryContext,
-} from "../../utils/delivery-context.js";
+import { parseAgentSessionKey } from "../../sessions/session-key-utils.ts";
 import {
   INTERNAL_MESSAGE_CHANNEL,
   isDeliverableMessageChannel,
   normalizeMessageChannel,
-} from "../../utils/message-channel.js";
-import type { MsgContext } from "../templating.js";
-
-export type LegacyMainDeliveryRetirement = {
-  key: string;
-  entry: SessionEntry;
-};
+} from "../../utils/message-channel.ts";
 
 function resolveSessionKeyChannelHint(sessionKey?: string): string | undefined {
   const parsed = parseAgentSessionKey(sessionKey);
@@ -179,67 +166,4 @@ export function resolveLastToRaw(params: {
   }
 
   return params.originatingToRaw || params.toRaw || params.persistedLastTo;
-}
-
-export function maybeRetireLegacyMainDeliveryRoute(params: {
-  sessionCfg: { dmScope?: string } | undefined;
-  sessionKey: string;
-  legacyMain?: SessionEntry;
-  agentId: string;
-  mainKey: string;
-  isGroup: boolean;
-  ctx: MsgContext;
-}): LegacyMainDeliveryRetirement | undefined {
-  const dmScope = params.sessionCfg?.dmScope ?? "main";
-  if (dmScope === "main" || params.isGroup) {
-    return undefined;
-  }
-  const canonicalMainSessionKey = buildAgentMainSessionKey({
-    agentId: params.agentId,
-    mainKey: params.mainKey,
-  });
-  if (params.sessionKey === canonicalMainSessionKey) {
-    return undefined;
-  }
-  const legacyMain = params.legacyMain;
-  if (!legacyMain) {
-    return undefined;
-  }
-  const legacyRouteKey = deliveryContextKey(deliveryContextFromSession(legacyMain));
-  if (!legacyRouteKey) {
-    return undefined;
-  }
-  const activeDirectRouteKey = deliveryContextKey(
-    normalizeDeliveryContext({
-      channel: params.ctx.OriginatingChannel as string | undefined,
-      to: params.ctx.OriginatingTo || params.ctx.To,
-      accountId: params.ctx.AccountId,
-      threadId: params.ctx.MessageThreadId,
-    }),
-  );
-  if (!activeDirectRouteKey || activeDirectRouteKey !== legacyRouteKey) {
-    return undefined;
-  }
-  if (
-    legacyMain.route === undefined &&
-    legacyMain.deliveryContext === undefined &&
-    legacyMain.lastChannel === undefined &&
-    legacyMain.lastTo === undefined &&
-    legacyMain.lastAccountId === undefined &&
-    legacyMain.lastThreadId === undefined
-  ) {
-    return undefined;
-  }
-  return {
-    key: canonicalMainSessionKey,
-    entry: {
-      ...legacyMain,
-      route: undefined,
-      deliveryContext: undefined,
-      lastChannel: undefined,
-      lastTo: undefined,
-      lastAccountId: undefined,
-      lastThreadId: undefined,
-    },
-  };
 }

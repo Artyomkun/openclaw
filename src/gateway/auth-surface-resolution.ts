@@ -1,9 +1,9 @@
 // Gateway auth surface resolver.
 // Centralizes credential precedence for probes and interactive clients.
-import type { OpenClawConfig } from "../config/types.js";
-import { hasConfiguredSecretInput } from "../config/types.secrets.js";
-import { trimToUndefined, type ExplicitGatewayAuth } from "./credentials.js";
-import { resolveConfiguredSecretInputString } from "./resolve-configured-secret-input-string.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import { hasConfiguredSecretInput } from "../config/types.secrets.ts";
+import { trimToUndefined, type ExplicitGatewayAuth } from "./credentials.ts";
+import { resolveConfiguredSecretInputString } from "./resolve-configured-secret-input-string.ts";
 
 // Gateway auth is resolved differently for passive probes and interactive
 // clients. This module owns the shared precedence so CLI, UI, and remote

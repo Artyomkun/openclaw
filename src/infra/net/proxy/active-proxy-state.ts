@@ -1,7 +1,7 @@
 // Active managed proxy registry tracks process-local proxy ownership plus
 // inherited child-process loopback policy carried through environment vars.
-import type { ProxyConfig } from "../../../config/zod-schema.proxy.js";
-import type { ManagedProxyTlsOptions } from "./proxy-tls.js";
+import type { ProxyConfig } from "../../../config/zod-schema.proxy.ts";
+import type { ManagedProxyTlsOptions } from "./proxy-tls.ts";
 
 export type ActiveManagedProxyUrl = Readonly<URL>;
 
@@ -13,7 +13,8 @@ export type ActiveManagedProxyRegistration = {
   proxyUrl: ActiveManagedProxyUrl;
   loopbackMode: ActiveManagedProxyLoopbackMode;
   proxyTls?: ManagedProxyTlsOptions;
-  stopped: boolean;
+  /** Indicates if this specific handle has been stopped. */
+  readonly stopped: boolean;
 };
 
 /** Registration metadata for managed proxy URLs and their TLS trust material. */
@@ -22,16 +23,25 @@ type RegisterActiveManagedProxyOptions = {
   proxyTls?: ManagedProxyTlsOptions;
 };
 
+const VALID_LOOPBACK_MODES = new Set<ActiveManagedProxyLoopbackMode>([
+  "gateway-only",
+  "proxy",
+  "block",
+]);
+
 let activeProxyUrl: ActiveManagedProxyUrl | undefined;
 let activeProxyLoopbackMode: ActiveManagedProxyLoopbackMode | undefined;
 let activeProxyTlsOptions: ManagedProxyTlsOptions | undefined;
 let activeProxyRegistrationCount = 0;
 
+// WeakSet tracks stopped registrations without mutating the objects or preventing GC.
+const stoppedRegistrations = new WeakSet<ActiveManagedProxyRegistration>();
+
 function parseActiveManagedProxyLoopbackMode(
   value: string | undefined,
 ): ActiveManagedProxyLoopbackMode | undefined {
-  if (value === "gateway-only" || value === "proxy" || value === "block") {
-    return value;
+  if (value && VALID_LOOPBACK_MODES.has(value as ActiveManagedProxyLoopbackMode)) {
+    return value as ActiveManagedProxyLoopbackMode;
   }
   return undefined;
 }
@@ -48,15 +58,31 @@ function readInheritedActiveManagedProxyLoopbackMode(): ActiveManagedProxyLoopba
   );
 }
 
+/**
+ * Securely compares TLS options. 
+ * Note: If ManagedProxyTlsOptions expands, this must be updated to compare new fields
+ * to prevent silent security bypasses (e.g., using the wrong client certificate).
+ */
+function areProxyTlsOptionsEqual(
+  left: ManagedProxyTlsOptions | undefined,
+  right: ManagedProxyTlsOptions | undefined,
+): boolean {
+  if (left === right) return true;
+  if (!left || !right) return false;
+  return left.ca === right?.ca;
+}
+
 /** Registers the active managed proxy, sharing identical nested registrations. */
 export function registerActiveManagedProxyUrl(
   proxyUrl: URL,
   options: ActiveManagedProxyLoopbackMode | RegisterActiveManagedProxyOptions = "gateway-only",
 ): ActiveManagedProxyRegistration {
-  const normalizedProxyUrl = new URL(proxyUrl.href);
+  // Node.js URL constructor natively normalizes both URL objects and strings
+  const normalizedProxyUrl = new URL(proxyUrl.toString());
   const loopbackMode =
     typeof options === "string" ? options : (options.loopbackMode ?? "gateway-only");
   const proxyTls = typeof options === "string" ? undefined : options.proxyTls;
+
   if (activeProxyUrl !== undefined) {
     if (activeProxyUrl.href !== normalizedProxyUrl.href) {
       throw new Error(
@@ -76,43 +102,45 @@ export function registerActiveManagedProxyUrl(
           "stop the current proxy before changing proxy.tls.",
       );
     }
-    // Identical registrations are nested scopes; keep proxy state alive until
-    // every owner stops its returned handle.
+    
+    // Identical registrations are nested scopes; increment ref count.
     activeProxyRegistrationCount += 1;
-    return {
-      proxyUrl: activeProxyUrl,
-      loopbackMode,
-      proxyTls: activeProxyTlsOptions,
-      stopped: false,
-    };
+  } else {
+    activeProxyUrl = normalizedProxyUrl;
+    activeProxyLoopbackMode = loopbackMode;
+    activeProxyTlsOptions = proxyTls;
+    activeProxyRegistrationCount = 1;
   }
 
-  activeProxyUrl = normalizedProxyUrl;
-  activeProxyLoopbackMode = loopbackMode;
-  activeProxyTlsOptions = proxyTls;
-  activeProxyRegistrationCount = 1;
-  return { proxyUrl: activeProxyUrl, loopbackMode, proxyTls, stopped: false };
-}
-
-function areProxyTlsOptionsEqual(
-  left: ManagedProxyTlsOptions | undefined,
-  right: ManagedProxyTlsOptions | undefined,
-): boolean {
-  return left?.ca === right?.ca;
+  // Return a structurally immutable object. The `stopped` property reflects state
+  // from the WeakSet, but the object itself is never mutated by the registry.
+  return Object.freeze({
+    proxyUrl: activeProxyUrl,
+    loopbackMode,
+    proxyTls,
+    get stopped() {
+      return stoppedRegistrations.has(this);
+    },
+  });
 }
 
 /** Stops one registration scope and clears active proxy state after the last owner. */
 export function stopActiveManagedProxyRegistration(
   registration: ActiveManagedProxyRegistration,
 ): void {
-  if (registration.stopped) {
+  // Use WeakSet lookup instead of object mutation for immutable state management
+  if (stoppedRegistrations.has(registration)) {
     return;
   }
-  registration.stopped = true;
+  
+  stoppedRegistrations.add(registration);
+
   if (activeProxyUrl?.href !== registration.proxyUrl.href) {
     return;
   }
+
   activeProxyRegistrationCount = Math.max(0, activeProxyRegistrationCount - 1);
+  
   if (activeProxyRegistrationCount === 0) {
     activeProxyUrl = undefined;
     activeProxyLoopbackMode = undefined;
@@ -135,8 +163,14 @@ export function getActiveManagedProxyTlsOptions(): ManagedProxyTlsOptions | unde
   return activeProxyTlsOptions;
 }
 
-/** Clears process-local proxy state for tests that share a worker process. */
+/** 
+ * @internal Exposed strictly for test suite isolation. 
+ * Do not call in application code.
+ */
 export function resetActiveManagedProxyStateForTests(): void {
+  if (process.env.NODE_ENV !== "test") {
+    throw new Error("resetActiveManagedProxyStateForTests can only be called in test environment");
+  }
   activeProxyUrl = undefined;
   activeProxyLoopbackMode = undefined;
   activeProxyTlsOptions = undefined;

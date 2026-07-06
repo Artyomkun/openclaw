@@ -72,10 +72,6 @@ type MatrixThreadBindingsConfig = {
   maxAgeHours?: number;
   spawnSessions?: boolean;
   defaultSpawnContext?: "isolated" | "fork";
-  /** @deprecated Use spawnSessions instead. */
-  spawnSubagentSessions?: boolean;
-  /** @deprecated Use spawnSessions instead. */
-  spawnAcpSessions?: boolean;
 };
 
 type MatrixExecApprovalTarget = "dm" | "channel" | "both";
@@ -210,29 +206,36 @@ export type MatrixConfig = {
   execApprovals?: MatrixExecApprovalConfig;
   /** Room config allowlist keyed by room ID or alias (names resolved to IDs when possible). */
   groups?: Record<string, MatrixRoomConfig>;
-  /** @deprecated Use groups. */
-  rooms?: Record<string, MatrixRoomConfig>;
   /** Per-action tool gating (default: true for all). */
   actions?: MatrixActionConfig;
   /**
    * Streaming mode for Matrix replies.
-   * - `"partial"`: edit a single draft message in place for the current
-   *   assistant block as the model generates text using normal Matrix text
-   *   messages. This preserves legacy preview-first notification behavior.
-   * - `"quiet"`: edit a single quiet draft notice in place for the current
-   *   assistant block as the model generates text.
-   * - `"progress"`: edit a single draft status message with shared progress
+   *
+   * - `"partial"` — edits a single draft message in place for the current
+   *   assistant block as the model generates text. Uses normal Matrix text
+   *   messages.
+   * - `"quiet"` — edits a single quiet draft notice in place for the current
+   *   assistant block.
+   * - `"progress"` — edits a single draft status message with shared progress
    *   labels and optional tool/task lines until the final answer is ready.
-   * - `"off"`: deliver the full reply once the model finishes.
-   * - Use `blockStreaming: true` when you want completed assistant blocks to
-   *   stay visible as separate progress messages. When combined with
-   *   preview streaming, Matrix keeps a live draft for the current block and
-   *   preserves completed blocks as separate messages.
-   * - `streaming.progress.toolProgress: false` hides interim tool/progress
-   *   lines in progress mode. `streaming.preview.toolProgress: false` keeps
-   *   legacy answer preview edits but hides interim tool/progress lines.
-   * - `true` maps to `"partial"`, `false` maps to `"off"` for backward
-   *   compatibility. Object form uses `streaming.mode`.
+   * - `"off"` — delivers the full reply once the model finishes.
+   *
+   * Use `blockStreaming: true` to keep completed assistant blocks visible as
+   * separate progress messages. Combined with preview streaming, Matrix keeps
+   * a live draft for the current block and preserves completed blocks as
+   * separate messages.
+   *
+   * `streaming.progress.toolProgress: false` hides interim tool/progress lines
+   * in progress mode.
+   * `streaming.preview.toolProgress: false` keeps answer preview edits but
+   * hides interim tool/progress lines.
+   *
+   * For backward compatibility:
+   * - `true` → `"partial"`
+   * - `false` → `"off"`
+   *
+   * Object form uses `streaming.mode`.
+   *
    * Default: `"off"`.
    */
   streaming?: MatrixStreamingMode | MatrixStreamingConfig | boolean;

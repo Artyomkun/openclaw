@@ -6,17 +6,17 @@ import {
   findFenceSpanAt,
   isSafeFenceBreak,
   parseFenceSpans,
-} from "../../packages/markdown-core/src/fences.js";
-import type { ChannelId } from "../channels/plugins/types.core.js";
-import { resolveChannelStreamingChunkMode } from "../channels/streaming.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAccountEntry } from "../routing/account-lookup.js";
-import { normalizeAccountId } from "../routing/session-key.js";
+} from "../../packages/markdown-core/src/fences.ts";
+import type { ChannelId } from "../channels/plugins/types.core.ts";
+import { resolveChannelStreamingChunkMode } from "../channels/streaming.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAccountEntry } from "../routing/account-lookup.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
 import {
   avoidTrailingHighSurrogateBreak,
   chunkTextByBreakResolver,
-} from "../shared/text-chunking.js";
-import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel-constants.js";
+} from "../shared/text-chunking.ts";
+import { INTERNAL_MESSAGE_CHANNEL } from "../utils/message-channel-constants.ts";
 
 export type TextChunkProvider = ChannelId;
 

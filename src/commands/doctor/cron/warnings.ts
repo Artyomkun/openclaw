@@ -1,18 +1,11 @@
 // Doctor cron warnings for model overrides and stale WhatsApp crontab health scripts.
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
-import { normalizeOptionalString } from "../../../../packages/normalization-core/src/string-coerce.js";
-import { note } from "../../../../packages/terminal-core/src/note.js";
-import { formatCliCommand } from "../../../cli/command-format.js";
-import { resolveAgentModelPrimaryValue } from "../../../config/model-input.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { shortenHomePath } from "../../../utils.js";
+import { normalizeOptionalString } from "../../../../packages/normalization-core/src/string-coerce.ts";
+import { note } from "../../../../packages/terminal-core/src/note.ts";
+import { formatCliCommand } from "../../../cli/command-format.ts";
+import { resolveAgentModelPrimaryValue } from "../../../config/model-input.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { shortenHomePath } from "../../../utils.ts";
 
-type CrontabReader = () => Promise<{ stdout?: unknown; stderr?: unknown }>;
-
-const execFileAsync = promisify(execFile);
-const LEGACY_WHATSAPP_HEALTH_SCRIPT_RE =
-  /(?:^|\s)(?:"[^"]*ensure-whatsapp\.sh"|'[^']*ensure-whatsapp\.sh'|[^\s#;|&]*ensure-whatsapp\.sh)\b/u;
 const CRON_MODEL_OVERRIDE_EXAMPLE_LIMIT = 3;
 
 function pluralize(count: number, noun: string) {
@@ -119,80 +112,4 @@ export function noteCronModelOverrides(params: {
   );
 
   note(lines.join("\n"), "Cron");
-}
-
-async function readUserCrontab(): Promise<{ stdout: string; stderr?: string }> {
-  const result = await execFileAsync("crontab", ["-l"], {
-    encoding: "utf8",
-    windowsHide: true,
-  });
-  return {
-    stdout: result.stdout,
-    stderr: result.stderr,
-  };
-}
-
-function coerceCrontabText(crontab: unknown): string {
-  if (typeof crontab === "string") {
-    return crontab;
-  }
-  if (crontab == null) {
-    return "";
-  }
-  if (typeof crontab === "number" || typeof crontab === "boolean" || typeof crontab === "bigint") {
-    return String(crontab);
-  }
-  return "";
-}
-
-function findLegacyWhatsAppHealthCrontabLines(crontab: unknown): string[] {
-  return coerceCrontabText(crontab)
-    .split(/\r?\n/u)
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0 && !line.startsWith("#"))
-    .filter((line) => LEGACY_WHATSAPP_HEALTH_SCRIPT_RE.test(line));
-}
-
-/** Return a warning when the user's crontab still runs the old WhatsApp health script. */
-export async function collectLegacyWhatsAppCrontabHealthWarning(
-  params: {
-    platform?: NodeJS.Platform;
-    readCrontab?: CrontabReader;
-  } = {},
-): Promise<string | null> {
-  if ((params.platform ?? process.platform) !== "linux") {
-    return null;
-  }
-
-  let crontab: unknown;
-  try {
-    crontab = (await (params.readCrontab ?? readUserCrontab)()).stdout;
-  } catch {
-    return null;
-  }
-
-  const legacyLines = findLegacyWhatsAppHealthCrontabLines(crontab);
-  if (legacyLines.length === 0) {
-    return null;
-  }
-
-  return [
-    "Legacy WhatsApp crontab health check detected.",
-    "`~/.openclaw/bin/ensure-whatsapp.sh` is not maintained by current OpenClaw and can misreport `Gateway inactive` from cron when the systemd user bus environment is missing.",
-    `Remove the stale crontab entry with ${formatCliCommand("crontab -e")}; use ${formatCliCommand("openclaw channels status --probe")}, ${formatCliCommand("openclaw doctor")}, and ${formatCliCommand("openclaw gateway status")} for current health checks.`,
-    `Matched ${pluralize(legacyLines.length, "entry")}.`,
-  ].join("\n");
-}
-
-/** Emit the legacy WhatsApp crontab warning when present. */
-export async function noteLegacyWhatsAppCrontabHealthCheck(
-  params: {
-    platform?: NodeJS.Platform;
-    readCrontab?: CrontabReader;
-  } = {},
-): Promise<void> {
-  const warning = await collectLegacyWhatsAppCrontabHealthWarning(params);
-  if (warning) {
-    note(warning, "Cron");
-  }
 }

@@ -1,7 +1,7 @@
 /**
  * Prunes already-processed image payloads from replayed prompt history.
  */
-import type { AgentMessage } from "../../runtime/index.js";
+import type { AgentMessage } from "../../runtime/index.ts";
 
 /** Replacement text for old image blocks that were already available to the model. */
 export const PRUNED_HISTORY_IMAGE_MARKER = "[image data removed - already processed by model]";

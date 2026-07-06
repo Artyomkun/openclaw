@@ -7,9 +7,9 @@ import {
   type CommandRegistration,
   registerCoreCliByName,
   registerCoreCliCommands,
-} from "./command-registry-core.js";
-import type { ProgramContext } from "./context.js";
-import { registerSubCliCommands } from "./register.subclis.js";
+} from "./command-registry-core.ts";
+import type { ProgramContext } from "./context.ts";
+import { registerSubCliCommands } from "./register.subclis.ts";
 
 export {
   getCoreCliCommandDescriptors,

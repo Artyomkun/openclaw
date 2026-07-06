@@ -1,34 +1,34 @@
 // Handles native slash commands before full get-reply pipeline execution.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { loadModelCatalog } from "../../agents/model-catalog.js";
+import { loadModelCatalog } from "../../agents/model-catalog.ts";
 import {
   resolveThinkingDefaultWithRuntimeCatalog,
   type ModelAliasIndex,
-} from "../../agents/model-selection.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { SkillCommandSpec } from "../../skills/types.js";
-import { isInternalMessageChannel } from "../../utils/message-channel.js";
+} from "../../agents/model-selection.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { SkillCommandSpec } from "../../skills/types.ts";
+import { isInternalMessageChannel } from "../../utils/message-channel.ts";
 import {
   isAuthorizedTextSlashCommandTurn,
   isNativeCommandTurn,
   resolveCommandTurnContext,
-} from "../command-turn-context.js";
-import type { GetReplyOptions } from "../get-reply-options.types.js";
-import { markCommandReplyForDelivery, type ReplyPayload } from "../reply-payload.js";
-import type { MsgContext } from "../templating.js";
-import { normalizeThinkLevel, type ThinkLevel } from "../thinking.js";
+} from "../command-turn-context.ts";
+import type { GetReplyOptions } from "../get-reply-options.types.ts";
+import { markCommandReplyForDelivery, type ReplyPayload } from "../reply-payload.ts";
+import type { MsgContext } from "../templating.ts";
+import { normalizeThinkLevel, type ThinkLevel } from "../thinking.ts";
 import {
   takeCommandSessionMetadataChangesFromTargets,
   type CommandSessionMetadataChange,
-} from "./command-session-metadata.js";
-import { buildCommandContext } from "./commands-context.js";
-import { clearInlineDirectives } from "./get-reply-directives-utils.js";
-import { resolveReplyDirectives } from "./get-reply-directives.js";
-import { initFastReplySessionState } from "./get-reply-fast-path.js";
-import { handleInlineActions } from "./get-reply-inline-actions.js";
-import { stripStructuralPrefixes } from "./mentions.js";
-import type { createTypingController } from "./typing.js";
+} from "./command-session-metadata.ts";
+import { buildCommandContext } from "./commands-context.ts";
+import { clearInlineDirectives } from "./get-reply-directives-utils.ts";
+import { resolveReplyDirectives } from "./get-reply-directives.ts";
+import { initFastReplySessionState } from "./get-reply-fast-path.ts";
+import { handleInlineActions } from "./get-reply-inline-actions.ts";
+import { stripStructuralPrefixes } from "./mentions.ts";
+import type { createTypingController } from "./typing.ts";
 
 type AgentDefaults = NonNullable<NonNullable<OpenClawConfig["agents"]>["defaults"]> | undefined;
 type SkillCommandsRuntime = typeof import("../../skills/discovery/chat-commands.runtime.js");

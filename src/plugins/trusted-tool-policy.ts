@@ -1,21 +1,21 @@
 // Resolves trusted tool policy for plugins from runtime config.
-import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isPlainObject } from "../utils.js";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isPlainObject } from "../utils.ts";
 import type {
   PluginHookBeforeToolCallEvent,
   PluginHookBeforeToolCallResult,
   PluginHookToolContext,
   PluginHookToolInputKind,
   PluginHookToolKind,
-} from "./hook-types.js";
-import { getPluginSessionExtensionStateSync } from "./host-hook-state.js";
-import type { PluginJsonValue, PluginTrustedToolPolicyRegistration } from "./host-hooks.js";
+} from "./hook-types.ts";
+import { getPluginSessionExtensionStateSync } from "./host-hook-state.ts";
+import type { PluginJsonValue, PluginTrustedToolPolicyRegistration } from "./host-hooks.ts";
 import type {
   PluginRegistry,
   PluginTrustedToolPolicyRegistryRegistration,
-} from "./registry-types.js";
-import { getActivePluginRegistry } from "./runtime.js";
+} from "./registry-types.ts";
+import { getActivePluginRegistry } from "./runtime.ts";
 
 type TrustedPolicyRegistration = PluginTrustedToolPolicyRegistryRegistration;
 type TrustedToolPolicyRegistry = Pick<PluginRegistry, "trustedToolPolicies"> | null | undefined;
@@ -234,8 +234,7 @@ export async function runTrustedToolPolicies(
     const policyCtx: PluginHookToolContext = {
       ...ctxWithoutToolIdentity,
       ...currentContextToolIdentity,
-      // oxlint-disable-next-line typescript/no-unnecessary-type-parameters -- Plugin callers type JSON reads by namespace.
-      getSessionExtension: <T extends PluginJsonValue = PluginJsonValue>(namespace: string) => {
+      getSessionExtension: (namespace: string) => {
         const normalizedNamespace = namespace.trim();
         const cacheKey = pluginId;
         if (!sessionExtensionStateCache.has(cacheKey)) {
@@ -255,7 +254,7 @@ export async function runTrustedToolPolicies(
         if (!normalizedNamespace || !pluginState) {
           return undefined;
         }
-        return pluginState[normalizedNamespace] as T | undefined;
+        return pluginState[normalizedNamespace];
       },
     };
     const policy = readTrustedPolicy(registration);

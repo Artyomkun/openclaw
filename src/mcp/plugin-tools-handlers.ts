@@ -3,10 +3,10 @@ import {
   isToolWrappedWithBeforeToolCallHook,
   rewrapToolWithBeforeToolCallHook,
   wrapToolWithBeforeToolCallHook,
-} from "../agents/agent-tools.before-tool-call.js";
-import type { AnyAgentTool } from "../agents/tools/common.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { coerceChatContentText } from "../shared/chat-content.js";
+} from "../agents/agent-tools.before-tool-call.ts";
+import type { AnyAgentTool } from "../agents/tools/common.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { coerceChatContentText } from "../shared/chat-content.ts";
 
 type CallPluginToolParams = {
   name: string;

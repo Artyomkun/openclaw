@@ -10,25 +10,25 @@ import {
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
 import { Type } from "typebox";
-import { isRestartEnabled } from "../../config/commands.flags.js";
-import { parseConfigJson5, resolveConfigSnapshotHash } from "../../config/io.js";
-import { applyMergePatch } from "../../config/merge-patch.js";
-import { normalizeConfigPatchReplacePaths } from "../../config/patch-replace-paths.js";
-import { extractDeliveryInfo } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { GatewayClientRequestError } from "../../gateway/client.js";
+import { isRestartEnabled } from "../../config/commands.flags.ts";
+import { parseConfigJson5, resolveConfigSnapshotHash } from "../../config/io.ts";
+import { applyMergePatch } from "../../config/merge-patch.ts";
+import { normalizeConfigPatchReplacePaths } from "../../config/patch-replace-paths.ts";
+import { extractDeliveryInfo } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { GatewayClientRequestError } from "../../gateway/client.ts";
 import {
   buildRestartSuccessContinuation,
   clearRestartSentinel,
   formatDoctorNonInteractiveHint,
   type RestartSentinelPayload,
   writeRestartSentinel,
-} from "../../infra/restart-sentinel.js";
-import { scheduleGatewaySigusr1Restart } from "../../infra/restart.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { collectEnabledInsecureOrDangerousFlags } from "../../security/dangerous-config-flags.js";
-import { parseConfigPathArrayIndex } from "../../shared/path-array-index.js";
-import { optionalNonNegativeIntegerSchema, stringEnum } from "../schema/typebox.js";
+} from "../../infra/restart-sentinel.ts";
+import { scheduleGatewaySigusr1Restart } from "../../infra/restart.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { collectEnabledInsecureOrDangerousFlags } from "../../security/dangerous-config-flags.ts";
+import { parseConfigPathArrayIndex } from "../../shared/path-array-index.ts";
+import { optionalNonNegativeIntegerSchema, stringEnum } from "../schema/typebox.ts";
 import {
   type AnyAgentTool,
   jsonResult,
@@ -37,9 +37,9 @@ import {
   readStringParam,
   textResult,
   ToolInputError,
-} from "./common.js";
-import { gatewayCallOptionSchemaProperties } from "./gateway-schema.js";
-import { callGatewayTool, readGatewayCallOptions } from "./gateway.js";
+} from "./common.ts";
+import { gatewayCallOptionSchemaProperties } from "./gateway-schema.ts";
+import { callGatewayTool, readGatewayCallOptions } from "./gateway.ts";
 
 const log = createSubsystemLogger("gateway-tool");
 

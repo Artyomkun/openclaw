@@ -1,7 +1,7 @@
 // Shared schedule option resolver for cron create/edit commands.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { CronSchedule } from "../../cron/types.js";
-import { parseAt, parseCronStaggerMs, parseDurationMs } from "./shared.js";
+import type { CronSchedule } from "../../cron/types.ts";
+import { parseAt, parseCronStaggerMs, parseDurationMs } from "./shared.ts";
 
 type ScheduleOptionInput = {
   at?: unknown;

@@ -4,8 +4,8 @@
  * model catalogs without discarding existing credentials.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { isNonSecretApiKeyMarker } from "./model-auth-markers.js";
-import type { ProviderConfig } from "./models-config.providers.secrets.js";
+import { isNonSecretApiKeyMarker } from "./model-auth-markers.ts";
+import type { ProviderConfig } from "./models-config.providers.secrets.ts";
 
 /** Existing provider config shape that may carry persisted secret/base URL fields. */
 export type ExistingProviderConfig = ProviderConfig & {

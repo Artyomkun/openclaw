@@ -1,5 +1,5 @@
 // Defines task terminal outcome contracts used by completion handling.
-import type { TaskTerminalOutcome } from "./task-registry.types.js";
+import type { TaskTerminalOutcome } from "./task-registry.types.ts";
 
 /** Terminal fields required when a mandatory detached task completion is invalid. */
 export type RequiredCompletionTerminalResult = {

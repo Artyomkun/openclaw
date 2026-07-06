@@ -1,6 +1,6 @@
 // Session reset policy resolves daily/idle freshness for direct, group, and thread sessions.
-import type { SessionConfig, SessionResetConfig } from "../types.base.js";
-import { DEFAULT_IDLE_MINUTES } from "./types.js";
+import type { SessionConfig, SessionResetConfig } from "../types.base.ts";
+import { DEFAULT_IDLE_MINUTES } from "./types.ts";
 
 export type SessionResetMode = "daily" | "idle";
 export type SessionResetType = "direct" | "group" | "thread";
@@ -42,7 +42,7 @@ export function resolveSessionResetPolicy(params: {
 }): SessionResetPolicy {
   const sessionCfg = params.sessionCfg;
   const baseReset = params.resetOverride ?? sessionCfg?.reset;
-  // Backward compat: accept legacy "dm" key as alias for "direct".
+  // Backward compat: accept older "dm" key as alias for "direct".
   const typeReset = params.resetOverride
     ? undefined
     : (sessionCfg?.resetByType?.[params.resetType] ??
@@ -50,17 +50,15 @@ export function resolveSessionResetPolicy(params: {
         ? (sessionCfg?.resetByType as { dm?: SessionResetConfig } | undefined)?.dm
         : undefined));
   const hasExplicitReset = Boolean(baseReset || sessionCfg?.resetByType);
-  const legacyIdleMinutes = params.resetOverride ? undefined : sessionCfg?.idleMinutes;
-  const configured = Boolean(baseReset || typeReset || legacyIdleMinutes != null);
-  // Legacy `idleMinutes` implied idle reset only when no modern reset block was configured.
+  const configured = Boolean(baseReset || typeReset);
   const mode =
     typeReset?.mode ??
     baseReset?.mode ??
-    (!hasExplicitReset && legacyIdleMinutes != null ? "idle" : DEFAULT_RESET_MODE);
+    (!hasExplicitReset != null ? "idle" : DEFAULT_RESET_MODE);
   const atHour = normalizeResetAtHour(
     typeReset?.atHour ?? baseReset?.atHour ?? DEFAULT_RESET_AT_HOUR,
   );
-  const idleMinutesRaw = typeReset?.idleMinutes ?? baseReset?.idleMinutes ?? legacyIdleMinutes;
+  const idleMinutesRaw = typeReset?.idleMinutes ?? baseReset?.idleMinutes;
 
   let idleMinutes: number | undefined;
   if (idleMinutesRaw != null) {

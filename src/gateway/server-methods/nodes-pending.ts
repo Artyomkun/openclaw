@@ -5,22 +5,22 @@ import {
   errorShape,
   validateNodePendingDrainParams,
   validateNodePendingEnqueueParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   drainNodePendingWork,
   enqueueNodePendingWork,
   type NodePendingWorkPriority,
   type NodePendingWorkType,
-} from "../node-pending-work.js";
-import { respondInvalidParams, respondUnavailableOnThrow } from "./nodes.helpers.js";
+} from "../node-pending-work.ts";
+import { respondInvalidParams, respondUnavailableOnThrow } from "./nodes.helpers.ts";
 import {
   maybeSendNodeWakeNudge,
   maybeWakeNodeWithApns,
   NODE_WAKE_RECONNECT_RETRY_WAIT_MS,
   NODE_WAKE_RECONNECT_WAIT_MS,
   waitForNodeReconnect,
-} from "./nodes.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "./nodes.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 function resolveClientNodeId(
   client: { connect?: { device?: { id?: string }; client?: { id?: string } } } | null,

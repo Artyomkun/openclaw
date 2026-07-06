@@ -7,17 +7,17 @@ import { normalizeOptionalString } from "@openclaw/normalization-core/string-coe
 import {
   GATEWAY_CLIENT_IDS,
   normalizeGatewayClientId,
-} from "../../../packages/gateway-protocol/src/client-info.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { callGateway } from "../../gateway/call.js";
-import { GatewayClientRequestError } from "../../gateway/client.js";
-import { formatErrorMessage } from "../../infra/errors.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { GatewayClientRequestError } from "../../gateway/client.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
 import {
   listSpawnedSessionKeys,
   sessionVisibilityGatewayTesting,
-} from "../../plugin-sdk/session-visibility.js";
-import { isAcpSessionKey, normalizeMainKey } from "../../routing/session-key.js";
-import { looksLikeSessionId } from "../../sessions/session-id.js";
+} from "../../plugin-sdk/session-visibility.ts";
+import { isAcpSessionKey, normalizeMainKey } from "../../routing/session-key.ts";
+import { looksLikeSessionId } from "../../sessions/session-id.ts";
 
 type GatewayCaller = typeof callGateway;
 
@@ -224,11 +224,8 @@ async function callGatewayResolveSession(
     }
     // Protocol v4 gateways predating allowMissing reject the additive field.
     // Retry without it for mixed-version correctness; remove at the next protocol break.
-    const legacyParams: Record<string, unknown> = { ...params };
-    delete legacyParams.allowMissing;
     return await sessionsResolutionDeps.callGateway({
       method: "sessions.resolve",
-      params: legacyParams,
     });
   }
 }

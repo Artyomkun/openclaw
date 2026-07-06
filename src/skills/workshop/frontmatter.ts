@@ -1,5 +1,5 @@
 // Workshop frontmatter helpers parse generated skill metadata before saving drafts.
-import { parseFrontmatter } from "../loading/frontmatter.js";
+import { parseFrontmatter } from "../loading/frontmatter.ts";
 
 type ProposalFrontmatter = {
   name: string;

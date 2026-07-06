@@ -1,7 +1,7 @@
 /**
  * Public SDK type surface for CLI backend plugins and watchdog defaults.
  */
-export type { CliBackendConfig } from "../config/types.js";
+export type { CliBackendConfig } from "../config/types.ts";
 export type {
   CliBackendAuthEpochMode,
   CliBackendExecutionMode,
@@ -14,8 +14,8 @@ export type {
   CliBackendResolveExecutionArgsContext,
   CliBackendSideQuestionToolMode,
   CliBackendThinkingLevel,
-} from "../plugins/types.js";
+} from "../plugins/types.ts";
 export {
   CLI_FRESH_WATCHDOG_DEFAULTS,
   CLI_RESUME_WATCHDOG_DEFAULTS,
-} from "../agents/cli-watchdog-defaults.js";
+} from "../agents/cli-watchdog-defaults.ts";

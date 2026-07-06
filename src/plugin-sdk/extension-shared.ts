@@ -1,13 +1,13 @@
 // Extension shared helpers expose cross-plugin runtime utilities that remain SDK-safe.
 import { createAmbientNodeProxyAgent, hasAmbientNodeProxyConfigured } from "@openclaw/proxyline";
 import type { z } from "zod";
-import type { OpenClawConfig } from "../config/config.js";
-import { resolveActiveManagedProxyTlsOptions } from "../infra/net/proxy/managed-proxy-undici.js";
-import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.js";
-import { runPassiveAccountLifecycle } from "./channel-lifecycle.core.js";
-import { createLoggerBackedRuntime } from "./runtime-logger.js";
-export { safeParseJsonWithSchema, safeParseWithSchema } from "../utils/zod-parse.js";
-export { buildTimeoutAbortSignal } from "../utils/fetch-timeout.js";
+import type { OpenClawConfig } from "../config/config.ts";
+import { resolveActiveManagedProxyTlsOptions } from "../infra/net/proxy/managed-proxy-undici.ts";
+import { resolveDefaultSecretProviderAlias } from "../secrets/ref-contract.ts";
+import { runPassiveAccountLifecycle } from "./channel-lifecycle.core.ts";
+import { createLoggerBackedRuntime } from "./runtime-logger.ts";
+export { safeParseJsonWithSchema, safeParseWithSchema } from "../utils/zod-parse.ts";
+export { buildTimeoutAbortSignal } from "../utils/fetch-timeout.ts";
 
 type PassiveChannelStatusSnapshot = {
   configured?: boolean;

@@ -1,24 +1,24 @@
 // Status helpers normalize plugin health and setup state into user-facing status summaries.
-import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.js";
-import type { ChannelStatusAdapter } from "../channels/plugins/types.adapters.js";
-import type { ChannelAccountSnapshot } from "../channels/plugins/types.core.js";
-import type { ChannelStatusIssue } from "../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-export type { ChannelAccountSnapshot } from "../channels/plugins/types.core.js";
-export type { ChannelStatusIssue } from "../channels/plugins/types.public.js";
-export { isRecord } from "../channels/plugins/status-issues/shared.js";
+import { normalizeOptionalString } from "../../packages/normalization-core/src/string-coerce.ts";
+import type { ChannelStatusAdapter } from "../channels/plugins/types.adapters.ts";
+import type { ChannelAccountSnapshot } from "../channels/plugins/types.core.ts";
+import type { ChannelStatusIssue } from "../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+export type { ChannelAccountSnapshot } from "../channels/plugins/types.core.ts";
+export type { ChannelStatusIssue } from "../channels/plugins/types.public.ts";
+export { isRecord } from "../channels/plugins/status-issues/shared.ts";
 export {
   appendMatchMetadata,
   asString,
   collectIssuesForEnabledAccounts,
   formatMatchMetadata,
   resolveEnabledConfiguredAccountId,
-} from "../channels/plugins/status-issues/shared.js";
+} from "../channels/plugins/status-issues/shared.ts";
 export {
   resolveReactionLevel,
   type ReactionLevel,
   type ResolvedReactionLevel,
-} from "../utils/reaction-level.js";
+} from "../utils/reaction-level.ts";
 
 type RuntimeLifecycleSnapshot = {
   running?: boolean | null;

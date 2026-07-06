@@ -3,8 +3,8 @@
  *
  * Updates account enabled state and detects configured secret-like values.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { DEFAULT_ACCOUNT_ID } from "../../routing/session-key.ts";
 
 type ChannelSection = {
   accounts?: Record<string, Record<string, unknown>>;
@@ -33,7 +33,7 @@ export function setAccountEnabledInConfigSection(params: {
   const base = channels?.[params.sectionKey] as ChannelSection | undefined;
   const hasAccounts = Boolean(base?.accounts);
   if (params.allowTopLevel && accountKey === DEFAULT_ACCOUNT_ID && !hasAccounts) {
-    // Legacy single-account sections store enabled at the channel root until accounts exist.
+    // Single-account sections store enabled at the channel root until accounts exist.
     return {
       ...params.cfg,
       channels: {
@@ -104,7 +104,7 @@ export function deleteAccountFromConfigSection(params: {
     delete baseAccounts[accountKey];
     const baseRecord = { ...(base as Record<string, unknown>) };
     // Deleting the default account can also clear root-level credential fields that represented
-    // the legacy default account.
+    // the older default account.
     for (const field of params.clearBaseFields ?? []) {
       if (field in baseRecord) {
         baseRecord[field] = undefined;

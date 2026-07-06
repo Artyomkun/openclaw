@@ -4,12 +4,12 @@
  * Runtime owners import this surface to define tools, evaluate availability,
  * build visible/hidden plans, and convert descriptors to protocol payloads.
  */
-export { evaluateToolAvailability } from "./availability.js";
-export { defineToolDescriptor, defineToolDescriptors } from "./descriptors.js";
-export { ToolPlanContractError } from "./diagnostics.js";
-export { formatToolExecutorRef } from "./execution.js";
-export { buildToolPlan } from "./planner.js";
-export { toToolProtocolDescriptor, toToolProtocolDescriptors } from "./protocol.js";
+export { evaluateToolAvailability } from "./availability.ts";
+export { defineToolDescriptor, defineToolDescriptors } from "./descriptors.ts";
+export { ToolPlanContractError } from "./diagnostics.ts";
+export { formatToolExecutorRef } from "./execution.ts";
+export { buildToolPlan } from "./planner.ts";
+export { toToolProtocolDescriptor, toToolProtocolDescriptors } from "./protocol.ts";
 export type {
   BuildToolPlanOptions,
   HiddenToolPlanEntry,
@@ -26,4 +26,4 @@ export type {
   ToolPlan,
   ToolPlanEntry,
   ToolUnavailableReason,
-} from "./types.js";
+} from "./types.ts";

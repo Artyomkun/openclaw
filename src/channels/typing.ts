@@ -3,8 +3,8 @@ import {
   parseFiniteNumber,
   resolveTimerTimeoutMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { createTypingKeepaliveLoop } from "./typing-lifecycle.js";
-import { createTypingStartGuard } from "./typing-start-guard.js";
+import { createTypingKeepaliveLoop } from "./typing-lifecycle.ts";
+import { createTypingStartGuard } from "./typing-start-guard.ts";
 
 export type TypingCallbacks = {
   onReplyStart: () => Promise<void>;

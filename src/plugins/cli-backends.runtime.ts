@@ -1,6 +1,6 @@
 // Runtime bridge for plugin-provided CLI backends.
-import { getActiveRuntimePluginRegistry } from "./active-runtime-registry.js";
-import type { CliBackendPlugin } from "./cli-backend.types.js";
+import { getActiveRuntimePluginRegistry } from "./active-runtime-registry.ts";
+import type { CliBackendPlugin } from "./cli-backend.types.ts";
 
 /** Runtime CLI backend registration with owning plugin id. */
 export type PluginCliBackendEntry = CliBackendPlugin & {

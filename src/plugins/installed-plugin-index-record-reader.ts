@@ -2,24 +2,24 @@
 import fs from "node:fs";
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import { openOpenClawStateDatabase } from "../state/openclaw-state-db.js";
-import { resolveDefaultPluginNpmDir, validatePluginId } from "./install-paths.js";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+import { openOpenClawStateDatabase } from "../state/openclaw-state-db.ts";
+import { resolveDefaultPluginNpmDir, validatePluginId } from "./install-paths.ts";
 import {
   getInstalledPluginIndexInstallRecordsCache,
   getInstalledPluginIndexInstallRecordsCacheGeneration,
   setInstalledPluginIndexInstallRecordsCache,
-} from "./installed-plugin-index-record-cache.js";
+} from "./installed-plugin-index-record-cache.ts";
 import {
   resolveInstalledPluginIndexStateDatabaseOptions,
   resolveInstalledPluginIndexStorePath,
   type InstalledPluginIndexStoreOptions,
-} from "./installed-plugin-index-store-path.js";
-import { hasRetainedManagedNpmInstallMarker } from "./managed-npm-retention.js";
-import { listManagedPluginNpmProjectRootsSync } from "./npm-project-roots.js";
+} from "./installed-plugin-index-store-path.ts";
+import { hasRetainedManagedNpmInstallMarker } from "./managed-npm-retention.ts";
+import { listManagedPluginNpmProjectRootsSync } from "./npm-project-roots.ts";
 
-export { clearLoadInstalledPluginIndexInstallRecordsCache } from "./installed-plugin-index-record-cache.js";
+export { clearLoadInstalledPluginIndexInstallRecordsCache } from "./installed-plugin-index-record-cache.ts";
 
 function cloneInstallRecords(
   records: Record<string, PluginInstallRecord> | undefined,
@@ -155,12 +155,11 @@ function buildRecoveredManagedNpmInstallRecords(
   options: InstalledPluginIndexStoreOptions = {},
 ): Record<string, PluginInstallRecord> {
   const npmRoot = resolveRecoveredManagedNpmRoot(options);
-  const legacyRecords = buildRecoveredManagedNpmInstallRecordsForRoot(npmRoot);
   const projectRecords: Record<string, PluginInstallRecord> = {};
   for (const projectRoot of listManagedPluginNpmProjectRootsSync(npmRoot)) {
     Object.assign(projectRecords, buildRecoveredManagedNpmInstallRecordsForRoot(projectRoot));
   }
-  return { ...legacyRecords, ...projectRecords };
+  return { ...projectRecords };
 }
 
 function recordsShareInstallPath(

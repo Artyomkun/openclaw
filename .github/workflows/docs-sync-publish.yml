@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - docs/**
-      - scripts/docs-sync-publish.mjs
+      - scripts/docs-sync-publish.ts
       - .github/workflows/docs-sync-publish.yml
   workflow_dispatch:
 
@@ -71,7 +71,7 @@ jobs:
         if: env.OPENCLAW_DOCS_SYNC_TOKEN != ''
         run: |
           clawhub_sha="$(git -C "$GITHUB_WORKSPACE/clawhub-source" rev-parse HEAD)"
-          node scripts/docs-sync-publish.mjs \
+          node scripts/docs-sync-publish.ts \
             --target "$GITHUB_WORKSPACE/publish" \
             --source-repo "$GITHUB_REPOSITORY" \
             --source-sha "$GITHUB_SHA" \
@@ -86,7 +86,7 @@ jobs:
 
       - name: Check publish docs MDX
         if: env.OPENCLAW_DOCS_SYNC_TOKEN != ''
-        run: node "$GITHUB_WORKSPACE/publish/.openclaw-sync/check-docs-mdx.mjs" "$GITHUB_WORKSPACE/publish/docs"
+        run: node "$GITHUB_WORKSPACE/publish/.openclaw-sync/check-docs-mdx.ts" "$GITHUB_WORKSPACE/publish/docs"
 
       - name: Commit publish repo sync
         if: env.OPENCLAW_DOCS_SYNC_TOKEN != ''

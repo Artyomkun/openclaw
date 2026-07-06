@@ -7,23 +7,23 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { resolveModelCatalogScope } from "../agents/model-catalog-scope.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.js";
+import { resolveModelCatalogScope } from "../agents/model-catalog-scope.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { getLoadedRuntimePluginRegistry } from "./active-runtime-registry.ts";
 import {
   PluginLruCache,
   resolveConfigScopedRuntimeCacheValue,
   type ConfigScopedRuntimeCache,
-} from "./plugin-cache-primitives.js";
-import { resolvePluginControlPlaneFingerprint } from "./plugin-control-plane-context.js";
-import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.js";
-import { resolveProviderConfigApiOwnerHint } from "./provider-config-owner.js";
-import { isPluginProvidersLoadInFlight, resolvePluginProviders } from "./providers.runtime.js";
-import type { PluginRegistry } from "./registry-types.js";
+} from "./plugin-cache-primitives.ts";
+import { resolvePluginControlPlaneFingerprint } from "./plugin-control-plane-context.ts";
+import type { PluginMetadataRegistryView } from "./plugin-metadata-snapshot.types.ts";
+import { resolveProviderConfigApiOwnerHint } from "./provider-config-owner.ts";
+import { isPluginProvidersLoadInFlight, resolvePluginProviders } from "./providers.runtime.ts";
+import type { PluginRegistry } from "./registry-types.ts";
 import {
   getActivePluginRegistryWorkspaceDirFromState,
   getPluginRegistryState,
-} from "./runtime-state.js";
+} from "./runtime-state.ts";
 import type {
   ProviderPlugin,
   ProviderExtraParamsForTransportContext,
@@ -32,7 +32,7 @@ import type {
   ProviderFollowupFallbackRouteContext,
   ProviderFollowupFallbackRouteResult,
   ProviderWrapStreamFnContext,
-} from "./types.js";
+} from "./types.ts";
 
 let providerRuntimePluginCache: ConfigScopedRuntimeCache<ProviderPlugin | null> = new WeakMap();
 const defaultProviderRuntimePluginCache = new PluginLruCache<ProviderPlugin | null>(128);

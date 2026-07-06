@@ -3,144 +3,144 @@
  */
 import fs from "node:fs/promises";
 import os from "node:os";
-import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.js";
-import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import { resolveAgentModelFallbackValues } from "../../config/model-input.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.ts";
+import type { ThinkLevel } from "../../auto-reply/thinking.ts";
+import { resolveAgentModelFallbackValues } from "../../config/model-input.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   createFileBackedCompactionCheckpointStore,
   readSessionLeafStateFromTranscriptAsync,
   resolveCompactionCheckpointTranscriptPosition,
   resolveSessionCompactionCheckpointReason,
   type CapturedCompactionCheckpointSnapshot,
-} from "../../gateway/session-compaction-checkpoints.js";
-import { resolveDiagnosticModelContentCapturePolicy } from "../../infra/diagnostic-llm-content.js";
+} from "../../gateway/session-compaction-checkpoints.ts";
+import { resolveDiagnosticModelContentCapturePolicy } from "../../infra/diagnostic-llm-content.ts";
 import {
   createDiagnosticTraceContext,
   freezeDiagnosticTraceContext,
   getActiveDiagnosticTraceContext,
-} from "../../infra/diagnostic-trace-context.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { getMachineDisplayName } from "../../infra/machine-name.js";
-import { generateSecureToken } from "../../infra/secure-random.js";
-import { listRegisteredPluginAgentPromptGuidance } from "../../plugins/command-registry-state.js";
-import { getCurrentPluginMetadataSnapshot } from "../../plugins/current-plugin-metadata-snapshot.js";
-import { getGlobalHookRunner } from "../../plugins/hook-runner-global.js";
-import { extractModelCompat } from "../../plugins/provider-model-compat.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
+} from "../../infra/diagnostic-trace-context.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { getMachineDisplayName } from "../../infra/machine-name.ts";
+import { generateSecureToken } from "../../infra/secure-random.ts";
+import { listRegisteredPluginAgentPromptGuidance } from "../../plugins/command-registry-state.ts";
+import { getCurrentPluginMetadataSnapshot } from "../../plugins/current-plugin-metadata-snapshot.ts";
+import { getGlobalHookRunner } from "../../plugins/hook-runner-global.ts";
+import { extractModelCompat } from "../../plugins/provider-model-compat.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
 import {
   prepareProviderRuntimeAuth,
   resolveProviderTextTransforms,
   transformProviderSystemPrompt,
-} from "../../plugins/provider-runtime.js";
+} from "../../plugins/provider-runtime.ts";
 import {
   isCronSessionKey,
   isSubagentSessionKey,
   parseAgentSessionKey,
-} from "../../routing/session-key.js";
-import { resolveSkillsPromptForRun } from "../../skills/loading/workspace.js";
-import { resolveEmbeddedRunSkillEntries } from "../../skills/runtime/embedded-run-entries.js";
+} from "../../routing/session-key.ts";
+import { resolveSkillsPromptForRun } from "../../skills/loading/workspace.ts";
+import { resolveEmbeddedRunSkillEntries } from "../../skills/runtime/embedded-run-entries.ts";
 import {
   applySkillEnvOverrides,
   applySkillEnvOverridesFromSnapshot,
-} from "../../skills/runtime/env-overrides.js";
-import { resolveUserPath } from "../../utils.js";
-import { normalizeMessageChannel } from "../../utils/message-channel.js";
-import { isReasoningTagProvider } from "../../utils/provider-utils.js";
-import { createBundleLspToolRuntime } from "../agent-bundle-lsp-runtime.js";
-import { createBundleMcpToolRuntime } from "../agent-bundle-mcp-tools.js";
+} from "../../skills/runtime/env-overrides.ts";
+import { resolveUserPath } from "../../utils.ts";
+import { normalizeMessageChannel } from "../../utils/message-channel.ts";
+import { isReasoningTagProvider } from "../../utils/provider-utils.ts";
+import { createBundleLspToolRuntime } from "../agent-bundle-lsp-runtime.ts";
+import { createBundleMcpToolRuntime } from "../agent-bundle-mcp-tools.ts";
 import {
   consumeCompactionSafeguardCancelReason,
   setCompactionSafeguardCancelReason,
-} from "../agent-hooks/compaction-safeguard-runtime.js";
-import { createPreparedEmbeddedAgentSettingsManager } from "../agent-project-settings.js";
-import { isDefaultAgentRuntimeId } from "../agent-runtime-id.js";
+} from "../agent-hooks/compaction-safeguard-runtime.ts";
+import { createPreparedEmbeddedAgentSettingsManager } from "../agent-project-settings.ts";
+import { isDefaultAgentRuntimeId } from "../agent-runtime-id.ts";
 import {
   resolveAgentDir,
   resolveRunModelFallbacksOverride,
   resolveSessionAgentIds,
-} from "../agent-scope.js";
+} from "../agent-scope.ts";
 import {
   applyAgentAutoCompactionGuard,
   applyAgentCompactionSettingsFromConfig,
   isSilentOverflowProneModel,
-} from "../agent-settings.js";
-import { createOpenClawCodingTools, resolveProcessToolScopeKey } from "../agent-tools.js";
-import { listActiveProcessSessionReferences } from "../bash-process-references.js";
+} from "../agent-settings.ts";
+import { createOpenClawCodingTools, resolveProcessToolScopeKey } from "../agent-tools.ts";
+import { listActiveProcessSessionReferences } from "../bash-process-references.ts";
 import {
   makeBootstrapWarn,
   resolveBootstrapContextForRun,
   resolveContextInjectionMode,
-} from "../bootstrap-files.js";
+} from "../bootstrap-files.ts";
 import {
   listChannelSupportedActions,
   resolveChannelMessageToolHints,
   resolveChannelReactionGuidance,
-} from "../channel-tools.js";
+} from "../channel-tools.ts";
 import {
   hasMeaningfulConversationContent,
   isRealConversationMessage,
-} from "../compaction-real-conversation.js";
-import { resolveContextWindowInfo } from "../context-window-guard.js";
-import { formatUserTime, resolveUserTimeFormat, resolveUserTimezone } from "../date-time.js";
-import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.js";
-import { resolveOpenClawReferencePaths } from "../docs-path.js";
-import { ensureSessionHeader } from "../embedded-agent-helpers.js";
-import { pickFallbackThinkingLevel } from "../embedded-agent-helpers.js";
-import { coerceToFailoverError, describeFailoverError } from "../failover-error.js";
-import { resolveAgentHarnessPolicy } from "../harness/policy.js";
-import { ensureSelectedAgentHarnessPlugin } from "../harness/runtime-plugin.js";
-import { resolveHeartbeatPromptForSystemPrompt } from "../heartbeat-system-prompt.js";
+} from "../compaction-real-conversation.ts";
+import { resolveContextWindowInfo } from "../context-window-guard.ts";
+import { formatUserTime, resolveUserTimeFormat, resolveUserTimezone } from "../date-time.ts";
+import { DEFAULT_CONTEXT_TOKENS, DEFAULT_MODEL, DEFAULT_PROVIDER } from "../defaults.ts";
+import { resolveOpenClawReferencePaths } from "../docs-path.ts";
+import { ensureSessionHeader } from "../embedded-agent-helpers.ts";
+import { pickFallbackThinkingLevel } from "../embedded-agent-helpers.ts";
+import { coerceToFailoverError, describeFailoverError } from "../failover-error.ts";
+import { resolveAgentHarnessPolicy } from "../harness/policy.ts";
+import { ensureSelectedAgentHarnessPlugin } from "../harness/runtime-plugin.ts";
+import { resolveHeartbeatPromptForSystemPrompt } from "../heartbeat-system-prompt.ts";
 import {
   applyAuthHeaderOverride,
   applyLocalNoAuthHeaderOverride,
   getApiKeyForModel,
   MissingProviderAuthError,
   resolveModelAuthMode,
-} from "../model-auth.js";
-import { isFallbackSummaryError, runWithModelFallback } from "../model-fallback.js";
-import { supportsModelTools } from "../model-tool-support.js";
-import { ensureOpenClawModelsJson } from "../models-config.js";
-import { wrapStreamFnTextTransforms } from "../plugin-text-transforms.js";
-import { resolveAgentPromptSurfaceForSessionKey } from "../prompt-surface.js";
-import { applyPreparedRuntimeAuthToModel } from "../provider-request-config.js";
-import { registerProviderStreamForModel } from "../provider-stream.js";
+} from "../model-auth.ts";
+import { isFallbackSummaryError, runWithModelFallback } from "../model-fallback.ts";
+import { supportsModelTools } from "../model-tool-support.ts";
+import { ensureOpenClawModelsJson } from "../models-config.ts";
+import { wrapStreamFnTextTransforms } from "../plugin-text-transforms.ts";
+import { resolveAgentPromptSurfaceForSessionKey } from "../prompt-surface.ts";
+import { applyPreparedRuntimeAuthToModel } from "../provider-request-config.ts";
+import { registerProviderStreamForModel } from "../provider-stream.ts";
 import {
   applyAgentRunSessionTargetIdentity,
   resolveAgentRunSessionTarget,
-} from "../run-session-target.js";
-import { collectRuntimeChannelCapabilities } from "../runtime-capabilities.js";
-import { buildAgentRuntimePlan } from "../runtime-plan/build.js";
-import type { AgentRuntimePlan } from "../runtime-plan/types.js";
-import { ensureRuntimePluginsLoaded } from "../runtime-plugins.js";
-import type { AgentMessage } from "../runtime/index.js";
-import { resolveSandboxContext } from "../sandbox.js";
-import { repairSessionFileIfNeeded } from "../session-file-repair.js";
-import { guardSessionManager } from "../session-tool-result-guard-wrapper.js";
-import { sanitizeToolUseResultPairing } from "../session-transcript-repair.js";
+} from "../run-session-target.ts";
+import { collectRuntimeChannelCapabilities } from "../runtime-capabilities.ts";
+import { buildAgentRuntimePlan } from "../runtime-plan/build.ts";
+import type { AgentRuntimePlan } from "../runtime-plan/types.ts";
+import { ensureRuntimePluginsLoaded } from "../runtime-plugins.ts";
+import type { AgentMessage } from "../runtime/index.ts";
+import { resolveSandboxContext } from "../sandbox.ts";
+import { repairSessionFileIfNeeded } from "../session-file-repair.ts";
+import { guardSessionManager } from "../session-tool-result-guard-wrapper.ts";
+import { sanitizeToolUseResultPairing } from "../session-transcript-repair.ts";
 import {
   acquireSessionWriteLock,
   resolveSessionLockMaxHoldFromTimeout,
   resolveSessionWriteLockOptions,
-} from "../session-write-lock.js";
-import { createAgentSession, estimateTokens, SessionManager } from "../sessions/index.js";
-import { detectRuntimeShell } from "../shell-utils.js";
+} from "../session-write-lock.ts";
+import { createAgentSession, estimateTokens, SessionManager } from "../sessions/index.ts";
+import { detectRuntimeShell } from "../shell-utils.ts";
 import {
   filterProviderNormalizableTools,
   filterRuntimeCompatibleTools,
-} from "../tool-schema-projection.js";
-import { logRuntimeToolSchemaQuarantine } from "../tool-schema-quarantine.js";
+} from "../tool-schema-projection.ts";
+import { logRuntimeToolSchemaQuarantine } from "../tool-schema-quarantine.ts";
 import {
   classifyCompactionReason,
   formatUnknownCompactionReasonDetail,
   resolveCompactionFailureReason,
-} from "./compact-reasons.js";
+} from "./compact-reasons.ts";
 import type {
   CompactEmbeddedAgentSessionParams,
   CompactEmbeddedAgentSessionRuntimeParams,
   CompactionMessageMetrics,
-} from "./compact.types.js";
-import { dedupeDuplicateUserMessagesForCompaction } from "./compaction-duplicate-user-messages.js";
+} from "./compact.types.ts";
+import { dedupeDuplicateUserMessagesForCompaction } from "./compaction-duplicate-user-messages.ts";
 import {
   asCompactionHookRunner,
   buildBeforeCompactionHookMetrics,
@@ -148,52 +148,52 @@ import {
   runAfterCompactionHooks,
   runBeforeCompactionHooks,
   runPostCompactionSideEffects,
-} from "./compaction-hooks.js";
-import { resolveEmbeddedCompactionTarget } from "./compaction-runtime-context.js";
+} from "./compaction-hooks.ts";
+import { resolveEmbeddedCompactionTarget } from "./compaction-runtime-context.ts";
 import {
   compactWithSafetyTimeout,
   resolveCompactionTimeoutMs,
-} from "./compaction-safety-timeout.js";
+} from "./compaction-safety-timeout.ts";
 import {
   type CompactionTranscriptRotation,
   rotateTranscriptAfterCompaction,
   shouldRotateCompactionTranscript,
-} from "./compaction-successor-transcript.js";
-import { applyFinalEffectiveToolPolicy } from "./effective-tool-policy.js";
-import { buildEmbeddedExtensionFactories } from "./extensions.js";
-import { applyExtraParamsToAgent } from "./extra-params.js";
-import { getHistoryLimitFromSessionKey, limitHistoryTurns } from "./history.js";
-import { log } from "./logger.js";
-import { hardenManualCompactionBoundary } from "./manual-compaction-boundary.js";
-import { buildEmbeddedMessageActionDiscoveryInput } from "./message-action-discovery-input.js";
-import { readAgentModelContextTokens } from "./model-context-tokens.js";
-import { resolveModelAsync } from "./model.js";
-import { sanitizeSessionHistory, validateReplayTurns } from "./replay-history.js";
-import { createEmbeddedAgentResourceLoader } from "./resource-loader.js";
-import { wrapStreamFnWithDiagnosticModelCallEvents } from "./run/attempt.model-diagnostic-events.js";
-import { resolveAttemptSpawnWorkspaceDir } from "./run/attempt.thread-helpers.js";
-import { buildEmbeddedSandboxInfo, resolveEmbeddedSandboxInfoExecPolicy } from "./sandbox-info.js";
+} from "./compaction-successor-transcript.ts";
+import { applyFinalEffectiveToolPolicy } from "./effective-tool-policy.ts";
+import { buildEmbeddedExtensionFactories } from "./extensions.ts";
+import { applyExtraParamsToAgent } from "./extra-params.ts";
+import { getHistoryLimitFromSessionKey, limitHistoryTurns } from "./history.ts";
+import { log } from "./logger.ts";
+import { hardenManualCompactionBoundary } from "./manual-compaction-boundary.ts";
+import { buildEmbeddedMessageActionDiscoveryInput } from "./message-action-discovery-input.ts";
+import { readAgentModelContextTokens } from "./model-context-tokens.ts";
+import { resolveModelAsync } from "./model.ts";
+import { sanitizeSessionHistory, validateReplayTurns } from "./replay-history.ts";
+import { createEmbeddedAgentResourceLoader } from "./resource-loader.ts";
+import { wrapStreamFnWithDiagnosticModelCallEvents } from "./run/attempt.model-diagnostic-events.ts";
+import { resolveAttemptSpawnWorkspaceDir } from "./run/attempt.thread-helpers.ts";
+import { buildEmbeddedSandboxInfo, resolveEmbeddedSandboxInfoExecPolicy } from "./sandbox-info.ts";
 import {
   mapSandboxSkillEntriesForPrompt,
   resolveSandboxSkillRuntimeInputs,
-} from "./sandbox-skills.js";
-import { prewarmSessionFile, trackSessionManagerAccess } from "./session-manager-cache.js";
+} from "./sandbox-skills.ts";
+import { prewarmSessionFile, trackSessionManagerAccess } from "./session-manager-cache.ts";
 import {
   resolveEmbeddedAgentBaseStreamFn,
   resolveEmbeddedAgentStreamFn,
-} from "./stream-resolution.js";
-import { applySystemPromptToSession, buildEmbeddedSystemPrompt } from "./system-prompt.js";
+} from "./stream-resolution.ts";
+import { applySystemPromptToSession, buildEmbeddedSystemPrompt } from "./system-prompt.ts";
 import {
   collectAllowedToolNames,
   collectRegisteredToolNames,
   toSessionToolAllowlist,
-} from "./tool-name-allowlist.js";
-import { splitSdkTools } from "./tool-split.js";
-import { readTranscriptFileState } from "./transcript-file-state.js";
-import type { EmbeddedAgentCompactResult } from "./types.js";
-import { mapThinkingLevel, normalizeContextTokenBudget } from "./utils.js";
-import { flushPendingToolResultsAfterIdle } from "./wait-for-idle-before-flush.js";
-export type { CompactEmbeddedAgentSessionParams } from "./compact.types.js";
+} from "./tool-name-allowlist.ts";
+import { splitSdkTools } from "./tool-split.ts";
+import { readTranscriptFileState } from "./transcript-file-state.ts";
+import type { EmbeddedAgentCompactResult } from "./types.ts";
+import { mapThinkingLevel, normalizeContextTokenBudget } from "./utils.ts";
+import { flushPendingToolResultsAfterIdle } from "./wait-for-idle-before-flush.ts";
+export type { CompactEmbeddedAgentSessionParams } from "./compact.types.ts";
 
 const compactionCheckpointStore = createFileBackedCompactionCheckpointStore();
 type CompactEmbeddedAgentSessionParamsWithSessionFile = CompactEmbeddedAgentSessionRuntimeParams & {
@@ -961,7 +961,7 @@ async function compactEmbeddedAgentSessionDirectOnce(
       // createOpenClawCodingTools(...) also omit it, so both paths resolve
       // agentId the same way via resolveAgentIdFromSessionKey(sessionKey).
       // Passing effectiveSkillAgentId here would diverge from the core-tool
-      // policy for legacy/non-agent session keys where the two sources fall
+      // policy for non-agent session keys where the two sources fall
       // back to different ids.
       modelProvider: model.provider,
       modelId,

@@ -6,23 +6,19 @@ import {
   resolveAgentDir,
   resolveDefaultAgentDir,
   listAgentEntries,
-} from "../../../agents/agent-scope.js";
-import {
-  isLegacyOAuthRef,
-  LEGACY_OAUTH_REF_PROVIDER,
-} from "../../../agents/auth-profiles/legacy-oauth-ref.js";
+} from "../../../agents/agent-scope.ts";
 import {
   areOAuthCredentialsEquivalent,
   hasUsableOAuthCredential,
   isSafeToAdoptMainStoreOAuthIdentity,
-} from "../../../agents/auth-profiles/oauth-shared.js";
-import { resolveAuthStorePath } from "../../../agents/auth-profiles/paths.js";
-import { loadPersistedAuthProfileStore } from "../../../agents/auth-profiles/persisted.js";
-import { updateAuthProfileStoreWithLock } from "../../../agents/auth-profiles/store.js";
-import type { AuthProfileStore, OAuthCredential } from "../../../agents/auth-profiles/types.js";
-import { resolveStateDir } from "../../../config/paths.js";
-import type { OpenClawConfig } from "../../../config/types.openclaw.js";
-import { shortenHomePath } from "../../../utils.js";
+} from "../../../agents/auth-profiles/oauth-shared.ts";
+import { resolveAuthStorePath } from "../../../agents/auth-profiles/paths.ts";
+import { loadPersistedAuthProfileStore } from "../../../agents/auth-profiles/persisted.ts";
+import { updateAuthProfileStoreWithLock } from "../../../agents/auth-profiles/store.ts";
+import type { AuthProfileStore, OAuthCredential } from "../../../agents/auth-profiles/types.ts";
+import { resolveStateDir } from "../../../config/paths.ts";
+import type { OpenClawConfig } from "../../../config/types.openclaw.ts";
+import { shortenHomePath } from "../../../utils.ts";
 
 type StaleOAuthProfileShadow = {
   agentDir: string;
@@ -37,23 +33,6 @@ async function loadRawAuthProfileStore(authPath: string): Promise<Record<string,
   } catch {
     return null;
   }
-}
-
-function hasLegacyOAuthSidecarRef(raw: Record<string, unknown> | null, profileId: string): boolean {
-  if (!raw || !isRecord(raw.profiles)) {
-    return false;
-  }
-  const profile = raw.profiles[profileId];
-  if (!isRecord(profile)) {
-    return false;
-  }
-  // Removal-only guard for #79006 sidecar OAuth profiles. Do not add OS-level
-  // keychain integrations; doctor must migrate these profiles, not delete them.
-  return (
-    profile.type === "oauth" &&
-    profile.provider === LEGACY_OAUTH_REF_PROVIDER &&
-    isLegacyOAuthRef(profile.oauthRef)
-  );
 }
 
 async function collectStateAgentDirs(env: NodeJS.ProcessEnv): Promise<string[]> {
@@ -127,16 +106,12 @@ export async function scanStaleOAuthProfileShadows(params: {
     if (authPath === mainAuthPath) {
       continue;
     }
-    const rawLocalStore = await loadRawAuthProfileStore(authPath);
     const localStore = loadPersistedAuthProfileStore(agentDir);
     if (!localStore) {
       continue;
     }
     for (const [profileId, local] of Object.entries(localStore.profiles)) {
       if (local.type !== "oauth") {
-        continue;
-      }
-      if (hasLegacyOAuthSidecarRef(rawLocalStore, profileId)) {
         continue;
       }
       const main = mainStore.profiles[profileId];
@@ -227,13 +202,6 @@ async function repairStaleOAuthProfilesForAgent(params: {
 }): Promise<
   { status: "changed"; removedProfileIds: string[] } | { status: "missing" | "unchanged" }
 > {
-  const rawStore = await loadRawAuthProfileStore(resolveAuthStorePath(params.agentDir));
-  const profileIds = new Set(
-    [...params.profileIds].filter((profileId) => !hasLegacyOAuthSidecarRef(rawStore, profileId)),
-  );
-  if (profileIds.size === 0) {
-    return { status: "unchanged" };
-  }
   if (!loadPersistedAuthProfileStore(params.agentDir)) {
     return { status: "missing" };
   }
@@ -246,7 +214,6 @@ async function repairStaleOAuthProfilesForAgent(params: {
       const result = removeStaleProfilesFromStore({
         store,
         mainStore: params.mainStore,
-        profileIds,
         now: params.now,
       });
       if (result.removedProfileIds.length === 0) {

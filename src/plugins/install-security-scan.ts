@@ -1,12 +1,12 @@
 // Runs security checks over plugin install candidates before activation.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import type {
   InstallPolicyOrigin,
   InstallPolicyRequestKind,
   InstallPolicySource,
-} from "../security/install-policy.js";
-export type { InstallSafetyOverrides } from "./install-security-scan.types.js";
-import type { InstallSafetyOverrides } from "./install-security-scan.types.js";
+} from "../security/install-policy.ts";
+export type { InstallSafetyOverrides } from "./install-security-scan.types.ts";
+import type { InstallSafetyOverrides } from "./install-security-scan.types.ts";
 
 type InstallScanLogger = {
   warn?: (message: string) => void;
@@ -26,7 +26,7 @@ export type PluginInstallRequestKind = Exclude<InstallPolicyRequestKind, "skill-
 /** Skill install metadata shape passed into shared install policy evaluation. */
 export type SkillInstallSpecMetadata = {
   id?: string;
-  kind: "brew" | "node" | "go" | "uv" | "download";
+  kind: "brew" | "node" | "download";
   label?: string;
   bins?: string[];
   os?: string[];

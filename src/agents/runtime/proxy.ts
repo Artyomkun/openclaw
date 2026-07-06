@@ -14,10 +14,10 @@ import type {
   SimpleStreamOptions,
   StopReason,
   ToolCall,
-} from "../../llm/types.js";
-import { EventStream } from "../../llm/utils/event-stream.js";
-import { parseStreamingJson } from "../../llm/utils/json-parse.js";
-import { createSseByteGuard, type SseByteGuard } from "../streaming-byte-guard.js";
+} from "../../llm/types.ts";
+import { EventStream } from "../../llm/utils/event-stream.ts";
+import { parseStreamingJson } from "../../llm/utils/json-parse.ts";
+import { createSseByteGuard, type SseByteGuard } from "../streaming-byte-guard.ts";
 
 const PROXY_ERROR_BODY_MAX_BYTES = 16 * 1024 * 1024;
 const PROXY_SSE_STREAM_MAX_BYTES = 16 * 1024 * 1024;

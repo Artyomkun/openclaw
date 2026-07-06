@@ -4,4 +4,4 @@ export {
   normalizeGroupActivation,
   parseActivationCommand,
   type GroupActivationMode,
-} from "../auto-reply/group-activation.js";
+} from "../auto-reply/group-activation.ts";

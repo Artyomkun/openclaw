@@ -5,7 +5,7 @@ import type {
   PromptRequest,
   SessionUpdate,
 } from "@agentclientprotocol/sdk";
-import type { AcpEventLedger, AcpEventLedgerReplay } from "./event-ledger.js";
+import type { AcpEventLedger, AcpEventLedgerReplay } from "./event-ledger.ts";
 
 /** Session identity used when emitting and recording ACP translator updates. */
 type AcpTranslatorSessionRef = {

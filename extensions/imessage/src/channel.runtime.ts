@@ -4,7 +4,6 @@ import { resolveIMessageDuplicateSourceOwner, type ResolvedIMessageAccount } fro
 import { PAIRING_APPROVED_MESSAGE, resolveChannelMediaMaxBytes } from "./channel-api.js";
 import type { ChannelPlugin } from "./channel-api.js";
 import { monitorIMessageProvider } from "./monitor.js";
-import { IMESSAGE_LEGACY_OUTBOUND_SEND_DEP_KEYS } from "./outbound-send-deps.js";
 import { probeIMessage } from "./probe.js";
 import { sendMessageIMessage } from "./send.js";
 import { imessageSetupWizard } from "./setup-surface.js";
@@ -23,9 +22,7 @@ export async function sendIMessageOutbound(params: {
   replyToId?: string;
 }) {
   const send =
-    resolveOutboundSendDep<IMessageSendFn>(params.deps, "imessage", {
-      legacyKeys: IMESSAGE_LEGACY_OUTBOUND_SEND_DEP_KEYS,
-    }) ?? sendMessageIMessage;
+    resolveOutboundSendDep<IMessageSendFn>(params.deps, "imessage", sendMessageIMessage);
   const maxBytes = resolveChannelMediaMaxBytes({
     cfg: params.cfg,
     resolveChannelLimitMb: ({ cfg, accountId }) =>

@@ -1,7 +1,7 @@
 // Shared provider usage labels, ids, and timeout helpers.
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { resolveTimerTimeoutMs } from "../shared/number-coercion.js";
-import type { UsageProviderId } from "./provider-usage.types.js";
+import { resolveTimerTimeoutMs } from "../shared/number-coercion.ts";
+import type { UsageProviderId } from "./provider-usage.types.ts";
 
 /** Default timeout for provider usage collection. */
 export const DEFAULT_TIMEOUT_MS = 5000;

@@ -1,9 +1,9 @@
 // Detects stale local bundled plugin install records.
 import path from "node:path";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import { resolveUserPath } from "../utils.js";
-import { normalizeBundledLookupPath } from "./bundled-load-path-aliases.js";
-import { resolveBundledPluginSources, type BundledPluginSource } from "./bundled-sources.js";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import { resolveUserPath } from "../utils.ts";
+import { normalizeBundledLookupPath } from "./bundled-load-path-aliases.ts";
+import { resolveBundledPluginSources, type BundledPluginSource } from "./bundled-sources.ts";
 
 /** Stale install record that points at old compiled bundled plugin output. */
 export type StaleLocalBundledPluginInstallRecord = {

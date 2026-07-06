@@ -1,14 +1,14 @@
 // Commander registration for foreground node host and node service lifecycle commands.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { loadNodeHostConfig } from "../../node-host/config.js";
-import { runNodeHost } from "../../node-host/runner.js";
-import { defaultRuntime } from "../../runtime.js";
-import { parsePort } from "../daemon-cli/shared.js";
-import { formatInvalidPortOption } from "../error-format.js";
-import { formatHelpExamples } from "../help-format.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { loadNodeHostConfig } from "../../node-host/config.ts";
+import { runNodeHost } from "../../node-host/runner.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { parsePort } from "../daemon-cli/shared.ts";
+import { formatInvalidPortOption } from "../error-format.ts";
+import { formatHelpExamples } from "../help-format.ts";
 import {
   runNodeDaemonInstall,
   runNodeDaemonRestart,
@@ -16,7 +16,7 @@ import {
   runNodeDaemonStatus,
   runNodeDaemonStop,
   runNodeDaemonUninstall,
-} from "./daemon.js";
+} from "./daemon.ts";
 
 function parsePortOption(value: unknown, fallback: number): number | null {
   // Undefined keeps config/default port; invalid explicit input returns null for CLI errors.

@@ -3,14 +3,14 @@
  * this module to merge implicit provider discovery, explicit config, and
  * preserved secrets before touching models.json.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { isRecord } from "../utils.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { isRecord } from "../utils.ts";
 import {
   mergeProviders,
   mergeWithExistingProviderSecrets,
   type ExistingProviderConfig,
-} from "./models-config.merge.js";
+} from "./models-config.merge.ts";
 import {
   applyNativeStreamingUsageCompat,
   enforceSourceManagedProviderSecrets,
@@ -18,12 +18,12 @@ import {
   normalizeProviders,
   resolveImplicitProviders,
   type ProviderConfig,
-} from "./models-config.providers.js";
+} from "./models-config.providers.ts";
 import {
   encodePluginModelCatalogRelativePath,
   PLUGIN_MODEL_CATALOG_GENERATED_BY,
   resolvePluginModelCatalogOwnerPluginId,
-} from "./plugin-model-catalog.js";
+} from "./plugin-model-catalog.ts";
 
 type ModelsConfig = NonNullable<OpenClawConfig["models"]>;
 

@@ -2,10 +2,10 @@
 import type { Stats } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveUserPath } from "../utils.js";
-import { type ArchiveLogger, extractArchive, resolvePackedRootDir } from "./archive.js";
-import { pathExists } from "./fs-safe.js";
-import { withTempDir } from "./install-source-utils.js";
+import { resolveUserPath } from "../utils.ts";
+import { type ArchiveLogger, extractArchive, resolvePackedRootDir } from "./archive.ts";
+import { pathExists } from "./fs-safe.ts";
+import { withTempDir } from "./install-source-utils.ts";
 
 // Install-flow helpers validate local install paths and unpack archives inside
 // temporary workspaces before handing the resolved package root to callers.

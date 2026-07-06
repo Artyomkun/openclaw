@@ -4,7 +4,7 @@
  * observability decisions shared across embedded-agent hot paths.
  */
 import type { TSchema } from "typebox";
-import type { AgentTool } from "../runtime/index.js";
+import type { AgentTool } from "../runtime/index.ts";
 
 /** Runtime transport selected for one model attempt. */
 export type AgentRuntimeTransport = "sse" | "websocket" | "auto";
@@ -112,7 +112,7 @@ export type AgentRuntimeMessagePresentationButton = {
   label: string;
   /** Typed action sent when pressed. */
   action?: AgentRuntimeMessagePresentationAction;
-  /** Legacy opaque callback value sent when pressed. */
+  /** Older opaque callback value sent when pressed. */
   value?: string;
   /** External URL opened by the button. */
   url?: string;
@@ -132,43 +132,8 @@ export type AgentRuntimeMessagePresentationOption = {
   label: string;
   /** Typed action sent when selected. */
   action?: AgentRuntimeMessagePresentationAction;
-  /** Legacy opaque callback value sent when selected. */
+  /** Older opaque callback value sent when selected. */
   value?: string;
-};
-
-/**
- * @deprecated Use AgentRuntimeMessagePresentationButton.
- */
-export type AgentRuntimeInteractiveReplyButton = AgentRuntimeMessagePresentationButton;
-
-/**
- * @deprecated Use AgentRuntimeMessagePresentationOption.
- */
-export type AgentRuntimeInteractiveReplyOption = AgentRuntimeMessagePresentationOption;
-
-/**
- * @deprecated Use AgentRuntimeMessagePresentationBlock.
- */
-export type AgentRuntimeInteractiveReplyBlock =
-  | {
-      type: "text";
-      text: string;
-    }
-  | {
-      type: "buttons";
-      buttons: AgentRuntimeInteractiveReplyButton[];
-    }
-  | {
-      type: "select";
-      placeholder?: string;
-      options: AgentRuntimeInteractiveReplyOption[];
-    };
-
-/**
- * @deprecated Use AgentRuntimeMessagePresentation.
- */
-export type AgentRuntimeInteractiveReply = {
-  blocks: AgentRuntimeInteractiveReplyBlock[];
 };
 
 /** Portable reply presentation severity/style hint. */
@@ -233,10 +198,6 @@ export type AgentRuntimeReplyPayload = {
   sensitiveMedia?: boolean;
   presentation?: AgentRuntimeMessagePresentation;
   delivery?: AgentRuntimeReplyPayloadDelivery;
-  /**
-   * @deprecated Use presentation.
-   */
-  interactive?: AgentRuntimeInteractiveReply;
   btw?: {
     question: string;
   };

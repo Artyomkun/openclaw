@@ -1,19 +1,19 @@
 // Start-time service repair: rebuilds stale service definitions before starting Gateway.
-import { buildGatewayInstallPlan } from "../../commands/daemon-install-helpers.js";
-import { DEFAULT_GATEWAY_DAEMON_RUNTIME } from "../../commands/daemon-runtime.js";
-import { resolveGatewayInstallToken } from "../../commands/gateway-install-token.js";
-import { readConfigFileSnapshotForWrite } from "../../config/io.js";
-import { resolveGatewayPort } from "../../config/paths.js";
-import { OPENCLAW_WRAPPER_ENV_KEY, resolveOpenClawWrapperPath } from "../../daemon/program-args.js";
-import type { GatewayServiceEnv } from "../../daemon/service-types.js";
+import { buildGatewayInstallPlan } from "../../commands/daemon-install-helpers.ts";
+import { DEFAULT_GATEWAY_DAEMON_RUNTIME } from "../../commands/daemon-runtime.ts";
+import { resolveGatewayInstallToken } from "../../commands/gateway-install-token.ts";
+import { readConfigFileSnapshotForWrite } from "../../config/io.ts";
+import { resolveGatewayPort } from "../../config/paths.ts";
+import { OPENCLAW_WRAPPER_ENV_KEY, resolveOpenClawWrapperPath } from "../../daemon/program-args.ts";
+import type { GatewayServiceEnv } from "../../daemon/service-types.ts";
 import type {
   GatewayService,
   GatewayServiceStartRepairIssue,
   GatewayServiceState,
-} from "../../daemon/service.js";
-import { formatGatewayServiceStartRepairIssues } from "../../daemon/service.js";
-import { defaultRuntime } from "../../runtime.js";
-import { mergeInstallInvocationEnv } from "./install.js";
+} from "../../daemon/service.ts";
+import { formatGatewayServiceStartRepairIssues } from "../../daemon/service.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { mergeInstallInvocationEnv } from "./install.ts";
 
 /** Repair a loaded but stale Gateway service definition and report the start result. */
 export async function repairLoadedGatewayServiceForStart(params: {

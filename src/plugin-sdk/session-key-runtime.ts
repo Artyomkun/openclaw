@@ -4,4 +4,4 @@
 export {
   resolveAgentIdFromSessionKey,
   type ParsedAgentSessionKey,
-} from "../routing/session-key.js";
+} from "../routing/session-key.ts";

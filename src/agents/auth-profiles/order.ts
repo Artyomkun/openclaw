@@ -7,22 +7,22 @@ import {
   findNormalizedProviderValue,
   normalizeProviderId,
 } from "@openclaw/model-catalog-core/provider-id";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   type ProviderAuthAliasLookupParams,
   resolveProviderIdForAuth,
-} from "../provider-auth-aliases.js";
+} from "../provider-auth-aliases.ts";
 import {
   evaluateStoredCredentialEligibility,
   type AuthCredentialReasonCode,
-} from "./credential-state.js";
-import { dedupeProfileIds, listProfilesForProvider } from "./profile-list.js";
-import type { AuthProfileCredential, AuthProfileStore } from "./types.js";
+} from "./credential-state.ts";
+import { dedupeProfileIds, listProfilesForProvider } from "./profile-list.ts";
+import type { AuthProfileCredential, AuthProfileStore } from "./types.ts";
 import {
   clearExpiredCooldowns,
   isProfileInCooldown,
   resolveProfileUnusableUntil,
-} from "./usage-state.js";
+} from "./usage-state.ts";
 
 /** Reason a profile is or is not eligible for provider auth. */
 export type AuthProfileEligibilityReasonCode =

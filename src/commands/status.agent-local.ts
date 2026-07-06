@@ -2,12 +2,12 @@
 // This never contacts the gateway; it inspects configured agents and their read-only session stores.
 
 import path from "node:path";
-import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import { listSessionEntries } from "../config/sessions/session-accessor.js";
-import type { OpenClawConfig } from "../config/types.js";
-import { listGatewayAgentsBasic } from "../gateway/agent-list.js";
-import { pathExists } from "../infra/fs-safe.js";
+import { resolveAgentWorkspaceDir } from "../agents/agent-scope.ts";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import { listSessionEntries } from "../config/sessions/session-accessor.ts";
+import type { OpenClawConfig } from "../config/types.ts";
+import { listGatewayAgentsBasic } from "../gateway/agent-list.ts";
+import { pathExists } from "../infra/fs-safe.ts";
 
 export type AgentLocalStatus = {
   id: string;

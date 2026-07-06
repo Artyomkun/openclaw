@@ -3,41 +3,40 @@ import fs from "node:fs/promises";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
 import {
-  hasLegacyAutoFallbackWithoutOrigin,
   resolveAutoFallbackPrimaryProbe,
   resolveAgentConfig,
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveSessionAgentId,
   resolveAgentSkillsFilter,
-} from "../../agents/agent-scope.js";
-import { resolveModelRefFromString } from "../../agents/model-selection.js";
-import { resolveAgentTimeoutMs } from "../../agents/timeout.js";
-import { DEFAULT_AGENT_WORKSPACE_DIR, ensureAgentWorkspace } from "../../agents/workspace.js";
-import { resolveChannelModelOverride } from "../../channels/model-overrides.js";
-import { type OpenClawConfig, getRuntimeConfig } from "../../config/config.js";
-import { logVerbose } from "../../globals.js";
-import { measureDiagnosticsTimelineSpan } from "../../infra/diagnostics-timeline.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import type { ApplyMediaUnderstandingResult } from "../../media-understanding/apply.js";
-import type { ExtractedFileImage } from "../../media-understanding/extracted-file-images.js";
+} from "../../agents/agent-scope.ts";
+import { resolveModelRefFromString } from "../../agents/model-selection.ts";
+import { resolveAgentTimeoutMs } from "../../agents/timeout.ts";
+import { DEFAULT_AGENT_WORKSPACE_DIR, ensureAgentWorkspace } from "../../agents/workspace.ts";
+import { resolveChannelModelOverride } from "../../channels/model-overrides.ts";
+import { type OpenClawConfig, getRuntimeConfig } from "../../config/config.ts";
+import { logVerbose } from "../../globals.ts";
+import { measureDiagnosticsTimelineSpan } from "../../infra/diagnostics-timeline.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import type { ApplyMediaUnderstandingResult } from "../../media-understanding/apply.ts";
+import type { ExtractedFileImage } from "../../media-understanding/extracted-file-images.ts";
 import {
   buildAgentHookContextChannelFields,
   buildAgentHookContextIdentityFields,
-} from "../../plugins/hook-agent-context.js";
-import { defaultRuntime } from "../../runtime.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.js";
-import type { GetReplyOptions } from "../get-reply-options.types.js";
-import { DEFAULT_HEARTBEAT_ACK_MAX_CHARS, stripHeartbeatToken } from "../heartbeat.js";
-import type { ReplyPayload } from "../reply-payload.js";
-import type { MsgContext } from "../templating.js";
-import { normalizeVerboseLevel } from "../thinking.js";
-import { SILENT_REPLY_TOKEN } from "../tokens.js";
-import { resolveDefaultModel } from "./directive-handling.defaults.js";
-import { clearInlineDirectives } from "./get-reply-directives-utils.js";
-import { resolveReplyDirectives } from "./get-reply-directives.js";
+} from "../../plugins/hook-agent-context.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveCommandTurnTargetSessionKey } from "../command-turn-context.ts";
+import type { GetReplyOptions } from "../get-reply-options.types.ts";
+import { DEFAULT_HEARTBEAT_ACK_MAX_CHARS, stripHeartbeatToken } from "../heartbeat.ts";
+import type { ReplyPayload } from "../reply-payload.ts";
+import type { MsgContext } from "../templating.ts";
+import { normalizeVerboseLevel } from "../thinking.ts";
+import { SILENT_REPLY_TOKEN } from "../tokens.ts";
+import { resolveDefaultModel } from "./directive-handling.defaults.ts";
+import { clearInlineDirectives } from "./get-reply-directives-utils.ts";
+import { resolveReplyDirectives } from "./get-reply-directives.ts";
 import {
   initFastReplySessionState,
   buildFastReplyCommandContext,
@@ -46,27 +45,27 @@ import {
   resolveGetReplyConfig,
   shouldUseReplyFastTestBootstrap,
   shouldUseReplyFastTestRuntime,
-} from "./get-reply-fast-path.js";
-import { handleInlineActions } from "./get-reply-inline-actions.js";
-import { maybeResolveNativeSlashCommandFastReply } from "./get-reply-native-slash-fast-path.js";
-import { runPreparedReply } from "./get-reply-run.js";
+} from "./get-reply-fast-path.ts";
+import { handleInlineActions } from "./get-reply-inline-actions.ts";
+import { maybeResolveNativeSlashCommandFastReply } from "./get-reply-native-slash-fast-path.ts";
+import { runPreparedReply } from "./get-reply-run.ts";
 import type {
   InternalGetReplyOptions as BaseInternalGetReplyOptions,
   ReplySessionBinding,
-} from "./get-reply.types.js";
-import { finalizeInboundContext } from "./inbound-context.js";
-import { hasInboundMedia, hasInboundMediaForUnderstanding } from "./inbound-media.js";
-import { emitPreAgentMessageHooks } from "./message-preprocess-hooks.js";
-import { createFastTestModelSelectionState, createModelSelectionState } from "./model-selection.js";
-import { sanitizePendingFinalDeliveryText } from "./pending-final-delivery.js";
-import { createReplyTimingTracker } from "./reply-timing-tracker.js";
-import { initSessionState } from "./session.js";
-import { stageRemoteInboundMediaIfNeeded } from "./stage-remote-inbound-media.js";
+} from "./get-reply.types.ts";
+import { finalizeInboundContext } from "./inbound-context.ts";
+import { hasInboundMedia, hasInboundMediaForUnderstanding } from "./inbound-media.ts";
+import { emitPreAgentMessageHooks } from "./message-preprocess-hooks.ts";
+import { createFastTestModelSelectionState, createModelSelectionState } from "./model-selection.ts";
+import { sanitizePendingFinalDeliveryText } from "./pending-final-delivery.ts";
+import { createReplyTimingTracker } from "./reply-timing-tracker.ts";
+import { initSessionState } from "./session.ts";
+import { stageRemoteInboundMediaIfNeeded } from "./stage-remote-inbound-media.ts";
 import {
   isStaleHeartbeatAutoFallbackOverride,
   resolveStoredModelOverride,
-} from "./stored-model-override.js";
-import { createTypingController } from "./typing.js";
+} from "./stored-model-override.ts";
+import { createTypingController } from "./typing.ts";
 
 type ResetCommandAction = "new" | "reset";
 
@@ -634,13 +633,10 @@ export async function getReplyFromConfig(
     primaryProvider,
     primaryModel,
   });
-  const staleLegacyAutoFallbackWithoutOrigin =
-    storedModelOverride?.source === "session" && hasLegacyAutoFallbackWithoutOrigin(sessionEntry);
   if (
     storedModelOverride?.model &&
     !hasResolvedHeartbeatModelOverride &&
-    !staleHeartbeatAutoFallbackOverride &&
-    !staleLegacyAutoFallbackWithoutOrigin
+    !staleHeartbeatAutoFallbackOverride
   ) {
     provider = storedModelOverride.provider ?? defaultProvider;
     model = storedModelOverride.model;
@@ -657,8 +653,7 @@ export async function getReplyFromConfig(
     : undefined;
   const hasEffectiveSessionModelOverride =
     hasSessionModelOverride &&
-    !staleHeartbeatAutoFallbackOverride &&
-    !staleLegacyAutoFallbackWithoutOrigin;
+    !staleHeartbeatAutoFallbackOverride;
   if (
     !hasResolvedHeartbeatModelOverride &&
     !hasEffectiveSessionModelOverride &&

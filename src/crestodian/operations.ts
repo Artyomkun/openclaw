@@ -1,13 +1,13 @@
 // Crestodian operations parse, approve, execute, and audit setup-helper commands.
-import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
-import type { ConfigSetOptions } from "../cli/config-set-input.js";
-import type { DoctorOptions } from "../commands/doctor.types.js";
-import { buildAgentMainSessionKey, normalizeAgentId } from "../routing/session-key.js";
-import type { RuntimeEnv } from "../runtime.js";
-import type { TuiResult } from "../tui/tui-types.js";
-import { resolveUserPath, shortenHomePath } from "../utils.js";
-import { appendCrestodianAuditEntry, resolveCrestodianAuditPath } from "./audit.js";
-import type { CrestodianOverview } from "./overview.js";
+import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.ts";
+import type { ConfigSetOptions } from "../cli/config-set-input.ts";
+import type { DoctorOptions } from "../commands/doctor.types.ts";
+import { buildAgentMainSessionKey, normalizeAgentId } from "../routing/session-key.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { TuiResult } from "../tui/tui-types.ts";
+import { resolveUserPath, shortenHomePath } from "../utils.ts";
+import { appendCrestodianAuditEntry, resolveCrestodianAuditPath } from "./audit.ts";
+import type { CrestodianOverview } from "./overview.ts";
 
 /**
  * Crestodian command parser and operation executor.

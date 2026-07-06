@@ -15,59 +15,59 @@ import {
 import {
   stylePromptHint,
   stylePromptMessage,
-} from "../../../packages/terminal-core/src/prompt-style.js";
+} from "../../../packages/terminal-core/src/prompt-style.ts";
 import {
   resolveAgentDir,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../../agents/agent-scope.js";
+} from "../../agents/agent-scope.ts";
 import {
   externalCliDiscoveryForProviderAuth,
   removeProviderAuthProfilesWithLock,
-} from "../../agents/auth-profiles.js";
+} from "../../agents/auth-profiles.ts";
 import {
   listProfilesForProvider,
   promoteAuthProfileInOrder,
   upsertAuthProfileWithLock,
-} from "../../agents/auth-profiles/profiles.js";
-import { loadAuthProfileStoreForRuntime } from "../../agents/auth-profiles/store.js";
-import type { AuthProfileCredential } from "../../agents/auth-profiles/types.js";
-import { clearAuthProfileCooldown } from "../../agents/auth-profiles/usage.js";
-import { normalizeProviderId } from "../../agents/model-selection-normalize.js";
-import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.js";
-import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.js";
-import { formatCliCommand } from "../../cli/command-format.js";
-import { parseDurationMs } from "../../cli/parse-duration.js";
-import { logConfigUpdated } from "../../config/logging.js";
-import { normalizeAgentModelRefForConfig } from "../../config/model-input.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../agents/auth-profiles/profiles.ts";
+import { loadAuthProfileStoreForRuntime } from "../../agents/auth-profiles/store.ts";
+import type { AuthProfileCredential } from "../../agents/auth-profiles/types.ts";
+import { clearAuthProfileCooldown } from "../../agents/auth-profiles/usage.ts";
+import { normalizeProviderId } from "../../agents/model-selection-normalize.ts";
+import { resolveProviderIdForAuth } from "../../agents/provider-auth-aliases.ts";
+import { resolveDefaultAgentWorkspaceDir } from "../../agents/workspace.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { parseDurationMs } from "../../cli/parse-duration.ts";
+import { logConfigUpdated } from "../../config/logging.ts";
+import { normalizeAgentModelRefForConfig } from "../../config/model-input.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   applyProviderAuthConfigPatch,
   applyDefaultModel,
   pickAuthMethod,
   restorePriorAgentsDefaultsModelUnlessOptIn,
   resolveProviderMatch,
-} from "../../plugins/provider-auth-choice-helpers.js";
-import { applyAuthProfileConfig } from "../../plugins/provider-auth-helpers.js";
-import { createVpsAwareOAuthHandlers } from "../../plugins/provider-oauth-flow.js";
-import { resolvePluginProviders } from "../../plugins/providers.runtime.js";
+} from "../../plugins/provider-auth-choice-helpers.ts";
+import { applyAuthProfileConfig } from "../../plugins/provider-auth-helpers.ts";
+import { createVpsAwareOAuthHandlers } from "../../plugins/provider-oauth-flow.ts";
+import { resolvePluginProviders } from "../../plugins/providers.runtime.ts";
 import {
   resolvePluginSetupProvider,
   resolvePluginSetupRegistry,
-} from "../../plugins/setup-registry.js";
+} from "../../plugins/setup-registry.ts";
 import type {
   ProviderAuthMethod,
   ProviderAuthResult,
   ProviderPlugin,
-} from "../../plugins/types.js";
-import type { RuntimeEnv } from "../../runtime.js";
-import { normalizeSecretInput } from "../../utils/normalize-secret-input.js";
-import { createClackPrompter } from "../../wizard/clack-prompter.js";
-import { validateAnthropicSetupToken } from "../auth-token.js";
-import { repairCodexRuntimePluginInstallForModelSelection } from "../codex-runtime-plugin-install.js";
-import { repairCopilotRuntimePluginInstallForModelSelection } from "../copilot-runtime-plugin-install.js";
-import { isRemoteEnvironment } from "../../infra/remote-env.js";
-import { loadValidConfigOrThrow, resolveKnownAgentId, updateConfig } from "./shared.js";
+} from "../../plugins/types.ts";
+import type { RuntimeEnv } from "../../runtime.ts";
+import { normalizeSecretInput } from "../../utils/normalize-secret-input.ts";
+import { createClackPrompter } from "../../wizard/clack-prompter.ts";
+import { validateAnthropicSetupToken } from "../auth-token.ts";
+import { repairCodexRuntimePluginInstallForModelSelection } from "../codex-runtime-plugin-install.ts";
+import { repairCopilotRuntimePluginInstallForModelSelection } from "../copilot-runtime-plugin-install.ts";
+import { isRemoteEnvironment } from "../../infra/remote-env.ts";
+import { loadValidConfigOrThrow, resolveKnownAgentId, updateConfig } from "./shared.ts";
 
 type UpsertAuthProfileParams = Parameters<typeof upsertAuthProfileWithLock>[0];
 

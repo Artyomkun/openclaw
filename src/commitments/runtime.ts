@@ -3,22 +3,22 @@ import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { resolveExpiresAtMsFromDurationMs } from "@openclaw/normalization-core/number-coercion";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
-import type { OpenClawConfig } from "../config/config.js";
-import { resolveStateDir } from "../config/paths.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { resolveCommitmentTimezone, resolveCommitmentsConfig } from "./config.js";
+import { resolveAgentWorkspaceDir } from "../agents/agent-scope.ts";
+import type { OpenClawConfig } from "../config/config.ts";
+import { resolveStateDir } from "../config/paths.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { resolveCommitmentTimezone, resolveCommitmentsConfig } from "./config.ts";
 import {
   buildCommitmentExtractionPrompt,
   hydrateCommitmentExtractionItem,
   parseCommitmentExtractionOutput,
   persistCommitmentExtractionResult,
-} from "./extraction.js";
+} from "./extraction.ts";
 import type {
   CommitmentExtractionBatchResult,
   CommitmentExtractionItem,
   CommitmentScope,
-} from "./types.js";
+} from "./types.ts";
 
 // Background runtime for extracting inferred follow-up commitments from
 // completed turns. It batches hidden extraction requests and persists results.

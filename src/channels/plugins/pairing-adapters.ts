@@ -3,7 +3,7 @@
  *
  * Creates prefix-stripping normalizers and logged/text pairing approval notifiers.
  */
-import type { ChannelPairingAdapter } from "./types.adapters.js";
+import type { ChannelPairingAdapter } from "./types.adapters.ts";
 
 type PairingNotifyParams = Parameters<NonNullable<ChannelPairingAdapter["notifyApproval"]>>[0];
 

@@ -1,36 +1,36 @@
 /** Loads capability providers from bundled plugin public runtime artifacts. */
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
-import { openRootFileSync } from "../infra/boundary-file-read.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { openRootFileSync } from "../infra/boundary-file-read.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   withBundledPluginEnablementCompat,
   withBundledPluginVitestCompat,
-} from "./bundled-compat.js";
-import { resolveBundledPluginRepoEntryPath } from "./bundled-plugin-metadata.js";
-import { createCapturedPluginRegistration } from "./captured-registration.js";
-import { resolveOpenClawDevSourceRoot } from "./dev-source-root.js";
-import { discoverOpenClawPlugins, type PluginDiscoveryResult } from "./discovery.js";
-import type { PluginLoadOptions } from "./loader.js";
-import { loadPluginManifestRegistry } from "./manifest-registry.js";
-import { unwrapDefaultModuleExport } from "./module-export.js";
+} from "./bundled-compat.ts";
+import { resolveBundledPluginRepoEntryPath } from "./bundled-plugin-metadata.ts";
+import { createCapturedPluginRegistration } from "./captured-registration.ts";
+import { resolveOpenClawDevSourceRoot } from "./dev-source-root.ts";
+import { discoverOpenClawPlugins, type PluginDiscoveryResult } from "./discovery.ts";
+import type { PluginLoadOptions } from "./loader.ts";
+import { loadPluginManifestRegistry } from "./manifest-registry.ts";
+import { unwrapDefaultModuleExport } from "./module-export.ts";
 import {
   createPluginModuleLoaderCache,
   getCachedPluginModuleLoader,
   type PluginModuleLoaderCache,
-} from "./plugin-module-loader-cache.js";
-import { createEmptyPluginRegistry } from "./registry-empty.js";
-import type { PluginRecord, PluginRegistry } from "./registry.js";
+} from "./plugin-module-loader-cache.ts";
+import { createEmptyPluginRegistry } from "./registry-empty.ts";
+import type { PluginRecord, PluginRegistry } from "./registry.ts";
 import {
   buildPluginLoaderAliasMap,
   shouldPreferNativeModuleLoad,
   type PluginSdkResolutionPreference,
-} from "./sdk-alias.js";
+} from "./sdk-alias.ts";
 import {
   findUndeclaredPluginToolNames,
   normalizePluginToolContractNames,
-} from "./tool-contracts.js";
-import type { OpenClawPluginDefinition, OpenClawPluginModule } from "./types.js";
+} from "./tool-contracts.ts";
+import type { OpenClawPluginDefinition, OpenClawPluginModule } from "./types.ts";
 
 const log = createSubsystemLogger("plugins");
 
@@ -75,7 +75,6 @@ function applyVitestCapabilityAliasOverrides(params: {
   }
 
   const {
-    "openclaw/plugin-sdk": _ignoredLegacyRootAlias,
     "@openclaw/plugin-sdk": _ignoredScopedRootAlias,
     ...scopedAliasMap
   } = params.aliasMap;

@@ -3,12 +3,12 @@
  *
  * Resolves which session controls spawn state, thread binding, and completion delivery.
  */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolveDisplaySessionKey,
   resolveInternalSessionKey,
   resolveMainSessionAlias,
-} from "./tools/sessions-helpers.js";
+} from "./tools/sessions-helpers.ts";
 
 export type SubagentSpawnOwnership = {
   controllerSessionKey: string;

@@ -1,7 +1,7 @@
-import { createMergePatch, projectSourceOntoRuntimeShape } from "./io.write-prepare.js";
-import { applyMergePatch } from "./merge-patch.js";
-import { getRuntimeConfigSnapshot, getRuntimeConfigSourceSnapshot } from "./runtime-snapshot.js";
-import type { OpenClawConfig } from "./types.js";
+import { createMergePatch, projectSourceOntoRuntimeShape } from "./io.write-prepare.ts";
+import { applyMergePatch } from "./merge-patch.ts";
+import { getRuntimeConfigSnapshot, getRuntimeConfigSourceSnapshot } from "./runtime-snapshot.ts";
+import type { OpenClawConfig } from "./types.ts";
 
 function isCompatibleTopLevelRuntimeProjectionShape(params: {
   runtimeSnapshot: OpenClawConfig;

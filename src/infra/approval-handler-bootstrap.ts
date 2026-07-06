@@ -1,19 +1,19 @@
 // Bootstraps approval handlers from channel plugin capabilities.
-import { resolveChannelApprovalCapability } from "../channels/plugins/approvals.js";
-import type { ChannelRuntimeSurface } from "../channels/plugins/channel-runtime-surface.types.js";
-import type { ChannelPlugin } from "../channels/plugins/types.plugin.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
+import { resolveChannelApprovalCapability } from "../channels/plugins/approvals.ts";
+import type { ChannelRuntimeSurface } from "../channels/plugins/channel-runtime-surface.types.ts";
+import type { ChannelPlugin } from "../channels/plugins/types.plugin.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
 import {
   CHANNEL_APPROVAL_NATIVE_RUNTIME_CONTEXT_CAPABILITY,
   createChannelApprovalHandlerFromCapability,
   type ChannelApprovalHandler,
-} from "./approval-handler-runtime.js";
+} from "./approval-handler-runtime.ts";
 import {
   getChannelRuntimeContext,
   watchChannelRuntimeContexts,
-} from "./channel-runtime-context.js";
-import { isExecApprovalChannelRuntimeTerminalStartError } from "./exec-approval-channel-runtime.js";
+} from "./channel-runtime-context.ts";
+import { isExecApprovalChannelRuntimeTerminalStartError } from "./exec-approval-channel-runtime.ts";
 
 type ApprovalBootstrapHandler = ChannelApprovalHandler;
 const APPROVAL_HANDLER_BOOTSTRAP_RETRY_MS = 1_000;

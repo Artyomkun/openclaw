@@ -5,7 +5,7 @@ import {
   normalizeOptionalString,
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
-import { stripInboundMetadata } from "../auto-reply/reply/strip-inbound-meta.js";
+import { stripInboundMetadata } from "../auto-reply/reply/strip-inbound-meta.ts";
 
 const DEDUPE_TIMESTAMP_WINDOW_MS = 5 * 60 * 1000;
 

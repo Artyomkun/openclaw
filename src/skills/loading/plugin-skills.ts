@@ -1,19 +1,19 @@
 // Plugin skill loaders discover and normalize skills exposed by plugin packages.
 import fs from "node:fs";
 import path from "node:path";
-import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { walkDirectorySync } from "../../infra/fs-safe.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
+import { isAcpRuntimeSpawnAvailable } from "../../acp/runtime/availability.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { walkDirectorySync } from "../../infra/fs-safe.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
 import {
   normalizePluginsConfigWithResolver,
   resolveEffectivePluginActivationState,
   resolveMemorySlotDecision,
-} from "../../plugins/config-policy.js";
-import { resolvePluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.js";
-import { hasKind } from "../../plugins/slots.js";
-import { isPathInsideWithRealpath } from "../../security/scan-paths.js";
-import { CONFIG_DIR } from "../../utils.js";
+} from "../../plugins/config-policy.ts";
+import { resolvePluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.ts";
+import { hasKind } from "../../plugins/slots.ts";
+import { isPathInsideWithRealpath } from "../../security/scan-paths.ts";
+import { CONFIG_DIR } from "../../utils.ts";
 
 const log = createSubsystemLogger("skills");
 

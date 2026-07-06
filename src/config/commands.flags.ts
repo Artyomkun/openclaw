@@ -1,6 +1,6 @@
 // Normalizes command flag config records for CLI and channel commands.
-import { isPlainObject } from "../infra/plain-object.js";
-import type { CommandsConfig } from "./types.js";
+import { isPlainObject } from "../infra/plain-object.ts";
+import type { CommandsConfig } from "./types.ts";
 
 /** Boolean command flags accepted by the normalized commands config. */
 export type CommandFlagKey = {

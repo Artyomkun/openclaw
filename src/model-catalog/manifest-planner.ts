@@ -10,8 +10,8 @@ import type {
   ModelCatalogDiscovery,
   NormalizedModelCatalogRow,
 } from "@openclaw/model-catalog-core/model-catalog-types";
-import { normalizeLowercaseStringOrEmpty } from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeUniqueStringEntries } from "../../packages/normalization-core/src/string-normalization.js";
+import { normalizeLowercaseStringOrEmpty } from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeUniqueStringEntries } from "../../packages/normalization-core/src/string-normalization.ts";
 
 // Manifest planners convert plugin modelCatalog declarations into normalized
 // rows and suppression entries while enforcing plugin ownership boundaries.

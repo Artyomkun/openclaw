@@ -4,13 +4,13 @@
  * Keeps bounded display tails in memory while spilling full output to private temp files when needed.
  */
 import type { WriteStream } from "node:fs";
-import { createPrivateTempWriteStream } from "./private-temp-file.js";
+import { createPrivateTempWriteStream } from "./private-temp-file.ts";
 import {
   DEFAULT_MAX_BYTES,
   DEFAULT_MAX_LINES,
   type TruncationResult,
   truncateTail,
-} from "./truncate.js";
+} from "./truncate.ts";
 
 interface OutputAccumulatorOptions {
   maxLines?: number;

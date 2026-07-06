@@ -3,22 +3,22 @@ import { normalizeOptionalString } from "@openclaw/normalization-core/string-coe
 import {
   resolveInternalSessionKey,
   resolveMainSessionAlias,
-} from "../../agents/tools/sessions-helpers.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import { logVerbose } from "../../globals.js";
-import { isNativeCommandTurn, resolveCommandTurnContext } from "../command-turn-context.js";
-import { rejectUnauthorizedCommand } from "./command-gates.js";
+} from "../../agents/tools/sessions-helpers.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import { logVerbose } from "../../globals.ts";
+import { isNativeCommandTurn, resolveCommandTurnContext } from "../command-turn-context.ts";
+import { rejectUnauthorizedCommand } from "./command-gates.ts";
 import {
   formatEmbeddedAgentQueueFailureSummary,
   isEmbeddedAgentRunActive,
   queueEmbeddedAgentMessageWithOutcomeAsync,
   resolveActiveEmbeddedRunSessionId,
-} from "./commands-steer.runtime.js";
+} from "./commands-steer.runtime.ts";
 import type {
   CommandHandler,
   CommandHandlerResult,
   HandleCommandsParams,
-} from "./commands-types.js";
+} from "./commands-types.ts";
 
 const STEER_USAGE = "Usage: /steer <message>";
 

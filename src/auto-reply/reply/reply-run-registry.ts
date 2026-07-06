@@ -1,13 +1,13 @@
 // Tracks active reply runs so stop, queue, and status commands can coordinate.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { createAgentRunRestartAbortError } from "../../agents/run-termination.js";
+import { createAgentRunRestartAbortError } from "../../agents/run-termination.ts";
 import {
   markDiagnosticEmbeddedRunEnded,
   markDiagnosticEmbeddedRunStarted,
-} from "../../logging/diagnostic-run-activity.js";
-import { resolveGlobalSingleton } from "../../shared/global-singleton.js";
-import { resolveTimerTimeoutMs } from "../../shared/number-coercion.js";
-import type { ReplyFollowupAdmissionBarrierTimeoutPolicy } from "./reply-dispatcher.types.js";
+} from "../../logging/diagnostic-run-activity.ts";
+import { resolveGlobalSingleton } from "../../shared/global-singleton.ts";
+import { resolveTimerTimeoutMs } from "../../shared/number-coercion.ts";
+import type { ReplyFollowupAdmissionBarrierTimeoutPolicy } from "./reply-dispatcher.types.ts";
 
 export type ReplyRunKey = string;
 
@@ -21,7 +21,7 @@ export type ReplyBackendHandle = {
   isStreaming(): boolean;
   queueMessage?: (text: string) => Promise<void>;
   /**
-   * Compatibility-only hook so legacy "abort compacting runs" paths can still
+   * Compatibility-only hook so older "abort compacting runs" paths can still
    * find embedded runs that are compacting during the main run phase.
    */
   isCompacting?: () => boolean;

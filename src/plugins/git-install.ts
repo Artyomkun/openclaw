@@ -4,32 +4,32 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { redactSensitiveUrlLikeString } from "@openclaw/net-policy/redact-sensitive-url";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { pathExists } from "../infra/fs-safe.js";
-import { withTempDir } from "../infra/install-source-utils.js";
-import { replaceDirectoryAtomic } from "../infra/replace-file.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { pathExists } from "../infra/fs-safe.ts";
+import { withTempDir } from "../infra/install-source-utils.ts";
+import { replaceDirectoryAtomic } from "../infra/replace-file.ts";
 import {
   createSafeNpmInstallArgs,
   createSafeNpmInstallEnv,
-} from "../infra/safe-package-install.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveDefaultPluginGitDir } from "./install-paths.js";
+} from "../infra/safe-package-install.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveDefaultPluginGitDir } from "./install-paths.ts";
 import {
   preflightPluginGitInstallPolicy,
   type InstallSafetyOverrides,
   type InstallSecurityScanResult,
-} from "./install-security-scan.js";
+} from "./install-security-scan.ts";
 import {
   installPluginFromInstalledPackageDir,
   PLUGIN_INSTALL_ERROR_CODE,
   type InstallPluginResult,
-} from "./install.js";
+} from "./install.ts";
 import {
   emitPluginAuditSecurityEvent,
   emitPluginInstallSecurityEvent,
   pluginAuditOutcomeForReason,
-} from "./security-events.js";
+} from "./security-events.ts";
 
 const GIT_SPEC_PREFIX = "git:";
 const DEFAULT_GIT_TIMEOUT_MS = 120_000;

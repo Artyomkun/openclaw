@@ -9,34 +9,34 @@ import {
   normalizeStringifiedOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { ApiKeyCredential, AuthProfileCredential } from "../agents/auth-profiles/types.js";
-import { upsertAuthProfileWithLock } from "../agents/auth-profiles/upsert-with-lock.js";
-import { parseConfiguredModelVisibilityEntries } from "../agents/model-selection-shared.js";
+import type { ApiKeyCredential, AuthProfileCredential } from "../agents/auth-profiles/types.ts";
+import { upsertAuthProfileWithLock } from "../agents/auth-profiles/upsert-with-lock.ts";
+import { parseConfiguredModelVisibilityEntries } from "../agents/model-selection-shared.ts";
 import {
   SELF_HOSTED_DEFAULT_CONTEXT_WINDOW,
   SELF_HOSTED_DEFAULT_COST,
   SELF_HOSTED_DEFAULT_MAX_TOKENS,
-} from "../agents/self-hosted-provider-defaults.js";
-import type { ModelDefinitionConfig } from "../config/types.models.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.js";
-import type { SsrFPolicy } from "../infra/net/ssrf.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
-import { applyAuthProfileConfig } from "./provider-auth-helpers.js";
+} from "../agents/self-hosted-provider-defaults.ts";
+import type { ModelDefinitionConfig } from "../config/types.models.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { fetchWithSsrFGuard } from "../infra/net/fetch-guard.ts";
+import type { SsrFPolicy } from "../infra/net/ssrf.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.ts";
+import type { WizardPrompter } from "../wizard/prompts.ts";
+import { applyAuthProfileConfig } from "./provider-auth-helpers.ts";
 import type {
   ProviderDiscoveryContext,
   ProviderAuthResult,
   ProviderAuthMethodNonInteractiveContext,
   ProviderNonInteractiveApiKeyResult,
-} from "./types.js";
+} from "./types.ts";
 
 export {
   SELF_HOSTED_DEFAULT_CONTEXT_WINDOW,
   SELF_HOSTED_DEFAULT_COST,
   SELF_HOSTED_DEFAULT_MAX_TOKENS,
-} from "../agents/self-hosted-provider-defaults.js";
+} from "../agents/self-hosted-provider-defaults.ts";
 
 const log = createSubsystemLogger("plugins/self-hosted-provider-setup");
 

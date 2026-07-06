@@ -1,5 +1,5 @@
 // CLI tagline selection helpers, including deterministic random/default/holiday modes.
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
 
 const DEFAULT_TAGLINE = "All your chats, one OpenClaw.";
 export type TaglineMode = "random" | "default" | "off";

@@ -1,6 +1,6 @@
 // Public command explainer facade for parsing shell commands and formatting approval spans.
-export { explainShellCommand } from "./extract.js";
-export { formatCommandSpans } from "./format.js";
+export { explainShellCommand } from "./extract.ts";
+export { formatCommandSpans } from "./format.ts";
 export type {
   CommandContext,
   CommandExplanation,
@@ -8,4 +8,4 @@ export type {
   CommandShape,
   CommandStep,
   SourceSpan,
-} from "./types.js";
+} from "./types.ts";

@@ -11,23 +11,23 @@ import {
   validateTalkClientCreateParams,
   validateTalkClientSteerParams,
   validateTalkClientToolCallParams,
-} from "../../../packages/gateway-protocol/src/index.js";
+} from "../../../packages/gateway-protocol/src/index.ts";
 import {
   REALTIME_VOICE_AGENT_CONSULT_TOOL,
   REALTIME_VOICE_AGENT_CONSULT_TOOL_NAME,
-} from "../../talk/agent-consult-tool.js";
-import { REALTIME_VOICE_AGENT_CONTROL_TOOL } from "../../talk/agent-run-control-shared.js";
-import { controlRealtimeVoiceAgentRun } from "../../talk/agent-run-control.js";
-import { resolveConfiguredRealtimeVoiceProvider } from "../../talk/provider-resolver.js";
-import { startTalkRealtimeAgentConsult } from "../talk-agent-consult.js";
-import { formatForLog } from "../ws-log.js";
+} from "../../talk/agent-consult-tool.ts";
+import { REALTIME_VOICE_AGENT_CONTROL_TOOL } from "../../talk/agent-run-control-shared.ts";
+import { controlRealtimeVoiceAgentRun } from "../../talk/agent-run-control.ts";
+import { resolveConfiguredRealtimeVoiceProvider } from "../../talk/provider-resolver.ts";
+import { startTalkRealtimeAgentConsult } from "../talk-agent-consult.ts";
+import { formatForLog } from "../ws-log.ts";
 import {
   buildRealtimeInstructions,
   buildRealtimeVoiceLaunchOptions,
   buildTalkRealtimeConfig,
   isUnsupportedBrowserWebRtcSession,
-} from "./talk-shared.js";
-import type { GatewayRequestHandlers } from "./types.js";
+} from "./talk-shared.ts";
+import type { GatewayRequestHandlers } from "./types.ts";
 
 /**
  * Gateway methods for browser-owned realtime Talk sessions.

@@ -1,18 +1,18 @@
 // Resolves event-triggered work to the correct session key and target.
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { SessionScope } from "../config/types.base.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAgentRoute } from "../routing/resolve-route.js";
+import type { SessionScope } from "../config/types.base.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAgentRoute } from "../routing/resolve-route.ts";
 import {
   buildAgentMainSessionKey,
   normalizeAgentId,
   parseAgentSessionKey,
   parseThreadSessionSuffix,
-} from "../routing/session-key.js";
-import { resolveEventSessionKey, scopedHeartbeatWakeOptions } from "../routing/session-key.js";
-import { resolvePinnedMainDmOwnerFromAllowlist } from "../security/dm-policy-shared.js";
-import { deriveSessionChatTypeFromKey } from "../sessions/session-chat-type-shared.js";
+} from "../routing/session-key.ts";
+import { resolveEventSessionKey, scopedHeartbeatWakeOptions } from "../routing/session-key.ts";
+import { resolvePinnedMainDmOwnerFromAllowlist } from "../security/dm-policy-shared.ts";
+import { deriveSessionChatTypeFromKey } from "../sessions/session-chat-type-shared.ts";
 
 // Event session routing maps cron/heartbeat wakeups back to the right main,
 // direct, or global session key while honoring DM allowlists and route policy.

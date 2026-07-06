@@ -1,25 +1,25 @@
 /** Doctor repair for stale plugin-owned routing state persisted in session entries. */
 import { normalizeOptionalString as normalizeString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeStringEntriesLower } from "@openclaw/normalization-core/string-normalization";
-import { note } from "../../packages/terminal-core/src/note.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
 import {
   resolveAgentModelFallbacksOverride,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
-import { resolveAgentHarnessPolicy } from "../agents/harness/selection.js";
+} from "../agents/agent-scope.ts";
+import { resolveAgentHarnessPolicy } from "../agents/harness/selection.ts";
 import {
   modelKey,
   normalizeProviderId,
   parseModelRef,
   resolveDefaultModelForAgent,
-} from "../agents/model-selection.js";
-import { resolveAgentModelFallbackValues } from "../config/model-input.js";
-import type { SessionEntry } from "../config/sessions.js";
-import { updateSessionStore } from "../config/sessions/store.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { listPluginDoctorSessionRouteStateOwners } from "../plugins/doctor-contract-registry.js";
-import type { DoctorSessionRouteStateOwner } from "../plugins/doctor-session-route-state-owner-types.js";
-import { parseAgentSessionKey } from "../sessions/session-key-utils.js";
+} from "../agents/model-selection.ts";
+import { resolveAgentModelFallbackValues } from "../config/model-input.ts";
+import type { SessionEntry } from "../config/sessions.ts";
+import { updateSessionStore } from "../config/sessions/store.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { listPluginDoctorSessionRouteStateOwners } from "../plugins/doctor-contract-registry.ts";
+import type { DoctorSessionRouteStateOwner } from "../plugins/doctor-session-route-state-owner-types.ts";
+import { parseAgentSessionKey } from "../sessions/session-key-utils.ts";
 
 type DoctorPrompterLike = {
   confirmRuntimeRepair: (params: {
@@ -260,9 +260,7 @@ function scanEntryForOwner(params: {
       ? "user"
       : params.entry.modelOverrideSource === "auto"
         ? "auto"
-        : params.entry.modelOverride
-          ? "legacy"
-          : undefined;
+        : params.entry.modelOverride;
 
   if (directOverrideIsOwned && !directOverrideIsConfigured) {
     if (directOverrideSource === "auto") {
@@ -273,7 +271,7 @@ function scanEntryForOwner(params: {
           key: params.key,
           ownerLabel: params.owner.label,
           message: `${params.key} (${modelRefKey(directOverride.provider, directOverride.model)}, ${
-            directOverrideSource === "user" ? "user" : "legacy"
+            directOverrideSource === "user"
           })`,
         },
       };
@@ -555,7 +553,7 @@ export async function runPluginSessionStateDoctorRepairs(params: {
           `- Found explicit ${ownerLabel} model overrides in ${countSessionLabel(
             hits.length,
           )} outside the current configured route.`,
-          "  Doctor leaves explicit or legacy user selections untouched; switch them with /model or reset the session if that provider is no longer intended.",
+          "  Doctor leaves explicit or older user selections untouched; switch them with /model or reset the session if that provider is no longer intended.",
           `  Examples: ${hits
             .slice(0, 3)
             .map((hit) => hit.message)

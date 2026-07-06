@@ -1,9 +1,9 @@
 // Single agent-turn command registration; delegates execution to the Gateway-backed agent command.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { formatHelpExamples } from "../help-format.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { formatHelpExamples } from "../help-format.ts";
 
 type AgentViaGatewayModule = typeof import("../../commands/agent-via-gateway.js");
 type CliUtilsModule = typeof import("../cli-utils.js");

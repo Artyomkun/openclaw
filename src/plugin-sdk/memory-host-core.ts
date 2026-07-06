@@ -3,12 +3,12 @@
  */
 import fs from "node:fs/promises";
 import path from "node:path";
-import type { OpenClawConfig } from "../config/config.js";
-import type { MemoryPluginPublicArtifact } from "../plugins/memory-state.js";
-import { resolveMemoryDreamingWorkspaces } from "./memory-core-host-status.js";
-import { resolveMemoryHostEventLogPath } from "./memory-host-events.js";
+import type { OpenClawConfig } from "../config/config.ts";
+import type { MemoryPluginPublicArtifact } from "../plugins/memory-state.ts";
+import { resolveMemoryDreamingWorkspaces } from "./memory-core-host-status.ts";
+import { resolveMemoryHostEventLogPath } from "./memory-host-events.ts";
 
-export * from "./memory-core-host-runtime-core.js";
+export * from "./memory-core-host-runtime-core.ts";
 
 async function pathExists(filePath: string): Promise<boolean> {
   try {

@@ -3,7 +3,7 @@
  *
  * Docker, SSH, and future sandbox providers implement these command, exec, and fs-bridge surfaces.
  */
-import type { SandboxFsBridge } from "./fs-bridge.types.js";
+import type { SandboxFsBridge } from "./fs-bridge.types.ts";
 
 /**
  * Backend-neutral sandbox runtime handles used by Docker, SSH, and future sandbox providers.

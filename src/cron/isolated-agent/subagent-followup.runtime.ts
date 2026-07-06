@@ -2,4 +2,4 @@
 export {
   readDescendantSubagentFallbackReply,
   waitForDescendantSubagentSummary,
-} from "./subagent-followup.js";
+} from "./subagent-followup.ts";

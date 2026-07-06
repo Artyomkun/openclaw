@@ -3,11 +3,11 @@
  *
  * Binds shared detached media-task lifecycle behavior to image_generate labels and completion messages.
  */
-import { IMAGE_GENERATION_TASK_KIND } from "../image-generation-task-status.js";
+import { IMAGE_GENERATION_TASK_KIND } from "../image-generation-task-status.ts";
 import {
   createMediaGenerationTaskLifecycle,
   type MediaGenerationTaskHandle,
-} from "./media-generate-background-shared.js";
+} from "./media-generate-background-shared.ts";
 
 /** Detached image generation task handle. */
 export type ImageGenerationTaskHandle = MediaGenerationTaskHandle;

@@ -1,8 +1,8 @@
 // Workshop policy helpers validate generated skill drafts against workspace policy.
 import { asNullableRecord } from "@openclaw/normalization-core/record-coerce";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { PluginHookBeforeToolCallResult } from "../../plugins/hook-before-tool-call-result.js";
-import { resolveSkillWorkshopConfig } from "./config.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { PluginHookBeforeToolCallResult } from "../../plugins/hook-before-tool-call-result.ts";
+import { resolveSkillWorkshopConfig } from "./config.ts";
 
 const SKILL_WORKSHOP_LIFECYCLE_ACTIONS = new Set(["apply", "reject", "quarantine"]);
 

@@ -3,30 +3,30 @@
 // CLI process entrypoint for OpenClaw command execution.
 import process from "node:process";
 import { fileURLToPath } from "node:url";
-import { getCommandPathWithRootOptions, hasFlag, isRootHelpInvocation } from "./cli/argv.js";
-import { parseCliContainerArgs, resolveCliContainerTarget } from "./cli/container-target.js";
+import { getCommandPathWithRootOptions, hasFlag, isRootHelpInvocation } from "./cli/argv.ts";
+import { parseCliContainerArgs, resolveCliContainerTarget } from "./cli/container-target.ts";
 import {
   resolvePrecomputedSubcommandHelpCommand,
   type PrecomputedSubcommandHelpName,
-} from "./cli/precomputed-help.js";
-import { applyCliProfileEnv, parseCliProfileArgs } from "./cli/profile.js";
-import type { RootHelpRenderOptions } from "./cli/program/root-help.js";
-import { createGatewayStartupTrace } from "./cli/startup-trace.js";
-import { normalizeWindowsArgv } from "./cli/windows-argv.js";
+} from "./cli/precomputed-help.ts";
+import { applyCliProfileEnv, parseCliProfileArgs } from "./cli/profile.ts";
+import type { RootHelpRenderOptions } from "./cli/program/root-help.ts";
+import { createGatewayStartupTrace } from "./cli/startup-trace.ts";
+import { normalizeWindowsArgv } from "./cli/windows-argv.ts";
 import {
   enableOpenClawCompileCache,
   resolveEntryInstallRoot,
   respawnWithoutOpenClawCompileCacheIfNeeded,
-} from "./entry.compile-cache.js";
-import { buildCliRespawnPlan, runCliRespawnPlan } from "./entry.respawn.js";
-import { tryHandleRootVersionFastPath } from "./entry.version-fast-path.js";
-import { normalizeEnv } from "./infra/env.js";
-import { isMainModule } from "./infra/is-main.js";
-import { ensureOpenClawExecMarkerOnProcess } from "./infra/openclaw-exec-env.js";
-import { installProcessWarningFilter } from "./infra/warning-filter.js";
+} from "./entry.compile-cache.ts";
+import { buildCliRespawnPlan, runCliRespawnPlan } from "./entry.respawn.ts";
+import { tryHandleRootVersionFastPath } from "./entry.version-fast-path.ts";
+import { normalizeEnv } from "./infra/env.ts";
+import { isMainModule } from "./infra/is-main.ts";
+import { ensureOpenClawExecMarkerOnProcess } from "./infra/openclaw-exec-env.ts";
+import { installProcessWarningFilter } from "./infra/warning-filter.ts";
 
 const ENTRY_WRAPPER_PAIRS = [
-  { wrapperBasename: "openclaw.mjs", entryBasename: "entry.js" },
+  { wrapperBasename: "openclaw.ts", entryBasename: "entry.js" },
   { wrapperBasename: "openclaw.js", entryBasename: "entry.js" },
 ] as const;
 

@@ -1,8 +1,8 @@
 // Lazy plugin-registry loader for CLI commands that need plugin command/capability metadata.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { loggingState } from "../logging/state.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import type { CliPluginRegistryScope } from "./command-catalog.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { loggingState } from "../logging/state.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import type { CliPluginRegistryScope } from "./command-catalog.ts";
 
 const pluginRegistryModuleLoader = createLazyImportLoader(() => import("./plugin-registry.js"));
 

@@ -6,9 +6,9 @@ import { normalizeOptionalString } from "@openclaw/normalization-core/string-coe
 import {
   isNodeVersionManagerRuntime,
   resolveLinuxSystemCaBundle,
-} from "../bootstrap/node-extra-ca-certs.js";
-import { resolveNodeStartupTlsEnvironment } from "../bootstrap/node-startup-env.js";
-import { VERSION } from "../version.js";
+} from "../bootstrap/node-extra-ca-certs.ts";
+import { resolveNodeStartupTlsEnvironment } from "../bootstrap/node-startup-env.ts";
+import { VERSION } from "../version.ts";
 import {
   GATEWAY_SERVICE_KIND,
   GATEWAY_SERVICE_MARKER,
@@ -21,8 +21,8 @@ import {
   resolveNodeLaunchAgentLabel,
   resolveNodeSystemdServiceName,
   resolveNodeWindowsTaskName,
-} from "./constants.js";
-import { resolveGatewayStateDir } from "./paths.js";
+} from "./constants.ts";
+import { resolveGatewayStateDir } from "./paths.ts";
 
 export { isNodeVersionManagerRuntime, resolveLinuxSystemCaBundle };
 
@@ -327,9 +327,9 @@ function resolveLinuxUserBinDirs(
   // Node version managers
   addExistingDir(dirs, `${home}/.nvm/current/bin`, existsSync); // nvm with current symlink
   addExistingDir(dirs, `${home}/.local/share/fnm/aliases/default/bin`, existsSync); // fnm default
-  addExistingDir(dirs, `${home}/.local/share/fnm/current/bin`, existsSync); // fnm legacy current symlink
+  addExistingDir(dirs, `${home}/.local/share/fnm/current/bin`, existsSync); // fnm older current symlink
   addExistingDir(dirs, `${home}/.fnm/aliases/default/bin`, existsSync); // fnm if customized to ~/.fnm
-  addExistingDir(dirs, `${home}/.fnm/current/bin`, existsSync); // fnm legacy current symlink
+  addExistingDir(dirs, `${home}/.fnm/current/bin`, existsSync); // fnm older current symlink
   addExistingDir(dirs, `${home}/.local/share/pnpm`, existsSync); // pnpm global bin
 
   return dirs;

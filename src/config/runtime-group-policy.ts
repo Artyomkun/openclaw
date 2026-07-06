@@ -1,6 +1,6 @@
 // Resolves runtime group-policy settings for channels and sessions.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { GroupPolicy } from "./types.base.js";
+import type { GroupPolicy } from "./types.base.ts";
 
 type RuntimeGroupPolicyResolution = {
   groupPolicy: GroupPolicy;

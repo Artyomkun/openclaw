@@ -1,9 +1,9 @@
 // Defines agent-related Zod schema fragments for config parsing.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { z } from "zod";
-import { AgentDefaultsSchema } from "./zod-schema.agent-defaults.js";
-import { AgentEntrySchema } from "./zod-schema.agent-runtime.js";
-import { TranscribeAudioSchema } from "./zod-schema.core.js";
+import { AgentDefaultsSchema } from "./zod-schema.agent-defaults.ts";
+import { AgentEntrySchema } from "./zod-schema.agent-runtime.ts";
+import { TranscribeAudioSchema } from "./zod-schema.core.ts";
 
 export const AgentsSchema = z
   .object({
@@ -23,8 +23,6 @@ const BindingMatchSchema = z
           z.literal("direct"),
           z.literal("group"),
           z.literal("channel"),
-          /** @deprecated Use `direct` instead. Kept for backward compatibility. */
-          z.literal("dm"),
         ]),
         id: z.string(),
       })

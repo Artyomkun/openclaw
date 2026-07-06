@@ -1110,7 +1110,7 @@ from the managed plugin install roots, such as git and ClawHub installs.
       "displayName": "Team secrets",
       "source": "exec",
       "command": "${node}",
-      "args": ["./bin/resolve-secrets.mjs"]
+      "args": ["./bin/resolve-secrets.ts"]
     }
   }
 }

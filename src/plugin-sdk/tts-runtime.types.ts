@@ -1,15 +1,15 @@
 // TTS runtime types define plugin-facing text-to-speech synthesis hooks and results.
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { ResolvedTtsPersona, TtsAutoMode, TtsProvider } from "../config/types.tts.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { ResolvedTtsPersona, TtsAutoMode, TtsProvider } from "../config/types.tts.ts";
 import type {
   SpeechProviderConfig,
   SpeechVoiceOption,
   TtsDirectiveOverrides,
   TtsDirectiveParseResult,
-} from "../tts/provider-types.js";
-import type { TtsConfigResolutionContext } from "../tts/tts-config.js";
-import type { ResolvedTtsConfig, ResolvedTtsModelOverrides } from "../tts/tts-types.js";
-import type { ReplyPayload } from "./reply-payload.js";
+} from "../tts/provider-types.ts";
+import type { TtsConfigResolutionContext } from "../tts/tts-config.ts";
+import type { ResolvedTtsConfig, ResolvedTtsModelOverrides } from "../tts/tts-types.ts";
+import type { ReplyPayload } from "./reply-payload.ts";
 
 export type { ResolvedTtsConfig, ResolvedTtsModelOverrides };
 export type { TtsConfigResolutionContext };
@@ -200,9 +200,6 @@ export type TtsStreamResult = {
   release?: () => Promise<void>;
 };
 
-/** @deprecated Use `TtsStreamResult`. */
-export type TtsSynthesisStreamResult = TtsStreamResult;
-
 /** Telephony synthesis result with provider voice/model and sample-rate metadata. */
 export type TtsTelephonyResult = {
   success: boolean;
@@ -233,8 +230,6 @@ export type ListSpeechVoices = (params: ListSpeechVoicesParams) => Promise<Speec
 
 /** Complete TTS runtime facade exposed to SDK consumers and bundled provider tests. */
 export type TtsRuntimeFacade = {
-  /** @deprecated Use `testApi`. */
-  _test: TtsTestFacade;
   testApi: TtsTestFacade;
   buildTtsSystemPromptHint: (cfg: OpenClawConfig, agentId?: string) => string | undefined;
   getLastTtsAttempt: () => TtsStatusEntry | undefined;
@@ -272,7 +267,6 @@ export type TtsRuntimeFacade = {
   setTtsPersona: (prefsPath: string, persona: string | null | undefined) => void;
   setTtsProvider: (prefsPath: string, provider: TtsProvider) => void;
   synthesizeSpeech: (params: TtsRequestParams) => Promise<TtsSynthesisResult>;
-  streamSpeech: (params: TtsRequestParams) => Promise<TtsSynthesisStreamResult>;
   textToSpeech: TextToSpeech;
   textToSpeechStream: TextToSpeechStream;
   textToSpeechTelephony: TextToSpeechTelephony;

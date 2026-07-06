@@ -1,12 +1,12 @@
 // Backup command registration for local state archive creation and verification.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { backupVerifyCommand } from "../../commands/backup-verify.js";
-import { backupCreateCommand } from "../../commands/backup.js";
-import { defaultRuntime } from "../../runtime.js";
-import { runCommandWithRuntime } from "../cli-utils.js";
-import { formatHelpExamples } from "../help-format.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { backupVerifyCommand } from "../../commands/backup-verify.ts";
+import { backupCreateCommand } from "../../commands/backup.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { runCommandWithRuntime } from "../cli-utils.ts";
+import { formatHelpExamples } from "../help-format.ts";
 
 /** Register backup create/verify subcommands. */
 export function registerBackupCommand(program: Command) {

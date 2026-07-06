@@ -9,39 +9,39 @@ import {
   GATEWAY_CLIENT_NAMES,
   type GatewayClientMode,
   type GatewayClientName,
-} from "../../packages/gateway-protocol/src/client-info.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
 import {
   MIN_CLIENT_PROTOCOL_VERSION,
   PROTOCOL_VERSION,
-} from "../../packages/gateway-protocol/src/version.js";
-import { readGatewayDispatchConfig } from "../config/gateway-dispatch-config.js";
+} from "../../packages/gateway-protocol/src/version.ts";
+import { readGatewayDispatchConfig } from "../config/gateway-dispatch-config.ts";
 import {
   resolveConfigPath as resolveConfigPathFromPaths,
   resolveGatewayPort as resolveGatewayPortFromPaths,
   resolveStateDir as resolveStateDirFromPaths,
-} from "../config/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { loadDeviceAuthToken } from "../infra/device-auth-store.js";
-import { loadOrCreateDeviceIdentity, type DeviceIdentity } from "../infra/device-identity.js";
-import { loadGatewayTlsRuntime } from "../infra/tls/gateway.js";
-import type { DeviceAuthEntry } from "../shared/device-auth.js";
-import { roleScopesAllow } from "../shared/operator-scope-compat.js";
-import { resolveSafeTimeoutDelayMs } from "../utils/timer-delay.js";
-import { VERSION } from "../version.js";
-import { resolveGatewayAuth } from "./auth-resolve.js";
-import { startGatewayClientWhenEventLoopReady } from "./client-start-readiness.js";
+} from "../config/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { loadDeviceAuthToken } from "../infra/device-auth-store.ts";
+import { loadOrCreateDeviceIdentity, type DeviceIdentity } from "../infra/device-identity.ts";
+import { loadGatewayTlsRuntime } from "../infra/tls/gateway.ts";
+import type { DeviceAuthEntry } from "../shared/device-auth.ts";
+import { roleScopesAllow } from "../shared/operator-scope-compat.ts";
+import { resolveSafeTimeoutDelayMs } from "../utils/timer-delay.ts";
+import { VERSION } from "../version.ts";
+import { resolveGatewayAuth } from "./auth-resolve.ts";
+import { startGatewayClientWhenEventLoopReady } from "./client-start-readiness.ts";
 import {
   GatewayClient,
   isGatewayConnectAssemblyError,
   type GatewayClientCloseInfo,
   type GatewayClientOptions,
   type GatewayClientRequestOptions,
-} from "./client.js";
+} from "./client.ts";
 import {
   buildGatewayConnectionDetailsWithResolvers,
   type GatewayConnectionDetails,
-} from "./connection-details.js";
-import { resolveGatewayCredentialsWithSecretInputs } from "./credentials-secret-inputs.js";
+} from "./connection-details.ts";
+import { resolveGatewayCredentialsWithSecretInputs } from "./credentials-secret-inputs.ts";
 import {
   trimToUndefined,
   type ExplicitGatewayAuth,
@@ -49,15 +49,15 @@ import {
   type GatewayCredentialPrecedence,
   type GatewayRemoteCredentialFallback,
   type GatewayRemoteCredentialPrecedence,
-} from "./credentials.js";
-import { canSkipGatewayConfigLoad } from "./explicit-connection-policy.js";
-import { resolvePreauthHandshakeTimeoutMs } from "./handshake-timeouts.js";
+} from "./credentials.ts";
+import { canSkipGatewayConfigLoad } from "./explicit-connection-policy.ts";
+import { resolvePreauthHandshakeTimeoutMs } from "./handshake-timeouts.ts";
 import {
   CLI_DEFAULT_OPERATOR_SCOPES,
   isGatewayMethodClassified,
   resolveLeastPrivilegeOperatorScopesForMethod,
   type OperatorScope,
-} from "./method-scopes.js";
+} from "./method-scopes.ts";
 export type { GatewayConnectionDetails };
 
 export type GatewayRequestFunction = <T = Record<string, unknown>>(
@@ -573,7 +573,7 @@ function ensureGatewayCallCanAuthenticate(params: {
   });
 }
 
-export type { ExplicitGatewayAuth } from "./credentials.js";
+export type { ExplicitGatewayAuth } from "./credentials.ts";
 
 export function resolveExplicitGatewayAuth(opts?: ExplicitGatewayAuth): ExplicitGatewayAuth {
   const token =

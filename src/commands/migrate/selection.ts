@@ -3,9 +3,9 @@ import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { markMigrationItemSkipped, summarizeMigrationItems } from "../../plugin-sdk/migration.js";
-import type { MigrationItem, MigrationPlan } from "../../plugins/types.js";
-import { MIGRATION_CONFLICT_REASON_PHRASES } from "./output.js";
+import { markMigrationItemSkipped, summarizeMigrationItems } from "../../plugin-sdk/migration.ts";
+import type { MigrationItem, MigrationPlan } from "../../plugins/types.ts";
+import { MIGRATION_CONFLICT_REASON_PHRASES } from "./output.ts";
 
 // Public selection tokens and skip reasons shared with prompt tests and apply filtering.
 export const MIGRATION_SKILL_NOT_SELECTED_REASON = "not selected for migration";

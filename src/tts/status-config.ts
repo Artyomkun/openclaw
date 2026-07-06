@@ -5,12 +5,12 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.js";
-import type { TtsAutoMode, TtsConfig, TtsProvider } from "../config/types.tts.js";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import { resolveConfigDir, resolveUserPath } from "../utils.js";
-import { normalizeTtsAutoMode } from "./tts-auto-mode.js";
-import { resolveEffectiveTtsConfig, type TtsConfigResolutionContext } from "./tts-config.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { TtsAutoMode, TtsConfig, TtsProvider } from "../config/types.tts.ts";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+import { resolveConfigDir, resolveUserPath } from "../utils.ts";
+import { normalizeTtsAutoMode } from "./tts-auto-mode.ts";
+import { resolveEffectiveTtsConfig, type TtsConfigResolutionContext } from "./tts-config.ts";
 
 const DEFAULT_TTS_MAX_LENGTH = 1500;
 const DEFAULT_TTS_SUMMARIZE = true;

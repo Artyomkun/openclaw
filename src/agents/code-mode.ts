@@ -13,25 +13,25 @@ import {
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { uniqueValues } from "@openclaw/normalization-core/string-normalization";
 import { Type } from "typebox";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { resolveAgentConfig } from "./agent-scope-config.js";
-import type { HookContext } from "./agent-tools.before-tool-call.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { resolveAgentConfig } from "./agent-scope-config.ts";
+import type { HookContext } from "./agent-tools.before-tool-call.ts";
 import {
   CODE_MODE_EXEC_TOOL_NAME,
   CODE_MODE_WAIT_TOOL_NAME,
   isCodeModeControlTool,
   markCodeModeControlTool,
-} from "./code-mode-control-tools.js";
-import { toCodeModeJsonSafe } from "./code-mode-json.js";
+} from "./code-mode-control-tools.ts";
+import { toCodeModeJsonSafe } from "./code-mode-json.ts";
 import {
   createCodeModeApiVirtualFiles,
   createCodeModeNamespaceRuntime,
   describeCodeModeNamespacesForPrompt,
   type CodeModeNamespaceRuntime,
-} from "./code-mode-namespaces.js";
-import type { AgentToolUpdateCallback } from "./runtime/index.js";
-import { optionalStringEnum } from "./schema/typebox.js";
-import type { ToolDefinition } from "./sessions/index.js";
+} from "./code-mode-namespaces.ts";
+import type { AgentToolUpdateCallback } from "./runtime/index.ts";
+import { optionalStringEnum } from "./schema/typebox.ts";
+import type { ToolDefinition } from "./sessions/index.ts";
 import {
   addClientToolsToToolCatalog,
   applyToolCatalogCompaction,
@@ -44,18 +44,18 @@ import {
   type ToolSearchCatalogRef,
   type ToolSearchConfig,
   type ToolSearchToolContext,
-} from "./tool-search.js";
+} from "./tool-search.ts";
 import {
   asToolParamsRecord,
   jsonResult,
   ToolInputError,
   type AnyAgentTool,
-} from "./tools/common.js";
+} from "./tools/common.ts";
 export {
   CODE_MODE_EXEC_TOOL_NAME,
   CODE_MODE_WAIT_TOOL_NAME,
   isCodeModeControlTool,
-} from "./code-mode-control-tools.js";
+} from "./code-mode-control-tools.ts";
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 const DEFAULT_MEMORY_LIMIT_BYTES = 64 * 1024 * 1024;

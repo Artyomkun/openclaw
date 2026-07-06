@@ -508,7 +508,7 @@ jobs:
           LIVE_MODEL_PROVIDERS: ${{ inputs.live_model_providers }}
           LIVE_SUITE_FILTER: ${{ inputs.live_suite_filter }}
           RELEASE_TEST_PROFILE: ${{ inputs.release_test_profile }}
-        run: node scripts/plan-release-workflow-matrix.mjs >> "$GITHUB_OUTPUT"
+        run: node scripts/plan-release-workflow-matrix.ts >> "$GITHUB_OUTPUT"
 
   validate_release_live_cache:
     needs: validate_selected_ref
@@ -747,7 +747,7 @@ jobs:
     timeout-minutes: ${{ matrix.timeout_minutes }}
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.plan_release_workflow_matrices.outputs.docker_e2e_matrix) }}
+      matrix: ${{ frotson(needs.plan_release_workflow_matrices.outputs.docker_e2e_matrix) }}
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
@@ -868,8 +868,8 @@ jobs:
           export OPENCLAW_DOCKER_ALL_RELEASE_PROFILE="$RELEASE_TEST_PROFILE"
 
           plan_path=".artifacts/docker-tests/release-${CHUNK}-plan.json"
-          node .release-harness/scripts/test-docker-all.mjs --plan-json > "$plan_path"
-          node .release-harness/scripts/docker-e2e.mjs github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
+          node .release-harness/scripts/test-docker-all.ts --plan-json > "$plan_path"
+          node .release-harness/scripts/docker-e2e.ts github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
           echo "plan_json=$plan_path" >> "$GITHUB_OUTPUT"
 
       - name: Download OpenClaw Docker E2E package
@@ -951,7 +951,7 @@ jobs:
             OPENCLAW_DOCKER_BUILD_ON_MISSING=1 OPENCLAW_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" bash .release-harness/scripts/test-live-build-docker.sh
           fi
 
-          node .release-harness/scripts/test-docker-all.mjs
+          node .release-harness/scripts/test-docker-all.ts
 
       - name: Summarize Docker E2E chunk
         if: always()
@@ -963,7 +963,7 @@ jobs:
             echo "Docker chunk summary missing: \`$summary\`" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
-          node .release-harness/scripts/docker-e2e.mjs summary "$summary" "Docker E2E chunk: ${DOCKER_E2E_CHUNK:-unknown}" >> "$GITHUB_STEP_SUMMARY"
+          node .release-harness/scripts/docker-e2e.ts summary "$summary" "Docker E2E chunk: ${DOCKER_E2E_CHUNK:-unknown}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Docker E2E chunk artifacts
         if: always()
@@ -998,7 +998,7 @@ jobs:
           OPENCLAW_UPGRADE_SURVIVOR_BASELINE_SPECS: ${{ inputs.published_upgrade_survivor_baselines }}
         run: |
           set -euo pipefail
-          groups_json="$(node scripts/plan-targeted-docker-lane-groups.mjs)"
+          groups_json="$(node scripts/plan-targeted-docker-lane-groups.ts)"
           echo "groups_json=${groups_json}" >> "$GITHUB_OUTPUT"
 
   validate_docker_lanes:
@@ -1011,7 +1011,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        group: ${{ fromJson(needs.plan_docker_lane_groups.outputs.groups_json) }}
+        group: ${{ frotson(needs.plan_docker_lane_groups.outputs.groups_json) }}
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
@@ -1127,8 +1127,8 @@ jobs:
           fi
 
           plan_path=".artifacts/docker-tests/targeted-plan.json"
-          node .release-harness/scripts/test-docker-all.mjs --plan-json > "$plan_path"
-          node .release-harness/scripts/docker-e2e.mjs github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
+          node .release-harness/scripts/test-docker-all.ts --plan-json > "$plan_path"
+          node .release-harness/scripts/docker-e2e.ts github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
           suffix="$(printf '%s' "${GROUP_LABEL:-$LANES}" | tr ',[:space:]' '-' | tr -cd 'A-Za-z0-9._-' | sed -E 's/-+/-/g; s/^-//; s/-$//')"
           echo "artifact_suffix=${suffix:-targeted}" >> "$GITHUB_OUTPUT"
           echo "plan_json=$plan_path" >> "$GITHUB_OUTPUT"
@@ -1211,7 +1211,7 @@ jobs:
           fi
           export OPENCLAW_DOCKER_ALL_BUILD=0
 
-          node .release-harness/scripts/test-docker-all.mjs
+          node .release-harness/scripts/test-docker-all.ts
 
       - name: Summarize targeted Docker E2E lanes
         if: always()
@@ -1223,7 +1223,7 @@ jobs:
             echo "Docker targeted summary missing: \`$summary\`" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
-          node .release-harness/scripts/docker-e2e.mjs summary "$summary" "Docker E2E targeted lanes" >> "$GITHUB_STEP_SUMMARY"
+          node .release-harness/scripts/docker-e2e.ts summary "$summary" "Docker E2E targeted lanes" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload targeted Docker E2E artifacts
         if: always()
@@ -1296,8 +1296,8 @@ jobs:
           export OPENCLAW_DOCKER_ALL_INCLUDE_OPENWEBUI=true
 
           plan_path=".artifacts/docker-tests/release-openwebui-plan.json"
-          node .release-harness/scripts/test-docker-all.mjs --plan-json > "$plan_path"
-          node .release-harness/scripts/docker-e2e.mjs github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
+          node .release-harness/scripts/test-docker-all.ts --plan-json > "$plan_path"
+          node .release-harness/scripts/docker-e2e.ts github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
           echo "plan_json=$plan_path" >> "$GITHUB_OUTPUT"
 
       - name: Download OpenClaw Docker E2E package
@@ -1338,7 +1338,7 @@ jobs:
             OPENCLAW_DOCKER_BUILD_ON_MISSING=1 OPENCLAW_LIVE_DOCKER_REPO_ROOT="$GITHUB_WORKSPACE" bash .release-harness/scripts/test-live-build-docker.sh
           fi
 
-          node .release-harness/scripts/test-docker-all.mjs
+          node .release-harness/scripts/test-docker-all.ts
 
       - name: Summarize Open WebUI Docker E2E chunk
         if: always()
@@ -1350,7 +1350,7 @@ jobs:
             echo "Docker Open WebUI summary missing: \`$summary\`" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
-          node .release-harness/scripts/docker-e2e.mjs summary "$summary" "Docker E2E chunk: openwebui" >> "$GITHUB_STEP_SUMMARY"
+          node .release-harness/scripts/docker-e2e.ts summary "$summary" "Docker E2E chunk: openwebui" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Open WebUI Docker E2E artifacts
         if: always()
@@ -1424,8 +1424,8 @@ jobs:
           export OPENCLAW_DOCKER_ALL_RELEASE_PROFILE="$RELEASE_TEST_PROFILE"
 
           plan_path=".artifacts/docker-tests/plan.json"
-          node .release-harness/scripts/test-docker-all.mjs --plan-json > "$plan_path"
-          node .release-harness/scripts/docker-e2e.mjs github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
+          node .release-harness/scripts/test-docker-all.ts --plan-json > "$plan_path"
+          node .release-harness/scripts/docker-e2e.ts github-outputs "$plan_path" >> "$GITHUB_OUTPUT"
           echo "plan_json=$plan_path" >> "$GITHUB_OUTPUT"
 
       - name: Setup Node environment
@@ -1457,7 +1457,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .artifacts/docker-e2e-package
-          node scripts/package-openclaw-for-docker.mjs \
+          node scripts/package-openclaw-for-docker.ts \
             --output-dir .artifacts/docker-e2e-package \
             --output-name openclaw-current.tgz
 
@@ -1480,7 +1480,7 @@ jobs:
           fi
           echo "Validating Docker E2E package tarball: $target"
           started_at="$(date +%s)"
-          timeout --foreground 5m node scripts/check-openclaw-package-tarball.mjs "$target"
+          timeout --foreground 5m node scripts/check-openclaw-package-tarball.ts "$target"
           finished_at="$(date +%s)"
           echo "Docker E2E package tarball validation finished in $((finished_at - started_at))s."
           digest="$(sha256sum "$target" | awk '{print $1}')"
@@ -1722,7 +1722,7 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.plan_release_workflow_matrices.outputs.live_models_matrix) }}
+      matrix: ${{ frotson(needs.plan_release_workflow_matrices.outputs.live_models_matrix) }}
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
@@ -2027,33 +2027,33 @@ jobs:
         include:
           - suite_id: native-live-src-agents
             label: Native live agents
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-src-agents
+            command: node .release-harness/scripts/test-live-shard.ts native-live-src-agents
             timeout_minutes: 60
             profile_env_only: false
             profiles: stable full
           - suite_id: native-live-src-agents-zai-coding
             label: Native live Z.AI Coding Plan
-            command: ZAI_CODING_LIVE_TEST=1 node .release-harness/scripts/test-live-shard.mjs native-live-src-agents-zai-coding
+            command: ZAI_CODING_LIVE_TEST=1 node .release-harness/scripts/test-live-shard.ts native-live-src-agents-zai-coding
             timeout_minutes: 15
             profile_env_only: false
             profiles: stable full
           - suite_id: native-live-src-gateway-core
             label: Native live gateway core
-            command: OPENCLAW_LIVE_CODEX_HARNESS=1 OPENCLAW_LIVE_CODEX_HARNESS_AUTH=api-key node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-core
+            command: OPENCLAW_LIVE_CODEX_HARNESS=1 OPENCLAW_LIVE_CODEX_HARNESS_AUTH=api-key node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-core
             timeout_minutes: 60
             profile_env_only: false
             profiles: beta minimum stable full
           - suite_id: native-live-src-gateway-profiles-anthropic-smoke
             suite_group: native-live-src-gateway-profiles-anthropic
             label: Native live gateway profiles Anthropic smoke
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=anthropic OPENCLAW_LIVE_GATEWAY_SMOKE=1 OPENCLAW_LIVE_GATEWAY_MAX_MODELS=1 node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=anthropic OPENCLAW_LIVE_GATEWAY_SMOKE=1 OPENCLAW_LIVE_GATEWAY_MAX_MODELS=1 node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 45
             profile_env_only: false
             profiles: stable
           - suite_id: native-live-src-gateway-profiles-anthropic-opus
             suite_group: native-live-src-gateway-profiles-anthropic
             label: Native live gateway profiles Anthropic Opus
-            command: OPENCLAW_LIVE_GATEWAY_THINKING=low OPENCLAW_LIVE_GATEWAY_PROVIDERS=anthropic OPENCLAW_LIVE_GATEWAY_MODELS=anthropic/claude-opus-4-8 node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_THINKING=low OPENCLAW_LIVE_GATEWAY_PROVIDERS=anthropic OPENCLAW_LIVE_GATEWAY_MODELS=anthropic/claude-opus-4-8 node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2061,39 +2061,39 @@ jobs:
           - suite_id: native-live-src-gateway-profiles-anthropic-sonnet-haiku
             suite_group: native-live-src-gateway-profiles-anthropic
             label: Native live gateway profiles Anthropic Sonnet/Haiku
-            command: OPENCLAW_LIVE_GATEWAY_THINKING=low OPENCLAW_LIVE_GATEWAY_PROVIDERS=anthropic OPENCLAW_LIVE_GATEWAY_MODELS=anthropic/claude-sonnet-4-6,anthropic/claude-haiku-4-5 node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_THINKING=low OPENCLAW_LIVE_GATEWAY_PROVIDERS=anthropic OPENCLAW_LIVE_GATEWAY_MODELS=anthropic/claude-sonnet-4-6,anthropic/claude-haiku-4-5 node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-src-gateway-profiles-google
             label: Native live gateway profiles Google
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=google OPENCLAW_LIVE_GATEWAY_MODELS=google/gemini-3.1-pro-preview node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=google OPENCLAW_LIVE_GATEWAY_MODELS=google/gemini-3.1-pro-preview node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 60
             profile_env_only: false
             profiles: stable full
           - suite_id: native-live-src-gateway-profiles-minimax
             label: Native live gateway profiles MiniMax
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=minimax,minimax-portal OPENCLAW_LIVE_GATEWAY_MODELS=minimax/MiniMax-M2.7,minimax-portal/MiniMax-M2.7 OPENCLAW_LIVE_GATEWAY_MAX_MODELS=2 node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=minimax,minimax-portal OPENCLAW_LIVE_GATEWAY_MODELS=minimax/MiniMax-M2.7,minimax-portal/MiniMax-M2.7 OPENCLAW_LIVE_GATEWAY_MAX_MODELS=2 node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 60
             profile_env_only: false
             profiles: stable full
           - suite_id: native-live-src-gateway-profiles-openai
             label: Native live gateway profiles OpenAI
-            command: OPENCLAW_LIVE_GATEWAY_THINKING=off OPENCLAW_LIVE_GATEWAY_PROVIDERS=openai OPENCLAW_LIVE_GATEWAY_MODELS=openai/gpt-5.5 OPENCLAW_LIVE_GATEWAY_STEP_TIMEOUT_MS=180000 OPENCLAW_LIVE_GATEWAY_MODEL_TIMEOUT_MS=600000 node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_THINKING=off OPENCLAW_LIVE_GATEWAY_PROVIDERS=openai OPENCLAW_LIVE_GATEWAY_MODELS=openai/gpt-5.5 OPENCLAW_LIVE_GATEWAY_STEP_TIMEOUT_MS=180000 OPENCLAW_LIVE_GATEWAY_MODEL_TIMEOUT_MS=600000 node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 60
             profile_env_only: false
             profiles: beta minimum stable full
           - suite_id: native-live-src-gateway-profiles-fireworks
             label: Native live gateway profiles Fireworks
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=fireworks node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=fireworks node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-src-gateway-profiles-deepseek
             label: Native live gateway profiles DeepSeek
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=deepseek node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=deepseek node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2101,7 +2101,7 @@ jobs:
           - suite_id: native-live-src-gateway-profiles-opencode-go-deepseek-glm
             suite_group: native-live-src-gateway-profiles-opencode-go
             label: Native live gateway profiles OpenCode Go DeepSeek/GLM
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_MODELS=opencode-go/deepseek-v4-flash,opencode-go/deepseek-v4-pro,opencode-go/glm-5,opencode-go/glm-5.1 node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_MODELS=opencode-go/deepseek-v4-flash,opencode-go/deepseek-v4-pro,opencode-go/glm-5,opencode-go/glm-5.1 node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2109,7 +2109,7 @@ jobs:
           - suite_id: native-live-src-gateway-profiles-opencode-go-kimi
             suite_group: native-live-src-gateway-profiles-opencode-go
             label: Native live gateway profiles OpenCode Go Kimi
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_MODELS=opencode-go/kimi-k2.5,opencode-go/kimi-k2.6 node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_MODELS=opencode-go/kimi-k2.5,opencode-go/kimi-k2.6 node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2117,7 +2117,7 @@ jobs:
           - suite_id: native-live-src-gateway-profiles-opencode-go-mimo
             suite_group: native-live-src-gateway-profiles-opencode-go
             label: Native live gateway profiles OpenCode Go MiMo
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_MODELS=opencode-go/mimo-v2-omni,opencode-go/mimo-v2-pro,opencode-go/mimo-v2.5,opencode-go/mimo-v2.5-pro node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_MODELS=opencode-go/mimo-v2-omni,opencode-go/mimo-v2-pro,opencode-go/mimo-v2.5,opencode-go/mimo-v2.5-pro node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2125,86 +2125,86 @@ jobs:
           - suite_id: native-live-src-gateway-profiles-opencode-go-minimax-qwen
             suite_group: native-live-src-gateway-profiles-opencode-go
             label: Native live gateway profiles OpenCode Go MiniMax/Qwen
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_MODELS=opencode-go/minimax-m2.5,opencode-go/minimax-m2.7,opencode-go/qwen3.5-plus,opencode-go/qwen3.6-plus node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_MODELS=opencode-go/minimax-m2.5,opencode-go/minimax-m2.7,opencode-go/qwen3.5-plus,opencode-go/qwen3.6-plus node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-src-gateway-profiles-opencode-go-smoke
             label: Native live gateway profiles OpenCode Go smoke
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_SMOKE=1 OPENCLAW_LIVE_GATEWAY_MAX_MODELS=1 node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=opencode-go OPENCLAW_LIVE_GATEWAY_SMOKE=1 OPENCLAW_LIVE_GATEWAY_MAX_MODELS=1 node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 45
             profile_env_only: false
             profiles: stable
           - suite_id: native-live-src-gateway-profiles-openrouter
             label: Native live gateway profiles OpenRouter
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=openrouter node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=openrouter node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-src-gateway-profiles-xai
             label: Native live gateway profiles xAI
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=xai node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=xai node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-src-gateway-profiles-zai
             label: Native live gateway profiles Z.ai
-            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=zai node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-profiles
+            command: OPENCLAW_LIVE_GATEWAY_PROVIDERS=zai node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-profiles
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-src-gateway-backends
             label: Native live gateway backends
-            command: OPENCLAW_LIVE_CODEX_HARNESS=1 OPENCLAW_LIVE_CODEX_HARNESS_AUTH=api-key node .release-harness/scripts/test-live-shard.mjs native-live-src-gateway-backends
+            command: OPENCLAW_LIVE_CODEX_HARNESS=1 OPENCLAW_LIVE_CODEX_HARNESS_AUTH=api-key node .release-harness/scripts/test-live-shard.ts native-live-src-gateway-backends
             timeout_minutes: 60
             profile_env_only: false
             profiles: stable full
           - suite_id: native-live-src-infra
             label: Native live infra
-            command: OPENCLAW_LIVE_APNS_REACHABILITY=1 node .release-harness/scripts/test-live-shard.mjs native-live-src-infra
+            command: OPENCLAW_LIVE_APNS_REACHABILITY=1 node .release-harness/scripts/test-live-shard.ts native-live-src-infra
             timeout_minutes: 45
             profile_env_only: false
             profiles: stable full
           - suite_id: native-live-test
             label: Native live test harnesses
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-test
+            command: node .release-harness/scripts/test-live-shard.ts native-live-test
             timeout_minutes: 60
             profile_env_only: false
             profiles: stable full
           - suite_id: native-live-extensions-l-n
             label: Native live plugins L-N
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-extensions-l-n
+            command: node .release-harness/scripts/test-live-shard.ts native-live-extensions-l-n
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-extensions-moonshot
             label: Native live Moonshot plugin
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-extensions-moonshot
+            command: node .release-harness/scripts/test-live-shard.ts native-live-extensions-moonshot
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-extensions-openai
             label: Native live OpenAI plugin
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-extensions-openai
+            command: node .release-harness/scripts/test-live-shard.ts native-live-extensions-openai
             timeout_minutes: 60
             profile_env_only: false
             profiles: beta minimum stable full
           - suite_id: native-live-extensions-o-z-other
             label: Native live plugins O-Z other
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-extensions-o-z-other
+            command: node .release-harness/scripts/test-live-shard.ts native-live-extensions-o-z-other
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-extensions-xai
             label: Native live xAI plugin
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-extensions-xai
+            command: node .release-harness/scripts/test-live-shard.ts native-live-extensions-xai
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2587,28 +2587,28 @@ jobs:
         include:
           - suite_id: native-live-extensions-a-k
             label: Native live plugins A-K
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-extensions-a-k
+            command: node .release-harness/scripts/test-live-shard.ts native-live-extensions-a-k
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-extensions-media-audio
             label: Native live media audio plugins
-            command: node .release-harness/scripts/test-live-shard.mjs native-live-extensions-media-audio
+            command: node .release-harness/scripts/test-live-shard.ts native-live-extensions-media-audio
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-extensions-media-music-google
             label: Native live media music Google
-            command: OPENCLAW_LIVE_MUSIC_GENERATION_PROVIDERS=google node .release-harness/scripts/test-live-shard.mjs native-live-extensions-media-music-google
+            command: OPENCLAW_LIVE_MUSIC_GENERATION_PROVIDERS=google node .release-harness/scripts/test-live-shard.ts native-live-extensions-media-music-google
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
             profiles: full
           - suite_id: native-live-extensions-media-music-minimax
             label: Native live media music MiniMax
-            command: OPENCLAW_LIVE_MUSIC_GENERATION_PROVIDERS=minimax node .release-harness/scripts/test-live-shard.mjs native-live-extensions-media-music-minimax
+            command: OPENCLAW_LIVE_MUSIC_GENERATION_PROVIDERS=minimax node .release-harness/scripts/test-live-shard.ts native-live-extensions-media-music-minimax
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2616,7 +2616,7 @@ jobs:
           - suite_id: native-live-extensions-media-video-a
             suite_group: native-live-extensions-media-video
             label: Native live media video plugins A
-            command: OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=alibaba,byteplus,deepinfra,fal node .release-harness/scripts/test-live-shard.mjs native-live-extensions-media-video
+            command: OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=alibaba,byteplus,deepinfra,fal node .release-harness/scripts/test-live-shard.ts native-live-extensions-media-video
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2624,7 +2624,7 @@ jobs:
           - suite_id: native-live-extensions-media-video-b
             suite_group: native-live-extensions-media-video
             label: Native live media video plugins B
-            command: OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=google,minimax node .release-harness/scripts/test-live-shard.mjs native-live-extensions-media-video
+            command: OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=google,minimax node .release-harness/scripts/test-live-shard.ts native-live-extensions-media-video
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2632,7 +2632,7 @@ jobs:
           - suite_id: native-live-extensions-media-video-c
             suite_group: native-live-extensions-media-video
             label: Native live media video plugins C
-            command: OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=openai,openrouter,xai node .release-harness/scripts/test-live-shard.mjs native-live-extensions-media-video
+            command: OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=openai,openrouter,xai node .release-harness/scripts/test-live-shard.ts native-live-extensions-media-video
             timeout_minutes: 30
             profile_env_only: false
             advisory: true
@@ -2640,7 +2640,7 @@ jobs:
           - suite_id: native-live-extensions-media-video-d
             suite_group: native-live-extensions-media-video
             label: Native live media video plugins D
-            command: OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=qwen,runway,together,vydra node .release-harness/scripts/test-live-shard.mjs native-live-extensions-media-video
+            command: OPENCLAW_LIVE_VIDEO_GENERATION_PROVIDERS=qwen,runway,together,vydra node .release-harness/scripts/test-live-shard.ts native-live-extensions-media-video
             timeout_minutes: 30
             profile_env_only: false
             advisory: true

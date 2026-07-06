@@ -1,9 +1,9 @@
 /** Discovers plugin-declared environment variable names for channel credential setup. */
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { appendUniqueEnvVarCandidates } from "../shared/env-var-candidates.js";
-export { isSafeChannelEnvVarTriggerName } from "./channel-env-var-names.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { appendUniqueEnvVarCandidates } from "../shared/env-var-candidates.ts";
+export { isSafeChannelEnvVarTriggerName } from "./channel-env-var-names.ts";
 
 type ChannelEnvVarLookupParams = {
   /** Config snapshot used to discover enabled/installed plugin manifests. */

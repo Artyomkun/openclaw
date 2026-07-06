@@ -1,6 +1,6 @@
 // Gateway model catalog cache.
 // Serves model catalogs with stale-while-refresh behavior for Gateway surfaces.
-import { getRuntimeConfig } from "../config/io.js";
+import { getRuntimeConfig } from "../config/io.ts";
 
 export type GatewayModelChoice = import("../agents/model-catalog.js").ModelCatalogEntry;
 

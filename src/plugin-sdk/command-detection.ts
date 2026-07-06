@@ -6,4 +6,4 @@ export {
   hasInlineCommandTokens,
   isControlCommandMessage,
   shouldComputeCommandAuthorized,
-} from "../auto-reply/command-detection.js";
+} from "../auto-reply/command-detection.ts";

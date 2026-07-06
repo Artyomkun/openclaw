@@ -1,23 +1,20 @@
-/** Persists, inspects, and refreshes the installed plugin index in the state database. */
-import { existsSync, readFileSync } from "node:fs";
+/**
+ * Persists, inspects, and refreshes the installed plugin index in the state database.
+ */
 import { z } from "zod";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { requireNodeOracle } from "../infra/node-oracle.ts";
+import { safeParseWithSchema } from "../utils/zod-parse.ts";
+import { resolveCompatibilityHostVersion } from "../version.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.ts";
+import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.ts";
+import { hashJson } from "./installed-plugin-index-hash.ts";
+import { resolveCompatRegistryVersion } from "./installed-plugin-index-policy.ts";
+import { clearLoadInstalledPluginIndexInstallRecordsCache } from "./installed-plugin-index-record-cache.ts";
 import {
-  openOpenClawStateDatabase,
-  runOpenClawStateWriteTransaction,
-} from "../state/openclaw-state-db.js";
-import { safeParseWithSchema } from "../utils/zod-parse.js";
-import { resolveCompatibilityHostVersion } from "../version.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
-import { isPluginEnabledByDefaultForPlatform } from "./default-enablement.js";
-import { hashJson } from "./installed-plugin-index-hash.js";
-import { resolveCompatRegistryVersion } from "./installed-plugin-index-policy.js";
-import { clearLoadInstalledPluginIndexInstallRecordsCache } from "./installed-plugin-index-record-cache.js";
-import {
-  resolveInstalledPluginIndexStateDatabaseOptions,
   resolveInstalledPluginIndexStorePath,
   type InstalledPluginIndexStoreOptions,
-} from "./installed-plugin-index-store-path.js";
+} from "./installed-plugin-index-store-path.ts";
 import {
   diffInstalledPluginIndexInvalidationReasons,
   extractPluginInstallRecordsFromInstalledPluginIndex,
@@ -33,17 +30,15 @@ import {
   type InstalledPluginIndexRefreshReason,
   type LoadInstalledPluginIndexParams,
   type RefreshInstalledPluginIndexParams,
-} from "./installed-plugin-index.js";
-import { clearPluginMetadataLifecycleCaches } from "./plugin-metadata-lifecycle.js";
+} from "./installed-plugin-index.ts";
+import { clearPluginMetadataLifecycleCaches } from "./plugin-metadata-lifecycle.ts";
+
 export {
   resolveInstalledPluginIndexStorePath,
-  resolveLegacyInstalledPluginIndexStorePath,
   type InstalledPluginIndexStoreOptions,
-} from "./installed-plugin-index-store-path.js";
+} from "./installed-plugin-index-store-path.ts";
 
-/** Freshness state for the persisted installed plugin index. */
 export type InstalledPluginIndexStoreState = "missing" | "fresh" | "stale";
-
 export type InstalledPluginIndexStoreInspection = {
   state: InstalledPluginIndexStoreState;
   refreshReasons: readonly InstalledPluginIndexRefreshReason[];
@@ -52,7 +47,7 @@ export type InstalledPluginIndexStoreInspection = {
 };
 
 const StringArraySchema = z.array(z.string());
-const INSTALLED_PLUGIN_INDEX_SQLITE_KEY = "installed-plugin-index";
+const INSTALLED_PLUGIN_INDEX_ORACLE_KEY = "installed-plugin-index";
 
 const InstalledPluginIndexStartupSchema = z.object({
   sidecar: z.boolean(),
@@ -136,17 +131,72 @@ const InstalledPluginIndexSchema = z.object({
   diagnostics: z.array(PluginDiagnosticSchema),
 });
 
+let pool: any = null;
+
+function getPool() {
+  if (!pool) {
+    const oracledb = requireNodeOracle();
+    pool = oracledb.createPool({
+      user: process.env.ORACLE_USER || "openclaw",
+      password: process.env.ORACLE_PASSWORD || "",
+      connectString: process.env.ORACLE_CONNECTION_STRING || "localhost:1521/XEPDB1",
+      poolMin: 1,
+      poolMax: 10,
+    });
+  }
+  return pool;
+}
+
+async function getConnection() {
+  return await getPool().getConnection();
+}
+
+async function ensureSchema(): Promise<void> {
+  const conn = await getConnection();
+  try {
+    await conn.execute(`
+      BEGIN
+        EXECUTE IMMEDIATE 'CREATE TABLE installed_plugin_index (
+          index_key VARCHAR2(128) PRIMARY KEY,
+          version NUMBER NOT NULL,
+          host_contract_version VARCHAR2(64) NOT NULL,
+          compat_registry_version VARCHAR2(64) NOT NULL,
+          migration_version NUMBER NOT NULL,
+          policy_hash VARCHAR2(64) NOT NULL,
+          generated_at_ms NUMBER NOT NULL,
+          refresh_reason VARCHAR2(128),
+          install_records_json CLOB,
+          plugins_json CLOB NOT NULL,
+          diagnostics_json CLOB NOT NULL,
+          warning CLOB,
+          updated_at_ms NUMBER NOT NULL
+        )';
+      EXCEPTION WHEN OTHERS THEN
+        IF SQLCODE != -955 THEN RAISE; END IF;
+      END;
+    `);
+
+    await conn.execute(`
+      BEGIN
+        EXECUTE IMMEDIATE 'CREATE INDEX idx_installed_plugin_index_updated ON installed_plugin_index(updated_at_ms)';
+      EXCEPTION WHEN OTHERS THEN
+        IF SQLCODE != -955 THEN RAISE; END IF;
+      END;
+    `);
+
+    await conn.commit();
+  } finally {
+    await conn.close();
+  }
+}
+
 function copySafeInstallRecords(
   records: Readonly<Record<string, InstalledPluginInstallRecordInfo>> | undefined,
 ): Record<string, InstalledPluginInstallRecordInfo> | undefined {
-  if (!records) {
-    return undefined;
-  }
+  if (!records) return undefined;
   const safeRecords: Record<string, InstalledPluginInstallRecordInfo> = {};
   for (const [pluginId, record] of Object.entries(records)) {
-    if (isBlockedObjectKey(pluginId)) {
-      continue;
-    }
+    if (isBlockedObjectKey(pluginId)) continue;
     safeRecords[pluginId] = record;
   }
   return safeRecords;
@@ -158,15 +208,15 @@ export function parseInstalledPluginIndex(value: unknown): InstalledPluginIndex 
         installRecords?: InstalledPluginIndex["installRecords"];
       })
     | null;
-  if (!parsed) {
-    return null;
-  }
+  if (!parsed) return null;
+
   const installRecords =
     copySafeInstallRecords(parsed.installRecords) ??
     copySafeInstallRecords(
       extractPluginInstallRecordsFromInstalledPluginIndex(parsed as InstalledPluginIndex),
     ) ??
     {};
+
   return {
     version: parsed.version,
     ...(parsed.warning ? { warning: parsed.warning } : {}),
@@ -182,73 +232,21 @@ export function parseInstalledPluginIndex(value: unknown): InstalledPluginIndex 
   };
 }
 
-type InstalledPluginIndexSqliteRow = {
-  version: number | bigint;
-  warning: string | null;
-  host_contract_version: string;
-  compat_registry_version: string;
-  migration_version: number | bigint;
-  policy_hash: string;
-  generated_at_ms: number | bigint;
-  refresh_reason: string | null;
-  install_records_json: string;
-  plugins_json: string;
-  diagnostics_json: string;
+type InstalledPluginIndexOracleRow = {
+  INDEX_KEY: string;
+  VERSION: number;
+  WARNING: string | null;
+  HOST_CONTRACT_VERSION: string;
+  COMPAT_REGISTRY_VERSION: string;
+  MIGRATION_VERSION: number;
+  POLICY_HASH: string;
+  GENERATED_AT_MS: number;
+  REFRESH_REASON: string | null;
+  INSTALL_RECORDS_JSON: string;
+  PLUGINS_JSON: string;
+  DIAGNOSTICS_JSON: string;
+  UPDATED_AT_MS: number;
 };
-
-function isExplicitLegacyJsonStorePath(options: InstalledPluginIndexStoreOptions): boolean {
-  return Boolean(options.filePath && options.filePath.endsWith(".json"));
-}
-
-function readLegacyRecordContainer(value: unknown): unknown {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return undefined;
-  }
-  const legacy = value as { installRecords?: unknown; records?: unknown };
-  return legacy.installRecords ?? legacy.records;
-}
-
-function readPersistedInstalledPluginIndexFromLegacyJson(
-  options: InstalledPluginIndexStoreOptions,
-): InstalledPluginIndex | null {
-  if (!options.filePath || !existsSync(options.filePath)) {
-    return null;
-  }
-  try {
-    const parsed = JSON.parse(readFileSync(options.filePath, "utf8")) as unknown;
-    const current = parseInstalledPluginIndex(parsed);
-    if (current) {
-      return current;
-    }
-    const installRecords = readLegacyRecordContainer(parsed);
-    if (!installRecords) {
-      return null;
-    }
-    return parseInstalledPluginIndex({
-      version: INSTALLED_PLUGIN_INDEX_VERSION,
-      hostContractVersion: "legacy-file",
-      compatRegistryVersion: "legacy-file",
-      migrationVersion: INSTALLED_PLUGIN_INDEX_MIGRATION_VERSION,
-      policyHash: "legacy-file",
-      generatedAtMs: 0,
-      installRecords,
-      plugins: [],
-      diagnostics: [],
-    });
-  } catch {
-    return null;
-  }
-}
-
-function assertWritableInstalledPluginIndexStoreOptions(
-  options: InstalledPluginIndexStoreOptions,
-): void {
-  if (isExplicitLegacyJsonStorePath(options)) {
-    throw new Error(
-      "Explicit JSON installed plugin index paths are retired. Use the shared SQLite state DB or run openclaw doctor --fix to migrate legacy plugins/installs.json.",
-    );
-  }
-}
 
 function parseJsonColumn(value: string): unknown {
   try {
@@ -258,122 +256,110 @@ function parseJsonColumn(value: string): unknown {
   }
 }
 
-function parseInstalledPluginIndexSqliteRow(
-  row: InstalledPluginIndexSqliteRow | undefined,
+function parseInstalledPluginIndexOracleRow(
+  row: InstalledPluginIndexOracleRow | undefined,
 ): InstalledPluginIndex | null {
-  if (!row) {
-    return null;
-  }
+  if (!row) return null;
   return parseInstalledPluginIndex({
-    version: Number(row.version),
-    ...(row.warning ? { warning: row.warning } : {}),
-    hostContractVersion: row.host_contract_version,
-    compatRegistryVersion: row.compat_registry_version,
-    migrationVersion: Number(row.migration_version),
-    policyHash: row.policy_hash,
-    generatedAtMs: Number(row.generated_at_ms),
-    ...(row.refresh_reason ? { refreshReason: row.refresh_reason } : {}),
-    installRecords: parseJsonColumn(row.install_records_json),
-    plugins: parseJsonColumn(row.plugins_json),
-    diagnostics: parseJsonColumn(row.diagnostics_json),
+    version: Number(row.VERSION),
+    ...(row.WARNING ? { warning: row.WARNING } : {}),
+    hostContractVersion: row.HOST_CONTRACT_VERSION,
+    compatRegistryVersion: row.COMPAT_REGISTRY_VERSION,
+    migrationVersion: Number(row.MIGRATION_VERSION),
+    policyHash: row.POLICY_HASH,
+    generatedAtMs: Number(row.GENERATED_AT_MS),
+    ...(row.REFRESH_REASON ? { refreshReason: row.REFRESH_REASON } : {}),
+    installRecords: parseJsonColumn(row.INSTALL_RECORDS_JSON),
+    plugins: parseJsonColumn(row.PLUGINS_JSON),
+    diagnostics: parseJsonColumn(row.DIAGNOSTICS_JSON),
   });
 }
 
-function readPersistedInstalledPluginIndexFromSqlite(
+async function readPersistedInstalledPluginIndexFromOracle(
   options: InstalledPluginIndexStoreOptions = {},
-): InstalledPluginIndex | null {
-  if (isExplicitLegacyJsonStorePath(options)) {
-    return readPersistedInstalledPluginIndexFromLegacyJson(options);
-  }
-  if (!existsSync(resolveInstalledPluginIndexStorePath(options))) {
-    return null;
-  }
+): Promise<InstalledPluginIndex | null> {
+  await ensureSchema();
+  const conn = await getConnection();
   try {
-    const database = openOpenClawStateDatabase(
-      resolveInstalledPluginIndexStateDatabaseOptions(options),
+    const result = await conn.execute(
+      `SELECT index_key, version, host_contract_version, compat_registry_version,
+              migration_version, policy_hash, generated_at_ms, refresh_reason,
+              install_records_json, plugins_json, diagnostics_json, warning, updated_at_ms
+       FROM installed_plugin_index
+       WHERE index_key = :index_key`,
+      { index_key: INSTALLED_PLUGIN_INDEX_ORACLE_KEY }
     );
-    const row = database.db
-      .prepare(
-        `
-          SELECT version, warning, host_contract_version, compat_registry_version,
-                 migration_version, policy_hash, generated_at_ms, refresh_reason,
-                 install_records_json, plugins_json, diagnostics_json
-            FROM installed_plugin_index
-           WHERE index_key = ?
-        `,
-      )
-      .get(INSTALLED_PLUGIN_INDEX_SQLITE_KEY) as InstalledPluginIndexSqliteRow | undefined;
-    return parseInstalledPluginIndexSqliteRow(row);
-  } catch {
-    return null;
+    if (result.rows.length === 0) return null;
+    return parseInstalledPluginIndexOracleRow(result.rows[0] as InstalledPluginIndexOracleRow);
+  } finally {
+    await conn.close();
   }
 }
 
-function writePersistedInstalledPluginIndexToSqlite(
+async function writePersistedInstalledPluginIndexToOracle(
   index: InstalledPluginIndex,
-  options: InstalledPluginIndexStoreOptions = {},
-): void {
-  assertWritableInstalledPluginIndexStoreOptions(options);
+): Promise<void> {
+  await ensureSchema();
+  const now = Date.now();
   const persisted = {
     ...index,
     warning: INSTALLED_PLUGIN_INDEX_WARNING,
     installRecords: copySafeInstallRecords(index.installRecords) ?? {},
   };
-  const now = Date.now();
-  runOpenClawStateWriteTransaction(({ db }) => {
-    db.prepare(
-      `
-        INSERT INTO installed_plugin_index (
-          index_key, version, host_contract_version, compat_registry_version,
+
+  const conn = await getConnection();
+  try {
+    await conn.execute(
+      `MERGE INTO installed_plugin_index t
+       USING (SELECT :index_key AS index_key FROM DUAL) s
+       ON (t.index_key = s.index_key)
+       WHEN MATCHED THEN UPDATE SET
+         version = :version,
+         host_contract_version = :host_contract_version,
+         compat_registry_version = :compat_registry_version,
+         migration_version = :migration_version,
+         policy_hash = :policy_hash,
+         generated_at_ms = :generated_at_ms,
+         refresh_reason = :refresh_reason,
+         install_records_json = :install_records_json,
+         plugins_json = :plugins_json,
+         diagnostics_json = :diagnostics_json,
+         warning = :warning,
+         updated_at_ms = :updated_at_ms
+       WHEN NOT MATCHED THEN INSERT
+         (index_key, version, host_contract_version, compat_registry_version,
           migration_version, policy_hash, generated_at_ms, refresh_reason,
-          install_records_json, plugins_json, diagnostics_json, warning, updated_at_ms
-        ) VALUES (
-          @index_key, @version, @host_contract_version, @compat_registry_version,
-          @migration_version, @policy_hash, @generated_at_ms, @refresh_reason,
-          @install_records_json, @plugins_json, @diagnostics_json, @warning, @updated_at_ms
-        )
-        ON CONFLICT(index_key) DO UPDATE SET
-          version = excluded.version,
-          host_contract_version = excluded.host_contract_version,
-          compat_registry_version = excluded.compat_registry_version,
-          migration_version = excluded.migration_version,
-          policy_hash = excluded.policy_hash,
-          generated_at_ms = excluded.generated_at_ms,
-          refresh_reason = excluded.refresh_reason,
-          install_records_json = excluded.install_records_json,
-          plugins_json = excluded.plugins_json,
-          diagnostics_json = excluded.diagnostics_json,
-          warning = excluded.warning,
-          updated_at_ms = excluded.updated_at_ms
-      `,
-    ).run({
-      index_key: INSTALLED_PLUGIN_INDEX_SQLITE_KEY,
-      version: persisted.version,
-      host_contract_version: persisted.hostContractVersion,
-      compat_registry_version: persisted.compatRegistryVersion,
-      migration_version: persisted.migrationVersion,
-      policy_hash: persisted.policyHash,
-      generated_at_ms: persisted.generatedAtMs,
-      refresh_reason: persisted.refreshReason ?? null,
-      install_records_json: JSON.stringify(persisted.installRecords),
-      plugins_json: JSON.stringify(persisted.plugins),
-      diagnostics_json: JSON.stringify(persisted.diagnostics),
-      warning: persisted.warning,
-      updated_at_ms: now,
-    });
-  }, resolveInstalledPluginIndexStateDatabaseOptions(options));
+          install_records_json, plugins_json, diagnostics_json, warning, updated_at_ms)
+       VALUES
+         (:index_key, :version, :host_contract_version, :compat_registry_version,
+          :migration_version, :policy_hash, :generated_at_ms, :refresh_reason,
+          :install_records_json, :plugins_json, :diagnostics_json, :warning, :updated_at_ms)`,
+      {
+        index_key: INSTALLED_PLUGIN_INDEX_ORACLE_KEY,
+        version: persisted.version,
+        host_contract_version: persisted.hostContractVersion,
+        compat_registry_version: persisted.compatRegistryVersion,
+        migration_version: persisted.migrationVersion,
+        policy_hash: persisted.policyHash,
+        generated_at_ms: persisted.generatedAtMs,
+        refresh_reason: persisted.refreshReason ?? null,
+        install_records_json: JSON.stringify(persisted.installRecords),
+        plugins_json: JSON.stringify(persisted.plugins),
+        diagnostics_json: JSON.stringify(persisted.diagnostics),
+        warning: persisted.warning,
+        updated_at_ms: now,
+      }
+    );
+    await conn.commit();
+  } finally {
+    await conn.close();
+  }
 }
 
 export async function readPersistedInstalledPluginIndex(
   options: InstalledPluginIndexStoreOptions = {},
 ): Promise<InstalledPluginIndex | null> {
-  return readPersistedInstalledPluginIndexFromSqlite(options);
-}
-
-export function readPersistedInstalledPluginIndexSync(
-  options: InstalledPluginIndexStoreOptions = {},
-): InstalledPluginIndex | null {
-  return readPersistedInstalledPluginIndexFromSqlite(options);
+  return await readPersistedInstalledPluginIndexFromOracle(options);
 }
 
 export async function writePersistedInstalledPluginIndex(
@@ -381,18 +367,7 @@ export async function writePersistedInstalledPluginIndex(
   options: InstalledPluginIndexStoreOptions = {},
 ): Promise<string> {
   const filePath = resolveInstalledPluginIndexStorePath(options);
-  writePersistedInstalledPluginIndexToSqlite(index, options);
-  clearPluginMetadataLifecycleCaches();
-  clearLoadInstalledPluginIndexInstallRecordsCache();
-  return filePath;
-}
-
-export function writePersistedInstalledPluginIndexSync(
-  index: InstalledPluginIndex,
-  options: InstalledPluginIndexStoreOptions = {},
-): string {
-  const filePath = resolveInstalledPluginIndexStorePath(options);
-  writePersistedInstalledPluginIndexToSqlite(index, options);
+  await writePersistedInstalledPluginIndexToOracle(index, options);
   clearPluginMetadataLifecycleCaches();
   clearLoadInstalledPluginIndexInstallRecordsCache();
   return filePath;
@@ -413,9 +388,7 @@ function canRefreshPersistedPolicyState(
   persisted: InstalledPluginIndex | null,
   params: RefreshInstalledPluginIndexParams & InstalledPluginIndexStoreOptions,
 ): persisted is InstalledPluginIndex {
-  if (!persisted || params.reason !== "policy-changed") {
-    return false;
-  }
+  if (!persisted || params.reason !== "policy-changed") return false;
   const env = params.env ?? process.env;
   if (
     persisted.version !== INSTALLED_PLUGIN_INDEX_VERSION ||
@@ -435,10 +408,10 @@ function canRefreshPersistedPolicyState(
   return hasPolicyRefreshTargets(persisted, params.policyPluginIds);
 }
 
-function refreshPersistedPolicyState(
+async function refreshPersistedPolicyState(
   persisted: InstalledPluginIndex,
   params: RefreshInstalledPluginIndexParams,
-): InstalledPluginIndex {
+): Promise<InstalledPluginIndex> {
   const normalizedConfig = normalizePluginsConfig(params.config?.plugins);
   return {
     ...persisted,
@@ -453,7 +426,7 @@ function refreshPersistedPolicyState(
         config: normalizedConfig,
         rootConfig: params.config,
         enabledByDefault: isPluginEnabledByDefaultForPlatform(plugin),
-      }).enabled,
+    }).enabled,
     })),
   };
 }
@@ -467,6 +440,7 @@ export async function inspectPersistedInstalledPluginIndex(
     installRecords:
       params.installRecords ?? extractPluginInstallRecordsFromInstalledPluginIndex(persisted),
   });
+
   if (!persisted) {
     return {
       state: "missing",
@@ -492,37 +466,18 @@ export async function refreshPersistedInstalledPluginIndex(
     params.reason === "policy-changed" || !params.installRecords
       ? await readPersistedInstalledPluginIndex(params)
       : null;
-  if (canRefreshPersistedPolicyState(persisted, params)) {
-    const index = refreshPersistedPolicyState(persisted, params);
+
+  if (await canRefreshPersistedPolicyState(persisted, params)) {
+    const index = await refreshPersistedPolicyState(persisted, params);
     await writePersistedInstalledPluginIndex(index, params);
     return index;
   }
+
   const index = refreshInstalledPluginIndex({
     ...params,
     installRecords:
       params.installRecords ?? extractPluginInstallRecordsFromInstalledPluginIndex(persisted),
   });
   await writePersistedInstalledPluginIndex(index, params);
-  return index;
-}
-
-export function refreshPersistedInstalledPluginIndexSync(
-  params: RefreshInstalledPluginIndexParams & InstalledPluginIndexStoreOptions,
-): InstalledPluginIndex {
-  const persisted =
-    params.reason === "policy-changed" || !params.installRecords
-      ? readPersistedInstalledPluginIndexSync(params)
-      : null;
-  if (canRefreshPersistedPolicyState(persisted, params)) {
-    const index = refreshPersistedPolicyState(persisted, params);
-    writePersistedInstalledPluginIndexSync(index, params);
-    return index;
-  }
-  const index = refreshInstalledPluginIndex({
-    ...params,
-    installRecords:
-      params.installRecords ?? extractPluginInstallRecordsFromInstalledPluginIndex(persisted),
-  });
-  writePersistedInstalledPluginIndexSync(index, params);
   return index;
 }

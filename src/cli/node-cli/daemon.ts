@@ -1,32 +1,32 @@
 // Node-host daemon lifecycle commands for install, status, start, stop, and restart.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { colorize } from "../../../packages/terminal-core/src/theme.js";
+import { colorize } from "../../../packages/terminal-core/src/theme.ts";
 import {
   DEFAULT_GATEWAY_DAEMON_RUNTIME,
   isGatewayDaemonRuntime,
-} from "../../commands/daemon-runtime.js";
-import { buildNodeInstallPlan } from "../../commands/node-daemon-install-helpers.js";
+} from "../../commands/daemon-runtime.ts";
+import { buildNodeInstallPlan } from "../../commands/node-daemon-install-helpers.ts";
 import {
   resolveNodeLaunchAgentLabel,
   resolveNodeSystemdServiceName,
   resolveNodeWindowsTaskName,
-} from "../../daemon/constants.js";
-import { resolveNodeService } from "../../daemon/node-service.js";
+} from "../../daemon/constants.ts";
+import { resolveNodeService } from "../../daemon/node-service.ts";
 import {
   buildPlatformRuntimeLogHints,
   buildPlatformServiceStartHints,
-} from "../../daemon/runtime-hints.js";
-import type { GatewayServiceRuntime } from "../../daemon/service-runtime.js";
-import { loadNodeHostConfig } from "../../node-host/config.js";
-import { defaultRuntime } from "../../runtime.js";
-import { formatCliCommand } from "../command-format.js";
+} from "../../daemon/runtime-hints.ts";
+import type { GatewayServiceRuntime } from "../../daemon/service-runtime.ts";
+import { loadNodeHostConfig } from "../../node-host/config.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { formatCliCommand } from "../command-format.ts";
 import {
   runServiceRestart,
   runServiceStart,
   runServiceStop,
   runServiceUninstall,
-} from "../daemon-cli/lifecycle-core.js";
-import { buildDaemonServiceSnapshot, installDaemonServiceAndEmit } from "../daemon-cli/response.js";
+} from "../daemon-cli/lifecycle-core.ts";
+import { buildDaemonServiceSnapshot, installDaemonServiceAndEmit } from "../daemon-cli/response.ts";
 import {
   createCliStatusTextStyles,
   createDaemonInstallActionContext,
@@ -34,8 +34,8 @@ import {
   formatRuntimeStatus,
   parsePort,
   resolveRuntimeStatusColor,
-} from "../daemon-cli/shared.js";
-import { formatInvalidConfigPort, formatInvalidPortOption } from "../error-format.js";
+} from "../daemon-cli/shared.ts";
+import { formatInvalidConfigPort, formatInvalidPortOption } from "../error-format.ts";
 
 type NodeDaemonInstallOptions = {
   host?: string;

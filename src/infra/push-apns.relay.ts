@@ -1,18 +1,19 @@
-// Sends APNs notifications through the configured relay endpoint.
+// Sends APNs notifications through the configured relay endpoint using HTTP/3.
 import { URL } from "node:url";
 import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coercion";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { GatewayConfig } from "../config/types.gateway.js";
+import type { GatewayConfig } from "../config/types.gateway.ts";
 import {
   loadOrCreateDeviceIdentity,
   signDevicePayload,
   type DeviceIdentity,
-} from "./device-identity.js";
-import { formatErrorMessage } from "./errors.js";
-import { normalizeHostname } from "./net/hostname.js";
+} from "./device-identity.ts";
+import { formatErrorMessage } from "./errors.ts";
+import { normalizeHostname } from "./net/hostname.ts";
+import { request, type Dispatcher } from "undici";
 
 type ApnsRelayPushType = "alert" | "background";
 type ApnsRelayEnvironment = "production" | "sandbox";
@@ -21,6 +22,7 @@ type ApnsRelayEnvironment = "production" | "sandbox";
 export type ApnsRelayConfig = {
   baseUrl: string;
   timeoutMs: number;
+  dispatcher?: Dispatcher; 
 };
 
 type ApnsRelayConfigResolution =
@@ -59,6 +61,7 @@ export type ApnsRelayRequestSender = (params: {
 export const DEFAULT_APNS_RELAY_BASE_URL = "https://ios-push-relay.openclaw.ai";
 export const DEFAULT_APNS_SANDBOX_RELAY_BASE_URL = "https://ios-push-relay-sandbox.openclaw.ai";
 const DEFAULT_APNS_RELAY_TIMEOUT_MS = 10_000;
+const MAX_SIGNATURE_AGE_MS = 60_000; 
 const GATEWAY_DEVICE_ID_HEADER = "x-openclaw-gateway-device-id";
 const GATEWAY_SIGNATURE_HEADER = "x-openclaw-gateway-signature";
 const GATEWAY_SIGNED_AT_HEADER = "x-openclaw-gateway-signed-at-ms";
@@ -222,6 +225,7 @@ export function resolveApnsRelayConfigFromEnv(
       timeoutMs: normalizeTimeoutMs(
         env.OPENCLAW_APNS_RELAY_TIMEOUT_MS ?? configuredRelay?.timeoutMs,
       ),
+      dispatcher: (gatewayConfig?.push?.apns?.relay as any)?.dispatcher, 
     },
   };
 }
@@ -238,51 +242,73 @@ async function sendApnsRelayRequest(params: {
   priority: "10" | "5";
   payload: object;
 }): Promise<ApnsRelayPushResponse> {
-  const response = await fetch(`${params.relayConfig.baseUrl}/v1/push/send`, {
-    method: "POST",
-    redirect: "manual",
-    headers: {
-      authorization: `Bearer ${params.sendGrant}`,
-      "content-type": "application/json",
-      [GATEWAY_DEVICE_ID_HEADER]: params.gatewayDeviceId,
-      [GATEWAY_SIGNATURE_HEADER]: params.signature,
-      [GATEWAY_SIGNED_AT_HEADER]: String(params.signedAtMs),
-    },
-    body: params.bodyJson,
-    signal: AbortSignal.timeout(params.relayConfig.timeoutMs),
-  });
-  // Do not follow relay redirects; grants and signatures are scoped to the configured relay origin.
-  if (response.status >= 300 && response.status < 400) {
-    return {
-      ok: false,
-      status: response.status,
-      reason: "RelayRedirectNotAllowed",
-    };
-  }
+  const url = `${params.relayConfig.baseUrl}/v1/push/send`;
+  
+  const headers = {
+    "authorization": `Bearer ${params.sendGrant}`,
+    "content-type": "application/json",
+    [GATEWAY_DEVICE_ID_HEADER]: params.gatewayDeviceId,
+    [GATEWAY_SIGNATURE_HEADER]: params.signature,
+    [GATEWAY_SIGNED_AT_HEADER]: String(params.signedAtMs),
+  };
 
-  let json: unknown;
+  let responseBody: Record<string, unknown> = {};
+  let statusCode = 0;
+
   try {
-    json = (await response.json()) as unknown;
-  } catch {
-    json = null;
+    const response = await request(url, {
+      method: "POST",
+      headers,
+      body: params.bodyJson,
+      ...(params.relayConfig.dispatcher ? { dispatcher: params.relayConfig.dispatcher } : {}),
+      signal: AbortSignal.timeout(params.relayConfig.timeoutMs),
+    });
+
+    statusCode = response.statusCode;
+    if (statusCode >= 300 && statusCode < 400) {
+      return {
+        ok: false,
+        status: statusCode,
+        reason: "RelayRedirectNotAllowed",
+      };
+    }
+
+    try {
+      let bodyText = "";
+      for await (const chunk of response.body) {
+        bodyText += chunk;
+      }
+      const json = bodyText ? JSON.parse(bodyText) : null;
+      
+      responseBody =
+        json && typeof json === "object" && !Array.isArray(json)
+          ? (json as Record<string, unknown>)
+          : {};
+    } catch (parseError) {
+      response.body.dump();
+      throw parseError;
+    }
+  } catch (error) {
+    if (error instanceof Error && error.name === 'TimeoutError') {
+      throw new Error(`Relay request timed out after ${params.relayConfig.timeoutMs}ms`);
+    }
+    throw error;
   }
-  const body =
-    json && typeof json === "object" && !Array.isArray(json)
-      ? (json as Record<string, unknown>)
-      : {};
 
   const status =
-    typeof body.status === "number" && Number.isFinite(body.status)
-      ? Math.trunc(body.status)
-      : response.status;
-  const environment = parseRelayEnvironment(body.environment);
+    typeof responseBody.status === "number" && Number.isFinite(responseBody.status)
+      ? Math.trunc(responseBody.status)
+      : statusCode;
+      
+  const environment = parseRelayEnvironment(responseBody.environment);
+  
   return {
-    ok: typeof body.ok === "boolean" ? body.ok : response.ok && status >= 200 && status < 300,
+    ok: typeof responseBody.ok === "boolean" ? responseBody.ok : status >= 200 && status < 300,
     status,
-    apnsId: parseReason(body.apnsId),
-    reason: parseReason(body.reason),
+    apnsId: parseReason(responseBody.apnsId),
+    reason: parseReason(responseBody.reason),
     ...(environment ? { environment } : {}),
-    tokenSuffix: parseReason(body.tokenSuffix),
+    tokenSuffix: parseReason(responseBody.tokenSuffix),
   };
 }
 
@@ -300,12 +326,17 @@ export async function sendApnsRelayPush(params: {
   const sender = params.requestSender ?? sendApnsRelayRequest;
   const gatewayIdentity = params.gatewayIdentity ?? loadOrCreateDeviceIdentity();
   const signedAtMs = Date.now();
+  if (Math.abs(Date.now() - signedAtMs) > MAX_SIGNATURE_AGE_MS) {
+    throw new Error("Clock drift detected or signature took too long to generate. Rejecting to prevent Replay attacks.");
+  }
+
   const bodyJson = JSON.stringify({
     relayHandle: params.relayHandle,
     pushType: params.pushType,
     priority: Number(params.priority),
     payload: params.payload,
   });
+
   const signature = signDevicePayload(
     gatewayIdentity.privateKeyPem,
     buildRelayGatewaySignaturePayload({
@@ -314,6 +345,7 @@ export async function sendApnsRelayPush(params: {
       bodyJson,
     }),
   );
+
   return await sender({
     relayConfig: params.relayConfig,
     sendGrant: params.sendGrant,

@@ -3,30 +3,30 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { resolveChannelDefaultAccountId } from "../../channels/plugins/helpers.js";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { resolveChannelDefaultAccountId } from "../../channels/plugins/helpers.ts";
 import {
   createMessageActionDiscoveryContext,
   resolveMessageActionDiscoveryForPlugin,
-} from "../../channels/plugins/message-action-discovery.js";
-import { listReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read-only.js";
+} from "../../channels/plugins/message-action-discovery.ts";
+import { listReadOnlyChannelPluginsForConfig } from "../../channels/plugins/read-only.ts";
 import type {
   ChannelCapabilities,
   ChannelCapabilitiesDiagnostics,
   ChannelCapabilitiesDisplayLine,
   ChannelPlugin,
-} from "../../channels/plugins/types.public.js";
-import { formatCliCommand } from "../../cli/command-format.js";
-import { formatUnknownChannelMessage } from "../../cli/error-format.js";
-import { parseTimeoutMsWithFallback } from "../../cli/parse-timeout.js";
-import { readConfigFileSnapshot } from "../../config/config.js";
-import type { OpenClawConfig } from "../../config/config.js";
-import { danger } from "../../globals.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../../runtime.js";
-import { resolveInstallableChannelPlugin } from "../channel-setup/channel-plugin-resolution.js";
-import { persistResolvedChannelPluginConfig } from "./plugin-config-persistence.js";
-import { formatChannelAccountLabel, requireValidConfig } from "./shared.js";
+} from "../../channels/plugins/types.public.ts";
+import { formatCliCommand } from "../../cli/command-format.ts";
+import { formatUnknownChannelMessage } from "../../cli/error-format.ts";
+import { parseTimeoutMsWithFallback } from "../../cli/parse-timeout.ts";
+import { readConfigFileSnapshot } from "../../config/config.ts";
+import type { OpenClawConfig } from "../../config/config.ts";
+import { danger } from "../../globals.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { defaultRuntime, type RuntimeEnv, writeRuntimeJson } from "../../runtime.ts";
+import { resolveInstallableChannelPlugin } from "../channel-setup/channel-plugin-resolution.ts";
+import { persistResolvedChannelPluginConfig } from "./plugin-config-persistence.ts";
+import { formatChannelAccountLabel, requireValidConfig } from "./shared.ts";
 
 export type ChannelsCapabilitiesOptions = {
   channel?: string;

@@ -1,10 +1,10 @@
 /**
  * Decodes HTML-entity escaped tool-call arguments in stream wrappers.
  */
-import { streamSimple } from "../../llm/stream.js";
-import { visitObjectContentBlocks } from "../../shared/message-content-blocks.js";
-import type { StreamFn } from "../runtime/index.js";
-import type { MutableAssistantMessageEventStream } from "../stream-compat.js";
+import { streamSimple } from "../../llm/stream.ts";
+import { visitObjectContentBlocks } from "../../shared/message-content-blocks.ts";
+import type { StreamFn } from "../runtime/index.ts";
+import type { MutableAssistantMessageEventStream } from "../stream-compat.ts";
 
 /**
  * Decodes HTML entities inside streamed tool-call arguments before downstream execution.

@@ -1,6 +1,6 @@
 // Device pairing access helpers evaluate pairing scopes and role permissions.
 import { normalizeUniqueSingleOrTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { normalizeDeviceAuthScopes } from "./device-auth.js";
+import { normalizeDeviceAuthScopes } from "./device-auth.ts";
 
 export type DevicePairingAccessSummary = {
   /** Normalized role ids requested or approved for a device. */
@@ -65,7 +65,7 @@ function includesAll(allowed: readonly string[], requested: readonly string[]): 
   return requested.every((value) => allowedSet.has(value));
 }
 
-/** Normalizes requested roles/scopes from pending pairing records, including legacy singular role. */
+/** Normalizes requested roles/scopes from pending pairing records, including older singular role. */
 export function summarizePendingDeviceAccess(request: PendingLike): DevicePairingAccessSummary {
   return {
     roles: normalizeRoleList(request.roles, request.role),

@@ -7,8 +7,8 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import type { MsgContext } from "../auto-reply/templating.js";
-import { normalizeChatType } from "./chat-type.js";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import { normalizeChatType } from "./chat-type.ts";
 
 function extractConversationId(from?: string): string | undefined {
   const trimmed = normalizeOptionalString(from);

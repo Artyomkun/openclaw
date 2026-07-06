@@ -1,8 +1,8 @@
 // Shared get-reply type contracts for command, directive, and runtime layers.
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { GetReplyOptions } from "../get-reply-options.types.js";
-import type { ReplyPayload } from "../reply-payload.js";
-import type { MsgContext } from "../templating.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { GetReplyOptions } from "../get-reply-options.types.ts";
+import type { ReplyPayload } from "../reply-payload.ts";
+import type { MsgContext } from "../templating.ts";
 
 export type ReplySessionBinding = {
   sessionKey?: string;

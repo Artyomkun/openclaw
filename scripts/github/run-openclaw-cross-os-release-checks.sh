@@ -40,7 +40,7 @@ if command -v cygpath >/dev/null 2>&1; then
 fi
 
 tool_dir="${OPENCLAW_RELEASE_TSX_TOOL_DIR:-${temp_root}/openclaw-release-tsx-${tsx_version}}"
-loader_path="${tool_dir}/node_modules/tsx/dist/loader.mjs"
+loader_path="${tool_dir}/node_modules/tsx/dist/loader.ts"
 npm_tool_dir="${tool_dir}"
 npm_cli_arg="${npm_cli_js}"
 loader_arg="${loader_path}"

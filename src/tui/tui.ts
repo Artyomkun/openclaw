@@ -14,53 +14,53 @@ import {
   TUI,
 } from "@earendil-works/pi-tui";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { CommandEntry } from "../../packages/gateway-protocol/src/index.js";
-import { resolveAgentIdByWorkspacePath, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { getRuntimeConfig, type OpenClawConfig } from "../config/config.js";
-import { isChatStopCommandText } from "../gateway/chat-abort.js";
-import { registerUncaughtExceptionHandler } from "../infra/unhandled-rejections.js";
-import { getWindowsSystem32ExePath } from "../infra/windows-install-roots.js";
-import { setConsoleSubsystemFilter } from "../logging/console.js";
-import { loggingState } from "../logging/state.js";
+import type { CommandEntry } from "../../packages/gateway-protocol/src/index.ts";
+import { resolveAgentIdByWorkspacePath, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { getRuntimeConfig, type OpenClawConfig } from "../config/config.ts";
+import { isChatStopCommandText } from "../gateway/chat-abort.ts";
+import { registerUncaughtExceptionHandler } from "../infra/unhandled-rejections.ts";
+import { getWindowsSystem32ExePath } from "../infra/windows-install-roots.ts";
+import { setConsoleSubsystemFilter } from "../logging/console.ts";
+import { loggingState } from "../logging/state.ts";
 import {
   buildWindowsCmdExeCommandLine,
   isWindowsBatchCommand,
   resolveTrustedWindowsCmdExe,
-} from "../process/windows-command.js";
+} from "../process/windows-command.ts";
 import {
   buildAgentMainSessionKey,
   normalizeAgentId,
   normalizeMainKey,
   parseAgentSessionKey,
-} from "../routing/session-key.js";
-import { getSlashCommands } from "./commands.js";
-import { ChatLog } from "./components/chat-log.js";
-import { CustomEditor } from "./components/custom-editor.js";
-import { resolveLocalRunShutdownGraceMs } from "./local-run-shutdown.js";
-import { editorTheme, theme } from "./theme/theme.js";
-import type { TuiBackend } from "./tui-backend.js";
-import { createCommandHandlers } from "./tui-command-handlers.js";
-import { createEventHandlers } from "./tui-event-handlers.js";
+} from "../routing/session-key.ts";
+import { getSlashCommands } from "./commands.ts";
+import { ChatLog } from "./components/chat-log.ts";
+import { CustomEditor } from "./components/custom-editor.ts";
+import { resolveLocalRunShutdownGraceMs } from "./local-run-shutdown.ts";
+import { editorTheme, theme } from "./theme/theme.ts";
+import type { TuiBackend } from "./tui-backend.ts";
+import { createCommandHandlers } from "./tui-command-handlers.ts";
+import { createEventHandlers } from "./tui-event-handlers.ts";
 import {
   formatGoalFooter,
   formatRemoteConnectionHostFooter,
   formatTokens,
-} from "./tui-formatters.js";
+} from "./tui-formatters.ts";
 import {
   buildTuiLastSessionScopeKey,
   readTuiLastSessionKey,
   resolveRememberedTuiSessionKey,
   writeTuiLastSessionKey,
-} from "./tui-last-session.js";
-import { createLocalShellRunner } from "./tui-local-shell.js";
-import { createOverlayHandlers } from "./tui-overlays.js";
-import { createSessionActions } from "./tui-session-actions.js";
-import { TUI_SESSION_LOOKUP_LIMIT } from "./tui-session-list-policy.js";
+} from "./tui-last-session.ts";
+import { createLocalShellRunner } from "./tui-local-shell.ts";
+import { createOverlayHandlers } from "./tui-overlays.ts";
+import { createSessionActions } from "./tui-session-actions.ts";
+import { TUI_SESSION_LOOKUP_LIMIT } from "./tui-session-list-policy.ts";
 import {
   createEditorSubmitHandler,
   createSubmitBurstCoalescer,
   shouldEnableWindowsGitBashPasteFallback,
-} from "./tui-submit.js";
+} from "./tui-submit.ts";
 import type {
   AgentSummary,
   SessionInfo,
@@ -68,24 +68,24 @@ import type {
   TuiOptions,
   TuiResult,
   TuiStateAccess,
-} from "./tui-types.js";
-import { buildWaitingStatusMessage, defaultWaitingPhrases } from "./tui-waiting.js";
+} from "./tui-types.ts";
+import { buildWaitingStatusMessage, defaultWaitingPhrases } from "./tui-waiting.ts";
 
-export { resolveFinalAssistantText } from "./tui-formatters.js";
-export type { TuiOptions } from "./tui-types.js";
+export { resolveFinalAssistantText } from "./tui-formatters.ts";
+export type { TuiOptions } from "./tui-types.ts";
 export {
   createEditorSubmitHandler,
   createSubmitBurstCoalescer,
   shouldEnableWindowsGitBashPasteFallback,
-} from "./tui-submit.js";
+} from "./tui-submit.ts";
 
-const OPENCLAW_CLI_WRAPPER_PATH = fileURLToPath(new URL("../../openclaw.mjs", import.meta.url));
+const OPENCLAW_CLI_WRAPPER_PATH = fileURLToPath(new URL("../../openclaw.ts", import.meta.url));
 const OPENCLAW_RUN_NODE_SCRIPT_PATH = fileURLToPath(
-  new URL("../../scripts/run-node.mjs", import.meta.url),
+  new URL("../../scripts/run-node.ts", import.meta.url),
 );
 const OPENCLAW_DIST_ENTRY_JS_PATH = fileURLToPath(new URL("../../dist/entry.js", import.meta.url));
-const OPENCLAW_DIST_ENTRY_MJS_PATH = fileURLToPath(
-  new URL("../../dist/entry.mjs", import.meta.url),
+const OPENCLAW_DIST_ENTRY_ts_PATH = fileURLToPath(
+  new URL("../../dist/entry.ts", import.meta.url),
 );
 
 const OPENAI_CODEX_PROVIDER = "openai";
@@ -118,14 +118,14 @@ export function resolveLocalAuthCliInvocation(params?: {
 }): { command: string; args: string[] } {
   const hasDistEntry =
     params?.hasDistEntry ??
-    (existsSync(OPENCLAW_DIST_ENTRY_JS_PATH) || existsSync(OPENCLAW_DIST_ENTRY_MJS_PATH));
+    (existsSync(OPENCLAW_DIST_ENTRY_JS_PATH) || existsSync(OPENCLAW_DIST_ENTRY_ts_PATH));
   const hasRunNodeScript = params?.hasRunNodeScript ?? existsSync(OPENCLAW_RUN_NODE_SCRIPT_PATH);
   const command = params?.execPath ?? process.execPath;
   const wrapperPath = params?.wrapperPath ?? OPENCLAW_CLI_WRAPPER_PATH;
   const runNodePath = params?.runNodePath ?? OPENCLAW_RUN_NODE_SCRIPT_PATH;
 
   // Prefer the packaged wrapper when build output exists, but keep source-tree
-  // auth working in unbuilt checkouts that only have scripts/run-node.mjs.
+  // auth working in unbuilt checkouts that only have scripts/run-node.ts.
   return hasDistEntry || !hasRunNodeScript
     ? { command, args: [wrapperPath, "models", "auth", "login"] }
     : { command, args: [runNodePath, "models", "auth", "login"] };
@@ -158,10 +158,10 @@ export function resolveLocalAuthSpawnCwd(params: { args: string[]; defaultCwd?: 
     return defaultCwd;
   }
   const entryBase = path.basename(entryArg).toLowerCase();
-  if (entryBase === "openclaw.mjs") {
+  if (entryBase === "openclaw.ts") {
     return path.dirname(entryArg);
   }
-  if (entryBase === "run-node.mjs") {
+  if (entryBase === "run-node.ts") {
     return path.dirname(path.dirname(entryArg));
   }
   return defaultCwd;

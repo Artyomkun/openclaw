@@ -10,37 +10,37 @@ import {
   readStringValue,
 } from "@openclaw/normalization-core/string-coerce";
 import { Type } from "typebox";
-import { getRuntimeConfig } from "../../config/config.js";
+import { getRuntimeConfig } from "../../config/config.ts";
 import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   resolveStorePath,
-} from "../../config/sessions.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { callGateway } from "../../gateway/call.js";
-import { readSessionTitleFieldsFromTranscriptAsync } from "../../gateway/session-transcript-readers.js";
-import { deriveSessionTitle } from "../../gateway/session-utils.js";
-import { resolveAgentIdFromSessionKey } from "../../routing/session-key.js";
-import { normalizeFastModeAutoOnSeconds, normalizeFastModeSource } from "../../shared/fast-mode.js";
-import { deliveryContextFromSession } from "../../utils/delivery-context.shared.js";
+} from "../../config/sessions.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { callGateway } from "../../gateway/call.ts";
+import { readSessionTitleFieldsFromTranscriptAsync } from "../../gateway/session-transcript-readers.ts";
+import { deriveSessionTitle } from "../../gateway/session-utils.ts";
+import { resolveAgentIdFromSessionKey } from "../../routing/session-key.ts";
+import { normalizeFastModeAutoOnSeconds, normalizeFastModeSource } from "../../shared/fast-mode.ts";
+import { deliveryContextFromSession } from "../../utils/delivery-context.shared.ts";
 import {
   optionalNonNegativeIntegerSchema,
   optionalPositiveIntegerSchema,
-} from "../schema/typebox.js";
+} from "../schema/typebox.ts";
 import {
   describeSessionsListTool,
   SESSIONS_LIST_TOOL_DISPLAY_SUMMARY,
-} from "../tool-description-presets.js";
-import { stripToolMessages } from "./chat-history-text.js";
-import type { AnyAgentTool } from "./common.js";
+} from "../tool-description-presets.ts";
+import { stripToolMessages } from "./chat-history-text.ts";
+import type { AnyAgentTool } from "./common.ts";
 import {
   jsonResult,
   readNonNegativeIntegerParam,
   readPositiveIntegerParam,
   readStringArrayParam,
   readStringParam,
-} from "./common.js";
+} from "./common.ts";
 import {
   createAgentToAgentPolicy,
   createSessionVisibilityRowChecker,
@@ -52,7 +52,7 @@ import {
   resolveSandboxedSessionToolContext,
   type SessionListRow,
   type SessionRunStatus,
-} from "./sessions-helpers.js";
+} from "./sessions-helpers.ts";
 
 const SessionsListToolSchema = Type.Object({
   kinds: Type.Optional(Type.Array(Type.String())),

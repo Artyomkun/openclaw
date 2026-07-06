@@ -6,15 +6,15 @@ import { resolveTimerTimeoutMs } from "@openclaw/normalization-core/number-coerc
 import {
   readProviderJsonResponse,
   readProviderTextResponse,
-} from "../../../agents/provider-http-errors.js";
+} from "../../../agents/provider-http-errors.ts";
 import {
   nonNegativeSecondsToSafeMilliseconds,
   positiveSecondsToSafeMilliseconds,
   resolveExpiresAtMsFromDurationSeconds,
   resolveExpiresAtMsFromEpochSeconds,
-} from "../../../infra/parse-finite-number.js";
-import type { Model } from "../../types.js";
-import type { OAuthCredentials, OAuthLoginCallbacks, OAuthProviderInterface } from "./types.js";
+} from "../../../infra/parse-finite-number.ts";
+import type { Model } from "../../types.ts";
+import type { OAuthCredentials, OAuthLoginCallbacks, OAuthProviderInterface } from "./types.ts";
 
 type CopilotCredentials = OAuthCredentials & {
   enterpriseUrl?: string;

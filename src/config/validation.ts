@@ -3,71 +3,66 @@ import path from "node:path";
 import { collectConfiguredModelRefs } from "@openclaw/model-catalog-core/configured-model-refs";
 import { isCanonicalDottedDecimalIPv4, isLoopbackIpAddress } from "@openclaw/net-policy/ip";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.js";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { sanitizeForLog } from "../../packages/terminal-core/src/ansi.ts";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
 import {
   type ChannelDmAllowFromMode,
   resolveChannelDmAllowFrom,
   resolveChannelDmPolicy,
-} from "../channels/plugins/dm-access.js";
-import { isPathInside } from "../infra/path-guards.js";
-import { planManifestModelCatalogSuppressions } from "../model-catalog/index.js";
+} from "../channels/plugins/dm-access.ts";
+import { isPathInside } from "../infra/path-guards.ts";
+import { planManifestModelCatalogSuppressions } from "../model-catalog/index.ts";
 import {
   normalizePluginsConfig,
   normalizePluginId,
   resolveEffectivePluginActivationState,
   resolveMemorySlotDecision,
-} from "../plugins/config-state.js";
-import { loadInstalledPluginIndexInstallRecordsSync } from "../plugins/installed-plugin-index-record-reader.js";
-import { resolveManifestCommandAliasOwnerInRegistry } from "../plugins/manifest-command-aliases.js";
-import type { PluginManifestRegistry } from "../plugins/manifest-registry.js";
+} from "../plugins/config-state.ts";
+import { loadInstalledPluginIndexInstallRecordsSync } from "../plugins/installed-plugin-index-record-reader.ts";
+import { resolveManifestCommandAliasOwnerInRegistry } from "../plugins/manifest-command-aliases.ts";
+import type { PluginManifestRegistry } from "../plugins/manifest-registry.ts";
 import {
   getOfficialExternalPluginCatalogEntry,
   resolveOfficialExternalPluginInstall,
-} from "../plugins/official-external-plugin-catalog.js";
+} from "../plugins/official-external-plugin-catalog.ts";
 import {
   resolvePluginMetadataSnapshot,
   type PluginMetadataSnapshot,
-} from "../plugins/plugin-metadata-snapshot.js";
-import { validateJsonSchemaValue } from "../plugins/schema-validator.js";
-import { hasKind } from "../plugins/slots.js";
-import { resolveWebSearchInstallCatalogEntries } from "../plugins/web-search-install-catalog.js";
-import { collectUnsupportedSecretRefConfigCandidates } from "../secrets/unsupported-surface-policy.js";
+} from "../plugins/plugin-metadata-snapshot.ts";
+import { validateJsonSchemaValue } from "../plugins/schema-validator.ts";
+import { hasKind } from "../plugins/slots.ts";
+import { resolveWebSearchInstallCatalogEntries } from "../plugins/web-search-install-catalog.ts";
+import { collectUnsupportedSecretRefConfigCandidates } from "../secrets/unsupported-surface-policy.ts";
 import {
   hasAvatarUriScheme,
   isAvatarDataUrl,
   isAvatarHttpUrl,
   isPathWithinRoot,
   isWindowsAbsolutePath,
-} from "../shared/avatar-policy.js";
+} from "../shared/avatar-policy.ts";
 import {
   formatUnsafeGatewayTailscaleNoAuthMessage,
   isUnsafeGatewayTailscaleNoAuth,
-} from "../shared/gateway-tailscale-auth-policy.js";
-import { isRecord, resolveUserPath } from "../utils.js";
-import { findDuplicateAgentDirs, formatDuplicateAgentDirError } from "./agent-dirs.js";
-import { appendAllowedValuesHint, summarizeAllowedValues } from "./allowed-values.js";
-import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "./bundled-channel-config-metadata.generated.js";
+} from "../shared/gateway-tailscale-auth-policy.ts";
+import { isRecord, resolveUserPath } from "../utils.ts";
+import { findDuplicateAgentDirs, formatDuplicateAgentDirError } from "./agent-dirs.ts";
+import { appendAllowedValuesHint, summarizeAllowedValues } from "./allowed-values.ts";
+import { GENERATED_BUNDLED_CHANNEL_CONFIG_METADATA } from "./bundled-channel-config-metadata.generated.ts";
 import {
   collectChannelDmPolicyMetadata,
   collectChannelSchemaMetadataWithOwnership,
-} from "./channel-config-metadata.js";
-import { shouldSuppressMissingCodexPluginDiagnostics } from "./codex-plugin-diagnostics.js";
-import { materializeRuntimeConfig } from "./materialize.js";
-import type { OpenClawConfig, ConfigValidationIssue } from "./types.js";
-import { coerceSecretRef } from "./types.secrets.js";
+} from "./channel-config-metadata.ts";
+import { shouldSuppressMissingCodexPluginDiagnostics } from "./codex-plugin-diagnostics.ts";
+import { materializeRuntimeConfig } from "./materialize.ts";
+import type { OpenClawConfig, ConfigValidationIssue } from "./types.ts";
+import { coerceSecretRef } from "./types.secrets.ts";
 import {
   type DmPolicyAllowFromViolation,
   evaluateDmPolicyAllowFromDependency,
   isBuiltInModelProviderOverlayId,
-} from "./zod-schema.core.js";
-import { OpenClawSchema } from "./zod-schema.js";
+} from "./zod-schema.core.ts";
+import { OpenClawSchema } from "./zod-schema.ts";
 
-const LEGACY_REMOVED_PLUGIN_IDS = new Set([
-  "google-antigravity-auth",
-  "google-gemini-cli-auth",
-  "skill-workshop",
-]);
 const BLOCKED_PLUGIN_CANDIDATE_PREFIX = "blocked plugin candidate:";
 
 function formatRemovedPluginConfigWarning(pluginId: string): string {
@@ -134,20 +129,6 @@ function materializeBundledModelProviderOverlays(config: OpenClawConfig): OpenCl
       providers: nextProviders,
     },
   };
-}
-
-function stripPreservedLegacyRootKeysForValidation(
-  raw: unknown,
-  keys?: readonly string[],
-): unknown {
-  if (!keys || keys.length === 0 || !isRecord(raw)) {
-    return raw;
-  }
-  const next = { ...raw };
-  for (const key of keys) {
-    delete next[key];
-  }
-  return next;
 }
 
 const CUSTOM_EXPECTED_ONE_OF_RE = /expected one of ((?:"[^"]+"(?:\|"?[^"]+"?)*)+)/i;
@@ -260,7 +241,7 @@ function lookupJsonSchemaNode(
   return current;
 }
 
-function collectAllowedValuesFromJsonSchemaNode(schema: unknown): AllowedValuesCollection {
+function collectAllowedValuesFrotsonSchemaNode(schema: unknown): AllowedValuesCollection {
   const node = asJsonSchemaLike(schema);
   if (!node) {
     return { values: [], incomplete: false, hasValues: false };
@@ -293,7 +274,7 @@ function collectAllowedValuesFromJsonSchemaNode(schema: unknown): AllowedValuesC
 
   const collected: unknown[] = [];
   for (const branch of unionBranches) {
-    const branchCollected = collectAllowedValuesFromJsonSchemaNode(branch);
+    const branchCollected = collectAllowedValuesFrotsonSchemaNode(branch);
     if (branchCollected.incomplete || !branchCollected.hasValues) {
       return { values: [], incomplete: true, hasValues: false };
     }
@@ -317,7 +298,7 @@ function collectAllowedValuesFromBundledChannelSchemaPath(
   if (!targetNode) {
     return { values: [], incomplete: false, hasValues: false };
   }
-  return collectAllowedValuesFromJsonSchemaNode(targetNode);
+  return collectAllowedValuesFrotsonSchemaNode(targetNode);
 }
 
 function formatRawChannelConfigIssueMessage(message: string): string {
@@ -399,11 +380,6 @@ function hasChannelDmPolicyDependencyWarningCandidates(config: OpenClawConfig): 
  * configs parse fine but drop every DM at runtime, so we warn (rather than reject) to
  * stay consistent with `security audit`/`doctor` and avoid breaking existing-but-usable
  * configs on upgrade.
- *
- * Resolution goes through the shared DM-access helpers so the warning matches the
- * effective policy/allowFrom the runtime sees, including the legacy `dm.*` aliases and
- * account->channel inheritance. `nestedOnly` channels (canonical fields under `dm.*`)
- * are skipped because their config shape does not match this warning's top-level paths.
  */
 function collectChannelDmPolicyDependencyWarnings(
   config: OpenClawConfig,
@@ -832,7 +808,6 @@ function mapZodIssueToConfigIssue(issue: unknown): ConfigValidationIssue {
 
   const allowedValuesSummary = summarizeAllowedValues(collectAllowedValuesFromUnknownIssue(issue));
 
-  // Bindings use a plain union because legacy route bindings may omit `type`.
   // When an explicit ACP binding fails strict-object checks, Zod collapses the
   // useful ACP branch issue behind a generic union-level "Invalid input".
   if (
@@ -1039,30 +1014,15 @@ function validateGatewayTailscaleAuth(config: OpenClawConfig): ConfigValidationI
  * Use this when you need the raw validated config (e.g., for writing back to file).
  */
 export function validateConfigObjectRaw(
-  raw: unknown,
   opts?: {
     sourceRaw?: unknown;
     touchedPaths?: ReadonlyArray<ReadonlyArray<string>>;
     validateBundledChannels?: boolean;
-    preservedLegacyRootKeys?: readonly string[];
   },
 ): { ok: true; config: OpenClawConfig } | { ok: false; issues: ConfigValidationIssue[] } {
-  const normalizedRaw = stripPreservedLegacyRootKeysForValidation(
-    stripDeprecatedValidationKeys(raw),
-    opts?.preservedLegacyRootKeys,
-  );
-  const policyIssues = collectUnsupportedSecretRefPolicyIssues(normalizedRaw);
-  const validated = OpenClawSchema.safeParse(normalizedRaw);
-  if (!validated.success) {
-    const schemaIssues = validated.error.issues.map((issue) => mapZodIssueToConfigIssue(issue));
-    return {
-      ok: false,
-      issues: mergeUnsupportedMutableSecretRefIssues(policyIssues, schemaIssues),
-    };
-  }
   const validatedConfig = materializeBundledModelProviderOverlays(validated.data as OpenClawConfig);
   const channelIssues =
-    policyIssues.length > 0 || opts?.validateBundledChannels
+    opts?.validateBundledChannels
       ? collectRawBundledChannelConfigIssues(validatedConfig)
       : [];
   if (channelIssues.length > 0) {
@@ -1070,9 +1030,6 @@ export function validateConfigObjectRaw(
       ok: false,
       issues: mergeUnsupportedMutableSecretRefIssues(policyIssues, channelIssues),
     };
-  }
-  if (policyIssues.length > 0) {
-    return { ok: false, issues: policyIssues };
   }
   const duplicates = findDuplicateAgentDirs(validatedConfig);
   if (duplicates.length > 0) {
@@ -1143,7 +1100,6 @@ type ValidateConfigWithPluginsParams = {
     config: OpenClawConfig,
   ) => Pick<PluginMetadataSnapshot, "manifestRegistry">;
   sourceRaw?: unknown;
-  preservedLegacyRootKeys?: readonly string[];
 };
 
 export function validateConfigObjectWithPlugins(
@@ -1157,7 +1113,6 @@ export function validateConfigObjectWithPlugins(
     pluginMetadataSnapshot: params?.pluginMetadataSnapshot,
     loadPluginMetadataSnapshot: params?.loadPluginMetadataSnapshot,
     sourceRaw: params?.sourceRaw,
-    preservedLegacyRootKeys: params?.preservedLegacyRootKeys,
   });
 }
 
@@ -1172,7 +1127,6 @@ export function validateConfigObjectRawWithPlugins(
     pluginMetadataSnapshot: params?.pluginMetadataSnapshot,
     loadPluginMetadataSnapshot: params?.loadPluginMetadataSnapshot,
     sourceRaw: params?.sourceRaw,
-    preservedLegacyRootKeys: params?.preservedLegacyRootKeys,
   });
 }
 
@@ -1182,7 +1136,6 @@ function validateConfigObjectWithPluginsBase(
 ): ValidateConfigWithPluginsResult {
   const base = validateConfigObjectRaw(raw, {
     sourceRaw: opts.sourceRaw,
-    preservedLegacyRootKeys: opts.preservedLegacyRootKeys,
   });
   if (!base.ok) {
     return { ok: false, issues: base.issues, warnings: [] };
@@ -1910,13 +1863,6 @@ function validateConfigObjectWithPluginsBase(
       missingMessage?: string | null;
     },
   ) => {
-    if (LEGACY_REMOVED_PLUGIN_IDS.has(pluginId)) {
-      warnings.push({
-        path: pathLocal,
-        message: formatRemovedPluginConfigWarning(pluginId),
-      });
-      return;
-    }
     const blockedDiagnostic = findBlockedPluginDiagnostic(pluginId);
     if (blockedDiagnostic) {
       const source = blockedDiagnostic.source ? `; source: ${blockedDiagnostic.source}` : "";

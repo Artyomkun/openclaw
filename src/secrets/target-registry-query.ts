@@ -1,20 +1,20 @@
 /** Query helpers for discovering secret target registry entries. */
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { loadChannelSecretContractApi } from "./channel-contract-api.js";
-import { getPath } from "./path-utils.js";
-import { getCoreSecretTargetRegistry, getSecretTargetRegistry } from "./target-registry-data.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { loadChannelSecretContractApi } from "./channel-contract-api.ts";
+import { getPath } from "./path-utils.ts";
+import { getCoreSecretTargetRegistry, getSecretTargetRegistry } from "./target-registry-data.ts";
 import {
   compileTargetRegistryEntry,
   expandPathTokens,
   materializePathTokens,
   matchPathTokens,
   type CompiledTargetRegistryEntry,
-} from "./target-registry-pattern.js";
+} from "./target-registry-pattern.ts";
 import type {
   DiscoveredConfigSecretTarget,
   ResolvedPlanTarget,
   SecretTargetRegistryEntry,
-} from "./target-registry-types.js";
+} from "./target-registry-types.ts";
 
 let compiledSecretTargetRegistryState: {
   authProfilesCompiledSecretTargets: CompiledTargetRegistryEntry[];
@@ -446,4 +446,4 @@ export type {
   SecretTargetExpected,
   SecretTargetRegistryEntry,
   SecretTargetShape,
-} from "./target-registry-types.js";
+} from "./target-registry-types.ts";

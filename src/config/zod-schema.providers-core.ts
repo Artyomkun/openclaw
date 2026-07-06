@@ -2,19 +2,19 @@
 import { isValidInboundPathRootPattern } from "@openclaw/media-core/inbound-path-policy";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { z } from "zod";
-import { isSafeScpRemoteHost } from "../infra/scp-host.js";
+import { isSafeScpRemoteHost } from "../infra/scp-host.ts";
 import {
   normalizeCommandDescription,
   normalizeSlashCommandName,
   resolveCustomCommands,
-} from "../shared/custom-command-config.js";
-import { hasConfiguredSecretInput } from "./types.secrets.js";
-import { ToolPolicySchema } from "./zod-schema.agent-runtime.js";
-import { NativeExecApprovalEnableModeSchema } from "./zod-schema.approvals.js";
+} from "../shared/custom-command-config.ts";
+import { hasConfiguredSecretInput } from "./types.secrets.ts";
+import { ToolPolicySchema } from "./zod-schema.agent-runtime.ts";
+import { NativeExecApprovalEnableModeSchema } from "./zod-schema.approvals.ts";
 import {
   ChannelHealthMonitorSchema,
   ChannelHeartbeatVisibilitySchema,
-} from "./zod-schema.channels.js";
+} from "./zod-schema.channels.ts";
 import {
   BlockStreamingChunkSchema,
   BlockStreamingCoalesceSchema,
@@ -34,12 +34,12 @@ import {
   TtsConfigSchema,
   requireAllowlistAllowFrom,
   requireOpenAllowFrom,
-} from "./zod-schema.core.js";
+} from "./zod-schema.core.ts";
 import {
   validateSlackSigningSecretRequirements,
   validateTelegramWebhookSecretRequirements,
-} from "./zod-schema.secret-input-validation.js";
-import { sensitive } from "./zod-schema.sensitive.js";
+} from "./zod-schema.secret-input-validation.ts";
+import { sensitive } from "./zod-schema.sensitive.ts";
 
 const ToolPolicyBySenderSchema = z.record(z.string(), ToolPolicySchema).optional();
 

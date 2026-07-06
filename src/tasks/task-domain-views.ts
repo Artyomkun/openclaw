@@ -5,10 +5,10 @@ import type {
   TaskRunAggregateSummary,
   TaskRunDetail,
   TaskRunView,
-} from "../plugins/runtime/task-domain-types.js";
-import type { TaskFlowRecord } from "./task-flow-registry.types.js";
-import { summarizeTaskRecords } from "./task-registry.summary.js";
-import type { TaskRecord, TaskRegistrySummary } from "./task-registry.types.js";
+} from "../plugins/runtime/task-domain-types.ts";
+import type { TaskFlowRecord } from "./task-flow-registry.types.ts";
+import { summarizeTaskRecords } from "./task-registry.summary.ts";
+import type { TaskRecord, TaskRegistrySummary } from "./task-registry.types.ts";
 
 /** Maps internal task summary counts to the plugin task-domain view contract. */
 export function mapTaskRunAggregateSummary(summary: TaskRegistrySummary): TaskRunAggregateSummary {

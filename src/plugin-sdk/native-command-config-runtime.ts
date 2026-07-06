@@ -5,4 +5,4 @@ export {
   isNativeCommandsExplicitlyDisabled,
   resolveNativeCommandsEnabled,
   resolveNativeSkillsEnabled,
-} from "../config/commands.js";
+} from "../config/commands.ts";

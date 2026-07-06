@@ -2,8 +2,8 @@
  * Normalizes tool-call names, ids, and standalone text calls for providers.
  */
 import { randomUUID } from "node:crypto";
-import { normalizeLowercaseStringOrEmpty } from "../../../../packages/normalization-core/src/string-coerce.js";
-import { normalizeStringEntries } from "../../../../packages/normalization-core/src/string-normalization.js";
+import { normalizeLowercaseStringOrEmpty } from "../../../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeStringEntries } from "../../../../packages/normalization-core/src/string-normalization.ts";
 import {
   extractStandalonePlainTextToolCallText,
   normalizePlainTextToolCallStreamEvents,
@@ -11,28 +11,28 @@ import {
   scrubOverCapPlainTextToolCallMessage,
   type PlainTextToolCallBlock,
   type PlainTextToolCallNameMatcher,
-} from "../../../../packages/tool-call-repair/src/index.js";
-import { visitObjectContentBlocks } from "../../../shared/message-content-blocks.js";
+} from "../../../../packages/tool-call-repair/src/index.ts";
+import { visitObjectContentBlocks } from "../../../shared/message-content-blocks.ts";
 import {
   downgradeOpenAIFunctionCallReasoningPairs,
   downgradeOpenAIReasoningBlocks,
   normalizeOpenAIResponsesToolCallIds,
   validateAnthropicTurns,
   validateGeminiTurns,
-} from "../../embedded-agent-helpers.js";
-import type { AgentMessage, StreamFn } from "../../runtime/index.js";
-import { sanitizeToolUseResultPairing } from "../../session-transcript-repair.js";
+} from "../../embedded-agent-helpers.ts";
+import type { AgentMessage, StreamFn } from "../../runtime/index.ts";
+import { sanitizeToolUseResultPairing } from "../../session-transcript-repair.ts";
 import {
   extractToolCallsFromAssistant,
   extractToolResultIds,
   sanitizeToolCallIdsForCloudCodeAssist,
   type ToolCallIdMode,
-} from "../../tool-call-id.js";
-import { couldNormalizeToolNamePrefixToAllowedTool, normalizeToolName } from "../../tool-policy.js";
-import { shouldAllowProviderOwnedThinkingReplay } from "../../transcript-policy.js";
-import type { TranscriptPolicy } from "../../transcript-policy.js";
-import { isRunnerToolCallBlockType } from "./attempt.tool-call-block-type.js";
-import { wrapStreamObjectEvents } from "./stream-wrapper.js";
+} from "../../tool-call-id.ts";
+import { couldNormalizeToolNamePrefixToAllowedTool, normalizeToolName } from "../../tool-policy.ts";
+import { shouldAllowProviderOwnedThinkingReplay } from "../../transcript-policy.ts";
+import type { TranscriptPolicy } from "../../transcript-policy.ts";
+import { isRunnerToolCallBlockType } from "./attempt.tool-call-block-type.ts";
+import { wrapStreamObjectEvents } from "./stream-wrapper.ts";
 
 const BLANK_TOOL_CALL_NAME_DESCRIPTION = "blank tool name";
 

@@ -1,11 +1,11 @@
 // Builds task status summaries and formatted status text for user-facing surfaces.
-import { sanitizeUserFacingText } from "../agents/embedded-agent-helpers/sanitize-user-facing-text.js";
+import { sanitizeUserFacingText } from "../agents/embedded-agent-helpers/sanitize-user-facing-text.ts";
 import {
   INTERNAL_RUNTIME_CONTEXT_BEGIN,
   INTERNAL_RUNTIME_CONTEXT_END,
-} from "../agents/internal-runtime-context.js";
-import { truncateUtf16Safe } from "../utils.js";
-import type { TaskRecord } from "./task-registry.types.js";
+} from "../agents/internal-runtime-context.ts";
+import { truncateUtf16Safe } from "../utils.ts";
+import type { TaskRecord } from "./task-registry.types.ts";
 
 const ACTIVE_TASK_STATUSES = new Set(["queued", "running"]);
 const FAILURE_TASK_STATUSES = new Set(["failed", "timed_out", "lost"]);
@@ -58,14 +58,6 @@ function stripInlineLeakedInternalContext(value: string): string {
       value.includes("[Internal task completion event]"))
   ) {
     return value.slice(0, beginIndex);
-  }
-  const legacyHeaderIndex = value.indexOf("OpenClaw runtime context (internal):");
-  if (
-    legacyHeaderIndex !== -1 &&
-    (value.includes("Keep internal details private.") ||
-      value.includes("[Internal task completion event]"))
-  ) {
-    return value.slice(0, legacyHeaderIndex);
   }
   return value;
 }

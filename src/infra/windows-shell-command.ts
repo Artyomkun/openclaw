@@ -1,6 +1,6 @@
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { ExecCommandAnalysis } from "./exec-command-analysis-types.js";
-import { resolveCommandResolutionFromArgv } from "./exec-command-resolution.js";
+import type { ExecCommandAnalysis } from "./exec-command-analysis-types.ts";
+import { resolveCommandResolutionFromArgv } from "./exec-command-resolution.ts";
 
 const WINDOWS_UNSUPPORTED_TOKENS = new Set([
   "&",

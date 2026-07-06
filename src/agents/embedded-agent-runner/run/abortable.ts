@@ -1,7 +1,7 @@
 /**
  * AbortSignal-aware promise racing helper for embedded-agent attempts.
  */
-import { toErrorObject } from "../../../infra/errors.js";
+import { toErrorObject } from "../../../infra/errors.ts";
 
 function getAbortReason(signal: AbortSignal): unknown {
   return "reason" in signal ? (signal as { reason?: unknown }).reason : undefined;

@@ -1,46 +1,46 @@
 // Plugin runtime entrypoint assembles runtime helpers available to activated plugins.
-import { getRuntimeConfig } from "../../config/config.js";
-import { resolveStateDir } from "../../config/paths.js";
+import { getRuntimeConfig } from "../../config/config.ts";
+import { resolveStateDir } from "../../config/paths.ts";
 import {
   generateImage as generateRuntimeImage,
   listRuntimeImageGenerationProviders,
-} from "../../image-generation/runtime.js";
+} from "../../image-generation/runtime.ts";
 import {
   generateMusic as generateRuntimeMusic,
   listRuntimeMusicGenerationProviders,
-} from "../../music-generation/runtime.js";
-import { RequestScopedSubagentRuntimeError } from "../../plugin-sdk/error-runtime.js";
+} from "../../music-generation/runtime.ts";
+import { RequestScopedSubagentRuntimeError } from "../../plugin-sdk/error-runtime.ts";
 import {
   createLazyRuntimeMethod,
   createLazyRuntimeMethodBinder,
   createLazyRuntimeModule,
   createLazyRuntimeSurface,
-} from "../../shared/lazy-runtime.js";
-import { VERSION } from "../../version.js";
+} from "../../shared/lazy-runtime.ts";
+import { VERSION } from "../../version.ts";
 import {
   generateVideo as generateRuntimeVideo,
   listRuntimeVideoGenerationProviders,
-} from "../../video-generation/runtime.js";
-import { listWebSearchProviders, runWebSearch } from "../../web-search/runtime.js";
-import { gatewaySubagentState } from "./gateway-bindings.js";
-import { createRuntimeAgent } from "./runtime-agent.js";
-import { defineCachedValue } from "./runtime-cache.js";
-import { createRuntimeChannel } from "./runtime-channel.js";
-import { createRuntimeConfig } from "./runtime-config.js";
-import { createRuntimeEvents } from "./runtime-events.js";
-import { createRuntimeLogging } from "./runtime-logging.js";
-import { createRuntimeMedia } from "./runtime-media.js";
-import { createRuntimeSystem } from "./runtime-system.js";
-import { createRuntimeTaskFlow } from "./runtime-taskflow.js";
-import { createRuntimeTasks } from "./runtime-tasks.js";
-import type { CreatePluginRuntimeOptions, PluginRuntime } from "./types.js";
+} from "../../video-generation/runtime.ts";
+import { listWebSearchProviders, runWebSearch } from "../../web-search/runtime.ts";
+import { gatewaySubagentState } from "./gateway-bindings.ts";
+import { createRuntimeAgent } from "./runtime-agent.ts";
+import { defineCachedValue } from "./runtime-cache.ts";
+import { createRuntimeChannel } from "./runtime-channel.ts";
+import { createRuntimeConfig } from "./runtime-config.ts";
+import { createRuntimeEvents } from "./runtime-events.ts";
+import { createRuntimeLogging } from "./runtime-logging.ts";
+import { createRuntimeMedia } from "./runtime-media.ts";
+import { createRuntimeSystem } from "./runtime-system.ts";
+import { createRuntimeTaskFlow } from "./runtime-taskflow.ts";
+import { createRuntimeTasks } from "./runtime-tasks.ts";
+import type { CreatePluginRuntimeOptions, PluginRuntime } from "./types.ts";
 
-export type { CreatePluginRuntimeOptions } from "./types.js";
+export type { CreatePluginRuntimeOptions } from "./types.ts";
 export {
   clearGatewaySubagentRuntime,
   setGatewayNodesRuntime,
   setGatewaySubagentRuntime,
-} from "./gateway-bindings.js";
+} from "./gateway-bindings.ts";
 
 const loadTtsRuntime = createLazyRuntimeModule(() => import("../../tts/tts.js"));
 const loadMediaUnderstandingRuntime = createLazyRuntimeModule(
@@ -226,9 +226,6 @@ function createLateBindingNodes(allowGatewayBinding = false): PluginRuntime["nod
 export function createPluginRuntime(_options: CreatePluginRuntimeOptions = {}): PluginRuntime {
   const mediaUnderstanding = createRuntimeMediaUnderstandingFacade();
   const taskFlow = createRuntimeTaskFlow();
-  const tasks = createRuntimeTasks({
-    legacyTaskFlow: taskFlow,
-  });
   const runtime = {
     // Sourced from the shared OpenClaw version resolver (#52899) so plugins
     // always see the same version the CLI reports, avoiding API-version drift.
@@ -304,4 +301,4 @@ export function createPluginRuntime(_options: CreatePluginRuntimeOptions = {}): 
   return runtime as unknown as PluginRuntime;
 }
 
-export type { PluginRuntime } from "./types.js";
+export type { PluginRuntime } from "./types.ts";

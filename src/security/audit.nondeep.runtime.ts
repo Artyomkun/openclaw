@@ -2,7 +2,7 @@
 export {
   collectAttackSurfaceSummaryFindings,
   collectSmallModelRiskFindings,
-} from "./audit-extra.summary.js";
+} from "./audit-extra.summary.ts";
 
 export {
   collectExposureMatrixFindings,
@@ -18,13 +18,13 @@ export {
   collectSandboxDockerNoopFindings,
   collectSecretsInConfigFindings,
   collectSyncedFolderFindings,
-} from "./audit-extra.sync.js";
+} from "./audit-extra.sync.ts";
 
 export {
   collectSandboxBrowserHashLabelFindings,
   collectIncludeFilePermFindings,
   collectStateDeepFilesystemFindings,
   readConfigSnapshotForAudit,
-} from "./audit-extra.async.js";
-export { collectWorkspaceSkillSymlinkEscapeFindings } from "../skills/security/workspace-audit.js";
-export { collectPluginsTrustFindings } from "./audit-plugins-trust.js";
+} from "./audit-extra.async.ts";
+export { collectWorkspaceSkillSymlinkEscapeFindings } from "../skills/security/workspace-audit.ts";
+export { collectPluginsTrustFindings } from "./audit-plugins-trust.ts";

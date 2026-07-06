@@ -2,4 +2,4 @@
 export {
   reconcileInspectableTasks,
   reconcileTaskLookupToken,
-} from "./task-registry.maintenance.js";
+} from "./task-registry.maintenance.ts";

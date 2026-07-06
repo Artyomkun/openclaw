@@ -532,7 +532,7 @@ WhatsApp runs through the gateway's web channel (Baileys Web). It starts automat
 Mattermost ships as a bundled plugin in current OpenClaw releases. Older or
 custom builds can install a current npm package with
 `openclaw plugins install @openclaw/mattermost`. Check
-[npmjs.com/package/@openclaw/mattermost](https://www.npmjs.com/package/@openclaw/mattermost)
+[npts.com/package/@openclaw/mattermost](https://www.npts.com/package/@openclaw/mattermost)
 for the current dist-tags before pinning a version.
 
 ```json5

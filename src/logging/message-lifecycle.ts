@@ -1,5 +1,5 @@
 // Message lifecycle logging helpers emit queue and processing diagnostic events.
-import { logMessageProcessed, logMessageQueued, logSessionStateChange } from "./diagnostic.js";
+import { logMessageProcessed, logMessageQueued, logSessionStateChange } from "./diagnostic.ts";
 
 type MessageLifecycleRef = {
   sessionId?: string;

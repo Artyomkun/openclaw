@@ -1,7 +1,7 @@
 // Reads effective SSH target config from the local ssh client.
 import { spawn } from "node:child_process";
-import { parseStrictPositiveInteger } from "./parse-finite-number.js";
-import type { SshParsedTarget } from "./ssh-tunnel.js";
+import { parseStrictPositiveInteger } from "./parse-finite-number.ts";
+import type { SshParsedTarget } from "./ssh-tunnel.ts";
 
 export const SSH_CONFIG_OUTPUT_MAX_CHARS = 64 * 1024;
 

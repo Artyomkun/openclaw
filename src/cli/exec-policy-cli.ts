@@ -1,17 +1,17 @@
 // CLI for showing and applying exec policy presets across config and approvals.
 import crypto from "node:crypto";
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.js";
-import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.js";
-import { isRich, theme } from "../../packages/terminal-core/src/theme.js";
-import { readConfigFileSnapshot, replaceConfigFile } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { sanitizeExecApprovalDisplayText } from "../infra/exec-approval-command-display.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { sanitizeTerminalText } from "../../packages/terminal-core/src/safe-text.ts";
+import { getTerminalTableWidth, renderTable } from "../../packages/terminal-core/src/table.ts";
+import { isRich, theme } from "../../packages/terminal-core/src/theme.ts";
+import { readConfigFileSnapshot, replaceConfigFile } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { sanitizeExecApprovalDisplayText } from "../infra/exec-approval-command-display.ts";
 import {
   collectExecPolicyScopeSnapshots,
   type ExecPolicyScopeSnapshot,
-} from "../infra/exec-approvals-effective.js";
+} from "../infra/exec-approvals-effective.ts";
 import {
   normalizeExecAsk,
   normalizeExecSecurity,
@@ -23,8 +23,8 @@ import {
   type ExecAsk,
   type ExecSecurity,
   type ExecTarget,
-} from "../infra/exec-approvals.js";
-import { defaultRuntime } from "../runtime.js";
+} from "../infra/exec-approvals.ts";
+import { defaultRuntime } from "../runtime.ts";
 
 type ExecPolicyPresetName = "yolo" | "cautious" | "deny-all";
 

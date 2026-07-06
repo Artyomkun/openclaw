@@ -13,19 +13,19 @@ import {
   type OwnedSessionTranscriptWriteOptions,
   type OwnedSessionTranscriptCacheSnapshot,
   withOwnedSessionTranscriptWrites,
-} from "../../../config/sessions/transcript-write-context.js";
-import { toErrorObject } from "../../../infra/errors.js";
-import { resolveGlobalSingleton } from "../../../shared/global-singleton.js";
-import { isTranscriptOnlyOpenClawAssistantMessage } from "../../../shared/transcript-only-openclaw-assistant.js";
-import { isSessionWriteLockAcquireError } from "../../session-write-lock-error.js";
-import type { acquireSessionWriteLock } from "../../session-write-lock.js";
+} from "../../../config/sessions/transcript-write-context.ts";
+import { toErrorObject } from "../../../infra/errors.ts";
+import { resolveGlobalSingleton } from "../../../shared/global-singleton.ts";
+import { isTranscriptOnlyOpenClawAssistantMessage } from "../../../shared/transcript-only-openclaw-assistant.ts";
+import { isSessionWriteLockAcquireError } from "../../session-write-lock-error.ts";
+import type { acquireSessionWriteLock } from "../../session-write-lock.ts";
 import type {
   CustomEntry,
   LabelEntry,
   SessionInfoEntry,
   SessionMessageEntry,
-} from "../../sessions/session-manager.js";
-import { resolveEmbeddedSessionFileKey } from "../session-file-key.js";
+} from "../../sessions/session-manager.ts";
+import { resolveEmbeddedSessionFileKey } from "../session-file-key.ts";
 
 type SessionLock = Awaited<ReturnType<typeof acquireSessionWriteLock>>;
 type AcquireSessionWriteLock = typeof acquireSessionWriteLock;

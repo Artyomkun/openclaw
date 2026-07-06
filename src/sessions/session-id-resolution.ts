@@ -1,7 +1,7 @@
 // Session id resolution helpers resolve user-provided session references.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { SessionEntry } from "../config/sessions.js";
-import { toAgentRequestSessionKey } from "../routing/session-key.js";
+import type { SessionEntry } from "../config/sessions.ts";
+import { toAgentRequestSessionKey } from "../routing/session-key.ts";
 
 // Session-id matching resolves fuzzy CLI/user input against store keys while
 // avoiding silent picks when multiple plausible sessions tie.

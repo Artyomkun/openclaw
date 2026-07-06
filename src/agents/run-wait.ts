@@ -11,19 +11,19 @@ import {
   resolveDateTimestampMs,
   resolveExpiresAtMsFromDurationMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { callGateway } from "../gateway/call.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { normalizeBlockedLivenessWaitStatus } from "../shared/agent-liveness.js";
+import { callGateway } from "../gateway/call.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { normalizeBlockedLivenessWaitStatus } from "../shared/agent-liveness.ts";
 import {
   buildAgentRunTerminalOutcomeFromWaitResult,
   type AgentRunTerminalOutcome,
-} from "./agent-run-terminal-outcome.js";
+} from "./agent-run-terminal-outcome.ts";
 import {
   normalizeAgentRunTimeoutPhase,
   normalizeProviderStarted,
   type AgentRunTimeoutPhase,
-} from "./run-timeout-attribution.js";
-import { extractAssistantText, stripToolMessages } from "./tools/chat-history-text.js";
+} from "./run-timeout-attribution.ts";
+import { extractAssistantText, stripToolMessages } from "./tools/chat-history-text.ts";
 
 type GatewayCaller = typeof callGateway;
 

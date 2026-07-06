@@ -12,7 +12,7 @@ import {
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const scanRoots = ["src", "extensions", "scripts"] as const;
-const sourceExtensions = [".ts", ".tsx", ".mts", ".cts", ".js", ".mjs", ".cjs"] as const;
+const sourceExtensions = [".ts", ".tsx", ".ts", ".js", ".ts"] as const;
 const testSourcePattern = /(?:\.test|\.e2e\.test)\.[cm]?[tj]sx?$/;
 const generatedSourcePattern = /\.(?:generated|bundle)\.[tj]s$/;
 const declarationSourcePattern = /\.d\.[cm]?ts$/;
@@ -39,10 +39,8 @@ function createSourceResolver(files: readonly string[]) {
       pathMap.set(`${extensionless}.js`, file);
     } else if (file.endsWith(".tsx")) {
       pathMap.set(`${extensionless}.jsx`, file);
-    } else if (file.endsWith(".mts")) {
-      pathMap.set(`${extensionless}.mjs`, file);
-    } else if (file.endsWith(".cts")) {
-      pathMap.set(`${extensionless}.cjs`, file);
+    } else if (file.endsWith(".ts")) {
+      pathMap.set(`${extensionless}.ts`, file);
     }
   }
   return (importer: string, specifier: string): string | null => {
@@ -56,7 +54,7 @@ function createSourceResolver(files: readonly string[]) {
       `${base}/index.ts`,
       `${base}/index.tsx`,
       `${base}/index.js`,
-      `${base}/index.mjs`,
+      `${base}/index.ts`,
     ];
     for (const candidate of candidates) {
       if (fileSet.has(candidate)) {

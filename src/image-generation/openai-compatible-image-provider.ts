@@ -13,18 +13,18 @@ import {
   sanitizeConfiguredModelProviderRequest,
 } from "openclaw/plugin-sdk/provider-http";
 import { normalizeOptionalString } from "openclaw/plugin-sdk/string-coerce-runtime";
-import { resolveGeneratedMediaMaxBytes } from "../media/configured-max-bytes.js";
+import { resolveGeneratedMediaMaxBytes } from "../media/configured-max-bytes.ts";
 import {
   parseOpenAiCompatibleImageResponse,
   resolveInlineImageJsonResponseMaxBytes,
-} from "./image-assets.js";
+} from "./image-assets.ts";
 import type {
   ImageGenerationProvider,
   ImageGenerationProviderCapabilities,
   ImageGenerationRequest,
   ImageGenerationResult,
   ImageGenerationSourceImage,
-} from "./types.js";
+} from "./types.ts";
 
 // Factory for providers that expose OpenAI-style /images/generations and
 // /images/edits endpoints while still allowing provider-specific bodies.

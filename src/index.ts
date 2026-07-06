@@ -3,19 +3,15 @@
 // Package executable entrypoint that forwards to the CLI bootstrap.
 import process from "node:process";
 import { fileURLToPath } from "node:url";
-import { formatCliFailureLines } from "./cli/failure-output.js";
-import { formatUncaughtError } from "./infra/errors.js";
-import { runFatalErrorHooks } from "./infra/fatal-error-hooks.js";
-import { isMainModule } from "./infra/is-main.js";
+import { formatCliFailureLines } from "./cli/failure-output.ts";
+import { formatUncaughtError } from "./infra/errors.ts";
+import { runFatalErrorHooks } from "./infra/fatal-error-hooks.ts";
+import { isMainModule } from "./infra/is-main.ts";
 import {
   installUnhandledRejectionHandler,
   isBenignUncaughtExceptionError,
   isUncaughtExceptionHandled,
-} from "./infra/unhandled-rejections.js";
-
-type LegacyCliDeps = {
-  runCli: (argv: string[]) => Promise<void>;
-};
+} from "./infra/unhandled-rejections.ts";
 
 type LibraryExports = typeof import("./library.js");
 
@@ -41,20 +37,6 @@ export let runCommandWithTimeout: LibraryExports["runCommandWithTimeout"];
 export let runExec: LibraryExports["runExec"];
 export let saveSessionStore: LibraryExports["saveSessionStore"];
 export let waitForever: LibraryExports["waitForever"];
-
-async function loadLegacyCliDeps(): Promise<LegacyCliDeps> {
-  const { runCli } = await import("./cli/run-main.js");
-  return { runCli };
-}
-
-// Legacy direct file entrypoint only. Package root exports now live in library.ts.
-export async function runLegacyCliEntry(
-  argv: string[] = process.argv,
-  deps?: LegacyCliDeps,
-): Promise<void> {
-  const { runCli } = deps ?? (await loadLegacyCliDeps());
-  await runCli(argv);
-}
 
 const isMain = isMainModule({
   currentFile: fileURLToPath(import.meta.url),
@@ -114,21 +96,6 @@ if (isMain) {
       console.error("[openclaw]", message);
     }
     restoreTerminalState("uncaught exception", { resumeStdinIfPaused: false });
-    process.exit(1);
-  });
-
-  void runLegacyCliEntry(process.argv).catch((err: unknown) => {
-    for (const line of formatCliFailureLines({
-      title: "The CLI command failed.",
-      error: err,
-      argv: process.argv,
-    })) {
-      console.error(line);
-    }
-    for (const message of runFatalErrorHooks({ reason: "legacy_cli_failure", error: err })) {
-      console.error("[openclaw]", message);
-    }
-    restoreTerminalState("legacy cli failure", { resumeStdinIfPaused: false });
     process.exit(1);
   });
 }

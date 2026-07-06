@@ -1,5 +1,5 @@
 // Registers and resolves available LLM models for provider routing.
-import type { Model } from "./types.js";
+import type { Model } from "./types.ts";
 
 /** Registry abstraction used by model pickers and provider availability checks. */
 export type ModelRegistry = {

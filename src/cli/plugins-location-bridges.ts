@@ -1,16 +1,16 @@
 // Bridge builder for users upgrading from bundled plugins to external plugin packages.
 import path from "node:path";
-import { buildBundledPluginLoadPathAliases } from "../plugins/bundled-load-path-aliases.js";
-import type { ExternalizedBundledPluginBridge } from "../plugins/externalized-bundled-plugins.js";
-import { readPersistedInstalledPluginIndex } from "../plugins/installed-plugin-index-store.js";
-import type { InstalledPluginIndexRecord } from "../plugins/installed-plugin-index.js";
-import { loadPluginManifestRegistryForInstalledIndex } from "../plugins/manifest-registry-installed.js";
-import type { PluginManifestRecord } from "../plugins/manifest-registry.js";
+import { buildBundledPluginLoadPathAliases } from "../plugins/bundled-load-path-aliases.ts";
+import type { ExternalizedBundledPluginBridge } from "../plugins/externalized-bundled-plugins.ts";
+import { readPersistedInstalledPluginIndex } from "../plugins/installed-plugin-index-store.ts";
+import type { InstalledPluginIndexRecord } from "../plugins/installed-plugin-index.ts";
+import { loadPluginManifestRegistryForInstalledIndex } from "../plugins/manifest-registry-installed.ts";
+import type { PluginManifestRecord } from "../plugins/manifest-registry.ts";
 import {
   getOfficialExternalPluginCatalogEntry,
   getOfficialExternalPluginCatalogManifest,
   resolveOfficialExternalPluginInstall,
-} from "../plugins/official-external-plugin-catalog.js";
+} from "../plugins/official-external-plugin-catalog.ts";
 
 export type PersistedBundledPluginRecoveryLocation = {
   pluginId: string;

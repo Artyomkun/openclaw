@@ -1,6 +1,5 @@
 // Reset preservation keeps user-selected model/auth overrides while dropping automatic fallbacks.
-import { hasSessionAutoModelFallbackProvenance } from "./model-override-provenance.js";
-import type { SessionEntry } from "./types.js";
+import type { SessionEntry } from "./types.ts";
 
 type ResetPreservedSelectionState = Pick<
   SessionEntry,
@@ -19,7 +18,7 @@ type ResetPreservedSelectionState = Pick<
  * preserved. Auto-created overrides (runtime fallbacks, rate-limit rotations)
  * are cleared so resets actually return the session to the configured default.
  *
- * Legacy entries persisted before `modelOverrideSource` was tracked are
+ * Older entries persisted before `modelOverrideSource` was tracked are
  * treated as user-driven, matching the prior reset behavior so explicit
  * selections made before the source field existed are not silently dropped.
  */
@@ -32,17 +31,9 @@ export function resolveResetPreservedSelection(params: {
   }
 
   const preserved: Partial<ResetPreservedSelectionState> = {};
-  const recoveredAutoFallbackOverride =
-    entry.modelOverrideSource === undefined && hasSessionAutoModelFallbackProvenance(entry);
   // Missing source on older entries means "user" unless fallback provenance proves the runtime
   // created the override automatically.
-  const preserveLegacyUserModelOverride =
-    entry.modelOverrideSource === "user" ||
-    (entry.modelOverrideSource === undefined &&
-      Boolean(entry.modelOverride) &&
-      !recoveredAutoFallbackOverride);
-  if (preserveLegacyUserModelOverride && entry.modelOverride) {
-    preserved.providerOverride = entry.providerOverride;
+  if (entry.modelOverride) {
     preserved.modelOverride = entry.modelOverride;
     preserved.modelOverrideSource = "user";
   }

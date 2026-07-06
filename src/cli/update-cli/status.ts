@@ -1,21 +1,21 @@
 // `openclaw update status`: combines install metadata, configured channel, and remote update checks.
-import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
+import { getTerminalTableWidth, renderTable } from "../../../packages/terminal-core/src/table.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
 import {
   formatUpdateAvailableHint,
   formatUpdateOneLiner,
   resolveUpdateAvailability,
-} from "../../commands/status.update.js";
-import { readSourceConfigBestEffort } from "../../config/config.js";
+} from "../../commands/status.update.ts";
+import { readSourceConfigBestEffort } from "../../config/config.ts";
 import {
   normalizeUpdateChannel,
   resolveRegistryUpdateChannel,
   resolveUpdateChannelDisplay,
-} from "../../infra/update-channels.js";
-import { checkUpdateStatus } from "../../infra/update-check.js";
-import { defaultRuntime } from "../../runtime.js";
-import { VERSION } from "../../version.js";
-import { parseTimeoutMsOrExit, resolveUpdateRoot, type UpdateStatusOptions } from "./shared.js";
+} from "../../infra/update-channels.ts";
+import { checkUpdateStatus } from "../../infra/update-check.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { VERSION } from "../../version.ts";
+import { parseTimeoutMsOrExit, resolveUpdateRoot, type UpdateStatusOptions } from "./shared.ts";
 
 function formatGitStatusLine(params: {
   branch: string | null;

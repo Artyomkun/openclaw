@@ -1,10 +1,10 @@
 // Inbound channel session recorder and last-route updater.
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import type { MsgContext } from "../auto-reply/templating.js";
-import type { GroupKeyResolution } from "../config/sessions/types.js";
-import { normalizeSessionKeyPreservingOpaquePeerIds } from "../sessions/session-key-utils.js";
-import type { InboundLastRouteUpdate } from "./session.types.js";
-export type { InboundLastRouteUpdate, RecordInboundSession } from "./session.types.js";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import type { GroupKeyResolution } from "../config/sessions/types.ts";
+import { normalizeSessionKeyPreservingOpaquePeerIds } from "../sessions/session-key-utils.ts";
+import type { InboundLastRouteUpdate } from "./session.types.ts";
+export type { InboundLastRouteUpdate, RecordInboundSession } from "./session.types.ts";
 
 let inboundSessionRuntimePromise: Promise<
   typeof import("../config/sessions/inbound.runtime.js")

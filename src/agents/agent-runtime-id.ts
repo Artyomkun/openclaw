@@ -31,16 +31,6 @@ export function normalizeOptionalAgentRuntimeId(raw: unknown): EmbeddedAgentRunt
   return value ? normalizeEmbeddedAgentRuntime(value) : undefined;
 }
 
-/**
- * @deprecated Whole-agent runtime environment selection is retired. Use
- * provider/model runtime policy or a registered agent harness instead.
- */
-export function resolveEmbeddedAgentRuntime(
-  _env: NodeJS.ProcessEnv = process.env,
-): EmbeddedAgentRuntime {
-  return OPENCLAW_AGENT_RUNTIME_ID;
-}
-
 /** Returns whether a runtime id should be treated as the default runtime selection. */
 export function isDefaultAgentRuntimeId(runtime: string | undefined): boolean {
   return runtime === undefined || runtime === AUTO_AGENT_RUNTIME_ID || runtime === "default";

@@ -3,7 +3,7 @@
  *
  * Follows provider citation redirect URLs through the strict web-tools network guard.
  */
-import { withStrictWebToolsEndpoint } from "./web-guarded-fetch.js";
+import { withStrictWebToolsEndpoint } from "./web-guarded-fetch.ts";
 
 const REDIRECT_TIMEOUT_MS = 5000;
 

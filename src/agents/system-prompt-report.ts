@@ -5,11 +5,11 @@
  * injection, skills, and tool schema footprint without storing raw prompt text.
  */
 import { createHash } from "node:crypto";
-import type { SessionSystemPromptReport } from "../config/sessions/types.js";
-import { buildBootstrapInjectionStats } from "./bootstrap-budget.js";
-import type { EmbeddedContextFile } from "./embedded-agent-helpers.js";
-import type { AgentTool } from "./runtime/index.js";
-import type { WorkspaceBootstrapFile } from "./workspace.js";
+import type { SessionSystemPromptReport } from "../config/sessions/types.ts";
+import { buildBootstrapInjectionStats } from "./bootstrap-budget.ts";
+import type { EmbeddedContextFile } from "./embedded-agent-helpers.ts";
+import type { AgentTool } from "./runtime/index.ts";
+import type { WorkspaceBootstrapFile } from "./workspace.ts";
 
 type ToolReportEntry = SessionSystemPromptReport["tools"]["entries"][number];
 

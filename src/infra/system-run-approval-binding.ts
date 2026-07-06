@@ -4,9 +4,9 @@ import type {
   SystemRunApprovalBinding,
   SystemRunApprovalFileOperand,
   SystemRunApprovalPlan,
-} from "./exec-approvals.js";
-import { normalizeHostOverrideEnvVarKey } from "./host-env-security.js";
-import { normalizeNonEmptyString, normalizeStringArray } from "./system-run-normalize.js";
+} from "./exec-approvals.ts";
+import { normalizeHostOverrideEnvVarKey } from "./host-env-security.ts";
+import { normalizeNonEmptyString, normalizeStringArray } from "./system-run-normalize.ts";
 
 type NormalizedSystemRunEnvEntry = [key: string, value: string];
 

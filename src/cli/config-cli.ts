@@ -8,25 +8,25 @@ import {
 } from "@openclaw/normalization-core/string-normalization";
 import type { Command } from "commander";
 import JSON5 from "json5";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { normalizeConfiguredProviderCatalogModelId } from "../agents/model-ref-shared.ts";
 import {
   type ConfigFileSnapshot,
   readConfigFileSnapshot,
   replaceConfigFile,
-} from "../config/config.js";
-import { AUTO_MANAGED_CONFIG_META_PATHS } from "../config/io.meta.js";
-import { formatConfigIssueLines, normalizeConfigIssues } from "../config/issue-format.js";
+} from "../config/config.ts";
+import { AUTO_MANAGED_CONFIG_META_PATHS } from "../config/io.meta.ts";
+import { formatConfigIssueLines, normalizeConfigIssues } from "../config/issue-format.ts";
 import {
   normalizeAgentModelMapForConfig,
   normalizeAgentModelRefForConfig,
-} from "../config/model-input.js";
-import { CONFIG_PATH } from "../config/paths.js";
-import { isPluginPackagingRuntimeOutputInvalidConfigSnapshot } from "../config/recovery-policy.js";
-import { redactConfigObject } from "../config/redact-snapshot.js";
-import { readBestEffortRuntimeConfigSchema } from "../config/runtime-schema.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+} from "../config/model-input.ts";
+import { CONFIG_PATH } from "../config/paths.ts";
+import { isPluginPackagingRuntimeOutputInvalidConfigSnapshot } from "../config/recovery-policy.ts";
+import { redactConfigObject } from "../config/redact-snapshot.ts";
+import { readBestEffortRuntimeConfigSchema } from "../config/runtime-schema.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   coerceSecretRef,
   isValidEnvSecretRefId,
@@ -35,25 +35,25 @@ import {
   type SecretProviderConfig,
   type SecretRef,
   type SecretRefSource,
-} from "../config/types.secrets.js";
+} from "../config/types.secrets.ts";
 import {
   collectUnsupportedSecretRefPolicyIssues,
   validateConfigObjectRawWithPlugins,
-} from "../config/validation.js";
-import { SecretProviderSchema } from "../config/zod-schema.core.js";
-import { diffConfigPaths } from "../gateway/config-diff.js";
-import { buildGatewayReloadPlan } from "../gateway/config-reload-plan.js";
-import { resolveGatewayReloadSettings } from "../gateway/config-reload-settings.js";
-import { danger, info, success, warn } from "../globals.js";
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
-import { isBlockedObjectKey } from "../infra/prototype-keys.js";
-import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
+} from "../config/validation.ts";
+import { SecretProviderSchema } from "../config/zod-schema.core.ts";
+import { diffConfigPaths } from "../gateway/config-diff.ts";
+import { buildGatewayReloadPlan } from "../gateway/config-reload-plan.ts";
+import { resolveGatewayReloadSettings } from "../gateway/config-reload-settings.ts";
+import { danger, info, success, warn } from "../globals.ts";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
+import { isBlockedObjectKey } from "../infra/prototype-keys.ts";
+import { loadPluginMetadataSnapshot } from "../plugins/plugin-metadata-snapshot.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
 import {
   isPluginIntegrationSecretProviderConfig,
   resolveSecretProviderIntegrationConfig,
-} from "../secrets/provider-integrations.js";
+} from "../secrets/provider-integrations.ts";
 import {
   formatExecSecretRefIdValidationMessage,
   isValidExecSecretRefId,
@@ -61,21 +61,21 @@ import {
   isValidSecretProviderAlias,
   secretRefKey,
   validateExecSecretRefId,
-} from "../secrets/ref-contract.js";
-import { resolveSecretRefValue } from "../secrets/resolve.js";
+} from "../secrets/ref-contract.ts";
+import { resolveSecretRefValue } from "../secrets/resolve.ts";
 import {
   discoverConfigSecretTargets,
   resolveConfigSecretTargetByPath,
-} from "../secrets/target-registry.js";
-import { parseConfigPathArrayIndex } from "../shared/path-array-index.js";
-import { shortenHomePath } from "../utils.js";
-import { formatCliCommand } from "./command-format.js";
-import { formatPluginPackagingRuntimeOutputRecoveryHint } from "./config-recovery-hints.js";
+} from "../secrets/target-registry.ts";
+import { parseConfigPathArrayIndex } from "../shared/path-array-index.ts";
+import { shortenHomePath } from "../utils.ts";
+import { formatCliCommand } from "./command-format.ts";
+import { formatPluginPackagingRuntimeOutputRecoveryHint } from "./config-recovery-hints.ts";
 import type {
   ConfigSetDryRunError,
   ConfigSetDryRunInputMode,
   ConfigSetDryRunResult,
-} from "./config-set-dryrun.js";
+} from "./config-set-dryrun.ts";
 import {
   hasBatchMode,
   hasProviderBuilderOptions,
@@ -83,10 +83,10 @@ import {
   parseBatchSource,
   type ConfigSetBatchEntry,
   type ConfigSetOptions,
-} from "./config-set-input.js";
-import { resolveConfigSetMode } from "./config-set-parser.js";
-import { formatStrictJsonParseFailure } from "./error-format.js";
-import { setCommandJsonMode } from "./program/json-mode.js";
+} from "./config-set-input.ts";
+import { resolveConfigSetMode } from "./config-set-parser.ts";
+import { formatStrictJsonParseFailure } from "./error-format.ts";
+import { setCommandJsonMode } from "./program/json-mode.ts";
 
 type PathSegment = string;
 type ConfigSetParseOpts = {
@@ -468,7 +468,7 @@ function formatDoctorHint(message: string): string {
 }
 
 function formatInvalidConfigRepairHint(
-  snapshot: Pick<ConfigFileSnapshot, "valid" | "issues" | "warnings" | "legacyIssues">,
+  snapshot: Pick<ConfigFileSnapshot, "valid" | "issues" | "warnings">,
   doctorMessage: string,
 ): string {
   return isPluginPackagingRuntimeOutputInvalidConfigSnapshot(snapshot)
@@ -2677,7 +2677,6 @@ export function registerConfigCli(program: Command) {
     .argument("[path]", "Config path (dot or bracket notation)")
     .argument("[value]", "Value (JSON/JSON5 or raw string)")
     .option("--strict-json", "Strict JSON parsing (error instead of raw string fallback)", false)
-    .option("--json", "Legacy alias for --strict-json", false)
     .option(
       "--dry-run",
       "Validate changes without writing openclaw.json (checks run in builder/json/batch modes; exec SecretRefs are skipped unless --allow-exec is set)",

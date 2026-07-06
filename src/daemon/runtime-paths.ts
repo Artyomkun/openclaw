@@ -4,9 +4,9 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { isSupportedNodeVersion } from "../infra/runtime-guard.js";
-import { resolveStableNodePath } from "../infra/stable-node-path.js";
-import { getWindowsProgramFilesRoots } from "../infra/windows-install-roots.js";
+import { isSupportedNodeVersion } from "../infra/runtime-guard.ts";
+import { resolveStableNodePath } from "../infra/stable-node-path.ts";
+import { getWindowsProgramFilesRoots } from "../infra/windows-install-roots.ts";
 
 const VERSION_MANAGER_MARKERS = [
   "/.nvm/",

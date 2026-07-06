@@ -2,7 +2,7 @@
 import {
   MAX_TIMER_TIMEOUT_MS,
   parseStrictNonNegativeInteger,
-} from "../infra/parse-finite-number.js";
+} from "../infra/parse-finite-number.ts";
 
 // Local TUI runs get extra shutdown time because embedded agents/providers may still be closing.
 const LOCAL_RUN_SHUTDOWN_GRACE_MS = 120_000;

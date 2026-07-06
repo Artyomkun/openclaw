@@ -1,5 +1,5 @@
 /** Parses cron schedule timestamps from user-facing absolute time strings. */
-import { parseStrictPositiveInteger } from "../infra/parse-finite-number.js";
+import { parseStrictPositiveInteger } from "../infra/parse-finite-number.ts";
 
 const ISO_TZ_RE = /(Z|[+-]\d{2}:?\d{2})$/i;
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;

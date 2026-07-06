@@ -10,20 +10,20 @@ import {
   type ExecSegmentSatisfiedBy,
   type ExecSecurity,
   type SkillBinTrustEntry,
-} from "../infra/exec-approvals.js";
-import type { ExecAuthorizationPlan } from "../infra/exec-authorization-plan.js";
-import { buildAuthorizedShellCommandFromPlan } from "../infra/exec-authorization-render.js";
-import { resolveExecSafeBinRuntimePolicy } from "../infra/exec-safe-bin-runtime-policy.js";
+} from "../infra/exec-approvals.ts";
+import type { ExecAuthorizationPlan } from "../infra/exec-authorization-plan.ts";
+import { buildAuthorizedShellCommandFromPlan } from "../infra/exec-authorization-render.ts";
+import { resolveExecSafeBinRuntimePolicy } from "../infra/exec-safe-bin-runtime-policy.ts";
 import {
   normalizeExecutableToken,
   POSIX_SHELL_WRAPPERS,
   resolveShellWrapperTransportArgv,
-} from "../infra/exec-wrapper-resolution.js";
+} from "../infra/exec-wrapper-resolution.ts";
 import {
   POSIX_INLINE_COMMAND_FLAGS,
   resolveInlineCommandMatch,
-} from "../infra/shell-inline-command.js";
-import type { RunResult } from "./invoke-types.js";
+} from "../infra/shell-inline-command.ts";
+import type { RunResult } from "./invoke-types.ts";
 
 /**
  * Allowlist analysis and argv rewriting for node-host system.run.

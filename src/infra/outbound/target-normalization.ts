@@ -4,12 +4,12 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { getChannelPlugin } from "../../channels/plugins/index.js";
-import { getLoadedChannelPluginForRead } from "../../channels/plugins/registry-loaded-read.js";
-import type { ChannelPlugin } from "../../channels/plugins/types.plugin.js";
-import type { ChannelDirectoryEntryKind, ChannelId } from "../../channels/plugins/types.public.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { getActivePluginChannelRegistryVersion } from "../../plugins/runtime.js";
+import { getChannelPlugin } from "../../channels/plugins/index.ts";
+import { getLoadedChannelPluginForRead } from "../../channels/plugins/registry-loaded-read.ts";
+import type { ChannelPlugin } from "../../channels/plugins/types.plugin.ts";
+import type { ChannelDirectoryEntryKind, ChannelId } from "../../channels/plugins/types.public.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { getActivePluginChannelRegistryVersion } from "../../plugins/runtime.ts";
 
 /**
  * Normalizes raw user/channel target input before provider-specific parsing.

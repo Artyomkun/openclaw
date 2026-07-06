@@ -5,32 +5,32 @@
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
 import { resolveSendableOutboundReplyParts } from "openclaw/plugin-sdk/reply-payload";
-import { createInlineCodeState } from "../../packages/markdown-core/src/code-spans.js";
+import { createInlineCodeState } from "../../packages/markdown-core/src/code-spans.ts";
 import {
   parseReplyDirectives,
   type ReplyDirectiveParseResult,
-} from "../auto-reply/reply/reply-directives.js";
-import { splitTrailingDirective } from "../auto-reply/reply/streaming-directives.js";
-import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.js";
-import type { AssistantMessage } from "../llm/types.js";
-import { coerceChatContentText } from "../shared/chat-content.js";
+} from "../auto-reply/reply/reply-directives.ts";
+import { splitTrailingDirective } from "../auto-reply/reply/streaming-directives.ts";
+import { isSilentReplyText, SILENT_REPLY_TOKEN } from "../auto-reply/tokens.ts";
+import type { AssistantMessage } from "../llm/types.ts";
+import { coerceChatContentText } from "../shared/chat-content.ts";
 import {
   parseAssistantTextSignature,
   resolveAssistantMessagePhase,
   type AssistantPhase,
-} from "../shared/chat-message-content.js";
+} from "../shared/chat-message-content.ts";
 import {
   isMessagingToolDuplicateNormalized,
   normalizeTextForComparison,
-} from "./embedded-agent-helpers.js";
-import type { BlockReplyPayload } from "./embedded-agent-payloads.js";
+} from "./embedded-agent-helpers.ts";
+import type { BlockReplyPayload } from "./embedded-agent-payloads.ts";
 import type {
   EmbeddedAgentSubscribeContext,
   EmbeddedAgentSubscribeState,
-} from "./embedded-agent-subscribe.handlers.types.js";
-import { isPromiseLike } from "./embedded-agent-subscribe.promise.js";
-import { appendRawStream } from "./embedded-agent-subscribe.raw-stream.js";
-import { warnIfAssistantEmittedToolText } from "./embedded-agent-subscribe.tool-text-diagnostics.js";
+} from "./embedded-agent-subscribe.handlers.types.ts";
+import { isPromiseLike } from "./embedded-agent-subscribe.promise.ts";
+import { appendRawStream } from "./embedded-agent-subscribe.raw-stream.ts";
+import { warnIfAssistantEmittedToolText } from "./embedded-agent-subscribe.tool-text-diagnostics.ts";
 import {
   extractAssistantText,
   extractAssistantThinking,
@@ -39,8 +39,8 @@ import {
   extractThinkingFromTaggedText,
   promoteThinkingTagsToBlocks,
   sanitizeAssistantVisibleStreamText,
-} from "./embedded-agent-utils.js";
-import type { AgentEvent, AgentMessage } from "./runtime/index.js";
+} from "./embedded-agent-utils.ts";
+import type { AgentEvent, AgentMessage } from "./runtime/index.ts";
 
 function shouldSuppressAssistantVisibleOutput(message: AgentMessage | undefined): boolean {
   return resolveAssistantMessagePhase(message) === "commentary";

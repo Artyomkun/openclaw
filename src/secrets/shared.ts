@@ -1,10 +1,10 @@
 /** Shared parsing and file helpers for secrets migration/runtime code. */
 import fs from "node:fs";
 import path from "node:path";
-import { privateFileStoreSync } from "../infra/private-file-store.js";
-import { replaceFileAtomicSync } from "../infra/replace-file.js";
-import { resolvePositiveTimerTimeoutMs } from "../shared/number-coercion.js";
-export { isRecord } from "../utils.js";
+import { privateFileStoreSync } from "../infra/private-file-store.ts";
+import { replaceFileAtomicSync } from "../infra/replace-file.ts";
+import { resolvePositiveTimerTimeoutMs } from "../shared/number-coercion.ts";
+export { isRecord } from "../utils.ts";
 
 /**
  * Narrows to strings that contain non-whitespace content.

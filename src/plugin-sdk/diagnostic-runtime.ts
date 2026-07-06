@@ -1,13 +1,13 @@
 // Diagnostic flag/event helpers for plugins that want narrow runtime gating.
 
-export { isDiagnosticFlagEnabled } from "../infra/diagnostic-flags.js";
+export { isDiagnosticFlagEnabled } from "../infra/diagnostic-flags.ts";
 export type {
   DiagnosticEventMetadata,
   DiagnosticEventPayload,
   DiagnosticEventPrivateData,
   DiagnosticModelCallContent,
-} from "../infra/diagnostic-events.js";
-export type { DiagnosticModelContentCapturePolicy } from "../infra/diagnostic-llm-content.js";
+} from "../infra/diagnostic-events.ts";
+export type { DiagnosticModelContentCapturePolicy } from "../infra/diagnostic-llm-content.ts";
 export {
   emitDiagnosticEvent,
   emitTrustedDiagnosticEvent,
@@ -19,9 +19,9 @@ export {
   onDiagnosticEvent,
   resetDiagnosticEventsForTest,
   waitForDiagnosticEventsDrained,
-} from "../infra/diagnostic-events.js";
-export { resolveDiagnosticModelContentCapturePolicy } from "../infra/diagnostic-llm-content.js";
-export type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.js";
+} from "../infra/diagnostic-events.ts";
+export { resolveDiagnosticModelContentCapturePolicy } from "../infra/diagnostic-llm-content.ts";
+export type { DiagnosticTraceContext } from "../infra/diagnostic-trace-context.ts";
 export {
   createChildDiagnosticTraceContext,
   createDiagnosticTraceContext,
@@ -32,4 +32,4 @@ export {
   isValidDiagnosticTraceFlags,
   isValidDiagnosticTraceId,
   parseDiagnosticTraceparent,
-} from "../infra/diagnostic-trace-context.js";
+} from "../infra/diagnostic-trace-context.ts";

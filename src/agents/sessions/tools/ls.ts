@@ -7,21 +7,21 @@ import { existsSync, readdirSync, statSync } from "node:fs";
 import nodePath from "node:path";
 import { Text } from "@earendil-works/pi-tui";
 import { Type } from "typebox";
-import { toErrorObject } from "../../../infra/errors.js";
-import type { AgentTool } from "../../runtime/index.js";
-import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.js";
-import { normalizePositiveLimit } from "./limits.js";
-import { resolveToCwd } from "./path-utils.js";
+import { toErrorObject } from "../../../infra/errors.ts";
+import type { AgentTool } from "../../runtime/index.ts";
+import type { ToolDefinition, ToolRenderResultOptions } from "../extensions/types.ts";
+import { normalizePositiveLimit } from "./limits.ts";
+import { resolveToCwd } from "./path-utils.ts";
 import {
   appendSessionToolTruncationWarning,
   formatSessionToolOutput,
   invalidArgText,
   shortenPath,
   str,
-} from "./render-utils.js";
-import type { LsToolDetails } from "./tool-contracts.js";
-import { wrapToolDefinition } from "./tool-definition-wrapper.js";
-import { DEFAULT_MAX_BYTES, formatSize, truncateHead } from "./truncate.js";
+} from "./render-utils.ts";
+import type { LsToolDetails } from "./tool-contracts.ts";
+import { wrapToolDefinition } from "./tool-definition-wrapper.ts";
+import { DEFAULT_MAX_BYTES, formatSize, truncateHead } from "./truncate.ts";
 
 const lsSchema = Type.Object({
   path: Type.Optional(
@@ -31,7 +31,7 @@ const lsSchema = Type.Object({
     Type.Number({ description: "Maximum number of entries to return (default: 500)" }),
   ),
 });
-export type { LsToolDetails, LsToolInput } from "./tool-contracts.js";
+export type { LsToolDetails, LsToolInput } from "./tool-contracts.ts";
 
 const DEFAULT_LIMIT = 500;
 

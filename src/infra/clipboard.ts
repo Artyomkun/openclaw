@@ -1,6 +1,6 @@
 // Reads and writes clipboard text through platform command helpers.
-import { runCommandWithTimeout } from "../process/exec.js";
-import { isWSL2Sync } from "./wsl.js";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { isWSL2Sync } from "./wsl.ts";
 
 // WSL interop needs a shell to launch Windows PE binaries; exec keeps the
 // clipboard process as the timeout-owned child while values stay on stdin.

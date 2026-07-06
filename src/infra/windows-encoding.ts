@@ -1,11 +1,12 @@
-// Detects and decodes Windows console output encodings.
+// Windows console encoding detection and decoding.
 import { spawnSync } from "node:child_process";
-import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { getWindowsCmdExePath } from "./windows-install-roots.js";
 
 const WINDOWS_CODEPAGE_ENCODING_MAP: Record<number, string> = {
   65001: "utf-8",
   54936: "gb18030",
+  866: "cp866",
+  437: "cp437",
+  850: "cp850",
   874: "windows-874",
   936: "gbk",
   950: "big5",
@@ -22,236 +23,121 @@ const WINDOWS_CODEPAGE_ENCODING_MAP: Record<number, string> = {
   1258: "windows-1258",
 };
 
-let cachedWindowsConsoleEncoding: string | null | undefined;
-let cachedWindowsSystemEncoding: string | null | undefined;
+let cachedConsoleEncoding: string | null | undefined;
+let cachedSystemEncoding: string | null | undefined;
 
-/** Extracts a Windows console code page number from localized `chcp` output. */
-export function parseWindowsCodePage(raw: string): number | null {
-  if (!raw) {
-    return null;
-  }
+function getCodePage(raw: string): number | null {
   const match = raw.match(/\b(\d{3,5})\b/);
-  if (!match?.[1]) {
-    return null;
-  }
-  const codePage = Number.parseInt(match[1], 10);
-  if (!Number.isFinite(codePage) || codePage <= 0) {
-    return null;
-  }
-  return codePage;
+  if (!match) return null;
+  const code = Number.parseInt(match[1], 10);
+  return code > 0 ? code : null;
 }
 
-/** Resolves and caches the current Windows console encoding for subprocess output. */
-export function resolveWindowsConsoleEncoding(): string | null {
+function getEncoding(platform: NodeJS.Platform, codepage: number | null): string | null {
+  if (platform !== "win32" || !codepage) return null;
+  return WINDOWS_CODEPAGE_ENCODING_MAP[codepage] ?? null;
+}
+
+function getConsoleEncoding(): string | null {
+  if (process.platform !== "win32") return null;
+  if (cachedConsoleEncoding !== undefined) return cachedConsoleEncoding;
+
+  try {
+    const result = spawnSync("chcp", [], { shell: true, encoding: "utf8" });
+    const raw = result.stdout + result.stderr;
+    const cp = getCodePage(raw);
+    cachedConsoleEncoding = getEncoding(process.platform, cp);
+  } catch {
+    cachedConsoleEncoding = null;
+  }
+  return cachedConsoleEncoding;
+}
+
+function getSystemEncoding(): string | null {
+  if (process.platform !== "win32") return null;
+  if (cachedSystemEncoding !== undefined) return cachedSystemEncoding;
+
+  try {
+    const result = spawnSync("powershell", [
+      "-NoProfile", "-NonInteractive", "-Command",
+      "[Text.Encoding]::Default.CodePage"
+    ], { encoding: "utf8" });
+    const cp = getCodePage(result.stdout);
+    cachedSystemEncoding = getEncoding(process.platform, cp);
+  } catch {
+    cachedSystemEncoding = null;
+  }
+  return cachedSystemEncoding;
+}
+
+export function decodeBuffer(buffer: Buffer, encoding?: string | null): string {
+  if (process.platform !== "win32") return buffer.toString("utf-8");
+
+  const enc = encoding ?? getConsoleEncoding();
+  if (!enc || enc === "utf-8") return buffer.toString("utf-8");
+
+  try {
+    return new TextDecoder(enc).decode(buffer);
+  } catch {
+    return buffer.toString("utf-8");
+  }
+}
+
+export function createDecoder(encoding?: string | null) {
   if (process.platform !== "win32") {
-    return null;
-  }
-  if (cachedWindowsConsoleEncoding !== undefined) {
-    return cachedWindowsConsoleEncoding;
-  }
-  try {
-    const result = spawnSync(getWindowsCmdExePath(), ["/d", "/s", "/c", "chcp"], {
-      windowsHide: true,
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-    });
-    const raw = `${result.stdout ?? ""}\n${result.stderr ?? ""}`;
-    const codePage = parseWindowsCodePage(raw);
-    cachedWindowsConsoleEncoding =
-      codePage !== null ? (WINDOWS_CODEPAGE_ENCODING_MAP[codePage] ?? null) : null;
-  } catch {
-    cachedWindowsConsoleEncoding = null;
-  }
-  return cachedWindowsConsoleEncoding;
-}
-
-/** Resolves and caches the Windows system encoding used by legacy text files. */
-export function resolveWindowsSystemEncoding(): string | null {
-  if (process.platform !== "win32") {
-    return null;
-  }
-  if (cachedWindowsSystemEncoding !== undefined) {
-    return cachedWindowsSystemEncoding;
-  }
-  try {
-    const result = spawnSync(
-      "powershell.exe",
-      ["-NoLogo", "-NoProfile", "-NonInteractive", "-Command", "[Text.Encoding]::Default.CodePage"],
-      {
-        windowsHide: true,
-        encoding: "utf8",
-        stdio: ["ignore", "pipe", "pipe"],
-      },
-    );
-    const raw = `${result.stdout ?? ""}\n${result.stderr ?? ""}`;
-    const codePage = parseWindowsCodePage(raw);
-    cachedWindowsSystemEncoding =
-      codePage !== null ? (WINDOWS_CODEPAGE_ENCODING_MAP[codePage] ?? null) : null;
-  } catch {
-    cachedWindowsSystemEncoding = null;
-  }
-  return cachedWindowsSystemEncoding;
-}
-
-/** Decodes one complete subprocess output buffer, preferring valid UTF-8 before legacy code pages. */
-export function decodeWindowsOutputBuffer(params: {
-  buffer: Buffer;
-  platform?: NodeJS.Platform;
-  windowsEncoding?: string | null;
-}): string {
-  return decodeWindowsBufferWithFallback({
-    ...params,
-    resolveFallbackEncoding: () => params.windowsEncoding ?? resolveWindowsConsoleEncoding(),
-  });
-}
-
-/** Decodes a text file, preferring valid UTF-8 before the Windows system encoding. */
-export function decodeWindowsTextFileBuffer(params: {
-  buffer: Buffer;
-  platform?: NodeJS.Platform;
-  windowsEncoding?: string | null;
-}): string {
-  return decodeWindowsBufferWithFallback({
-    ...params,
-    resolveFallbackEncoding: () => params.windowsEncoding ?? resolveWindowsSystemEncoding(),
-  });
-}
-
-function decodeWindowsBufferWithFallback(params: {
-  buffer: Buffer;
-  platform?: NodeJS.Platform;
-  resolveFallbackEncoding: () => string | null;
-}): string {
-  const platform = params.platform ?? process.platform;
-  if (platform !== "win32") {
-    return params.buffer.toString("utf8");
+    return { decode: (chunk: Buffer) => chunk.toString("utf-8"), flush: () => "" };
   }
 
-  const utf8 = decodeStrictUtf8(params.buffer);
-  if (utf8 !== null) {
-    return utf8;
-  }
+  const enc = encoding ?? getConsoleEncoding();
+  const isUtf8 = !enc || enc === "utf-8";
+  let pending = Buffer.alloc(0);
+  let useFallback = false;
 
-  const encoding = params.resolveFallbackEncoding();
-  if (!encoding || normalizeLowercaseStringOrEmpty(encoding) === "utf-8") {
-    return params.buffer.toString("utf8");
-  }
-  try {
-    return new TextDecoder(encoding).decode(params.buffer);
-  } catch {
-    return params.buffer.toString("utf8");
-  }
-}
-
-/** Creates a streaming decoder for subprocess output chunks that may split multibyte characters. */
-export function createWindowsOutputDecoder(params?: {
-  platform?: NodeJS.Platform;
-  windowsEncoding?: string | null;
-}): {
-  decode(chunk: Buffer | string): string;
-  flush(): string;
-} {
-  const platform = params?.platform ?? process.platform;
-  const encoding =
-    platform === "win32" ? (params?.windowsEncoding ?? resolveWindowsConsoleEncoding()) : null;
-  const normalizedEncoding = normalizeLowercaseStringOrEmpty(encoding);
-  const legacyDecoder =
-    platform === "win32" && encoding && normalizedEncoding !== "utf-8"
-      ? new TextDecoder(encoding)
-      : null;
-  const utf8Decoder =
-    platform === "win32" && legacyDecoder ? new TextDecoder("utf-8", { fatal: true }) : null;
-  let useLegacyDecoder = false;
-  let pendingUtf8Bytes = Buffer.alloc(0);
+  const decoder = isUtf8 ? null : new TextDecoder(enc);
 
   return {
-    decode(chunk) {
-      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
-      if (!legacyDecoder || !utf8Decoder) {
-        return buffer.toString("utf8");
-      }
-      if (useLegacyDecoder) {
-        return legacyDecoder.decode(buffer, { stream: true });
-      }
-      // Stay on strict UTF-8 until it fails; replay any pending lead bytes through the legacy
-      // decoder so split GBK/Big5/etc. characters are not lost at the fallback boundary.
-      const replayBuffer =
-        pendingUtf8Bytes.length > 0 ? Buffer.concat([pendingUtf8Bytes, buffer]) : buffer;
+    decode(chunk: Buffer): string {
+      if (isUtf8) return chunk.toString("utf-8");
+      if (useFallback) return decoder!.decode(chunk, { stream: true });
+
+      const data = pending.length > 0 ? Buffer.concat([pending, chunk]) : chunk;
       try {
-        const decoded = utf8Decoder.decode(buffer, { stream: true });
-        pendingUtf8Bytes = Buffer.from(getTrailingIncompleteUtf8Bytes(replayBuffer));
-        return decoded;
+        return new TextDecoder("utf-8", { fatal: true }).decode(data);
       } catch {
-        useLegacyDecoder = true;
-        pendingUtf8Bytes = Buffer.alloc(0);
-        return legacyDecoder.decode(replayBuffer, { stream: true });
+        useFallback = true;
+        pending = Buffer.alloc(0);
+        return decoder!.decode(data, { stream: true });
       }
     },
-    flush() {
-      if (!legacyDecoder || !utf8Decoder) {
-        return "";
-      }
-      if (useLegacyDecoder) {
-        return legacyDecoder.decode();
-      }
+    flush(): string {
+      if (isUtf8) return "";
+      if (useFallback) return decoder!.decode();
       try {
-        const decoded = utf8Decoder.decode();
-        pendingUtf8Bytes = Buffer.alloc(0);
-        return decoded;
+        return new TextDecoder("utf-8", { fatal: true }).decode(pending);
       } catch {
-        useLegacyDecoder = true;
-        const replayBuffer = pendingUtf8Bytes;
-        pendingUtf8Bytes = Buffer.alloc(0);
-        return replayBuffer.length > 0 ? legacyDecoder.decode(replayBuffer) : "";
+        return decoder!.decode(pending);
       }
     },
   };
 }
 
-function getTrailingIncompleteUtf8Bytes(buffer: Buffer): Buffer {
-  let index = buffer.length - 1;
-  let continuationBytes = 0;
-  while (
-    index >= 0 &&
-    buffer[index] !== undefined &&
-    buffer[index] >= 0x80 &&
-    buffer[index] <= 0xbf &&
-    continuationBytes < 3
-  ) {
-    continuationBytes += 1;
-    index -= 1;
-  }
-  if (index < 0) {
-    return buffer;
-  }
-
-  const leadByte = buffer[index];
-  const sequenceLength = getUtf8SequenceLength(leadByte);
-  if (sequenceLength <= 1) {
-    return Buffer.alloc(0);
-  }
-
-  const availableBytes = continuationBytes + 1;
-  return availableBytes < sequenceLength ? buffer.subarray(index) : Buffer.alloc(0);
+// Public API
+export function resolveWindowsConsoleEncoding(): string | null {
+  return getConsoleEncoding();
 }
 
-function getUtf8SequenceLength(byte: number): number {
-  if (byte >= 0xc2 && byte <= 0xdf) {
-    return 2;
-  }
-  if (byte >= 0xe0 && byte <= 0xef) {
-    return 3;
-  }
-  if (byte >= 0xf0 && byte <= 0xf4) {
-    return 4;
-  }
-  return 1;
+export function resolveWindowsSystemEncoding(): string | null {
+  return getSystemEncoding();
 }
 
-function decodeStrictUtf8(buffer: Buffer): string | null {
-  try {
-    return new TextDecoder("utf-8", { fatal: true }).decode(buffer);
-  } catch {
-    return null;
-  }
+export function decodeWindowsOutputBuffer(buffer: Buffer): string {
+  return decodeBuffer(buffer, getConsoleEncoding());
+}
+
+export function decodeWindowsTextFileBuffer(buffer: Buffer): string {
+  return decodeBuffer(buffer, getSystemEncoding());
+}
+
+export function createWindowsOutputDecoder(): ReturnType<typeof createDecoder> {
+  return createDecoder(getConsoleEncoding());
 }

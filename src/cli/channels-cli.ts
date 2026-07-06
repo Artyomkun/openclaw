@@ -1,18 +1,18 @@
 // Commander registration for channel discovery, setup, status, auth, and diagnostics commands.
 import type { Command } from "commander";
-import { formatDocsLink } from "../../packages/terminal-core/src/links.js";
-import { theme } from "../../packages/terminal-core/src/theme.js";
-import { danger } from "../globals.js";
-import { defaultRuntime } from "../runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import { resolveCliArgvInvocation } from "./argv-invocation.js";
-import { runChannelLogin, runChannelLogout } from "./channel-auth.js";
-import { formatCliChannelOptions } from "./channel-options.js";
-import { runCommandWithRuntime } from "./cli-utils.js";
-import { hasExplicitOptions } from "./command-options.js";
-import { formatHelpExamples } from "./help-format.js";
-import { applyParentDefaultHelpAction } from "./program/parent-default-help.js";
-import { normalizeWindowsArgv } from "./windows-argv.js";
+import { formatDocsLink } from "../../packages/terminal-core/src/links.ts";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
+import { danger } from "../globals.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import { resolveCliArgvInvocation } from "./argv-invocation.ts";
+import { runChannelLogin, runChannelLogout } from "./channel-auth.ts";
+import { formatCliChannelOptions } from "./channel-options.ts";
+import { runCommandWithRuntime } from "./cli-utils.ts";
+import { hasExplicitOptions } from "./command-options.ts";
+import { formatHelpExamples } from "./help-format.ts";
+import { applyParentDefaultHelpAction } from "./program/parent-default-help.ts";
+import { normalizeWindowsArgv } from "./windows-argv.ts";
 
 type ChannelsCommandsModule = typeof import("../commands/channels.js");
 type BundledPackageChannelMetadataModule =

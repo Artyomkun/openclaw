@@ -1,11 +1,11 @@
 // Builds overview table rows for `openclaw status` and `openclaw status --all`.
 // The row builders combine scan surfaces with health/session summaries while keeping rendering elsewhere.
 
-import { formatCliCommand } from "../cli/command-format.js";
-import type { HeartbeatEventPayload } from "../infra/heartbeat-events.js";
-import type { PluginCompatibilityNotice } from "../plugins/status.js";
-import { VERSION } from "../version.js";
-import type { HealthSummary } from "./health.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { HeartbeatEventPayload } from "../infra/heartbeat-events.ts";
+import type { PluginCompatibilityNotice } from "../plugins/status.ts";
+import { VERSION } from "../version.ts";
+import type { HealthSummary } from "./health.ts";
 import {
   buildStatusOverviewRowsFromSurface,
   type StatusOverviewSurface,
@@ -18,7 +18,7 @@ import {
   buildStatusSecretsValue,
   buildStatusSessionsOverviewValue,
 } from "./status-overview-values.ts";
-import type { AgentLocalStatus } from "./status.agent-local.js";
+import type { AgentLocalStatus } from "./status.agent-local.ts";
 import {
   buildStatusAgentsValue,
   buildStatusHeartbeatValue,
@@ -26,9 +26,9 @@ import {
   buildStatusMemoryValue,
   buildStatusTasksValue,
   type StatusMemoryStateResolvers,
-} from "./status.command-sections.js";
-import type { MemoryPluginStatus, MemoryStatusSnapshot } from "./status.scan.shared.js";
-import type { StatusSummary } from "./status.types.js";
+} from "./status.command-sections.ts";
+import type { MemoryPluginStatus, MemoryStatusSnapshot } from "./status.scan.shared.ts";
+import type { StatusSummary } from "./status.types.ts";
 
 function readModelPricingHealth(params: {
   health?: HealthSummary;

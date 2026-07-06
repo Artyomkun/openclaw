@@ -3,8 +3,8 @@
  *
  * Plans carry path-safety checks alongside the command so rechecks and execution stay coupled.
  */
-import type { AnchoredSandboxEntry, PathSafetyCheck } from "./fs-bridge-path-safety.js";
-import type { SandboxResolvedFsPath } from "./fs-paths.js";
+import type { AnchoredSandboxEntry, PathSafetyCheck } from "./fs-bridge-path-safety.ts";
+import type { SandboxResolvedFsPath } from "./fs-paths.ts";
 
 export type SandboxFsCommandPlan = {
   checks: PathSafetyCheck[];

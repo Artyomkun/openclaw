@@ -8,7 +8,7 @@ import {
   redactSensitiveUrl,
   redactSensitiveUrlLikeString,
 } from "@openclaw/net-policy/redact-sensitive-url";
-import { isMcpConfigRecord, toMcpStringRecord } from "./mcp-config-shared.js";
+import { isMcpConfigRecord, toMcpStringRecord } from "./mcp-config-shared.ts";
 
 /** Supported HTTP-based MCP transport flavors. */
 export type HttpMcpTransportType = "sse" | "streamable-http";

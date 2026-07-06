@@ -18,7 +18,7 @@ function readApprovalNotFoundDetailsReason(value: unknown): string | null {
 
 /**
  * Detects approval-not-found failures across gateway error shapes.
- * Kept broad enough for legacy message-only errors emitted before structured codes.
+ * Kept broad enough for older message-only errors emitted before structured codes.
  */
 export function isApprovalNotFoundError(err: unknown): boolean {
   if (!(err instanceof Error)) {

@@ -7,9 +7,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import lockfile from "proper-lockfile";
-import type { Transport } from "../../llm/types.js";
-import { CONFIG_DIR_NAME, getAgentDir } from "../config.js";
-import { DEFAULT_HTTP_IDLE_TIMEOUT_MS, parseHttpIdleTimeoutMs } from "./http-dispatcher.js";
+import type { Transport } from "../../llm/types.ts";
+import { CONFIG_DIR_NAME, getAgentDir } from "../config.ts";
+import { DEFAULT_HTTP_IDLE_TIMEOUT_MS, parseHttpIdleTimeoutMs } from "./http-dispatcher.ts";
 
 export interface CompactionSettings {
   enabled?: boolean; // default: true
@@ -348,7 +348,7 @@ export class SettingsManager {
       delete settings.queueMode;
     }
 
-    // Migrate legacy websockets boolean -> transport enum
+    // Migrate websockets boolean -> transport enum
     if (!("transport" in settings) && typeof settings.websockets === "boolean") {
       settings.transport = settings.websockets ? "websocket" : "sse";
       delete settings.websockets;

@@ -3,9 +3,9 @@
  *
  * Resolves plugin sub-surfaces from active channel or full plugin registry state.
  */
-import type { PluginChannelRegistration } from "../../plugins/registry-types.js";
-import { getActivePluginChannelRegistry, getActivePluginRegistry } from "../../plugins/runtime.js";
-import type { ChannelId } from "./channel-id.types.js";
+import type { PluginChannelRegistration } from "../../plugins/registry-types.ts";
+import { getActivePluginChannelRegistry, getActivePluginRegistry } from "../../plugins/runtime.ts";
+import type { ChannelId } from "./channel-id.types.ts";
 
 type ChannelRegistryValueResolver<TValue> = (
   entry: PluginChannelRegistration,

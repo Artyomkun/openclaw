@@ -1,5 +1,5 @@
 // Simplified Chinese wizard translations provide localized onboarding copy.
-import type { WizardTranslationMap } from "../types.js";
+import type { WizardTranslationMap } from "../types.ts";
 
 export const zh_CN = {
   common: {

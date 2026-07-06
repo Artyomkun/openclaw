@@ -1,29 +1,29 @@
 /** Security warnings for gateway exposure, exec policy drift, channel DMs, and plaintext secrets. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { note } from "../../packages/terminal-core/src/note.js";
-import { resolveDmAllowAuditState } from "../channels/message-access/dm-allow-state.js";
-import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.js";
-import type { ChannelId } from "../channels/plugins/types.public.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OpenClawConfig, GatewayBindMode } from "../config/config.js";
-import type { AgentConfig } from "../config/types.agents.js";
-import { hasConfiguredSecretInput, resolveSecretInputRef } from "../config/types.secrets.js";
-import { resolveGatewayAuthTokenSourceConflict } from "../gateway/auth-token-source-conflict.js";
-import { resolveGatewayAuth } from "../gateway/auth.js";
-import { isLoopbackHost, resolveGatewayBindHost } from "../gateway/net.js";
-import { resolveExecPolicyScopeSnapshot } from "../infra/exec-approvals-effective.js";
+import { note } from "../../packages/terminal-core/src/note.ts";
+import { resolveDmAllowAuditState } from "../channels/message-access/dm-allow-state.ts";
+import { listReadOnlyChannelPluginsForConfig } from "../channels/plugins/read-only.ts";
+import type { ChannelId } from "../channels/plugins/types.public.ts";
+import { formatCliCommand } from "../cli/command-format.ts";
+import type { OpenClawConfig, GatewayBindMode } from "../config/config.ts";
+import type { AgentConfig } from "../config/types.agents.ts";
+import { hasConfiguredSecretInput, resolveSecretInputRef } from "../config/types.secrets.ts";
+import { resolveGatewayAuthTokenSourceConflict } from "../gateway/auth-token-source-conflict.ts";
+import { resolveGatewayAuth } from "../gateway/auth.ts";
+import { isLoopbackHost, resolveGatewayBindHost } from "../gateway/net.ts";
+import { resolveExecPolicyScopeSnapshot } from "../infra/exec-approvals-effective.ts";
 import {
   loadExecApprovals,
   resolveExecApprovalsDisplayPath,
   type ExecAsk,
   type ExecMode,
   type ExecSecurity,
-} from "../infra/exec-approvals.js";
-import { isLikelySensitiveModelProviderHeaderName } from "../secrets/model-provider-header-policy.js";
-import { hasConfiguredPlaintextSecretValue } from "../secrets/secret-value.js";
-import { discoverConfigSecretTargets } from "../secrets/target-registry.js";
-import { collectExecFilesystemPolicyDriftHits } from "../security/exec-filesystem-policy.js";
-import { resolveDefaultChannelAccountContext } from "./channel-account-context.js";
+} from "../infra/exec-approvals.ts";
+import { isLikelySensitiveModelProviderHeaderName } from "../secrets/model-provider-header-policy.ts";
+import { hasConfiguredPlaintextSecretValue } from "../secrets/secret-value.ts";
+import { discoverConfigSecretTargets } from "../secrets/target-registry.ts";
+import { collectExecFilesystemPolicyDriftHits } from "../security/exec-filesystem-policy.ts";
+import { resolveDefaultChannelAccountContext } from "./channel-account-context.ts";
 
 function collectImplicitHeartbeatDirectPolicyWarnings(cfg: OpenClawConfig): string[] {
   const warnings: string[] = [];

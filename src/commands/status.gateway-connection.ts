@@ -1,8 +1,8 @@
 // Gateway connection detail formatting for status reports.
 // Keeps verbose human text and status-all connection sections consistent.
 
-import type { RuntimeEnv } from "../runtime.js";
-import type { NodeOnlyGatewayInfo } from "./status.node-mode.js";
+import type { RuntimeEnv } from "../runtime.ts";
+import type { NodeOnlyGatewayInfo } from "./status.node-mode.ts";
 import type { StatusScanOverviewResult } from "./status.scan-overview.ts";
 
 /** Logs multi-line gateway connection details with the standard heading. */

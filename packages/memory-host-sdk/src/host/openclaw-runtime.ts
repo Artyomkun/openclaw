@@ -45,8 +45,6 @@ export {
   clearConfigCache,
   clearRuntimeConfigSnapshot,
   getRuntimeConfig,
-  /** @deprecated Use getRuntimeConfig(), or pass the already loaded config through the call path. */
-  loadConfig,
 } from "../../../../src/config/config.js";
 export type { OpenClawConfig } from "../../../../src/config/config.js";
 export { resolveStateDir } from "../../../../src/config/paths.js";
@@ -83,22 +81,9 @@ export { isVerbose, setVerbose } from "../../../../src/globals.js";
 
 // IO, network, and logging helpers.
 export { isExecCompletionEvent } from "../../../../src/infra/heartbeat-events-filter.js";
-export { root } from "../../../../src/infra/fs-safe.js";
 export { fetchWithSsrFGuard } from "../../../../src/infra/net/fetch-guard.js";
 export { shouldUseEnvHttpProxyForUrl } from "../../../../src/infra/net/proxy-env.js";
 export { ssrfPolicyFromHttpBaseUrlAllowedHostname } from "../../../../src/infra/net/ssrf.js";
-export {
-  DEFAULT_SQLITE_WAL_AUTOCHECKPOINT_PAGES,
-  DEFAULT_SQLITE_WAL_CHECKPOINT_INTERVAL_MS,
-  DEFAULT_SQLITE_WAL_TRUNCATE_INTERVAL_MS,
-  configureSqliteConnectionPragmas,
-  configureSqliteWalMaintenance,
-} from "../../../../src/infra/sqlite-wal.js";
-export type {
-  SqliteConnectionPragmaOptions,
-  SqliteWalMaintenance,
-  SqliteWalMaintenanceOptions,
-} from "../../../../src/infra/sqlite-wal.js";
 export {
   installProcessWarningFilter,
   shouldIgnoreWarning,

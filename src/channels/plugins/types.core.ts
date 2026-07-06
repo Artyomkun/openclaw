@@ -7,23 +7,22 @@ import type { TSchema } from "typebox";
 import type {
   GatewayClientMode,
   GatewayClientName,
-} from "../../../packages/gateway-protocol/src/client-info.js";
-import type { AgentTool, AgentToolResult } from "../../agents/runtime/index.js";
-import type { ReplyDeliveryContext, ReplyPayload } from "../../auto-reply/reply-payload.js";
-import type { MsgContext } from "../../auto-reply/templating.js";
-import type { MarkdownTableMode } from "../../config/types.base.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { MessagePresentation } from "../../interactive/payload.js";
-import type { OutboundMediaAccess } from "../../media/load-options.js";
-import type { PollInput } from "../../polls.js";
-import type { ChatType } from "../chat-type.js";
-import type { InboundEventKind } from "../inbound-event/kind.js";
-import type { ChannelId } from "./channel-id.types.js";
-import type { ChannelMessageActionName as ChannelMessageActionNameFromList } from "./message-action-names.js";
-import type { ChannelMessageCapability } from "./message-capabilities.js";
+} from "../../../packages/gateway-protocol/src/client-info.ts";
+import type { AgentTool, AgentToolResult } from "../../agents/runtime/index.ts";
+import type { ReplyDeliveryContext, ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import type { MsgContext } from "../../auto-reply/templating.ts";
+import type { MarkdownTableMode } from "../../config/types.base.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { MessagePresentation } from "../../interactive/payload.ts";
+import type { OutboundMediaAccess } from "../../media/load-options.ts";
+import type { PollInput } from "../../polls.ts";
+import type { ChatType } from "../chat-type.ts";
+import type { InboundEventKind } from "../inbound-event/kind.ts";
+import type { ChannelId } from "./channel-id.types.ts";
+import type { ChannelMessageActionName as ChannelMessageActionNameFromList } from "./message-action-names.ts";
+import type { ChannelMessageCapability } from "./message-capabilities.ts";
 
-export type { ChannelId } from "./channel-id.types.js";
-export type { ChannelLegacyStateMigrationPlan } from "./legacy-state-migration.types.js";
+export type { ChannelId } from "./channel-id.types.ts";
 
 export type ChannelExposure = {
   configured?: boolean;
@@ -71,7 +70,7 @@ export type ChannelMessageToolSchemaContribution = {
   /**
    * Actions whose validation depends on this schema fragment. Cross-channel
    * discovery can hide only these actions when the fragment is current-channel
-   * scoped. Omit to keep the legacy conservative behavior.
+   * scoped. Omit to keep the conservative behavior.
    */
   actions?: readonly ChannelMessageActionName[] | null;
   visibility?: "current-channel" | "all-configured";
@@ -120,8 +119,6 @@ export type ChannelSetupInput = {
   useEnv?: boolean;
   homeserver?: string;
   dangerouslyAllowPrivateNetwork?: boolean;
-  /** @deprecated Compatibility alias; prefer dangerouslyAllowPrivateNetwork. */
-  allowPrivateNetwork?: boolean;
   proxy?: string;
   userId?: string;
   accessToken?: string;
@@ -412,13 +409,6 @@ export type ChannelThreadingAdapter = {
    * Default in shared reply flow: true for known providers; per-channel opt-out supported.
    */
   allowExplicitReplyTagsWhenOff?: boolean;
-  /**
-   * @deprecated Use allowExplicitReplyTagsWhenOff.
-   *
-   * Deprecated alias for allowExplicitReplyTagsWhenOff.
-   * Kept for compatibility with older plugin surfaces.
-   */
-  allowTagsWhenOff?: boolean;
   buildToolContext?: (params: {
     cfg: OpenClawConfig;
     accountId?: string | null;
@@ -501,18 +491,6 @@ export type ChannelMessagingAdapter = {
     sessionKey: string;
     ctx: MsgContext;
   }) => string | undefined;
-  deriveLegacySessionChatType?: (sessionKey: string) => "direct" | "group" | "channel" | undefined;
-  isLegacyGroupSessionKey?: (key: string) => boolean;
-  canonicalizeLegacySessionKey?: (params: {
-    key: string;
-    agentId: string;
-  }) => string | null | undefined;
-  resolveLegacyGroupSessionKey?: (ctx: MsgContext) => {
-    key: string;
-    channel: string;
-    id: string;
-    chatType: "group" | "channel";
-  } | null;
   resolveInboundAttachmentRoots?: (params: {
     cfg: OpenClawConfig;
     accountId?: string | null;
@@ -557,33 +535,11 @@ export type ChannelMessagingAdapter = {
     baseConversationId?: string | null;
     parentConversationCandidates?: string[];
   } | null;
-  /**
-   * @deprecated Return parentConversationCandidates from resolveSessionConversation.
-   *
-   * Legacy compatibility hook for parent fallbacks when a plugin does not need
-   * to customize `id` or `threadId`. Core only uses this when
-   * `resolveSessionConversation(...)` does not return
-   * `parentConversationCandidates`.
-   */
-  resolveParentConversationCandidates?: (params: {
-    kind: "group" | "channel";
-    rawId: string;
-  }) => string[] | null;
   resolveSessionTarget?: (params: {
     kind: "group" | "channel";
     id: string;
     threadId?: string | null;
   }) => string | undefined;
-  /**
-   * @deprecated Use `targetResolver` for target id normalization and
-   * `resolveOutboundSessionRoute` for session/thread identity. This remains for
-   * compatibility with older route parsing helpers.
-   */
-  parseExplicitTarget?: (params: { raw: string }) => {
-    to: string;
-    threadId?: string | number;
-    chatType?: ChatType;
-  } | null;
   /**
    * Lightweight chat-type inference used before directory lookup so plugins can
    * steer peer-vs-group resolution without reimplementing host search flow.
@@ -782,7 +738,7 @@ export type ChannelMessageActionAdapter = {
   }) => ChannelToolSend | null;
   /**
    * Translate generic `message(action=send)` arguments into the payload core
-   * should persist, retry, recover, and ack. Return null to keep the legacy
+   * should persist, retry, recover, and ack. Return null to keep the older
    * plugin-owned action path for sends that cannot be represented durably.
    */
   prepareSendPayload?: (

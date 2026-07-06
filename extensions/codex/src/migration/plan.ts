@@ -138,34 +138,12 @@ function hasExistingCodexPluginEntry(
   nextEntry: Record<string, unknown>,
 ): boolean {
   const existingEntry = existingEntries[configKey];
-  if (existingEntry !== undefined) {
-    return !isLegacyDestructivePolicyRepair(existingEntry, nextEntry);
-  }
   return Object.values(existingEntries).some((entry) => {
     if (!isRecord(entry)) {
       return false;
     }
     return entry.pluginName === pluginName;
   });
-}
-
-function isLegacyDestructivePolicyRepair(
-  existing: unknown,
-  nextEntry: Record<string, unknown>,
-): boolean {
-  const existingEntry = isRecord(existing) ? existing : undefined;
-  if (
-    existingEntry?.allow_destructive_actions !== "on-request" ||
-    nextEntry.allow_destructive_actions !== "auto"
-  ) {
-    return false;
-  }
-  const normalizedExisting = { ...existingEntry, allow_destructive_actions: "auto" };
-  const normalizedEntries = Object.entries(normalizedExisting);
-  return (
-    normalizedEntries.length === Object.keys(nextEntry).length &&
-    normalizedEntries.every(([key, value]) => nextEntry[key] === value)
-  );
 }
 
 function readExistingPluginAllowDestructiveActions(

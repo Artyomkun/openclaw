@@ -1,75 +1,61 @@
 /** Updates installed plugins across npm, ClawHub, marketplace, Git, and bundled bridge sources. */
 import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { PluginInstallRecord } from "../config/types.plugins.js";
-import type { ClawHubTrustErrorCode } from "../infra/clawhub-install-trust.js";
-import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
-import { satisfiesPluginApiRange } from "../infra/clawhub.js";
-import { unscopedPackageName } from "../infra/install-safe-path.js";
-import type { NpmSpecResolution } from "../infra/install-source-utils.js";
-import { createNpmMetadataEnv, resolveNpmSpecMetadata } from "../infra/install-source-utils.js";
-import {
-  compareOpenClawReleaseVersions,
-  isExactSemverVersion,
-  isOpenClawOrgNpmSpec,
-  isPrereleaseSemverVersion,
-  isPrereleaseResolutionAllowed,
-  parseRegistryNpmSpec,
-} from "../infra/npm-registry-spec.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { PluginInstallRecord } from "../config/types.plugins.ts";
+import type { ClawHubTrustErrorCode } from "../infra/clawhub-install-trust.ts";
+import { satisfiesPluginApiRange } from "../infra/clawhub.ts";
+import { unscopedPackageName } from "../infra/install-safe-path.ts";
+import type { NpmSpecResolution } from "../infra/install-source-utils.ts";
+import { createNpmMetadataEnv, resolveNpmSpecMetadata } from "../infra/install-source-utils.ts";
 import {
   expectedIntegrityForUpdate,
   installedPackageNeedsOpenClawPeerLinkRepair,
   readInstalledPackagePeerDependencies,
   readInstalledPackageVersion,
-} from "../infra/package-update-utils.js";
-import { compareComparableSemver, parseComparableSemver } from "../infra/semver-compare.js";
-import type { UpdateChannel } from "../infra/update-channels.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { resolveUserPath } from "../utils.js";
-import { resolveCompatibilityHostVersion } from "../version.js";
-import { resolveBundledPluginSources } from "./bundled-sources.js";
-import { CLAWHUB_INSTALL_ERROR_CODE } from "./clawhub-error-codes.js";
-import { buildClawHubPluginInstallRecordFields } from "./clawhub-install-records.js";
-import { installPluginFromClawHub, type ClawHubRiskAcknowledgementRequest } from "./clawhub.js";
-import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.js";
+} from "../infra/package-update-utils.ts";
+import { compareComparableSemver, parseComparableSemver } from "../infra/semver-compare.ts";
+import type { UpdateChannel } from "../infra/update-channels.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { resolveUserPath } from "../utils.ts";
+import { resolveCompatibilityHostVersion } from "../version.ts";
+import { resolveBundledPluginSources } from "./bundled-sources.ts";
+import { CLAWHUB_INSTALL_ERROR_CODE } from "./clawhub-error-codes.ts";
+import { buildClawHubPluginInstallRecordFields } from "./clawhub-install-records.ts";
+import { installPluginFromClawHub, type ClawHubRiskAcknowledgementRequest } from "./clawhub.ts";
+import { normalizePluginsConfig, resolveEffectiveEnableState } from "./config-state.ts";
 import {
-  getExternalizedBundledPluginLegacyPathSuffix,
   getExternalizedBundledPluginClawHubSpec,
   getExternalizedBundledPluginLookupIds,
   getExternalizedBundledPluginNpmSpec,
   getExternalizedBundledPluginPreferredSource,
   getExternalizedBundledPluginTargetId,
   type ExternalizedBundledPluginBridge,
-} from "./externalized-bundled-plugins.js";
-import { installPluginFromGitSpec } from "./git-install.js";
-import {
-  resolveClawHubInstallSpecsForUpdateChannel,
-  resolveNpmInstallSpecsForUpdateChannel,
-} from "./install-channel-specs.js";
+} from "./externalized-bundled-plugins.ts";
+import { installPluginFromGitSpec } from "./git-install.ts";
 import {
   installPluginFromNpmSpec,
   PLUGIN_INSTALL_ERROR_CODE,
   resolvePluginInstallDir,
-} from "./install.js";
+} from "./install.ts";
 import {
   buildNpmResolutionInstallFields,
   recordPluginInstall,
   resolveNpmInstallRecordSpec,
-} from "./installs.js";
-import { installPluginFromMarketplace } from "./marketplace.js";
-import { checkMinHostVersion } from "./min-host-version.js";
+} from "./installs.ts";
+import { installPluginFromMarketplace } from "./marketplace.ts";
+import { checkMinHostVersion } from "./min-host-version.ts";
 import {
   resolveTrustedSourceLinkedOfficialClawHubSpec,
   resolveTrustedSourceLinkedOfficialNpmSpec,
-} from "./official-external-install-records.js";
+} from "./official-external-install-records.ts";
 import {
   getOfficialExternalPluginCatalogEntry,
   resolveOfficialExternalPluginInstall,
-} from "./official-external-plugin-catalog.js";
-import { resolvePackagePluginApiRange } from "./package-compat.js";
-import { linkOpenClawPeerDependencies } from "./plugin-peer-link.js";
-import { defaultSlotIdForKey } from "./slots.js";
+} from "./official-external-plugin-catalog.ts";
+import { resolvePackagePluginApiRange } from "./package-compat.ts";
+import { linkOpenClawPeerDependencies } from "./plugin-peer-link.ts";
+import { defaultSlotIdForKey } from "./slots.ts";
 
 /** Logger surface used by plugin update flows. */
 export type PluginUpdateLogger = {
@@ -698,16 +684,13 @@ function isBridgeBundledPathRecord(params: {
   ) {
     return true;
   }
-  const bundledPathSuffix = getExternalizedBundledPluginLegacyPathSuffix(params.bridge);
   return (
     pathEndsWithSegment({
       value: params.record.sourcePath,
-      segment: bundledPathSuffix,
       env: params.env,
     }) ||
     pathEndsWithSegment({
       value: params.record.installPath,
-      segment: bundledPathSuffix,
       env: params.env,
     })
   );
@@ -718,11 +701,9 @@ function removeBridgeBundledLoadPaths(params: {
   loadPaths: ReturnType<typeof buildLoadPathHelpers>;
   env: NodeJS.ProcessEnv;
 }) {
-  const bundledPathSuffix = getExternalizedBundledPluginLegacyPathSuffix(params.bridge);
   params.loadPaths.removeMatching((entry) =>
     pathEndsWithSegment({
       value: entry,
-      segment: bundledPathSuffix,
       env: params.env,
     }),
   );

@@ -99,7 +99,7 @@ export function resolveAllowlistMatchByCandidates<TSource extends string>(params
   });
 }
 
-/** Matches simple sender id/name allowlists used by legacy channel config. */
+/** Matches simple sender id/name allowlists used by older channel config. */
 export function resolveAllowlistMatchSimple(params: {
   allowFrom: ReadonlyArray<string | number>;
   senderId: string;

@@ -1,9 +1,9 @@
 // Skill types expose the shared skill contracts used by discovery, loading, and runtime flows.
-import type { Skill } from "./loading/skill-contract.js";
+import type { Skill } from "./loading/skill-contract.ts";
 
 export type SkillInstallSpec = {
   id?: string;
-  kind: "brew" | "node" | "go" | "uv" | "download";
+  kind: "brew" | "node" | "go" | "download";
   label?: string;
   bins?: string[];
   os?: string[];

@@ -5,12 +5,12 @@
  */
 import fs from "node:fs";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveStorePath } from "../config/sessions/paths.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
-import { getSubagentDepth, parseAgentSessionKey } from "../sessions/session-key-utils.js";
-import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.js";
-import { resolveDefaultAgentId } from "./agent-scope.js";
+import { resolveStorePath } from "../config/sessions/paths.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
+import { getSubagentDepth, parseAgentSessionKey } from "../sessions/session-key-utils.ts";
+import { parseJsonWithJson5Fallback } from "../utils/parse-json-compat.ts";
+import { resolveDefaultAgentId } from "./agent-scope.ts";
 
 type SessionDepthEntry = {
   sessionId?: unknown;

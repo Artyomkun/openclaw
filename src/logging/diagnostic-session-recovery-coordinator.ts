@@ -2,13 +2,13 @@
 import {
   emitInternalDiagnosticEvent as emitDiagnosticEvent,
   getInternalDiagnosticEventSequence,
-} from "../infra/diagnostic-events.js";
+} from "../infra/diagnostic-events.ts";
 import {
   clearDiagnosticEmbeddedRunActivityForSession,
   getDiagnosticEmbeddedRunActivitySequence,
-} from "./diagnostic-run-activity.js";
-import { markDiagnosticActivity as markActivity } from "./diagnostic-runtime.js";
-import type { SessionAttentionClassification } from "./diagnostic-session-attention.js";
+} from "./diagnostic-run-activity.ts";
+import { markDiagnosticActivity as markActivity } from "./diagnostic-runtime.ts";
+import type { SessionAttentionClassification } from "./diagnostic-session-attention.ts";
 import {
   recoveryOutcomeClearsQueuedSessionState,
   recoveryOutcomeMutatesSessionState,
@@ -16,12 +16,12 @@ import {
   resolveStuckSessionRecoveryRef,
   type StuckSessionRecoveryOutcome,
   type StuckSessionRecoveryRequest,
-} from "./diagnostic-session-recovery.js";
+} from "./diagnostic-session-recovery.ts";
 import {
   getDiagnosticSessionState,
   isDiagnosticSessionStateCurrent,
   peekDiagnosticSessionState,
-} from "./diagnostic-session-state.js";
+} from "./diagnostic-session-state.ts";
 
 export type RecoverStuckSession = (
   params: StuckSessionRecoveryRequest,

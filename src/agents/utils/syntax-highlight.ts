@@ -4,8 +4,8 @@
  * Highlight.js emits HTML spans; this module walks that small HTML subset and
  * maps active scopes to caller-provided text formatters.
  */
-import hljs from "highlight.js";
-import { decodeHtmlEntityAt } from "./html.js";
+import hljs from "highlight.ts";
+import { decodeHtmlEntityAt } from "./html.ts";
 
 /** Formatter applied to highlighted text segments. */
 export type HighlightFormatter = (text: string) => string;

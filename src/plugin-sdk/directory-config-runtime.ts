@@ -1,9 +1,9 @@
 /** Slim directory-config helper surface for config-backed plugin directory contracts. */
-export type { DirectoryConfigParams } from "../channels/plugins/directory-types.js";
+export type { DirectoryConfigParams } from "../channels/plugins/directory-types.ts";
 export type {
   ChannelDirectoryEntry,
   ChannelDirectoryEntryKind,
-} from "../channels/plugins/types.public.js";
+} from "../channels/plugins/types.public.ts";
 export {
   applyDirectoryQueryAndLimit,
   collectNormalizedDirectoryIds,
@@ -19,4 +19,4 @@ export {
   listResolvedDirectoryGroupEntriesFromMapKeys,
   listResolvedDirectoryUserEntriesFromAllowFrom,
   toDirectoryEntries,
-} from "../channels/plugins/directory-config-helpers.js";
+} from "../channels/plugins/directory-config-helpers.ts";

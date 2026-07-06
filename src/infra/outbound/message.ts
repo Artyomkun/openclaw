@@ -1,33 +1,33 @@
 // Outbound message entrypoint resolves channel/target, durable capability
 // requirements, payload plans, gateway fallback, and optional mirroring.
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import { deriveDurableFinalDeliveryRequirements } from "../../channels/message/capabilities.js";
-import { sendDurableMessageBatch } from "../../channels/message/runtime.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { OutboundMediaAccess } from "../../media/load-options.js";
-import type { PollInput } from "../../polls.js";
-import { normalizePollInput } from "../../polls.js";
-import { resolveOutboundChannelPlugin } from "./channel-resolution.js";
-import { resolveMessageChannelSelection } from "./channel-selection.js";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import { deriveDurableFinalDeliveryRequirements } from "../../channels/message/capabilities.ts";
+import { sendDurableMessageBatch } from "../../channels/message/runtime.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { OutboundMediaAccess } from "../../media/load-options.ts";
+import type { PollInput } from "../../polls.ts";
+import { normalizePollInput } from "../../polls.ts";
+import { resolveOutboundChannelPlugin } from "./channel-resolution.ts";
+import { resolveMessageChannelSelection } from "./channel-selection.ts";
 import {
   resolveOutboundDurableFinalDeliverySupport,
   type DurableFinalDeliveryRequirements,
   type OutboundDeliveryResult,
   type OutboundDeliveryQueuePolicy,
   type OutboundSendDeps,
-} from "./deliver.js";
+} from "./deliver.ts";
 import {
   resolveOutboundMessageGatewayOptions,
   type OutboundMessageGatewayOptionsInput,
-} from "./message-gateway-options.js";
-import type { OutboundMirror } from "./mirror.js";
+} from "./message-gateway-options.ts";
+import type { OutboundMirror } from "./mirror.ts";
 import {
   createOutboundPayloadPlan,
   projectOutboundPayloadPlanForDelivery,
   projectOutboundPayloadPlanForMirror,
-} from "./payloads.js";
-import { buildOutboundSessionContext } from "./session-context.js";
-import { resolveOutboundTarget } from "./targets.js";
+} from "./payloads.ts";
+import { buildOutboundSessionContext } from "./session-context.ts";
+import { resolveOutboundTarget } from "./targets.ts";
 
 let messageConfigRuntimePromise: Promise<typeof import("./message.config.runtime.js")> | null =
   null;

@@ -3,31 +3,31 @@
 import type { Server as HttpServer } from "node:http";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import type { WebSocketServer } from "ws";
-import { disposeAllSessionMcpRuntimes } from "../agents/agent-bundle-mcp-tools.js";
-import { disposeRegisteredAgentHarnesses } from "../agents/harness/registry.js";
-import { createAgentRunRestartAbortError } from "../agents/run-termination.js";
-import { type ChannelId, listChannelPlugins } from "../channels/plugins/index.js";
-import { createInternalHookEvent, triggerInternalHook } from "../hooks/internal-hooks.js";
-import type { HeartbeatRunner } from "../infra/heartbeat-runner.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { closePluginStateDatabase } from "../plugin-state/plugin-state-store.js";
-import type { PluginServicesHandle } from "../plugins/services.js";
+import { disposeAllSessionMcpRuntimes } from "../agents/agent-bundle-mcp-tools.ts";
+import { disposeRegisteredAgentHarnesses } from "../agents/harness/registry.ts";
+import { createAgentRunRestartAbortError } from "../agents/run-termination.ts";
+import { type ChannelId, listChannelPlugins } from "../channels/plugins/index.ts";
+import { createInternalHookEvent, triggerInternalHook } from "../hooks/internal-hooks.ts";
+import type { HeartbeatRunner } from "../infra/heartbeat-runner.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { closePluginStateDatabase } from "../plugin-state/plugin-state-store.ts";
+import type { PluginServicesHandle } from "../plugins/services.ts";
 import {
   abortTrackedChatRunById,
   type ChatAbortControllerEntry,
   type RestartRecoveryCandidate,
-} from "./chat-abort.js";
+} from "./chat-abort.ts";
 import {
   collectGatewayProcessMemoryUsageMb,
   measureGatewayRestartTrace,
   recordGatewayRestartTrace,
-} from "./restart-trace.js";
+} from "./restart-trace.ts";
 import {
   createChatAbortMarker,
   type ChatRunEntry,
   type ChatRunState,
-} from "./server-chat-state.js";
-import type { GatewayPostReadySidecarHandle } from "./server-startup-post-attach.js";
+} from "./server-chat-state.ts";
+import type { GatewayPostReadySidecarHandle } from "./server-startup-post-attach.ts";
 
 const shutdownLog = createSubsystemLogger("gateway/shutdown");
 const GATEWAY_SHUTDOWN_HOOK_TIMEOUT_MS = 5_000;

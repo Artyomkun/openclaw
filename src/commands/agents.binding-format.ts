@@ -1,5 +1,5 @@
 // Human-readable formatting for agent routing binding match criteria.
-import type { AgentRouteBinding } from "../config/types.js";
+import type { AgentRouteBinding } from "../config/types.ts";
 
 /** Render one route binding as a compact CLI line fragment. */
 export function describeBinding(binding: AgentRouteBinding): string {

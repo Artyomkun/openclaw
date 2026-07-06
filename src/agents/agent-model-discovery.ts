@@ -1,26 +1,26 @@
 /** Discovers agent models and auth storage with provider/plugin normalization hooks. */
 import path from "node:path";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import type { Model } from "../llm/types.js";
-import { normalizeModelCompat } from "../plugins/provider-model-compat.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import type { Model } from "../llm/types.ts";
+import { normalizeModelCompat } from "../plugins/provider-model-compat.ts";
 import {
   applyProviderResolvedTransportWithPlugin,
   normalizeProviderResolvedModelWithPlugin,
-} from "../plugins/provider-runtime.js";
-import { isRecord } from "../utils.js";
+} from "../plugins/provider-runtime.ts";
+import { isRecord } from "../utils.ts";
 import {
   resolveAgentCredentialsForDiscovery,
   type DiscoverAuthStorageOptions,
-} from "./agent-auth-discovery.js";
-import { resolveModelPluginMetadataSnapshot } from "./model-discovery-context.js";
-import type { PluginModelCatalogMetadataSnapshot } from "./plugin-model-catalog.js";
+} from "./agent-auth-discovery.ts";
+import { resolveModelPluginMetadataSnapshot } from "./model-discovery-context.ts";
+import type { PluginModelCatalogMetadataSnapshot } from "./plugin-model-catalog.ts";
 import {
   AuthStorage,
   ModelRegistry,
   type AuthStorage as AgentAuthStorage,
   type ModelRegistry as AgentModelRegistry,
-} from "./sessions/index.js";
+} from "./sessions/index.ts";
 
 type ProviderRuntimeModelLike = Model & {
   contextTokens?: number;
@@ -175,4 +175,4 @@ export {
   addEnvBackedAgentCredentials,
   resolveAgentCredentialsForDiscovery,
   type DiscoverAuthStorageOptions,
-} from "./agent-auth-discovery.js";
+} from "./agent-auth-discovery.ts";

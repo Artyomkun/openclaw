@@ -10,50 +10,50 @@ import {
   isFastModeAutoProgressPayload,
   resolveSendableOutboundReplyParts,
 } from "openclaw/plugin-sdk/reply-payload";
-import { readAcpSessionMeta } from "../../acp/runtime/session-meta.js";
+import { readAcpSessionMeta } from "../../acp/runtime/session-meta.ts";
 import {
   resolveAgentConfig,
   resolveAgentWorkspaceDir,
   resolveSessionAgentId,
-} from "../../agents/agent-scope.js";
+} from "../../agents/agent-scope.ts";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
   resolveInheritedToolPolicyForSession,
   resolveSubagentToolPolicyForSession,
-} from "../../agents/agent-tools.policy.js";
-import { runAgentHarnessBeforeMessageWriteHook } from "../../agents/harness/hook-helpers.js";
-import { selectAgentHarness } from "../../agents/harness/selection.js";
+} from "../../agents/agent-tools.policy.ts";
+import { runAgentHarnessBeforeMessageWriteHook } from "../../agents/harness/hook-helpers.ts";
+import { selectAgentHarness } from "../../agents/harness/selection.ts";
 import {
   buildModelAliasIndex,
   resolveDefaultModelForAgent,
   resolveModelRefFromString,
   type ModelAliasIndex,
-} from "../../agents/model-selection.js";
+} from "../../agents/model-selection.ts";
 import {
   isSubagentEnvelopeSession,
   resolveSubagentCapabilityStore,
-} from "../../agents/subagent-capabilities.js";
-import { isToolAllowedByPolicies } from "../../agents/tool-policy-match.js";
-import { mergeAlsoAllowPolicy, resolveToolProfilePolicy } from "../../agents/tool-policy.js";
+} from "../../agents/subagent-capabilities.ts";
+import { isToolAllowedByPolicies } from "../../agents/tool-policy-match.ts";
+import { mergeAlsoAllowPolicy, resolveToolProfilePolicy } from "../../agents/tool-policy.ts";
 import {
   resolveConversationBindingRecord,
   touchConversationBindingRecord,
-} from "../../bindings/records.js";
-import { normalizeChatType } from "../../channels/chat-type.js";
-import { resolveChannelModelOverride } from "../../channels/model-overrides.js";
-import { shouldSuppressLocalExecApprovalPrompt } from "../../channels/plugins/exec-approval-local.js";
-import { applyMergePatch } from "../../config/merge-patch.js";
-import { normalizeExplicitSessionKey } from "../../config/sessions/explicit-session-key-normalization.js";
-import { resolveGroupSessionKey } from "../../config/sessions/group.js";
+} from "../../bindings/records.ts";
+import { normalizeChatType } from "../../channels/chat-type.ts";
+import { resolveChannelModelOverride } from "../../channels/model-overrides.ts";
+import { shouldSuppressLocalExecApprovalPrompt } from "../../channels/plugins/exec-approval-local.ts";
+import { applyMergePatch } from "../../config/merge-patch.ts";
+import { normalizeExplicitSessionKey } from "../../config/sessions/explicit-session-key-normalization.ts";
+import { resolveGroupSessionKey } from "../../config/sessions/group.ts";
 import {
   appendAssistantMessageToSessionTranscript,
   type SessionTranscriptDeliveryMirror,
-} from "../../config/sessions/transcript.js";
-import type { SessionEntry } from "../../config/sessions/types.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { logVerbose } from "../../globals.js";
-import { fireAndForgetHook } from "../../hooks/fire-and-forget.js";
+} from "../../config/sessions/transcript.ts";
+import type { SessionEntry } from "../../config/sessions/types.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { logVerbose } from "../../globals.ts";
+import { fireAndForgetHook } from "../../hooks/fire-and-forget.ts";
 import {
   deriveInboundMessageHookContext,
   toPluginInboundClaimContext,
@@ -61,13 +61,13 @@ import {
   toInternalMessageReceivedContext,
   toPluginMessageContext,
   toPluginMessageReceivedEvent,
-} from "../../hooks/message-hook-mappers.js";
-import { isDiagnosticsEnabled } from "../../infra/diagnostic-events.js";
-import { measureDiagnosticsTimelineSpan } from "../../infra/diagnostics-timeline.js";
-import { formatErrorMessage } from "../../infra/errors.js";
-import { getSessionBindingService } from "../../infra/outbound/session-binding-service.js";
-import { isAbortError } from "../../infra/unhandled-rejections.js";
-import type { StuckSessionRecoveryOutcome } from "../../logging/diagnostic-session-recovery.js";
+} from "../../hooks/message-hook-mappers.ts";
+import { isDiagnosticsEnabled } from "../../infra/diagnostic-events.ts";
+import { measureDiagnosticsTimelineSpan } from "../../infra/diagnostics-timeline.ts";
+import { formatErrorMessage } from "../../infra/errors.ts";
+import { getSessionBindingService } from "../../infra/outbound/session-binding-service.ts";
+import { isAbortError } from "../../infra/unhandled-rejections.ts";
+import type { StuckSessionRecoveryOutcome } from "../../logging/diagnostic-session-recovery.ts";
 import {
   logMessageDispatchCompleted,
   logMessageDispatchStarted,
@@ -76,10 +76,10 @@ import {
   requestStuckDiagnosticSessionRecovery,
   resolveStuckSessionAbortMs,
   resolveStuckSessionWarnMs,
-} from "../../logging/diagnostic.js";
-import { createDiagnosticMessageLifecycle } from "../../logging/message-lifecycle.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { matchPluginCommand } from "../../plugins/commands.js";
+} from "../../logging/diagnostic.ts";
+import { createDiagnosticMessageLifecycle } from "../../logging/message-lifecycle.ts";
+import { createSubsystemLogger } from "../../logging/subsystem.ts";
+import { matchPluginCommand } from "../../plugins/commands.ts";
 import {
   buildPluginBindingDeclinedText,
   buildPluginBindingErrorText,
@@ -88,48 +88,48 @@ import {
   isPluginOwnedSessionBindingRecord,
   markPluginBindingFallbackNoticeShown,
   toPluginConversationBinding,
-} from "../../plugins/conversation-binding.js";
-import { getGlobalHookRunner, getGlobalPluginRegistry } from "../../plugins/hook-runner-global.js";
-import type { PluginHookReplyDispatchEvent } from "../../plugins/hook-types.js";
-import { isAcpSessionKey } from "../../routing/session-key.js";
-import { resolveSendPolicy } from "../../sessions/send-policy.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveSilentReplyPolicyFromPolicies } from "../../shared/silent-reply-policy.js";
-import { truncateUtf16Safe } from "../../shared/utf16-slice.js";
-import { createTtsDirectiveTextStreamCleaner } from "../../tts/directives.js";
+} from "../../plugins/conversation-binding.ts";
+import { getGlobalHookRunner, getGlobalPluginRegistry } from "../../plugins/hook-runner-global.ts";
+import type { PluginHookReplyDispatchEvent } from "../../plugins/hook-types.ts";
+import { isAcpSessionKey } from "../../routing/session-key.ts";
+import { resolveSendPolicy } from "../../sessions/send-policy.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveSilentReplyPolicyFromPolicies } from "../../shared/silent-reply-policy.ts";
+import { truncateUtf16Safe } from "../../shared/utf16-slice.ts";
+import { createTtsDirectiveTextStreamCleaner } from "../../tts/directives.ts";
 import {
   normalizeTtsAutoMode,
   resolveConfiguredTtsMode,
   shouldCleanTtsDirectiveText,
   shouldAttemptTtsPayload,
-} from "../../tts/tts-config.js";
-import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.js";
+} from "../../tts/tts-config.ts";
+import { INTERNAL_MESSAGE_CHANNEL, normalizeMessageChannel } from "../../utils/message-channel.ts";
 import {
   isNativeCommandTurn,
   resolveCommandTurnContext,
   resolveCommandTurnTargetSessionKey,
-} from "../command-turn-context.js";
+} from "../command-turn-context.ts";
 import {
   findCommandByNativeName,
   normalizeCommandBody,
   resolveTextCommand,
-} from "../commands-registry.js";
-import type { BlockReplyContext, GetReplyOptions } from "../get-reply-options.types.js";
+} from "../commands-registry.ts";
+import type { BlockReplyContext, GetReplyOptions } from "../get-reply-options.types.ts";
 import {
   copyReplyPayloadMetadata,
   getReplyPayloadMetadata,
   isReplyPayloadStatusNotice,
   markReplyPayloadAsTtsSupplement,
   type ReplyPayload,
-} from "../reply-payload.js";
-import type { FinalizedMsgContext } from "../templating.js";
-import { normalizeVerboseLevel } from "../thinking.js";
-import { resolveSessionRuntimeOverrideForProvider } from "./agent-runner-execution.js";
+} from "../reply-payload.ts";
+import type { FinalizedMsgContext } from "../templating.ts";
+import { normalizeVerboseLevel } from "../thinking.ts";
+import { resolveSessionRuntimeOverrideForProvider } from "./agent-runner-execution.ts";
 import {
   takeCommandSessionMetadataChanges,
   type CommandSessionMetadataChange,
-} from "./command-session-metadata.js";
-import { resolveConversationBindingContextFromMessage } from "./conversation-binding-input.js";
+} from "./command-session-metadata.ts";
+import { resolveConversationBindingContextFromMessage } from "./conversation-binding-input.ts";
 import {
   createInternalHookEvent,
   loadSessionStore,
@@ -138,46 +138,46 @@ import {
   resolveStorePath,
   triggerInternalHook,
   updateSessionStoreEntry,
-} from "./dispatch-from-config.runtime.js";
+} from "./dispatch-from-config.runtime.ts";
 import type {
   DispatchFromConfigParams,
   DispatchFromConfigResult,
-} from "./dispatch-from-config.types.js";
-import { resolveEffectiveReplyRoute } from "./effective-reply-route.js";
-import { withFullRuntimeReplyConfig } from "./get-reply-fast-path.js";
-import type { ReplySessionBinding } from "./get-reply.types.js";
-import { claimInboundDedupe, commitInboundDedupe, releaseInboundDedupe } from "./inbound-dedupe.js";
-import { hasInboundAudio } from "./inbound-media.js";
-import { resolveOriginMessageProvider } from "./origin-routing.js";
-import { waitForReplyDispatcherIdle } from "./reply-dispatcher.js";
+} from "./dispatch-from-config.types.ts";
+import { resolveEffectiveReplyRoute } from "./effective-reply-route.ts";
+import { withFullRuntimeReplyConfig } from "./get-reply-fast-path.ts";
+import type { ReplySessionBinding } from "./get-reply.types.ts";
+import { claimInboundDedupe, commitInboundDedupe, releaseInboundDedupe } from "./inbound-dedupe.ts";
+import { hasInboundAudio } from "./inbound-media.ts";
+import { resolveOriginMessageProvider } from "./origin-routing.ts";
+import { waitForReplyDispatcherIdle } from "./reply-dispatcher.ts";
 import type {
   DispatcherOutcomeCountsView,
   ReplyDispatchKind,
   ReplyDispatcher,
-} from "./reply-dispatcher.types.js";
-import { readDispatcherFailedCounts } from "./reply-dispatcher.types.js";
+} from "./reply-dispatcher.types.ts";
+import { readDispatcherFailedCounts } from "./reply-dispatcher.types.ts";
 import {
   forceClearReplyRunBySessionId,
   replyRunRegistry,
   type ReplyOperation,
-} from "./reply-run-registry.js";
+} from "./reply-run-registry.ts";
 import {
   createReplyDeliveryContext,
   resolveReplyDeliveryAccountId,
   resolveReplyToMode,
-} from "./reply-threading.js";
-import { isReplyProfilerEnabled } from "./reply-timing-tracker.js";
-import { admitReplyTurn, resolveReplyTurnKind } from "./reply-turn-admission.js";
-import { resolveRoutedDeliveryThreadId } from "./routed-delivery-thread.js";
-import { resolveReplyRoutingDecision } from "./routing-policy.js";
+} from "./reply-threading.ts";
+import { isReplyProfilerEnabled } from "./reply-timing-tracker.ts";
+import { admitReplyTurn, resolveReplyTurnKind } from "./reply-turn-admission.ts";
+import { resolveRoutedDeliveryThreadId } from "./routed-delivery-thread.ts";
+import { resolveReplyRoutingDecision } from "./routing-policy.ts";
 import {
   isExplicitSourceReplyCommand,
   isUnauthorizedTextSlashCommand,
   resolveSourceReplyVisibilityPolicy,
-} from "./source-reply-delivery-mode.js";
-import { stageRemoteInboundMediaIfNeeded } from "./stage-remote-inbound-media.js";
-import { resolveStoredModelOverride } from "./stored-model-override.js";
-import { resolveRunTypingPolicy } from "./typing-policy.js";
+} from "./source-reply-delivery-mode.ts";
+import { stageRemoteInboundMediaIfNeeded } from "./stage-remote-inbound-media.ts";
+import { resolveStoredModelOverride } from "./stored-model-override.ts";
+import { resolveRunTypingPolicy } from "./typing-policy.ts";
 
 type SourceReplyTranscriptMirror = NonNullable<
   NonNullable<ReturnType<typeof getReplyPayloadMetadata>>["sourceReplyTranscriptMirror"]
@@ -1083,7 +1083,7 @@ function createReplyHotPathTimingTracker(options: { profilerEnabled?: boolean } 
 export type {
   DispatchFromConfigParams,
   DispatchFromConfigResult,
-} from "./dispatch-from-config.types.js";
+} from "./dispatch-from-config.types.ts";
 
 /** Dispatches a reply from config, context, command handling, agent run, and delivery policy. */
 export async function dispatchReplyFromConfig(

@@ -28,7 +28,6 @@ export const MSG_TYPE_QUOTE = 103;
  *
  * Supports both ext prefix formats:
  * - `ref_msg_idx=` / `msg_idx=` (platform native format)
- * - `refMsgIdx:` / `msgIdx:` (legacy internal format)
  *
  * When `messageType` equals `MSG_TYPE_QUOTE` (103) and `msgElements` is
  * provided, `msgElements[0].msg_idx` takes precedence over the ext-parsed
@@ -54,7 +53,6 @@ export function parseRefIndices(
       } else if (item.startsWith("msg_idx=")) {
         msgIdx = item.slice("msg_idx=".length).trim();
       }
-      // Legacy internal format: refMsgIdx: / msgIdx:
       else if (item.startsWith("refMsgIdx:")) {
         refMsgIdx = item.slice("refMsgIdx:".length).trim();
       } else if (item.startsWith("msgIdx:")) {

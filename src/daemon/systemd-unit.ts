@@ -1,7 +1,7 @@
 /** Renders and parses systemd unit snippets for managed gateway services. */
 import { normalizeStringEntries } from "@openclaw/normalization-core/string-normalization";
-import { splitArgsPreservingQuotes } from "./arg-split.js";
-import type { GatewayServiceRenderArgs } from "./service-types.js";
+import { splitArgsPreservingQuotes } from "./arg-split.ts";
+import type { GatewayServiceRenderArgs } from "./service-types.ts";
 
 const SYSTEMD_LINE_BREAKS = /[\r\n]/;
 

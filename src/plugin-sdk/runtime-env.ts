@@ -1,8 +1,8 @@
 // Shared process/runtime utilities for plugins. This is the public boundary for
 // logger wiring, runtime env shims, and global verbose console helpers.
 
-export type { RuntimeEnv } from "../runtime.js";
-export { createNonExitingRuntime, defaultRuntime } from "../runtime.js";
+export type { RuntimeEnv } from "../runtime.ts";
+export { createNonExitingRuntime, defaultRuntime } from "../runtime.ts";
 export {
   danger,
   info,
@@ -15,21 +15,21 @@ export {
   shouldLogVerbose,
   success,
   warn,
-} from "../globals.js";
-export { sleep } from "../utils.js";
-export { withTimeout } from "../utils/with-timeout.js";
-export { isTruthyEnvValue } from "../infra/env.js";
-export * from "../logging.js";
-export { waitForAbortSignal } from "../infra/abort-signal.js";
-export { computeBackoff, sleepWithAbort, type BackoffPolicy } from "../infra/backoff.js";
+} from "../globals.ts";
+export { sleep } from "../utils.ts";
+export { withTimeout } from "../utils/with-timeout.ts";
+export { isTruthyEnvValue } from "../infra/env.ts";
+export * from "../logging.ts";
+export { waitForAbortSignal } from "../infra/abort-signal.ts";
+export { computeBackoff, sleepWithAbort, type BackoffPolicy } from "../infra/backoff.ts";
 export {
   formatDurationPrecise,
   formatDurationSeconds,
 } from "../infra/format-time/format-duration.ts";
-export { retryAsync } from "../infra/retry.js";
-export { ensureGlobalUndiciEnvProxyDispatcher } from "../infra/net/undici-global-dispatcher.js";
+export { retryAsync } from "../infra/retry.ts";
+export { ensureGlobalUndiciEnvProxyDispatcher } from "../infra/net/undici-global-dispatcher.ts";
 export {
   registerUncaughtExceptionHandler,
   registerUnhandledRejectionHandler,
-} from "../infra/unhandled-rejections.js";
-export { isWSL2Sync } from "../infra/wsl.js";
+} from "../infra/unhandled-rejections.ts";
+export { isWSL2Sync } from "../infra/wsl.ts";

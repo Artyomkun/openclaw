@@ -2,4 +2,4 @@
 export {
   buildExplicitSessionIdSessionKey,
   resolveSessionKeyForRequest,
-} from "../../agents/command/session.js";
+} from "../../agents/command/session.ts";

@@ -1,5 +1,5 @@
 // Control UI route classifier for base-path and root-mounted SPA serving.
-import { isReadHttpMethod } from "./control-ui-http-utils.js";
+import { isReadHttpMethod } from "./control-ui-http-utils.ts";
 
 type ControlUiRequestClassification =
   | { kind: "not-control-ui" }

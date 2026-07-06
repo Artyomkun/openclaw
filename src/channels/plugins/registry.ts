@@ -4,15 +4,15 @@
  * Lists, resolves, and normalizes active channel plugins with bundled fallback.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeAnyChannelId } from "../registry.js";
-import { getBundledChannelPlugin } from "./bundled.js";
+import { normalizeAnyChannelId } from "../registry.ts";
+import { getBundledChannelPlugin } from "./bundled.ts";
 import {
   getLoadedChannelPluginById,
   getLoadedChannelPluginEntryById,
   listLoadedChannelPlugins,
-} from "./registry-loaded.js";
-import type { ChannelPlugin } from "./types.plugin.js";
-import type { ChannelId } from "./types.public.js";
+} from "./registry-loaded.ts";
+import type { ChannelPlugin } from "./types.plugin.ts";
+import type { ChannelId } from "./types.public.ts";
 
 /**
  * Lists currently loaded channel plugins in registry order.

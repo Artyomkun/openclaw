@@ -3,18 +3,18 @@ import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { listAgentEntries } from "../../agents/agent-scope.js";
-import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.js";
-import { resolveFastModeState } from "../../agents/fast-mode.js";
-import { type ModelAliasIndex, resolveModelRefFromString } from "../../agents/model-selection.js";
-import { resolveSandboxRuntimeStatus } from "../../agents/sandbox/runtime-status.js";
-import type { SessionEntry } from "../../config/sessions.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import { normalizeAgentId } from "../../routing/session-key.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { SkillCommandSpec } from "../../skills/types.js";
-import { shouldHandleTextCommands } from "../commands-text-routing.js";
-import type { MsgContext, TemplateContext } from "../templating.js";
+import { listAgentEntries } from "../../agents/agent-scope.ts";
+import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.ts";
+import { resolveFastModeState } from "../../agents/fast-mode.ts";
+import { type ModelAliasIndex, resolveModelRefFromString } from "../../agents/model-selection.ts";
+import { resolveSandboxRuntimeStatus } from "../../agents/sandbox/runtime-status.ts";
+import type { SessionEntry } from "../../config/sessions.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import { normalizeAgentId } from "../../routing/session-key.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { SkillCommandSpec } from "../../skills/types.ts";
+import { shouldHandleTextCommands } from "../commands-text-routing.ts";
+import type { MsgContext, TemplateContext } from "../templating.ts";
 import {
   normalizeThinkLevel,
   type ElevatedLevel,
@@ -22,30 +22,30 @@ import {
   type ReasoningLevel,
   type ThinkLevel,
   type VerboseLevel,
-} from "../thinking.js";
-import type { GetReplyOptions, ReplyPayload } from "../types.js";
-import { resolveBlockStreamingChunking } from "./block-streaming.js";
-import { buildCommandContext } from "./commands-context.js";
-import { type InlineDirectives, parseInlineDirectives } from "./directive-handling.parse.js";
+} from "../thinking.ts";
+import type { GetReplyOptions, ReplyPayload } from "../types.ts";
+import { resolveBlockStreamingChunking } from "./block-streaming.ts";
+import { buildCommandContext } from "./commands-context.ts";
+import { type InlineDirectives, parseInlineDirectives } from "./directive-handling.parse.ts";
 import {
   reserveSkillCommandNames,
   resolveConfiguredDirectiveAliases,
-} from "./get-reply-directive-aliases.js";
-import { applyInlineDirectiveOverrides } from "./get-reply-directives-apply.js";
-import { clearExecInlineDirectives, clearInlineDirectives } from "./get-reply-directives-utils.js";
-import { type ReplyExecOverrides, resolveReplyExecOverrides } from "./get-reply-exec-overrides.js";
-import { shouldUseReplyFastTestRuntime } from "./get-reply-fast-path.js";
-import { defaultGroupActivation, resolveGroupRequireMention } from "./groups.js";
-import { CURRENT_MESSAGE_MARKER, stripMentions, stripStructuralPrefixes } from "./mentions.js";
+} from "./get-reply-directive-aliases.ts";
+import { applyInlineDirectiveOverrides } from "./get-reply-directives-apply.ts";
+import { clearExecInlineDirectives, clearInlineDirectives } from "./get-reply-directives-utils.ts";
+import { type ReplyExecOverrides, resolveReplyExecOverrides } from "./get-reply-exec-overrides.ts";
+import { shouldUseReplyFastTestRuntime } from "./get-reply-fast-path.ts";
+import { defaultGroupActivation, resolveGroupRequireMention } from "./groups.ts";
+import { CURRENT_MESSAGE_MARKER, stripMentions, stripStructuralPrefixes } from "./mentions.ts";
 import {
   createFastTestModelSelectionState,
   createModelSelectionState,
   resolveContextTokens,
-} from "./model-selection.js";
-import { formatElevatedUnavailableMessage, resolveElevatedPermissions } from "./reply-elevated.js";
-import { stripInlineStatus } from "./reply-inline.js";
-import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.js";
-import type { TypingController } from "./typing.js";
+} from "./model-selection.ts";
+import { formatElevatedUnavailableMessage, resolveElevatedPermissions } from "./reply-elevated.ts";
+import { stripInlineStatus } from "./reply-inline.ts";
+import { resolveRuntimePolicySessionKey } from "./runtime-policy-session-key.ts";
+import type { TypingController } from "./typing.ts";
 
 type AgentDefaults = NonNullable<OpenClawConfig["agents"]>["defaults"];
 

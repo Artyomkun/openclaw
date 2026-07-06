@@ -1316,7 +1316,7 @@ platform :ios do
 
   desc "Print the App Store signing plan"
   lane :signing_plan do
-    sh(shell_join(["node", File.join(repo_root, "scripts", "ios-release-signing.mjs"), "--mode", "plan"]))
+    sh(shell_join(["node", File.join(repo_root, "scripts", "ios-release-signing.ts"), "--mode", "plan"]))
   end
 
   desc "Check local App Store signing assets through Fastlane match"

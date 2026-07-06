@@ -1,10 +1,10 @@
 /** Shared runtime helpers for embedding provider lookup across core and plugin capabilities. */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   resolvePluginCapabilityProvider,
   resolvePluginCapabilityProviders,
-} from "./capability-provider-runtime.js";
+} from "./capability-provider-runtime.ts";
 
 type EmbeddingProviderCapabilityKey = "embeddingProviders" | "memoryEmbeddingProviders";
 type RegisteredAdapterEntry<TAdapter> = {

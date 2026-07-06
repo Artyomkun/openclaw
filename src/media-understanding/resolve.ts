@@ -4,23 +4,23 @@ import {
   MAX_TIMER_TIMEOUT_MS,
   resolveTimerTimeoutMs,
 } from "@openclaw/normalization-core/number-coercion";
-import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.js";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import type { OpenClawConfig } from "../config/types.ts";
 import type {
   MediaUnderstandingConfig,
   MediaUnderstandingModelConfig,
   MediaUnderstandingScopeConfig,
-} from "../config/types.tools.js";
-import { logVerbose, shouldLogVerbose } from "../globals.js";
+} from "../config/types.tools.ts";
+import { logVerbose, shouldLogVerbose } from "../globals.ts";
 import {
   DEFAULT_MAX_BYTES,
   DEFAULT_MAX_CHARS_BY_CAPABILITY,
   DEFAULT_MEDIA_CONCURRENCY,
   DEFAULT_PROMPT,
-} from "./defaults.constants.js";
-import { resolveEffectiveMediaEntryCapabilities } from "./entry-capabilities.js";
-import { normalizeMediaUnderstandingChatType, resolveMediaUnderstandingScope } from "./scope.js";
-import type { MediaUnderstandingCapability } from "./types.js";
+} from "./defaults.constants.ts";
+import { resolveEffectiveMediaEntryCapabilities } from "./entry-capabilities.ts";
+import { normalizeMediaUnderstandingChatType, resolveMediaUnderstandingScope } from "./scope.ts";
+import type { MediaUnderstandingCapability } from "./types.ts";
 
 /** Default per-provider media-understanding runtime timeout in milliseconds. */
 export const DEFAULT_MEDIA_RUNTIME_TIMEOUT_MS = 30_000;

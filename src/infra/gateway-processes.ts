@@ -2,12 +2,12 @@
 import { spawnSync } from "node:child_process";
 import fsSync from "node:fs";
 import { uniqueValues } from "@openclaw/normalization-core/string-normalization";
-import { isGatewayArgv, parseProcCmdline } from "./gateway-process-argv.js";
-import { findGatewayPidsOnPortSync as findUnixGatewayPidsOnPortSync } from "./restart-stale-pids.js";
+import { isGatewayArgv, parseProcCmdline } from "./gateway-process-argv.ts";
+import { findGatewayPidsOnPortSync as findUnixGatewayPidsOnPortSync } from "./restart-stale-pids.ts";
 import {
   readWindowsListeningPidsOnPortSync,
   readWindowsProcessArgsSync,
-} from "./windows-port-pids.js";
+} from "./windows-port-pids.ts";
 
 // Gateway process helpers verify argv before signaling or reporting listener
 // PIDs so stale port owners cannot be mistaken for OpenClaw.

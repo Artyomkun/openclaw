@@ -2,74 +2,74 @@
 // Rotates transcripts and coordinates lifecycle cleanup across runtimes/hooks.
 import { randomUUID } from "node:crypto";
 import path from "node:path";
-import { ErrorCodes, errorShape } from "../../packages/gateway-protocol/src/index.js";
-import { getAcpSessionManager } from "../acp/control-plane/manager.js";
-import { getAcpRuntimeBackend } from "../acp/runtime/registry.js";
+import { ErrorCodes, errorShape } from "../../packages/gateway-protocol/src/index.ts";
+import { getAcpSessionManager } from "../acp/control-plane/manager.ts";
+import { getAcpRuntimeBackend } from "../acp/runtime/registry.ts";
 import {
   readAcpSessionMeta,
   upsertAcpSessionMeta,
   writeAcpSessionMetaForMigration,
-} from "../acp/runtime/session-meta.js";
-import { retireSessionMcpRuntime } from "../agents/agent-bundle-mcp-tools.js";
+} from "../acp/runtime/session-meta.ts";
+import { retireSessionMcpRuntime } from "../agents/agent-bundle-mcp-tools.ts";
 import {
   listAgentIds,
   resolveAgentWorkspaceDir,
   resolveDefaultAgentId,
-} from "../agents/agent-scope.js";
-import { clearBootstrapSnapshot } from "../agents/bootstrap-cache.js";
-import { clearAllCliSessions } from "../agents/cli-session.js";
-import { abortEmbeddedAgentRun, waitForEmbeddedAgentRunEnd } from "../agents/embedded-agent.js";
-import { stopSubagentsForRequester } from "../auto-reply/reply/abort.js";
+} from "../agents/agent-scope.ts";
+import { clearBootstrapSnapshot } from "../agents/bootstrap-cache.ts";
+import { clearAllCliSessions } from "../agents/cli-session.ts";
+import { abortEmbeddedAgentRun, waitForEmbeddedAgentRunEnd } from "../agents/embedded-agent.ts";
+import { stopSubagentsForRequester } from "../auto-reply/reply/abort.ts";
 import {
   buildSessionEndHookPayload,
   buildSessionStartHookPayload,
-} from "../auto-reply/reply/session-hooks.js";
-import { clearSessionResetRuntimeState } from "../auto-reply/reply/session-reset-cleanup.js";
-import { cleanupBrowserSessionsForLifecycleEnd } from "../browser-lifecycle-cleanup.js";
-import { getRuntimeConfig } from "../config/io.js";
+} from "../auto-reply/reply/session-hooks.ts";
+import { clearSessionResetRuntimeState } from "../auto-reply/reply/session-reset-cleanup.ts";
+import { cleanupBrowserSessionsForLifecycleEnd } from "../browser-lifecycle-cleanup.ts";
+import { getRuntimeConfig } from "../config/io.ts";
 import {
   snapshotSessionOrigin,
   type SessionEntry,
   resetSessionEntryLifecycle,
-} from "../config/sessions.js";
-import { resolveSessionFilePath, resolveSessionFilePathOptions } from "../config/sessions/paths.js";
-import { resolveResetPreservedSelection } from "../config/sessions/reset-preserved-selection.js";
+} from "../config/sessions.ts";
+import { resolveSessionFilePath, resolveSessionFilePathOptions } from "../config/sessions/paths.ts";
+import { resolveResetPreservedSelection } from "../config/sessions/reset-preserved-selection.ts";
 import {
   canonicalizeAbsoluteSessionFilePath,
   rewriteSessionFileForNewSessionId,
-} from "../config/sessions/session-file-rotation.js";
-import type { SessionAcpMeta } from "../config/sessions/types.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { logVerbose } from "../globals.js";
-import { createInternalHookEvent, triggerInternalHook } from "../hooks/internal-hooks.js";
-import { getSessionBindingService } from "../infra/outbound/session-binding-service.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import { runPluginHostCleanup } from "../plugins/host-hook-cleanup.js";
-import { getActivePluginRegistry } from "../plugins/runtime.js";
+} from "../config/sessions/session-file-rotation.ts";
+import type { SessionAcpMeta } from "../config/sessions/types.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { logVerbose } from "../globals.ts";
+import { createInternalHookEvent, triggerInternalHook } from "../hooks/internal-hooks.ts";
+import { getSessionBindingService } from "../infra/outbound/session-binding-service.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import { runPluginHostCleanup } from "../plugins/host-hook-cleanup.ts";
+import { getActivePluginRegistry } from "../plugins/runtime.ts";
 import {
   isSubagentSessionKey,
   normalizeAgentId,
   parseAgentSessionKey,
-} from "../routing/session-key.js";
+} from "../routing/session-key.ts";
 import {
   forgetActiveSessionForShutdown,
   listActiveSessionsForShutdown,
   noteActiveSessionForShutdown,
-} from "./active-sessions-shutdown-tracker.js";
-import { findDirectChildSessionsForParent } from "./session-child-sessions.js";
+} from "./active-sessions-shutdown-tracker.ts";
+import { findDirectChildSessionsForParent } from "./session-child-sessions.ts";
 import {
   archiveSessionTranscriptsDetailed,
   extractGeneratedTranscriptSessionId,
   resolveStableSessionEndTranscript,
   type ArchivedSessionTranscript,
-} from "./session-transcript-files.fs.js";
-import { readSessionMessagesAsync } from "./session-transcript-readers.js";
+} from "./session-transcript-files.fs.ts";
+import { readSessionMessagesAsync } from "./session-transcript-readers.ts";
 import {
   loadSessionEntry,
   resolveGatewaySessionStoreTarget,
   resolveSessionStoreKey,
   resolveSessionModelRef,
-} from "./session-utils.js";
+} from "./session-utils.ts";
 
 const ACP_RUNTIME_CLEANUP_TIMEOUT_MS = 15_000;
 
@@ -724,7 +724,6 @@ export async function cleanupSessionBeforeMutation(params: {
   key: string;
   target: ReturnType<typeof resolveGatewaySessionStoreTarget>;
   entry: SessionEntry | undefined;
-  legacyKey?: string;
   canonicalKey?: string;
   reason: "session-reset" | "session-delete";
   onAcpResetMeta?: (params: { sessionKey: string; meta: SessionAcpMeta }) => void;
@@ -760,7 +759,7 @@ export async function cleanupSessionBeforeMutation(params: {
   const parentAcpError = await closeAcpRuntimeForSession({
     cfg: params.cfg,
     sessionKey: parentSessionKey,
-    fallbackSessionKeys: [params.canonicalKey, params.legacyKey, params.key],
+    fallbackSessionKeys: [params.canonicalKey, params.key],
     reason: params.reason,
     onResetMeta: params.onAcpResetMeta,
     assertCurrent: params.assertCurrent,
@@ -885,7 +884,7 @@ export async function performGatewaySessionReset(params: {
     return resetTarget;
   }
   const { cfg, target, storePath, requestedAgentId } = resetTarget;
-  const { entry, legacyKey, canonicalKey } = loadSessionEntry(
+  const { entry, canonicalKey } = loadSessionEntry(
     params.key,
     requestedAgentId ? { agentId: requestedAgentId } : undefined,
   );
@@ -933,7 +932,7 @@ export async function performGatewaySessionReset(params: {
   const parentAcpError = await closeAcpRuntimeForSession({
     cfg,
     sessionKey: parentSessionKey,
-    fallbackSessionKeys: [canonicalKey, legacyKey, params.key],
+    fallbackSessionKeys: [canonicalKey, params.key],
     reason: "session-reset",
     deferResetState: true,
     onDeferredResetState: (state) => {

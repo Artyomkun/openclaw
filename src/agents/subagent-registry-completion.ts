@@ -3,9 +3,9 @@
  * Compares outcomes, maps them to lifecycle events, and emits completion hooks
  * exactly once per completed child run.
  */
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { getGlobalHookRunner } from "../plugins/hook-runner-global.js";
-import type { SubagentRunOutcome } from "./subagent-announce-output.js";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { getGlobalHookRunner } from "../plugins/hook-runner-global.ts";
+import type { SubagentRunOutcome } from "./subagent-announce-output.ts";
 import {
   SUBAGENT_ENDED_OUTCOME_ERROR,
   SUBAGENT_ENDED_OUTCOME_OK,
@@ -13,8 +13,8 @@ import {
   SUBAGENT_TARGET_KIND_SUBAGENT,
   type SubagentLifecycleEndedOutcome,
   type SubagentLifecycleEndedReason,
-} from "./subagent-lifecycle-events.js";
-import type { SubagentRunRecord } from "./subagent-registry.types.js";
+} from "./subagent-lifecycle-events.ts";
+import type { SubagentRunRecord } from "./subagent-registry.types.ts";
 
 const log = createSubsystemLogger("agents/subagent-registry-completion");
 

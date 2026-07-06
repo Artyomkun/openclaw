@@ -1,21 +1,21 @@
 /** Runtime resolver for plugin-contributed web fetch providers. */
-import { loadOpenClawPlugins } from "./loader.js";
-import type { PluginLoadOptions } from "./loader.js";
-import type { PluginManifestRecord } from "./manifest-registry.js";
-import type { PluginWebFetchProviderEntry } from "./types.js";
+import { loadOpenClawPlugins } from "./loader.ts";
+import type { PluginLoadOptions } from "./loader.ts";
+import type { PluginManifestRecord } from "./manifest-registry.ts";
+import type { PluginWebFetchProviderEntry } from "./types.ts";
 import {
   resolveBundledWebFetchResolutionConfig,
   sortWebFetchProviders,
-} from "./web-fetch-providers.shared.js";
-import { resolveBundledWebFetchProvidersFromPublicArtifacts } from "./web-provider-public-artifacts.js";
+} from "./web-fetch-providers.shared.ts";
+import { resolveBundledWebFetchProvidersFromPublicArtifacts } from "./web-provider-public-artifacts.ts";
 import {
   mapRegistryProviders,
   resolveManifestDeclaredWebProviderCandidatePluginIds,
-} from "./web-provider-resolution-shared.js";
+} from "./web-provider-resolution-shared.ts";
 import {
   resolvePluginWebProviders,
   resolveRuntimeWebProviders,
-} from "./web-provider-runtime-shared.js";
+} from "./web-provider-runtime-shared.ts";
 
 function resolveWebFetchCandidatePluginIds(params: {
   config?: PluginLoadOptions["config"];

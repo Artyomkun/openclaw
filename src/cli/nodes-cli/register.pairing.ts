@@ -1,21 +1,21 @@
 // Node pairing commands: list, approve, reject, remove, and rename paired nodes.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import type { Command } from "commander";
-import { getTerminalTableWidth } from "../../../packages/terminal-core/src/table.js";
-import type { OperatorScope } from "../../gateway/method-scopes.js";
-import { resolveNodePairApprovalScopes } from "../../infra/node-pairing-authz.js";
-import { defaultRuntime } from "../../runtime.js";
-import { formatCliCommand } from "../command-format.js";
-import { formatConnectionFlagReminder, getNodesTheme, runNodesCommand } from "./cli-utils.js";
-import { parsePairingList } from "./format.js";
-import { renderPendingPairingRequestsTable } from "./pairing-render.js";
+import { getTerminalTableWidth } from "../../../packages/terminal-core/src/table.ts";
+import type { OperatorScope } from "../../gateway/method-scopes.ts";
+import { resolveNodePairApprovalScopes } from "../../infra/node-pairing-authz.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { formatConnectionFlagReminder, getNodesTheme, runNodesCommand } from "./cli-utils.ts";
+import { parsePairingList } from "./format.ts";
+import { renderPendingPairingRequestsTable } from "./pairing-render.ts";
 import {
   callGatewayCli,
   callNodePairApprovalGatewayCli,
   nodesCallOpts,
   resolveNodeId,
-} from "./rpc.js";
-import type { NodesRpcOpts, PendingRequest } from "./types.js";
+} from "./rpc.ts";
+import type { NodesRpcOpts, PendingRequest } from "./types.ts";
 
 const DEFAULT_NODE_PAIR_APPROVE_SCOPES: OperatorScope[] = ["operator.pairing"];
 const NODE_PAIR_APPROVE_SCOPE_SET = new Set<OperatorScope>([

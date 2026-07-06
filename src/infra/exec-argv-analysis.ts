@@ -1,5 +1,5 @@
-import type { ExecCommandAnalysis } from "./exec-command-analysis-types.js";
-import { resolveCommandResolutionFromArgv } from "./exec-command-resolution.js";
+import type { ExecCommandAnalysis } from "./exec-command-analysis-types.ts";
+import { resolveCommandResolutionFromArgv } from "./exec-command-resolution.ts";
 
 export function analyzeArgvCommand(params: {
   argv: string[];

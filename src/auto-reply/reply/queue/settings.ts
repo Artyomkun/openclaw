@@ -1,13 +1,13 @@
 // Resolves queue settings from config, directives, and fallback policy.
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { InboundDebounceByProvider } from "../../../config/types.messages.js";
+import type { InboundDebounceByProvider } from "../../../config/types.messages.ts";
 import {
   normalizePersistedQueueMode,
   normalizeQueueDropPolicy,
   normalizeQueueMode,
-} from "./normalize.js";
-import { DEFAULT_QUEUE_CAP, DEFAULT_QUEUE_DEBOUNCE_MS, DEFAULT_QUEUE_DROP } from "./state.js";
-import type { QueueSettings, ResolveQueueSettingsParams } from "./types.js";
+} from "./normalize.ts";
+import { DEFAULT_QUEUE_CAP, DEFAULT_QUEUE_DEBOUNCE_MS, DEFAULT_QUEUE_DROP } from "./state.ts";
+import type { QueueSettings, ResolveQueueSettingsParams } from "./types.ts";
 
 /** Resolve per-channel debounce override from debounceMsByChannel map. */
 function resolveChannelDebounce(

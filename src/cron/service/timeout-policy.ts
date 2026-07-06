@@ -1,6 +1,6 @@
 /** Resolves cron job wall-clock timeout policy. */
 import { finiteSecondsToTimerSafeMilliseconds } from "@openclaw/normalization-core/number-coercion";
-import type { CronJob } from "../types.js";
+import type { CronJob } from "../types.ts";
 
 /**
  * Maximum wall-clock time for a single job execution. Acts as a safety net

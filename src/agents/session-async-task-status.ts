@@ -3,8 +3,8 @@
  * and reporting the active task back through tool/status metadata.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { listTasksForOwnerKey } from "../tasks/runtime-internal.js";
-import type { TaskRecord, TaskRuntime, TaskStatus } from "../tasks/task-registry.types.js";
+import { listTasksForOwnerKey } from "../tasks/runtime-internal.ts";
+import type { TaskRecord, TaskRuntime, TaskStatus } from "../tasks/task-registry.types.ts";
 
 const DEFAULT_ACTIVE_STATUSES = new Set<TaskStatus>(["queued", "running"]);
 

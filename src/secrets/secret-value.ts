@@ -1,5 +1,5 @@
 /** Validates resolved secret values against expected value shapes. */
-import { isNonEmptyString, isRecord } from "./shared.js";
+import { isNonEmptyString, isRecord } from "./shared.ts";
 
 /**
  * Describes the resolved value shape a secret target accepts after provider resolution.

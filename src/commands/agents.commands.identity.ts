@@ -2,23 +2,23 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { identityHasValues, parseIdentityMarkdown } from "../agents/identity-file.js";
-import { DEFAULT_IDENTITY_FILENAME } from "../agents/workspace.js";
-import { replaceConfigFile } from "../config/config.js";
-import { logConfigUpdated } from "../config/logging.js";
-import type { IdentityConfig } from "../config/types.js";
-import { normalizeAgentId } from "../routing/session-key.js";
-import { type RuntimeEnv, writeRuntimeJson } from "../runtime.js";
-import { defaultRuntime } from "../runtime.js";
-import { resolveUserPath, shortenHomePath } from "../utils.js";
-import { requireValidConfigFileSnapshot } from "./agents.command-shared.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.ts";
+import { identityHasValues, parseIdentityMarkdown } from "../agents/identity-file.ts";
+import { DEFAULT_IDENTITY_FILENAME } from "../agents/workspace.ts";
+import { replaceConfigFile } from "../config/config.ts";
+import { logConfigUpdated } from "../config/logging.ts";
+import type { IdentityConfig } from "../config/types.ts";
+import { normalizeAgentId } from "../routing/session-key.ts";
+import { type RuntimeEnv, writeRuntimeJson } from "../runtime.ts";
+import { defaultRuntime } from "../runtime.ts";
+import { resolveUserPath, shortenHomePath } from "../utils.ts";
+import { requireValidConfigFileSnapshot } from "./agents.command-shared.ts";
 import {
   type AgentIdentity,
   findAgentEntryIndex,
   listAgentEntries,
   loadAgentIdentity,
-} from "./agents.config.js";
+} from "./agents.config.ts";
 
 type AgentsSetIdentityOptions = {
   agent?: string;

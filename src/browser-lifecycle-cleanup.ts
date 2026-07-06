@@ -1,7 +1,7 @@
 // Coordinates browser process cleanup for CLI-managed runtime sessions.
-import type { OpenClawConfig } from "./config/types.openclaw.js";
-import { runBestEffortCleanup } from "./infra/non-fatal-cleanup.js";
-import { closeTrackedBrowserTabsForSessions } from "./plugin-sdk/browser-maintenance.js";
+import type { OpenClawConfig } from "./config/types.openclaw.ts";
+import { runBestEffortCleanup } from "./infra/non-fatal-cleanup.ts";
+import { closeTrackedBrowserTabsForSessions } from "./plugin-sdk/browser-maintenance.ts";
 
 function normalizeSessionKeys(sessionKeys: string[]): string[] {
   const keys = new Set<string>();

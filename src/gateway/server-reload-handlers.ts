@@ -1,63 +1,63 @@
 // Gateway hot-reload handlers.
 // Applies config reload plans to hooks, cron, heartbeat, plugins, channels, and restarts.
-import { disposeAllSessionMcpRuntimes } from "../agents/agent-bundle-mcp-tools.js";
-import { refreshContextWindowCache } from "../agents/context.js";
+import { disposeAllSessionMcpRuntimes } from "../agents/agent-bundle-mcp-tools.ts";
+import { refreshContextWindowCache } from "../agents/context.ts";
 import {
   getActiveEmbeddedRunCount,
   listActiveEmbeddedRunSessionIds,
   listActiveEmbeddedRunSessionKeys,
-} from "../agents/embedded-agent-runner/run-state.js";
-import { loadModelCatalog, resetModelCatalogCache } from "../agents/model-catalog.js";
+} from "../agents/embedded-agent-runner/run-state.ts";
+import { loadModelCatalog, resetModelCatalogCache } from "../agents/model-catalog.ts";
 import {
   clearCurrentProviderAuthState,
   warmCurrentProviderAuthStateOffMainThread,
-} from "../agents/model-provider-auth.js";
-import { getTotalPendingReplies } from "../auto-reply/reply/dispatcher-registry.js";
-import type { CliDeps } from "../cli/deps.types.js";
-import { isRestartEnabled } from "../config/commands.flags.js";
-import { getRuntimeConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { isTruthyEnvValue } from "../infra/env.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import type { HeartbeatRunner } from "../infra/heartbeat-runner.js";
-import { resetDirectoryCache } from "../infra/outbound/target-resolver.js";
+} from "../agents/model-provider-auth.ts";
+import { getTotalPendingReplies } from "../auto-reply/reply/dispatcher-registry.ts";
+import type { CliDeps } from "../cli/deps.types.ts";
+import { isRestartEnabled } from "../config/commands.flags.ts";
+import { getRuntimeConfig } from "../config/config.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { isTruthyEnvValue } from "../infra/env.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import type { HeartbeatRunner } from "../infra/heartbeat-runner.ts";
+import { resetDirectoryCache } from "../infra/outbound/target-resolver.ts";
 import {
   deferGatewayRestartUntilIdle,
   emitGatewayRestart,
   resolveGatewayRestartDeferralTimeoutMs,
   setGatewaySigusr1RestartPolicy,
-} from "../infra/restart.js";
-import { getTotalQueueSize } from "../process/command-queue.js";
+} from "../infra/restart.ts";
+import { getTotalQueueSize } from "../process/command-queue.ts";
 import {
   clearSecretsRuntimeSnapshot,
   getActiveSecretsRuntimeSnapshot,
   type PreparedSecretsRuntimeSnapshot,
-} from "../secrets/runtime-state.js";
+} from "../secrets/runtime-state.ts";
 import {
   getInspectableActiveTaskRestartBlockers,
   type ActiveTaskRestartBlocker,
-} from "../tasks/task-registry.maintenance.js";
-import type { ChannelHealthMonitor } from "./channel-health-monitor.js";
-import type { ChannelKind } from "./config-reload-plan.js";
-import { startGatewayConfigReloader, type GatewayReloadPlan } from "./config-reload.js";
-import { resolveHooksConfig } from "./hooks.js";
-import { buildGatewayCronService, type GatewayCronState } from "./server-cron.js";
-import { applyGatewayLaneConcurrency } from "./server-lanes.js";
-import { markGatewayModelCatalogStaleForReload } from "./server-model-catalog.js";
+} from "../tasks/task-registry.maintenance.ts";
+import type { ChannelHealthMonitor } from "./channel-health-monitor.ts";
+import type { ChannelKind } from "./config-reload-plan.ts";
+import { startGatewayConfigReloader, type GatewayReloadPlan } from "./config-reload.ts";
+import { resolveHooksConfig } from "./hooks.ts";
+import { buildGatewayCronService, type GatewayCronState } from "./server-cron.ts";
+import { applyGatewayLaneConcurrency } from "./server-lanes.ts";
+import { markGatewayModelCatalogStaleForReload } from "./server-model-catalog.ts";
 import {
   type GatewayChannelManager,
   startGatewayChannelHealthMonitor,
   startGatewayCronWithLogging,
-} from "./server-runtime-services.js";
+} from "./server-runtime-services.ts";
 import {
   disconnectStaleSharedGatewayAuthClients,
   setCurrentSharedGatewaySessionGeneration,
   type SharedGatewayAuthClient,
   type SharedGatewaySessionGenerationState,
-} from "./server-shared-auth-generation.js";
-import type { ActivateRuntimeSecrets } from "./server-startup-config.js";
-import { resolveHookClientIpConfig } from "./server/hook-client-ip-config.js";
-import type { HookClientIpConfig } from "./server/hooks-request-handler.js";
+} from "./server-shared-auth-generation.ts";
+import type { ActivateRuntimeSecrets } from "./server-startup-config.ts";
+import { resolveHookClientIpConfig } from "./server/hook-client-ip-config.ts";
+import type { HookClientIpConfig } from "./server/hooks-request-handler.ts";
 
 type GatewayHotReloadState = {
   hooksConfig: ReturnType<typeof resolveHooksConfig>;

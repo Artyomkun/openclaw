@@ -95,7 +95,7 @@ export function normalizeGatewayClientId(raw?: string | null): GatewayClientId |
     : undefined;
 }
 
-/** Normalizes legacy client-name fields through the canonical client-id registry. */
+/** Normalizes client-name fields through the canonical client-id registry. */
 export function normalizeGatewayClientName(raw?: string | null): GatewayClientName | undefined {
   return normalizeGatewayClientId(raw);
 }

@@ -3,13 +3,13 @@
  *
  * Runs the configured runtime provider and returns normalized cached search results.
  */
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { RuntimeWebSearchMetadata } from "../../secrets/runtime-web-tools.types.js";
-import { resolveWebSearchProviderId, runWebSearch } from "../../web-search/runtime.js";
-import type { AnyAgentTool } from "./common.js";
-import { asToolParamsRecord, jsonResult } from "./common.js";
-import { MAX_SEARCH_COUNT, SEARCH_CACHE } from "./web-search-provider-common.js";
-import { resolveWebSearchToolRuntimeContext } from "./web-tool-runtime-context.js";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { RuntimeWebSearchMetadata } from "../../secrets/runtime-web-tools.types.ts";
+import { resolveWebSearchProviderId, runWebSearch } from "../../web-search/runtime.ts";
+import type { AnyAgentTool } from "./common.ts";
+import { asToolParamsRecord, jsonResult } from "./common.ts";
+import { MAX_SEARCH_COUNT, SEARCH_CACHE } from "./web-search-provider-common.ts";
+import { resolveWebSearchToolRuntimeContext } from "./web-tool-runtime-context.ts";
 
 const WebSearchSchema = {
   type: "object",

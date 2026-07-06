@@ -2,19 +2,19 @@
  * Resolves configured provider secrets from env, profiles, and SecretRefs.
  */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { coerceSecretRef, resolveSecretInputRef } from "../config/types.secrets.js";
-import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.js";
-import type { AuthProfileStore } from "./auth-profiles/types.js";
-import { resolveEnvApiKey, type EnvApiKeyLookupOptions } from "./model-auth-env.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { coerceSecretRef, resolveSecretInputRef } from "../config/types.secrets.ts";
+import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.ts";
+import type { AuthProfileStore } from "./auth-profiles/types.ts";
+import { resolveEnvApiKey, type EnvApiKeyLookupOptions } from "./model-auth-env.ts";
 import {
   isNonSecretApiKeyMarker,
   resolveEnvSecretRefHeaderValueMarker,
   resolveNonEnvSecretRefApiKeyMarker,
   resolveNonEnvSecretRefHeaderValueMarker,
-} from "./model-auth-markers.js";
-import { resolveAwsSdkEnvVarName } from "./model-auth-runtime-shared.js";
-import { resolveProviderIdForAuth } from "./provider-auth-aliases.js";
+} from "./model-auth-markers.ts";
+import { resolveAwsSdkEnvVarName } from "./model-auth-runtime-shared.ts";
+import { resolveProviderIdForAuth } from "./provider-auth-aliases.ts";
 
 /**
  * Secret-aware provider config helpers.

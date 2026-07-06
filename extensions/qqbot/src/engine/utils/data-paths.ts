@@ -2,8 +2,7 @@
  * Centralised filename helpers for persisted QQBot state.
  *
  * Every persistence module routes file paths through these helpers so the
- * naming convention stays in sync and legacy migrations are handled
- * consistently.
+ * naming convention stays in sync.
  *
  * Key design decisions:
  * - Credential backup is keyed only by `accountId` because recovery runs
@@ -34,9 +33,4 @@ function getCredentialBackupRoot(): string {
  */
 export function getCredentialBackupFile(accountId: string): string {
   return path.join(getCredentialBackupRoot(), `credential-backup-${safeName(accountId)}.json`);
-}
-
-/** Legacy single-file credential backup (pre-multi-account-isolation). */
-export function getLegacyCredentialBackupFile(): string {
-  return path.join(getCredentialBackupRoot(), "credential-backup.json");
 }

@@ -221,7 +221,7 @@ If the gateway logs `imessage: dropping group message from chat_id=<id>` or the 
 
 ## Action parity at a glance
 
-| Action                                              | legacy BlueBubbles                  | bundled iMessage                                                              |
+| Action                                              | older BlueBubbles                | bundled iMessage                                                              |
 | --------------------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------------- |
 | Send text / SMS fallback                            | ✅                                  | ✅                                                                            |
 | Send media (photo, video, file, voice)              | ✅                                  | ✅                                                                            |
@@ -254,6 +254,6 @@ The reply cache lives in SQLite plugin state. `openclaw doctor --fix` imports an
 
 - [BlueBubbles removal and the imsg iMessage path](/announcements/bluebubbles-imessage) — short announcement and operator summary.
 - [iMessage](/channels/imessage) — full iMessage channel reference, including `imsg launch` setup and capability detection.
-- `/channels/bluebubbles` — legacy URL that redirects to this migration guide.
+- `/channels/bluebubbles` — older URL that redirects to this migration guide.
 - [Pairing](/channels/pairing) — DM authentication and pairing flow.
 - [Channel Routing](/channels/channel-routing) — how the gateway picks a channel for outbound replies.

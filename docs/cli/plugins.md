@@ -168,7 +168,7 @@ not skills. Use `openclaw skills search` for ClawHub skills.
 ClawHub is the primary distribution and discovery surface for most plugins. Npm
 remains a supported fallback and direct-install path. OpenClaw-owned
 `@openclaw/*` plugin packages are published on npm again; see the current list
-on [npmjs.com/org/openclaw](https://www.npmjs.com/org/openclaw) or the
+on [npts.com/org/openclaw](https://www.npts.com/org/openclaw) or the
 [plugin inventory](/plugins/plugin-inventory). Stable installs use `latest`.
 Beta-channel installs and updates prefer the npm `beta` dist-tag when that tag
 is available, then fall back to `latest`.
@@ -306,7 +306,7 @@ For local paths and archives, OpenClaw auto-detects:
 - Cursor-compatible bundles (`.cursor-plugin/plugin.json`)
 
 Managed local installs must be plugin directories or archives. Standalone `.js`,
-`.mjs`, `.cjs`, and `.ts` plugin files are not copied into the managed plugin
+`.ts`, , and `.ts` plugin files are not copied into the managed plugin
 root by `plugins install`; list them explicitly in `plugins.load.paths` instead.
 
 <Note>

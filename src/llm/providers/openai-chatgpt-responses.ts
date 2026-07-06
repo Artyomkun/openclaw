@@ -5,7 +5,7 @@ import type {
   ResponseCreateParamsStreaming,
   ResponseInput,
   ResponseStreamEvent,
-} from "openai/resources/responses/responses.js";
+} from "openai/resources/responses/responses.ts";
 
 // NEVER convert to top-level runtime imports - breaks browser/Vite builds
 let os: typeof NodeOs | null = null;
@@ -25,11 +25,11 @@ import {
   resolveTimerTimeoutMs,
   clampTimerTimeoutMs,
 } from "@openclaw/normalization-core/number-coercion";
-import { createSseByteGuard } from "../../agents/streaming-byte-guard.js";
-import { stripSystemPromptCacheBoundary } from "../../agents/system-prompt-cache-boundary.js";
-import { getEnvApiKey } from "../env-api-keys.js";
-import { clampThinkingLevel } from "../model-utils.js";
-import { registerSessionResourceCleanup } from "../session-resources.js";
+import { createSseByteGuard } from "../../agents/streaming-byte-guard.ts";
+import { stripSystemPromptCacheBoundary } from "../../agents/system-prompt-cache-boundary.ts";
+import { getEnvApiKey } from "../env-api-keys.ts";
+import { clampThinkingLevel } from "../model-utils.ts";
+import { registerSessionResourceCleanup } from "../session-resources.ts";
 import type {
   Api,
   AssistantMessage,
@@ -39,22 +39,22 @@ import type {
   StreamFunction,
   StreamOptions,
   Usage,
-} from "../types.js";
+} from "../types.ts";
 import {
   appendAssistantMessageDiagnostic,
   createAssistantMessageDiagnostic,
   formatThrownValue,
-} from "../utils/diagnostics.js";
-import { AssistantMessageEventStream } from "../utils/event-stream.js";
-import { headersToRecord } from "../utils/headers.js";
-import { resolveOpenAICodexAccountId } from "../utils/oauth/openai-chatgpt-jwt.js";
-import { clampOpenAIPromptCacheKey } from "./openai-prompt-cache.js";
+} from "../utils/diagnostics.ts";
+import { AssistantMessageEventStream } from "../utils/event-stream.ts";
+import { headersToRecord } from "../utils/headers.ts";
+import { resolveOpenAICodexAccountId } from "../utils/oauth/openai-chatgpt-jwt.ts";
+import { clampOpenAIPromptCacheKey } from "./openai-prompt-cache.ts";
 import {
   convertResponsesMessages,
   convertResponsesToolPayload,
   processResponsesStream,
-} from "./openai-responses-shared.js";
-import { buildBaseOptions } from "./simple-options.js";
+} from "./openai-responses-shared.ts";
+import { buildBaseOptions } from "./simple-options.ts";
 
 // ============================================================================
 // Configuration

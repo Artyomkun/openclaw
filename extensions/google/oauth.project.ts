@@ -4,7 +4,6 @@ import {
   CODE_ASSIST_ENDPOINT_PROD,
   LOAD_CODE_ASSIST_ENDPOINTS,
   TIER_FREE,
-  TIER_LEGACY,
   TIER_STANDARD,
   USERINFO_URL,
 } from "./oauth.shared.js";
@@ -54,9 +53,9 @@ function getDefaultTier(
   allowedTiers?: Array<{ id?: string; isDefault?: boolean }>,
 ): { id?: string } | undefined {
   if (!allowedTiers?.length) {
-    return { id: TIER_LEGACY };
+    return { };
   }
-  return allowedTiers.find((tier) => tier.isDefault) ?? { id: TIER_LEGACY };
+  return allowedTiers.find((tier) => tier.isDefault);
 }
 
 async function pollOperation(

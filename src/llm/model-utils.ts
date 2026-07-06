@@ -3,7 +3,7 @@ import {
   resolveClaudeFable5ModelIdentity,
   resolveClaudeNativeThinkingLevelMap,
 } from "@openclaw/llm-core";
-import type { Api, Model, ModelThinkingLevel, Usage } from "./types.js";
+import type { Api, Model, ModelThinkingLevel, Usage } from "./types.ts";
 
 /** Calculates and stores model cost fields from token usage and per-million pricing. */
 export function calculateCost<TApi extends Api>(model: Model<TApi>, usage: Usage): Usage["cost"] {

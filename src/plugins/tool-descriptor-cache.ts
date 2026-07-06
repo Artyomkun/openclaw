@@ -1,10 +1,10 @@
 /** Caches plugin tool descriptors by plugin source, contract names, and runtime context. */
 import fs from "node:fs";
-import type { AnyAgentTool } from "../agents/tools/common.js";
-import { resolveRuntimeConfigCacheKey } from "../config/runtime-snapshot.js";
-import type { JsonObject, ToolDescriptor } from "../tools/types.js";
-import type { PluginLoadOptions } from "./loader.js";
-import type { OpenClawPluginToolContext } from "./types.js";
+import type { AnyAgentTool } from "../agents/tools/common.ts";
+import { resolveRuntimeConfigCacheKey } from "../config/runtime-snapshot.ts";
+import type { JsonObject, ToolDescriptor } from "../tools/types.ts";
+import type { PluginLoadOptions } from "./loader.ts";
+import type { OpenClawPluginToolContext } from "./types.ts";
 
 const PLUGIN_TOOL_DESCRIPTOR_CACHE_VERSION = 1;
 const PLUGIN_TOOL_DESCRIPTOR_CACHE_LIMIT = 256;

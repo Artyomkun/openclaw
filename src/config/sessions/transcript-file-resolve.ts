@@ -3,10 +3,10 @@ import {
   resolveSessionFilePath,
   resolveSessionFilePathOptions,
   resolveSessionTranscriptPath,
-} from "./paths.js";
-import { resolveAndPersistSessionFile } from "./session-file.js";
-import { parseSessionThreadInfo } from "./thread-info.js";
-import type { SessionEntry } from "./types.js";
+} from "./paths.ts";
+import { resolveAndPersistSessionFile } from "./session-file.ts";
+import { parseSessionThreadInfo } from "./thread-info.ts";
+import type { SessionEntry } from "./types.ts";
 
 /**
  * Resolves the transcript file for a session and persists the resolved target

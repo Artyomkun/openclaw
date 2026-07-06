@@ -1,6 +1,6 @@
 /** Resolves deterministic cron stagger windows for recurring schedules. */
-import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.js";
-import type { CronSchedule } from "./types.js";
+import { parseStrictNonNegativeInteger } from "../infra/parse-finite-number.ts";
+import type { CronSchedule } from "./types.ts";
 
 /** Default jitter window applied to recurring top-of-hour cron schedules. */
 const DEFAULT_TOP_OF_HOUR_STAGGER_MS = 5 * 60 * 1000;

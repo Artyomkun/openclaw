@@ -2,4 +2,4 @@
 export {
   appendAssistantMessageToSessionTranscript,
   appendExactAssistantMessageToSessionTranscript,
-} from "./transcript.js";
+} from "./transcript.ts";

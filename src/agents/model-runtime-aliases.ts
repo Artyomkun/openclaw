@@ -3,16 +3,16 @@
  */
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
 import {
   isCliRuntimeModelBackendForProvider,
   listCliRuntimeModelBackendBindings,
   listCliRuntimeProviderIds,
   resolveCliRuntimeCanonicalProvider,
   resolveCliRuntimeModelBackendBinding,
-} from "./cli-backends.js";
-import { resolveModelRuntimePolicy } from "./model-runtime-policy.js";
-import { resolveProviderIdForAuth } from "./provider-auth-aliases.js";
+} from "./cli-backends.ts";
+import { resolveModelRuntimePolicy } from "./model-runtime-policy.ts";
+import { resolveProviderIdForAuth } from "./provider-auth-aliases.ts";
 
 /** True for CLI runtime provider ids such as `claude-cli` and `google-gemini-cli`. */
 export function isCliRuntimeProvider(

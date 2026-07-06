@@ -5,9 +5,9 @@ import {
   fetchJson,
   parseFiniteNumber,
   readUsageJson,
-} from "./provider-usage.fetch.shared.js";
-import { PROVIDER_LABELS } from "./provider-usage.shared.js";
-import type { ProviderUsageSnapshot } from "./provider-usage.types.js";
+} from "./provider-usage.fetch.shared.ts";
+import { PROVIDER_LABELS } from "./provider-usage.shared.ts";
+import type { ProviderUsageSnapshot } from "./provider-usage.types.ts";
 
 type DeepSeekBalanceInfo = {
   currency?: string;

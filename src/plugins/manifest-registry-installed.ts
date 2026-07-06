@@ -4,15 +4,15 @@ import path from "node:path";
 import { isRecord } from "@openclaw/normalization-core/record-coerce";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { normalizeOptionalTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { tryReadJsonSync } from "../infra/json-files.js";
-import type { PluginCandidate } from "./discovery.js";
-import { hashJson } from "./installed-plugin-index-hash.js";
-import type { InstalledPluginFileSignature } from "./installed-plugin-index-hash.js";
-import type { InstalledPluginIndex, InstalledPluginIndexRecord } from "./installed-plugin-index.js";
-import { extractPluginInstallRecordsFromInstalledPluginIndex } from "./installed-plugin-index.js";
-import { loadPluginManifestRegistry, type PluginManifestRegistry } from "./manifest-registry.js";
-import type { BundledChannelConfigCollector } from "./manifest-registry.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { tryReadJsonSync } from "../infra/json-files.ts";
+import type { PluginCandidate } from "./discovery.ts";
+import { hashJson } from "./installed-plugin-index-hash.ts";
+import type { InstalledPluginFileSignature } from "./installed-plugin-index-hash.ts";
+import type { InstalledPluginIndex, InstalledPluginIndexRecord } from "./installed-plugin-index.ts";
+import { extractPluginInstallRecordsFromInstalledPluginIndex } from "./installed-plugin-index.ts";
+import { loadPluginManifestRegistry, type PluginManifestRegistry } from "./manifest-registry.ts";
+import type { BundledChannelConfigCollector } from "./manifest-registry.ts";
 import {
   DEFAULT_PLUGIN_ENTRY_CANDIDATES,
   getPackageManifestMetadata,
@@ -20,14 +20,14 @@ import {
   type OpenClawPackageManifest,
   type PackageManifest,
   type PluginPackageChannel,
-} from "./manifest.js";
-import { isPathInside, safeRealpathSync } from "./path-safety.js";
-import { tracePluginLifecyclePhase } from "./plugin-lifecycle-trace.js";
-import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.js";
+} from "./manifest.ts";
+import { isPathInside, safeRealpathSync } from "./path-safety.ts";
+import { tracePluginLifecyclePhase } from "./plugin-lifecycle-trace.ts";
+import { registerPluginMetadataProcessMemoLifecycleClear } from "./plugin-metadata-lifecycle.ts";
 import {
   normalizePluginDependencySpecs,
   type PluginDependencySpecMap,
-} from "./status-dependencies-core.js";
+} from "./status-dependencies-core.ts";
 
 const installedManifestRegistryIndexFingerprintCache = new WeakMap<InstalledPluginIndex, string>();
 const installedPackageJsonPathCache = new Map<string, string | null>();

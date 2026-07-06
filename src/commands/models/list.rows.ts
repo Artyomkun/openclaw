@@ -1,26 +1,26 @@
 /** Row builders used by `openclaw models list` source orchestration. */
 import type { NormalizedModelCatalogRow } from "@openclaw/model-catalog-core/model-catalog-types";
 import { normalizeProviderId } from "@openclaw/model-catalog-core/provider-id";
-import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.js";
+import { DEFAULT_CONTEXT_TOKENS } from "../../agents/defaults.ts";
 import {
   shouldSuppressBuiltInModel,
   shouldSuppressBuiltInModelFromManifest,
-} from "../../agents/model-suppression.js";
-import type { ModelDefinitionConfig, ModelProviderConfig } from "../../config/types.models.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
-import type { ModelRegistry } from "../../llm/model-registry.js";
-import type { Model } from "../../llm/types.js";
-import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.js";
-import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.js";
-import { normalizeProviderResolvedModelWithPlugin } from "../../plugins/provider-runtime.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import type { ModelListAuthIndex } from "./list.auth-index.js";
-import { isLocalBaseUrl } from "./list.local-url.js";
-import type { ListRowModel } from "./list.model-row.js";
-import { toModelRow } from "./list.model-row.js";
-import type { ConfiguredEntry, ModelRow } from "./list.types.js";
-import { canonicalizeModelCatalogProviderAlias } from "./provider-aliases.js";
-import { modelKey } from "./shared.js";
+} from "../../agents/model-suppression.ts";
+import type { ModelDefinitionConfig, ModelProviderConfig } from "../../config/types.models.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
+import type { ModelRegistry } from "../../llm/model-registry.ts";
+import type { Model } from "../../llm/types.ts";
+import type { PluginMetadataSnapshot } from "../../plugins/plugin-metadata-snapshot.types.ts";
+import type { ProviderRuntimeModel } from "../../plugins/provider-runtime-model.types.ts";
+import { normalizeProviderResolvedModelWithPlugin } from "../../plugins/provider-runtime.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import type { ModelListAuthIndex } from "./list.auth-index.ts";
+import { isLocalBaseUrl } from "./list.local-url.ts";
+import type { ListRowModel } from "./list.model-row.ts";
+import { toModelRow } from "./list.model-row.ts";
+import type { ConfiguredEntry, ModelRow } from "./list.types.ts";
+import { canonicalizeModelCatalogProviderAlias } from "./provider-aliases.ts";
+import { modelKey } from "./shared.ts";
 
 type ConfiguredByKey = Map<string, ConfiguredEntry>;
 type ModelCatalogModule = typeof import("../../agents/model-catalog.js");

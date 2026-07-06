@@ -3,7 +3,7 @@ import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/st
 import {
   PROTECTED_PLUGIN_ROUTE_PREFIXES,
   canonicalizePathForSecurity,
-} from "../../security-path.js";
+} from "../../security-path.ts";
 
 /**
  * Canonical path context for plugin HTTP route auth and matching.

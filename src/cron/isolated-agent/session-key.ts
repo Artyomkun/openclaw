@@ -1,7 +1,7 @@
 /** Canonicalizes cron session keys into agent-scoped session-store keys. */
-import { canonicalizeMainSessionAlias } from "../../config/sessions/main-session.js";
-import type { SessionScope } from "../../config/sessions/types.js";
-import { toAgentStoreSessionKey } from "../../routing/session-key.js";
+import { canonicalizeMainSessionAlias } from "../../config/sessions/main-session.ts";
+import type { SessionScope } from "../../config/sessions/types.ts";
+import { toAgentStoreSessionKey } from "../../routing/session-key.ts";
 
 /** Resolves a cron session key into the canonical agent-scoped session-store key. */
 export function resolveCronAgentSessionKey(params: {

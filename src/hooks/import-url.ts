@@ -12,7 +12,7 @@
 
 import fs from "node:fs";
 import { pathToFileURL } from "node:url";
-import type { HookSource } from "./types.js";
+import type { HookSource } from "./types.ts";
 
 /**
  * Sources whose handler files never change between `npm install` runs.

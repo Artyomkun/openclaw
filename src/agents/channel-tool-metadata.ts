@@ -1,5 +1,5 @@
 /** Dependency-light ownership metadata for channel-contributed agent tools. */
-import type { ChannelAgentTool } from "../channels/plugins/types.public.js";
+import type { ChannelAgentTool } from "../channels/plugins/types.public.ts";
 
 type ChannelAgentToolMeta = {
   channelId: string;

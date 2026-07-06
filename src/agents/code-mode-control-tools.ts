@@ -2,9 +2,9 @@
  * Tags Code Mode exec/wait control tools and normalizes hook params for the
  * exec-compatible before-tool-call surface.
  */
-import { isPlainObject } from "../utils.js";
-import { normalizeToolName } from "./tool-policy.js";
-import type { AnyAgentTool } from "./tools/common.js";
+import { isPlainObject } from "../utils.ts";
+import { normalizeToolName } from "./tool-policy.ts";
+import type { AnyAgentTool } from "./tools/common.ts";
 
 /** Model-visible Code Mode exec tool name. */
 export const CODE_MODE_EXEC_TOOL_NAME = "exec";

@@ -1,20 +1,20 @@
 // Shared status scan overview used by compact status, status --json, and status --all.
 // It collects config, update, gateway, channel, and local agent state before specialized callers add details.
 
-import type { OpenClawConfig } from "../config/types.js";
-import type { collectChannelStatusIssues as collectChannelStatusIssuesFn } from "../infra/channels-status-issues.js";
-import { resolveOsSummary } from "../infra/os-summary.js";
-import type { UpdateCheckResult } from "../infra/update-check.js";
-import type { RuntimeEnv } from "../runtime.js";
-import { createLazyImportLoader } from "../shared/lazy-promise.js";
-import type { buildChannelsTable as buildChannelsTableFn } from "./status-all/channels.js";
-import type { getAgentLocalStatuses as getAgentLocalStatusesFn } from "./status.agent-local.js";
+import type { OpenClawConfig } from "../config/types.ts";
+import type { collectChannelStatusIssues as collectChannelStatusIssuesFn } from "../infra/channels-status-issues.ts";
+import { resolveOsSummary } from "../infra/os-summary.ts";
+import type { UpdateCheckResult } from "../infra/update-check.ts";
+import type { RuntimeEnv } from "../runtime.ts";
+import { createLazyImportLoader } from "../shared/lazy-promise.ts";
+import type { buildChannelsTable as buildChannelsTableFn } from "./status-all/channels.ts";
+import type { getAgentLocalStatuses as getAgentLocalStatusesFn } from "./status.agent-local.ts";
 import {
   buildColdStartStatusSummary,
   createStatusScanCoreBootstrap,
-} from "./status.scan.bootstrap-shared.js";
-import { loadStatusScanCommandConfig } from "./status.scan.config-shared.js";
-import type { GatewayProbeSnapshot } from "./status.scan.shared.js";
+} from "./status.scan.bootstrap-shared.ts";
+import { loadStatusScanCommandConfig } from "./status.scan.config-shared.ts";
+import type { GatewayProbeSnapshot } from "./status.scan.shared.ts";
 
 type StatusGatewayProbeTimeoutResolver = (cfg: OpenClawConfig) => number | undefined;
 

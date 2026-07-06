@@ -1,13 +1,13 @@
 // ClawHub-backed plugin search command; queries installable plugin families and merges scores.
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { theme } from "../../packages/terminal-core/src/theme.js";
+import { theme } from "../../packages/terminal-core/src/theme.ts";
 import {
   searchClawHubPackages,
   type ClawHubPackageFamily,
   type ClawHubPackageSearchResult,
-} from "../infra/clawhub.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { defaultRuntime, writeRuntimeJson, type RuntimeEnv } from "../runtime.js";
+} from "../infra/clawhub.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { defaultRuntime, writeRuntimeJson, type RuntimeEnv } from "../runtime.ts";
 
 /** Options accepted by `openclaw plugins search`. */
 export type PluginsSearchOptions = {

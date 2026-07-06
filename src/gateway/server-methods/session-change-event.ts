@@ -1,9 +1,9 @@
 // Shared sessions.changed broadcaster for gateway RPC and chat-command mutations.
-import { resolveDefaultAgentId } from "../../agents/agent-scope.js";
-import { buildGatewaySessionEventFields } from "../session-event-payload.js";
-import { loadGatewaySessionRow } from "../session-utils.js";
-import { hasTrackedActiveSessionRun } from "./session-active-runs.js";
-import type { GatewayRequestContext } from "./types.js";
+import { resolveDefaultAgentId } from "../../agents/agent-scope.ts";
+import { buildGatewaySessionEventFields } from "../session-event-payload.ts";
+import { loadGatewaySessionRow } from "../session-utils.ts";
+import { hasTrackedActiveSessionRun } from "./session-active-runs.ts";
+import type { GatewayRequestContext } from "./types.ts";
 
 export type SessionChangedPayload = {
   sessionKey?: string;

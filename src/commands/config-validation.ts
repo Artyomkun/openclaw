@@ -1,18 +1,18 @@
 // Config validation helpers shared by commands that need fail-fast config loading.
-import { formatCliCommand } from "../cli/command-format.js";
-import { formatPluginPackagingRuntimeOutputRecoveryHint } from "../cli/config-recovery-hints.js";
+import { formatCliCommand } from "../cli/command-format.ts";
+import { formatPluginPackagingRuntimeOutputRecoveryHint } from "../cli/config-recovery-hints.ts";
 import {
   type ConfigFileSnapshot,
   type OpenClawConfig,
   readConfigFileSnapshot,
-} from "../config/config.js";
-import { formatConfigIssueLines } from "../config/issue-format.js";
-import { isPluginPackagingRuntimeOutputInvalidConfigSnapshot } from "../config/recovery-policy.js";
+} from "../config/config.ts";
+import { formatConfigIssueLines } from "../config/issue-format.ts";
+import { isPluginPackagingRuntimeOutputInvalidConfigSnapshot } from "../config/recovery-policy.ts";
 import {
   buildPluginCompatibilitySnapshotNotices,
   formatPluginCompatibilityNotice,
-} from "../plugins/status.js";
-import type { RuntimeEnv } from "../runtime.js";
+} from "../plugins/status.ts";
+import type { RuntimeEnv } from "../runtime.ts";
 
 /** Read the config file and exit through the runtime when validation fails. */
 export async function requireValidConfigFileSnapshot(

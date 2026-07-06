@@ -1,9 +1,9 @@
 // Link-understanding apply step runs configured link processors and folds their output into inbound context.
-import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.js";
-import type { MsgContext } from "../auto-reply/templating.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatLinkUnderstandingBody } from "./format.js";
-import { runLinkUnderstanding } from "./runner.js";
+import { finalizeInboundContext } from "../auto-reply/reply/inbound-context.ts";
+import type { MsgContext } from "../auto-reply/templating.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatLinkUnderstandingBody } from "./format.ts";
+import { runLinkUnderstanding } from "./runner.ts";
 
 type ApplyLinkUnderstandingResult = {
   outputs: string[];

@@ -5,9 +5,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeOptionalLowercaseString } from "@openclaw/normalization-core/string-coerce";
 import { uniqueStrings } from "@openclaw/normalization-core/string-normalization";
-import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.js";
-import { isPathInside } from "../infra/path-guards.js";
-import { resolveUserPath } from "../utils.js";
+import { resolveOpenClawPackageRootSync } from "../infra/openclaw-root.ts";
+import { isPathInside } from "../infra/path-guards.ts";
+import { resolveUserPath } from "../utils.ts";
 
 const DISABLED_BUNDLED_PLUGINS_DIR = path.join(os.tmpdir(), "openclaw-empty-bundled-plugins");
 const TEST_TRUST_BUNDLED_PLUGINS_DIR_ENV = "OPENCLAW_TEST_TRUST_BUNDLED_PLUGINS_DIR";

@@ -1,22 +1,8 @@
-// Applies an onboarding auth choice through provider setup flows and legacy normalization.
-import { formatCliCommand } from "../cli/command-format.js";
-import { applyAuthChoiceLoadedPluginProvider } from "../plugins/provider-auth-choice.js";
-import type { ApplyAuthChoiceParams, ApplyAuthChoiceResult } from "./auth-choice.apply.types.js";
-import type { AuthChoice } from "./onboard-types.js";
-
-async function normalizeLegacyChoice(
-  authChoice: AuthChoice | undefined,
-  params: Pick<ApplyAuthChoiceParams, "config" | "env">,
-): Promise<AuthChoice | undefined> {
-  if (authChoice === "oauth") {
-    return "setup-token";
-  }
-  if (typeof authChoice !== "string") {
-    return authChoice;
-  }
-  const { normalizeLegacyOnboardAuthChoice } = await import("./auth-choice-legacy.js");
-  return normalizeLegacyOnboardAuthChoice(authChoice, params);
-}
+// Applies an onboarding auth choice through provider setup flows.
+import { formatCliCommand } from "../cli/command-format.ts";
+import { applyAuthChoiceLoadedPluginProvider } from "../plugins/provider-auth-choice.ts";
+import type { ApplyAuthChoiceParams, ApplyAuthChoiceResult } from "./auth-choice.apply.types.ts";
+import type { AuthChoice } from "./onboard-types.ts";
 
 async function normalizeTokenProviderChoice(params: {
   authChoice: AuthChoice;
@@ -75,11 +61,7 @@ async function formatDeprecatedProviderChoiceError(
 export async function applyAuthChoice(
   params: ApplyAuthChoiceParams,
 ): Promise<ApplyAuthChoiceResult> {
-  const normalizedAuthChoice =
-    (await normalizeLegacyChoice(params.authChoice, {
-      config: params.config,
-      env: params.env,
-    })) ?? params.authChoice;
+  const normalizedAuthChoice = params.authChoice;
   const normalizedProviderAuthChoice = await normalizeTokenProviderChoice({
     authChoice: normalizedAuthChoice,
     source: params,

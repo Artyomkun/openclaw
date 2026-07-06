@@ -1,5 +1,5 @@
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { normalizeMessageChannel } from "./message-channel.js";
+import { normalizeMessageChannel } from "./message-channel.ts";
 
 export type ConversationTargetParams = {
   channel?: string;

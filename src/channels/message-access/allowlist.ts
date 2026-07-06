@@ -11,7 +11,7 @@ import type {
   RedactedIngressAllowlistFacts,
   RedactedIngressEntryDiagnostic,
   ResolvedIngressAllowlist,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Returns the first access-group related failure reason for an allowlist.

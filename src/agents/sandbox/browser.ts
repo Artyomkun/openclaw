@@ -8,12 +8,12 @@ import {
   normalizeOptionalLowercaseString,
   normalizeOptionalString,
 } from "@openclaw/normalization-core/string-coerce";
-import { deriveDefaultBrowserCdpPortRange } from "../../config/port-defaults.js";
-import { isSameSsrFPolicy, type SsrFPolicy } from "../../infra/net/ssrf.js";
+import { deriveDefaultBrowserCdpPortRange } from "../../config/port-defaults.ts";
+import { isSameSsrFPolicy, type SsrFPolicy } from "../../infra/net/ssrf.ts";
 import {
   startBrowserBridgeServer,
   stopBrowserBridgeServer,
-} from "../../plugin-sdk/browser-bridge.js";
+} from "../../plugin-sdk/browser-bridge.ts";
 import {
   DEFAULT_BROWSER_ACTION_TIMEOUT_MS,
   DEFAULT_BROWSER_EVALUATE_ENABLED,
@@ -21,16 +21,16 @@ import {
   DEFAULT_OPENCLAW_BROWSER_PROFILE_NAME,
   resolveProfile,
   type ResolvedBrowserConfig,
-} from "../../plugin-sdk/browser-profiles.js";
-import { defaultRuntime } from "../../runtime.js";
-import { BROWSER_BRIDGES } from "./browser-bridges.js";
-import { computeSandboxBrowserConfigHash } from "./config-hash.js";
-import { resolveSandboxBrowserDockerCreateConfig } from "./config.js";
+} from "../../plugin-sdk/browser-profiles.ts";
+import { defaultRuntime } from "../../runtime.ts";
+import { BROWSER_BRIDGES } from "./browser-bridges.ts";
+import { computeSandboxBrowserConfigHash } from "./config-hash.ts";
+import { resolveSandboxBrowserDockerCreateConfig } from "./config.ts";
 import {
   DEFAULT_SANDBOX_BROWSER_IMAGE,
   SANDBOX_BROWSER_IMAGE_CONTRACT_EPOCH,
   SANDBOX_BROWSER_SECURITY_HASH_EPOCH,
-} from "./constants.js";
+} from "./constants.ts";
 import {
   buildSandboxCreateArgs,
   dockerContainerState,
@@ -41,7 +41,7 @@ import {
   readDockerContainerLabel,
   readDockerPort,
   resolveDockerEnvPolicyEpoch,
-} from "./docker.js";
+} from "./docker.ts";
 import {
   buildNoVncObserverTokenUrl,
   consumeNoVncObserverToken,
@@ -49,19 +49,19 @@ import {
   isNoVncEnabled,
   NOVNC_PASSWORD_ENV_KEY,
   issueNoVncObserverToken,
-} from "./novnc-auth.js";
-import { readBrowserRegistry, updateBrowserRegistry } from "./registry.js";
-import { resolveSandboxAgentId, slugifySessionKey } from "./shared.js";
-import { isToolAllowed } from "./tool-policy.js";
-import type { SandboxBrowserContext, SandboxConfig } from "./types.js";
-import { validateNetworkMode } from "./validate-sandbox-security.js";
+} from "./novnc-auth.ts";
+import { readBrowserRegistry, updateBrowserRegistry } from "./registry.ts";
+import { resolveSandboxAgentId, slugifySessionKey } from "./shared.ts";
+import { isToolAllowed } from "./tool-policy.ts";
+import type { SandboxBrowserContext, SandboxConfig } from "./types.ts";
+import { validateNetworkMode } from "./validate-sandbox-security.ts";
 import {
   appendReadOnlyWorkspaceSkillMountArgs,
   appendWorkspaceMountArgs,
   formatReadOnlyWorkspaceSkillMountHashState,
   resolveReadOnlyWorkspaceSkillMounts,
   SANDBOX_MOUNT_FORMAT_VERSION,
-} from "./workspace-mounts.js";
+} from "./workspace-mounts.ts";
 
 const HOT_BROWSER_WINDOW_MS = 5 * 60 * 1000;
 const CDP_SOURCE_RANGE_ENV_KEY = "OPENCLAW_BROWSER_CDP_SOURCE_RANGE";

@@ -1,11 +1,11 @@
 // Normalizes markdown table configuration by channel and rendering mode.
-import { normalizeChannelId } from "../channels/plugins/index.js";
-import { listChannelPlugins } from "../channels/plugins/registry.js";
-import { getActivePluginChannelRegistryVersion } from "../plugins/runtime.js";
-import { resolveAccountEntry } from "../routing/account-lookup.js";
-import { normalizeAccountId } from "../routing/session-key.js";
-import type { ResolveMarkdownTableModeParams } from "./markdown-tables.types.js";
-import type { MarkdownTableMode } from "./types.base.js";
+import { normalizeChannelId } from "../channels/plugins/index.ts";
+import { listChannelPlugins } from "../channels/plugins/registry.ts";
+import { getActivePluginChannelRegistryVersion } from "../plugins/runtime.ts";
+import { resolveAccountEntry } from "../routing/account-lookup.ts";
+import { normalizeAccountId } from "../routing/session-key.ts";
+import type { ResolveMarkdownTableModeParams } from "./markdown-tables.types.ts";
+import type { MarkdownTableMode } from "./types.base.ts";
 
 type MarkdownConfigEntry = {
   markdown?: {
@@ -66,7 +66,7 @@ function resolveMarkdownModeFromSection(
 export type {
   ResolveMarkdownTableMode,
   ResolveMarkdownTableModeParams,
-} from "./markdown-tables.types.js";
+} from "./markdown-tables.types.ts";
 
 export function resolveMarkdownTableMode(
   params: ResolveMarkdownTableModeParams,

@@ -19,21 +19,21 @@
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { GATEWAY_SERVICE_RUNTIME_PID_ENV } from "../daemon/constants.js";
-import { resolveGatewayInstallEntrypoint } from "../daemon/gateway-entrypoint.js";
-import { runCommandWithTimeout } from "../process/exec.js";
-import { trimLogTail } from "./restart-sentinel.js";
-import { resolveStableNodePath } from "./stable-node-path.js";
+import { GATEWAY_SERVICE_RUNTIME_PID_ENV } from "../daemon/constants.ts";
+import { resolveGatewayInstallEntrypoint } from "../daemon/gateway-entrypoint.ts";
+import { runCommandWithTimeout } from "../process/exec.ts";
+import { trimLogTail } from "./restart-sentinel.ts";
+import { resolveStableNodePath } from "./stable-node-path.ts";
 import {
   DEFAULT_GIT_CHANNEL,
   type UpdateChannel,
   UPDATE_EFFECTIVE_CHANNEL_ENV,
-} from "./update-channels.js";
+} from "./update-channels.ts";
 import {
   POST_CORE_UPDATE_SOURCE_CONFIG_PATH_ENV,
   type PreUpdateConfigRestoreInput,
-} from "./update-post-core-context.js";
-import type { UpdateRunResult } from "./update-runner.js";
+} from "./update-post-core-context.ts";
+import type { UpdateRunResult } from "./update-runner.ts";
 
 // Whole-process backstop for the finalizer. `update finalize` runs several timed
 // steps (doctor + plugin update/convergence), each bounded by its own per-step

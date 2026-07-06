@@ -6,16 +6,16 @@ import {
 import type {
   ChannelApprovalNativeDeliveryPlan,
   ChannelApprovalNativePlannedTarget,
-} from "./approval-native-delivery.js";
+} from "./approval-native-delivery.ts";
 import {
   describeApprovalDeliveryDestination,
   resolveApprovalDeliveryFailedNoticeText,
   resolveApprovalRoutedElsewhereNoticeText,
-} from "./approval-native-route-notice.js";
-import { buildChannelApprovalNativeTargetKey } from "./approval-native-target-key.js";
-import type { ChannelApprovalKind } from "./approval-types.js";
-import type { ExecApprovalRequest } from "./exec-approvals.js";
-import type { PluginApprovalRequest } from "./plugin-approvals.js";
+} from "./approval-native-route-notice.ts";
+import { buildChannelApprovalNativeTargetKey } from "./approval-native-target-key.ts";
+import type { ChannelApprovalKind } from "./approval-types.ts";
+import type { ExecApprovalRequest } from "./exec-approvals.ts";
+import type { PluginApprovalRequest } from "./plugin-approvals.ts";
 
 type GatewayRequestFn = <T = unknown>(
   method: string,

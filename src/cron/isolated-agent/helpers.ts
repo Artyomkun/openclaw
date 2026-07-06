@@ -1,11 +1,11 @@
 /** Normalizes isolated cron run output into summaries, delivery payloads, and error state. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
 import { hasOutboundReplyContent } from "openclaw/plugin-sdk/reply-payload";
-import { DEFAULT_HEARTBEAT_ACK_MAX_CHARS } from "../../auto-reply/heartbeat.js";
-import { getReplyPayloadMetadata } from "../../auto-reply/reply-payload.js";
-import type { ReplyPayload } from "../../auto-reply/reply-payload.js";
-import { truncateUtf16Safe } from "../../utils.js";
-import { shouldSkipHeartbeatOnlyDelivery } from "../heartbeat-policy.js";
+import { DEFAULT_HEARTBEAT_ACK_MAX_CHARS } from "../../auto-reply/heartbeat.ts";
+import { getReplyPayloadMetadata } from "../../auto-reply/reply-payload.ts";
+import type { ReplyPayload } from "../../auto-reply/reply-payload.ts";
+import { truncateUtf16Safe } from "../../utils.ts";
+import { shouldSkipHeartbeatOnlyDelivery } from "../heartbeat-policy.ts";
 
 type DeliveryPayload = Pick<
   ReplyPayload,

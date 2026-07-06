@@ -5,8 +5,8 @@ import { join } from "node:path";
 import {
   normalizeLowercaseStringOrEmpty,
   normalizeOptionalString,
-} from "../../packages/normalization-core/src/string-coerce.js";
-import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.js";
+} from "../../packages/normalization-core/src/string-coerce.ts";
+import { normalizeOptionalSecretInput } from "../utils/normalize-secret-input.ts";
 
 const GCLOUD_DEFAULT_ADC_PATH = join(
   homedir(),

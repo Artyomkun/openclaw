@@ -33,11 +33,6 @@ type SharedCodexAppServerClientState = {
   leasedReleases: WeakMap<CodexAppServerClient, Array<() => void>>;
 };
 
-type LegacySharedCodexAppServerClientState = Partial<SharedCodexAppServerClientEntry> & {
-  key?: string;
-  clients?: unknown;
-};
-
 type KeyedSharedCodexAppServerClientState = {
   clients: Map<string, Partial<SharedCodexAppServerClientEntry>>;
   leasedReleases?: unknown;
@@ -66,21 +61,7 @@ function getSharedCodexAppServerClientState(): SharedCodexAppServerClientState {
     globalState[SHARED_CODEX_APP_SERVER_CLIENT_STATE] = nextState;
     return nextState;
   }
-  const legacyState = readLegacySharedCodexAppServerClientState(state);
   const clients = new Map<string, SharedCodexAppServerClientEntry>();
-  if (legacyState?.key && (legacyState.client || legacyState.promise)) {
-    const legacyKey = legacyState.key;
-    clients.set(legacyKey, {
-      client: legacyState.client,
-      promise: legacyState.promise,
-      activeLeases: 0,
-      pendingAcquires: 0,
-      closeWhenIdle: false,
-    });
-    legacyState.client?.addCloseHandler((closedClient) =>
-      clearSharedClientEntryIfCurrent(legacyKey, closedClient),
-    );
-  }
   const nextState: SharedCodexAppServerClientState = { clients, leasedReleases: new WeakMap() };
   globalState[SHARED_CODEX_APP_SERVER_CLIENT_STATE] = nextState;
   return nextState;
@@ -94,15 +75,6 @@ function readKeyedSharedCodexAppServerClientState(
     (value as { clients?: unknown }).clients instanceof Map
     ? (value as KeyedSharedCodexAppServerClientState)
     : undefined;
-}
-
-function readLegacySharedCodexAppServerClientState(
-  value: unknown,
-): LegacySharedCodexAppServerClientState | undefined {
-  if (value === null || typeof value !== "object") {
-    return undefined;
-  }
-  return value as LegacySharedCodexAppServerClientState;
 }
 
 type CodexAppServerClientOptions = {

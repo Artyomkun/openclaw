@@ -1,8 +1,8 @@
 /** Describes package-authored plugin install source metadata and pinning warnings. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { parseClawHubPluginSpec } from "../infra/clawhub-spec.js";
-import { parseRegistryNpmSpec, type ParsedRegistryNpmSpec } from "../infra/npm-registry-spec.js";
-import type { PluginPackageInstall } from "./manifest.js";
+import { parseClawHubPluginSpec } from "../infra/clawhub-spec.ts";
+import { parseRegistryNpmSpec, type ParsedRegistryNpmSpec } from "../infra/npm-registry-spec.ts";
+import type { PluginPackageInstall } from "./manifest.ts";
 
 /** Warning emitted while describing plugin package install source metadata. */
 export type PluginInstallSourceWarning =

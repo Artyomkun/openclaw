@@ -1,32 +1,11 @@
-// Telegram type declarations define plugin contracts.
-import type {
-  ChannelAccountSnapshot,
-  ChannelRuntimeSurface,
-} from "openclaw/plugin-sdk/channel-contract";
-import type { OpenClawConfig } from "openclaw/plugin-sdk/config-contracts";
-import type { RuntimeEnv } from "openclaw/plugin-sdk/runtime-env";
-import type { TelegramBotInfo } from "./bot-info.js";
+/**
+ * Telegram - Monitor Types
+ */
 
 export type MonitorTelegramOpts = {
-  token?: string;
+  token: string;
   accountId?: string;
-  config?: OpenClawConfig;
-  runtime?: RuntimeEnv;
-  channelRuntime?: ChannelRuntimeSurface;
-  abortSignal?: AbortSignal;
+  config?: any;
   useWebhook?: boolean;
-  webhookPath?: string;
-  webhookPort?: number;
-  webhookSecret?: string;
-  webhookHost?: string;
-  proxyFetch?: typeof fetch;
-  webhookUrl?: string;
-  webhookCertPath?: string;
-  botInfo?: TelegramBotInfo;
-  setStatus?: (patch: Omit<ChannelAccountSnapshot, "accountId">) => void;
-  isolatedIngress?: {
-    enabled?: boolean;
-  };
+  abortSignal?: AbortSignal;
 };
-
-export type TelegramMonitorFn = (opts?: MonitorTelegramOpts) => Promise<void>;

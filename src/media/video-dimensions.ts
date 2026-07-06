@@ -1,5 +1,5 @@
 // Video dimension helpers read video dimensions through ffprobe.
-import { runFfprobe } from "./ffmpeg-exec.js";
+import { runFfprobe } from "./ffmpeg-exec.ts";
 
 /** Positive video dimensions reported by ffprobe for the first video stream. */
 export type VideoDimensions = {

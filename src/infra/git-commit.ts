@@ -4,8 +4,8 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeLowercaseStringOrEmpty } from "@openclaw/normalization-core/string-coerce";
-import { resolveGitHeadPath } from "./git-root.js";
-import { resolveOpenClawPackageRootSync } from "./openclaw-root.js";
+import { resolveGitHeadPath } from "./git-root.ts";
+import { resolveOpenClawPackageRootSync } from "./openclaw-root.ts";
 
 const formatCommit = (value?: string | null) => {
   if (!value) {

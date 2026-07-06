@@ -1,9 +1,9 @@
 // Friendly parse-error formatter for Commander errors and root CLI recovery hints.
-import { formatDocsLink } from "../../../packages/terminal-core/src/links.js";
-import { theme } from "../../../packages/terminal-core/src/theme.js";
-import { getCommandPathWithRootOptions } from "../argv.js";
-import { formatCliCommand } from "../command-format.js";
-import { formatCliCommandSuggestions } from "./command-suggestions.js";
+import { formatDocsLink } from "../../../packages/terminal-core/src/links.ts";
+import { theme } from "../../../packages/terminal-core/src/theme.ts";
+import { getCommandPathWithRootOptions } from "../argv.ts";
+import { formatCliCommand } from "../command-format.ts";
+import { formatCliCommandSuggestions } from "./command-suggestions.ts";
 
 type FormatCliParseErrorOptions = {
   argv?: string[];

@@ -1,18 +1,18 @@
 // Manages device pairing requests, approvals, and token issuance.
 import { randomUUID } from "node:crypto";
 import { normalizeUniqueSingleOrTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { normalizeDeviceAuthScopes } from "../shared/device-auth.js";
+import { normalizeDeviceAuthScopes } from "../shared/device-auth.ts";
 import {
   resolveBootstrapProfileScopesForRole,
   resolveBootstrapProfileScopesForRoles,
   type DeviceBootstrapProfile,
-} from "../shared/device-bootstrap-profile.js";
+} from "../shared/device-bootstrap-profile.ts";
 import {
   resolveMissingRequestedScope,
   resolveScopeOutsideRequestedRoles,
   roleScopesAllow,
-} from "../shared/operator-scope-compat.js";
-import { revokeDeviceBootstrapTokensForDevice } from "./device-bootstrap.js";
+} from "../shared/operator-scope-compat.ts";
+import { revokeDeviceBootstrapTokensForDevice } from "./device-bootstrap.ts";
 import {
   createAsyncLock,
   pruneExpiredPending,
@@ -21,8 +21,8 @@ import {
   coercePairingStateRecord,
   resolvePairingPaths,
   writeJson,
-} from "./pairing-files.js";
-import { generatePairingToken, verifyPairingToken } from "./pairing-token.js";
+} from "./pairing-files.ts";
+import { generatePairingToken, verifyPairingToken } from "./pairing-token.ts";
 
 /** Pending device pairing request awaiting owner approval. */
 export type DevicePairingPendingRequest = {
@@ -276,7 +276,7 @@ export function listEffectivePairedDeviceRoles(
     const approvedRoles = new Set(listApprovedPairedDeviceRoles(device));
     return activeTokenRoles.filter((role) => approvedRoles.has(role));
   }
-  // Token entries are authoritative. Tokenless legacy records fail closed so
+  // Token entries are authoritative. Tokenless olders records fail closed so
   // sticky historical role fields cannot retain access after token migration.
   return [];
 }
@@ -1088,7 +1088,7 @@ export async function verifyDeviceToken(params: {
       params.requiredSharedGatewaySessionGeneration !== undefined &&
       isBrowserRelatedPairedDevice(device)
     ) {
-      return { ok: false, reason: "legacy-browser-token" };
+      return { ok: false };
     }
     const approvedScopes = resolveApprovedDeviceScopeBaseline(device);
     if (

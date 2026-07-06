@@ -1,14 +1,14 @@
 // Fetches Codex provider usage windows.
-import { resolveProviderRequestHeaders } from "../agents/provider-request-config.js";
-import { parseStrictFiniteNumber } from "./parse-finite-number.js";
+import { resolveProviderRequestHeaders } from "../agents/provider-request-config.ts";
+import { parseStrictFiniteNumber } from "./parse-finite-number.ts";
 import {
   buildUsageHttpErrorSnapshot,
   discardUsageResponseBody,
   fetchJson,
   readUsageJson,
-} from "./provider-usage.fetch.shared.js";
-import { clampPercent, PROVIDER_LABELS } from "./provider-usage.shared.js";
-import type { ProviderUsageSnapshot, UsageWindow } from "./provider-usage.types.js";
+} from "./provider-usage.fetch.shared.ts";
+import { clampPercent, PROVIDER_LABELS } from "./provider-usage.shared.ts";
+import type { ProviderUsageSnapshot, UsageWindow } from "./provider-usage.types.ts";
 
 type CodexUsageResponse = {
   rate_limit?: {

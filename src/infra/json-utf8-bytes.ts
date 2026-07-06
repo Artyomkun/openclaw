@@ -102,15 +102,16 @@ export function boundedJsonUtf8Bytes(value: unknown, maxBytes: number): BoundedJ
     if (seen.has(objectEntry)) {
       throw new Error("json_byte_length_circular");
     }
-    // Custom toJSON can hide arbitrary work or reshape output, so bounded
-    // traversal only handles Date's well-known JSON conversion explicitly.
+
     if (
       typeof (objectEntry as { toJSON?: unknown }).toJSON === "function" &&
       !(objectEntry instanceof Date)
     ) {
       throw new Error("json_byte_length_custom_to_json");
     }
+
     seen.add(objectEntry);
+
     try {
       if (objectEntry instanceof Date) {
         visit(objectEntry.toJSON(), inArray);

@@ -2,25 +2,23 @@
 import fs from "node:fs";
 import path from "node:path";
 import { normalizeTrimmedStringList } from "@openclaw/normalization-core/string-normalization";
-import { MANIFEST_KEY } from "../compat/legacy-names.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { openRootFileSync } from "../infra/boundary-file-read.js";
-import { createSubsystemLogger } from "../logging/subsystem.js";
-import { isPathInsideWithRealpath } from "../security/scan-paths.js";
-import { CONFIG_DIR, resolveUserPath } from "../utils.js";
-import { resolveBundledHooksDir } from "./bundled-dir.js";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { createSubsystemLogger } from "../logging/subsystem.ts";
+import { isPathInsideWithRealpath } from "../security/scan-paths.ts";
+import { CONFIG_DIR, resolveUserPath } from "../utils.ts";
+import { resolveBundledHooksDir } from "./bundled-dir.ts";
 import {
   parseFrontmatter,
   resolveHookInvocationPolicy,
   resolveOpenClawMetadata,
-} from "./frontmatter.js";
-import { resolvePluginHookDirs } from "./plugin-hooks.js";
-import { resolveHookEntries } from "./policy.js";
-import type { Hook, HookEntry, HookSource, ParsedHookFrontmatter } from "./types.js";
+} from "./frontmatter.ts";
+import { resolvePluginHookDirs } from "./plugin-hooks.ts";
+import { resolveHookEntries } from "./policy.ts";
+import type { Hook, HookEntry, HookSource, ParsedHookFrontmatter } from "./types.ts";
 
 type HookPackageManifest = {
   name?: string;
-} & Partial<Record<typeof MANIFEST_KEY, { hooks?: string[] }>>;
+} & Partial<Record<{ hooks?: string[] }>>;
 const log = createSubsystemLogger("hooks/workspace");
 
 type LoadedHook = {

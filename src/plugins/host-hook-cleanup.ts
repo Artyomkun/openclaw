@@ -1,22 +1,22 @@
 /** Runs plugin cleanup callbacks and clears host-side plugin session/runtime state. */
 import fs from "node:fs";
-import { getRuntimeConfig } from "../config/config.js";
+import { getRuntimeConfig } from "../config/config.ts";
 import {
   cleanupPluginHostSessionStore,
   clearPluginOwnedSessionState,
-} from "../config/sessions/session-accessor.js";
-import { resolveAllAgentSessionStoreTargetsSync } from "../config/sessions/targets.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { withPluginHostCleanupTimeout } from "./host-hook-cleanup-timeout.js";
+} from "../config/sessions/session-accessor.ts";
+import { resolveAllAgentSessionStoreTargetsSync } from "../config/sessions/targets.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { withPluginHostCleanupTimeout } from "./host-hook-cleanup-timeout.ts";
 import {
   cleanupPluginSessionSchedulerJobs,
   clearPluginRunContext,
   makePluginSessionSchedulerJobKey,
-} from "./host-hook-runtime.js";
-import type { PluginHostCleanupReason } from "./host-hooks.js";
-import type { PluginRegistry } from "./registry-types.js";
-import { getActivePluginRegistry } from "./runtime.js";
-import { normalizeSessionEntrySlotKey } from "./session-entry-slot-keys.js";
+} from "./host-hook-runtime.ts";
+import type { PluginHostCleanupReason } from "./host-hooks.ts";
+import type { PluginRegistry } from "./registry-types.ts";
+import { getActivePluginRegistry } from "./runtime.ts";
+import { normalizeSessionEntrySlotKey } from "./session-entry-slot-keys.ts";
 
 export { clearPluginOwnedSessionState };
 

@@ -1,13 +1,13 @@
 // Plans usable tools from descriptors, availability, and request constraints.
-import { evaluateToolAvailability } from "./availability.js";
-import { ToolPlanContractError } from "./diagnostics.js";
+import { evaluateToolAvailability } from "./availability.ts";
+import { ToolPlanContractError } from "./diagnostics.ts";
 import type {
   BuildToolPlanOptions,
   HiddenToolPlanEntry,
   ToolDescriptor,
   ToolPlan,
   ToolPlanEntry,
-} from "./types.js";
+} from "./types.ts";
 
 /**
  * Deterministic planner for descriptor-backed tools.

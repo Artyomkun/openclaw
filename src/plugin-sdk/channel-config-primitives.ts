@@ -4,7 +4,7 @@ export {
   buildChannelConfigSchema,
   buildCatchallMultiAccountChannelSchema,
   buildNestedDmConfigSchema,
-} from "../channels/plugins/config-schema.js";
+} from "../channels/plugins/config-schema.ts";
 export {
   BlockStreamingCoalesceSchema,
   DmConfigSchema,
@@ -14,4 +14,4 @@ export {
   ReplyRuntimeConfigSchemaShape,
   requireAllowlistAllowFrom,
   requireOpenAllowFrom,
-} from "../config/zod-schema.core.js";
+} from "../config/zod-schema.core.ts";

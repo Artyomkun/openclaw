@@ -5,7 +5,7 @@ import {
   resolveClosestResolution,
   resolveClosestSize,
   type MediaNormalizationEntry,
-} from "../media-generation/runtime-shared.js";
+} from "../media-generation/runtime-shared.ts";
 import type {
   ImageGenerationBackground,
   ImageGenerationIgnoredOverride,
@@ -15,7 +15,7 @@ import type {
   ImageGenerationQuality,
   ImageGenerationResolution,
   ImageGenerationSourceImage,
-} from "./types.js";
+} from "./types.ts";
 
 type ResolvedImageGenerationOverrides = {
   size?: string;

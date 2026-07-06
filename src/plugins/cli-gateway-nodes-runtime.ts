@@ -4,9 +4,9 @@ import { addTimerTimeoutGraceMs } from "@openclaw/normalization-core/number-coer
 import {
   GATEWAY_CLIENT_MODES,
   GATEWAY_CLIENT_NAMES,
-} from "../../packages/gateway-protocol/src/client-info.js";
-import { callGateway } from "../gateway/call.js";
-import type { PluginRuntime } from "./runtime/types.js";
+} from "../../packages/gateway-protocol/src/client-info.ts";
+import { callGateway } from "../gateway/call.ts";
+import type { PluginRuntime } from "./runtime/types.ts";
 
 /** Adds Gateway timer grace for plugin CLI node invoke calls. */
 export function resolvePluginCliNodeInvokeGatewayTimeoutMs(

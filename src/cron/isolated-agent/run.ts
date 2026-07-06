@@ -1,59 +1,59 @@
 /** Orchestrates isolated cron agent turn setup, execution, delivery, and cleanup. */
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { retireSessionMcpRuntime } from "../../agents/agent-bundle-mcp-tools.js";
-import { hasAnyAuthProfileStoreSource } from "../../agents/auth-profiles/source-check.js";
-import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.js";
-import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../../agents/openai-routing.js";
-import { expandToolGroups, normalizeToolName } from "../../agents/tool-policy.js";
-import { deriveContextPromptTokens } from "../../agents/usage.js";
-import type { ThinkLevel } from "../../auto-reply/thinking.js";
-import type { CliDeps } from "../../cli/outbound-send-deps.js";
+import { retireSessionMcpRuntime } from "../../agents/agent-bundle-mcp-tools.ts";
+import { hasAnyAuthProfileStoreSource } from "../../agents/auth-profiles/source-check.ts";
+import { resolveAgentHarnessPolicy } from "../../agents/harness/policy.ts";
+import { listOpenAIAuthProfileProvidersForAgentRuntime } from "../../agents/openai-routing.ts";
+import { expandToolGroups, normalizeToolName } from "../../agents/tool-policy.ts";
+import { deriveContextPromptTokens } from "../../agents/usage.ts";
+import type { ThinkLevel } from "../../auto-reply/thinking.ts";
+import type { CliDeps } from "../../cli/outbound-send-deps.ts";
 import {
   getRuntimeConfigSnapshot,
   getRuntimeConfigSourceSnapshot,
   selectApplicableRuntimeConfig,
-} from "../../config/config.js";
-import { resolveAgentModelPrimaryValue } from "../../config/model-input.js";
-import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.js";
-import type { OpenClawConfig } from "../../config/types.openclaw.js";
+} from "../../config/config.ts";
+import { resolveAgentModelPrimaryValue } from "../../config/model-input.ts";
+import type { AgentDefaultsConfig } from "../../config/types.agent-defaults.ts";
+import type { OpenClawConfig } from "../../config/types.openclaw.ts";
 import {
   assertAgentRunLifecycleGenerationCurrent,
   claimAgentRunContext,
   getAgentEventLifecycleGeneration,
   getAgentRunContext,
   releaseAgentRunContext,
-} from "../../infra/agent-events.js";
-import { emitTrustedDiagnosticEvent, isDiagnosticsEnabled } from "../../infra/diagnostic-events.js";
+} from "../../infra/agent-events.ts";
+import { emitTrustedDiagnosticEvent, isDiagnosticsEnabled } from "../../infra/diagnostic-events.ts";
 import {
   createChildDiagnosticTraceContext,
   freezeDiagnosticTraceContext,
-} from "../../infra/diagnostic-trace-context.js";
+} from "../../infra/diagnostic-trace-context.ts";
 import {
   createSourceDeliveryPlan,
   resolveSourceDeliveryOutcome,
   type SourceDeliveryOutcome,
   type SourceDeliveryPlan,
   type SourceDeliveryVisibleDelivery,
-} from "../../infra/outbound/source-delivery-plan.js";
-import { createDiagnosticMessageLifecycle } from "../../logging/message-lifecycle.js";
-import { isCommandLaneTaskTimeoutError } from "../../process/command-queue.js";
-import { CommandLane } from "../../process/lanes.js";
-import { createLazyImportLoader } from "../../shared/lazy-promise.js";
-import { resolveNonNegativeNumber } from "../../shared/number-coercion.js";
-import { resolveCronSkillsSnapshot } from "../../skills/runtime/cron-snapshot.js";
-import type { SkillSnapshot } from "../../skills/types.js";
+} from "../../infra/outbound/source-delivery-plan.ts";
+import { createDiagnosticMessageLifecycle } from "../../logging/message-lifecycle.ts";
+import { isCommandLaneTaskTimeoutError } from "../../process/command-queue.ts";
+import { CommandLane } from "../../process/lanes.ts";
+import { createLazyImportLoader } from "../../shared/lazy-promise.ts";
+import { resolveNonNegativeNumber } from "../../shared/number-coercion.ts";
+import { resolveCronSkillsSnapshot } from "../../skills/runtime/cron-snapshot.ts";
+import type { SkillSnapshot } from "../../skills/types.ts";
 import {
   hasExplicitCronDeliveryTarget,
   resolveCronDeliveryPlan,
   type CronDeliveryPlan,
-} from "../delivery-plan.js";
+} from "../delivery-plan.ts";
 import {
   createCronRunDiagnosticsFromAgentResult,
   createCronRunDiagnosticsFromError,
   mergeCronRunDiagnostics,
-} from "../run-diagnostics.js";
-import { resolveCronAbortReasonText } from "../service/execution-errors.js";
-import { resolveCronDeliverySessionKey } from "../session-target.js";
+} from "../run-diagnostics.ts";
+import { resolveCronAbortReasonText } from "../service/execution-errors.ts";
+import { resolveCronDeliverySessionKey } from "../session-target.ts";
 import type {
   CronAgentExecutionPhaseUpdate,
   CronAgentExecutionStarted,
@@ -62,16 +62,16 @@ import type {
   CronDeliveryTraceTarget,
   CronJob,
   CronRunTelemetry,
-} from "../types.js";
-import { resolveCronChannelOutputPolicy } from "./channel-output-policy.js";
+} from "../types.ts";
+import { resolveCronChannelOutputPolicy } from "./channel-output-policy.ts";
 import {
   isHeartbeatOnlyResponse,
   resolveCronPayloadOutcome,
   resolveHeartbeatAckMaxChars,
-} from "./helpers.js";
-import { resolveCronModelSelection } from "./model-selection.js";
-import { buildCronAgentDefaultsConfig } from "./run-config.js";
-import { resolveCronPreflightCandidates } from "./run-fallback-policy.js";
+} from "./helpers.ts";
+import { resolveCronModelSelection } from "./model-selection.ts";
+import { buildCronAgentDefaultsConfig } from "./run-config.ts";
+import { resolveCronPreflightCandidates } from "./run-fallback-policy.ts";
 import {
   adoptCronRunSessionMetadata,
   createPersistCronSessionEntry,
@@ -80,8 +80,8 @@ import {
   type CronLiveSelection,
   type MutableCronSession,
   type PersistCronSessionEntry,
-} from "./run-session-state.js";
-import { resolveCronRunTimeoutOverrideMs } from "./run-timeout.js";
+} from "./run-session-state.ts";
+import { resolveCronRunTimeoutOverrideMs } from "./run-timeout.ts";
 import {
   DEFAULT_CONTEXT_TOKENS,
   deriveSessionTotalTokens,
@@ -105,11 +105,11 @@ import {
   resolveSessionTranscriptPath,
   resolveThinkingDefault,
   setSessionRuntimeModel,
-} from "./run.runtime.js";
-import type { RunCronAgentTurnResult } from "./run.types.js";
-import { cleanupCronRunSessionAfterRun } from "./session-cleanup.js";
-import { resolveCronAgentSessionKey } from "./session-key.js";
-import { resolveCronSession } from "./session.js";
+} from "./run.runtime.ts";
+import type { RunCronAgentTurnResult } from "./run.types.ts";
+import { cleanupCronRunSessionAfterRun } from "./session-cleanup.ts";
+import { resolveCronAgentSessionKey } from "./session-key.ts";
+import { resolveCronSession } from "./session.ts";
 
 const sessionStoreRuntimeLoader = createLazyImportLoader(
   () => import("../../config/sessions/store.runtime.js"),
@@ -203,7 +203,7 @@ async function retireRolledCronSessionMcpRuntime(params: {
   });
 }
 
-export type { RunCronAgentTurnResult } from "./run.types.js";
+export type { RunCronAgentTurnResult } from "./run.types.ts";
 
 type CronExecutionRuntime = typeof import("./run-executor.runtime.js");
 type CronExecutionResult = Awaited<ReturnType<CronExecutionRuntime["executeCronRun"]>>;

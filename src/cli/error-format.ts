@@ -1,5 +1,5 @@
 // Reusable CLI error-message formatters that keep recovery hints consistent across commands.
-import { formatCliCommand } from "./command-format.js";
+import { formatCliCommand } from "./command-format.ts";
 
 const DEFAULT_GATEWAY_PORT_EXAMPLE = 18789;
 

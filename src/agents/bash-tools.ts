@@ -8,8 +8,8 @@ export type {
   ExecElevatedDefaults,
   ExecToolDefaults,
   ExecToolDetails,
-} from "./bash-tools.exec.js";
-export { describeExecTool, describeProcessTool } from "./bash-tools.descriptions.js";
-export { createExecTool, execTool } from "./bash-tools.exec.js";
-export type { ProcessToolDefaults } from "./bash-tools.process.js";
-export { createProcessTool, processTool } from "./bash-tools.process.js";
+} from "./bash-tools.exec.ts";
+export { describeExecTool, describeProcessTool } from "./bash-tools.descriptions.ts";
+export { createExecTool, execTool } from "./bash-tools.exec.ts";
+export type { ProcessToolDefaults } from "./bash-tools.process.ts";
+export { createProcessTool, processTool } from "./bash-tools.process.ts";

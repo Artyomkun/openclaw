@@ -7,21 +7,21 @@ import {
   normalizeMimeType,
 } from "@openclaw/media-core/mime";
 import { normalizeOptionalString } from "@openclaw/normalization-core/string-coerce";
-import { resolveAgentWorkspaceDir } from "../agents/agent-scope.js";
-import { resolvePathFromInput } from "../agents/path-policy.js";
-import { resolveWorkspaceRoot } from "../agents/workspace-dir.js";
-import { extractDeliveryInfo } from "../config/sessions/delivery-info.js";
-import type { OpenClawConfig } from "../config/types.openclaw.js";
-import { formatErrorMessage } from "../infra/errors.js";
-import { resolveAgentIdFromSessionKey } from "../routing/session-key.js";
-import { isDeliverableMessageChannel, normalizeMessageChannel } from "../utils/message-channel.js";
+import { resolveAgentWorkspaceDir } from "../agents/agent-scope.ts";
+import { resolvePathFromInput } from "../agents/path-policy.ts";
+import { resolveWorkspaceRoot } from "../agents/workspace-dir.ts";
+import { extractDeliveryInfo } from "../config/sessions/delivery-info.ts";
+import type { OpenClawConfig } from "../config/types.openclaw.ts";
+import { formatErrorMessage } from "../infra/errors.ts";
+import { resolveAgentIdFromSessionKey } from "../routing/session-key.ts";
+import { isDeliverableMessageChannel, normalizeMessageChannel } from "../utils/message-channel.ts";
 import type {
   PluginAttachmentChannelHints,
   PluginSessionAttachmentCaptionFormat,
   PluginSessionAttachmentParams,
   PluginSessionAttachmentResult,
-} from "./host-hooks.js";
-import type { PluginOrigin } from "./plugin-origin.types.js";
+} from "./host-hooks.ts";
+import type { PluginOrigin } from "./plugin-origin.types.ts";
 
 const DEFAULT_ATTACHMENT_MAX_BYTES = 25 * 1024 * 1024;
 /** Filesystem adapter used by attachment MIME probes and tests. */
